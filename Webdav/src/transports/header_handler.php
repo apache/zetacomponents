@@ -241,7 +241,7 @@ class ezcWebdavHeaderHandler
             // Minimum 6 values, otherwise incorrect
             if ( preg_match_all( '((\w+)=(?:"([^"]+)"|([A-Za-z0-9]+)))', $value, $matches, PREG_SET_ORDER ) > 5 )
             {
-                $res = new ezcWebdavDigestAuth();
+                $res = new ezcWebdavDigestAuth( $_SERVER['REQUEST_METHOD'] );
                 foreach ( $matches as $matchSet )
                 {
                     switch ( $matchSet[1] )

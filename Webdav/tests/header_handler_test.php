@@ -51,7 +51,11 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
      */
     public function testParseAuthorizationHeader( $headerContent, $expectedValue )
     {
-        $_SERVER['HTTP_AUTHORIZATION'] = $headerContent;
+        $_SERVER['HTTP_AUTHORIZATION'] = $headerContent[0];
+        if ( isset( $headerContent[1] ) )
+        {
+            $_SERVER['REQUEST_METHOD'] = $headerContent[1];
+        }
 
         $headerHandler = new ezcWebdavHeaderHandler();
         $value = $headerHandler->parseHeader( 'Authorization' );
@@ -216,21 +220,25 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
     {
         return array(
             array(
-                'Basic Zm9vOmJhcg==',
+                array( 'Basic Zm9vOmJhcg==', ),
                 new ezcWebdavBasicAuth( 'foo', 'bar' )
             ),
             array(
-                'Basic     dXNlcjpwYXNz   ',
+                array( 'Basic     dXNlcjpwYXNz   ', ),
                 new ezcWebdavBasicAuth( 'user', 'pass' )
             ),
             array(
-                'Basic dXNlcjpwYXNzd2l0aDppbml0',
+                array( 'Basic dXNlcjpwYXNzd2l0aDppbml0', ),
                 new ezcWebdavBasicAuth( 'user', 'passwith:init' )
             ),
             // Simple digest, provided by Litmus
             array(
-                'Digest username="some", realm="eZ Components WebDAV", nonce="7feee2d8f6681389933bcdcbab789c8c", uri="/secure_collection/litmus/", response="ecde6f7d4bd072df1cb8f338f8a93132", algorithm="MD5"',
+                array(
+                    'Digest username="some", realm="eZ Components WebDAV", nonce="7feee2d8f6681389933bcdcbab789c8c", uri="/secure_collection/litmus/", response="ecde6f7d4bd072df1cb8f338f8a93132", algorithm="MD5"',
+                    'GET'
+                ),
                 new ezcWebdavDigestAuth(
+                    'GET',
                     'some',
                     'eZ Components WebDAV',
                     '7feee2d8f6681389933bcdcbab789c8c',
@@ -241,8 +249,12 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
             ),
             // Complex digest, provided by WP
             array(
-                'Digest username="Mufasa", realm="testrealm@host.com", nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", uri="/dir/index.html", qop=auth, nc=00000001, cnonce="0a4f113b", response="6629fae49393a05397450978507c4ef1", opaque="5ccc069c403ebaf9f0171e9517f40e41"',
+                array(
+                    'Digest username="Mufasa", realm="testrealm@host.com", nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", uri="/dir/index.html", qop=auth, nc=00000001, cnonce="0a4f113b", response="6629fae49393a05397450978507c4ef1", opaque="5ccc069c403ebaf9f0171e9517f40e41"',
+                    'PROPFIND',
+                ),
                 new ezcWebdavDigestAuth(
+                    'PROPFIND',
                     'Mufasa',
                     'testrealm@host.com',
                     'dcd98b7102dd2f0e8b11d0f600bfb0c093',

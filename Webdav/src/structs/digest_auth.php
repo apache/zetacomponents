@@ -22,6 +22,13 @@
 class ezcWebdavDigestAuth extends ezcBaseStruct
 {
     /**
+     * The method of the current request. 
+     * 
+     * @var string
+     */
+    public $requestMethod;
+
+    /**
      * Plain text user name.
      * 
      * @var string
@@ -111,6 +118,7 @@ class ezcWebdavDigestAuth extends ezcBaseStruct
     public $opaque;
 
     public function __construct(
+        $requestMethod = '',
         $username = '',
         $realm = '',
         $nonce = '',
