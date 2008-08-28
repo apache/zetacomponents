@@ -53,6 +53,33 @@ class ezcWebdavDigestAuth extends ezcBaseStruct
     public $uri;
 
     /**
+     * The response hash.
+     *
+     * This is the authentication value itself. It is a MD5 hashed version of
+     * the following string:
+     *
+     * <code>
+     * <?php
+     * $ha1      := md5( "$username:$realm:$password" );
+     * $ha2      := md5( "$method:$uri" );
+     * $response := md5( "$ha1:$nonce:$requestCounter:$clientNonce:$qop:$ha2" );
+     * ?>
+     * </code>
+     *
+     * @var string
+     */
+    public $response;
+
+    /**
+     * This should be MD5, since we only allow this one.
+     *
+     * You should safely ignore this property.
+     * 
+     * @var string
+     */
+    public $algorithm;
+
+    /**
      * The qop field of the request. 
      * 
      * @var string
@@ -73,29 +100,13 @@ class ezcWebdavDigestAuth extends ezcBaseStruct
      */
     public $clientNonce;
 
-    /**
-     * The response hash.
-     *
-     * This is the authentication value itself. It is a MD5 hashed version of
-     * the following string:
-     *
-     * <code>
-     * <?php
-     * $ha1      := md5( "$username:$realm:$password" );
-     * $ha2      := md5( "$method:$uri" );
-     * $response := md5( "$ha1:$nonce:$requestCounter:$clientNonce:$qop:$ha2" );
-     * ?>
-     * </code>
-     *
-     * @var string
-     */
-    public $response;
-
     public function __construct(
         $username = '',
         $realm = '',
         $nonce = '',
         $uri = '',
+        $response = '',
+        $algorithm = '',
         $qualityOfProtection = '',
         $requestCounter = '',
         $clientNonce = ''
@@ -105,6 +116,8 @@ class ezcWebdavDigestAuth extends ezcBaseStruct
         $this->realm               = $realm;
         $this->nonce               = $nonce;
         $this->uri                 = $uri;
+        $this->response            = $response;
+        $this->algorithm           = $algorithm;
         $this->qualityOfProtection = $qualityOfProtection;
         $this->requestCounter      = $requestCounter;
         $this->clientNonce         = $clientNonce;
