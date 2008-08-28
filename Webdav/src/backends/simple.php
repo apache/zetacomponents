@@ -233,6 +233,12 @@ abstract class ezcWebdavSimpleBackend
     {
         $source = $request->requestUri;
 
+        // Check authorization
+        if ( !$this->isAuthorized( $request, $source ) )
+        {
+            return $this->createUnauthorizedResponse( $source );
+        }
+
         // Check if resource is available
         if ( !$this->nodeExists( $source ) )
         {
@@ -293,6 +299,12 @@ abstract class ezcWebdavSimpleBackend
     public function head( ezcWebdavHeadRequest $request )
     {
         $source = $request->requestUri;
+
+        // Check authorization
+        if ( !$this->isAuthorized( $request, $source ) )
+        {
+            return $this->createUnauthorizedResponse( $source );
+        }
 
         // Check if resource is available
         if ( !$this->nodeExists( $source ) )
@@ -389,6 +401,9 @@ abstract class ezcWebdavSimpleBackend
      *
      * Fetch properties as defined by the passed $request for the resource
      * referenced. Properties are fetched by their names.
+     *
+     * This method checks also for each of the nodes affected by the request if
+     * authorization suceeds.
      * 
      * @param ezcWebdavPropFindRequest $request 
      * @return ezcWebdavResponse
@@ -400,37 +415,78 @@ abstract class ezcWebdavSimpleBackend
         // Get list of all affected node, depeding on source and depth
         $nodes = $this->getNodes( $source, $request->getHeader( 'Depth' ) );
 
+        // Pathes which were already determined as unauthorized
+        $unauthorizedPaths = array();
+
+        $server = ezcWebdavServer::getInstance();
+        $performAuth = ( $server->auth !== null && $server->auth instanceof ezcWebdavAuthorizer );
+
         // Get requested properties for all files
         $responses = array();
+
         foreach ( $nodes as $node )
         {
-            // We only check if a property could not be found. Normally there
-            // are more other errors which could occur when retrieving a
-            // property, like 403 (Forbidden), which are not handled by this
-            // simple backend. Overwrite this method to handle them.
-
-            // Get all properties form node ...
-            $nodeProperties = $this->getAllProperties( $node->path );
-
-            // ... and diff the with the requested properties.
-            $notFound = $request->prop->diff( $nodeProperties );
-            $valid = $nodeProperties->intersect( $request->prop );
-
+            // Responses for the current node
             $nodeResponses = array();
-            // Add propstat sub response for valid responses
-            if ( count( $valid ) )
+
+            // Authorization
+            $authorized = true;
+            if ( $performAuth )
             {
-                $nodeResponses[] = new ezcWebdavPropStatResponse( $valid );
+                $nodePath = $node->path;
+
+                foreach ( $unauthorizedPaths as $unauthorizedPath )
+                {
+                    // Check if a parent path was already determined as unauthorized
+                    if ( substr( $nodePath, $unauthorizedPath ) === 0 )
+                    {
+                        // Skip this node completely, since we already have a
+                        // parent node with 403
+                        continue 2;
+                    }
+                }
+
+                // Check authorization
+                if ( !$this->isAuthorized( $request, $nodePath ) )
+                {
+                    $authorized          = false;
+                    $unauthorizedPaths[] = $nodePath;
+                }
             }
 
-            // Only create error response, when some properties could not be
-            // found.
-            if ( count( $notFound ) )
+            if ( !$authorized )
             {
                 $nodeResponses[] = new ezcWebdavPropStatResponse(
-                    $notFound,
-                    ezcWebdavResponse::STATUS_404
+                    $request->prop,
+                    // We send 403 Forbidden here. Hope that's correct? RFC
+                    // does not state anything...
+                    ezcWebdavResponse::STATUS_403
                 );
+            }
+            else
+            {
+                // Get all properties form node ...
+                $nodeProperties = $this->getAllProperties( $node->path );
+            
+                // ... and diff the with the requested properties.
+                $notFound = $request->prop->diff( $nodeProperties );
+                $valid = $nodeProperties->intersect( $request->prop );
+                
+                // Add propstat sub response for valid responses
+                if ( count( $valid ) )
+                {
+                    $nodeResponses[] = new ezcWebdavPropStatResponse( $valid );
+                }
+
+                // Only create error response, when some properties could not be
+                // found.
+                if ( count( $notFound ) )
+                {
+                    $nodeResponses[] = new ezcWebdavPropStatResponse(
+                        $notFound,
+                        ezcWebdavResponse::STATUS_404
+                    );
+                }
             }
 
             // Create response
@@ -460,10 +516,45 @@ abstract class ezcWebdavSimpleBackend
         // Get list of all affected node, depeding on source and depth
         $nodes = $this->getNodes( $source, $request->getHeader( 'Depth' ) );
 
+        // Pathes which were already determined as unauthorized
+        $unauthorizedPaths = array();
+
+        $server = ezcWebdavServer::getInstance();
+        $performAuth = ( $server->auth !== null && $server->auth instanceof ezcWebdavAuthorizer );
+
         // Get requested properties for all files
         $responses = array();
         foreach ( $nodes as $node )
         {
+            if ( $performAuth )
+            {
+                $nodePath = $node->path;
+
+                foreach ( $unauthorizedPaths as $unauthorizedPath )
+                {
+                    // Check if a parent path was already determined as unauthorized
+                    if ( substr( $nodePath, $unauthorizedPath ) === 0 )
+                    {
+                        // Skip this node completely, since we already have a
+                        // parent node with error response
+                        continue 2;
+                    }
+                }
+
+                // Check authorization
+                if ( !$this->isAuthorized( $request, $nodePath ) )
+                {
+                    $unauthorizedPaths[] = $nodePath;
+                    // Silently exclude unauthorized properties.
+                    $responses[] = new ezcWebdavPropFindResponse(
+                        $node,
+                        new ezcWebdavPropStatResponse( new ezcWebdavBasicPropertyStorage() )
+                    );
+                    // Skip further processing of this node
+                    continue;
+                }
+            }
+
             // Get all properties form node ...
             $nodeProperties = $this->getAllProperties( $node->path );
 
@@ -509,11 +600,42 @@ abstract class ezcWebdavSimpleBackend
 
         // Get list of all affected node, depeding on source and depth
         $nodes = $this->getNodes( $source, $request->getHeader( 'Depth' ) );
+        
+        // Pathes which were already determined as unauthorized
+        $unauthorizedPaths = array();
+
+        $server = ezcWebdavServer::getInstance();
+        $performAuth = ( $server->auth !== null && $server->auth instanceof ezcWebdavAuthorizer );
 
         // Get requested properties for all files
         $responses = array();
         foreach ( $nodes as $node )
         {
+            if ( $performAuth )
+            {
+                foreach ( $unauthorizedPaths as $unauthorizedPath )
+                {
+                    // Check if a parent path was already determined as unauthorized
+                    if ( substr( $node->path, $unauthorizedPath ) === 0 )
+                    {
+                        // Skip this node completely, since we already have a
+                        // parent node with 403
+                        continue 2;
+                    }
+                }
+
+                $nodePath = $node->path;
+
+                // Check authorization
+                if ( !$this->isAuthorized( $request, $nodePath ) )
+                {
+                    $responses[] = $this->createUnauthorizedResponse( $nodePath );
+                    $unauthorizedPaths[] = $nodePath;
+                    // Skip further processing of node
+                    continue;
+                }
+            }
+
             // Just create response from properties
             $responses[] = new ezcWebdavPropFindResponse(
                 $node,
@@ -557,7 +679,6 @@ abstract class ezcWebdavSimpleBackend
         }
 
         // Verify If-[None-]Match headers
-        // @todo: Does this make sense for PROPFIND requests?
         $res = $this->checkIfMatchHeadersRecursive(
             $request,
             $source,
@@ -606,6 +727,14 @@ abstract class ezcWebdavSimpleBackend
     public function propPatch( ezcWebdavPropPatchRequest $request )
     {
         $source = $request->requestUri;
+
+        // Check authorization
+        // Need to do this before checking of node existence is checked, to
+        // avoid leaking information
+        if ( !$this->isAuthorized( $request, $source, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        {
+            return $this->createUnauthorizedResponse( $source );
+        }
 
         // Check if resource is available
         if ( !$this->nodeExists( $source ) )
@@ -745,6 +874,14 @@ abstract class ezcWebdavSimpleBackend
     {
         $source = $request->requestUri;
 
+        // Check authorization
+        // Need to do this before checking of node existence is checked, to
+        // avoid leaking information
+        if ( !$this->isAuthorized( $request, $source, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        {
+            return $this->createUnauthorizedResponse( $source );
+        }
+
         // Check if parent node exists and throw a 409 otherwise
         if ( !$this->nodeExists( dirname( $source ) ) )
         {
@@ -815,6 +952,20 @@ abstract class ezcWebdavSimpleBackend
     {
         $source = $request->requestUri;
 
+        // Check authorization
+        // Need to do this before checking of node existence is checked, to
+        // avoid leaking information
+        $authState = $this->recursiveAuthCheck(
+            $request,
+            $source,
+            ezcWebdavAuthorizer::ACCESS_WRITE,
+            true
+        );
+        if ( count( $authState['errors'] ) !== 0 )
+        {
+            return $authState['errors'][0];
+        }
+
         // Check if resource is available
         if ( !$this->nodeExists( $source ) )
         {
@@ -871,6 +1022,18 @@ abstract class ezcWebdavSimpleBackend
         // Extract paths from request
         $source = $request->requestUri;
         $dest = $request->getHeader( 'Destination' );
+        
+        // Check authorization
+        // Need to do this before checking of node existence is checked, to
+        // avoid leaking information 
+        if ( !$this->isAuthorized( $request, $source ) )
+        {
+            return $this->createUnauthorizedResponse( $source );
+        }
+        if ( !$this->isAuthorized( $request, $dest, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        {
+            return $this->createUnauthorizedResponse( $dest );
+        }
 
         // Check if resource is available
         if ( !$this->nodeExists( $source ) )
@@ -941,15 +1104,56 @@ abstract class ezcWebdavSimpleBackend
         if ( ( $request->getHeader( 'Overwrite' ) === 'T' ) &&
              $this->nodeExists( $dest ) )
         {
+            // Check sub-sequent authorization on destination
+            $authState = $this->recursiveAuthCheck(
+                $request,
+                $dest,
+                ezcWebdavAuthorizer::ACCESS_WRITE,
+                true
+            );
+            if ( count( $authState['errors'] ) !== 0 )
+            {
+                // Permission denied on deleting destination
+                return $authState['errors'][0];
+            }
+
+            // Perform delete
+            // @todo: This method might return errors. If it does, the delete
+            // was not successful and therefore no copy should happen! (see:
+            // move()).
             $replaced = true;
             $this->performDelete( $dest );
         }
 
-        // All checks are passed, we can actuall copy now.
-        // 
-        // @todo: handle keepalive setting somehow - even the RFC is quite
-        // vague how to handle them exactly.
-        $errors = $this->performCopy( $source, $dest, $request->getHeader( 'Depth' ) );
+        $errors    = array();
+        $copyPaths = array();
+        
+        if ( $request->getHeader( 'Depth' ) === ezcWebdavRequest::DEPTH_INFINITY )
+        {
+            $authState = $this->recursiveAuthCheck( $request, $source );
+            $errors    = $authState['errors'];
+            $copyPaths = $authState['paths'];
+        }
+        else
+        {
+            // Non recursive auth check necessary, plain check on $source
+            // already performed
+            $copyPaths = array( $source => ezcWebdavRequest::DEPTH_ZERO );
+        }
+
+        // Recursively copy paths that should be copied
+        foreach ( $copyPaths as $copySource => $copyDepth )
+        {
+            // Build destination path fur descendants
+            $copyDest = $dest . (string) substr( $copySource, strlen( $source ) );
+            // Perform copy and collect additional errors.
+            $errors = array_merge( 
+                $errors,
+                // @todo: handle keepalive setting somehow - even the RFC is quite
+                // vague how to handle them exactly.
+                $this->performCopy( $copySource, $copyDest, $copyDepth )
+            );
+        }
 
         if ( !count( $errors ) )
         {
@@ -984,6 +1188,25 @@ abstract class ezcWebdavSimpleBackend
         // Extract paths from request
         $source = $request->requestUri;
         $dest = $request->getHeader( 'Destination' );
+
+        // Check authorization
+        // Need to do this before checking of node existence is checked, to
+        // avoid leaking information 
+        $authState = $this->recursiveAuthCheck(
+            $request,
+            $dest,
+            ezcWebdavAuthorizer::ACCESS_WRITE,
+            true
+        );
+        if ( count( $authState['errors'] ) !== 0 )
+        {
+            // Source permission denied
+            return $authState['errors'][0];
+        }
+        if ( !$this->isAuthorized( $request, $dest, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        {
+            return $this->createUnauthorizedResponse( $dest );
+        }
 
         // Check if resource is available
         if ( !$this->nodeExists( $source ) )
@@ -1055,7 +1278,21 @@ abstract class ezcWebdavSimpleBackend
         if ( ( $request->getHeader( 'Overwrite' ) === 'T' ) &&
              $this->nodeExists( $dest ) )
         {
+            // Check sub-sequent authorization on destination
+            $authState = $this->recursiveAuthCheck(
+                $request,
+                $dest,
+                ezcWebdavAuthorizer::ACCESS_WRITE,
+                true
+            );
+            if ( count( $authState['errors'] ) !== 0 )
+            {
+                // Permission denied on deleting destination
+                return $authState['errors'][0];
+            }
+
             $replaced = true;
+
             if ( count( $delteErrors = $this->performDelete( $dest ) ) > 0 )
             {
                 return new ezcWebdavMultistatusResponse( $delteErrors );
@@ -1114,6 +1351,14 @@ abstract class ezcWebdavSimpleBackend
     public function makeCollection( ezcWebdavMakeCollectionRequest $request )
     {
         $collection = $request->requestUri;
+
+        // Check authorization
+        // Need to do this before checking of node existence is checked, to
+        // avoid leaking information
+        if ( !$this->isAuthorized( $request, $collection, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        {
+            return $this->createUnauthorizedResponse( $collection );
+        }
 
         // If resource already exists, the collection cannot be created and a
         // 405 is thrown.
@@ -1352,6 +1597,154 @@ abstract class ezcWebdavSimpleBackend
             }
         }
         return false;
+    }
+
+    /**
+     * Performs authorization.
+     *
+     * This method does several things:
+     *
+     * - Check if authorization is enabled by ezcWebdavServer->$auth
+     * - If it is, extract username from Authenticate header or choose ''
+     * - Check authorization
+     *
+     * It returns true, if authorization is not enabled or succeeded. False is
+     * returned otherwise.
+     * 
+     * @param ezcWebdavRequest $request 
+     * @param string $path 
+     * @param int $access
+     * @return bool
+     */
+    private function isAuthorized( $request, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
+    {
+        $auth = ezcWebdavServer::getInstance()->auth;
+
+        if ( $auth === null || !( $auth instanceof ezcWebdavAuthorizer ) )
+        {
+            // No auth mechanism
+            return true;
+        }
+
+        $authHeader = $request->getHeader( 'Authorization' );
+        $authUser   = ( $authHeader !== null ? $authHeader->username : '' );
+        
+        return $auth->authorize( $authUser, $path, $access );
+    }
+
+    /**
+     * Recursively checks authorization for the COPY, MOVE and other requests.
+     *
+     * This method performs a recursive authorization check on the given $path
+     * using the credentials provided in $request. It returns a
+     * multidimensional array, indicating the authorization errors occurred and
+     * the paths that may by copied.
+     *
+     * The structure looks like this:
+     * <code>
+     * array(
+     *      'errors' => array(
+     *          ezcWebdavErrorResponse(),
+     *          ezcWebdavErrorResponse(),
+     *          // ...
+     *      )
+     *      'paths' => array(
+     *          '/some/path' => ezcWebdavRequest::DEPTH_INFINITY,
+     *          '/some/other/path' => ezcWebdavRequest::DEPTH_ZERO,
+     *          // ...
+     *      )
+     * )
+     * </code>
+     *
+     * The 'errors' key is assigned to an array of authorization error
+     * responses that will be merged to the ezcWebdavMultistatusResponse
+     * returned by the copy() method. The 'paths' array contains all paths that
+     * may be copied by the method. A path is assigned to the depth that it
+     * might be copied. The depth can be {@link
+     * ezcWebdavRequest::DEPTH_INFINITY} to indicate that a complete sub tree
+     * is save for copying, or {@link ezcWebdavRequest::DEPTH_ZERO}, to
+     * indicate that only the path itself may be copied, but none of its
+     * descendants.
+     *
+     * The $access parameter specifies which permission is to be checked {@link
+     * ezcWebdavAuthorizer::ACCESS_READ} is the default, {@link
+     * ezcWebdavAuthorizer::ACCESS_WRITE} may be set to indicate write
+     * permissions.
+     *
+     * If the $breakOnError parameter is set to true, no further checks will be
+     * applied to sibling resources, but the method will instantly return. This
+     * parameter is set to true for the MOVE request, since this request must
+     * be processed completly or not at all. The COPY request in contrast may
+     * also be processed partially, so this parameter is left as is.
+     * 
+     * @param ezcWebdavRequest $request 
+     * @param string $path 
+     * @param int $access
+     * @param bool $breakOnError
+     * @return array
+     */
+    private function recursiveAuthCheck( ezcWebdavRequest $request, $path, $access = ezcWebdavAuthorizer::ACCESS_WRITE, $breakOnError = false )
+    {
+        $result = array(
+            'errors' => array(),
+            'paths' => array(),
+        );
+
+        // Check auth for collections and resources equally
+        if ( !$this->isAuthorized( $request, $path, $access ) )
+        {
+            $result['errors'][] = $this->createUnauthorizedResponse( $path );
+        }
+        else
+        {
+            if ( $this->isCollection( $path ) )
+            {
+                foreach ( $this->getCollectionMembers( $path ) as $member )
+                {
+                    $tmpRes = $this->recursiveAuthCheck( $request, $member->path, $access );
+                    if ( count( $tmpRes['errors'] ) !== 0 )
+                    {
+                        if ( $breakOnError )
+                        {
+                            return $tmpRes;
+                        }
+                        $result['errors'] = array_merge( $result['errors'], $tmpRes['errors'] );
+                        $result['paths']  = array_merge( $result['paths'],  $tmpRes['paths'] );
+                    }
+                }
+                $result['paths'][$path] = ( count( $result['errors'] ) ? ezcWebdavRequest::DEPTH_ZERO : ezcWebdavRequest::DEPTH_INFINITY );
+            }
+            else
+            {
+                // Only a resource, so depth infinity does not make sense
+                $result['paths'][$path] = ezcWebdavRequest::DEPTH_ZERO;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns an error response to indicate failed authorization.
+     *
+     * This method returns an instance of {@link ezcWebdavErrorResponse} with a
+     * corresponding status code, indicating that the request to $path was not
+     * authorized.
+     * 
+     * @param string $path 
+     * @return ezcWebdavErrorResponse
+     */
+    private function createUnauthorizedResponse( $path )
+    {
+        return ezcWebdavServer::getInstance()->createUnauthorizedResponse( $path, 'Authorization failed.' );
+        /*
+         * Solution with 403 instead of 401
+        return new ezcWebdavErrorResponse(
+            ezcWebdavResponse::STATUS_403,
+            $path,
+            'Unauthorized.'
+        );
+        */
     }
 }
 
