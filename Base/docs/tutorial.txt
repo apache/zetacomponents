@@ -35,7 +35,7 @@ Debugging
 By default the ezcBase component's autoload mechanism will not throw an
 exception when an autoload class can not be found. In some cases (during
 development) it is useful to have an exception with detailed information
-about which autoload files where search for, and in which directories.
+about which autoload files were searched for, and in which directories.
 ezcBase supports an option that enables this behavior::
 
     <?php
