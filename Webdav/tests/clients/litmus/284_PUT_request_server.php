@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'XDG_SESSION_COOKIE' => 'ff5be1b55f9ae0e6d7a6690046dcfa12-1218988193.917308-1133642792',
+  'ORBIT_SOCKETDIR' => '/tmp/orbit-dotxp',
   'XERCESC_NLS_HOME' => '/usr/share/xerces-c/msg',
   'PWD' => '/',
   'LANG' => 'en_US.UTF-8',
@@ -11,7 +11,7 @@ return array (
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '127.0.0.1',
-  'REMOTE_PORT' => '45523',
+  'REMOTE_PORT' => '33464',
   'REMOTE_ADDR' => '127.0.0.1',
   'CONTENT_LENGTH' => '32',
   'SCRIPT_NAME' => '/index.php',
@@ -30,14 +30,13 @@ return array (
   'HTTP_CONNECTION' => 'TE',
   'HTTP_TE' => 'trailers',
   'HTTP_CONTENT_LENGTH' => '32',
-  'HTTP_AUTHORIZATION' => 'Basic c29tZTp0aGluZw==',
+  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="239e02626e6a1e2acc5d0e20c8465df5", uri="/secure_collection/litmus/prop", response="f26bd27acef7982653e3ebe3d6401e7a", algorithm="MD5"',
   'HTTP_X_LITMUS' => 'props: 25 (propinit)',
   'ORIG_SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php/secure_collection/litmus/prop',
   'ORIG_PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs//secure_collection/litmus/prop',
   'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-  'PHP_AUTH_USER' => 'some',
-  'PHP_AUTH_PW' => 'thing',
-  'REQUEST_TIME' => 1219155709,
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="239e02626e6a1e2acc5d0e20c8465df5", uri="/secure_collection/litmus/prop", response="f26bd27acef7982653e3ebe3d6401e7a", algorithm="MD5"',
+  'REQUEST_TIME' => 1219999599,
 );
 
 ?>

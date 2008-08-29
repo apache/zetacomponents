@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'XDG_SESSION_COOKIE' => 'ff5be1b55f9ae0e6d7a6690046dcfa12-1218988193.917308-1133642792',
+  'ORBIT_SOCKETDIR' => '/tmp/orbit-dotxp',
   'XERCESC_NLS_HOME' => '/usr/share/xerces-c/msg',
   'PWD' => '/',
   'LANG' => 'en_US.UTF-8',
@@ -11,7 +11,7 @@ return array (
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '127.0.0.1',
-  'REMOTE_PORT' => '45480',
+  'REMOTE_PORT' => '33440',
   'REMOTE_ADDR' => '127.0.0.1',
   'CONTENT_LENGTH' => '8',
   'SCRIPT_NAME' => '/index.php',
@@ -35,7 +35,7 @@ return array (
   'ORIG_SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php/litmus/mkcolbody',
   'ORIG_PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs//litmus/mkcolbody',
   'PHP_SELF' => '/index.php/litmus/mkcolbody',
-  'REQUEST_TIME' => 1219155657,
+  'REQUEST_TIME' => 1219999570,
 );
 
 ?>
