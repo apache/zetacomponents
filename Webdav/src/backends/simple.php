@@ -669,6 +669,15 @@ abstract class ezcWebdavSimpleBackend
     {
         $source = $request->requestUri;
 
+        if ( !$this->isAuthorized( $request, $source ) )
+        {
+            // Globally issue a 401, if the user does not have access to the
+            // requested resource itself.
+            return $this->createUnauthorizedResponse( $source );
+            // Multistatus with 403 will be issued for nested resources in the
+            // specific methods.
+        }
+
         // Check if resource is available
         if ( !$this->nodeExists( $source ) )
         {

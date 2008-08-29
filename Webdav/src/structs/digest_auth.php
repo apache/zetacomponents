@@ -131,6 +131,7 @@ class ezcWebdavDigestAuth extends ezcBaseStruct
         $opaque = null
     )
     {
+        $this->requestMethod       = $requestMethod;
         $this->username            = $username;
         $this->realm               = $realm;
         $this->nonce               = $nonce;

@@ -1,6 +1,6 @@
 <?php
 
-class ezcWebdavTestAuth implements ezcWebdavBasicAuthenticator, ezcWebdavDigestAuthenticator, ezcWebdavAuthorizer
+class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcWebdavAuthorizer
 {
 
     private $permissions = array(
@@ -20,25 +20,22 @@ class ezcWebdavTestAuth implements ezcWebdavBasicAuthenticator, ezcWebdavDigestA
         ),
     );
 
+    private $credentials = array(
+        'foo'    => 'bar',
+        'some'   => 'thing',
+        '23'     => '42',
+        ''       => '',
+        'Mufasa' => 'Circle Of Life',
+    );
+
     public function authenticateBasic( ezcWebdavBasicAuth $data )
     {
-        switch ( true )
-        {
-            case ( $data->username === 'foo' && $data->password === 'bar' ):
-            case ( $data->username === 'some' && $data->password === 'thing' ):
-            case ( $data->username === '23' && $data->password === '42' ):
-            case ( $data->username === '' && $data->password === '' ):
-                return true;
-
-            default:
-                return false;
-        }
+        return ( isset( $this->credentials[$data->username] ) && $this->credentials[$data->username] === $data->password );
     }
 
     public function authenticateDigest( ezcWebdavDigestAuth $data )
     {
-        // @todo: Implement
-        return true;
+        return ( isset( $this->credentials[$data->username] ) && $this->checkDigest( $data, $this->credentials[$data->username] ) );
     }
 
     public function authorize( $user, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
