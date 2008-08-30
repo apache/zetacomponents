@@ -292,7 +292,7 @@ abstract class ezcDbHandler extends PDO
 
     /**
      * Returns the quoted version of an identifier to be used in an SQL query.
-     * This method takes a given identifier and quotes it, so it can savely be
+     * This method takes a given identifier and quotes it, so it can safely be
      * used in SQL queries.
      * 
      * @param string $identifier The identifier to quote.
