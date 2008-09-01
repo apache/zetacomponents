@@ -185,12 +185,19 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->assertFalse( $execution->isSuspended() );
     }
 
-    /**
-     * @expectedException ezcWorkflowExecutionException
-     */
     public function testNotExistingExecutionThrowsException()
     {
-        $execution = new ezcWorkflowDatabaseExecution( $this->db, 1 );
+        try
+        {
+            $execution = new ezcWorkflowDatabaseExecution( $this->db, 1 );
+        }
+        catch ( ezcWorkflowExecutionException $e )
+        {
+            $this->assertEquals( 'Could not load execution state.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcWorkflowExecutionException to be thrown.' );
     }
 
     public function testProperties()
@@ -202,47 +209,76 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->assertFalse( isset( $execution->foo ) );
     }
 
-    /**
-     * @expectedException ezcBaseValueException
-     */
     public function testProperties2()
     {
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
-        $execution->workflow = new StdClass;
+
+        try
+        {
+            $execution->workflow = new StdClass;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( 'The value \'O:8:"stdClass":0:{}\' that you were trying to assign to setting \'workflow\' is invalid. Allowed values are: ezcWorkflow.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBaseValueException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
     public function testProperties3()
     {
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
-        $foo = $execution->foo;
+
+        try
+        {
+            $foo = $execution->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( 'No such property name \'foo\'.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBasePropertyNotFoundException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
     public function testProperties4()
     {
         $this->setUpStartEnd();
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
-        $execution->foo = null;
+
+        try
+        {
+            $execution->foo = null;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( 'No such property name \'foo\'.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBasePropertyNotFoundException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBaseValueException
-     */
     public function testProperties5()
     {
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
-        $execution->definitionStorage = new StdClass;
+
+        try
+        {
+            $execution->definitionStorage = new StdClass;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( 'The value \'O:8:"stdClass":0:{}\' that you were trying to assign to setting \'definitionStorage\' is invalid. Allowed values are: ezcWorkflowDefinitionStorage.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBaseValueException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBaseValueException
-     */
     public function testProperties6()
     {
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
@@ -251,7 +287,17 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $execution->options = $options;
         $this->assertSame( $options, $execution->options );
 
-        $execution->options = new StdClass;
+        try
+        {
+            $execution->options = new StdClass;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( 'The value \'O:8:"stdClass":0:{}\' that you were trying to assign to setting \'options\' is invalid. Allowed values are: ezcWorkflowDatabaseOptions.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBaseValueException to be thrown.' );
     }
 }
 ?>

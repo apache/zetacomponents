@@ -36,20 +36,34 @@ class ezcWorkflowDatabaseTieinOptionsTest extends ezcTestCase
         $this->assertEquals( 'myPrefix', $this->options['prefix'] );
     }
 
-    /**
-     * @expectedException ezcBaseValueException
-     */
     public function testOptions2()
     {
-        $this->options['prefix'] = null;
+        try
+        {
+            $this->options['prefix'] = null;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( 'The value \'\' that you were trying to assign to setting \'prefix\' is invalid. Allowed values are: string.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBaseValueException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
     public function testOptions3()
     {
-        $this->options['foo'] = 'bar';
+        try
+        {
+            $this->options['foo'] = 'bar';
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( 'No such property name \'foo\'.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBasePropertyNotFoundException to be thrown.' );
     }
 }
 ?>

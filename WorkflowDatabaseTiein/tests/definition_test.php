@@ -132,31 +132,52 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->assertEquals( $this->workflow, $workflow );
     }
 
-    /**
-     * @expectedException ezcWorkflowDefinitionStorageException
-     */
     public function testExceptionWhenLoadingNotExistingWorkflow()
     {
-        $this->definition->loadById( 1 );
+        try
+        {
+            $this->definition->loadById( 1 );
+        }
+        catch ( ezcWorkflowDefinitionStorageException $e )
+        {
+            $this->assertEquals( 'Could not load workflow definition.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcWorkflowDefinitionStorageException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcWorkflowDefinitionStorageException
-     */
     public function testExceptionWhenLoadingNotExistingWorkflow2()
     {
-        $this->definition->loadByName( 'NotExisting' );
+        try
+        {
+            $this->definition->loadByName( 'NotExisting' );
+        }
+        catch ( ezcWorkflowDefinitionStorageException $e )
+        {
+            $this->assertEquals( 'Could not load workflow definition.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcWorkflowDefinitionStorageException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcWorkflowDefinitionStorageException
-     */
     public function testExceptionWhenLoadingNotExistingWorkflowVersion()
     {
         $this->setUpStartEnd();
         $this->definition->save( $this->workflow );
 
-        $workflow = $this->definition->loadByName( 'StartEnd', 2 );
+        try
+        {
+            $workflow = $this->definition->loadByName( 'StartEnd', 2 );
+        }
+        catch ( ezcWorkflowDefinitionStorageException $e )
+        {
+            $this->assertEquals( 'Could not load workflow definition.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcWorkflowDefinitionStorageException to be thrown.' );
     }
 
     public function testExceptionWhenLoadingNotValidWorkflow()
@@ -195,7 +216,10 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         catch ( ezcWorkflowDefinitionStorageException $e )
         {
             $this->assertEquals( 'Could not load workflow definition.', $e->getMessage() );
+            return;
         }
+
+        $this->fail( 'Expected an ezcWorkflowDefinitionStorageException to be thrown.' );
     }
 
     public function testProperties()
@@ -204,9 +228,6 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         $this->assertFalse(isset($this->definition->foo));
     }
 
-    /**
-     * @expectedException ezcBaseValueException
-     */
     public function testProperties2()
     {
         $options = new ezcWorkflowDatabaseOptions;
@@ -214,23 +235,47 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
 
         $this->assertSame( $options, $this->definition->options );
 
-        $this->definition->options = new StdClass;
+        try
+        {
+            $this->definition->options = new StdClass;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( 'The value \'O:8:"stdClass":0:{}\' that you were trying to assign to setting \'options\' is invalid. Allowed values are: ezcWorkflowDatabaseOptions.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBaseValueException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
     public function testProperties3()
     {
-        $foo = $this->definition->foo;
+        try
+        {
+            $foo = $this->definition->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( 'No such property name \'foo\'.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBasePropertyNotFoundException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
     public function testProperties4()
     {
-        $this->definition->foo = null;
+        try
+        {
+            $this->definition->foo = null;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( 'No such property name \'foo\'.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBasePropertyNotFoundException to be thrown.' );
     }
 }
 ?>
