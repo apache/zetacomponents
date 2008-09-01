@@ -604,12 +604,19 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertEquals( 'myAfterExecutionStarted', $this->plugin->options['afterExecutionStarted'] );
     }
 
-    /**
-     * @expectedException ezcBaseValueException
-     */
     public function testOptions2()
     {
-        $this->plugin->options['afterExecutionStarted'] = null;
+        try
+        {
+            $this->plugin->options['afterExecutionStarted'] = null;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( 'The value \'\' that you were trying to assign to setting \'afterExecutionStarted\' is invalid. Allowed values are: string.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBaseValueException to be thrown.' );
     }
 
     public function testOptions3()
@@ -620,28 +627,49 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertSame($options, $this->plugin->options);
     }
 
-    /**
-     * @expectedException ezcBaseValueException
-     */
     public function testOptions4()
     {
-        $this->plugin->options = null;
+        try
+        {
+            $this->plugin->options = null;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( 'The value \'\' that you were trying to assign to setting \'options\' is invalid. Allowed values are: ezcWorkflowSignalSlotPluginOptions.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBaseValueException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
     public function testOptions5()
     {
-        $this->plugin->options['foo'] = null;
+        try
+        {
+            $this->plugin->options['foo'] = null;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( 'No such property name \'foo\'.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBasePropertyNotFoundException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBaseValueException
-     */
     public function testOptions6()
     {
-        $this->plugin->signals = null;
+        try
+        {
+            $this->plugin->signals = null;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals( 'The value \'\' that you were trying to assign to setting \'signals\' is invalid. Allowed values are: ezcSignalCollection.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBaseValueException to be thrown.' );
     }
 
     public function testOptions7()
@@ -652,20 +680,34 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
         $this->assertSame($signals, $this->plugin->signals);
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
     public function testProperties()
     {
-        $foo = $this->plugin->foo;
+        try
+        {
+            $foo = $this->plugin->foo;
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( 'No such property name \'foo\'.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBasePropertyNotFoundException to be thrown.' );
     }
 
-    /**
-     * @expectedException ezcBasePropertyNotFoundException
-     */
     public function testProperties2()
     {
-        $this->plugin->foo = 'foo';
+        try
+        {
+            $this->plugin->foo = 'foo';
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            $this->assertEquals( 'No such property name \'foo\'.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcBasePropertyNotFoundException to be thrown.' );
     }
 }
 ?>
