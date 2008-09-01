@@ -64,50 +64,45 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $dsn->longhelp  .= "mysql://root@mypass@localhost/unittests";
         $consoleInput->registerOption( $dsn );
 
-        // Code Coverage Report directory option
-        $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
-        $report->shorthelp = "Directory to store test reports and code coverage reports in.";
-        $consoleInput->registerOption( $report );
+        // Filter option
+        $filter = new ezcConsoleOption( '', 'filter', ezcConsoleInput::TYPE_STRING );
+        $filter->shorthelp = "Filter which tests to run.";
+        $consoleInput->registerOption( $filter );
 
-        // Logfile XML option
-        $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
-        $xml->shorthelp = "Log test execution in XML format to file.";
-        $consoleInput->registerOption( $xml );
-
-        // Coverage XML option
-        $coverage = new ezcConsoleOption( '', 'coverage-xml', ezcConsoleInput::TYPE_STRING );
-        $coverage->shorthelp = "Write code coverage information in XML format.";
-        $consoleInput->registerOption( $coverage );
-
-        // Metrics XML option
-        $metrics = new ezcConsoleOption( '', 'log-metrics', ezcConsoleInput::TYPE_STRING );
-        $metrics->shorthelp = "Write metrics report in XML format.";
-        $consoleInput->registerOption( $metrics );
-
-        // Project Mess Detector (PMD) XML option
-        $pmd = new ezcConsoleOption( '', 'log-pmd', ezcConsoleInput::TYPE_STRING );
-        $pmd->shorthelp = "Write violations report in PMD XML format.";
-        $consoleInput->registerOption( $pmd );
-
-        // Test Database (DSN) option
-        $testDbDsn = new ezcConsoleOption( '', 'test-db-dsn', ezcConsoleInput::TYPE_STRING );
-        $testDbDsn->shorthelp = 'DSN for the test database.';
-        $consoleInput->registerOption( $testDbDsn );
-
-        // Test Database (SVN Revision) option
-        $testDbRev = new ezcConsoleOption( '', 'test-db-svnrev', ezcConsoleInput::TYPE_INT );
-        $testDbRev->shorthelp = 'Revision information for database logging.';
-        $consoleInput->registerOption( $testDbRev );
+        // Verbose option
+        $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
+        $verbose->shorthelp = "Output more verbose information.";
+        $consoleInput->registerOption( $verbose );
 
         // XML Configuration File option
         $configuration = new ezcConsoleOption( '', 'configuration', ezcConsoleInput::TYPE_STRING );
         $configuration->shorthelp = "Read configuration from XML file.";
         $consoleInput->registerOption( $configuration );
 
-        // Verbose option
-        $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
-        $verbose->shorthelp = "Output more verbose information.";
-        $consoleInput->registerOption( $verbose );
+        // Logfile XML option
+        $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
+        $xml->shorthelp = "Log test execution in XML format to file.";
+        $consoleInput->registerOption( $xml );
+
+        // Code Coverage Report directory option
+        $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
+        $report->shorthelp = "Directory to store test reports and code coverage reports in.";
+        $consoleInput->registerOption( $report );
+
+        // Code Coverage XML option
+        $coverage = new ezcConsoleOption( '', 'coverage-xml', ezcConsoleInput::TYPE_STRING );
+        $coverage->shorthelp = "Write code coverage information in XML format.";
+        $consoleInput->registerOption( $coverage );
+
+        // Project Mess Detector (PMD) XML option
+        $pmd = new ezcConsoleOption( '', 'log-pmd', ezcConsoleInput::TYPE_STRING );
+        $pmd->shorthelp = "Write violations report in PMD XML format.";
+        $consoleInput->registerOption( $pmd );
+
+        // Metrics XML option
+        $metrics = new ezcConsoleOption( '', 'log-metrics', ezcConsoleInput::TYPE_STRING );
+        $metrics->shorthelp = "Write metrics report in XML format.";
+        $consoleInput->registerOption( $metrics );
     }
 
     protected static function processConsoleArguments( $consoleInput )
@@ -172,14 +167,18 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         // Set the release. Default is trunk. 
         $release = $consoleInput->getOption( 'release' )->value;
 
+        $filter    = $consoleInput->getOption( 'filter' )->value;
         $config    = $consoleInput->getOption( 'configuration' )->value;
         $logfile   = $consoleInput->getOption( 'log-xml' )->value;
         $coverage  = $consoleInput->getOption( 'coverage-xml' )->value;
         $metrics   = $consoleInput->getOption( 'log-metrics' )->value;
         $pmd       = $consoleInput->getOption( 'log-pmd' )->value;
         $reportDir = $consoleInput->getOption( 'report-dir' )->value;
-        $testDbDsn = $consoleInput->getOption( 'test-db-dsn' )->value;
-        $testDbRev = $consoleInput->getOption( 'test-db-svnrev' )->value;
+
+        if ( $filter )
+        {
+            $params['filter'] = $filter;
+        }
 
         if ( $config )
         {
@@ -209,12 +208,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         if ( $reportDir )
         {
             $params['reportDirectory'] = $reportDir;
-        }
-
-        if ( $testDbDsn && $testDbRev )
-        {
-            $params['testDatabaseDSN']         = $testDbDsn;
-            $params['testDatabaseLogRevision'] = $testDbRev;
         }
 
         if ( $consoleInput->getOption( "verbose" )->value )
