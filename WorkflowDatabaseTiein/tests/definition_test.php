@@ -161,7 +161,41 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
 
     public function testExceptionWhenLoadingNotValidWorkflow()
     {
-        $this->markTestIncomplete();
+        $query = $this->db->createInsertQuery();
+        $query->insertInto( $this->db->quoteIdentifier( 'workflow' ) )
+              ->set( $this->db->quoteIdentifier( 'workflow_name' ), $query->bindValue( 'NotValid' ) )
+              ->set( $this->db->quoteIdentifier( 'workflow_version' ), $query->bindValue( 1 ) )
+              ->set( $this->db->quoteIdentifier( 'workflow_created' ), $query->bindValue( time() ) );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $query = $this->db->createInsertQuery();
+        $query->insertInto( $this->db->quoteIdentifier( 'node' ) )
+              ->set( $this->db->quoteIdentifier( 'node_class' ), $query->bindValue( 'ezcWorkflowNodeStart' ) )
+              ->set( $this->db->quoteIdentifier( 'node_configuration' ), $query->bindValue( '' ) )
+              ->set( $this->db->quoteIdentifier( 'node_id' ), $query->bindValue( 1 ) )
+              ->set( $this->db->quoteIdentifier( 'workflow_id' ), $query->bindValue( 1 ) );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        $query = $this->db->createInsertQuery();
+        $query->insertInto( $this->db->quoteIdentifier( 'node_connection' ) )
+              ->set( $this->db->quoteIdentifier( 'incoming_node_id' ), $query->bindValue( 1 ) )
+              ->set( $this->db->quoteIdentifier( 'outgoing_node_id' ), $query->bindValue( 2 ) );
+
+        $statement = $query->prepare();
+        $statement->execute();
+
+        try
+        {
+            $this->definition->loadByName( 'NotValid' );
+        }
+        catch ( ezcWorkflowDefinitionStorageException $e )
+        {
+            $this->assertEquals( 'Could not load workflow definition.', $e->getMessage() );
+        }
     }
 
     public function testProperties()
