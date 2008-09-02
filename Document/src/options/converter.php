@@ -11,11 +11,24 @@
 /**
  * Class containing the basic options for the ezcDocumentConverter
  *
+ * @property int $errorReporting
+ *           Error reporting level. All errors with a severity greater or equel
+ *           then the defined level are converted to exceptions. All other
+ *           errors are just stored in errors property of the parser class.
+ *
  * @package Document
  * @version //autogen//
  */
 class ezcDocumentConverterOptions extends ezcBaseOptions
 {
+    /**
+     * Container to hold the properties
+     *
+     * @var array(string=>mixed)
+     */
+    protected $properties = array(
+        'errorReporting' => 15, // E_PARSE | E_ERROR | E_WARNING | E_NOTICE
+    );
 
     /**
      * Sets the option $name to $value.
@@ -30,7 +43,21 @@ class ezcDocumentConverterOptions extends ezcBaseOptions
      */
     public function __set( $name, $value )
     {
-        throw new ezcBasePropertyNotFoundException( $name );
+        switch ( $name )
+        {
+            case 'errorReporting':
+                if ( !is_int( $value ) ||
+                     ( ( $value & E_PARSE ) === 0 ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'int & E_PARSE' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
     }
 }
 

@@ -14,36 +14,16 @@
  * @package Document
  * @version //autogentag//
  */
-class ezcDocumentParserException extends ezcDocumentException
+class ezcDocumentParserException extends ezcDocumentConversionException
 {
     /**
-     * Construct exception from errnous string and current position
+     * Error string
+     *
+     * String describing the general type of this error
      * 
-     * @param int $level 
-     * @param string $message 
-     * @param string $file 
-     * @param int $line 
-     * @param int $position 
-     * @return void
+     * @var string
      */
-    public function __construct( $level, $message, $file, $line, $position )
-    {
-        $levelMapping = array(
-            E_NOTICE  => 'Notice',
-            E_WARNING => 'Warning',
-            E_ERROR   => 'Error',
-            E_PARSE   => 'Fatal error',
-        );
-
-        parent::__construct( 
-            sprintf( "Parse error: %s: '%s' in line %d at position %d.",
-                $levelMapping[$level],
-                $message,
-                $line,
-                $position
-            )
-        );
-    }
+    protected $errorString = 'Parse error';
 }
 
 ?>

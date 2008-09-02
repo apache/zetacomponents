@@ -25,6 +25,15 @@ abstract class ezcDocumentConverter
     protected $options;
 
     /**
+     * Additional parser properties.
+     * 
+     * @var array
+     */
+    protected $properties = array(
+        'errors' => array(),
+    );
+
+    /**
      * Construct new document
      *
      * @param ezcDocumentConverterOptions $options
@@ -47,6 +56,30 @@ abstract class ezcDocumentConverter
     abstract public function convert( $doc );
 
     /**
+     * Trigger parser error
+     *
+     * Emit a parser error and handle it dependiing on the current error
+     * reporting settings.
+     * 
+     * @param int $level 
+     * @param string $message 
+     * @param string $file 
+     * @param int $line 
+     * @param int $position 
+     * @return void
+     */
+    public function triggerError( $level, $message, $file = null, $line = null, $position = null )
+    {
+        if ( $level & $this->options->errorReporting )
+        {
+            throw new ezcDocumentConversionException( $level, $message, $file, $line, $position );
+        }
+
+        // For lower error level settings, just aggregate errors
+        $this->properties['errors'][] = new ezcDocumentParserException( $level, $message, $file, $line, $position );
+    }
+
+    /**
      * Returns the value of the property $name.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -60,6 +93,8 @@ abstract class ezcDocumentConverter
         {
             case 'options':
                 return $this->options;
+            case 'errors':
+                return $this->properties['errors'];
         }
 
         throw new ezcBasePropertyNotFoundException( $name );
@@ -88,6 +123,9 @@ abstract class ezcDocumentConverter
 
                 $this->options = $value;
                 break;
+
+            case 'errors':
+                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
