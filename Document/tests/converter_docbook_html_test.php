@@ -85,7 +85,7 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         if ( self::$testDocuments === null )
         {
             // Get a list of all test files from the respektive folder
-            $testFiles = glob( dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_*.xml' );
+            $testFiles = glob( dirname( __FILE__ ) . '/files/docbook/xhtml/s_*.xml' );
 
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
@@ -142,8 +142,8 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
 
     public function testDublinCoreMetadata()
     {
-        $from = dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_021_field_list.xml';
-        $to   = dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_021_field_list_dc.html';
+        $from = dirname( __FILE__ ) . '/files/docbook/xhtml/s_021_field_list.xml';
+        $to   = dirname( __FILE__ ) . '/files/docbook/xhtml/s_021_field_list_dc.html';
 
         $doc = new ezcDocumentDocbook();
         $doc->loadFile( $from );
@@ -177,8 +177,8 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
 
     public function testWithStylesheets()
     {
-        $from = dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_021_field_list.xml';
-        $to   = dirname( __FILE__ ) . '/files/xhtml/docbook_custom/s_021_field_list_stylesheets.html';
+        $from = dirname( __FILE__ ) . '/files/docbook/xhtml/s_021_field_list.xml';
+        $to   = dirname( __FILE__ ) . '/files/docbook/xhtml/s_021_field_list_stylesheets.html';
 
         $doc = new ezcDocumentDocbook();
         $doc->loadFile( $from );

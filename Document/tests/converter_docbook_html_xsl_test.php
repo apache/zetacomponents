@@ -29,7 +29,7 @@ class ezcDocumentConverterDocbookToHtmlXsltTests extends ezcTestCase
         if ( self::$testDocuments === null )
         {
             // Get a list of all test files from the respektive folder
-            $testFiles = glob( dirname( __FILE__ ) . '/files/xhtml/docbook/s_*.xml' );
+            $testFiles = glob( dirname( __FILE__ ) . '/files/docbook/xhtml_xslt/s_*.xml' );
 
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
