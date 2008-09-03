@@ -587,10 +587,12 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         $secInfo = $root->getElementsByTagName( 'sectioninfo' )->item( 0 );
 
         $fieldListItemMapping = array(
-            'authors'     => 'author',
-            'date'        => 'pubdate',
+            'authors'     => 'authors',
             'description' => 'abstract',
             'copyright'   => 'copyright',
+            'version'     => 'releaseinfo',
+            'date'        => 'date',
+            'author'      => 'author',
         );
 
         $fieldName = strtolower( trim( $this->tokenListToString( $node->name ) ) );

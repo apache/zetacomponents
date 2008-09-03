@@ -50,6 +50,13 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
     protected $ast;
 
     /**
+     * Plain RST contents as a string
+     * 
+     * @var string
+     */
+    protected $contents;
+
+    /**
      * Construct RST document.
      * 
      * @ignore
@@ -110,11 +117,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      */
     public function loadString( $string )
     {
-        $tokenizer = new ezcDocumentRstTokenizer();
-        $parser    = new ezcDocumentRstParser();
-        $parser->options->errorReporting = $this->options->errorReporting;
-
-        $this->ast = $parser->parse( $tokenizer->tokenizeString( $string ) );
+        $this->contents = $string;
     }
 
     /**
@@ -133,6 +136,12 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      */
     public function getAsDocbook()
     {
+        $tokenizer = new ezcDocumentRstTokenizer();
+        $parser    = new ezcDocumentRstParser();
+        $parser->options->errorReporting = $this->options->errorReporting;
+
+        $this->ast = $parser->parse( $tokenizer->tokenizeString( $this->contents ) );
+
         $document = new ezcDocumentDocbook();
 
         $visitor = new ezcDocumentRstDocbookVisitor( $this, $this->path );
@@ -176,6 +185,12 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      */
     public function getAsXhtml()
     {
+        $tokenizer = new ezcDocumentRstTokenizer();
+        $parser    = new ezcDocumentRstParser();
+        $parser->options->errorReporting = $this->options->errorReporting;
+
+        $this->ast = $parser->parse( $tokenizer->tokenizeString( $this->contents ) );
+
         $document = new ezcDocumentXhtml();
 
         $visitorClass = $this->options->xhtmlVisitor;
@@ -289,7 +304,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      */
     public function save()
     {
-        // @TODO: Implement
+        return $this->contents;
     }
 }
 
