@@ -117,28 +117,31 @@ class ezcWebdavClientTestGenerator
     protected $exceptions = array();
 
     /**
-     * $_SERVER keys to unset.
+     * PCREs that indicate $_SERVER keys to keep.
      * 
      * @var array
      */
-    protected $serverBlacklist = array(
-        '_', 'ANT_HOME', 'argc', 'argv', 'BOOTLEVEL', 'CLASSPATH', 'COLORTERM',
-        'CONFIG_PROTECT', 'CONFIG_PROTECT_MASK', 'CONSOLETYPE', 'CVS_RSH',
-        'DBUS_SESSION_BUS_ADDRESS', 'DEFAULTLEVEL', 'DESKTOP_SESSION',
-        'DESKTOP_STARTUP_ID', 'DISPLAY', 'EDITOR', 'EINFO_LOG', 'EINFO_QUIET',
-        'FCGI_ROLE', 'FLTK_DOCDIR', 'GCC_SPECS', 'GDK_USE_XFT', 'GDM_LANG',
-        'GDMSESSION', 'GDM_XSERVER_LOCATION', 'GENERATION', 'GNOME_DESKTOP_SESSION_ID',
-        'GNOME_KEYRING_PID', 'GNOME_KEYRING_SOCKET', 'GPG_AGENT_INFO', 'GTK_MODULES',
-        'GTK_RC_FILES', 'GUILE_LOAD_PATH', 'HOME', 'INFOPATH', 'JAVAC', 'JAVA_HOME',
-        'JDK_HOME', 'KDEDIRS', 'LADSPA_PATH', 'LC_ALL', 'LESS', 'LESSOPEN', 'LOGNAME',
-        'LS_COLORS', 'MANPATH', 'OPENGL_PROFILE', 'PAGER', 'PHP_FCGI_CHILDREN',
-        'PKG_CONFIG_PATH', 'PRELINK_PATH_MASK', 'QMAKESPEC', 'QTDIR', 'RC_SERVICE',
-        'RC_SVCNAME', 'SANE_CONFIG_DIR', 'SESSION_MANAGER', 'SHELL', 'SHLVL',
-        'SOFTLEVEL', 'SSH_AGENT_PID', 'SSH_AUTH_SOCK', 'SUDO_COMMAND', 'SUDO_GID',
-        'SUDO_UID', 'SUDO_USER', 'SVCNAME', 'TERM', 'USB_DEVFS_PATH', 'USER',
-        'USERNAME', 'VMHANDLE', 'WINDOWID', 'WINDOWPATH', 'XAUTHORITY',
-        'XDG_DATA_DIRS',
-   );
+    protected $serverWhiteList = array(
+        '(^DOCUMENT_.*$)',
+        '(^GATEWAY_.*$)',
+        '(^HTTP_.*)',
+        '(^LANG$)',
+        '(^PATH_.*$)',
+        '(^PHP_SELF$)',
+        '(^PHP_AUTH.*$)',
+        '(^QUERY_.*$)',
+        '(^REDIRECT_.*$)',
+        '(^REMOTE_.*$)',
+        '(^REQUEST_.*$)',
+        '(^SCRIPT_.*$)',
+        '(^SERVER_.*$)',
+    );
+
+    protected $serverOverwrite = array(
+        'REQUEST_TIME' => 1220431173,
+        'REMOTE_HOST'  => '127.0.0.1',
+        'REMOTE_PORT'  => '33458',
+    );
     
     /**
      * Template to mock transport classes.
@@ -343,11 +346,25 @@ class ezcWebdavClientTestGenerator
      */
     protected function filterServerVars()
     {
-        foreach ( $this->serverBlacklist as $key )
+        foreach ( $_SERVER as $key => $val )
+        {
+            foreach ( $this->serverWhiteList as $regex )
+            {
+                if ( preg_match( $regex, $key ) )
+                {
+                    continue 2;
+                }
+            }
+            // No regex matched
+            unset( $_SERVER[$key] );
+        }
+
+        // Adjust variables for better test case comparison
+        foreach ( $this->serverOverwrite as $key => $val )
         {
             if ( isset( $_SERVER[$key] ) )
             {
-                unset( $_SERVER[$key] );
+                $_SERVER[$key] = $val;
             }
         }
     }

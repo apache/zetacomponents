@@ -1,19 +1,14 @@
 <?php
 
 return array (
-  'ORBIT_SOCKETDIR' => '/tmp/orbit-dotxp',
-  'XERCESC_NLS_HOME' => '/usr/share/xerces-c/msg',
-  'PWD' => '/',
   'LANG' => 'en_US.UTF-8',
-  'PATH' => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/opt/bin:/opt/sun-jdk-1.4.2.18/bin:/opt/sun-jdk-1.4.2.18/jre/bin:/opt/sun-jdk-1.4.2.18/jre/javaws:/usr/kde/3.5/sbin:/usr/kde/3.5/bin:/usr/qt/3/bin:/usr/lib/subversion/bin',
   'SERVER_SOFTWARE' => 'lighttpd/1.4.19',
   'SERVER_NAME' => 'webdav',
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '127.0.0.1',
-  'REMOTE_PORT' => '33453',
+  'REMOTE_PORT' => '33458',
   'REMOTE_ADDR' => '127.0.0.1',
-  'CONTENT_LENGTH' => '8',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/secure_collection/litmus/mkcolbody',
   'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/mkcolbody',
@@ -29,15 +24,12 @@ return array (
   'HTTP_USER_AGENT' => 'litmus/0.11 neon/0.26.3',
   'HTTP_CONNECTION' => 'TE',
   'HTTP_TE' => 'trailers',
-  'CONTENT_TYPE' => 'xzy-foo/bar-512',
   'HTTP_CONTENT_LENGTH' => '8',
-  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="5b1492e3e859cbb0f268c9097de1cee9", uri="/secure_collection/litmus/mkcolbody", response="aa5cde09bcf06e75ff0b8244b26b5441", algorithm="MD5"',
+  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="aeea4af3a4c4bf3122d6432df37a7a9c", uri="/secure_collection/litmus/mkcolbody", response="b4c8f93e028b6405ec35c5e41235708c", algorithm="MD5"',
   'HTTP_X_LITMUS' => 'basic: 13 (mkcol_with_body)',
-  'ORIG_SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php/secure_collection/litmus/mkcolbody',
-  'ORIG_PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs//secure_collection/litmus/mkcolbody',
   'PHP_SELF' => '/index.php/secure_collection/litmus/mkcolbody',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="5b1492e3e859cbb0f268c9097de1cee9", uri="/secure_collection/litmus/mkcolbody", response="aa5cde09bcf06e75ff0b8244b26b5441", algorithm="MD5"',
-  'REQUEST_TIME' => 1219999592,
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="aeea4af3a4c4bf3122d6432df37a7a9c", uri="/secure_collection/litmus/mkcolbody", response="b4c8f93e028b6405ec35c5e41235708c", algorithm="MD5"',
+  'REQUEST_TIME' => 1220431173,
 );
 
 ?>

@@ -1,19 +1,14 @@
 <?php
 
 return array (
-  'ORBIT_SOCKETDIR' => '/tmp/orbit-dotxp',
-  'XERCESC_NLS_HOME' => '/usr/share/xerces-c/msg',
-  'PWD' => '/',
   'LANG' => 'en_US.UTF-8',
-  'PATH' => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/opt/bin:/opt/sun-jdk-1.4.2.18/bin:/opt/sun-jdk-1.4.2.18/jre/bin:/opt/sun-jdk-1.4.2.18/jre/javaws:/usr/kde/3.5/sbin:/usr/kde/3.5/bin:/usr/qt/3/bin:/usr/lib/subversion/bin',
   'SERVER_SOFTWARE' => 'lighttpd/1.4.19',
   'SERVER_NAME' => 'webdav',
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '127.0.0.1',
-  'REMOTE_PORT' => '33440',
+  'REMOTE_PORT' => '33458',
   'REMOTE_ADDR' => '127.0.0.1',
-  'CONTENT_LENGTH' => '8',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/litmus/mkcolbody',
   'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/litmus/mkcolbody',
@@ -29,13 +24,10 @@ return array (
   'HTTP_USER_AGENT' => 'litmus/0.11 neon/0.26.3',
   'HTTP_CONNECTION' => 'TE',
   'HTTP_TE' => 'trailers',
-  'CONTENT_TYPE' => 'xzy-foo/bar-512',
   'HTTP_CONTENT_LENGTH' => '8',
   'HTTP_X_LITMUS' => 'basic: 13 (mkcol_with_body)',
-  'ORIG_SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php/litmus/mkcolbody',
-  'ORIG_PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs//litmus/mkcolbody',
   'PHP_SELF' => '/index.php/litmus/mkcolbody',
-  'REQUEST_TIME' => 1219999570,
+  'REQUEST_TIME' => 1220431173,
 );
 
 ?>

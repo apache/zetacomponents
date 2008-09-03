@@ -1,17 +1,13 @@
 <?php
 
 return array (
-  'ORBIT_SOCKETDIR' => '/tmp/orbit-dotxp',
-  'XERCESC_NLS_HOME' => '/usr/share/xerces-c/msg',
-  'PWD' => '/',
   'LANG' => 'en_US.UTF-8',
-  'PATH' => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/opt/bin:/opt/sun-jdk-1.4.2.18/bin:/opt/sun-jdk-1.4.2.18/jre/bin:/opt/sun-jdk-1.4.2.18/jre/javaws:/usr/kde/3.5/sbin:/usr/kde/3.5/bin:/usr/qt/3/bin:/usr/lib/subversion/bin',
   'SERVER_SOFTWARE' => 'lighttpd/1.4.19',
   'SERVER_NAME' => 'webdav',
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '127.0.0.1',
-  'REMOTE_PORT' => '33457',
+  'REMOTE_PORT' => '33458',
   'REMOTE_ADDR' => '127.0.0.1',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/secure_collection/litmus/ccdest/foo.9',
@@ -28,13 +24,11 @@ return array (
   'HTTP_USER_AGENT' => 'litmus/0.11 neon/0.26.3',
   'HTTP_CONNECTION' => 'TE',
   'HTTP_TE' => 'trailers',
-  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1d07048784581d632e61a8e038933122", uri="/secure_collection/litmus/ccdest/foo.9", response="019e6ab571a3d2ab0aa299b90fdd31f5", algorithm="MD5"',
+  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="d744b7d75bc0c4f9772eb1b6e5490d09", uri="/secure_collection/litmus/ccdest/foo.9", response="208f093766bb5d7dc87a24c5d453d141", algorithm="MD5"',
   'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
-  'ORIG_SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php/secure_collection/litmus/ccdest/foo.9',
-  'ORIG_PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs//secure_collection/litmus/ccdest/foo.9',
   'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.9',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1d07048784581d632e61a8e038933122", uri="/secure_collection/litmus/ccdest/foo.9", response="019e6ab571a3d2ab0aa299b90fdd31f5", algorithm="MD5"',
-  'REQUEST_TIME' => 1219999594,
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="d744b7d75bc0c4f9772eb1b6e5490d09", uri="/secure_collection/litmus/ccdest/foo.9", response="208f093766bb5d7dc87a24c5d453d141", algorithm="MD5"',
+  'REQUEST_TIME' => 1220431173,
 );
 
 ?>

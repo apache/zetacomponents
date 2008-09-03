@@ -1,11 +1,7 @@
 <?php
 
 return array (
-  'ORBIT_SOCKETDIR' => '/tmp/orbit-dotxp',
-  'XERCESC_NLS_HOME' => '/usr/share/xerces-c/msg',
-  'PWD' => '/',
   'LANG' => 'en_US.UTF-8',
-  'PATH' => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/opt/bin:/opt/sun-jdk-1.4.2.18/bin:/opt/sun-jdk-1.4.2.18/jre/bin:/opt/sun-jdk-1.4.2.18/jre/javaws:/usr/kde/3.5/sbin:/usr/kde/3.5/bin:/usr/qt/3/bin:/usr/lib/subversion/bin',
   'SERVER_SOFTWARE' => 'lighttpd/1.4.19',
   'SERVER_NAME' => 'webdav',
   'GATEWAY_INTERFACE' => 'CGI/1.1',
@@ -28,13 +24,11 @@ return array (
   'HTTP_USER_AGENT' => 'litmus/0.11 neon/0.26.3',
   'HTTP_CONNECTION' => 'TE',
   'HTTP_TE' => 'trailers',
-  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1d07048784581d632e61a8e038933122", uri="/secure_collection/litmus/mvsrc/", response="2c5a16b99deb6d633a7d6a8e16bd7fce", algorithm="MD5"',
+  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="d744b7d75bc0c4f9772eb1b6e5490d09", uri="/secure_collection/litmus/mvsrc/", response="f6722f2de87990777f64baa51b504b63", algorithm="MD5"',
   'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
-  'ORIG_SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php/secure_collection/litmus/mvsrc/',
-  'ORIG_PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs//secure_collection/litmus/mvsrc/',
   'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1d07048784581d632e61a8e038933122", uri="/secure_collection/litmus/mvsrc/", response="2c5a16b99deb6d633a7d6a8e16bd7fce", algorithm="MD5"',
-  'REQUEST_TIME' => 1219999595,
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="d744b7d75bc0c4f9772eb1b6e5490d09", uri="/secure_collection/litmus/mvsrc/", response="f6722f2de87990777f64baa51b504b63", algorithm="MD5"',
+  'REQUEST_TIME' => 1220431173,
 );
 
 ?>

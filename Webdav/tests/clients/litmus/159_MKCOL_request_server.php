@@ -1,17 +1,13 @@
 <?php
 
 return array (
-  'ORBIT_SOCKETDIR' => '/tmp/orbit-dotxp',
-  'XERCESC_NLS_HOME' => '/usr/share/xerces-c/msg',
-  'PWD' => '/',
   'LANG' => 'en_US.UTF-8',
-  'PATH' => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/opt/bin:/opt/sun-jdk-1.4.2.18/bin:/opt/sun-jdk-1.4.2.18/jre/bin:/opt/sun-jdk-1.4.2.18/jre/javaws:/usr/kde/3.5/sbin:/usr/kde/3.5/bin:/usr/qt/3/bin:/usr/lib/subversion/bin',
   'SERVER_SOFTWARE' => 'lighttpd/1.4.19',
   'SERVER_NAME' => 'webdav',
   'GATEWAY_INTERFACE' => 'CGI/1.1',
   'SERVER_PORT' => '80',
   'SERVER_ADDR' => '127.0.0.1',
-  'REMOTE_PORT' => '33452',
+  'REMOTE_PORT' => '33458',
   'REMOTE_ADDR' => '127.0.0.1',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/secure_collection/litmus/409me/noparent/',
@@ -28,13 +24,11 @@ return array (
   'HTTP_USER_AGENT' => 'litmus/0.11 neon/0.26.3',
   'HTTP_CONNECTION' => 'TE',
   'HTTP_TE' => 'trailers',
-  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="5b1492e3e859cbb0f268c9097de1cee9", uri="/secure_collection/litmus/409me/noparent/", response="8cdceab36c8ad3df5593092f2f04cea4", algorithm="MD5"',
+  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="aeea4af3a4c4bf3122d6432df37a7a9c", uri="/secure_collection/litmus/409me/noparent/", response="e8a81b630c87a858fda88d6d86c51ff0", algorithm="MD5"',
   'HTTP_X_LITMUS' => 'basic: 12 (mkcol_no_parent)',
-  'ORIG_SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php/secure_collection/litmus/409me/noparent/',
-  'ORIG_PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs//secure_collection/litmus/409me/noparent/',
   'PHP_SELF' => '/index.php/secure_collection/litmus/409me/noparent/',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="5b1492e3e859cbb0f268c9097de1cee9", uri="/secure_collection/litmus/409me/noparent/", response="8cdceab36c8ad3df5593092f2f04cea4", algorithm="MD5"',
-  'REQUEST_TIME' => 1219999592,
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="aeea4af3a4c4bf3122d6432df37a7a9c", uri="/secure_collection/litmus/409me/noparent/", response="e8a81b630c87a858fda88d6d86c51ff0", algorithm="MD5"',
+  'REQUEST_TIME' => 1220431173,
 );
 
 ?>

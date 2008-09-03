@@ -156,6 +156,13 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             );
         }
 
+        // Unify server generated nounce
+        if ( isset( $response['headers']['WWW-Authenticate'] ) && isset( $response['headers']['WWW-Authenticate']['digest'] ) && isset( $responseHeaders['WWW-Authenticate']['digest'] ) )
+        {
+            preg_match( '(nonce="([a-zA-Z0-9]+)")', $responseHeaders['WWW-Authenticate']['digest'], $matches );
+            $response['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $response['headers']['WWW-Authenticate']['digest'] );
+        }
+
         $this->assertEquals(
             $response,
             array(
