@@ -1,8 +1,6 @@
 TODO
 ====
 
-- XHTML reading, is tricky
-- Docbook to XHTML, check PHD: http://cvs.php.net/viewvc.cgi/phd/
 - Write ReST files back from docbook
 - eZ Publish formats needs checking
   - stuff by Kirill, needs testcase.
