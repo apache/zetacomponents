@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/collection/subdir/file.html</D:href>
+    <D:href>http://webdav/collection/</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>file.html</D:displayname>
-        <D:getcontenttype>text/html</D:getcontenttype>
-        <D:getetag>3b191a38c8e5d686506677906f3a4cfd</D:getetag>
+        <D:displayname>collection</D:displayname>
+        <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
+        <D:getetag>9696c0fa460d4ed148cb40b2e8388c1e</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>39</D:getcontentlength>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>http://webdav/collection/file.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
+        <D:displayname>file.txt</D:displayname>
+        <D:getcontenttype>text/plain</D:getcontenttype>
+        <D:getetag>60c0afeb8f68b1765e13694b5e7c8c3d</D:getetag>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18</D:getcontentlength>
         <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>http://webdav/collection/subdir</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
+        <D:displayname>subdir</D:displayname>
+        <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
+        <D:getetag>2215ad4a0621fe1f07727e8534c54a95</D:getetag>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>

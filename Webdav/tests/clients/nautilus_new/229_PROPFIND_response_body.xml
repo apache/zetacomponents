@@ -1,30 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/secure_collection/subdir/newsubdir/</D:href>
+    <D:href>http://webdav/collection/subdir/collection</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>untitled%20folder</D:displayname>
+        <D:displayname>collection</D:displayname>
         <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
-        <D:getetag>4c84d7459f8a6a6fb0dc58169e07e03e</D:getetag>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response>
-    <D:href>http://webdav/secure_collection/subdir/newsubdir/newsubsubdir</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>untitled%20folder</D:displayname>
-        <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
-        <D:getetag>9452092ce74be804380f73cbf4a04a20</D:getetag>
+        <D:getetag>4830744d2e394ce3c4d5667d7125c862</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype>

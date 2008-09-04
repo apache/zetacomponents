@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname></D:displayname>
-        <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
-        <D:getetag>6666cd76f96956469e7be39d750cc7d9</D:getetag>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response>
     <D:href>http://webdav/collection</D:href>
     <D:propstat>
       <D:prop>
@@ -30,51 +13,6 @@
         <D:resourcetype>
           <D:collection/>
         </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response>
-    <D:href>http://webdav/secure_collection</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:creationdate/>
-        <D:displayname/>
-        <D:getcontentlength/>
-        <D:getcontenttype/>
-        <D:getetag/>
-        <D:getlastmodified/>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 403 Forbidden</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response>
-    <D:href>http://webdav/file.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>file.xml</D:displayname>
-        <D:getcontenttype>text/xml</D:getcontenttype>
-        <D:getetag>b0c5faef67f106ef634ad2a82e838b95</D:getetag>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>19</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response>
-    <D:href>http://webdav/file.bin</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>file.bin</D:displayname>
-        <D:getcontenttype>application/octet-stream</D:getcontenttype>
-        <D:getetag>68eab65ab82e7e474811d5d2dd879679</D:getetag>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>7</D:getcontentlength>
-        <D:resourcetype/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>

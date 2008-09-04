@@ -22,7 +22,7 @@ return array (
   'SERVER_PROTOCOL' => 'HTTP/1.1',
   'HTTP_HOST' => 'webdav',
   'HTTP_DEPTH' => '0',
-  'HTTP_APPLY_TO_REDIRECT_REF' => 'T',
+  'HTTP_APPLY_TO_REDIRECT_REF' => 'F',
   'HTTP_USER_AGENT' => 'gvfs/0.2.5',
   'HTTP_CONTENT_LENGTH' => '235',
   'PHP_SELF' => '/index.php/collection/file.txt',

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/collection/file.txt</D:href>
+    <D:href>http://webdav/collection/subdir/file.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>file.txt</D:displayname>
-        <D:getcontenttype>text/plain</D:getcontenttype>
-        <D:getetag>60c0afeb8f68b1765e13694b5e7c8c3d</D:getetag>
+        <D:displayname>file.xml</D:displayname>
+        <D:getcontenttype>text/xml</D:getcontenttype>
+        <D:getetag>8cc4e8038561985cf9e68ee3e36f8882</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>18</D:getcontentlength>
         <D:resourcetype/>
