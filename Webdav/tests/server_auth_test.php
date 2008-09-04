@@ -22,7 +22,7 @@ require_once 'classes/transport_test_mock.php';
 /**
  * Custom auth class. 
  */
-require_once 'classes/custom_auth.php';
+require_once 'classes/test_auth.php';
 
 /**
  * Tests for ezcWebdavServer class.

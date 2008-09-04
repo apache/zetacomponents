@@ -17,7 +17,7 @@ require_once 'test_case.php';
 /**
  * Custom path factpory
  */
-require_once 'classes/custom_path_factory.php';
+require_once 'classes/test_path_factory.php';
 
 /**
  * Tests for ezcWebdavBasicPathFactory class.

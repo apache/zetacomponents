@@ -1,6 +1,6 @@
 <?php
 
-require_once 'scripts/test_generator_auth.php';
+require_once 'classes/test_auth.php';
 
 class ezcWebdavClientTestSetup
 {
@@ -50,7 +50,7 @@ class ezcWebdavClientTestSetup
             $server->configurations[$id]->pathFactory    = $pathFactory;
         }
         
-        $server->auth = new ezcWebdavClientTestGeneratorAuth();
+        $server->auth = new ezcWebdavTestAuth();
 
         return $server;
     }

@@ -18,6 +18,13 @@ class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcW
             'some' => ezcWebdavAuthorizer::ACCESS_READ,
             ''     => ezcWebdavAuthorizer::ACCESS_READ,
         ),
+        'collection' => array(
+            ''     => ezcWebdavAuthorizer::ACCESS_WRITE,
+            'some' => ezcWebdavAuthorizer::ACCESS_WRITE,
+        ),
+        'secure_collection' => array(
+            'some' => ezcWebdavAuthorizer::ACCESS_WRITE,
+        ),
     );
 
     private $credentials = array(
@@ -40,8 +47,9 @@ class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcW
 
     public function authorize( $user, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
     {
-        $basedir = substr( $path, 1, 1 );
-        return ( isset( $this->permissions[$basedir][$user] ) && $this->permissions[$basedir][$user] >= $access );
+        preg_match( '(^/([^/]+)(/|$))', $path, $matches );
+        $basedir = ( isset( $matches[1] ) ? $matches[1] : '' );
+        return ( !isset( $this->permissions[$basedir] ) || ( isset( $this->permissions[$basedir][$user] ) && $this->permissions[$basedir][$user] >= $access ) );
     }
 }
 

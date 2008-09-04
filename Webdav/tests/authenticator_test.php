@@ -14,7 +14,7 @@
  */
 require_once 'test_case.php';
 
-require_once 'Webdav/tests/classes/custom_auth.php';
+require_once 'Webdav/tests/classes/test_auth.php';
 
 /**
  * Tests for ezcWebdavAuthenticator class.

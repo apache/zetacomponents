@@ -22,7 +22,7 @@ define( 'LOG_DIR', PWD . '/log' );
  */
 define( 'TMP_DIR', PWD . '/tmp' );
 
-require_once 'Webdav/tests/scripts/test_generator_auth.php';
+require_once 'Webdav/tests/classes/test_auth.php';
 
 /**
  * Generator class for client test suites.
@@ -412,7 +412,7 @@ class ezcWebdavClientTestGenerator
             $this->server->configurations[$id]->pathFactory     = $pathFactory;
         }
 
-        $this->server->auth = new ezcWebdavClientTestGeneratorAuth();
+        $this->server->auth = new ezcWebdavTestAuth();
     }
 }
 
