@@ -225,6 +225,7 @@ Mandatory test recipe
 - Upload file.txt and make sure it is there.
 - Create a new directory /collection/subdir/newdir/newsubdir and enter it.
 - Upload file.txt and make sure it is there.
+- Upload file.txt again and make sure it is overwritten.
 - Go 2 levels up to directory /collection/subdir.
 - Delete newdir/ and make sure it is gone.
 - Download file.html and make sure its content is
