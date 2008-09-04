@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/file.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/put_non_utf8_test.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/put_test_renamed.html</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>

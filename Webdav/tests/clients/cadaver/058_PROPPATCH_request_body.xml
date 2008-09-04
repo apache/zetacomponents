@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<D:propertyupdate xmlns:D="DAV:"><D:remove><D:prop><foobar xmlns="http://webdav.org/cadaver/custom-properties/"></foobar></D:prop></D:remove>
-</D:propertyupdate>

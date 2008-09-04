@@ -21,23 +21,4 @@
       <D:status>HTTP/1.1 404 Not Found</D:status>
     </D:propstat>
   </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
 </D:multistatus>
