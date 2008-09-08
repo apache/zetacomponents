@@ -80,42 +80,6 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->assertFalse( $execution->isSuspended() );
     }
 
-    public function testStartInputEndClone()
-    {
-        $this->setUpStartInputEnd();
-        $this->definition->save( $this->workflow );
-
-        $execution = new ezcWorkflowDatabaseExecution( $this->db );
-        $execution->workflow = $this->workflow;
-
-        $id = $execution->start();
-        $this->assertNotNull( $id );
-        $this->assertFalse( $execution->hasEnded() );
-        $this->assertFalse( $execution->isResumed() );
-        $this->assertTrue( $execution->isSuspended() );
-
-        $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
-        $execution->resume( array( 'variable' => 'value' ) );
-        $this->assertTrue( $execution->hasEnded() );
-        $this->assertFalse( $execution->isResumed() );
-        $this->assertFalse( $execution->isSuspended() );
-
-        $execution = new ezcWorkflowDatabaseExecution( $this->db );
-        $execution->workflow = clone $this->workflow;
-
-        $id = $execution->start();
-        $this->assertNotNull( $id );
-        $this->assertFalse( $execution->hasEnded() );
-        $this->assertFalse( $execution->isResumed() );
-        $this->assertTrue( $execution->isSuspended() );
-
-        $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
-        $execution->resume( array( 'variable' => 'value' ) );
-        $this->assertTrue( $execution->hasEnded() );
-        $this->assertFalse( $execution->isResumed() );
-        $this->assertFalse( $execution->isSuspended() );
-    }
-
     public function testParallelSplitSynchronization()
     {
         $this->setUpParallelSplitSynchronization2();
