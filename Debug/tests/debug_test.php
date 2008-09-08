@@ -10,7 +10,7 @@
 
 require_once 'test_classes.php';
 
-function testErrorHandler( $errno, $errstr, $errfile, $errline  )
+function testErrorHandler( $errno, $errstr, $errfile, $errline )
 {
     ezcDebug::debugHandler( $errno, $errstr, $errfile, $errline );
     return true;
