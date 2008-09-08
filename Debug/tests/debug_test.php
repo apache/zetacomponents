@@ -10,6 +10,12 @@
 
 require_once 'test_classes.php';
 
+function testErrorHandler( $errno, $errstr, $errfile, $errline  )
+{
+    ezcDebug::debugHandler( $errno, $errstr, $errfile, $errline );
+    return true;
+}
+
 /**
  * @package Debug
  * @subpackage Tests
@@ -23,28 +29,11 @@ class ezcDebugTest extends ezcTestCase
         $this->dbg = ezcDebug::getInstance();
         $this->dbg->reset();
         $this->dbg->setOutputFormatter( new TestReporter() );
-
-        set_error_handler(array( $this, "TestDebugHandler"));
     }
 
     protected function tearDown()
     {
         restore_error_handler();
-    }
-
-    // For trigger_error tests.
-    public function TestDebugHandler($errno, $errstr, $errfile, $errline)
-    {
-        switch ($errno) 
-        {
-            case E_USER_ERROR:
-            case E_USER_WARNING:
-            case E_USER_NOTICE:    
-                    ezcDebug::debugHandler($errno, $errstr, $errfile, $errline); break;
-
-            default:               
-                    print( "$errstr in $errfile on line $errline\n" ); break;
-        }
     }
 
     public function testGetAccessSuccess()
@@ -228,7 +217,7 @@ class ezcDebugTest extends ezcTestCase
     {
         $beforeTime = time();
 
-        set_error_handler( array( 'ezcDebug', 'debugHandler' ) );
+        set_error_handler( 'testErrorHandler' );
         trigger_error( '[Paynet, templates] Cannot load template', E_USER_WARNING );
         restore_error_handler();
 
@@ -262,7 +251,7 @@ class ezcDebugTest extends ezcTestCase
         $fakeStruct[0][0]->datetime  = null;
         $fakeStruct[0][0]->verbosity = false;
         $fakeStruct[0][0]->file      = __FILE__;
-        $fakeStruct[0][0]->line      = 232;
+        $fakeStruct[0][0]->line      = 221;
 
         $this->assertEquals(
             $fakeStruct,
