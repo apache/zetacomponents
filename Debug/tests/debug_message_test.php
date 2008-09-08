@@ -10,6 +10,12 @@
 
 require_once 'test_classes.php';
 
+function testDebugMessageErrorHandler( $errno, $errstr, $errfile, $errline )
+{
+    ezcDebug::debugHandler( $errno, $errstr, $errfile, $errline );
+    return true;
+}
+
 /**
  * @package Debug
  * @subpackage Tests
@@ -30,7 +36,7 @@ class ezcDebugMessageTest extends ezcTestCase
         $dbg->getEventLog()->source   = 'DefaultSource';
         $dbg->getEventLog()->category = 'DefaultCategory';
         
-        set_error_handler( array( 'ezcDebug', 'debugHandler' ) );
+        set_error_handler( 'testDebugMessageErrorHandler' );
     }
 
     public function tearDown()
