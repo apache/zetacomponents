@@ -663,9 +663,17 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         $block->setAttribute( 'class', 'lineblock' );
         $root->appendChild( $block );
 
+        // Visit lines
         foreach ( $node->nodes as $child )
         {
-            $this->visitNode( $block, $child );
+            foreach ( $child->nodes as $literal )
+            {
+                $block->appendChild( new DOMText(
+                    ( $literal->token->type !== ezcDocumentRstToken::NEWLINE ) ? $literal->token->content : ' '
+                ) );
+            }
+            $break = $this->document->createElement( 'br' );
+            $block->appendChild( $break );
         }
     }
 
