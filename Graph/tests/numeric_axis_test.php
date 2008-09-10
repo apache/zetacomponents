@@ -603,6 +603,75 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
+    public function testMixedAutomagicAndManualScaling10()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 1300, 1012, 1450 ) );
+        $chart->yAxis->min = 0;
+        $chart->yAxis->max = 2000;
+        $chart->yAxis->majorStep = 250;
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            0.,
+            $chart->yAxis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            2000.,
+            $chart->yAxis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            250.,
+            $chart->yAxis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            50.,
+            $chart->yAxis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
+
+    public function testMixedAutomagicAndManualScalingStepSizeFailure1()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 1300, 1012, 1450 ) );
+        $chart->yAxis->min = 0;
+        $chart->yAxis->max = 2000;
+        $chart->yAxis->majorStep = 300;
+
+        try
+        {
+            $chart->render( 500, 200 );
+            $this->fail( 'Expected ezcGraphInvalidStepSizeException.' );
+        }
+        catch ( ezcGraphInvalidStepSizeException $e )
+        { /* Expected */ }
+    }
+
+    public function testMixedAutomagicAndManualScalingStepSizeFailure2()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 2000 => 1045, 1300, 1012, 1450 ) );
+        $chart->yAxis->min = 0;
+        $chart->yAxis->max = 2000;
+        $chart->yAxis->majorStep = 250;
+        $chart->yAxis->minorStep = 100;
+
+        try
+        {
+            $chart->render( 500, 200 );
+            $this->fail( 'Expected ezcGraphInvalidStepSizeException.' );
+        }
+        catch ( ezcGraphInvalidStepSizeException $e )
+        { /* Expected */ }
+    }
+
     public function testPositionLeft()
     {
         $chart = new ezcGraphLineChart();
@@ -922,4 +991,5 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         }
     }
 }
+
 ?>

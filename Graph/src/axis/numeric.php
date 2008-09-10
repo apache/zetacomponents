@@ -345,7 +345,8 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
         // "nice" number for the steps. Try to find such a nice step size, or
         // fall back to a step size, which is just the span divided by 5.
         if ( ( $this->properties['min'] !== null ) &&
-             ( $this->properties['max'] !== null ) )
+             ( $this->properties['max'] !== null ) &&
+             ( $this->properties['majorStep'] === null ) )
         {
             $diff = $this->properties['max'] - $this->properties['min'];
             $this->calculateMajorStep( $this->properties['minValue'], $this->properties['maxValue'] );
@@ -378,6 +379,20 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
         if ( $this->properties['max'] === null )
         {
             $this->calculateMaximum( $this->properties['minValue'], $this->properties['maxValue'] );
+        }
+
+        // Check that the major step size matches up with the min and max
+        // values on the axis.
+        if ( ( ( $quotient = ( $this->properties['max'] - $this->properties['min'] ) / $this->properties['majorStep'] ) - floor( $quotient ) ) > .00001 )
+        {
+            throw new ezcGraphInvalidStepSizeException( "The difference between minimum and maximum value is not a multiplier of the major step size." );
+        }
+
+        // Check that the minor step size matches up with major step size on
+        // the axis.
+        if ( ( ( $quotient = $this->properties['majorStep'] / $this->properties['minorStep'] ) - floor( $quotient ) ) > .00001 )
+        {
+            throw new ezcGraphInvalidStepSizeException( "The major step size value is not a multiplier of the minor step size." );
         }
     }
 
