@@ -1,0 +1,15 @@
+
+================
+Title references
+================
+
+The text contains references to the Subtitle and even to the document title\:
+Title references.
+
+
+--------
+Subtitle
+--------
+
+This refernces, like\: Subtitle may occur multiple times, of course.
+

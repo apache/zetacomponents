@@ -59,7 +59,7 @@ class ezcDocumentDocbookToRstHeadHandler extends ezcDocumentDocbookToRstBaseHand
                 foreach ( $nodes as $child )
                 {
                     $root .= ":$metaName:\n";
-                    $root .= $this->wordWrap( $converter, trim( $converter->visitChildren( $child, '' ) ), 2 );
+                    $root .= ezcDocumentDocbookToRstConverter::wordWrap( trim( $converter->visitChildren( $child, '' ) ), 2 );
                     $root .= "\n";
                 }
             }

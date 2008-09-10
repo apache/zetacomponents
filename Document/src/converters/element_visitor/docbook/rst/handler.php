@@ -21,15 +21,45 @@
  */
 abstract class ezcDocumentDocbookToRstBaseHandler extends ezcDocumentDocbookElementVisitorHandler
 {
-    protected function wordWrap( ezcDocumentDocbookToRstConverter $converter, $text, $indentation = 0 )
+    /**
+     * Render a directive
+     *
+     * Render a directive with the given paramters.
+     * 
+     * @param string $name 
+     * @param string $parameter 
+     * @param array $options 
+     * @param string $content 
+     * @return string
+     */
+    protected function renderDirective( $name, $parameter, array $options, $content = null )
     {
-        $text = wordwrap( $text, $converter->options->wordWrap - $indentation, "\n" );
+        $indentation = str_repeat( ' ', ezcDocumentDocbookToRstConverter::$indentation );
 
-        // Apply indentation to text
-        $indentationString = str_repeat( ' ', $indentation );
-        $text = $indentationString . str_replace( "\n", "\n" . $indentationString, $text );
+        // Show directive with given parameters
+        $directive = sprintf( "\n%s.. %s:: %s\n",
+            $indentation,
+            $name,
+            $parameter
+        );
 
-        return $text;
+        // Append options
+        foreach ( $options as $key => $value )
+        {
+            $directive .= sprintf( "%s  :%s: %s\n",
+                $indentation,
+                ezcDocumentDocbookToRstConverter::escapeRstText( $key ),
+                ezcDocumentDocbookToRstConverter::escapeRstText( $value )
+            );
+        }
+
+        // Append content, if given
+        if ( $content !== null )
+        {
+            $directive .= "\n\n" . ezcDocumentDocbookToRstConverter::wordWrap( $content, 4 );
+        }
+
+        return $directive;
     }
 }
 

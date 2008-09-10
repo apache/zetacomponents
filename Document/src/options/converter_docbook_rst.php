@@ -19,6 +19,10 @@
  * @property int $wordWrap
  *           Maximum number of characters per line. The contents will be
  *           wrapped at the given position. Defaults to 78.
+ * @property int $itemListCharacter
+ *           Character used for item lists. Defaults to -, valid are also:
+ *           *, +, •, ‣, ⁃
+ *           wrapped at the given position. Defaults to 78.
  *
  * @package Document
  * @version //autogen//
@@ -50,7 +54,8 @@ class ezcDocumentDocbookToRstConverterOptions extends ezcDocumentConverterOption
             '/',
             '.',
         );
-        $this->wordWrap = 78;
+        $this->wordWrap          = 78;
+        $this->itemListCharacter = '-';
 
         parent::__construct( $options );
     }
@@ -86,6 +91,18 @@ class ezcDocumentDocbookToRstConverterOptions extends ezcDocumentConverterOption
                 }
 
                 $this->properties[$name] = (int) $value;
+                break;
+
+            case 'itemListCharacter':
+                if ( !in_array( $value, $listCharacters = array(
+                        '*', '-', '+',
+                        "\xe2\x80\xa2", "\xe2\x80\xa3", "\xe2\x81\x83"
+                    ), true ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'Item list characters: ' . implode( ', ', $listCharacters ) );
+                }
+
+                $this->properties[$name] = $value;
                 break;
 
             default:

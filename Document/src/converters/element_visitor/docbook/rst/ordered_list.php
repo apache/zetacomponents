@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * File containing the ezcDocumentDocbookElementVisitorConverter class
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Visit itemized list / bullet lists
+ *
+ * Visit itemized lists (bullet list) and maintain the correct indentation for
+ * list items.
+ * 
+ * @package Document
+ * @version //autogen//
+ */
+class ezcDocumentDocbookToRstOrderedListHandler extends ezcDocumentDocbookToRstBaseHandler
+{
+    /**
+     * Handle a node
+     *
+     * Handle / transform a given node, and return the result of the
+     * conversion.
+     * 
+     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param DOMElement $node 
+     * @param mixed $root 
+     * @return mixed
+     */
+    public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
+    {
+        ezcDocumentDocbookToRstConverter::$indentation += 3;
+
+        foreach ( $node->childNodes as $child )
+        {
+            if ( ( $child->nodeType === XML_ELEMENT_NODE ) &&
+                 ( $child->tagName === 'listitem' ) )
+            {
+                $root .= str_repeat( ' ', ezcDocumentDocbookToRstConverter::$indentation - 3 ) . '#) ' .
+                    trim( $converter->visitChildren( $child, '' ) ) . "\n\n";
+            }
+        }
+
+        ezcDocumentDocbookToRstConverter::$indentation -= 3;
+        return $root;
+    }
+}
+
+?>

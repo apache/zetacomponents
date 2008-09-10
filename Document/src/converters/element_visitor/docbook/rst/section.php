@@ -44,6 +44,9 @@ class ezcDocumentDocbookToRstSectionHandler extends ezcDocumentDocbookToRstBaseH
      */
     public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
     {
+        // Reset indenteation level, ever we reach a new section
+        ezcDocumentDocbookToRstConverter::$indentation = 0;
+
         if ( $node->tagName === 'title' )
         {
             // Get actual title string by recursing into the title node

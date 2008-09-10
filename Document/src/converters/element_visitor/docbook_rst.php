@@ -25,6 +25,34 @@
 class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorConverter
 {
     /**
+     * Aggregated links
+     * 
+     * @var array
+     */
+    protected $links;
+
+    /**
+     * Aggregated footnotes.
+     * 
+     * @var array
+     */
+    protected $footnotes;
+
+    /**
+     * Current indentation document.
+     *
+     * @var int
+     */
+    public static $indentation = 0;
+
+    /**
+     * Maximum number of characters per line
+     *
+     * @var int
+     */
+    protected static $wordWrap = 78;
+
+    /**
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
@@ -58,28 +86,33 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
                 'sect5'             => $section,
                 'section'           => $section,
                 'title'             => $section,
-            /*
                 'para'              => new ezcDocumentDocbookToRstParagraphHandler(),
                 'emphasis'          => new ezcDocumentDocbookToRstEmphasisHandler(),
-                'literal'           => $mapper,
                 'ulink'             => new ezcDocumentDocbookToRstExternalLinkHandler(),
+                'link' => $recurse,
+                'anchor' => $recurse,
+            /*
                 'link'              => new ezcDocumentDocbookToRstInternalLinkHandler(),
                 'anchor'            => new ezcDocumentDocbookToRstAnchorHandler(),
+            // */
+                'literal'           => new ezcDocumentDocbookToRstLiteralHandler(),
+            /*
                 'inlinemediaobject' => $media = new ezcDocumentDocbookToRstMediaObjectHandler(),
-                'mediaobject'       => $media,
+            // */
+                'mediaobject'       => new ezcDocumentDocbookToRstMediaObjectHandler(),
                 'blockquote'        => new ezcDocumentDocbookToRstBlockquoteHandler(),
-                'itemizedlist'      => $mapper,
-                'orderedlist'       => $mapper,
-                'listitem'          => $mapper,
+                'itemizedlist'      => new ezcDocumentDocbookToRstItemizedListHandler(),
+                'orderedlist'       => new ezcDocumentDocbookToRstOrderedListHandler(),
                 'note'              => $special = new ezcDocumentDocbookToRstSpecialParagraphHandler(),
                 'tip'               => $special,
                 'warning'           => $special,
                 'important'         => $special,
                 'caution'           => $special,
                 'literallayout'     => new ezcDocumentDocbookToRstLiteralLayoutHandler(),
+                'beginpage'         => new ezcDocumentDocbookToRstBeginPageHandler(),
+            /*
                 'footnote'          => new ezcDocumentDocbookToRstFootnoteHandler(),
                 'comment'           => new ezcDocumentDocbookToRstCommentHandler(),
-                'beginpage'         => $mapper,
                 'variablelist'      => $mapper,
                 'varlistentry'      => new ezcDocumentDocbookToRstDefinitionListEntryHandler(),
                 'entry'             => new ezcDocumentDocbookToRstTableCellHandler(),
@@ -104,6 +137,8 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      */
     protected function initializeDocument()
     {
+        self::$indentation = 0;
+        self::$wordWrap    = $this->options->wordWrap;
         return '';
     }
 
@@ -124,6 +159,45 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
     }
 
     /**
+     * Wrap given text
+     *
+     * Wrap the given text to the line width specified in the converter
+     * options, with an optional indentation.
+     * 
+     * @param ezcDocumentDocbookToRstConverter $converter 
+     * @param string $text 
+     * @param int $indentation 
+     * @return string
+     */
+    public static function wordWrap( $text, $indentation = 0 )
+    {
+        // Apply current global indentation
+        $indentation += self::$indentation;
+
+        $text = wordwrap( $text, self::$wordWrap - $indentation, "\n" );
+
+        // Apply indentation to text
+        $indentationString = str_repeat( ' ', $indentation );
+        $text = $indentationString . str_replace( "\n", "\n" . $indentationString, $text );
+
+        return $text;
+    }
+
+    /**
+     * Escape RST text
+     * 
+     * @param string $string 
+     * @return string
+     */
+    public static function escapeRstText( $string )
+    {
+        // Equivalent to ezcDocumentRstTokenizer::TEXT_END_CHARS, except
+        // for the whitespace characters and the dot.
+        $textEndCharrs = '`*_\\\\[\\]|()"\':';
+        return preg_replace( '([' . $textEndCharrs . '])', '\\\\\\0', $string );
+    }
+
+    /**
      * Visit text node.
      *
      * Visit a text node in the source document and transform it to the
@@ -137,7 +211,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
     {
         if ( trim( $wholeText = $node->wholeText ) !== '' )
         {
-            $root .= $wholeText;
+            $root .= self::escapeRstText( $wholeText );
         }
 
         return $root;
@@ -191,13 +265,34 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      * of the document processing. Returns a numeric identifier for the
      * footnote.
      * 
-     * @param DOMElement $node 
+     * @param string $footnote
      * @return int
      */
-    public function appendFootnote( DOMElement $node )
+    public function appendFootnote( $footnote )
     {
-        $this->footnotes[++$this->footnoteNumber] = $node;
+        $this->footnotes[++$this->footnoteNumber] = $footnote;
         return $this->footnoteNumber;
+    }
+
+    public function appendLink( $link )
+    {
+        $this->links[] = $link;
+    }
+
+    public function showLinks( $text )
+    {
+        if ( !count( $this->links ) )
+        {
+            return $text;
+        }
+
+        foreach ( $this->links as $link )
+        {
+            $text .= '__ ' . $link . "\n";
+        }
+
+        $this->links = array();
+        return $text . "\n";
     }
 }
 
