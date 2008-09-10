@@ -522,9 +522,16 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         $para->setAttribute( 'class', 'Normal' );
         $root->appendChild( $para );
 
+        // Visit lines
         foreach ( $node->nodes as $child )
         {
-            $this->visitNode( $para, $child );
+            foreach ( $child->nodes as $literal )
+            {
+                $para->appendChild( new DOMText(
+                    ( $literal->token->type !== ezcDocumentRstToken::NEWLINE ) ? $literal->token->content : ' '
+                ) );
+            }
+            $para->appendChild( new DOMText( "\n" ) );
         }
     }
 
