@@ -21,17 +21,17 @@
 class ezcDocumentDocbookToRstMediaObjectHandler extends ezcDocumentDocbookToRstBaseHandler
 {
     /**
-     * Handle a node
+     * Extract directive parameters
      *
-     * Handle / transform a given node, and return the result of the
-     * conversion.
+     * Extract the image directive parameters from a media object or inline
+     * media object node in the Docbook document. Returns an array with
+     * named keys containing the directive parameters.
      * 
      * @param ezcDocumentDocbookElementVisitorConverter $converter 
      * @param DOMElement $node 
-     * @param mixed $root 
-     * @return mixed
+     * @return array
      */
-    public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
+    protected function getDirectiveParameters( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node )
     {
         // Get image resource
         $resource = $node->getElementsBytagName( 'imagedata' )->item( 0 );
@@ -74,14 +74,36 @@ class ezcDocumentDocbookToRstMediaObjectHandler extends ezcDocumentDocbookToRstB
 
         // If the directive has explicit content, we render it as a figure
         // instead of an image.
-        if ( $content !== null )
-        {
-            $root .= $this->renderDirective( 'figure', $parameter, $options, $content );
-        }
-        else
-        {
-            $root .= $this->renderDirective( 'image', $parameter, $options );
-        }
+        $type = ( $content !== null ) ? 'figure' : 'image';
+
+        return array(
+            'type'      => $type,
+            'parameter' => $parameter,
+            'options'   => $options,
+            'content'   => $content,
+        );
+    }
+
+    /**
+     * Handle a node
+     *
+     * Handle / transform a given node, and return the result of the
+     * conversion.
+     * 
+     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param DOMElement $node 
+     * @param mixed $root 
+     * @return mixed
+     */
+    public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
+    {
+        $directive = $this->getDirectiveParameters( $converter, $node );
+        $root .= $this->renderDirective(
+            $directive['type'],
+            $directive['parameter'],
+            $directive['options'],
+            $directive['content']
+        );
 
         return $root;
     }

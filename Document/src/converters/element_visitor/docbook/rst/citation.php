@@ -10,14 +10,17 @@
  */
 
 /**
- * Visit paragraphs
+ * Visit citations
  *
- * Visit docbook paragraphs and transform them into HTML paragraphs.
+ * Citations in docbook are emebedded at the position, the reference should
+ * occur. We store the contents, to be rendered at the end of the RST
+ * document, and only render a number referencing the actual citation at the
+ * position of the citation in the docbook document.
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBaseHandler
+class ezcDocumentDocbookToRstCitationHandler extends ezcDocumentDocbookToRstBaseHandler
 {
     /**
      * Handle a node
@@ -32,14 +35,11 @@ class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBas
      */
     public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // Visit paragraph contents
-        $contents = $converter->visitChildren( $node, '' );
+        $citationContent = trim( $converter->visitChildren( $node, '' ) );
+        $number = $converter->appendCitation( $citationContent );
 
-        // Remove all line breaks inside the paragraph.
-        $contents = trim( preg_replace( '(\s+)', ' ', $contents ) );
-        $root .= ezcDocumentDocbookToRstConverter::wordWrap( $contents ) . "\n\n";
-
-        $root = $converter->finishParagraph( $root );
+        // Add autonumbered citation reference
+        $root .= sprintf( '[CIT%03d]_ ', $number );
 
         return $root;
     }

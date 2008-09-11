@@ -10,14 +10,17 @@
  */
 
 /**
- * Visit paragraphs
+ * Visit footnotes
  *
- * Visit docbook paragraphs and transform them into HTML paragraphs.
+ * Footnotes in docbook are emebdded at the position, the reference should
+ * occur. We store the contents, to be rendered at the end of the HTML
+ * document, and only render a number referencing the actual footnote at
+ * the position of the footnote in the docbook document.
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBaseHandler
+class ezcDocumentDocbookToRstFootnoteHandler extends ezcDocumentDocbookToRstBaseHandler
 {
     /**
      * Handle a node
@@ -32,14 +35,11 @@ class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBas
      */
     public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // Visit paragraph contents
-        $contents = $converter->visitChildren( $node, '' );
+        $footnoteContent = trim( $converter->visitChildren( $node, '' ) );
+        $number = $converter->appendFootnote( $footnoteContent );
 
-        // Remove all line breaks inside the paragraph.
-        $contents = trim( preg_replace( '(\s+)', ' ', $contents ) );
-        $root .= ezcDocumentDocbookToRstConverter::wordWrap( $contents ) . "\n\n";
-
-        $root = $converter->finishParagraph( $root );
+        // Add autonumbered footnote reference
+        $root .= '[#]_ ';
 
         return $root;
     }

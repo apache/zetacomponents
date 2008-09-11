@@ -10,15 +10,23 @@
  */
 
 /**
- * Visit paragraphs
+ * Visit inline media objects
  *
- * Visit docbook paragraphs and transform them into HTML paragraphs.
+ * Inline media objects are all kind of other media types, embedded in
+ * paragraphs, like images.
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBaseHandler
+class ezcDocumentDocbookToRstInlineMediaObjectHandler extends ezcDocumentDocbookToRstMediaObjectHandler
 {
+    /**
+     * Substitution counter.
+     * 
+     * @var int
+     */
+    protected $substitution = 0;
+
     /**
      * Handle a node
      *
@@ -32,15 +40,16 @@ class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBas
      */
     public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // Visit paragraph contents
-        $contents = $converter->visitChildren( $node, '' );
+        $directive = $this->getDirectiveParameters( $converter, $node );
+        $converter->appendSubstitution( $this->renderDirective(
+            '|' . ( $name = $directive['type'] . '_' . ++$this->substitution ) . '| ' . $directive['type'],
+            $directive['parameter'],
+            $directive['options'],
+            $directive['content']
+        ) );
 
-        // Remove all line breaks inside the paragraph.
-        $contents = trim( preg_replace( '(\s+)', ' ', $contents ) );
-        $root .= ezcDocumentDocbookToRstConverter::wordWrap( $contents ) . "\n\n";
-
-        $root = $converter->finishParagraph( $root );
-
+        $root .= "|$name|";
+        
         return $root;
     }
 }

@@ -1,0 +1,29 @@
+
+==================
+Complex directives
+==================
+
+
+.. figure:: mylogo.jpeg
+   :alt: My Logo
+
+   The larch.
+
+
+.. image:: larch.png
+
+
+.. note:: 
+
+   This is a paragraph
+
+- Here is a bullet list.
+
+
+.. danger:: 
+
+   modify at your own risk!
+
+
+.. image:: larch.png
+

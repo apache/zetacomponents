@@ -29,14 +29,28 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      * 
      * @var array
      */
-    protected $links;
+    protected $links = array();
 
     /**
      * Aggregated footnotes.
      * 
      * @var array
      */
-    protected $footnotes;
+    protected $footnotes = array();
+
+    /**
+     * Aggregated citations.
+     * 
+     * @var array
+     */
+    protected $citations = array();
+
+    /**
+     * Aggregated substitutions.
+     * 
+     * @var array
+     */
+    protected $substitutions = array();
 
     /**
      * Current indentation document.
@@ -96,9 +110,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
                 'anchor'            => new ezcDocumentDocbookToRstAnchorHandler(),
             // */
                 'literal'           => new ezcDocumentDocbookToRstLiteralHandler(),
-            /*
-                'inlinemediaobject' => $media = new ezcDocumentDocbookToRstMediaObjectHandler(),
-            // */
+                'inlinemediaobject' => new ezcDocumentDocbookToRstInlineMediaObjectHandler(),
                 'mediaobject'       => new ezcDocumentDocbookToRstMediaObjectHandler(),
                 'blockquote'        => new ezcDocumentDocbookToRstBlockquoteHandler(),
                 'itemizedlist'      => new ezcDocumentDocbookToRstItemizedListHandler(),
@@ -110,9 +122,10 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
                 'caution'           => $special,
                 'literallayout'     => new ezcDocumentDocbookToRstLiteralLayoutHandler(),
                 'beginpage'         => new ezcDocumentDocbookToRstBeginPageHandler(),
-            /*
                 'footnote'          => new ezcDocumentDocbookToRstFootnoteHandler(),
+                'citation'          => new ezcDocumentDocbookToRstCitationHandler(),
                 'comment'           => new ezcDocumentDocbookToRstCommentHandler(),
+            /*
                 'variablelist'      => $mapper,
                 'varlistentry'      => new ezcDocumentDocbookToRstDefinitionListEntryHandler(),
                 'entry'             => new ezcDocumentDocbookToRstTableCellHandler(),
@@ -153,6 +166,10 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      */
     protected function createDocument( $content )
     {
+        // Append footnotes and citations to document
+        $content = $this->finishDocument( $content );
+
+        // Create document object out of contents
         $rst = new ezcDocumentRst();
         $rst->loadString( $content );
         return $rst;
@@ -174,7 +191,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
         // Apply current global indentation
         $indentation += self::$indentation;
 
-        $text = wordwrap( $text, self::$wordWrap - $indentation, "\n" );
+        $text = wordwrap( preg_replace( '(\s+)', ' ', $text ), self::$wordWrap - $indentation, "\n" );
 
         // Apply indentation to text
         $indentationString = str_repeat( ' ', $indentation );
@@ -205,7 +222,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      * 
      * @param DOMText $node 
      * @param mixed $root 
-     * @return mixed
+        * @return mixed
      */
     protected function visitText( DOMText $node, $root )
     {
@@ -218,44 +235,31 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
     }
 
     /**
-     * Append footnotes
+     * Finish document
      *
-     * Append the footnotes to the end of the document. The footnotes are
-     * embedded directly in the text in docbook, aggregated during the
-     * processing of the document, and displayed at the bottom of the HTML
-     * document.
+     * Append the footnotes and citations to the end of the document. The
+     * footnotes are embedded directly in the text in docbook, aggregated
+     * during the processing of the document, and displayed at the bottom
+     * of the RST document.
      * 
-     * @param DOMElement $root 
-     * @return void
+     * @param string $root 
+     * @return string
      */
-    protected function appendFootnotes( DOMElement $root )
+    protected function finishDocument( $root )
     {
-        /*
-        if ( !count( $this->footnotes ) )
+        $root = $this->finishParagraph( $root );
+
+        foreach ( $this->footnotes as $element )
         {
-            // Do not do anything, if there aren't any footnotes.
-            return;
+            $root .= '.. [#] ' . trim( self::wordWrap( $element, 3 ) ) . "\n\n";
         }
 
-        $body = $root->getElementsByTagName( 'body' )->item( 0 );
-
-        $footnoteContainer = $root->ownerDocument->createElement( 'ul' );
-        $footnoteContainer->setAttribute( 'class', 'footnotes' );
-        $body->appendChild( $footnoteContainer );
-
-        foreach ( $this->footnotes as $nr => $element )
+        foreach ( $this->citations as $nr => $element )
         {
-            $li = $root->ownerDocument->createElement( 'li' );
-            $footnoteContainer->appendChild( $li );
-
-            $reference = $root->ownerDocument->createElement( 'a', $nr );
-            $reference->setAttribute( 'name', 'footnote_' . $nr );
-            $li->appendChild( $reference );
-
-            // Visit actual footnote contents and append to the footnote.
-            $li = $this->visitChildren( $element, $li );
+            $root .= sprintf( '.. [CIT%03d] ', $nr + 1 ) . trim( self::wordWrap( $element, 3 ) ) . "\n\n";
         }
-        */
+
+        return $root;
     }
 
     /**
@@ -270,29 +274,80 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      */
     public function appendFootnote( $footnote )
     {
-        $this->footnotes[++$this->footnoteNumber] = $footnote;
-        return $this->footnoteNumber;
+        $this->footnotes[] = $footnote;
+        return count( $this->footnotes );
     }
 
+    /**
+     * Append citation
+     *
+     * Append a citation to the document, which then will be visited at the end
+     * of the document processing. Returns a numeric identifier for the
+     * citation.
+     * 
+     * @param string $citation
+     * @return int
+     */
+    public function appendCitation( $citation )
+    {
+        $this->citations[] = $citation;
+        return count( $this->citations );
+    }
+
+    /**
+     * Append all remaining links at the bottom of the last element.
+     * 
+     * @param string $root 
+     * @return string
+     */
+    public function finishParagraph( $root )
+    {
+        $appended = false;
+
+        // Append links to paragraph
+        foreach ( $this->links as $link )
+        {
+            $root .= '__ ' . $link . "\n";
+            $appended = true;
+        }
+        $this->links = array();
+
+        // Append substitution targets to paragraph
+        foreach ( $this->substitutions as $substitution )
+        {
+            $root .= $substitution;
+            $appended = true;
+        }
+        $this->substitutions = array();
+
+        return $root . ( $appended ? "\n" : '' );
+    }
+
+    /**
+     * Append link
+     *
+     * Append link, which should be rendered below the paragraph.
+     * 
+     * @param string $link 
+     * @return void
+     */
     public function appendLink( $link )
     {
         $this->links[] = $link;
     }
 
-    public function showLinks( $text )
+    /**
+     * Append substitution
+     *
+     * Append a substitution, which are normally rendered right below the
+     * paragraph.
+     * 
+     * @param string $directive 
+     * @return void
+     */
+    public function appendSubstitution( $directive )
     {
-        if ( !count( $this->links ) )
-        {
-            return $text;
-        }
-
-        foreach ( $this->links as $link )
-        {
-            $text .= '__ ' . $link . "\n";
-        }
-
-        $this->links = array();
-        return $text . "\n";
+        $this->substitutions[] = $directive;
     }
 }
 

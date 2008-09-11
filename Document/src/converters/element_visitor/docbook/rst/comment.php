@@ -10,14 +10,14 @@
  */
 
 /**
- * Visit paragraphs
+ * Visit docbook comment
  *
- * Visit docbook paragraphs and transform them into HTML paragraphs.
+ * Transform docbook comments into HTML ( / XML ) comments.
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBaseHandler
+class ezcDocumentDocbookToRstCommentHandler extends ezcDocumentDocbookToRstBaseHandler
 {
     /**
      * Handle a node
@@ -32,14 +32,8 @@ class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBas
      */
     public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // Visit paragraph contents
-        $contents = $converter->visitChildren( $node, '' );
-
-        // Remove all line breaks inside the paragraph.
-        $contents = trim( preg_replace( '(\s+)', ' ', $contents ) );
-        $root .= ezcDocumentDocbookToRstConverter::wordWrap( $contents ) . "\n\n";
-
-        $root = $converter->finishParagraph( $root );
+        $comment = $converter->visitChildren( $node, '' );
+        $root .= '.. ' . trim( ezcDocumentDocbookToRstConverter::wordWrap( $comment, 3 ) ) . "\n\n";
 
         return $root;
     }

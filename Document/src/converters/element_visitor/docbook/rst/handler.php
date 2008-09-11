@@ -46,7 +46,7 @@ abstract class ezcDocumentDocbookToRstBaseHandler extends ezcDocumentDocbookElem
         // Append options
         foreach ( $options as $key => $value )
         {
-            $directive .= sprintf( "%s  :%s: %s\n",
+            $directive .= sprintf( "%s   :%s: %s\n",
                 $indentation,
                 ezcDocumentDocbookToRstConverter::escapeRstText( $key ),
                 ezcDocumentDocbookToRstConverter::escapeRstText( $value )
@@ -56,8 +56,12 @@ abstract class ezcDocumentDocbookToRstBaseHandler extends ezcDocumentDocbookElem
         // Append content, if given
         if ( $content !== null )
         {
-            $directive .= "\n\n" . ezcDocumentDocbookToRstConverter::wordWrap( $content, 4 );
+            $directive .= "\n" . str_repeat( ' ', ezcDocumentDocbookToRstConverter::$indentation + 3 ) .
+                trim( ezcDocumentDocbookToRstConverter::wordWrap( $content, 3 ) ) . "\n";
         }
+
+        // Append an additional newline after the directive contents
+        $directive .= "\n";
 
         return $directive;
     }

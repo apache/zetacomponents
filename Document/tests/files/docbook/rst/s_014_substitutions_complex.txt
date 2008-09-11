@@ -12,20 +12,51 @@ offers a fascinating alternate view on privacy issues.
 4XSLT has the convenience method , so you don\'t have to mess with DOM objects
 if all you want is the transformed output.
 
-West led the .. image:: /images/heart.png :width: 11 :height: 11 3, covered by
-dummy\'s .. image:: /images/heart.png :width: 11 :height: 11 Q, East\'s ..
-image:: /images/heart.png :width: 11 :height: 11 K, and trumped in hand with
-the .. image:: /images/spade.png :width: 11 :height: 11 2.
+West led the |image_1| 3, covered by dummy\'s |image_2| Q, East\'s |image_3|
+K, and trumped in hand with the |image_4| 2.
 
-- .. image:: red_light.png means stop.
 
-- .. image:: green_light.png means go.
+.. |image_1| image:: /images/heart.png
+   :width: 11
+   :height: 11
 
-- .. image:: yellow_light.png means go really fast.
 
-.. image:: discord.png is the official symbol of `POEE`__.
+.. |image_2| image:: /images/heart.png
+   :width: 11
+   :height: 11
+
+
+.. |image_3| image:: /images/heart.png
+   :width: 11
+   :height: 11
+
+
+.. |image_4| image:: /images/spade.png
+   :width: 11
+   :height: 11
+
+
+- |image_5| means stop.
+
+
+  .. |image_5| image:: red_light.png
+
+- |image_6| means go.
+
+
+  .. |image_6| image:: green_light.png
+
+- |image_7| means go really fast.
+
+
+  .. |image_7| image:: yellow_light.png
+
+|image_8| is the official symbol of `POEE`__.
 
 __ http://www.poee.org/
+
+.. |image_8| image:: discord.png
+
 
 is a little annoying to type over and over, especially when writing about
 itself, and spelling out the bicapitalized word every time isn\'t really

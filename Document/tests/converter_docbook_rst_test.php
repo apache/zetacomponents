@@ -66,7 +66,7 @@ class ezcDocumentConverterDocbookToRstTests extends ezcTestCase
         );
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'docbook_rst' ) . '/';
+        $tempDir = $this->createTempDir( 'docbook_rst_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $text = $created->save() );
 
         $this->assertTrue(
