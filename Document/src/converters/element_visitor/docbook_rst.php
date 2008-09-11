@@ -64,7 +64,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      *
      * @var int
      */
-    protected static $wordWrap = 78;
+    public static $wordWrap = 78;
 
     /**
      * Construct converter
@@ -121,13 +121,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
                 'citation'          => new ezcDocumentDocbookToRstCitationHandler(),
                 'comment'           => new ezcDocumentDocbookToRstCommentHandler(),
                 'variablelist'      => new ezcDocumentDocbookToRstVariableListHandler(),
-            /*
-                'entry'             => new ezcDocumentDocbookToRstTableCellHandler(),
-                'table'             => $mapper,
-                'tbody'             => $mapper,
-                'thead'             => $mapper,
-                'row'               => $mapper,
-                'tgroup'            => $ignore = new ezcDocumentDocbookToRstIgnoreHandler(),
+                'table'             => new ezcDocumentDocbookToRstTableHandler(),
             // */
             )
         );
