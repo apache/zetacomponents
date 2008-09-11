@@ -46,11 +46,11 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
     protected $citations = array();
 
     /**
-     * Aggregated substitutions.
+     * Aggregated directives.
      * 
      * @var array
      */
-    protected $substitutions = array();
+    protected $directives = array();
 
     /**
      * Current indentation document.
@@ -103,12 +103,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
                 'para'              => new ezcDocumentDocbookToRstParagraphHandler(),
                 'emphasis'          => new ezcDocumentDocbookToRstEmphasisHandler(),
                 'ulink'             => new ezcDocumentDocbookToRstExternalLinkHandler(),
-                'link' => $recurse,
-                'anchor' => $recurse,
-            /*
                 'link'              => new ezcDocumentDocbookToRstInternalLinkHandler(),
-                'anchor'            => new ezcDocumentDocbookToRstAnchorHandler(),
-            // */
                 'literal'           => new ezcDocumentDocbookToRstLiteralHandler(),
                 'inlinemediaobject' => new ezcDocumentDocbookToRstInlineMediaObjectHandler(),
                 'mediaobject'       => new ezcDocumentDocbookToRstMediaObjectHandler(),
@@ -314,13 +309,13 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
         }
         $this->links = array();
 
-        // Append substitution targets to paragraph
-        foreach ( $this->substitutions as $substitution )
+        // Append directive targets to paragraph
+        foreach ( $this->directives as $directive )
         {
-            $root .= $substitution;
+            $root .= $directive;
             $appended = true;
         }
-        $this->substitutions = array();
+        $this->directives = array();
 
         return $root . ( $appended ? "\n" : '' );
     }
@@ -339,17 +334,17 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
     }
 
     /**
-     * Append substitution
+     * Append directive
      *
-     * Append a substitution, which are normally rendered right below the
+     * Append a directive, which are normally rendered right below the
      * paragraph.
      * 
      * @param string $directive 
      * @return void
      */
-    public function appendSubstitution( $directive )
+    public function appendDirective( $directive )
     {
-        $this->substitutions[] = $directive;
+        $this->directives[] = $directive;
     }
 }
 

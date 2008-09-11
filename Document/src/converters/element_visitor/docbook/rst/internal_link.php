@@ -10,23 +10,16 @@
  */
 
 /**
- * Visit inline media objects
+ * Visit internal links. 
  *
- * Inline media objects are all kind of other media types, embedded in
- * paragraphs, like images.
+ * Internal links are transformed into local links in HTML, where the name
+ * of the target is prefixed with a number sign.
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToRstInlineMediaObjectHandler extends ezcDocumentDocbookToRstMediaObjectHandler
+class ezcDocumentDocbookToRstInternalLinkHandler extends ezcDocumentDocbookToRstBaseHandler
 {
-    /**
-     * Substitution counter.
-     * 
-     * @var int
-     */
-    protected $substitution = 0;
-
     /**
      * Handle a node
      *
@@ -40,16 +33,8 @@ class ezcDocumentDocbookToRstInlineMediaObjectHandler extends ezcDocumentDocbook
      */
     public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        $directive = $this->getDirectiveParameters( $converter, $node );
-        $converter->appendDirective( $this->renderDirective(
-            '|' . ( $name = $directive['type'] . '_' . ++$this->substitution ) . '| ' . $directive['type'],
-            $directive['parameter'],
-            $directive['options'],
-            $directive['content']
-        ) );
-
-        $root .= "|$name|";
-        
+        $root .= ' `' . $converter->visitChildren( $node, '' ) . '`__';
+        $converter->appendLink( $node->getAttribute( 'linked' ) . '_' );
         return $root;
     }
 }

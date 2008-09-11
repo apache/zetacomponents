@@ -32,6 +32,19 @@ class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBas
      */
     public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
     {
+        // Find all anachors in paragraph, create pre paragraph RST anchors out
+        // of them and remove them from the paragraph.
+        $anchors = $node->getElementsByTagName( 'anchor' );
+        $foundAnchors = false;
+        foreach ( $anchors as $anchor )
+        {
+            $root .= '.. _' . $anchor->getAttribute( 'id' ) . ":\n";
+            $anchor->parentNode->removeChild( $anchor );
+            $foundAnchors = true;
+        }
+
+        $root .= ( $foundAnchors ? "\n" : '' );
+
         // Visit paragraph contents
         $contents = $converter->visitChildren( $node, '' );
 
