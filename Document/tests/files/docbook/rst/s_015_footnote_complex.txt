@@ -1,3 +1,5 @@
+.. _complex_footnotes:
+
 =================
 Complex footnotes
 =================

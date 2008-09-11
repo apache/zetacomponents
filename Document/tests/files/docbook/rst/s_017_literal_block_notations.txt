@@ -1,3 +1,5 @@
+.. _various_type_sof_literal_blocks:
+
 ===============================
 Various type sof literal blocks
 ===============================

@@ -1,3 +1,5 @@
+.. _enumerated_lists:
+
 ================
 Enumerated lists
 ================

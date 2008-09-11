@@ -1,3 +1,5 @@
+.. _inline_urls:
+
 ===========
 Inline URLs
 ===========

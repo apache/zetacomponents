@@ -1,3 +1,5 @@
+.. _literal_string:
+
 ==============
 Literal string
 ==============

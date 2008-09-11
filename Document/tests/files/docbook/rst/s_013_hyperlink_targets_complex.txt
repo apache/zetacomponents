@@ -1,3 +1,5 @@
+.. _various_types_of_hyperlink_targets:
+
 ==================================
 Various types of hyperlink targets
 ==================================

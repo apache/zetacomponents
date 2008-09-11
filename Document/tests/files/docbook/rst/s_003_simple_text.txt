@@ -1,8 +1,12 @@
+.. _main_title:
+
 ==========
 Main Title
 ==========
 
 Hello world
+
+.. _subsection:
 
 ----------
 Subsection

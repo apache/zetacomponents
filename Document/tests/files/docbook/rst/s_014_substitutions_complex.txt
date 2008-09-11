@@ -1,3 +1,5 @@
+.. _various_substitution_examples:
+
 =============================
 Various substitution examples
 =============================

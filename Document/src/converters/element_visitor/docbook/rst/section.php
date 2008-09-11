@@ -82,11 +82,9 @@ class ezcDocumentDocbookToRstSectionHandler extends ezcDocumentDocbookToRstBaseH
             ++$this->level;
 
             // Set internal cross reference target if section has an ID assigned
-            if ( false && $node->hasAttribute( 'id' ) )
+            if ( $node->hasAttribute( 'id' ) )
             {
-                $target = $root->ownerDocument->createElement( 'a' );
-                $target->setAttribute( 'name', $node->getAttribute( 'id' ) );
-                $root->appendChild( $target );
+                $root .= '.. _' . $node->getAttribute( 'id' ) . ":\n\n";
             }
 
             // Recurse

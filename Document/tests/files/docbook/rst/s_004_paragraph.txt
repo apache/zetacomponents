@@ -1,3 +1,5 @@
+.. _paragraph_with_inline_markup:
+
 ============================
 Paragraph with inline markup
 ============================

@@ -1,3 +1,5 @@
+.. _bullet_list:
+
 ===========
 Bullet list
 ===========

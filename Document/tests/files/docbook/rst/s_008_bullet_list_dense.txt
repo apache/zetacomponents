@@ -1,3 +1,5 @@
+.. _dense_bullet_list:
+
 =================
 Dense bullet list
 =================
