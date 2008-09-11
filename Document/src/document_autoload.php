@@ -94,6 +94,7 @@ return array(
     'ezcDocumentDocbookToRstSectionHandler'              => 'Document/converters/element_visitor/docbook/rst/section.php',
     'ezcDocumentDocbookToRstSpecialParagraphHandler'     => 'Document/converters/element_visitor/docbook/rst/special_paragraph.php',
     'ezcDocumentDocbookToRstTableCellHandler'            => 'Document/converters/element_visitor/docbook/rst/table_cell.php',
+    'ezcDocumentDocbookToRstVariableListHandler'         => 'Document/converters/element_visitor/docbook/rst/variable_list.php',
     'ezcDocumentEzp3ToEzp4Converter'                     => 'Document/converters/xslt/ezp3_ezp4.php',
     'ezcDocumentEzp3ToEzp4ConverterOptions'              => 'Document/options/converter_ezp3_ezp4.php',
     'ezcDocumentEzp3Xml'                                 => 'Document/document/xml/ezp3.php',

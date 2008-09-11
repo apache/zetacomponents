@@ -125,9 +125,8 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
                 'footnote'          => new ezcDocumentDocbookToRstFootnoteHandler(),
                 'citation'          => new ezcDocumentDocbookToRstCitationHandler(),
                 'comment'           => new ezcDocumentDocbookToRstCommentHandler(),
+                'variablelist'      => new ezcDocumentDocbookToRstVariableListHandler(),
             /*
-                'variablelist'      => $mapper,
-                'varlistentry'      => new ezcDocumentDocbookToRstDefinitionListEntryHandler(),
                 'entry'             => new ezcDocumentDocbookToRstTableCellHandler(),
                 'table'             => $mapper,
                 'tbody'             => $mapper,
