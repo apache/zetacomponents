@@ -1426,6 +1426,17 @@ abstract class ezcWebdavSimpleBackend
         );
     }
 
+    public function options( ezcWebdavOptionsRequest $request )
+    {
+        // Check authorization
+        if ( !$this->isAuthorized( $request, $request->requestUri ) )
+        {
+            return $this->createUnauthorizedResponse( $request->requestUri );
+        }
+        
+        return parent::options( $request );
+    }
+
     /**
      * Returns the etag representing the current state of $path.
      * 
