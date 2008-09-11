@@ -1,4 +1,3 @@
-
 ==================================
 Various types of hyperlink targets
 ==================================
@@ -24,4 +23,3 @@ __ jdoe@example.com
 This `link`__ refers to a file called ``underscore\_``.
 
 __ underscore\_
-

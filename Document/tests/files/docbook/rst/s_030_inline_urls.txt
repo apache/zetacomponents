@@ -1,4 +1,3 @@
-
 ===========
 Inline URLs
 ===========
@@ -10,4 +9,3 @@ different scheme like `ftp\://user\:pass@example.org`__.
 __ http://ezcomponents.org
 __ mailto:mail@example.com
 __ ftp://user:pass@example.org
-

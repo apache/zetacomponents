@@ -1,10 +1,8 @@
-
 ===============================
 Various type sof literal blocks
 ===============================
 
 Paragraph\:
-
 
 ::
 
@@ -12,7 +10,6 @@ Paragraph\:
     
     
 Paragraph\:
-
 
 ::
 
@@ -25,7 +22,6 @@ Paragraph\:
     
     
 Paragraph\:
-
 
 ::
 
@@ -44,7 +40,6 @@ Paragraph\:
     
 John Doe wrote\:
 
-
 ::
 
     >> Great idea!
@@ -53,4 +48,3 @@ John Doe wrote\:
     
     
 You just did! ;-\)
-

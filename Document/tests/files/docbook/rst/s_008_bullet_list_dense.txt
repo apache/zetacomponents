@@ -1,4 +1,3 @@
-
 =================
 Dense bullet list
 =================
@@ -14,4 +13,3 @@ Dense bullet list
   newlines.
 
 This paragraph is obviously not part of the list.
-

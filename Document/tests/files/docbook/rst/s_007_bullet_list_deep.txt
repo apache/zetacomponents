@@ -1,4 +1,3 @@
-
 ===========
 Bullet list
 ===========
@@ -24,4 +23,3 @@ Bullet list
 - This is the third item of the main list.
 
 This paragraph is not part of the list.
-

@@ -1,4 +1,3 @@
-
 ================
 Enumerated lists
 ================
@@ -22,4 +21,3 @@ And a deeper list\:
       Paragraph in list...
 
 And not in list anymore.
-

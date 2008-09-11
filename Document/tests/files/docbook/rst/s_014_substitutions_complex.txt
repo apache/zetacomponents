@@ -1,4 +1,3 @@
-
 =============================
 Various substitution examples
 =============================
@@ -15,39 +14,31 @@ if all you want is the transformed output.
 West led the |image_1| 3, covered by dummy\'s |image_2| Q, East\'s |image_3|
 K, and trumped in hand with the |image_4| 2.
 
-
 .. |image_1| image:: /images/heart.png
    :width: 11
    :height: 11
-
 
 .. |image_2| image:: /images/heart.png
    :width: 11
    :height: 11
 
-
 .. |image_3| image:: /images/heart.png
    :width: 11
    :height: 11
-
 
 .. |image_4| image:: /images/spade.png
    :width: 11
    :height: 11
 
-
 - |image_5| means stop.
-
 
   .. |image_5| image:: red_light.png
 
 - |image_6| means go.
 
-
   .. |image_6| image:: green_light.png
 
 - |image_7| means go really fast.
-
 
   .. |image_7| image:: yellow_light.png
 
@@ -57,10 +48,8 @@ __ http://www.poee.org/
 
 .. |image_8| image:: discord.png
 
-
 is a little annoying to type over and over, especially when writing about
 itself, and spelling out the bicapitalized word every time isn\'t really
 necessary for source readability.
 
 But still, that\'s nothing compared to a name like \_\_.
-

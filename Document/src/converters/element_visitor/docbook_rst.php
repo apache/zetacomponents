@@ -258,6 +258,9 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
             $root .= sprintf( '.. [CIT%03d] ', $nr + 1 ) . trim( self::wordWrap( $element, 3 ) ) . "\n\n";
         }
 
+        // Normalize line breaks
+        $root = str_replace( "\n", PHP_EOL, preg_replace( "(\n{2,})", "\n\n", trim( $root ) . "\n" ) );
+
         return $root;
     }
 

@@ -1,4 +1,3 @@
-
 =========
 Citations
 =========
@@ -7,4 +6,3 @@ Here is a citation reference\: [CIT001]_ .
 
 .. [CIT001] This is the citation. It\'s just like a footnote, except the label is
    textual.
-

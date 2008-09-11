@@ -1,8 +1,6 @@
-
 ===========
 Line blocks
 ===========
-
 
 | Lend us a couple of bob till Thursday. 
 | I'm absolutely skint. 
@@ -10,7 +8,6 @@ Line blocks
 | Love, Ewan. 
 | 
 Another one\:
-
 
 | This is a line block.  It ends with a blank line. 
 |     New lines begin with a vertical bar ("|"). 
@@ -24,7 +21,6 @@ Another one\:
 | Blank lines are permitted internally, but they must begin with a "|". 
 | 
 Take it away, Eric the Orchestra Leader!
-
 
 | A one, two, a one two three four 
 | 
@@ -41,4 +37,3 @@ Take it away, Eric the Orchestra Leader!
 | Singing... 
 | 
 The end.
-

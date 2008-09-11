@@ -1,4 +1,3 @@
-
 ==============
 Literal string
 ==============
@@ -7,4 +6,3 @@ Normally backslashes are used to escape \*markup\*, or similar. You may still
 escape a backslash using anonther *backslash\: \\*. We can also partially
 escape *special character groups\** or completely remove a whitespace with
 them.
-

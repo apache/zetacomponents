@@ -1,4 +1,3 @@
-
 ============================
 Paragraph with inline markup
 ============================
@@ -18,8 +17,6 @@ __ http://example.org
 
 .. |image_1| image:: example.png
 
-
 *Markup* is also allwoed at the very beginning of a paragraph.
 
 Paragraphs are separated by blank lines and are left-aligned.
-

@@ -1,35 +1,28 @@
-
 ====================
 All known directives
 ====================
-
 
 .. note:: 
 
    Just a note!
 
-
 .. notice:: 
 
    You might want to use these more!
-
 
 .. warning:: 
 
    Be careful about this!
 
-
 .. attention:: 
 
    Do not overdo it!
-
 
 .. danger:: 
 
    May have a bad impact on userexperience.
 
     Lets get something colorful!
-
 
 .. figure:: test.png
    :width: 256
@@ -40,7 +33,6 @@ All known directives
 
     Figures may contain addition text!
 
-
 .. image:: test.png
    :width: 256
    :height: 23
@@ -48,13 +40,11 @@ All known directives
 
 And you can even inline other RST files.
 
-
 ----------
 Main Title
 ----------
 
 Hello world
-
 
 Subsection
 ==========
@@ -63,7 +53,6 @@ A bit more text, which exceeds one line to test for a simple paragraph with
 more then one line.
 
 but perhaps you want prevent them from being parsed...
-
 
 ::
 
@@ -81,4 +70,3 @@ but perhaps you want prevent them from being parsed...
     
     
 That\'s all for now.
-

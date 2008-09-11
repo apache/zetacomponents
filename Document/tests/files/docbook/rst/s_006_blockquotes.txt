@@ -1,4 +1,3 @@
-
 ===========
 Blockquotes
 ===========
@@ -26,4 +25,3 @@ Unindented paragraph.
     So we add a second paragraph in this blockquote.
 
     -- Another attribution.
-

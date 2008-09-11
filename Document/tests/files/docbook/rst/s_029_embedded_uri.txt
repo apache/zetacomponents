@@ -1,4 +1,3 @@
-
 =============
 Embedded URLs
 =============
@@ -11,4 +10,3 @@ __ http://www.python.org
 
 __ http://www.rfc-editor.org/rfc/rfc2396.txt
 __ http://www.rfc-editor.org/rfc/rfc2732.txt
-
