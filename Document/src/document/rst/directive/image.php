@@ -28,7 +28,7 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
     {
-        $media = $document->createElement( 'mediaobject' );
+        $media = $document->createElement( $root->tagName === 'para' ? 'inlinemediaobject' : 'mediaobject' );
         $root->appendChild( $media );
 
         $imageObject = $document->createElement( 'imageobject' );

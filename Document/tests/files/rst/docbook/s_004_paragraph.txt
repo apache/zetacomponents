@@ -11,7 +11,7 @@ contain more then one word`__.
 .. _Python: http://python.org
 .. _example: http://example.org
 
-.. |example| include:: s_026_trivial.txt
+.. |example| image:: example.png
 
 __ http://example.org
 

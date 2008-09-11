@@ -12,7 +12,6 @@ contain more then one word`__.
 .. _example: http://example.org
 
 .. |example| image:: example.png
-   :alt: Example image
 
 __ http://example.org
 

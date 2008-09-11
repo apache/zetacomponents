@@ -61,6 +61,13 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective implements 
     {
         $file = $this->getFile( trim( $this->node->parameters ) );
 
+        if ( $root->tagName === 'para' )
+        {
+            // The include is inline. There is no way to handle the embedding
+            // of another document inside a paragraph properly.
+            throw new ezcDocumentVisitException( E_PARSE, 'Caanot embed include inside a paragraph.' );
+        }
+
         if ( isset( $this->node->options['literal'] ) )
         {
             // If the file should be included as a literal, just pass it
@@ -100,6 +107,13 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective implements 
     public function toXhtml( DOMDocument $document, DOMElement $root )
     {
         $file = $this->getFile( trim( $this->node->parameters ) );
+
+        if ( $root->tagName === 'p' )
+        {
+            // The include is inline. There is no way to handle the embedding
+            // of another document inside a paragraph properly.
+            throw new ezcDocumentVisitException( E_PARSE, 'Caanot embed include inside a paragraph.' );
+        }
 
         if ( isset( $this->node->options['literal'] ) )
         {
