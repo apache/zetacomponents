@@ -116,7 +116,7 @@ class ezcDocumentDocbookToRstTableHandler extends ezcDocumentDocbookToRstBaseHan
 
         // Draw table
         $cellCount = count( $columns );
-        $root .= ( $hasHeader ? str_replace( '-', '=', $separator ) : $separator );
+        $root .= str_replace( '-', '=', $separator );
         foreach ( $table as $rowNr => $row )
         {
             for ( $line = 0; $line < $rowLines[$rowNr]; ++$line )
@@ -130,7 +130,17 @@ class ezcDocumentDocbookToRstTableHandler extends ezcDocumentDocbookToRstBaseHan
                 }
             }
 
-            $root .= ( $hasHeader && ( $rowNr === 0 ) ? str_replace( '-', '=', $separator ) : $separator );
+            // Always add row seperator
+            if ( ( $hasHeader &&
+                   ( $rowNr === 0 ) ) ||
+                 ( $rowNr >= ( count( $table ) - 1 ) ) )
+            {
+                $root .= str_replace( '-', '=', $separator );
+            }
+            else
+            {
+                $root .= $separator;
+            }
         }
 
         $root .= "\n";
