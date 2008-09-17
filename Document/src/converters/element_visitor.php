@@ -51,7 +51,7 @@ abstract class ezcDocumentDocbookElementVisitorConverter extends ezcDocumentConv
      * 
      * Convert documents of the given type to the requested type.
      *
-     * @param ezcDocumentXmlBase $doc 
+     * @param ezcDocumentDocument $source
      * @return ezcDocumentDocument
      */
     public function convert( $source )

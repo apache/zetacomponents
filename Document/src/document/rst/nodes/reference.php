@@ -36,7 +36,8 @@ class ezcDocumentRstReferenceNode extends ezcDocumentRstLinkNode
     /**
      * Construct RST document node
      * 
-     * @param ezcDocumentRstToken $token
+     * @param ezcDocumentRstToken $token 
+     * @param int $footnoteType 
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token, $footnoteType = ezcDocumentRstFootnoteNode::NUMBERED )

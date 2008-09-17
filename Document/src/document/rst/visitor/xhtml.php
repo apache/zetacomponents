@@ -612,6 +612,17 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         }
     }
 
+    /**
+     * Generate footnote reference link
+     *
+     * Generate an internal target name out of the footnote name, which may
+     * contain special characters, which are not allowed for URL anchors and
+     * are converted to alphanumeric strings by this method.
+     * 
+     * @param string $name 
+     * @param string $number 
+     * @return string
+     */
     protected function generateFootnoteReferenceLink( $name, $number )
     {
         return '_footnote_' . str_replace(

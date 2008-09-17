@@ -169,7 +169,6 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      * Wrap the given text to the line width specified in the converter
      * options, with an optional indentation.
      * 
-     * @param ezcDocumentDocbookToRstConverter $converter 
      * @param string $text 
      * @param int $indentation 
      * @return string
