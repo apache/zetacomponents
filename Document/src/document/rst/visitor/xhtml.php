@@ -408,7 +408,11 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      */
     public function escapeUrl( $url )
     {
-        return preg_replace_callback( '([^a-z0-9._:/#&?@-]+)', 'ezcDocumentRstXhtmlVisitor::urlEscapeArray', $url );
+        return preg_replace_callback(
+            '([^a-z0-9._:/#&?@-]+)',
+            array( 'ezcDocumentRstXhtmlVisitor', 'urlEscapeArray' ),
+            $url
+        );
     }
 
     /**
