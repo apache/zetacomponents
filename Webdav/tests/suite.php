@@ -77,6 +77,7 @@ require_once 'client_test_nautilus_new.php';
 require_once 'client_test_konqueror.php';
 require_once 'client_test_ie6.php';
 require_once 'client_test_ie7.php';
+require_once 'client_test_ie7_auth.php';
 
 /**
  * Test suite for the Webdav component.
@@ -157,6 +158,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavClientKonquerorTest::suite() );
         $this->addTest( ezcWebdavClientIE6Test::suite() );
         $this->addTest( ezcWebdavClientIE7Test::suite() );
+        $this->addTest( ezcWebdavClientIE7AuthTest::suite() );
     }
 
     public static function suite()
