@@ -26,7 +26,8 @@ xmlns:Z="http://www.w3.com/standards/z39.50/">
     array(
         'status' => 'HTTP/1.1 200 OK',
         'headers' => array(
-            'Server'       => 'eZComponents/dev/ezcWebdavTransportTestMock',
+            'Server'         => 'eZComponents/dev/ezcWebdavTransportTestMock',
+            'Content-Length' => '0',
         ),
         'body' => '',
     ),
