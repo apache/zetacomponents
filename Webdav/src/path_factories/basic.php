@@ -99,6 +99,9 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
     public function parseUriToPath( $uri )
     {
         $requestPath = parse_url( trim( $uri ), PHP_URL_PATH );
+
+        $requestPath = str_replace( '//', '/', $requestPath );
+
         if ( substr( $requestPath, -1, 1 ) === '/' )
         {
             $requestPath = substr( $requestPath, 0, -1 );
