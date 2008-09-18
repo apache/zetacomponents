@@ -122,6 +122,7 @@ class ezcWebdavClientTestGenerator
      * @var array
      */
     protected $serverWhiteList = array(
+        '(^CONTENT_.*$)',
         '(^DOCUMENT_.*$)',
         '(^GATEWAY_.*$)',
         '(^HTTP_.*)',
