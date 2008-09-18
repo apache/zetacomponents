@@ -219,35 +219,56 @@ Mandatory test recipe
   - Verify that the content is "Some content".
 
 - Enter directory /collection/subdir/
+
 - Create a new directory /collection/subdir/newdir and make sure it was
   created.
+
 - Enter directory /collection/subdir/newdir/.
+
 - Upload file.txt and make sure it is there.
+
 - Create a new directory /collection/subdir/newdir/newsubdir and enter it.
+
 - Upload file.txt and make sure it is there.
+
 - Upload file.txt again and make sure it is overwritten.
+
 - Go 2 levels up to directory /collection/subdir.
+
 - Delete newdir/ and make sure it is gone.
+
 - Download file.html and make sure its content is
   "<html><body><h1>Test</h1></body></html>".
+
 - Download file.xml and make sure its content is
   "<?xml?>\n<content/>".
+
 - Delete file.html and file.xml and make sure they are gone.
+
 - Upload all files from Webdav/tests/data/put_test/ and verify they appear
   correctly in your client.
+
 - Upload the directory Webdav/tests/data/put_test/collection, if your server
   supports recursive uploading, and verify it appears correctly in your client.
+
 - Download all uploaded files to a different directory and verify their
   contents against the originally.
+
 - Rename put_test.html to put_test_renamed.xml and check that the client
   displays the change properly.
+
 - Rename put_test_utf8_content.txt to put_test_öäüß.txt (or similar, must only
   contain UTF-8 chars) and check that the client displays the change properly.
+
 - Rename put_test_utf8_filename_ςңα⊁∭⋉€₱‱⁌.txt to put_non_utf8_test.txt and
   check that the client displays it properly.
+
 - Copy the uploaded and renamed files to /collection/.
+
 - Rename /collection/ to /renamed_collection/.
+
 - Copy /renamed_collection/ to /collection/.
+
 - Delete /renamed_collection/.
 
 If you performed all actions successfully, try to perform the same actions under
