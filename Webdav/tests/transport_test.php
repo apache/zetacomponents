@@ -186,15 +186,16 @@ class ezcWebdavTransportTest extends ezcWebdavTestCase
         $info->response->setHeader( 'Content-Type', 'text/xml; charset="utf-8"' );
         $info->response->validateHeaders();
         
-        try
-        {
-            $res = ezcWebdavServer::getInstance()->transport->flattenResponse( $info );
-            $this->fail(
-                'Exception not thrown on missing Content-Type header in string display info.'
-            );
-        }
-        catch ( ezcWebdavInvalidHeaderException $e )
-        {}
+        $res = ezcWebdavServer::getInstance()->transport->flattenResponse( $info );
+
+        $this->assertEquals(
+            'text/xml; charset="utf-8"',
+            $res->headers['Content-Type']
+        );
+        $this->assertEquals(
+            '0',
+            $res->headers['Content-Length']
+        );
     }
 
     public function testParseCopyRequestErrorMissingHeader()
