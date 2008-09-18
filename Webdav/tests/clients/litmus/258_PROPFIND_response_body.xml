@@ -1,1 +1,0 @@
-The HTTP request body received for HTTP method 'PROPFIND' was invalid. Reason: Could not open XML as DOMDocument: '&lt;foo&gt;'.

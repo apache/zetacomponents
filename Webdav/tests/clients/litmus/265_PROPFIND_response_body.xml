@@ -1,1 +1,0 @@
-The HTTP request body received for HTTP method 'PROPFIND' was invalid. Reason: XML element &lt;foobar /&gt; is not a valid child element for &lt;propfind /&gt;.

@@ -9,6 +9,7 @@ return array (
   'SERVER_ADDR' => '127.0.0.1',
   'REMOTE_PORT' => '33458',
   'REMOTE_ADDR' => '127.0.0.1',
+  'CONTENT_LENGTH' => '195',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/litmus/prop2',
   'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/litmus/prop2',
