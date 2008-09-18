@@ -112,15 +112,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $response['headers'] = $this->getFileContent( $responseFileName, 'headers' );
         $response['body']    = $this->getFileContent( $responseFileName, 'body' );
         $response['status']  = trim( $this->getFileContent( $responseFileName, 'status' ) );
-
-        // Adjustments to fix exception messages that got HTML specialchared in
-        // web environment
-        // @todo Maybe we can fix this with not encoding Webdav exception messages in web?
-        if ( substr( $response['status'], 0, 10 ) === 'HTTP/1.1 4' && $response['body'] !== '' )
-        {
-            $response['body']                      = html_entity_decode( $response['body'] );
-            $response['headers']['Content-Length'] = strlen( $response['body'] );
-        }
         
         // Optionally set a body.
         $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = ( $request['body'] !== false ? $request['body'] : '' );

@@ -23,6 +23,7 @@ define( 'LOG_DIR', PWD . '/log' );
 define( 'TMP_DIR', PWD . '/tmp' );
 
 require_once 'Webdav/tests/classes/test_auth.php';
+require_once 'Webdav/tests/classes/test_auth_ie.php';
 
 /**
  * Generator class for client test suites.
@@ -199,7 +200,7 @@ class ezcWebdavClientTestGenerator
      * @param string $baseUri Base URI, if server is not in doc root.
      * @return void
      */
-    public function __construct( $baseUri = '', $storeBackends = false )
+    public function __construct( $baseUri = '', $storeBackends = false, $ie = false )
     {
         $this->storeBackends = $storeBackends;
 
@@ -215,7 +216,7 @@ class ezcWebdavClientTestGenerator
         try
         {
             $pathFactory = new ezcWebdavBasicPathFactory( 'http://' . $_SERVER['HTTP_HOST'] . $baseUri );
-            $this->initServer( $pathFactory );
+            $this->initServer( $pathFactory, $ie );
         }
         catch ( Exception $e )
         {
@@ -396,7 +397,7 @@ class ezcWebdavClientTestGenerator
      * @param ezcWebdavPathFactory $pathFactory 
      * @return void
      */
-    protected function initServer( ezcWebdavPathFactory $pathFactory )
+    protected function initServer( ezcWebdavPathFactory $pathFactory, $ie )
     {
         $this->server = ezcWebdavServer::getInstance();
         
@@ -413,7 +414,7 @@ class ezcWebdavClientTestGenerator
             $this->server->configurations[$id]->pathFactory     = $pathFactory;
         }
 
-        $this->server->auth = new ezcWebdavTestAuth();
+        $this->server->auth = ( $ie ? new ezcWebdavTestAuthIe() : new ezcWebdavTestAuth() );
     }
 }
 

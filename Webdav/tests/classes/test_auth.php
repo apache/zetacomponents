@@ -3,7 +3,7 @@
 class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcWebdavAuthorizer
 {
 
-    private $permissions = array(
+    protected $permissions = array(
         'a' => array(
             'foo'  => ezcWebdavAuthorizer::ACCESS_READ,
             'some' => ezcWebdavAuthorizer::ACCESS_WRITE,
@@ -27,7 +27,7 @@ class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcW
         ),
     );
 
-    private $credentials = array(
+    protected $credentials = array(
         'foo'    => 'bar',
         'some'   => 'thing',
         '23'     => '42',
