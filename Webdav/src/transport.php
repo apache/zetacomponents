@@ -311,14 +311,23 @@ class ezcWebdavTransport
      */
     protected function handleException( Exception $e, $uri = null )
     {
+        $message = ( php_sapi_name() !== 'cli' ? htmlspecialchars_decode( $e->getMessage() ) : $e->getMessage() );
+
         switch ( true )
         {
             case ( $e instanceof ezcWebdavBadRequestException ):
-                return new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_400, $uri, $e->getMessage() );
+                $code = ezcWebdavResponse::STATUS_400;
+                break;
+
             case ( $e instanceof ezcWebdavInvalidRequestMethodException ):
-                return new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_501, $uri, $e->getMessage() );
+                $code = ezcWebdavResponse::STATUS_501;
+                break;
+
+            default:
+                $code = ezcWebdavResponse::STATUS_500;
+                break;
         }
-        return new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_500, $uri, $e->getMessage() );
+        return new ezcWebdavErrorResponse( $code, $uri, $message );
     }
 
     /**
