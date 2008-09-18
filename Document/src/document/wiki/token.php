@@ -31,6 +31,10 @@ class ezcDocumentWikiToken extends ezcBaseStruct
     const ITALIC          = 11;
     const LINE_BREAK      = 12;
     const INLINE_LITERAL  = 13;
+    const MONOSPACE       = 14;
+    const SUPERSCRIPT     = 15;
+    const SUBSCRIPT       = 16;
+    const UNDERLINED      = 17;
 
     const TITLE           = 20;
     const BULLET_LIST     = 21;
@@ -46,6 +50,9 @@ class ezcDocumentWikiToken extends ezcBaseStruct
     const EXTERNAL_LINK   = 33;
     const INTERNAL_LINK   = 34;
     const INTER_WIKI_LINK = 35;
+
+    const TABLE_ROW       = 40;
+    const TABLE_HEADER    = 41;
 
     /**
      * Token type

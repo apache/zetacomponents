@@ -35,13 +35,13 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
     /**
      * Characters ending a pure text section.
      */
-    const TEXT_END_CHARS    = '/*#_\\\\\\[\\]{}|=\\r\\n\\t\\x20-';
+    const TEXT_END_CHARS    = '/*^,#_\\\\\\[\\]{}|=\\r\\n\\t\\x20-';
 
     /**
      * Special characters, which do have some special meaaning and though may
      * not have been matched otherwise.
      */
-    const SPECIAL_CHARS    = '/*#_\\\\\\[\\]{}|=-';
+    const SPECIAL_CHARS    = '/*^,#_\\\\\\[\\]{}|=-';
 
     /**
      * Construct tokenizer
@@ -67,6 +67,8 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 '(\\A(?P<match>' . self::NEW_LINE . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)' . self::NEW_LINE . ')S',
             ezcDocumentWikiToken::LITERAL_BLOCK =>
                 '(\\A(?P<match>' . self::NEW_LINE . '\\{\\{\\{' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '\\}\\}\\})' . self::NEW_LINE . ')SUs',
+            ezcDocumentWikiToken::TABLE_ROW =>
+                '(\\A(?P<match>' . self::NEW_LINE . ')(?P<value>\\|))S',
 
             // Whitespaces
             ezcDocumentWikiToken::NEWLINE =>
@@ -85,6 +87,14 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 '(\\A(?P<value>\\*\\*))S',
             ezcDocumentWikiToken::ITALIC =>
                 '(\\A(?P<value>//))S',
+            ezcDocumentWikiToken::MONOSPACE =>
+                '(\\A(?P<value>##))S',
+            ezcDocumentWikiToken::SUPERSCRIPT =>
+                '(\\A(?P<value>\\^\\^))S',
+            ezcDocumentWikiToken::SUBSCRIPT =>
+                '(\\A(?P<value>,,))S',
+            ezcDocumentWikiToken::UNDERLINED =>
+                '(\\A(?P<value>__))S',
             ezcDocumentWikiToken::INLINE_LITERAL =>
                 '(\\A\\{\\{\\{(?P<value>.+?\\}*)\\}\\}\\})Ss',
             ezcDocumentWikiToken::LINE_BREAK =>
@@ -97,6 +107,8 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 '(\\A(?P<value>\\[\\[))S',
             ezcDocumentWikiToken::LINK_END =>
                 '(\\A(?P<value>\\]\\]))S',
+            ezcDocumentWikiToken::TABLE_HEADER =>
+                '(\\A(?P<value>\\|=))S',
             ezcDocumentWikiToken::SEPARATOR =>
                 '(\\A(?P<value>\\||' . self::WHITESPACE_CHARS . '*->' . self::WHITESPACE_CHARS . '*))S',
             ezcDocumentWikiToken::INTER_WIKI_LINK =>

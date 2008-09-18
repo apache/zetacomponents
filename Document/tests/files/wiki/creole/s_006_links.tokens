@@ -161,7 +161,7 @@ return array (
   )),
   22 => 
   ezcDocumentWikiToken::__set_state(array(
-     'type' => 5,
+     'type' => 4,
      'content' => ',',
      'line' => 4,
      'position' => 24,

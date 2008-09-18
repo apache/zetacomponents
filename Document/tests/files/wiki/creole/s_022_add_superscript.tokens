@@ -1,0 +1,107 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'This',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 1,
+     'position' => 5,
+  )),
+  3 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'is',
+     'line' => 1,
+     'position' => 6,
+  )),
+  4 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 1,
+     'position' => 8,
+  )),
+  5 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 15,
+     'content' => '^^',
+     'line' => 1,
+     'position' => 9,
+  )),
+  6 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'superscripted',
+     'line' => 1,
+     'position' => 11,
+  )),
+  7 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 15,
+     'content' => '^^',
+     'line' => 1,
+     'position' => 24,
+  )),
+  8 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 1,
+     'position' => 26,
+  )),
+  9 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'text.',
+     'line' => 1,
+     'position' => 27,
+  )),
+  10 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 1,
+     'position' => 32,
+  )),
+  11 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  12 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  13 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 6,
+     'content' => NULL,
+     'line' => 2,
+     'position' => 1,
+  )),
+);
+

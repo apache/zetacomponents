@@ -68,16 +68,16 @@ return array (
   9 => 
   ezcDocumentWikiToken::__set_state(array(
      'type' => 5,
-     'content' => 'line,',
+     'content' => 'line',
      'line' => 1,
      'position' => 19,
   )),
   10 => 
   ezcDocumentWikiToken::__set_state(array(
-     'type' => 12,
-     'content' => '\\\\',
+     'type' => 4,
+     'content' => ',\\\\',
      'line' => 1,
-     'position' => 24,
+     'position' => 23,
   )),
   11 => 
   ezcDocumentWikiToken::__set_state(array(
