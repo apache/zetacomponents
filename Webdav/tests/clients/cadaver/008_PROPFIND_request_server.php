@@ -9,6 +9,7 @@ return array (
   'SERVER_ADDR' => '127.0.0.1',
   'REMOTE_PORT' => '33458',
   'REMOTE_ADDR' => '127.0.0.1',
+  'CONTENT_LENGTH' => '288',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/collection/',
   'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/',
@@ -26,6 +27,7 @@ return array (
   'HTTP_TE' => 'trailers',
   'HTTP_DEPTH' => '1',
   'HTTP_CONTENT_LENGTH' => '288',
+  'CONTENT_TYPE' => 'application/xml',
   'PHP_SELF' => '/index.php/collection/',
   'REQUEST_TIME' => 1220431173,
 );

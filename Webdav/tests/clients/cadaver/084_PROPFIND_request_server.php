@@ -9,6 +9,7 @@ return array (
   'SERVER_ADDR' => '127.0.0.1',
   'REMOTE_PORT' => '33458',
   'REMOTE_ADDR' => '127.0.0.1',
+  'CONTENT_LENGTH' => '288',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/',
   'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/',
@@ -24,8 +25,9 @@ return array (
   'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.3',
   'HTTP_CONNECTION' => 'TE',
   'HTTP_TE' => 'trailers',
-  'HTTP_DEPTH' => '1',
+  'HTTP_DEPTH' => '0',
   'HTTP_CONTENT_LENGTH' => '288',
+  'CONTENT_TYPE' => 'application/xml',
   'PHP_SELF' => '/index.php/',
   'REQUEST_TIME' => 1220431173,
 );

@@ -9,6 +9,7 @@ return array (
   'SERVER_ADDR' => '127.0.0.1',
   'REMOTE_PORT' => '33458',
   'REMOTE_ADDR' => '127.0.0.1',
+  'CONTENT_LENGTH' => '288',
   'SCRIPT_NAME' => '/index.php',
   'PATH_INFO' => '/secure_collection/subdir/',
   'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
@@ -26,9 +27,10 @@ return array (
   'HTTP_TE' => 'trailers',
   'HTTP_DEPTH' => '1',
   'HTTP_CONTENT_LENGTH' => '288',
-  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1b8e053e2aa14acc11e8d6d63ab34232", uri="/secure_collection/subdir/", response="3a482c8834f1253bc89bd1bfc8067d17", algorithm="MD5"',
+  'CONTENT_TYPE' => 'application/xml',
+  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="2afa2418d6217f61d9c0ede2b38ffd26", uri="/secure_collection/subdir/", response="d338b546cd72707ebb89077d394709e7", algorithm="MD5"',
   'PHP_SELF' => '/index.php/secure_collection/subdir/',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1b8e053e2aa14acc11e8d6d63ab34232", uri="/secure_collection/subdir/", response="3a482c8834f1253bc89bd1bfc8067d17", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="2afa2418d6217f61d9c0ede2b38ffd26", uri="/secure_collection/subdir/", response="d338b546cd72707ebb89077d394709e7", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 
