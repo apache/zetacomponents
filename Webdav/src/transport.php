@@ -503,6 +503,7 @@ class ezcWebdavTransport
                     throw new ezcWebdavInvalidHeaderException( 'Content-Type', $contenTypeHeader, 'null' );
                 }
                 $output->body = '';
+                $output->headers['Content-Length'] = 0;
                 break;
         }
         
@@ -1352,17 +1353,17 @@ class ezcWebdavTransport
     protected function processHeadResponse( ezcWebdavHeadResponse $response )
     {
         // Generate Content-Type header if necessary
-        if ( $response->getHeader( 'Content-Type' ) === null )
+        if ( $response->getHeader( 'Content-Type' ) === null && $response->resource instanceof ezcWebdavResource )
         {
             $contentTypeProperty = $response->resource->liveProperties->get( 'getcontenttype' );
-            $contentTypeHeader = ( $contentTypeProperty->mime    !== null ? $contentTypeProperty->mime    : 'application/octet-stream' ) .
-                '; charset="' .   ( $contentTypeProperty->charset !== null ? $contentTypeProperty->charset : 'utf-8' ) . '"';
+            $contentTypeHeader   = ( $contentTypeProperty->mime    !== null ? $contentTypeProperty->mime    : 'application/octet-stream' ) .
+                '; charset="' . ( $contentTypeProperty->charset !== null ? $contentTypeProperty->charset : 'utf-8' ) . '"';
             $response->setHeader( 'Content-Type', $contentTypeHeader );
         }
         // Generate Content-Length header if necessary
-        if ( $response->getHeader( 'Content-Length' ) === null )
+        if ( $response->getHeader( 'Content-Length' ) === null && $response->resource instanceof ezcWebdavResource )
         {
-            $response->setHeader( 'Content-Length', ( strlen( $response->resource->content ) + 1 ) );
+            $response->setHeader( 'Content-Length', strlen( $response->resource->content ) );
         }
         return new ezcWebdavStringDisplayInformation( $response, '' );
     }
