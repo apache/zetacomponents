@@ -35,7 +35,7 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
     /**
      * Characters ending a pure text section.
      */
-    const TEXT_END_CHARS    = '/*#_\\\\\\[\\]{}|=\\r\\n\\t -';
+    const TEXT_END_CHARS    = '/*#_\\\\\\[\\]{}|=\\r\\n\\t\\x20-';
 
     /**
      * Special characters, which do have some special meaaning and though may
@@ -58,15 +58,15 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
             // matching the actual newlines, because they are the indicator for
             // line starts.
             ezcDocumentWikiToken::TITLE =>
-                '(\\A' . self::NEW_LINE . '(?P<value>=+)' . self::WHITESPACE_CHARS . '+)',
+                '(\\A' . self::NEW_LINE . '(?P<value>=+)' . self::WHITESPACE_CHARS . '+)S',
             ezcDocumentWikiToken::BULLET_LIST =>
-                '(\\A' . self::NEW_LINE . '(?P<value>\\*+)' . self::WHITESPACE_CHARS . '+)',
+                '(\\A' . self::NEW_LINE . '(?P<value>\\*+)' . self::WHITESPACE_CHARS . '+)S',
             ezcDocumentWikiToken::ENUMERATED_LIST =>
-                '(\\A' . self::NEW_LINE . '(?P<value>#+)' . self::WHITESPACE_CHARS . '+)',
+                '(\\A' . self::NEW_LINE . '(?P<value>#+)' . self::WHITESPACE_CHARS . '+)S',
             ezcDocumentWikiToken::PAGE_BREAK =>
-                '(\\A(?P<match>' . self::NEW_LINE . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)' . self::NEW_LINE . ')',
+                '(\\A(?P<match>' . self::NEW_LINE . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)' . self::NEW_LINE . ')S',
             ezcDocumentWikiToken::LITERAL_BLOCK =>
-                '(\\A(?P<match>' . self::NEW_LINE . '\\{\\{\\{' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '\\}\\}\\})' . self::NEW_LINE . ')Us',
+                '(\\A(?P<match>' . self::NEW_LINE . '\\{\\{\\{' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '\\}\\}\\})' . self::NEW_LINE . ')SUs',
 
             // Whitespaces
             ezcDocumentWikiToken::NEWLINE =>
@@ -74,7 +74,7 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
             ezcDocumentWikiToken::WHITESPACE =>
                 '(\\A(?P<value>' . self::WHITESPACE_CHARS . '+))S',
             ezcDocumentWikiToken::EOF =>
-                '(\\A(?P<value>))S',
+                '(\\A(?P<value>\\x0c))S',
 
             // Escape character
             ezcDocumentWikiToken::ESCAPE_CHAR =>
@@ -82,39 +82,39 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
 
             // Inline markup
             ezcDocumentWikiToken::BOLD =>
-                '(\\A(?P<value>\\*\\*))',
+                '(\\A(?P<value>\\*\\*))S',
             ezcDocumentWikiToken::ITALIC =>
-                '(\\A(?P<value>//))',
+                '(\\A(?P<value>//))S',
             ezcDocumentWikiToken::INLINE_LITERAL =>
-                '(\\A\\{\\{\\{(?P<value>.+?\\}*)\\}\\}\\})s',
+                '(\\A\\{\\{\\{(?P<value>.+?\\}*)\\}\\}\\})Ss',
             ezcDocumentWikiToken::LINE_BREAK =>
-                '(\\A(?P<value>\\\\\\\\))',
+                '(\\A(?P<value>\\\\\\\\))S',
             ezcDocumentWikiToken::IMAGE_START =>
-                '(\\A(?P<value>\\{\\{))',
+                '(\\A(?P<value>\\{\\{))S',
             ezcDocumentWikiToken::IMAGE_END =>
-                '(\\A(?P<value>\\}\\}))',
+                '(\\A(?P<value>\\}\\}))S',
             ezcDocumentWikiToken::LINK_START =>
-                '(\\A(?P<value>\\[\\[))',
+                '(\\A(?P<value>\\[\\[))S',
             ezcDocumentWikiToken::LINK_END =>
-                '(\\A(?P<value>\\]\\]))',
+                '(\\A(?P<value>\\]\\]))S',
             ezcDocumentWikiToken::SEPARATOR =>
-                '(\\A(?P<value>\\||' . self::WHITESPACE_CHARS . '*->' . self::WHITESPACE_CHARS . '*))',
+                '(\\A(?P<value>\\||' . self::WHITESPACE_CHARS . '*->' . self::WHITESPACE_CHARS . '*))S',
             ezcDocumentWikiToken::INTER_WIKI_LINK =>
-                '(\\A(?P<value>([A-Za-z]+):(?:[A-Z][a-z0-9_-]+){2,}))',
+                '(\\A(?P<value>([A-Za-z]+):(?:[A-Z][a-z0-9_-]+){2,}))S',
             ezcDocumentWikiToken::INTERNAL_LINK =>
-                '(\\A(?P<value>(?:[A-Z][a-z]+){2,}))',
+                '(\\A(?P<value>(?:[A-Z][a-z]+){2,}))S',
             ezcDocumentWikiToken::EXTERNAL_LINK =>
-                '(\\A(?P<match>(?P<value>[a-z]+://\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\||$))',
+                '(\\A(?P<match>(?P<value>[a-z]+://\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\||$))S',
 
 
             // Match text except 
             ezcDocumentWikiToken::TEXT_LINE =>
-                '(\\A(?P<value>[^' . self::TEXT_END_CHARS . ']+))',
+                '(\\A(?P<value>[^' . self::TEXT_END_CHARS . ']+))S',
 
             // Match all special characters, which are not valid textual chars,
             // but do not have been matched by any other expression.
             ezcDocumentWikiToken::SPECIAL_CHARS =>
-                '(\\A(?P<value>(?:[' . self::SPECIAL_CHARS . '])+))',
+                '(\\A(?P<value>(?:[' . self::SPECIAL_CHARS . '])+))S',
         );
     }
 }
