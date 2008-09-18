@@ -1,0 +1,89 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Text',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 1,
+     'position' => 5,
+  )),
+  3 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 23,
+     'content' => '----',
+     'line' => 2,
+     'position' => 1,
+  )),
+  4 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 2,
+     'position' => 5,
+  )),
+  5 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 3,
+     'position' => 1,
+  )),
+  6 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Text',
+     'line' => 4,
+     'position' => 1,
+  )),
+  7 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 4,
+     'position' => 5,
+  )),
+  8 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 5,
+     'position' => 1,
+  )),
+  9 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 5,
+     'position' => 1,
+  )),
+  10 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 6,
+     'content' => NULL,
+     'line' => 5,
+     'position' => 1,
+  )),
+);
+

@@ -1,0 +1,428 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 30,
+     'content' => '[[',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'link',
+     'line' => 1,
+     'position' => 3,
+  )),
+  3 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 31,
+     'content' => ']]',
+     'line' => 1,
+     'position' => 7,
+  )),
+  4 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 1,
+     'position' => 9,
+  )),
+  5 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 30,
+     'content' => '[[',
+     'line' => 2,
+     'position' => 1,
+  )),
+  6 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'MyBigPage',
+     'line' => 2,
+     'position' => 3,
+  )),
+  7 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 32,
+     'content' => '|',
+     'line' => 2,
+     'position' => 12,
+  )),
+  8 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Go',
+     'line' => 2,
+     'position' => 13,
+  )),
+  9 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 2,
+     'position' => 15,
+  )),
+  10 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'to',
+     'line' => 2,
+     'position' => 16,
+  )),
+  11 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 2,
+     'position' => 18,
+  )),
+  12 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'my',
+     'line' => 2,
+     'position' => 19,
+  )),
+  13 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 2,
+     'position' => 21,
+  )),
+  14 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'page',
+     'line' => 2,
+     'position' => 22,
+  )),
+  15 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 31,
+     'content' => ']]',
+     'line' => 2,
+     'position' => 26,
+  )),
+  16 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 2,
+     'position' => 28,
+  )),
+  17 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 30,
+     'content' => '[[',
+     'line' => 3,
+     'position' => 1,
+  )),
+  18 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 33,
+     'content' => 'http://www.wikicreole.org/',
+     'line' => 3,
+     'position' => 3,
+  )),
+  19 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 31,
+     'content' => ']]',
+     'line' => 3,
+     'position' => 29,
+  )),
+  20 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 3,
+     'position' => 31,
+  )),
+  21 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 33,
+     'content' => 'http://www.rawlink.org/',
+     'line' => 4,
+     'position' => 1,
+  )),
+  22 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => ',',
+     'line' => 4,
+     'position' => 24,
+  )),
+  23 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 4,
+     'position' => 25,
+  )),
+  24 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 33,
+     'content' => 'http://www.another.rawlink.org',
+     'line' => 4,
+     'position' => 26,
+  )),
+  25 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 4,
+     'position' => 56,
+  )),
+  26 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 30,
+     'content' => '[[',
+     'line' => 5,
+     'position' => 1,
+  )),
+  27 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 33,
+     'content' => 'http://www.wikicreole.org/',
+     'line' => 5,
+     'position' => 3,
+  )),
+  28 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 32,
+     'content' => '|',
+     'line' => 5,
+     'position' => 29,
+  )),
+  29 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Visit',
+     'line' => 5,
+     'position' => 30,
+  )),
+  30 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 5,
+     'position' => 35,
+  )),
+  31 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'the',
+     'line' => 5,
+     'position' => 36,
+  )),
+  32 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 5,
+     'position' => 39,
+  )),
+  33 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'WikiCreole',
+     'line' => 5,
+     'position' => 40,
+  )),
+  34 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 5,
+     'position' => 50,
+  )),
+  35 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'website',
+     'line' => 5,
+     'position' => 51,
+  )),
+  36 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 31,
+     'content' => ']]',
+     'line' => 5,
+     'position' => 58,
+  )),
+  37 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 5,
+     'position' => 60,
+  )),
+  38 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 30,
+     'content' => '[[',
+     'line' => 6,
+     'position' => 1,
+  )),
+  39 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Weird',
+     'line' => 6,
+     'position' => 3,
+  )),
+  40 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 6,
+     'position' => 8,
+  )),
+  41 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Stuff',
+     'line' => 6,
+     'position' => 9,
+  )),
+  42 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 32,
+     'content' => '|',
+     'line' => 6,
+     'position' => 14,
+  )),
+  43 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 10,
+     'content' => '**',
+     'line' => 6,
+     'position' => 15,
+  )),
+  44 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Weird',
+     'line' => 6,
+     'position' => 17,
+  )),
+  45 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 10,
+     'content' => '**',
+     'line' => 6,
+     'position' => 22,
+  )),
+  46 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 6,
+     'position' => 24,
+  )),
+  47 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 11,
+     'content' => '//',
+     'line' => 6,
+     'position' => 25,
+  )),
+  48 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Stuff',
+     'line' => 6,
+     'position' => 27,
+  )),
+  49 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 11,
+     'content' => '//',
+     'line' => 6,
+     'position' => 32,
+  )),
+  50 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 31,
+     'content' => ']]',
+     'line' => 6,
+     'position' => 34,
+  )),
+  51 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 6,
+     'position' => 36,
+  )),
+  52 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 30,
+     'content' => '[[',
+     'line' => 7,
+     'position' => 1,
+  )),
+  53 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'Ohana:WikiFamily',
+     'line' => 7,
+     'position' => 3,
+  )),
+  54 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 31,
+     'content' => ']]',
+     'line' => 7,
+     'position' => 19,
+  )),
+  55 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 7,
+     'position' => 21,
+  )),
+  56 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 8,
+     'position' => 1,
+  )),
+  57 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 8,
+     'position' => 1,
+  )),
+  58 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 6,
+     'content' => NULL,
+     'line' => 8,
+     'position' => 1,
+  )),
+);
+

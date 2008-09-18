@@ -1,0 +1,4 @@
+; First title of definition list
+: Definition of first item.
+; Second title: Second definition
+beginning on the same line.
