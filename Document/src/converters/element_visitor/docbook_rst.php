@@ -213,7 +213,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorC
      */
     protected function visitText( DOMText $node, $root )
     {
-        if ( trim( $wholeText = $node->wholeText ) !== '' )
+        if ( trim( $wholeText = $node->data ) !== '' )
         {
             $root .= self::escapeRstText( $wholeText );
         }

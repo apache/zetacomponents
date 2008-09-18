@@ -193,7 +193,7 @@ class ezcDocumentDocbookToHtmlConverter extends ezcDocumentDocbookElementVisitor
      */
     protected function visitText( DOMText $node, $root )
     {
-        if ( trim( $wholeText = $node->wholeText ) !== '' )
+        if ( trim( $wholeText = $node->data ) !== '' )
         {
             $text = new DOMText( $wholeText );
             $root->appendChild( $text );

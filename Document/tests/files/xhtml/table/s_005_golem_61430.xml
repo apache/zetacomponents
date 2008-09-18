@@ -6,9 +6,7 @@
     </sectioninfo>
     <section>
       <title>
-        <para>&#13;
-20 Millionen US-Dollar für Datenbank-Appliances&#13;
-20 Millionen US-Dollar für Datenbank-Appliances</para>
+        <para>20 Millionen US-Dollar für Datenbank-Appliances</para>
       </title>
       <para>Mit seinen Datenbank-Appliances für MySQL verspricht Kickfire, Abfragen auf große Datenbanken enorm zu beschleunigen. Dafür sorgt unter anderem ein spezieller SQL-Chip, der in den Geräten zum Einsatz kommt. Zum Ausbau des Geschäfts erhielt Kickfire jetzt 20 Millionen US-Dollar Risikokapital.</para>
       <ulink url="http://ad.doubleclick.net/jump/golem/artikel;kw=wirtschaft,apps,mysql,datenbank,entscheider;tile=3;sz=300x250;ord=1217494358?">
@@ -46,12 +44,7 @@ und MySQL basiert. Dieser arbeitet mit einem speziellen SQL-Chip, der mit große
 Damit erreicht des Kickfire-Modell 2400 im TPC-H-Benchmark&#13;
 54,895 QphH@300GB (Abfragen pro Stunde bei einer 300 GByte großen Datenbank) bei einem Preis von 0,89 US-Dollar je QphH@300GB. Die Gesamtkosten für ein entsprechendes System sollen betrachtet über einen Zeitraum von drei Jahren bei knapp 49.000 US-Dollar liegen.&#13;
 </para>
-      <para><ulink url="/sonstiges/impressum.html">(ji)</ulink>  &#13;
-&#13;
-&#13;
-Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests angefordert werden können.  &#13;
-&#13;
-&#13;
+      <para><ulink url="/sonstiges/impressum.html">(ji)</ulink>&#13;
 Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests angefordert werden können.</para>
       <ulink url="http://ad.doubleclick.net/jump/golem/artikel;kw=wirtschaft,apps,mysql,datenbank,entscheider;tile=4;sz=480x60;ord=1217494358?">
         <inlinemediaobject>

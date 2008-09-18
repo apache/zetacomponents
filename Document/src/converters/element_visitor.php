@@ -46,6 +46,8 @@ abstract class ezcDocumentDocbookElementVisitorConverter extends ezcDocumentConv
      */
     protected $defaultNamespace = 'docbook';
 
+    protected $storage;
+
     /**
      * Convert documents between two formats
      * 
@@ -101,9 +103,24 @@ abstract class ezcDocumentDocbookElementVisitorConverter extends ezcDocumentConv
      */
     public function visitChildren( DOMNode $node, $root )
     {
+        if ( $this->storage === null )
+        {
+            $this->storage = new SplObjectStorage();
+        }
+
         // Recurse into child elements
         foreach ( $node->childNodes as $child )
         {
+            if ( $this->storage->contains( $child ) )
+            {
+                echo "Dublicate node processing.\n";
+                continue;
+            }
+            else
+            {
+                $this->storage->attach( $child );
+            }
+
             switch ( $child->nodeType )
             {
                 case XML_ELEMENT_NODE:

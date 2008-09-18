@@ -151,9 +151,9 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
                 
                 case XML_TEXT_NODE:
                     // Skip pure whitespace text nodes
-                    if ( trim( $child->wholeText ) !== '' )
+                    if ( trim( $text = $child->data ) !== '' )
                     {
-                        $text = new DOMText( $child->wholeText );
+                        $text = new DOMText( $text );
                         $docbook->appendChild( $text );
                     }
                     break;

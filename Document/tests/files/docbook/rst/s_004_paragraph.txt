@@ -10,9 +10,8 @@ Paragraphs contain text and may contain inline markup\: *emphasis*, **strong
 emphasis**, interpreted text, ``inline literals``, standalone hyperlinks \(
 `http\://www.python.org`__\), external hyperlinks \( `Python`__\), internal
 cross-references \( `example`__\), substitution references \(|image_1|\), and
-inline internal targets. There are also \), and inline internal targets. There
-are also `anonomyous`__ hyperlinks, which also `may contain more then one
-word`__.
+inline internal targets. There are also `anonomyous`__ hyperlinks, which also
+`may contain more then one word`__.
 
 __ http://www.python.org
 __ http://python.org
