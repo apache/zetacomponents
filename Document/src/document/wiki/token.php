@@ -17,31 +17,35 @@
 class ezcDocumentWikiToken extends ezcBaseStruct
 {
     // Token type constants
-    const WHITESPACE       = 1;
-    const NEWLINE          = 2;
-                                                                                          
-    const BACKSLASH        = 3;
-                                                                                          
-    const SPECIAL_CHARS    = 4;
-                                                                                          
-    const TEXT_LINE        = 5;
-                                                                                          
-    const EOF              = 6;
-                                                                                          
-    const BOLD             = 10;
-    const ITALIC           = 11;
-    const LINE_BREAK       = 12;
-                                                                                          
-    const TITLE            = 20;
-    const BULLET_LIST      = 21;
-    const ENUMERATED_LIST  = 22;
-    const PAGE_BREAK       = 23;
-                                                                                          
-    const LINK_START       = 30;
-    const LINK_END         = 31;
-    const LINK_SEPARATOR   = 32;
-    const EXTERNAL_LINK    = 33;
-    const INTERNAL_LINK    = 34;
+    const WHITESPACE      = 1;
+    const NEWLINE         = 2;
+    const EOF             = 6;
+
+    const BACKSLASH       = 3;
+    const SPECIAL_CHARS   = 4;
+
+    const TEXT_LINE       = 5;
+    const ESCAPE_CHAR     = 7;
+
+    const BOLD            = 10;
+    const ITALIC          = 11;
+    const LINE_BREAK      = 12;
+    const INLINE_LITERAL  = 13;
+
+    const TITLE           = 20;
+    const BULLET_LIST     = 21;
+    const ENUMERATED_LIST = 22;
+    const PAGE_BREAK      = 23;
+    const IMAGE_START     = 24;
+    const IMAGE_END       = 25;
+    const LITERAL_BLOCK   = 26;
+
+    const LINK_START      = 30;
+    const LINK_END        = 31;
+    const SEPARATOR       = 32;
+    const EXTERNAL_LINK   = 33;
+    const INTERNAL_LINK   = 34;
+    const INTER_WIKI_LINK = 35;
 
     /**
      * Token type

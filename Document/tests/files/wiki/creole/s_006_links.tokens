@@ -47,7 +47,7 @@ return array (
   )),
   6 => 
   ezcDocumentWikiToken::__set_state(array(
-     'type' => 5,
+     'type' => 34,
      'content' => 'MyBigPage',
      'line' => 2,
      'position' => 3,
@@ -239,7 +239,7 @@ return array (
   )),
   33 => 
   ezcDocumentWikiToken::__set_state(array(
-     'type' => 5,
+     'type' => 34,
      'content' => 'WikiCreole',
      'line' => 5,
      'position' => 40,
@@ -381,7 +381,7 @@ return array (
   )),
   53 => 
   ezcDocumentWikiToken::__set_state(array(
-     'type' => 5,
+     'type' => 35,
      'content' => 'Ohana:WikiFamily',
      'line' => 7,
      'position' => 3,

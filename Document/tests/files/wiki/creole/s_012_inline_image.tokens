@@ -1,0 +1,121 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 24,
+     'content' => '{{',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'myimage.png',
+     'line' => 1,
+     'position' => 3,
+  )),
+  3 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 32,
+     'content' => '|',
+     'line' => 1,
+     'position' => 14,
+  )),
+  4 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'this',
+     'line' => 1,
+     'position' => 15,
+  )),
+  5 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 1,
+     'position' => 19,
+  )),
+  6 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'is',
+     'line' => 1,
+     'position' => 20,
+  )),
+  7 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 1,
+     'position' => 22,
+  )),
+  8 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'my',
+     'line' => 1,
+     'position' => 23,
+  )),
+  9 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 1,
+     'content' => ' ',
+     'line' => 1,
+     'position' => 25,
+  )),
+  10 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 5,
+     'content' => 'image',
+     'line' => 1,
+     'position' => 26,
+  )),
+  11 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 25,
+     'content' => '}}',
+     'line' => 1,
+     'position' => 31,
+  )),
+  12 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 1,
+     'position' => 33,
+  )),
+  13 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  14 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 2,
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  15 => 
+  ezcDocumentWikiToken::__set_state(array(
+     'type' => 6,
+     'content' => NULL,
+     'line' => 2,
+     'position' => 1,
+  )),
+);
+
