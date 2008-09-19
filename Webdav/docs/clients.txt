@@ -1,0 +1,58 @@
+eZ Components: Webdav, client support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Kore Nordmann, Tobias Schlitt
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+=================
+Supported clients
+=================
+
+The Webdav component is constantly tested against different WebDAV clients.
+The following clients are included in the tests:
+
+- Nautilus (GNOME)
+- Konqueror (KDE)
+- Cadaver (Unix/Linux shell)
+- MS InternetExplorer 6 (Windows)
+- MS InternetExplorer 7 (Windows)
+- Litmus (Unix test suite for WebDAV servers)
+
+=============
+Client issues
+=============
+
+Some clients do not behave compliant to RFC 2518. While the WebDAV component
+is designed to work around such issues, some client problems cannot be fixed.
+This sections lists known bugs in WebDAV clients, which prevent some actions
+to work correctly with the Webdav component.
+
+--------
+Nautilus
+--------
+
+Copying of folders
+==================
+
+It is not possible to copy folders on a WebDAV server using Nautilus based on
+gvfs/0.2.5 (maybe earlier and later versions). Nautilus performs a GET and PUT
+request on the server to achieve a copy, instead of using the COPY method. GET
+on a collection results in an empty document to be downloaded and uploaded
+again.
+
+http://bugzilla.gnome.org/show_bug.cgi?id=551339
+
+---------
+Konqueror
+---------
+
+Version 3.5.9 (possibly earlier and later) does not perform uploads of new
+file. The client first checks if the file to upload already exists on the
+server, which results in a (usually expected) 404 error. Konquerors error
+handling steps in here and avoids the upload.
+
+https://bugs.kde.org/show_bug.cgi?id=166081
