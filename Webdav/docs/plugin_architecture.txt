@@ -1,4 +1,4 @@
-eZ component: Webdav, Plugin-Architecture
+eZ Component: Webdav, Plugin-Architecture
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Author: Kore Nordmann, Tobias Schlitt
