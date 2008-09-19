@@ -2,35 +2,31 @@
 
 return array (
   0 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 2,
+  ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 0,
      'position' => 1,
   )),
   1 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 2,
+  ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 1,
-     'position' => 1,
+     'line' => 0,
+     'position' => 2,
   )),
   2 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 2,
+  ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 1,
-     'position' => 1,
+     'line' => 0,
+     'position' => 2,
   )),
   3 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 6,
+  ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 1,
-     'position' => 1,
+     'line' => 0,
+     'position' => 2,
   )),
 );
 

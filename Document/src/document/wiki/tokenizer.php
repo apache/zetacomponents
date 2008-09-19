@@ -102,8 +102,7 @@ abstract class ezcDocumentWikiTokenizer
                 {
                     // A token matched, so add the matched token to the token
                     // list and update all variables.
-                    $newToken = new ezcDocumentWikiToken(
-                        $token,
+                    $newToken = new $token(
                         ( isset( $matches['value'] ) ? $matches['value'] : null ),
                         $line,
                         $position
@@ -115,20 +114,20 @@ abstract class ezcDocumentWikiTokenizer
                     $string = substr( $string, $length = strlen( $match ) );
 
                     // On a newline token reset the line position and increase the line value
-                    if ( $token === ezcDocumentWikiToken::NEWLINE )
+                    if ( $token instanceof ezcDocumentWikiNewLineToken )
                     {
                         ++$line;
                         $position = 0;
                     }
 
                     // Convert tabs to spaces for whitespace tokens
-                    if ( $token === ezcDocumentWikiToken::WHITESPACE )
+                    if ( $token instanceof ezcDocumentWikiWhitespaceToken )
                     {
                         $this->convertTabs( $newToken );
                     }
 
                     // If we found an explicit EOF token, just exit the parsing process.
-                    if ( $token === ezcDocumentWikiToken::EOF )
+                    if ( $token instanceof ezcDocumentWikiEndOfFileToken )
                     {
                         break 2;
                     }
@@ -137,7 +136,7 @@ abstract class ezcDocumentWikiTokenizer
                     $tokens[] = $newToken;
 
                     // Update position, not before converting tabs to spaces.
-                    $position += ( $token === ezcDocumentWikiToken::NEWLINE ) ? 1 : strlen( $newToken->content );
+                    $position += ( $token instanceof ezcDocumentWikiNewLineToken ) ? 1 : strlen( $newToken->content );
 
                     // Restart the while loop, because we matched a token and
                     // can retry with shortened string.
@@ -161,18 +160,9 @@ abstract class ezcDocumentWikiTokenizer
 
         // Finally append ainother newline token and a end of file token, to
         // make parsing the end easier.
-        $tokens[] = new ezcDocumentWikiToken(
-            ezcDocumentWikiToken::NEWLINE,
-            "\n", $line, $position
-        );
-        $tokens[] = new ezcDocumentWikiToken(
-            ezcDocumentWikiToken::NEWLINE,
-            "\n", $line, $position
-        );
-        $tokens[] = new ezcDocumentWikiToken(
-            ezcDocumentWikiToken::EOF,
-            null, $line, $position
-        );
+        $tokens[] = new ezcDocumentWikiNewLineToken( "\n", $line, $position );
+        $tokens[] = new ezcDocumentWikiNewLineToken( "\n", $line, $position );
+        $tokens[] = new ezcDocumentWikiEndOfFileToken( null, $line, $position );
 
         return $tokens;
     }

@@ -2,8 +2,7 @@
 
 return array (
   0 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 26,
+  ezcDocumentWikiLiteralBlockToken::__set_state(array(
      'content' => 'if (x != NULL) {
   for (i = 0; i < size; i++) {
     if (x[i] > 0) {
@@ -13,35 +12,31 @@ return array (
      'position' => 1,
   )),
   1 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 2,
+  ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 0,
      'position' => 88,
   )),
   2 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 2,
+  ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 1,
-     'position' => 1,
+     'line' => 0,
+     'position' => 89,
   )),
   3 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 2,
+  ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 1,
-     'position' => 1,
+     'line' => 0,
+     'position' => 89,
   )),
   4 => 
-  ezcDocumentWikiToken::__set_state(array(
-     'type' => 6,
+  ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 1,
-     'position' => 1,
+     'line' => 0,
+     'position' => 89,
   )),
 );
 

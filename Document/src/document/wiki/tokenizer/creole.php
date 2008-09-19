@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiCreoleTokenizer
+ * File containing the 'ezcDocumentWikiCreoleToken'izer
  *
  * @package Document
  * @version //autogen//
@@ -57,75 +57,75 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
             // Match tokens which require to be at the start of a line before
             // matching the actual newlines, because they are the indicator for
             // line starts.
-            ezcDocumentWikiToken::TITLE =>
+            'ezcDocumentWikiTitleToken' =>
                 '(\\A' . self::NEW_LINE . '(?P<value>=+)' . self::WHITESPACE_CHARS . '+)S',
-            ezcDocumentWikiToken::BULLET_LIST =>
+            'ezcDocumentWikiBulletListItemToken' =>
                 '(\\A' . self::NEW_LINE . '(?P<value>\\*+)' . self::WHITESPACE_CHARS . '+)S',
-            ezcDocumentWikiToken::ENUMERATED_LIST =>
+            'ezcDocumentWikiEnumeratedListItemToken' =>
                 '(\\A' . self::NEW_LINE . '(?P<value>#+)' . self::WHITESPACE_CHARS . '+)S',
-            ezcDocumentWikiToken::PAGE_BREAK =>
+            'ezcDocumentWikiPageBreakToken' =>
                 '(\\A(?P<match>' . self::NEW_LINE . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)' . self::NEW_LINE . ')S',
-            ezcDocumentWikiToken::LITERAL_BLOCK =>
+            'ezcDocumentWikiLiteralBlockToken' =>
                 '(\\A(?P<match>' . self::NEW_LINE . '\\{\\{\\{' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '\\}\\}\\})' . self::NEW_LINE . ')SUs',
-            ezcDocumentWikiToken::TABLE_ROW =>
+            'ezcDocumentWikiTableRowToken' =>
                 '(\\A(?P<match>' . self::NEW_LINE . ')(?P<value>\\|))S',
 
             // Whitespaces
-            ezcDocumentWikiToken::NEWLINE =>
+            'ezcDocumentWikiNewLineToken' =>
                 '(\\A' . self::WHITESPACE_CHARS . '*(?P<value>\\r\\n|\\r|\\n))S',
-            ezcDocumentWikiToken::WHITESPACE =>
+            'ezcDocumentWikiWhitespaceToken' =>
                 '(\\A(?P<value>' . self::WHITESPACE_CHARS . '+))S',
-            ezcDocumentWikiToken::EOF =>
+            'ezcDocumentWikiEndOfFileToken' =>
                 '(\\A(?P<value>\\x0c))S',
 
             // Escape character
-            ezcDocumentWikiToken::ESCAPE_CHAR =>
+            'ezcDocumentWikiEscapeCharacterToken' =>
                 '(\\A(?P<value>~))S',
 
             // Inline markup
-            ezcDocumentWikiToken::BOLD =>
+            'ezcDocumentWikiBoldToken' =>
                 '(\\A(?P<value>\\*\\*))S',
-            ezcDocumentWikiToken::ITALIC =>
+            'ezcDocumentWikiItalicToken' =>
                 '(\\A(?P<value>//))S',
-            ezcDocumentWikiToken::MONOSPACE =>
+            'ezcDocumentWikiMonospaceToken' =>
                 '(\\A(?P<value>##))S',
-            ezcDocumentWikiToken::SUPERSCRIPT =>
+            'ezcDocumentWikiSuperscriptToken' =>
                 '(\\A(?P<value>\\^\\^))S',
-            ezcDocumentWikiToken::SUBSCRIPT =>
+            'ezcDocumentWikiSubscriptToken' =>
                 '(\\A(?P<value>,,))S',
-            ezcDocumentWikiToken::UNDERLINED =>
+            'ezcDocumentWikiUnderlineToken' =>
                 '(\\A(?P<value>__))S',
-            ezcDocumentWikiToken::INLINE_LITERAL =>
+            'ezcDocumentWikiInlineLiteralToken' =>
                 '(\\A\\{\\{\\{(?P<value>.+?\\}*)\\}\\}\\})Ss',
-            ezcDocumentWikiToken::LINE_BREAK =>
+            'ezcDocumentWikiLineBreakToken' =>
                 '(\\A(?P<value>\\\\\\\\))S',
-            ezcDocumentWikiToken::IMAGE_START =>
+            'ezcDocumentWikiImageStartToken' =>
                 '(\\A(?P<value>\\{\\{))S',
-            ezcDocumentWikiToken::IMAGE_END =>
+            'ezcDocumentWikiImageEndToken' =>
                 '(\\A(?P<value>\\}\\}))S',
-            ezcDocumentWikiToken::LINK_START =>
+            'ezcDocumentWikiLinkStartToken' =>
                 '(\\A(?P<value>\\[\\[))S',
-            ezcDocumentWikiToken::LINK_END =>
+            'ezcDocumentWikiLinkEndToken' =>
                 '(\\A(?P<value>\\]\\]))S',
-            ezcDocumentWikiToken::TABLE_HEADER =>
+            'ezcDocumentWikiTableHeaderToken' =>
                 '(\\A(?P<value>\\|=))S',
-            ezcDocumentWikiToken::SEPARATOR =>
+            'ezcDocumentWikiSeparatorToken' =>
                 '(\\A(?P<value>\\||' . self::WHITESPACE_CHARS . '*->' . self::WHITESPACE_CHARS . '*))S',
-            ezcDocumentWikiToken::INTER_WIKI_LINK =>
+            'ezcDocumentWikiInterWikiLinkToken' =>
                 '(\\A(?P<value>([A-Za-z]+):(?:[A-Z][a-z0-9_-]+){2,}))S',
-            ezcDocumentWikiToken::INTERNAL_LINK =>
+            'ezcDocumentWikiInternalLinkToken' =>
                 '(\\A(?P<value>(?:[A-Z][a-z]+){2,}))S',
-            ezcDocumentWikiToken::EXTERNAL_LINK =>
+            'ezcDocumentWikiExternalLinkToken' =>
                 '(\\A(?P<match>(?P<value>[a-z]+://\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\||$))S',
 
 
             // Match text except 
-            ezcDocumentWikiToken::TEXT_LINE =>
+            'ezcDocumentWikiTextLineToken' =>
                 '(\\A(?P<value>[^' . self::TEXT_END_CHARS . ']+))S',
 
             // Match all special characters, which are not valid textual chars,
             // but do not have been matched by any other expression.
-            ezcDocumentWikiToken::SPECIAL_CHARS =>
+            'ezcDocumentWikiSpecialCharsToken' =>
                 '(\\A(?P<value>(?:[' . self::SPECIAL_CHARS . '])+))S',
         );
     }
