@@ -3,6 +3,7 @@
 return array (
   0 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 1,
      'content' => '=',
      'line' => 0,
      'position' => 1,
@@ -51,6 +52,7 @@ return array (
   )),
   8 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 2,
      'content' => '==',
      'line' => 0,
      'position' => 21,
@@ -87,6 +89,7 @@ return array (
   )),
   14 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 3,
      'content' => '===',
      'line' => 0,
      'position' => 33,
@@ -123,6 +126,7 @@ return array (
   )),
   20 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 4,
      'content' => '====',
      'line' => 0,
      'position' => 47,
@@ -159,6 +163,7 @@ return array (
   )),
   26 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 5,
      'content' => '=====',
      'line' => 0,
      'position' => 63,
@@ -195,6 +200,7 @@ return array (
   )),
   32 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 6,
      'content' => '======',
      'line' => 0,
      'position' => 81,
@@ -231,6 +237,7 @@ return array (
   )),
   38 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 3,
      'content' => '===',
      'line' => 0,
      'position' => 101,
@@ -267,6 +274,7 @@ return array (
   )),
   44 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 3,
      'content' => '===',
      'line' => 0,
      'position' => 116,
@@ -315,6 +323,7 @@ return array (
   )),
   52 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 3,
      'content' => '===',
      'line' => 0,
      'position' => 133,
@@ -363,6 +372,7 @@ return array (
   )),
   60 => 
   ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 3,
      'content' => '===',
      'line' => 0,
      'position' => 151,

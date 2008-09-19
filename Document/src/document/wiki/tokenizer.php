@@ -77,6 +77,19 @@ abstract class ezcDocumentWikiTokenizer
     }
 
     /**
+     * Filter tokens
+     *
+     * Method to filter tokens, after the input string ahs been tokenized. The
+     * filter should extract additional information from tokens, which are not
+     * generally available yet, like the depth of a title depending on the
+     * title markup.
+     * 
+     * @param array $tokens 
+     * @return array
+     */
+    abstract protected function filterTokens( array $tokens );
+
+    /**
      * Tokenize the given string
      * 
      * The method tries to tokenize the passed strings and returns an array of
@@ -164,7 +177,7 @@ abstract class ezcDocumentWikiTokenizer
         $tokens[] = new ezcDocumentWikiNewLineToken( "\n", $line, $position );
         $tokens[] = new ezcDocumentWikiEndOfFileToken( null, $line, $position );
 
-        return $tokens;
+        return $this->filterTokens( $tokens );
     }
 }
 

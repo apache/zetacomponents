@@ -64,6 +64,7 @@ return array (
   )),
   10 => 
   ezcDocumentWikiParagraphIndentationToken::__set_state(array(
+     'level' => 1,
      'content' => ':',
      'line' => 0,
      'position' => 29,
@@ -161,6 +162,7 @@ return array (
   )),
   26 => 
   ezcDocumentWikiParagraphIndentationToken::__set_state(array(
+     'level' => 2,
      'content' => '::',
      'line' => 0,
      'position' => 73,
@@ -277,6 +279,7 @@ return array (
   )),
   45 => 
   ezcDocumentWikiParagraphIndentationToken::__set_state(array(
+     'level' => 1,
      'content' => '>',
      'line' => 0,
      'position' => 126,
@@ -374,6 +377,7 @@ return array (
   )),
   61 => 
   ezcDocumentWikiParagraphIndentationToken::__set_state(array(
+     'level' => 2,
      'content' => '>>',
      'line' => 0,
      'position' => 170,

@@ -17,6 +17,13 @@
 class ezcDocumentWikiTitleToken extends ezcDocumentWikiToken
 {
     /**
+     * Level of title.
+     * 
+     * @var int
+     */
+    public $level = 0;
+
+    /**
      * Set state after var_export
      * 
      * @param array $properties 
@@ -33,7 +40,7 @@ class ezcDocumentWikiTitleToken extends ezcDocumentWikiToken
         );
 
         // Set additional token values
-        // $token->value = $properties['value'];
+        $token->level = $properties['level'];
 
         return $token;
     }

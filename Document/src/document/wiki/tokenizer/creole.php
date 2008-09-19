@@ -131,6 +131,35 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 '(\\A(?P<value>(?:[' . self::SPECIAL_CHARS . '])+))S',
         );
     }
+
+    /**
+     * Filter tokens
+     *
+     * Method to filter tokens, after the input string ahs been tokenized. The
+     * filter should extract additional information from tokens, which are not
+     * generally available yet, like the depth of a title depending on the
+     * title markup.
+     * 
+     * @param array $tokens 
+     * @return array
+     */
+    protected function filterTokens( array $tokens )
+    {
+        foreach ( $tokens as $token )
+        {
+            switch ( true )
+            {
+                // Extract the title / indentation level from the tokens
+                // length.
+                case $token instanceof ezcDocumentWikiTitleToken:
+                case $token instanceof ezcDocumentWikiParagraphIndentationToken:
+                    $token->level = strlen( trim( $token->content ) );
+                    break;
+            }
+        }
+
+        return $tokens;
+    }
 }
 
 ?>
