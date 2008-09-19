@@ -69,6 +69,8 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 '(\\A(?P<match>' . self::NEW_LINE . '\\{\\{\\{' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '\\}\\}\\})' . self::NEW_LINE . ')SUs',
             'ezcDocumentWikiTableRowToken' =>
                 '(\\A(?P<match>' . self::NEW_LINE . ')(?P<value>\\|))S',
+            'ezcDocumentWikiParagraphIndentationToken' =>
+                '(\\A' . self::NEW_LINE . '(?P<value>(?:>|:)+)' . self::WHITESPACE_CHARS . '*)S',
 
             // Whitespaces
             'ezcDocumentWikiNewLineToken' =>

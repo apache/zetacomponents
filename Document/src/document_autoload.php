@@ -180,6 +180,7 @@ return array(
     'ezcDocumentWikiNewLineToken'                        => 'Document/document/wiki/token/new_line.php',
     'ezcDocumentWikiOptions'                             => 'Document/options/document_wiki.php',
     'ezcDocumentWikiPageBreakToken'                      => 'Document/document/wiki/token/page_break.php',
+    'ezcDocumentWikiParagraphIndentationToken'           => 'Document/document/wiki/token/indentation.php',
     'ezcDocumentWikiSeparatorToken'                      => 'Document/document/wiki/token/separator.php',
     'ezcDocumentWikiSpecialCharsToken'                   => 'Document/document/wiki/token/special_chars.php',
     'ezcDocumentWikiSubscriptToken'                      => 'Document/document/wiki/token/subscript.php',

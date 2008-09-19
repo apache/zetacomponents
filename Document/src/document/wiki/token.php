@@ -63,7 +63,6 @@ abstract class ezcDocumentWikiToken extends ezcBaseStruct
     public static function __set_state( $properties )
     {
         return null;
-        throw new ezcBaseRuntimeException( 'Set state not implemented.' );
     }
 }
 
