@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname></D:displayname>
+        <D:displayname>subdir</D:displayname>
         <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
-        <D:getetag>6666cd76f96956469e7be39d750cc7d9</D:getetag>
+        <D:getetag>c5478175e232c6c35b72e28fb638de42</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype>
           <D:collection/>
         </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>http://webdav/secure_collection/subdir/file.html</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
+        <D:displayname>file.html</D:displayname>
+        <D:getcontenttype>text/html</D:getcontenttype>
+        <D:getetag>63e609ad6597ac5f4a6c399729a4abe0</D:getetag>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>39</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>http://webdav/secure_collection/subdir/file.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
+        <D:displayname>file.xml</D:displayname>
+        <D:getcontenttype>text/xml</D:getcontenttype>
+        <D:getetag>b23a873ef8c0f8e3b33339bed653b763</D:getetag>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18</D:getcontentlength>
+        <D:resourcetype/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>

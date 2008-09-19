@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/collection/subdir/put_test_renamed.html</D:href>
+    <D:href>http://webdav/collection/put_test_utf8_content.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>put_test.html</D:displayname>
+        <D:displayname>put_test_utf8_content.txt</D:displayname>
         <D:getcontenttype>application/octet-stream</D:getcontenttype>
-        <D:getetag>42fa6b3c46b3066e7ce125d5c114877b</D:getetag>
+        <D:getetag>7830812661d19495883a9ca484db115e</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>0</D:getcontentlength>
         <D:resourcetype/>

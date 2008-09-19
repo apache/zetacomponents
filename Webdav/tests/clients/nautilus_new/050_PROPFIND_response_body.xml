@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/collection/subdir/newdir</D:href>
+    <D:href>http://webdav/collection</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>untitled%20folder</D:displayname>
+        <D:displayname>collection</D:displayname>
         <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
-        <D:getetag>b7debb1744961f95b4d01077d374dbb3</D:getetag>
+        <D:getetag>9696c0fa460d4ed148cb40b2e8388c1e</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype>

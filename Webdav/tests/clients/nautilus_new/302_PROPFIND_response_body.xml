@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/renamed_collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
         <D:displayname>subdir</D:displayname>
         <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
-        <D:getetag>2215ad4a0621fe1f07727e8534c54a95</D:getetag>
+        <D:getetag>c5478175e232c6c35b72e28fb638de42</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype>
@@ -18,78 +18,31 @@
     </D:propstat>
   </D:response>
   <D:response>
-    <D:href>http://webdav/renamed_collection/subdir/file.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/file.html</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>file.txt</D:displayname>
-        <D:getcontenttype>application/octet-stream</D:getcontenttype>
-        <D:getetag>6d85f2d3ecf7e703e5f4ac07608bf62f</D:getetag>
+        <D:displayname>file.html</D:displayname>
+        <D:getcontenttype>text/html</D:getcontenttype>
+        <D:getetag>63e609ad6597ac5f4a6c399729a4abe0</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
+        <D:getcontentlength>39</D:getcontentlength>
         <D:resourcetype/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
   </D:response>
   <D:response>
-    <D:href>http://webdav/renamed_collection/subdir/put_test_renamed.html</D:href>
+    <D:href>http://webdav/secure_collection/subdir/file.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>put_test.html</D:displayname>
-        <D:getcontenttype>application/octet-stream</D:getcontenttype>
-        <D:getetag>42fa6b3c46b3066e7ce125d5c114877b</D:getetag>
+        <D:displayname>file.xml</D:displayname>
+        <D:getcontenttype>text/xml</D:getcontenttype>
+        <D:getetag>b23a873ef8c0f8e3b33339bed653b763</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
+        <D:getcontentlength>18</D:getcontentlength>
         <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response>
-    <D:href>http://webdav/renamed_collection/subdir/put_test_%C3%B6%C3%A4%C3%BC%C3%9F.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>put_test_utf8_content.txt</D:displayname>
-        <D:getcontenttype>application/octet-stream</D:getcontenttype>
-        <D:getetag>03f21d9964e17d45d71164e30d8bbab5</D:getetag>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response>
-    <D:href>http://webdav/renamed_collection/subdir/put_no_utf8_test.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>put_test_utf8_filename_%CF%82%D2%A3%CE%B1%E2%8A%81%E2%88%AD%E2%8B%89%E2%82%AC%E2%82%B1%E2%80%B1%E2%81%8C.txt</D:displayname>
-        <D:getcontenttype>application/octet-stream</D:getcontenttype>
-        <D:getetag>d85c64fb9d62eeaaec4c39e7a5460284</D:getetag>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response>
-    <D:href>http://webdav/renamed_collection/subdir/collection</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>collection</D:displayname>
-        <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
-        <D:getetag>4830744d2e394ce3c4d5667d7125c862</D:getetag>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>

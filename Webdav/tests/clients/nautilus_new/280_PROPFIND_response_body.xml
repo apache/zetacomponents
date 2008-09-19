@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav/collection</D:href>
+    <D:href>http://webdav/collection/put_test_utf8_content.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
-        <D:displayname>collection</D:displayname>
-        <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
-        <D:getetag>9696c0fa460d4ed148cb40b2e8388c1e</D:getetag>
+        <D:displayname>put_test_utf8_content.txt</D:displayname>
+        <D:getcontenttype>application/octet-stream</D:getcontenttype>
+        <D:getetag>7830812661d19495883a9ca484db115e</D:getetag>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
