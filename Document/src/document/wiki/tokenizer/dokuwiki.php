@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the 'ezcDocumentWikiDokuwikiToken'izer
+ * File containing the ezcDocumentWikiDokuwikiTokenizer
  *
  * @package Document
  * @version //autogen//
@@ -11,10 +11,10 @@
 /**
  * Tokenizer for Dokuwiki wiki documents.
  *
- * The Dokuwiki wiki syntax is a started effort to unify wiki markup languages.
- * Its documentation can be found at:
+ * The Dokuwiki wiki is a very popular wiki, which for example is currently
+ * used at http://wiki.php.net. The Dokuwiki syntax definition can be found at:
  *
- * http://www.wikicreole.org/
+ * http://www.dokuwiki.org/syntax
  * 
  * @package Document
  * @version //autogen//
