@@ -40,7 +40,7 @@ class ezcDocumentWikiBulletListItemToken extends ezcDocumentWikiToken
         );
 
         // Set additional token values
-         $token->indentation = $properties['indentation'];
+        $token->indentation = $properties['indentation'];
 
         return $token;
     }
