@@ -34,6 +34,9 @@ return array (
   )),
   5 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => NULL,
+     'height' => NULL,
+     'alignement' => NULL,
      'content' => '{{',
      'line' => 0,
      'position' => 36,
@@ -107,13 +110,16 @@ return array (
   )),
   17 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => 50,
+     'height' => NULL,
+     'alignement' => NULL,
      'content' => '{{',
      'line' => 0,
      'position' => 96,
   )),
   18 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
-     'content' => 'wiki:dokuwiki-128.png?50',
+     'content' => 'wiki:dokuwiki-128.png',
      'line' => 0,
      'position' => 98,
   )),
@@ -204,13 +210,16 @@ return array (
   )),
   33 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => 200,
+     'height' => 50,
+     'alignement' => NULL,
      'content' => '{{',
      'line' => 0,
      'position' => 159,
   )),
   34 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
-     'content' => 'wiki:dokuwiki-128.png?200x50',
+     'content' => 'wiki:dokuwiki-128.png',
      'line' => 0,
      'position' => 161,
   )),
@@ -265,227 +274,205 @@ return array (
   )),
   43 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => 200,
+     'height' => 50,
+     'alignement' => NULL,
      'content' => '{{',
      'line' => 0,
      'position' => 226,
   )),
   44 => 
   ezcDocumentWikiExternalLinkToken::__set_state(array(
-     'content' => 'http://de3.php.net/images/php.gif?200x50}}',
+     'content' => 'http://de3.php.net/images/php.gif',
      'line' => 0,
      'position' => 228,
   )),
   45 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
+  ezcDocumentWikiImageEndToken::__set_state(array(
+     'content' => '}}',
      'line' => 0,
-     'position' => 270,
+     'position' => 268,
   )),
   46 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 0,
-     'position' => 271,
+     'position' => 270,
   )),
   47 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 271,
+  )),
+  48 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => NULL,
+     'height' => NULL,
+     'alignement' => 'right',
      'content' => '{{',
      'line' => 0,
      'position' => 272,
   )),
-  48 => 
-  ezcDocumentWikiWhitespaceToken::__set_state(array(
-     'content' => ' ',
-     'line' => 0,
-     'position' => 274,
-  )),
-  49 => 
+  50 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'wiki:dokuwiki-128.png',
      'line' => 0,
      'position' => 275,
   )),
-  50 => 
+  51 => 
   ezcDocumentWikiImageEndToken::__set_state(array(
      'content' => '}}',
      'line' => 0,
      'position' => 296,
   )),
-  51 => 
+  52 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 0,
      'position' => 298,
   )),
-  52 => 
+  53 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => NULL,
+     'height' => NULL,
+     'alignement' => 'left',
      'content' => '{{',
      'line' => 0,
      'position' => 299,
   )),
-  53 => 
+  54 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'wiki:dokuwiki-128.png',
      'line' => 0,
      'position' => 301,
   )),
-  54 => 
-  ezcDocumentWikiWhitespaceToken::__set_state(array(
-     'content' => ' ',
-     'line' => 0,
-     'position' => 322,
-  )),
-  55 => 
+  56 => 
   ezcDocumentWikiImageEndToken::__set_state(array(
      'content' => '}}',
      'line' => 0,
      'position' => 323,
   )),
-  56 => 
+  57 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 0,
      'position' => 325,
   )),
-  57 => 
+  58 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => NULL,
+     'height' => NULL,
+     'alignement' => 'center',
      'content' => '{{',
      'line' => 0,
      'position' => 326,
   )),
-  58 => 
-  ezcDocumentWikiWhitespaceToken::__set_state(array(
-     'content' => ' ',
-     'line' => 0,
-     'position' => 328,
-  )),
-  59 => 
+  60 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'wiki:dokuwiki-128.png',
      'line' => 0,
      'position' => 329,
   )),
-  60 => 
-  ezcDocumentWikiWhitespaceToken::__set_state(array(
-     'content' => ' ',
-     'line' => 0,
-     'position' => 350,
-  )),
-  61 => 
+  62 => 
   ezcDocumentWikiImageEndToken::__set_state(array(
      'content' => '}}',
      'line' => 0,
      'position' => 351,
-  )),
-  62 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 0,
-     'position' => 353,
   )),
   63 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 0,
-     'position' => 354,
+     'position' => 353,
   )),
   64 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 354,
+  )),
+  65 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => NULL,
+     'height' => NULL,
+     'alignement' => 'center',
      'content' => '{{',
      'line' => 0,
      'position' => 355,
   )),
-  65 => 
-  ezcDocumentWikiWhitespaceToken::__set_state(array(
-     'content' => ' ',
-     'line' => 0,
-     'position' => 357,
-  )),
-  66 => 
+  67 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'wiki:dokuwiki-128.png',
      'line' => 0,
      'position' => 358,
   )),
-  67 => 
-  ezcDocumentWikiWhitespaceToken::__set_state(array(
-     'content' => ' ',
-     'line' => 0,
-     'position' => 379,
-  )),
-  68 => 
+  69 => 
   ezcDocumentWikiSeparatorToken::__set_state(array(
      'content' => '|',
      'line' => 0,
      'position' => 380,
   )),
-  69 => 
+  70 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'This',
      'line' => 0,
      'position' => 381,
   )),
-  70 => 
+  71 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
      'line' => 0,
      'position' => 385,
   )),
-  71 => 
+  72 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'is',
      'line' => 0,
      'position' => 386,
   )),
-  72 => 
+  73 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
      'line' => 0,
      'position' => 388,
   )),
-  73 => 
+  74 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'the',
      'line' => 0,
      'position' => 389,
   )),
-  74 => 
+  75 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
      'line' => 0,
      'position' => 392,
   )),
-  75 => 
+  76 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'caption',
      'line' => 0,
      'position' => 393,
   )),
-  76 => 
+  77 => 
   ezcDocumentWikiImageEndToken::__set_state(array(
      'content' => '}}',
      'line' => 0,
      'position' => 400,
-  )),
-  77 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 0,
-     'position' => 402,
   )),
   78 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 0,
-     'position' => 403,
+     'position' => 402,
   )),
   79 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
@@ -495,6 +482,13 @@ return array (
      'position' => 403,
   )),
   80 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 403,
+  )),
+  81 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
      'line' => 0,

@@ -28,6 +28,9 @@ return array (
   )),
   4 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
+     'width' => NULL,
+     'height' => NULL,
+     'alignement' => NULL,
      'content' => '{{',
      'line' => 0,
      'position' => 23,

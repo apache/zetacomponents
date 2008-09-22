@@ -3,6 +3,7 @@
 return array (
   0 => 
   ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => NULL,
      'content' => '#',
      'line' => 0,
      'position' => 1,
@@ -27,6 +28,7 @@ return array (
   )),
   4 => 
   ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => NULL,
      'content' => '##',
      'line' => 0,
      'position' => 8,
@@ -51,6 +53,7 @@ return array (
   )),
   8 => 
   ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => NULL,
      'content' => '#',
      'line' => 0,
      'position' => 18,

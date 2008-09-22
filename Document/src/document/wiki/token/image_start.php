@@ -17,6 +17,27 @@
 class ezcDocumentWikiImageStartToken extends ezcDocumentWikiToken
 {
     /**
+     * Image width
+     * 
+     * @var int
+     */
+    public $width      = null;
+                    
+    /**
+     * Image height
+     * 
+     * @var int
+     */
+    public $height     = null;
+                    
+    /**
+     * Image alignement
+     * 
+     * @var string
+     */
+    public $alignement = null;
+
+    /**
      * Set state after var_export
      * 
      * @param array $properties 
@@ -33,7 +54,9 @@ class ezcDocumentWikiImageStartToken extends ezcDocumentWikiToken
         );
 
         // Set additional token values
-        // $token->value = $properties['value'];
+        $token->width      = $properties['width'];
+        $token->height     = $properties['height'];
+        $token->alignement = $properties['alignement'];
 
         return $token;
     }

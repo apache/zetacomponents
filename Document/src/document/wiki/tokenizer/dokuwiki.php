@@ -62,7 +62,7 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
             'ezcDocumentWikiBulletListItemToken' =>
                 '(\\A' . self::NEW_LINE . '(?P<value>\\x20*\\*)' . self::WHITESPACE_CHARS . '+)S',
             'ezcDocumentWikiEnumeratedListItemToken' =>
-                '(\\A' . self::NEW_LINE . '(?P<value>\\x20*#)' . self::WHITESPACE_CHARS . '+)S',
+                '(\\A' . self::NEW_LINE . '(?P<value>\\x20*-)' . self::WHITESPACE_CHARS . '+)S',
             'ezcDocumentWikiLiteralBlockToken' =>
                 '(\\A(?P<match>' . self::NEW_LINE . '<(code|nowiki|file|html|php)(?:' . self::WHITESPACE_CHARS . '+[a-z]+)?>' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '</\\2>)' . self::NEW_LINE . ')SUsi',
             'ezcDocumentWikiTableRowToken' =>
@@ -119,7 +119,7 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
                             <[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?>
                         )
                      # Greedy match on text end chars, which should NOT be included in URLs
-                     )[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\||$)
+                     )[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\}\\}|$)
                 )Sx',
             'ezcDocumentWikiInterWikiLinkToken' =>
                 '(\\A(?P<value>([A-Za-z]+)>[^\\]|]+))S',
@@ -158,7 +158,8 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
      */
     protected function filterTokens( array $tokens )
     {
-        foreach ( $tokens as $token )
+        $lastImageStartToken = null;
+        foreach ( $tokens as $nr => $token )
         {
             switch ( true )
             {
@@ -172,10 +173,43 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
                     $token->level = strlen( trim( $token->content ) );
                     break;
 
-                // @TODO: Image resize
-                // @TODO: Image alignements
-                // @TODO: List indentations
-                // @TODO: Table cell alignements
+                case $token instanceof ezcDocumentWikiImageStartToken:
+                    // Check if an alignement has been specified by whitespace
+                    // tokens.
+                    $lastImageStartToken = $token;
+                    if ( $tokens[$next = $nr + 1] instanceof ezcDocumentWikiWhitespaceToken )
+                    {
+                        $token->alignement = 'right';
+                        unset( $tokens[$nr + 1] );
+                        ++$next;
+                    }
+
+                case $token instanceof ezcDocumentWikiImageStartToken:
+                    if ( preg_match( '(\\?(?P<width>\d+)(?:x(?P<height>\d+))?$)', $tokens[$next]->content, $match ) )
+                    {
+                        $tokens[$next]->content = substr( $tokens[$next]->content, 0, -strlen( $match[0] ) );
+                        $token->width   = isset( $match['width'] ) ? (int) $match['width'] : null;
+                        $token->height  = isset( $match['height'] ) ? (int) $match['height'] : null;
+                    }
+                    break;
+                    
+                case $token instanceof ezcDocumentWikiImageEndToken:
+                case $token instanceof ezcDocumentWikiSeparatorToken:
+                    // Check if an alignement has been specified by whitespace
+                    // tokens.
+                    if ( ( $tokens[$nr - 1] instanceof ezcDocumentWikiWhitespaceToken ) &&
+                         ( $lastImageStartToken !== null ) )
+                    {
+                        $lastImageStartToken->alignement = $lastImageStartToken->alignement === 'right' ? 'center' : 'left';
+                        unset( $tokens[$nr - 1] );
+                    }
+                    $lastImageStartToken = null;
+                    break;
+
+                case $token instanceof ezcDocumentWikiBulletListItemToken:
+                case $token instanceof ezcDocumentWikiEnumeratedListItemToken:
+                    $token->indentation = substr_count( $token->content, ' ' );
+                    break;
             }
         }
 

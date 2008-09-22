@@ -17,6 +17,13 @@
 class ezcDocumentWikiBulletListItemToken extends ezcDocumentWikiToken
 {
     /**
+     * List element indentation
+     * 
+     * @var int
+     */
+    public $indentation;
+
+    /**
      * Set state after var_export
      * 
      * @param array $properties 
@@ -33,7 +40,7 @@ class ezcDocumentWikiBulletListItemToken extends ezcDocumentWikiToken
         );
 
         // Set additional token values
-        // $token->value = $properties['value'];
+         $token->indentation = $properties['indentation'];
 
         return $token;
     }

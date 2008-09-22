@@ -3,6 +3,7 @@
 return array (
   0 => 
   ezcDocumentWikiBulletListItemToken::__set_state(array(
+     'indentation' => NULL,
      'content' => '*',
      'line' => 0,
      'position' => 1,
@@ -39,6 +40,7 @@ return array (
   )),
   6 => 
   ezcDocumentWikiBulletListItemToken::__set_state(array(
+     'indentation' => NULL,
      'content' => '*',
      'line' => 0,
      'position' => 15,
@@ -75,6 +77,7 @@ return array (
   )),
   12 => 
   ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => NULL,
      'content' => '#',
      'line' => 0,
      'position' => 31,
@@ -147,6 +150,7 @@ return array (
   )),
   24 => 
   ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => NULL,
      'content' => '#',
      'line' => 0,
      'position' => 61,
