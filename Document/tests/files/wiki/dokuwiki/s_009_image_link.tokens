@@ -1,0 +1,81 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiLinkStartToken::__set_state(array(
+     'content' => '[[',
+     'line' => 0,
+     'position' => 2,
+  )),
+  2 => 
+  ezcDocumentWikiExternalLinkToken::__set_state(array(
+     'content' => 'http://www.php.net',
+     'line' => 0,
+     'position' => 4,
+  )),
+  3 => 
+  ezcDocumentWikiSeparatorToken::__set_state(array(
+     'content' => '|',
+     'line' => 0,
+     'position' => 22,
+  )),
+  4 => 
+  ezcDocumentWikiImageStartToken::__set_state(array(
+     'content' => '{{',
+     'line' => 0,
+     'position' => 23,
+  )),
+  5 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'wiki:dokuwiki-128.png',
+     'line' => 0,
+     'position' => 25,
+  )),
+  6 => 
+  ezcDocumentWikiImageEndToken::__set_state(array(
+     'content' => '}}',
+     'line' => 0,
+     'position' => 46,
+  )),
+  7 => 
+  ezcDocumentWikiLinkEndToken::__set_state(array(
+     'content' => ']]',
+     'line' => 0,
+     'position' => 48,
+  )),
+  8 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 50,
+  )),
+  9 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 51,
+  )),
+  10 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 51,
+  )),
+  11 => 
+  ezcDocumentWikiEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 0,
+     'position' => 51,
+  )),
+);
+
