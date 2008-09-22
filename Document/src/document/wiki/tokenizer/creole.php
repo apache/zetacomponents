@@ -155,6 +155,11 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 case $token instanceof ezcDocumentWikiParagraphIndentationToken:
                     $token->level = strlen( trim( $token->content ) );
                     break;
+
+                case $token instanceof ezcDocumentWikiBulletListItemToken:
+                case $token instanceof ezcDocumentWikiEnumeratedListItemToken:
+                    $token->indentation = strlen( $token->content );
+                    break;
             }
         }
 

@@ -3,7 +3,7 @@
 return array (
   0 => 
   ezcDocumentWikiBulletListItemToken::__set_state(array(
-     'indentation' => NULL,
+     'indentation' => 1,
      'content' => '*',
      'line' => 0,
      'position' => 1,
@@ -28,7 +28,7 @@ return array (
   )),
   4 => 
   ezcDocumentWikiBulletListItemToken::__set_state(array(
-     'indentation' => NULL,
+     'indentation' => 2,
      'content' => '**',
      'line' => 0,
      'position' => 8,
@@ -53,7 +53,7 @@ return array (
   )),
   8 => 
   ezcDocumentWikiBulletListItemToken::__set_state(array(
-     'indentation' => NULL,
+     'indentation' => 1,
      'content' => '*',
      'line' => 0,
      'position' => 18,
