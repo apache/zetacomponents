@@ -33,7 +33,7 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
     /**
      * Regular sub expression to match newlines.
      */
-    const NEW_LINE  = '(?:\\r\\n|\\r|\\n)';
+    const NEW_LINE  = '[\\x20\\t]*(?:\\r\\n|\\r|\\n)';
 
     /**
      * Characters ending a pure text section.

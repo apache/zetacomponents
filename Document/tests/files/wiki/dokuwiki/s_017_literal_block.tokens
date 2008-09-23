@@ -17,7 +17,7 @@ return array (
   2 => 
   ezcDocumentWikiLiteralBlockToken::__set_state(array(
      'content' => 'This is pretty much the same, but you could use it to show that you quoted a
-file.  ',
+file.',
      'line' => 1,
      'position' => 1,
   )),
@@ -26,7 +26,7 @@ file.  ',
      'content' => '
 ',
      'line' => 1,
-     'position' => 85,
+     'position' => 83,
   )),
   4 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
