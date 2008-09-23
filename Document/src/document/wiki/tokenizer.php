@@ -9,7 +9,57 @@
  */
 
 /**
- * Tokenizer for RST documents
+ * Tokenizer for wiki documents
+ *
+ * The tokenizer used for all wiki documents should prepare a token array,
+ * which can be used by the wiki parser, without any wiki language specific
+ * handling in the parser itself required. For this the tokenizing is performed
+ * in two steps:
+ *
+ * 1) Extract tokens from text
+ * 2) Filter tokens
+ *
+ * Token extraction
+ * ----------------
+ *
+ * For the token extraction the reqular expressions in the $tokens property are
+ * used. The $tokens array has to be build like, and can be created in the
+ * constrctor:
+ *
+ * <code>
+ *  array(
+ *      array(
+ *          'class' => Class name of token,
+ *          'match' => Regular expression to match,
+ *      ),
+ *      ...
+ *  )
+ * </code>
+ *
+ * The array is evaluated in the given order, until one of the regular
+ * expressions match. The regular expression should have at least one named
+ * match (?P<value> ... ), with the name "value", which will be assigned to the
+ * token, created form the given class name, as its content. The matched
+ * contents will be removed from the beginning of the string.
+
+ * Optionally a second named match, called "match", may be used inside the
+ * regular expression. If so, only the contents inside this match will be
+ * removed from the beginning of the string. This enables you to perform a
+ * trivial lookahead inside the tokenizer.
+ *
+ * If no expression matches, an exception will be thrown.
+ *
+ * Token filtering
+ * ---------------
+ *
+ * After all tokens are extracted from the text, they may miss some values,
+ * which may be required by the parser, like the level of title tokens. Those
+ * should be extracted and assigned during the filtering stage. For this the
+ * filterTokens() method should be implemented, which may iterate over the
+ * token stream and assign the required values.
+ *
+ * If the wiki markup language supports plugins you may also want to "parse"
+ * the plugin contents to extract type, parameters and its text here.
  * 
  * @package Document
  * @version //autogen//

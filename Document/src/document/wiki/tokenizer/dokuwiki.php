@@ -15,6 +15,9 @@
  * used at http://wiki.php.net. The Dokuwiki syntax definition can be found at:
  *
  * http://www.dokuwiki.org/syntax
+ *
+ * For the basic workings of the tokenizer see the class level documentation in
+ * the ezcDocumentWikiTokenizer class.
  * 
  * @package Document
  * @version //autogen//

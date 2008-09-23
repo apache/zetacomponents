@@ -15,6 +15,9 @@
  * Its documentation can be found at:
  *
  * http://www.wikicreole.org/
+ *
+ * For the basic workings of the tokenizer see the class level documentation in
+ * the ezcDocumentWikiTokenizer class.
  * 
  * @package Document
  * @version //autogen//
