@@ -1,0 +1,97 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentWikiBulletListItemToken::__set_state(array(
+     'indentation' => 1,
+     'content' => '*',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'some',
+     'line' => 0,
+     'position' => 2,
+  )),
+  2 => 
+  ezcDocumentWikiBulletListItemToken::__set_state(array(
+     'indentation' => 1,
+     'content' => '*',
+     'line' => 0,
+     'position' => 6,
+  )),
+  3 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'bullet',
+     'line' => 0,
+     'position' => 7,
+  )),
+  4 => 
+  ezcDocumentWikiBulletListItemToken::__set_state(array(
+     'indentation' => 2,
+     'content' => '**',
+     'line' => 0,
+     'position' => 13,
+  )),
+  5 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'indented',
+     'line' => 0,
+     'position' => 15,
+  )),
+  6 => 
+  ezcDocumentWikiBulletListItemToken::__set_state(array(
+     'indentation' => 2,
+     'content' => '**',
+     'line' => 0,
+     'position' => 23,
+  )),
+  7 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'bullets',
+     'line' => 0,
+     'position' => 25,
+  )),
+  8 => 
+  ezcDocumentWikiBulletListItemToken::__set_state(array(
+     'indentation' => 1,
+     'content' => '*',
+     'line' => 0,
+     'position' => 32,
+  )),
+  9 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'points',
+     'line' => 0,
+     'position' => 33,
+  )),
+  10 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 39,
+  )),
+  11 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 1,
+  )),
+  12 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 1,
+  )),
+  13 => 
+  ezcDocumentWikiEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 1,
+     'position' => 1,
+  )),
+);
+

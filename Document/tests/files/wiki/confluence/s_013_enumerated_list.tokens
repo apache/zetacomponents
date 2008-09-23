@@ -1,0 +1,71 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => 1,
+     'content' => '#',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'a',
+     'line' => 0,
+     'position' => 2,
+  )),
+  2 => 
+  ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => 2,
+     'content' => '##',
+     'line' => 0,
+     'position' => 3,
+  )),
+  3 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'numbered',
+     'line' => 0,
+     'position' => 5,
+  )),
+  4 => 
+  ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => 1,
+     'content' => '#',
+     'line' => 0,
+     'position' => 13,
+  )),
+  5 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'list',
+     'line' => 0,
+     'position' => 14,
+  )),
+  6 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 18,
+  )),
+  7 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 1,
+  )),
+  8 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 1,
+  )),
+  9 => 
+  ezcDocumentWikiEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 1,
+     'position' => 1,
+  )),
+);
+

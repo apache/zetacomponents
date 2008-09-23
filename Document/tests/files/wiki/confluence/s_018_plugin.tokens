@@ -1,0 +1,90 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentWikiPluginToken::__set_state(array(
+     'type' => NULL,
+     'parameters' => 
+    array (
+    ),
+     'text' => NULL,
+     'content' => '{code:title=Bar.java|borderStyle=solid}
+// Some comments here
+public String getFoo()
+{
+    return foo;
+}
+{code}',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 112,
+  )),
+  2 => 
+  ezcDocumentWikiPluginToken::__set_state(array(
+     'type' => NULL,
+     'parameters' => 
+    array (
+      'tag' => 'attribute',
+    ),
+     'text' => NULL,
+     'content' => '{code:xml}
+<test>
+  <another tag="attribute"/>
+</test>
+{code}',
+     'line' => 1,
+     'position' => 1,
+  )),
+  3 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 62,
+  )),
+  4 => 
+  ezcDocumentWikiPluginToken::__set_state(array(
+     'type' => NULL,
+     'parameters' => 
+    array (
+    ),
+     'text' => NULL,
+     'content' => '{calendar:id=myCalendar|title=My Calendar|defaultView=week}',
+     'line' => 2,
+     'position' => 1,
+  )),
+  5 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 2,
+     'position' => 60,
+  )),
+  6 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 3,
+     'position' => 1,
+  )),
+  7 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 3,
+     'position' => 1,
+  )),
+  8 => 
+  ezcDocumentWikiEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 3,
+     'position' => 1,
+  )),
+);
+
