@@ -94,9 +94,11 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
                 'match' => '(\\A(?P<value>\\x0c))S' ),
 
             // Escape character
+            /*
             array(
                 'class' => 'ezcDocumentWikiEscapeCharacterToken',
                 'match' => '(\\A(?P<value>~))S' ),
+            // */
 
             // Inline markup
             array(
