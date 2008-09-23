@@ -1,0 +1,48 @@
+format 58
+
+classcanvas 128016 class_ref 131984 // ezcMvcControllerImplementation
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 120 389 2000
+end
+classcanvas 128144 class_ref 132112 // yourServiceInterface
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 458 389 2000
+end
+classcanvas 128272 class_ref 132240 // PersistentSession
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 163 249 2000
+end
+classcanvas 128400 class_ref 132368 // yourServiceImplementation
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 439 249 2000
+end
+fragment 129168 ""
+  xyzwh 82 164 1994 652 140
+end
+fragment 129296 ""
+  xyzwh 81 360 1994 651 148
+end
+note 129424 "Model layer"
+  xyzwh 343 190 2010 97 35
+note 129552 "Controller layer"
+  xyzwh 322 452 2010 128 35
+note 129680 "Controller and model loose coupling demo
+
+This demonstrate a way to interact with the model layer without coupling it with the controller layer."
+  xyzwh 231 15 2000 323 88
+relationcanvas 128528 relation_ref 132240 // <dependency>
+  from ref 128016 z 1999 to ref 128144
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128656 relation_ref 132368 // <dependency>
+  from ref 128400 z 1999 to ref 128272
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129040 relation_ref 132752 // <realization>
+  from ref 128144 z 1999 to ref 128400
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

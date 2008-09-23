@@ -1,0 +1,6 @@
+{use $name, $quote}
+<h1>{$name}</h1>
+
+<blockquote>
+{$quote}
+</blockquote>

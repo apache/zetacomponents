@@ -1,0 +1,296 @@
+ezcMvcRequest::__set_state(array(
+   'date' => 
+  DateTime::__set_state(array(
+     'date' => '2006-03-16 08:46:27',
+     'timezone_type' => 1,
+     'timezone' => '+00:00',
+  )),
+   'protocol' => 'mail',
+   'host' => 'example.no',
+   'uri' => 'fh',
+   'requestId' => 'example.no/fh',
+   'referrer' => '',
+   'variables' => 
+  array (
+    'fromAddress' => 'example@hotmail.com',
+    'fromName' => 'Kristian Hole',
+    'subject' => 'Mail with attachment',
+  ),
+   'body' => 'This is the body
+',
+   'files' => 
+  array (
+    0 => 
+    ezcMvcRequestFile::__set_state(array(
+       'mimeType' => 'image/jpeg',
+       'name' => 'tur.jpg',
+       'size' => 45177,
+       'status' => 0,
+       'tmpPath' => '/tmp/PID-2/tur.jpg',
+    )),
+  ),
+   'accept' => 
+  ezcMvcRequestAccept::__set_state(array(
+     'types' => 
+    array (
+    ),
+     'charsets' => 
+    array (
+    ),
+     'languages' => 
+    array (
+    ),
+     'encodings' => 
+    array (
+    ),
+  )),
+   'agent' => 
+  ezcMvcRequestUserAgent::__set_state(array(
+     'agent' => NULL,
+  )),
+   'authentication' => NULL,
+   'raw' => 
+  ezcMail::__set_state(array(
+     'headers' => 
+    ezcMailHeadersHolder::__set_state(array(
+       'lookup' => 
+      array (
+        'return-path' => 'Return-Path',
+        'x-original-to' => 'X-Original-To',
+        'delivered-to' => 'Delivered-To',
+        'received' => 'Received',
+        'message-id' => 'Message-ID',
+        'x-originating-ip' => 'X-Originating-IP',
+        'x-originating-email' => 'X-Originating-Email',
+        'x-sender' => 'X-Sender',
+        'from' => 'From',
+        'to' => 'To',
+        'subject' => 'Subject',
+        'date' => 'Date',
+        'mime-version' => 'Mime-Version',
+        'content-type' => 'Content-Type',
+        'x-originalarrivaltime' => 'X-OriginalArrivalTime',
+        'x-spam-checker-version' => 'X-Spam-Checker-Version',
+        'x-spam-level' => 'X-Spam-Level',
+        'x-spam-status' => 'X-Spam-Status',
+        'status' => 'Status',
+        'x-uid' => 'X-UID',
+        'content-length' => 'Content-Length',
+        'x-keywords' => 'X-Keywords',
+        'x-status' => 'X-Status',
+        'x-kmail-encryptionstate' => 'X-KMail-EncryptionState',
+        'x-kmail-signaturestate' => 'X-KMail-SignatureState',
+        'x-kmail-mdn-sent' => 'X-KMail-MDN-Sent',
+      ),
+       'map' => 
+      array (
+        'Return-Path' => '<example@hotmail.com>',
+        'X-Original-To' => 'fh@example.no',
+        'Delivered-To' => 'fh@mta.example.no',
+        'Received' => 'from 209.170.95.138 by by14fd.bay14.hotmail.msn.com with HTTP; Thu, 16 Mar 2006 08:46:27 GMT',
+        'Message-ID' => '<BAY14-F13F83AEA1A935BD2B775CDB6E70@phx.gbl>',
+        'X-Originating-IP' => '[85.19.74.66]',
+        'X-Originating-Email' => '[example@hotmail.com]',
+        'X-Sender' => 'example@hotmail.com',
+        'From' => '"Kristian Hole" <example@hotmail.com>',
+        'To' => 'fh@example.no',
+        'Subject' => 'Mail with attachment',
+        'Date' => 'Thu, 16 Mar 2006 09:46:27 +0100',
+        'Mime-Version' => '1.0',
+        'Content-Type' => 'multipart/mixed;  boundary="----=_NextPart_000_60e2_5394_d94"',
+        'X-OriginalArrivalTime' => '16 Mar 2006 08:46:31.0795 (UTC) FILETIME=[1FA81C30:01C648D6]',
+        'X-Spam-Checker-Version' => 'SpamAssassin 3.0.4 (2005-06-05) on dolly',
+        'X-Spam-Level' => 'X',
+        'X-Spam-Status' => 'No, score=1.9 required=2.0 tests=DNS_FROM_RFC_ABUSE, DNS_FROM_RFC_POST,MIME_BOUND_NEXTPART,MSGID_FROM_MTA_HEADER  autolearn=no version=3.0.4',
+        'Status' => 'RO',
+        'X-UID' => '28236',
+        'Content-Length' => '61749',
+        'X-Keywords' => '',
+        'X-Status' => 'RT',
+        'X-KMail-EncryptionState' => 'N',
+        'X-KMail-SignatureState' => 'N',
+        'X-KMail-MDN-Sent' => '',
+      ),
+    )),
+     'headerCharsets' => 
+    array (
+      'Return-Path' => 'us-ascii',
+      'X-Original-To' => 'us-ascii',
+      'Delivered-To' => 'us-ascii',
+      'Received' => 'us-ascii',
+      'Message-ID' => 'us-ascii',
+      'X-Originating-IP' => 'us-ascii',
+      'X-Originating-Email' => 'us-ascii',
+      'X-Sender' => 'us-ascii',
+      'From' => 'us-ascii',
+      'To' => 'us-ascii',
+      'Subject' => 'us-ascii',
+      'Date' => 'us-ascii',
+      'Mime-Version' => 'us-ascii',
+      'Content-Type' => 'us-ascii',
+      'X-OriginalArrivalTime' => 'us-ascii',
+      'X-Spam-Checker-Version' => 'us-ascii',
+      'X-Spam-Level' => 'us-ascii',
+      'X-Spam-Status' => 'us-ascii',
+      'Status' => 'us-ascii',
+      'X-UID' => 'us-ascii',
+      'Content-Length' => 'us-ascii',
+      'X-Keywords' => 'us-ascii',
+      'X-Status' => 'us-ascii',
+      'X-KMail-EncryptionState' => 'us-ascii',
+      'X-KMail-SignatureState' => 'us-ascii',
+      'X-KMail-MDN-Sent' => 'us-ascii',
+    ),
+     'excludeHeaders' => 
+    array (
+    ),
+     'properties' => 
+    array (
+      'from' => 
+      ezcMailAddress::__set_state(array(
+         'name' => 'Kristian Hole',
+         'email' => 'example@hotmail.com',
+         'charset' => 'utf-8',
+      )),
+      'to' => 
+      array (
+        0 => 
+        ezcMailAddress::__set_state(array(
+           'name' => '',
+           'email' => 'fh@example.no',
+           'charset' => 'utf-8',
+        )),
+      ),
+      'cc' => 
+      array (
+      ),
+      'bcc' => 
+      array (
+      ),
+      'subject' => 'Mail with attachment',
+      'subjectCharset' => 'utf-8',
+      'body' => 
+      ezcMailMultipartMixed::__set_state(array(
+         'parts' => 
+        array (
+          0 => 
+          ezcMailText::__set_state(array(
+             'headers' => 
+            ezcMailHeadersHolder::__set_state(array(
+               'lookup' => 
+              array (
+                'content-type' => 'Content-Type',
+              ),
+               'map' => 
+              array (
+                'Content-Type' => 'text/plain; charset=iso-8859-1; format=flowed',
+              ),
+            )),
+             'headerCharsets' => 
+            array (
+              'Content-Type' => 'us-ascii',
+            ),
+             'excludeHeaders' => 
+            array (
+            ),
+             'properties' => 
+            array (
+              'text' => 'This is the body
+',
+              'charset' => 'utf-8',
+              'encoding' => '8bit',
+              'subType' => 'plain',
+              'originalCharset' => 'iso-8859-1',
+              'size' => 17,
+            ),
+          )),
+          1 => 
+          ezcMailFile::__set_state(array(
+             'headers' => 
+            ezcMailHeadersHolder::__set_state(array(
+               'lookup' => 
+              array (
+                'content-type' => 'Content-Type',
+                'content-transfer-encoding' => 'Content-Transfer-Encoding',
+                'content-disposition' => 'Content-Disposition',
+              ),
+               'map' => 
+              array (
+                'Content-Type' => 'image/jpeg; name="tur.jpg"',
+                'Content-Transfer-Encoding' => 'base64',
+                'Content-Disposition' => 'attachment; filename="tur.jpg"',
+              ),
+            )),
+             'headerCharsets' => 
+            array (
+              'Content-Type' => 'us-ascii',
+              'Content-Transfer-Encoding' => 'us-ascii',
+              'Content-Disposition' => 'us-ascii',
+            ),
+             'excludeHeaders' => 
+            array (
+            ),
+             'properties' => 
+            array (
+              'contentType' => 'image',
+              'mimeType' => 'jpeg',
+              'dispositionType' => 'attachment',
+              'contentId' => NULL,
+              'fileName' => '/tmp/PID-2/tur.jpg',
+              'contentDisposition' => 
+              ezcMailContentDispositionHeader::__set_state(array(
+                 'disposition' => 'attachment',
+                 'fileName' => 'tur.jpg',
+                 'displayFileName' => 'tur.jpg',
+                 'fileNameLanguage' => NULL,
+                 'fileNameCharSet' => NULL,
+                 'creationDate' => NULL,
+                 'modificationDate' => NULL,
+                 'readDate' => NULL,
+                 'size' => NULL,
+                 'additionalParameters' => 
+                array (
+                ),
+                 'additionalParametersMetaData' => 
+                array (
+                ),
+              )),
+              'size' => 45177,
+            ),
+          )),
+        ),
+         'headers' => 
+        ezcMailHeadersHolder::__set_state(array(
+           'lookup' => 
+          array (
+            'content-type' => 'Content-Type',
+          ),
+           'map' => 
+          array (
+            'Content-Type' => 'multipart/mixed; boundary="----=_NextPart_000_60e2_5394_d94"',
+          ),
+        )),
+         'headerCharsets' => 
+        array (
+          'Content-Type' => 'us-ascii',
+        ),
+         'excludeHeaders' => 
+        array (
+        ),
+         'properties' => 
+        array (
+          'boundary' => '----=_NextPart_000_60e2_5394_d94',
+          'size' => 45194,
+        ),
+      )),
+      'messageId' => '<BAY14-F13F83AEA1A935BD2B775CDB6E70@phx.gbl>',
+      'returnPath' => 
+      ezcMailAddress::__set_state(array(
+         'name' => '',
+         'email' => 'example@hotmail.com',
+         'charset' => 'utf-8',
+      )),
+      'size' => 63051,
+    ),
+  )),
+))

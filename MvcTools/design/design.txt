@@ -1,0 +1,372 @@
+eZ component: MvcTools, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Revision: $Rev$
+:Date: $Date$
+:Status: Draft
+
+.. contents::
+
+Scope
+=====
+
+The scope of this document is to describe the initial design of a component
+that provides classes to implement a MVC_ architecture for a web application.
+
+.. _MVC: http://en.wikipedia.org/wiki/Model-view-controller
+
+Design overview
+===============
+
+Because of the variety of protocols and formats that a modern PHP application
+should handle, this MVC implementation will provide an abstraction for input
+and output of controllers. Besides that, a few tieins will be provided.
+
+Some of the classes of this component are ezcMvcRequest and ezcMvcResult,
+which represent the abstract request object for a controller and the abstract
+result object that the controller returns.
+
+Beside these abstraction classes a collection of interfaces and classes will
+be provided for routing, request-parsing, view-handling and response-writing.
+This will allow the user of this component to build his own MVC_ on basis of
+the components building blocks and to adjust it to his needs.
+
+Very basic implementations of these interfaces will be shipped with the
+component, that can be used for very basic applications and are mainly meant
+as reference implementations. In future tie-ins with other eZ Components might
+be provided, that ship with more advanced implementations.
+
+Layers
+======
+
+The component is divided into 4 layers:
+
+The request parsing layer is represented by the ezcMvcRequestParser
+interface. An instance of a class implementing this interface is responsible
+for parsing an incoming request and creating an instance of ezcMvcRequest from
+it.  This object will encapsulate the complete request data, independent from
+the protocol and format used for the request. It will also contain raw
+protocol data.
+
+The routing layer, represented by the ezcMvcRouter abstract class, is in charge of
+selecting the correct controller to handle the request, based on the
+ezcMvcRequest object it received.
+
+Controllers represent the third layer. At this level: Classes process the
+request, based on the ezcMvcRequest object they received, and select the data
+to be used to create a response. Controllers only accept an instance of
+ezcMvcRequest as input and are responsible for returning an instance of
+ezcMvcResult, encapsulating all data necessary to render the response.
+
+View handling is the final layer, which is based on the incoming
+ezcMvcRequest object and the ezcMvcResult object created by the controllers.
+The view handler is created through the ezcMvcDispatcherConfiguration and is
+responsible for creating the actual response body. This response body in
+combination with the result headers are fed to the a class implementing the
+ezcResponseWriter interface.
+
+Filters reside between different layers. Filtering in the ezcMvcRequest object
+can for example re-encode all the different input variables in a different
+character set.  Filtering on the result object that comes from the
+controller's action could for example convert currencies and filtering in the
+response could minimize CSS, gzip content and re-encode to an output character
+set.
+
+Classes
+=======
+
+ezcMvcRequestFilter
+-------------------
+
+Provides an interface for request filters. Request filters can be used to
+modify the request data before it is used by the controller. They are run in
+the runRequestFilters() method of the ezcMvcController interface. This method
+should be called in the run() method of the controller, before the actual
+logic is applied:
+
+.. include:: request-filter.php
+   :literal:
+
+ezcMvcResultFilter
+------------------
+
+Provides an interface for result filters. Filters that implement this
+interface can be run after a controller have run their action. They are run in
+the runResultFilters() method of the ezcMvcController interface. This method
+should be called in the run() method of the controller, after the actual
+logic is applied on the result object:
+
+.. include:: result-filter.php
+   :literal:
+
+ezcMvcResponseFilter
+--------------------
+
+Provides an interface for response filters. Response filters are run after the
+response writer created protocol-dependent headers from the abstract headers
+as returned by the controller action.  This can modify the final output stream
+and protocol-dependent headers. They are run in the runResponseFilters method
+of the ezcMvcResponseWriter interface:
+
+.. include:: response-filter.php
+   :literal:
+
+ezcMvcResponse
+--------------
+
+A struct that encapsulates the body and headers that form a response, used
+internally in the response writer to allow response filters being run:
+
+.. include:: response.php
+   :literal:
+
+ezcMvcRequestParser
+--------------------
+
+The ezcMvcRequestParser interface has to be implemented by classes that will
+parse a request and create an ezcMvcRequest object.
+
+.. include:: request-parser.php
+   :literal:
+
+
+ezcMvcRequest
+-------------
+
+An instance of this class encapsulates a client-request, containing both data
+that has been abstracted from the request protocol and format, as well as
+protocol specific data through the raw property. The latter should not be
+used, but is provided for extra flexibility. An object of this class is
+generated by a class that implements the ezcMvcRequestParser interface.
+
+An example of a HTTP request:
+
+.. include:: http-request.php
+   :literal:
+
+An example of a mail request:
+
+.. include:: mail-request.php
+   :literal:
+
+The class definition itself:
+
+.. include:: request.php
+   :literal:
+
+
+ezcMvcRequestAuthentication
+---------------------------
+
+Encapsulate the client authentication informations in a protocol abstract
+way:
+    
+.. include:: request-authentication.php
+   :literal:
+    
+ezcMvcRequestAccept
+--------------------
+
+Encapsulate the client content informations in a protocol abstract way:
+
+.. include:: request-accept.php
+   :literal:
+
+ezcMvcRequestFile
+-----------------
+
+Encapsulate the files informations in a protocol abstract way:
+
+.. include:: request-file.php
+   :literal:
+
+ezcMvcRequestUserAgent
+----------------------
+
+Encapsulate the client agent informations in a protocol abstract way:
+
+.. include:: request-user-agent.php
+   :literal:
+
+ezcMvcRawRequest
+----------------
+
+Encapsulates the raw request data, must be inherited by protocol-specific
+classes. Filters can add their own data to this struct in the filterData
+array:
+
+.. include:: request-raw.php
+   :literal:
+
+This class will be sub-classed by (for example) the following classes:
+
+ezcMvcMailRawRequest
+^^^^^^^^^^^^^^^^^^^^
+
+This class encapsulates the parsed e-mail structure:
+
+.. include:: request-raw-mail.php
+   :literal:
+
+
+ezcMvcHttpRawRequest
+^^^^^^^^^^^^^^^^^^^^
+
+This class encapsulates a raw HTTP request:
+
+.. include:: request-raw-http.php
+   :literal:
+
+
+ezcMvcRouter
+------------
+
+There will be a few supplied routers, below an example of the
+router:
+
+.. include:: regexp-router.php
+   :literal:
+
+ezcMvcController
+----------------
+
+This interface must be implemented by every controller. This is the only
+interface that is only meant for user implementations and for that no basic
+implementation will be shipped with the component.
+
+Assuming that action-selection should be done within the controller itself,
+it should have a public method: createResult(); The returned result
+can be either a ezcMvcResult object, or an ezcMvcInternalRedirect object. The
+latter can be used by the dispatcher to restart the routing and controller
+parts of the request as you can see in the example dispatcher implementation
+below:
+
+.. include:: controller.php
+   :literal:
+
+ezcMvcResult
+------------
+
+This object encapsulates the result of a controller, abstracting from the
+actual response protocol. The output object will be modeled similar to the
+input variant, described above. There is only one result object returned by
+the controller, containing both the abstract headers and abstract result.
+
+An example of "crafting" a result to produce HTTP response headers in an
+abstract way is shown below:
+
+.. include:: http-result.php
+   :literal:
+
+ezcMvcView
+----------
+
+This abstract class has to be inherited by classes that handle rendering one
+ezcMvcResult object into one specific format, that will be part of the
+response. The view is created by the createViewHandler method of the
+ezcMvcDispatcherConfiguration. The view returns an ezcMvcResponse object that
+contains the protocol-abstract headers and the rendered result. The dispatcher
+then feeds this to a result writer. The views can include other views by using
+zones.
+
+There will be a few supplied view handlers, below an example of things
+interact:
+
+.. include:: template-view-handler.php
+   :literal:
+
+ezcMvcResponseWriter
+--------------------
+
+Takes the result from the controller action, and the body string from the view
+to handle sending the full response to the client. The interface looks like:
+
+.. include:: response-writer.php
+   :literal:
+
+ezcMvcDispatcher
+----------------
+
+A dispatcher can be used to encapsulate the process from the request
+parsing to making the response.
+
+All dispatchers supplied by eZ Components should implement this interface,
+asserting that the same configuration object can be used for each:
+
+.. include:: dispatcher.php
+   :literal:
+
+ezcMvcDispatcherConfiguration
+-----------------------------
+
+Configuring a dispatcher is done by implementing the following interface:
+
+.. include:: dispatcher-configuration.php
+   :literal:
+
+
+Example Dispatcher
+==================
+
+.. include:: example-dispatcher.php
+   :literal:
+
+
+Example dispatcher usage:
+
+.. include:: dispatcher-usage.php
+   :literal:
+
+Special considerations
+======================
+
+Shipping of example-implementations
+-----------------------------------
+
+The section `Design overview`_ states that very basic implementations of the
+provided interfaces should be shipped with the component. It must be decided
+if these implementations should be part of the components source code itself
+or should deal as documentation (and therefore reside in the docs/ directory
+instead of src/).
+
+The first iteration of this component will provide the following example
+implementations:
+
+- HTTP request parser (ezcMvcHttpRequestParser), that builds a request
+  object from a HTTP request.
+- Router like jetfuel/rails (ezcMvcRailsRouter)
+  (http://code.google.com/p/jetfuel/source/browse/branches/0.3.1/examples/blog/settings/routes.php).
+- Router based on regular expressions (ezcMvcRegexpRouter).
+- View handler using PHP (ezcMvcPhpView).
+- View handler using the Template component (ezcMvcTemplateView).
+- View handler outputting JSON (ezcMvcJsonView).
+- Example dispatcher for HTTP.
+- Example dispatcher for CLI applications.
+- Example controller.
+- Example model with PersistentObject and service interface.
+- Authentication request filter (ezcMvcAuthenticationFilter).
+- Navigation result filter (ezcMvcNavigationFilter) that adds navigation to
+  pages.
+- Character encoding response filter (ezcMvcCharacterEncodingFilter).
+
+Following iterations will add the following examples:
+
+- Mail request parser (ezcMvcMailRequestParser), that builds a request
+  object from an e-mail message.
+- Jabber request parser (ezcMvcJabberRequestParser), that builds a request
+  object from a jabber message.
+- Router based on the Url component.
+- Router based on the Tree component.
+- View handler outputting feeds through the Feed component (ezcMvcFeedView).
+- View handler outputting XML (ezcMvcXmlView).
+- View handler that uses Translations into the ezcMvcTemplateView.
+- GZIP response filter (ezcMvcGzipFilter).
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 78
+   End: 
+   vim: et syn=rst tw=78

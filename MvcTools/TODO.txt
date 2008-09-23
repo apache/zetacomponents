@@ -1,0 +1,10 @@
+- Confirm that 500 is the correct HTTP response code to use in case of 
+  fallback controller failure.
+- Figure out how to return headers from the ezcMvcView::createResponse() 
+  method in the ezcMvcResponse struct.
+- Figure out a way how to configure the PHP View Handler with a standard
+  dirname - similarly to what the Template component does.
+- Figure out a way how to configure the view handlers (PHP and Template) with
+  a standard directory name - similarly to what the Template component does.
+- Support reverse route generation: create an URL from an argument. This
+  feature should be available from the router interface.

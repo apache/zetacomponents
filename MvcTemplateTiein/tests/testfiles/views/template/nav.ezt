@@ -1,0 +1,9 @@
+{use $navMaxPages, $navCurrentPage}
+{var $i = 1}
+<div id='nav'>
+{while $i <= $navMaxPages}
+	{if $i == $navCurrentPage } [{$i}] {else} <a href='?page={$i}'>{$i}</a> {/if}
+	{$i++}
+{/while}
+
+</div>

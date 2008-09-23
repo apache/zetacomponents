@@ -1,0 +1,86 @@
+format 58
+
+classcanvas 128016 class_ref 128656 // ezcMvcRequest
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 321 383 2000
+end
+classcanvas 128071 class_ref 128071 // ezcMvcRawRequest
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 307 617 2004
+end
+classcanvas 128144 class_ref 130320 // ezcMvcRequestUserAgent
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 58 74 2000
+end
+classcanvas 128272 class_ref 130448 // ezcMvcRequestContent
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 298 80 2005
+end
+classcanvas 128400 class_ref 130576 // ezcMvcRequestAuthentication
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 585 76 2000
+end
+classcanvas 128528 class_ref 130704 // ezcMvcRequestCache
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 54 244 2000
+end
+classcanvas 128656 class_ref 128912 // ezcMvcRequestFile
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 639 250 2000
+end
+classcanvas 129424 class_ref 134928 // ezcMvcHttpRequest
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 308 782 2000
+end
+fragment 129808 ""
+  xyzwh 9 2 1994 806 566
+end
+note 129936 "Protocol abstract fragment"
+  xyzwh 263 11 2005 223 45
+fragment 130064 ""
+  xyzwh 10 583 1994 805 384
+end
+note 130192 "Protocol dependant fragment"
+  xyzwh 254 911 2005 241 41
+relationcanvas 128327 relation_ref 128199 // <composition>
+  from ref 128016 z 1999 to ref 128071
+  role_a_pos 384 598 3000 no_role_b
+  multiplicity_a_pos 344 598 3000 multiplicity_b_pos 357 428 3000
+end
+relationcanvas 128583 relation_ref 128327 // <directional aggregation>
+  decenter_begin 947
+  from ref 128071 z 1999 to ref 128656
+  role_a_pos 646 387 3000 no_role_b
+  multiplicity_a_pos 621 387 3000 multiplicity_b_pos 423 598 3000
+end
+relationcanvas 128784 relation_ref 130576 // <directional composition>
+  from ref 128016 z 1999 to ref 128144
+  role_a_pos 183 147 3000 no_role_b
+  multiplicity_a_pos 156 147 3000 multiplicity_b_pos 336 364 3000
+end
+relationcanvas 128912 relation_ref 130704 // <directional composition>
+  from ref 128016 z 1999 to ref 128272
+  role_a_pos 384 201 3000 no_role_b
+  multiplicity_a_pos 357 201 3000 multiplicity_b_pos 357 364 3000
+end
+relationcanvas 129040 relation_ref 130832 // <directional composition>
+  from ref 128016 z 1999 to ref 128400
+  role_a_pos 546 131 3000 no_role_b
+  multiplicity_a_pos 617 156 3000 multiplicity_b_pos 403 380 3000
+end
+relationcanvas 129168 relation_ref 130960 // <directional composition>
+  from ref 128016 z 1999 to ref 128528
+  role_a_pos 206 304 3000 no_role_b
+  multiplicity_a_pos 206 329 3000 multiplicity_b_pos 316 393 3000
+end
+relationcanvas 129296 relation_ref 131088 // <directional composition>
+  from ref 128016 z 1999 to ref 128656
+  role_a_pos 606 309 3000 no_role_b
+  multiplicity_a_pos 623 334 3000 multiplicity_b_pos 437 391 3000
+end
+relationcanvas 129680 relation_ref 135952 // <directional composition>
+  from ref 128071 z 1999 to ref 129424
+  role_a_pos 384 763 3000 no_role_b
+  multiplicity_a_pos 344 763 3000 no_multiplicity_b
+end
+end

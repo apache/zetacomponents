@@ -1,0 +1,370 @@
+ezcMvcRequest::__set_state(array(
+   'date' => 
+  DateTime::__set_state(array(
+     'date' => '2006-03-15 09:14:44',
+     'timezone_type' => 1,
+     'timezone' => '+00:00',
+  )),
+   'protocol' => 'mail',
+   'host' => 'example.no',
+   'uri' => 'fh',
+   'requestId' => 'example.no/fh',
+   'referrer' => '',
+   'variables' => 
+  array (
+    'fromAddress' => 'xxx@example.no',
+    'fromName' => 'Ole Marius Smestad',
+    'subject' => 'HTML mail with inline image Mail.app',
+  ),
+   'body' => 'Test test
+
+￼
+Hei og hå, hopla
+
+hepp
+
+
+',
+   'files' => 
+  array (
+    0 => 
+    ezcMvcRequestFile::__set_state(array(
+       'mimeType' => 'image/jpeg',
+       'name' => 'tur.jpg',
+       'size' => 45177,
+       'status' => 0,
+       'tmpPath' => '/tmp/PID-1/tur.jpg',
+    )),
+  ),
+   'accept' => 
+  ezcMvcRequestAccept::__set_state(array(
+     'types' => 
+    array (
+    ),
+     'charsets' => 
+    array (
+    ),
+     'languages' => 
+    array (
+    ),
+     'encodings' => 
+    array (
+    ),
+  )),
+   'agent' => 
+  ezcMvcRequestUserAgent::__set_state(array(
+     'agent' => NULL,
+  )),
+   'authentication' => NULL,
+   'raw' => 
+  ezcMail::__set_state(array(
+     'headers' => 
+    ezcMailHeadersHolder::__set_state(array(
+       'lookup' => 
+      array (
+        'return-path' => 'Return-Path',
+        'x-original-to' => 'X-Original-To',
+        'delivered-to' => 'Delivered-To',
+        'received' => 'Received',
+        'mime-version' => 'Mime-Version',
+        'to' => 'To',
+        'message-id' => 'Message-Id',
+        'content-type' => 'Content-Type',
+        'from' => 'From',
+        'subject' => 'Subject',
+        'date' => 'Date',
+        'x-mailer' => 'X-Mailer',
+        'x-spam-checker-version' => 'X-Spam-Checker-Version',
+        'x-spam-level' => 'X-Spam-Level',
+        'x-spam-status' => 'X-Spam-Status',
+        'status' => 'Status',
+        'x-uid' => 'X-UID',
+        'content-length' => 'Content-Length',
+        'x-keywords' => 'X-Keywords',
+        'x-status' => 'X-Status',
+        'x-kmail-encryptionstate' => 'X-KMail-EncryptionState',
+        'x-kmail-signaturestate' => 'X-KMail-SignatureState',
+        'x-kmail-mdn-sent' => 'X-KMail-MDN-Sent',
+      ),
+       'map' => 
+      array (
+        'Return-Path' => '<xxx@example.no>',
+        'X-Original-To' => 'fh@example.no',
+        'Delivered-To' => 'fh@mta.example.no',
+        'Received' => 'from [10.0.2.199] (unknown [85.19.74.66]) by mta.example.no (Postfix) with ESMTP id 08B5148C034 for <fh@example.no>; Wed, 15 Mar 2006 03:57:39 +0100 (CET)',
+        'Mime-Version' => '1.0 (Apple Message framework v746.3)',
+        'To' => 'fh@example.no',
+        'Message-Id' => '<7E66853D-E79B-40A8-BA11-575CFDC0A3A7@example.no>',
+        'Content-Type' => 'multipart/alternative;  boundary=Apple-Mail-7-898127351',
+        'From' => 'Ole Marius Smestad <xxx@example.no>',
+        'Subject' => 'HTML mail with inline image Mail.app',
+        'Date' => 'Wed, 15 Mar 2006 10:14:44 +0100',
+        'X-Mailer' => 'Apple Mail (2.746.3)',
+        'X-Spam-Checker-Version' => 'SpamAssassin 3.0.4 (2005-06-05) on dolly',
+        'X-Spam-Level' => '',
+        'X-Spam-Status' => 'No, score=-96.4 required=2.0 tests=DATE_IN_FUTURE_06_12, HTML_90_100,HTML_FONT_BIG,HTML_IMAGE_ONLY_08,HTML_MESSAGE, USER_IN_WHITELIST autolearn=no version=3.0.4',
+        'Status' => 'RO',
+        'X-UID' => '27949',
+        'Content-Length' => '62422',
+        'X-Keywords' => '',
+        'X-Status' => 'RT',
+        'X-KMail-EncryptionState' => 'N',
+        'X-KMail-SignatureState' => 'N',
+        'X-KMail-MDN-Sent' => '',
+      ),
+    )),
+     'headerCharsets' => 
+    array (
+      'Return-Path' => 'us-ascii',
+      'X-Original-To' => 'us-ascii',
+      'Delivered-To' => 'us-ascii',
+      'Received' => 'us-ascii',
+      'Mime-Version' => 'us-ascii',
+      'To' => 'us-ascii',
+      'Message-Id' => 'us-ascii',
+      'Content-Type' => 'us-ascii',
+      'From' => 'us-ascii',
+      'Subject' => 'us-ascii',
+      'Date' => 'us-ascii',
+      'X-Mailer' => 'us-ascii',
+      'X-Spam-Checker-Version' => 'us-ascii',
+      'X-Spam-Level' => 'us-ascii',
+      'X-Spam-Status' => 'us-ascii',
+      'Status' => 'us-ascii',
+      'X-UID' => 'us-ascii',
+      'Content-Length' => 'us-ascii',
+      'X-Keywords' => 'us-ascii',
+      'X-Status' => 'us-ascii',
+      'X-KMail-EncryptionState' => 'us-ascii',
+      'X-KMail-SignatureState' => 'us-ascii',
+      'X-KMail-MDN-Sent' => 'us-ascii',
+    ),
+     'excludeHeaders' => 
+    array (
+    ),
+     'properties' => 
+    array (
+      'from' => 
+      ezcMailAddress::__set_state(array(
+         'name' => 'Ole Marius Smestad',
+         'email' => 'xxx@example.no',
+         'charset' => 'utf-8',
+      )),
+      'to' => 
+      array (
+        0 => 
+        ezcMailAddress::__set_state(array(
+           'name' => '',
+           'email' => 'fh@example.no',
+           'charset' => 'utf-8',
+        )),
+      ),
+      'cc' => 
+      array (
+      ),
+      'bcc' => 
+      array (
+      ),
+      'subject' => 'HTML mail with inline image Mail.app',
+      'subjectCharset' => 'utf-8',
+      'body' => 
+      ezcMailMultipartAlternative::__set_state(array(
+         'parts' => 
+        array (
+          0 => 
+          ezcMailText::__set_state(array(
+             'headers' => 
+            ezcMailHeadersHolder::__set_state(array(
+               'lookup' => 
+              array (
+                'content-transfer-encoding' => 'Content-Transfer-Encoding',
+                'content-type' => 'Content-Type',
+              ),
+               'map' => 
+              array (
+                'Content-Transfer-Encoding' => 'quoted-printable',
+                'Content-Type' => 'text/plain; charset=UTF-8; format=flowed',
+              ),
+            )),
+             'headerCharsets' => 
+            array (
+              'Content-Transfer-Encoding' => 'us-ascii',
+              'Content-Type' => 'us-ascii',
+            ),
+             'excludeHeaders' => 
+            array (
+            ),
+             'properties' => 
+            array (
+              'text' => 'Test test
+
+￼
+Hei og hå, hopla
+
+hepp
+
+
+',
+              'charset' => 'utf-8',
+              'encoding' => '8bit',
+              'subType' => 'plain',
+              'originalCharset' => 'utf-8',
+              'size' => 41,
+            ),
+          )),
+          1 => 
+          ezcMailMultipartRelated::__set_state(array(
+             'parts' => 
+            array (
+              0 => 
+              ezcMailText::__set_state(array(
+                 'headers' => 
+                ezcMailHeadersHolder::__set_state(array(
+                   'lookup' => 
+                  array (
+                    'content-transfer-encoding' => 'Content-Transfer-Encoding',
+                    'content-type' => 'Content-Type',
+                  ),
+                   'map' => 
+                  array (
+                    'Content-Transfer-Encoding' => 'quoted-printable',
+                    'Content-Type' => 'text/html; charset=ISO-8859-1',
+                  ),
+                )),
+                 'headerCharsets' => 
+                array (
+                  'Content-Transfer-Encoding' => 'us-ascii',
+                  'Content-Type' => 'us-ascii',
+                ),
+                 'excludeHeaders' => 
+                array (
+                ),
+                 'properties' => 
+                array (
+                  'text' => '<HTML><BODY style="word-wrap: break-word; -khtml-nbsp-mode: space; -khtml-line-break: after-white-space; "><B><FONT class="Apple-style-span" color="#9F69FF">Test test</FONT></B><DIV><BR class="khtml-block-placeholder"></DIV><DIV><IMG src="cid:689D8AD3-D129-443F-94F7-90037B82B429@example.no"></DIV><DIV><BR class="khtml-block-placeholder"></DIV><DIV>Hei og hå, hopla</DIV><DIV><BR class="khtml-block-placeholder"></DIV><DIV><FONT class="Apple-style-span" size="4"><SPAN class="Apple-style-span" style="font-size: 14px;"><B>hepp</B></SPAN></FONT></DIV><DIV><BR class="khtml-block-placeholder"></DIV><DIV><BR class="khtml-block-placeholder"></DIV></BODY></HTML>',
+                  'charset' => 'utf-8',
+                  'encoding' => '8bit',
+                  'subType' => 'html',
+                  'originalCharset' => 'iso-8859-1',
+                  'size' => 660,
+                ),
+              )),
+              1 => 
+              ezcMailFile::__set_state(array(
+                 'headers' => 
+                ezcMailHeadersHolder::__set_state(array(
+                   'lookup' => 
+                  array (
+                    'content-transfer-encoding' => 'Content-Transfer-Encoding',
+                    'content-id' => 'Content-Id',
+                    'content-type' => 'Content-Type',
+                    'content-disposition' => 'Content-Disposition',
+                  ),
+                   'map' => 
+                  array (
+                    'Content-Transfer-Encoding' => 'base64',
+                    'Content-Id' => '<689D8AD3-D129-443F-94F7-90037B82B429@example.no>',
+                    'Content-Type' => 'image/jpeg; x-unix-mode=0644; name="tur.jpg"',
+                    'Content-Disposition' => 'inline; filename=tur.jpg',
+                  ),
+                )),
+                 'headerCharsets' => 
+                array (
+                  'Content-Transfer-Encoding' => 'us-ascii',
+                  'Content-Id' => 'us-ascii',
+                  'Content-Type' => 'us-ascii',
+                  'Content-Disposition' => 'us-ascii',
+                  'Content-ID' => 'us-ascii',
+                ),
+                 'excludeHeaders' => 
+                array (
+                ),
+                 'properties' => 
+                array (
+                  'contentType' => 'image',
+                  'mimeType' => 'jpeg',
+                  'dispositionType' => 'inline',
+                  'contentId' => '689D8AD3-D129-443F-94F7-90037B82B429@example.no',
+                  'fileName' => '/tmp/PID-1/tur.jpg',
+                  'contentDisposition' => 
+                  ezcMailContentDispositionHeader::__set_state(array(
+                     'disposition' => 'inline',
+                     'fileName' => 'tur.jpg',
+                     'displayFileName' => 'tur.jpg',
+                     'fileNameLanguage' => NULL,
+                     'fileNameCharSet' => NULL,
+                     'creationDate' => NULL,
+                     'modificationDate' => NULL,
+                     'readDate' => NULL,
+                     'size' => NULL,
+                     'additionalParameters' => 
+                    array (
+                    ),
+                     'additionalParametersMetaData' => 
+                    array (
+                    ),
+                  )),
+                  'size' => 45177,
+                ),
+              )),
+            ),
+             'headers' => 
+            ezcMailHeadersHolder::__set_state(array(
+               'lookup' => 
+              array (
+                'content-type' => 'Content-Type',
+              ),
+               'map' => 
+              array (
+                'Content-Type' => 'multipart/related; boundary="Apple-Mail-8-898127352"',
+              ),
+            )),
+             'headerCharsets' => 
+            array (
+              'Content-Type' => 'us-ascii',
+            ),
+             'excludeHeaders' => 
+            array (
+            ),
+             'properties' => 
+            array (
+              'boundary' => 'Apple-Mail-8-898127352',
+              'size' => 45837,
+            ),
+          )),
+        ),
+         'headers' => 
+        ezcMailHeadersHolder::__set_state(array(
+           'lookup' => 
+          array (
+            'content-type' => 'Content-Type',
+          ),
+           'map' => 
+          array (
+            'Content-Type' => 'multipart/alternative; boundary="Apple-Mail-7-898127351"',
+          ),
+        )),
+         'headerCharsets' => 
+        array (
+          'Content-Type' => 'us-ascii',
+        ),
+         'excludeHeaders' => 
+        array (
+        ),
+         'properties' => 
+        array (
+          'boundary' => 'Apple-Mail-7-898127351',
+          'size' => 45878,
+        ),
+      )),
+      'messageId' => '<7E66853D-E79B-40A8-BA11-575CFDC0A3A7@example.no>',
+      'returnPath' => 
+      ezcMailAddress::__set_state(array(
+         'name' => '',
+         'email' => 'xxx@example.no',
+         'charset' => 'utf-8',
+      )),
+      'size' => 63553,
+    ),
+  )),
+))

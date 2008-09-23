@@ -1,0 +1,26 @@
+Return-Path: <xxx@example.no>
+X-Original-To: fh@example.no
+Delivered-To: fh@mta.example.no
+Received: from [10.0.2.199] (unknown [85.19.74.66])
+	by mta.example.no (Postfix) with ESMTP id 08B5148C034
+	for <fh@example.no>; Wed, 15 Mar 2006 03:57:39 +0100 (CET)
+Mime-Version: 1.0 (Apple Message framework v746.3)
+To: fh@example.no
+Message-Id: <7E66853D-E79B-40A8-BA11-575CFDC0A3A7@example.no>
+From: Ole Marius Smestad <xxx@example.no>
+Subject: HTML mail with inline image Mail.app
+Date: Wed, 15 Mar 2006 10:14:44 +0100
+
+@product      = Bugzilla
+@component    = general
+@version      = All
+@groupset     = ReadWorld ReadPartners
+@op_sys       = Linux
+@priority     = P3
+@rep_platform = i386
+
+This is the description of the bug I found. It is not necessary to start
+it with a keyword.
+
+Note: The short_description is necessary and may be given with the keyword
+@short_description or will be retrieved from the mail subject.

@@ -1,0 +1,1279 @@
+format 58
+"bouml"
+  revision 12
+  modified_by 16 "jpic"
+
+
+  
+  // class settings
+  default_attribute_visibility protected default_relation_visibility protected default_operation_visibility public
+  //class diagram settings
+  draw_all_relations yes hide_attributes no hide_operations no show_members_full_definition no show_members_visibility no show_members_stereotype no show_members_multiplicity no show_members_initialization no member_max_width 127 show_parameter_dir yes show_parameter_name yes package_name_in_tab no class_drawing_mode natural drawing_language uml show_context_mode no auto_label_position yes show_infonote no shadow yes show_stereotype_properties no
+  //use case diagram settings
+  package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes class_drawing_mode actor shadow yes show_stereotype_properties no
+  //sequence diagram settings
+  show_full_operations_definition no write_horizontally yes class_drawing_mode natural drawing_language uml draw_all_relations yes shadow yes show_stereotype_properties no
+  //collaboration diagram settings
+  show_full_operations_definition no show_hierarchical_rank no write_horizontally yes drawing_language uml package_name_in_tab no show_context no draw_all_relations yes shadow yes show_stereotype_properties no
+  //object diagram settings
+   write_horizontally yes package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes shadow yes show_stereotype_properties no
+  //component diagram settings
+  package_name_in_tab no show_context no auto_label_position yes draw_all_relations yes shadow yes
+  draw_component_as_icon no show_component_req_prov no show_component_rea no show_stereotype_properties no
+  //deployment diagram settings
+  package_name_in_tab no show_context no write_horizontally yes auto_label_position yes draw_all_relations yes shadow yes
+  draw_component_as_icon no show_component_req_prov no show_component_rea no show_stereotype_properties no
+  //state diagram settings
+  package_name_in_tab no show_context no auto_label_position yes write_trans_label_horizontally yes show_trans_definition no draw_all_relations yes shadow yes
+  show_activities yes region_horizontally yes drawing_language uml show_stereotype_properties no
+  //activity diagram settings
+  package_name_in_tab no show_context no show_opaque_action_definition no auto_label_position yes write_flow_label_horizontally no draw_all_relations yes shadow yes
+  show_infonote yes drawing_language uml show_stereotype_properties no
+  
+  class_color yellow duration_color transparent continuation_color gray note_color blue fragment_color transparent subject_color transparent usecase_color yellow package_color transparent component_color green artifact_color green deploymentnode_color gray state_color yellow stateaction_color transparent activity_color transparent activityregion_color transparent activityaction_color transparent parameterpin_color white 
+  font_size 7
+  diagram_format A4
+
+  mark_for_import
+  
+  ncouples 1
+  key "html dir" value "/home/jpic/mvc_public/"
+  classview 128016 "Dispatching"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    classdiagram 128144 "Second version"
+      draw_all_relations no hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 128144 "ezcMvcRequestParser"
+      visibility package stereotype "interface"
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 128144 "createRequest"
+	public return_type class_ref 128656 // ezcMvcRequest
+	nparams 0
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+	comment "    /**
+     * Parses the request and creates an input object.
+     *
+     * @return ezcMvcInput
+     */
+"
+      end
+
+      classrelation 128144 // <realization>
+	relation 128144 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 128144 // <realization>
+	  b parent class_ref 128656 // ezcMvcRequest
+      end
+    end
+
+    class 128016 "ezcMvcRouter"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 128016 "createController"
+	public return_type class_ref 128272 // ezcMvcController
+	nparams 1
+	  param in name "request" type class_ref 128656 // ezcMvcRequest
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)};"
+	
+	
+      end
+
+      classrelation 128272 // <dependency>
+	relation 128272 -_->
+	  a default
+	    classrelation_ref 128272 // <dependency>
+	  b parent class_ref 128656 // ezcMvcRequest
+      end
+
+      classrelation 128528 // <realization>
+	relation 128528 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 128528 // <realization>
+	  b parent class_ref 128272 // ezcMvcController
+      end
+
+      classrelation 139280 // <directional composition>
+	relation 139024 *-->
+	  a role_name "" protected
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 139280 // <directional composition>
+	  b parent class_ref 136720 // ezcMvcRoute
+      end
+    end
+
+    class 128272 "ezcMvcController"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/**
+ * Interface defining controller classes.
+ * 
+ * Controllers process the client's request and returns variables usable by
+ * the view-manager in an instance of an ezcMvcOutput.
+ * Controllers should not access request variables directly but should use the
+ * passed ezcMvcInput.
+ * The process is done through the run() method, but is not limited to use protected
+ * nor private methods. The result of running a controller is an instance of
+ * ezcMvcOutput.
+ *
+ * @package MvcTools
+ * @version //autogen//
+ * @mainclass
+ */
+"
+      operation 128400 "createResult"
+	public explicit_return_type "ezcMvcResult"
+	nparams 1
+	  param in name "request" type class_ref 128656 // ezcMvcRequest
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      classrelation 128400 // <realization>
+	relation 128400 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 128400 // <realization>
+	  b parent class_ref 128784 // ezcMvcResult
+      end
+
+      classrelation 128656 // <dependency>
+	relation 128656 -_->
+	  a default
+	    classrelation_ref 128656 // <dependency>
+	  b parent class_ref 128656 // ezcMvcRequest
+      end
+
+      classrelation 135824 // <realization>
+	relation 135696 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 135824 // <realization>
+	  b parent class_ref 134800 // ezcMvcRedirection
+      end
+
+      classrelation 136208 // <dependency>
+	relation 136080 -_->
+	  a default
+	    classrelation_ref 136208 // <dependency>
+	  b parent class_ref 135056 // ezcMvcRequestFilter
+      end
+
+      classrelation 136336 // <dependency>
+	relation 136208 -_->
+	  a default
+	    classrelation_ref 136336 // <dependency>
+	  b parent class_ref 135312 // ezcMvcResultFilter
+      end
+    end
+
+    class 128528 "ezcMvcViewHandler"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "/**
+ * Interface defining view-handling classes.
+ *
+ * View-handlers uses the abstract input and output objects: ezcMvcInput
+ * and ezcMvcOutput; in order to create the response headers and body.
+ * It's usable should be delegated to the view-manager.
+ * 
+ * @package MvcTools
+ * @version //autogen//
+ * @mainclass
+ */
+"
+      operation 131472 "createResponse"
+	public explicit_return_type "ezcMvcResponse"
+	nparams 0
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 131344 "__construct"
+	public explicit_return_type "void"
+	nparams 2
+	  param in name "request" type class_ref 128656 // ezcMvcRequest
+	  param in name "result" explicit_type "ezcMvcResult"
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 131600 "runFilters"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "response" explicit_type "ezcMvcResponse"
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 132752 "handleResponse"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "response" explicit_type "ezcMvcResponse"
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 132880 "handle"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      classrelation 134032 // <realization>
+	relation 133904 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 134032 // <realization>
+	  b parent class_ref 133520 // ezcMvcResponse
+      end
+
+      classrelation 136976 // <dependency>
+	relation 136848 -_->
+	  a default
+	    classrelation_ref 136976 // <dependency>
+	  b parent class_ref 135184 // ezcMvcResponseFilter
+      end
+
+      classrelation 139408 // <dependency>
+	relation 139152 -_->
+	  a default
+	    classrelation_ref 139408 // <dependency>
+	  b parent class_ref 128784 // ezcMvcResult
+      end
+    end
+
+    class 128784 "ezcMvcResult"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 129296 "cookie"
+	protected explicit_type "array"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 135952 // <directional composition>
+	relation 135824 *-->
+	  a role_name "" protected
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 135952 // <directional composition>
+	  b parent class_ref 134800 // ezcMvcRedirection
+      end
+
+      attribute 134032 "variables"
+	protected explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 133520 "ezcMvcResponse"
+      visibility package stereotype "struct"
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 132496 "body"
+	public explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 132624 "headers"
+	public explicit_type "array"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 135056 "ezcMvcRequestFilter"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 134160 "filterRequest"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "request" type class_ref 128656 // ezcMvcRequest
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      classrelation 136464 // <dependency>
+	relation 136336 -_->
+	  a default
+	    classrelation_ref 136464 // <dependency>
+	  b parent class_ref 128656 // ezcMvcRequest
+      end
+    end
+
+    class 135184 "ezcMvcResponseFilter"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 134288 "filterResponse"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "response" type class_ref 133520 // ezcMvcResponse
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      classrelation 136848 // <dependency>
+	relation 136720 -_->
+	  a default
+	    classrelation_ref 136848 // <dependency>
+	  b parent class_ref 133520 // ezcMvcResponse
+      end
+    end
+
+    class 135312 "ezcMvcResultFilter"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 134416 "filterResult"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "result" explicit_type "ezcMvcResult"
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      classrelation 137488 // <dependency>
+	relation 137232 -_->
+	  a default
+	    classrelation_ref 137488 // <dependency>
+	  b parent class_ref 128784 // ezcMvcResult
+      end
+    end
+
+    class 136464 "ezcMvcDispatcherConfiguration"
+      visibility package stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}interface ${name}${extends} {
+${members}}
+"
+      php_decl "${comment}${visibility}interface ${name} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl "${comment}${abstract}${local}interface ${name}${inherit} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      classrelation 138640 // <realization>
+	relation 138384 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 138640 // <realization>
+	  b parent class_ref 128016 // ezcMvcRouter
+      end
+
+      classrelation 138768 // <realization>
+	relation 138512 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 138768 // <realization>
+	  b parent class_ref 128528 // ezcMvcViewHandler
+      end
+
+      classrelation 138896 // <realization>
+	relation 138640 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 138896 // <realization>
+	  b parent class_ref 128144 // ezcMvcRequestParser
+      end
+
+      classrelation 139024 // <realization>
+	relation 138768 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 139024 // <realization>
+	  b parent class_ref 136592 // ezcMvcResponseWriter
+      end
+
+      operation 135568 "createRequestParser"
+	public return_type class_ref 128144 // ezcMvcRequestParser
+	nparams 0
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 135696 "createRouter"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "request" type class_ref 128656 // ezcMvcRequest
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 135824 "createView"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "request" type class_ref 128656 // ezcMvcRequest
+	  param in name "result" type class_ref 128784 // ezcMvcResult
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 135952 "createResponseWriter"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "request" type class_ref 128656 // ezcMvcRequest
+	  param in name "result" type class_ref 128784 // ezcMvcResult
+	  param in name "response" type class_ref 133520 // ezcMvcResponse
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+    end
+
+    class 136592 "ezcMvcResponseWriter"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 139152 // <dependency>
+	relation 138896 -_->
+	  a default
+	    classrelation_ref 139152 // <dependency>
+	  b parent class_ref 133520 // ezcMvcResponse
+      end
+
+      operation 136336 "__construct"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "response" type class_ref 133520 // ezcMvcResponse
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 136464 "handleResponse"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 136592 "addResponseFilter"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 136720 "runResponseFilters"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+    end
+
+    class 136720 "ezcMvcRoute"
+      visibility package stereotype "interface"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}interface ${name}${extends} {
+${members}}
+"
+      php_decl "${comment}${visibility}interface ${name} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl "${comment}${abstract}${local}interface ${name}${inherit} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      operation 136080 "matches"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "request" type class_ref 128656 // ezcMvcRequest
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)};"
+	
+	
+      end
+
+      operation 136208 "prefix"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "prefix" explicit_type "string"
+	
+	
+	php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)};"
+	
+	
+      end
+    end
+  end
+
+  classview 129168 "Request"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    classdiagram 129296 "Request"
+      draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 128912 "ezcMvcRequestFile"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      attribute 128711 "mimeType"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 128839 "name"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 128967 "size"
+	protected explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 129095 "status"
+	protected explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 128583 "tmpPath"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 128656 "ezcMvcRequest"
+      visibility public 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Encapsulates request data"
+      classrelation 130704 // userAgent (<directional composition>)
+	relation 130576 *-->
+	  a role_name "userAgent" multiplicity "1" public
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 130704 // userAgent (<directional composition>)
+	  b multiplicity "1" parent class_ref 130320 // ezcMvcRequestUserAgent
+      end
+
+      classrelation 130832 // content (<directional composition>)
+	relation 130704 *-->
+	  a role_name "content" multiplicity "1" public
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 130832 // content (<directional composition>)
+	  b multiplicity "1" parent class_ref 130448 // ezcMvcRequestContent
+      end
+
+      classrelation 130960 // authentication (<directional composition>)
+	relation 130832 *-->
+	  a role_name "authentication" multiplicity "1" public
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 130960 // authentication (<directional composition>)
+	  b multiplicity "1" parent class_ref 130576 // ezcMvcRequestAuthentication
+      end
+
+      classrelation 131088 // cache (<directional composition>)
+	relation 130960 *-->
+	  a role_name "cache" multiplicity "1" public
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 131088 // cache (<directional composition>)
+	  b multiplicity "1" parent class_ref 130704 // ezcMvcRequestCache
+      end
+
+      classrelation 131216 // files (<directional composition>)
+	relation 131088 *-->
+	  a role_name "files" multiplicity "*" public
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 131216 // files (<directional composition>)
+	  b multiplicity "1" parent class_ref 128912 // ezcMvcRequestFile
+      end
+
+      classrelation 128327 // raw (<composition>)
+	relation 128199 *---
+	  a role_name "raw" multiplicity "0..1" protected
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 128327 // raw (<composition>)
+	  b role_name "" multiplicity "1" protected
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 128455 // <composition>
+      end
+    end
+
+    class 130320 "ezcMvcRequestUserAgent"
+      visibility package stereotype "struct"
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 130448 "name"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 130448 "ezcMvcRequestContent"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      attribute 130576 "type"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 130704 "charset"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 130832 "langage"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 134416 "compressions"
+	protected explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "HTTP clients can send a header with the acceptable compressions"
+      end
+    end
+
+    class 130576 "ezcMvcRequestAuthentication"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      attribute 130960 "identifier"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 131088 "password"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 130704 "ezcMvcRequestCache"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      attribute 131216 "lastAccess"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 131344 "etag"
+	protected explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 128071 "ezcMvcRawRequest"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      classrelation 128455 // <composition>
+	relation_ref 128199 // <composition>
+      end
+
+      attribute 128455 "variables"
+	protected explicit_type "array"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 128583 // files (<directional aggregation>)
+	relation 128327 o-->
+	  a role_name "files" multiplicity "*" protected
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 128583 // files (<directional aggregation>)
+	  b multiplicity "1" parent class_ref 128912 // ezcMvcRequestFile
+      end
+
+      classrelation 136080 // http (<directional composition>)
+	relation 135952 *-->
+	  a role_name "http" multiplicity "0..1" protected
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 136080 // http (<directional composition>)
+	  b parent class_ref 134928 // ezcMvcHttpRequest
+      end
+    end
+
+    class 134928 "ezcMvcHttpRequest"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 134160 "method"
+	public explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "HTTP method name used by the client to send the request"
+      end
+
+      attribute 134288 "parameters"
+	public explicit_type "array"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+    end
+  end
+
+  classview 130320 "Controller and model loose coupling demo"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    classdiagram 130576 "Service"
+      draw_all_relations no hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+      size A4
+    end
+
+    class 131984 "ezcMvcControllerImplementation"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 132368 // <dependency>
+	relation 132240 -_->
+	  a default
+	    classrelation_ref 132368 // <dependency>
+	  b parent class_ref 132112 // yourServiceInterface
+      end
+    end
+
+    class 132112 "yourServiceInterface"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 132880 // <realization>
+	relation 132752 -_-|>
+	  a public
+	    php "${type}"
+	    classrelation_ref 132880 // <realization>
+	  b parent class_ref 132368 // yourServiceImplementation
+      end
+    end
+
+    class 132240 "PersistentSession"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+    end
+
+    class 132368 "yourServiceImplementation"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 132496 // <dependency>
+	relation 132368 -_->
+	  a default
+	    classrelation_ref 132496 // <dependency>
+	  b parent class_ref 132240 // PersistentSession
+      end
+    end
+  end
+
+  classview 131472 "Result"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 134800 "ezcMvcRedirection"
+      visibility package stereotype "struct"
+      cpp_decl "${comment}${template}struct ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl "${comment}struct ${name} {
+${members}};
+"
+      explicit_switch_type ""
+      
+      attribute 133776 "request"
+	protected type class_ref 128656 // ezcMvcRequest
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 133904 "where"
+	protected explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 137360 // <directional composition>
+	relation 137104 *-->
+	  a role_name "" protected
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 137360 // <directional composition>
+	  b parent class_ref 128656 // ezcMvcRequest
+      end
+    end
+  end
+end

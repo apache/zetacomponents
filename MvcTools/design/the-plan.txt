@@ -1,0 +1,43 @@
+- Add interfaces to repository, add comments ... etc
+
+  - ezcMvcController
+  - ezcMvcRequestFilter
+  - ezcMvcRequestParser
+  - ezcMvcResponseFilter
+  - ezcMvcResultFilter
+  - ezcMvcRoute
+  - ezcMvcViewHandler
+  - ezcMvcResponseWriter
+  - ezcMvcDispatcher
+  - ezcMvcDispatcherConfiguration
+
+- Add the structs, including tests
+
+  - ezcMvcResponse
+  - ezcMvcRawRequest
+  - ezcMvcHttpRawRequest
+  - ezcMvcMailRawRequest
+  - ezcMvcRequestAccept
+  - ezcMvcRequestAuthentication
+  - ezcMvcRequestFile
+  - ezcMvcRequestUserAgent
+  - ezcMvcResult
+  - ezcMvcRawResult
+  - ezcMvcResultCache
+  - ezcMvcResultContent
+  - ezcMvcResultCookie
+
+- Add the other classes:
+
+  - ezcMvcRegexpRoute
+  - ezcMvcRouter
+  - ezcMvcView
+  - ezcMvcPhpViewHandler
+  - ezcMvcTemplateViewHandler
+  - ezcMvcHttpResponseWriter
+  - ezcMvcProductionDispatcher
+
+- Lesser priority:
+
+  - ezcMvcRailsRoute (2)
+  - ezcMvcRequestIdRegexpRoute (2)

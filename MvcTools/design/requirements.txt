@@ -1,0 +1,538 @@
+eZ Component: MvcTools, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:Author: James Pic, Tobias Schlitt
+:Revision: $Revision$
+:Date: $Date$
+
+Target and scope
+================
+
+The scope of this document is to describe the requirements for a component
+providing classes to implement a MVC_ architecture for a web application.
+This document does not describe the design of the named component, but only
+summarizes the requirements for it as discussed on the developer mailing list.
+Where suitable, design related topics will be touched, but a dedicated design
+document is available, defining APIs, classes and the architectural structure
+of the component.
+
+Note that if you don't understand a term, you should have a look at the 
+section `Clarification of terms`_.
+
+Introduction
+============
+
+Model-View-Controller (MVC) is a common architecture pattern to implement all
+kinds of applications using the object-oriented design paradigm. The goal of
+the MvcTools component is to give users a basis for such architectures for 
+web applications written in PHP 5. The component shall not provide a full-
+featured implementation of the MVC architecture, but should help users to 
+easily create their own, custom implementations.
+
+A good starting point to learn more about MVC is the Wikipedia article:
+http://en.wikipedia.org/wiki/Model-view-controller
+
+The design document contains an example dispatcher that shows the control
+flow. A few diagrams are also available containing a high level overview of
+the different design parts.
+
+Component integration
+=====================
+
+eZ Components already provide some components that are useful when
+implementing an MVC. However, one basic goal of eZ Components is to keep
+each component as independent as possible and to realize dependencies
+through so-called tie-in components. Therefore the mechanisms realized in an
+MVC component should be that far abstracted, that other components can be 
+tied in and provide only very basic implementations on its own. This also
+allows users to implement their own mechanisms. The following components
+have been identified as possible tie-ins:
+
+- EventLog_ (error-handling)
+- Mail_ (error-handling, view)
+- PersistentObject_ (models)
+- Template_ (view)
+- Tree_ (routing)
+- Url_ (routing)
+- UserInput_ (routing)
+
+.. _UserInput: http://ezcomponents.org/docs/tutorials/UserInput
+.. _Url: http://ezcomponents.org/docs/tutorials/Url
+.. _PersistentObject: http://ezcomponents.org/docs/tutorials/PersistentObject
+.. _EventLog: http://ezcomponents.org/docs/tutorials/EventLog
+.. _Mail: http://ezcomponents.org/docs/tutorials/Mail
+.. _Tree: http://ezcomponents.org/docs/tutorials/Tree
+
+For each of these components a tie-in component could considered to be
+implemented at a later stage. This should be kept in mind when designing the
+classes/interfaces for the MvcTools component.
+
+Design requirements
+===================
+
+This section summarizes the requirements regarding the later following design
+document.
+
+Layers
+------
+
+The MvcTools component should distinguish certain layers to allow users to
+easily adjust and replace certain functionality. Therefore, the following
+requirements have been specified.
+
+Controllers process and respond to events, typically user actions, and may
+invoke changes on the model. In a case, controllers run an action using a
+single argument: an input-object, or a request object. A controller returns an
+result-object after being run.
+
+The router is responsible to select the controller to run and
+the action to call on it. To create the request-object it requires the
+so-called request parser. After the controller has been run, the result
+object is send to the view-manager, which is responsible to select the
+correct rendering mode for the output protocol/format.
+
+The request object is responsible of generating an input object, which
+contains data that is not specific to the protocol; it can be used in
+protocol-independent controllers.
+
+Those two layers use one controller per request. They handle the
+client-protocol, so that the controller doesn't have to work on raw input data
+(e.g. GET/POST/...) and does not have to generate any specific output format
+(e.g. HTML, XML, plain text,...) or anything that is protocol-specific. The
+two layers abstract I/O from the controller as described in the specific
+section.
+
+Summary
+^^^^^^^
+
+- One controller and action can be run in one request.
+- Controllers should neither work on raw input directly, nor create a specific
+  kind of result, but should only work on abstracted request and result
+  objects.
+- Protocol dependent controllers may access the raw data.
+- It should be straight forward to test any action.
+
+Ideas
+^^^^^
+
+A PersistentObject_ tie-in could be supplied to easily realize Crud_
+controllers.
+
+.. _PersistentObject: http://ezcomponents.org/docs/tutorials/PersistentObject
+.. _Crud: http://en.wikipedia.org/wiki/Create%2C_read%2C_update_and_delete
+
+Request Parser
+--------------
+
+Requests should be parsed by the request parser. The request parsers are
+protocol dependent, and return a request object. The request object in
+question contains protocol-abstracted input such as the user agent, message ID
+and character set encodings. The object also will contain raw protocol data
+through a different property.
+
+The request parser is the first layer in action, it's possible to run any
+controller with it's resulting request object, and protocol independent
+controllers with only the protocol-abstracted data that the request object
+provides.  It handles input parsing and filtering, but delegates input
+validation to the controller.
+
+Summary
+^^^^^^^
+
+- The request parser is responsible to filter the incoming request and to
+  extract all relevant data into the request object in a protocol independent
+  way.
+- The request object also contains raw protocol data.
+
+Filtering
+---------
+
+Filtering is the process of modifying the ezcMvcRequest, ezcMvcResult and
+ezcMvcResponse objects. Filtering in the ezcMvcRequest object can for example
+re-encode all the different input variables in a different character set.
+Filtering on the result object that comes from the controller's action could
+for example convert currencies and filtering in the response could minimize
+CSS, gzip content and re-encode to an output character set.
+
+Multilevel I/O abstraction
+---------------------------
+
+Modern applications often require to deal with different input and output
+protocols and formats (for example HTTP-GET, HTTP-POST, SOAP for the input
+part and HTML, PDF, ReST-webservices for the output part).
+Therefore, it should be possible to use abstracted input and output formats,
+into dedicated objects; which are not specific to a certain protocol or
+format.
+
+Controllers will however receive all the input data, besides the abstracted
+data that comes in from the request. It's up to the developer to make sure
+none of the protocol-specific data is used in case he wants a
+protocol-abstract controller. This allows protocol-specific controllers to
+access the raw request data.
+
+The request-object contains all the request data.
+
+A beneficial side-effect relates to controller-testing: Creating request and
+result mocks and fixtures allows straight-forward TDD.
+
+Summary
+^^^^^^^
+
+- Some controllers should not know about the input and output environment
+  out work on abstract objects only.
+- Protocol dependent controllers should have access to all the request data.
+
+Routing
+-------
+
+Each request runs a controller. A controller returns an abstract value that
+should be usable with any output formats and protocols, the result object.
+
+The router selects the controller to run. There are two types of routers.
+Protocol dependent routers are simply called from the dispatcher and select an
+appropriate controller. Protocol independent routers are created through a
+router manager. The result of a controller action can either be a abstract
+result object, or an internal redirect result. The internal redirect result
+contains a new request object that can be picked up by the dispatcher and
+appropriate re-running of the router should occur. 
+
+Routers must also provide a mechanism to create URLs from request-objects,
+that may be used to access a certain controller and action with a certain
+view-manager and defined parameters.  This method must be accessible from the
+controllers and the view-manager. This is required for creating back-links or
+links in views with a specific base URL in mind.
+
+
+Summary
+^^^^^^^
+
+Routers are responsible for:
+
+- Selecting controllers based on the input
+- Running the controller and collecting either the request object or the
+  abstract input object.
+
+Routers may be asked by a controller to re-route the request to another
+controller and must therefore be accessible from any action.
+
+Tie-in components for the Url_ and Tree_ components should be provided
+to realize routers. The design of these components should be considered
+important while designing the MvcTools component.
+
+.. _Tree: http://ezcomponents.org/docs/tutorials/Tree
+.. _Url: http://ezcomponents.org/docs/tutorials/Url
+
+Controller
+----------
+
+Controllers provide the actions that implement the business logic of the
+application. Where a controller deals with modules (eZ Publish uses content
+"content" f.e.) the action is what to do with this modules ("view" or "edit" a
+part of the "content"). The controllers accept the request object as input.
+Each controller implementation can provide two methods that provide filter
+chains. These filter chains are run before - on the request object - and after
+the action executions - on the result object to implement application specific
+filtering.
+
+It is left to the user on how the interaction with the model happens. There
+are two basic options. One is where the model is directly used in the
+controller through f.e. the PersistentObjectSession's singleton pattern. The
+second possibility is to depend on a service interface. This service interface
+then uses the PersistentSession to query, and work on the model. This service
+interface architecture prevents the controller from being dependent on the
+model.
+
+Summary
+^^^^^^^
+
+- Controllers are user-implemented
+- Controllers allow pre-run request filters
+- Controllers allow post-run result filters
+- There are two ways of dealing with a model
+
+View-management
+---------------
+
+Controllers return a value that cannot be send directly to the client
+(abstract result object). Another layer uses the return value and processes
+it into a specific response. This layer is called the view-manager.
+
+The view manager receives the result object and the request object
+and can decide on the base of both of them which view handler to use.
+
+The view handler is responsible for rendering one result object into a proper
+response. Only one view-handler can be used to generate a certain response.
+It receives one abstract result object. A view-handler is responsible to
+render a certain output format for a certain protocol. The view-handler to use
+is determined by the used view-manager, which selects a view handler similarly
+to a router selecting a controller.
+
+For example, the view-handler that generate HTML/HTTP-responses is separated
+from the view-handler that generates XML/HTTP-response.
+
+Summary
+^^^^^^^
+
+View-manager role:
+
+- Receives the request object and the abstract result objects
+- Builds the concrete response and sends it to the client
+
+A tie-in for the Template_ component should be provided with the first
+release of MvcTools. 
+
+.. _Template: http://ezcomponents.org/docs/tutorials/Url
+
+Error-handling
+--------------
+
+During debugging it must be possible to present helpful error messages
+to the developer, but on a production system no errors from the MVC
+should be shown to the user, but the developer should be able to handle
+them gracefully.
+
+Some failures should be reported to the administrator in a technical manner,
+allowing him to fix the problem or to handle the client's request manually.
+
+Errors may occur during each step of the request handling, like the
+following examples:
+
+- Router cannot parse request
+
+- Configured / requested controller could not be found
+
+- The view can't be rendered because of incompatible data or some
+  template parse error
+
+Those errors cannot be handled by the controller, because they happen
+outside of it. A configurable default controller will be called for all
+error messages, so the application developer may decide to send
+messages, show or log the occurred error. An error during the execution
+of this default controller will cause a "500 - Internal server error".
+
+As none of the given errors is meant to be displayed to the user of the
+application (but only to the developer) no translation possibilities for
+the errors need to be provided.
+
+TieIns for this default controller using the Execution, EventLog 
+and / or Mail component for error logging would be useful.
+
+Summary
+^^^^^^^
+
+Actions should be able to cast an error specifying, at once:
+
+- the verbose error message,
+- the non-verbose error message or id,
+- the target action to bundle the error with,
+- whether actors should be notified or not.
+
+An EventLog_ and Mail_ tie-in should be supplied by another component.
+
+.. _EventLog: http://ezcomponents.org/docs/tutorials/EventLog
+.. _Mail: http://ezcomponents.org/docs/tutorials/Mail
+
+Testing
+-------
+
+Testing a controller is the key to quality development. Testing manually each
+controller can lead to disasters: It's boring to do and therefore humans
+cannot cover all controllers manually after each bug fix. The solution is
+test-automation in PHP (e.g. using PHPUnit).
+
+Controllers run with a single argument: a request object. Controllers return a
+single value: An abstract result object. Running a controller with an
+request-object fixture and asserting that the result matches an result-object
+fixture is the procedure to test a controller.
+
+Summary
+^^^^^^^
+
+Requested process to test a controller:
+
+- Create a request-fixture (which can have protocol dependent values)
+- Create a result-fixture (abstract output object)
+- Run the controller against the request-fixture
+- Assert that the controller's result equals the result-fixture
+
+Conventions
+-----------
+
+Convention is the key for this component. Even though tie-ins will be supplied
+to allow the usage of other eZ Components, all layers should be adjustable and
+replaceable by the user.
+
+The only classes that should be common to every project are the request
+object, and the request and the result abstractions. All other classes should
+be defined through interfaces and only very basic implementations will be
+shipped with the component. Advanced implementations can be added at a later
+stage, be provided via tie-ins or can be implemented by the user himself or be
+installed through 3rd party code.
+
+Shipped implementations
+=======================
+
+Routers
+-------
+
+Regexp Router
+^^^^^^^^^^^^^
+
+The Regexp Router should allow:
+
+- creating routes with regexps,
+- including routes from other application-specific routers,
+- pass the regexp matches to the controller,
+- allow to set any arbitary variable for a particular route, that will be
+  passed to the controller.
+
+This is similar to the routing system implemented in the Django_ Python_
+framework.
+
+.. _Django: http://djangoproject.org
+.. _Python: http://python.org
+
+View handlers
+-------------
+
+MvcTemplateTiein
+^^^^^^^^^^^^^^^^
+
+The Template_ Router uses ezt_ files from the Template_ component to
+render the response body.
+
+It should allow:
+
+- creating response bodies with several templates in an arbitrary order,
+- including template view-handling configurations from other
+  application-specific view-handlers,
+
+.. _ezt: http://ezcomponents.org/docs/tutorials/Template
+
+Request Parsing
+---------------
+
+HTTP Request Parser
+^^^^^^^^^^^^^^^^^^^
+
+The HTTP Request Parser should be able to make request objects from any HTTP
+request, encapsulating all possible data in a way allowing other
+protocol-specific request parser to set variables the same way.
+
+It should also provide a raw request object, with protocol specific unparsed
+variables.
+
+Special Considerations
+======================
+
+HTTP-GET should not be allowed to invoke changes on the model because this
+would cause a violation of HTTP standards. HTTP GET is solely for *requesting*
+data, where as HTTP PUT is meant for modifying data. (See section 8 of RFC
+1945 and http://www.w3.org/2001/tag/doc/whenToUseGet.html).
+
+We should keep testing capabilities for the extensions to this component and
+the applications build upon it in mind during the design and implementation
+phase.
+
+We cannot provide the testing environment itself:
+
+- Does not fit into the component
+- Our test "component" is not an official component and can only be used to
+  test eZ Components themselves.
+  
+However, we could provide detailed information and possibly some helper
+classes for the testing of applications build on this component.
+
+The later application configuration layer (meaning to read configuration from
+config files and configuring the parts of the MVC accordingly) should be part
+of a potential "Framework" component. But this should not be part of this
+document nor the MvcTools component.
+
+In addition, this component should neither provide any automation facilities
+(e.g. code generation, deployment) nor integration with components that are
+not explicitly needed by it (e.g. Configuration, Authentication or Database).
+Integration with such components could:
+
+- Be build using a tie-in
+- Be part of a potential "Framework" component/package stuff that might be
+  created in future.
+
+Clarification of terms
+======================
+
+MVC_
+  Model-View-Controller (MVC) is an architectural pattern to separate data
+  (model) and user interface (view) concerns, so that changes to the user
+  interface will not affect data handling.
+
+Model
+  The domain-specific representation of the information that the application
+  operates on. Domain logic adds meaning to raw data (e.g., calculating
+  whether today is the user's birthday, or the totals, taxes, and shipping
+  charges for shopping cart items). The PersistentObject component provides
+  a persistent storage mechanism (such as a database) to store data. MVC
+  does not specifically mention the data access layer because it is
+  understood to be underneath or encapsulated by the model.
+
+View
+  Renders the action into a form suitable for interaction, typically a user
+  interface element. Multiple views can exist for a single model for
+  different purposes. The Template component provides a syntax-light language
+  for non-programmers to design the views. Therefore a tie-in with the
+  Template component should be provided.
+
+Controller
+  Processes and responds to events, typically user actions, and may invoke
+  changes on the model.
+
+Dispatcher
+  The dispatcher execute the different layers of MVC in order. First it
+  parsers the request through a request parser, then find the router through
+  the router manager, the controller through the router and as last the view
+  handler through the view manager. 
+
+Action
+  Controllers can provide one or several actions. Each action has a specific
+  process that can be called by the router. An action is an operation on a
+  controller. Where the controller specifies a specific resource, an action is
+  the operation to call on this resource. As an example the resource could be
+  "content" where as an action (operation) could be "view" or "edit".
+
+Router
+  Routers are the first layer hit by input and the last layer that processes
+  the output.  That is why it handles routing requests to the appropriate
+  action and abstracts the request/response protocol.
+
+Fixture_
+  Fixtures are objects that are set to an arbitrary state for testing
+  purposes.
+
+Abstraction_
+  It is the process or result of generalization by reducing data, typically
+  in order to retain only information which is usable by any router for any
+  protocol.
+
+Request
+  The data that comes in through any protocol possible from the client to the
+  server. The request data consists of headers, variables, files etc and is
+  encapsulated in the ezcMvcRequest object.
+
+Result
+  The abstract result of a controller action that can be used by the view
+  manager to generate a response.
+
+Response
+  The data that is send from the server to the client that has been generated
+  by the view manager from the abstract result object.
+
+
+.. _MVC: http://en.wikipedia.org/wiki/Model-view-controller
+.. _Fixture: http://en.wikipedia.org/wiki/Test_fixture
+.. _Abstraction: http://en.wikipedia.org/wiki/Abstraction
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 78
+   End:
+   vim: et syn=rst tw=78

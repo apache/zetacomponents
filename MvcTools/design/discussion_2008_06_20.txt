@@ -1,0 +1,107 @@
+========
+MvcTools
+========
+
+Potential Use Cases
+===================
+
+- HTTP
+- E-Mail
+- IM
+- CLI
+- SMS 
+
+Controller return values
+========================
+
+- Strict separation of controller and views
+
+- Controllers only return some view structure, which may contain semantic
+  information about the data to display or information about the template to
+  use.
+
+- The "view router" decides on base of that, what view to actually use.
+
+- (HTTP) redirects are also "just" some view structure, which is returned by
+  the controller, and the view actually performs the proper action depending
+  on the context. There will be no protocol specific stuff in controller at
+  all.  The key point of this is, that the controller returns "something", and
+  the view decides to do a redirect because of the provided view structure.
+  The same for error codes,
+
+Strict Requirements
+===================
+
+- We do not want the controller to influence the view 
+
+For view layers
+---------------
+
+- Allow to swap in your own things 
+
+For model layers
+----------------
+
+- Allow to swap in your own things 
+
+Allow a view router, as that allows you to to render for different platforms
+deciding redirect with status codes. There are a few like, NoRender, a
+rendered view, redirect.
+
+Request Parser
+==============
+
+Dispatcher should be separate from the Request Parser, and uses the router.
+Different "index.php" files that already use the correct request parser
+depending on the input method (mail, IM, web).
+
+Controller
+==========
+
+Filtering for common actions on every request, for example checking for
+authentication and sessions. Filters can be set on the controller, which are
+called first and work on the input - modify, action being run at all ...
+filter chain. It is also useful to do on output, for example to gzip or run
+http tidy and strip out whitespace. Filters are set by implementing a method
+of the Controller interface (or abstract class).
+
+The actions should have access to the request data, for example to render
+links to the app back etc. The request parser should not do user
+identification, this belongs in the controller.
+
+The user cannot be authorized on the request level, as you'd need some kind of
+model / backend to validate the provided data. The user data of course needs
+to be extracted at this stage and provided to the controller.
+
+The "user" object should be accessible in the view as well, to allow for
+anonymous/authenticated.
+
+Uploaded files should be handled in the request parser and for example be
+provided as list of files names in the input object.
+
+Tieins
+======
+
+Things we can provide:
+
+- Request parsers for HTTP (with files), mail (with attachments), IM
+
+- E-mail routing example like bugzilla, where some specific parts map to the
+  "URL".
+
+- Controller provider as a tutorial, perhaps with a base code generator.
+
+- Model example with PersistentObjectTiein.
+
+- A base router, a "normal" one, one bound on Url, one on the Tree, one that
+  looks like rails (like jetfuel), one based on regular expressions.
+
+- A MvcTemplateTiein, as well as a basic PHP view, simple JSON / XML views
+  just encoding the view structures
+
+- The router constructs a Url object as part of the input, which then can be
+  used by the action to generate links to other controllers/actions -
+  including a template function for this.
+
+
+

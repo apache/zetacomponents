@@ -1,0 +1,27 @@
+Bouml IDS
+=========
+
+Instructions
+------------
+
+Each user working with the same bouml diagrams needs a different id for bouml.
+This id is an int from 1 to 99, and is set in the environment variable BOUML_ID.
+
+Example setup::
+
+  $ echo export BOUML_ID="32" >> ~/.bashrc
+
+Subversion should ignore the temporary session files of bouml,
+which are in the project directory.
+
+Example, if your id is 25::
+
+  $ svn propset svn:ignore true 25.*
+
+Users
+-----
+=== ========
+id  username
+=== ========
+16  jpic
+=== ========

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Bouml (http://bouml.free.fr/) -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="745" height="519" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<g>
+	<rect fill="none" stroke="black" stroke-width="1" stroke-opacity="1" x="82" y="164" width="651" height="139" />
+	<line stroke="black" stroke-opacity="1" x1="82" y1="184" x2="97" y2="184" />
+	<line stroke="black" stroke-opacity="1" x1="97" y1="184" x2="107" y2="174" />
+	<line stroke="black" stroke-opacity="1" x1="107" y1="174" x2="107" y2="164" />
+</g>
+<g>
+	<rect fill="none" stroke="black" stroke-width="1" stroke-opacity="1" x="81" y="360" width="650" height="147" />
+	<line stroke="black" stroke-opacity="1" x1="81" y1="380" x2="96" y2="380" />
+	<line stroke="black" stroke-opacity="1" x1="96" y1="380" x2="106" y2="370" />
+	<line stroke="black" stroke-opacity="1" x1="106" y1="370" x2="106" y2="360" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="457" y1="408" x2="451" y2="402" />
+	<line stroke="black" stroke-opacity="1" x1="457" y1="408" x2="451" y2="414" />
+	<line stroke-dasharray="4,4" stroke="black" stroke-opacity="1" x1="326" y1="408" x2="457" y2="408" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="283" y1="268" x2="289" y2="274" />
+	<line stroke="black" stroke-opacity="1" x1="283" y1="268" x2="289" y2="262" />
+	<line stroke-dasharray="4,4" stroke="black" stroke-opacity="1" x1="438" y1="268" x2="283" y2="268" />
+</g>
+<g>
+	<line stroke-dasharray="4,4" stroke="black" stroke-opacity="1" x1="527" y1="388" x2="527" y2="293" />
+	<line stroke="black" stroke-opacity="1" x1="527" y1="287" x2="521" y2="293" />
+	<line stroke="black" stroke-opacity="1" x1="527" y1="287" x2="533" y2="293" />
+	<line stroke="black" stroke-opacity="1" x1="521" y1="293" x2="533" y2="293" />
+</g>
+<g>
+	<polygon fill="#c0ffff" stroke="black" stroke-opacity="1" points="231,15 543,15 543,25 553,25 553,102 231,102 231,15" />
+	<line stroke="black" stroke-opacity="1" x1="543" y1="15" x2="553" y2="25" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="241" y="39">Controller and model loose coupling demo</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="241" y="54"></text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="241" y="69">This demonstrate a way to interact with the model</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="241" y="84">layer without coupling it with the controller layer.</text>
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="322" y="393" width="3" height="33" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="124" y="423" width="201" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="120" y="389" width="202" height="34" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="221" y="398">ezcMvcControllerImplementation</text>
+	<line stroke="black" stroke-opacity="1" x1="120" y1="407" x2="322" y2="407" />
+	<line stroke="black" stroke-opacity="1" x1="120" y1="415" x2="322" y2="415" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="592" y="393" width="3" height="33" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="462" y="423" width="133" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="458" y="389" width="134" height="34" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="525" y="398">yourServiceInterface</text>
+	<line stroke="black" stroke-opacity="1" x1="458" y1="407" x2="592" y2="407" />
+	<line stroke="black" stroke-opacity="1" x1="458" y1="415" x2="592" y2="415" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="279" y="253" width="3" height="33" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="167" y="283" width="115" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="163" y="249" width="116" height="34" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="221" y="258">PersistentSession</text>
+	<line stroke="black" stroke-opacity="1" x1="163" y1="267" x2="279" y2="267" />
+	<line stroke="black" stroke-opacity="1" x1="163" y1="275" x2="279" y2="275" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="611" y="253" width="3" height="33" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="443" y="283" width="171" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="439" y="249" width="172" height="34" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="525" y="258">yourServiceImplementation</text>
+	<line stroke="black" stroke-opacity="1" x1="439" y1="267" x2="611" y2="267" />
+	<line stroke="black" stroke-opacity="1" x1="439" y1="275" x2="611" y2="275" />
+</g>
+<g>
+	<polygon fill="#c0ffff" stroke="black" stroke-opacity="1" points="343,190 429,190 429,200 439,200 439,224 343,224 343,190" />
+	<line stroke="black" stroke-opacity="1" x1="429" y1="190" x2="439" y2="200" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="353" y="214">Model layer</text>
+</g>
+<g>
+	<polygon fill="#c0ffff" stroke="black" stroke-opacity="1" points="322,452 439,452 439,462 449,462 449,486 322,486 322,452" />
+	<line stroke="black" stroke-opacity="1" x1="439" y1="452" x2="449" y2="462" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="332" y="476">Controller layer</text>
+</g>
+</svg>

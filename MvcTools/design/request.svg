@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Bouml (http://bouml.free.fr/) -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="826" height="978" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<g>
+	<rect fill="none" stroke="black" stroke-width="1" stroke-opacity="1" x="10" y="583" width="804" height="383" />
+	<line stroke="black" stroke-opacity="1" x1="10" y1="603" x2="25" y2="603" />
+	<line stroke="black" stroke-opacity="1" x1="25" y1="603" x2="35" y2="593" />
+	<line stroke="black" stroke-opacity="1" x1="35" y1="593" x2="35" y2="583" />
+</g>
+<g>
+	<rect fill="none" stroke="black" stroke-width="1" stroke-opacity="1" x="9" y="2" width="805" height="565" />
+	<line stroke="black" stroke-opacity="1" x1="9" y1="22" x2="24" y2="22" />
+	<line stroke="black" stroke-opacity="1" x1="24" y1="22" x2="34" y2="12" />
+	<line stroke="black" stroke-opacity="1" x1="34" y1="12" x2="34" y2="2" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="374" y1="421" x2="374" y2="616" />
+	<polygon fill="#000000" stroke="black" stroke-opacity="1" points="374,421 380,427 374,433 368,427" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="642" y1="380" x2="633" y2="380" />
+	<line stroke="black" stroke-opacity="1" x1="642" y1="380" x2="642" y2="388" />
+	<line stroke="black" stroke-opacity="1" x1="434" y1="616" x2="642" y2="380" />
+	<polygon fill="#ffffff" stroke="black" stroke-opacity="1" points="434,616 433,607 441,606 442,615" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="168" y1="140" x2="166" y2="148" />
+	<line stroke="black" stroke-opacity="1" x1="168" y1="140" x2="176" y2="141" />
+	<line stroke="black" stroke-opacity="1" x1="358" y1="382" x2="168" y2="140" />
+	<polygon fill="#000000" stroke="black" stroke-opacity="1" points="358,382 349,380 350,372 359,373" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="374" y1="194" x2="368" y2="200" />
+	<line stroke="black" stroke-opacity="1" x1="374" y1="194" x2="380" y2="200" />
+	<line stroke="black" stroke-opacity="1" x1="374" y1="382" x2="374" y2="194" />
+	<polygon fill="#000000" stroke="black" stroke-opacity="1" points="374,382 368,376 374,370 380,376" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="634" y1="158" x2="625" y2="157" />
+	<line stroke="black" stroke-opacity="1" x1="634" y1="158" x2="633" y2="166" />
+	<line stroke="black" stroke-opacity="1" x1="393" y1="382" x2="634" y2="158" />
+	<polygon fill="#000000" stroke="black" stroke-opacity="1" points="393,382 393,373 401,373 401,382" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="196" y1="318" x2="198" y2="325" />
+	<line stroke="black" stroke-opacity="1" x1="196" y1="318" x2="203" y2="315" />
+	<line stroke="black" stroke-opacity="1" x1="333" y1="382" x2="196" y2="318" />
+	<polygon fill="#000000" stroke="black" stroke-opacity="1" points="333,382 325,384 322,376 330,374" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="638" y1="329" x2="630" y2="324" />
+	<line stroke="black" stroke-opacity="1" x1="638" y1="329" x2="633" y2="336" />
+	<line stroke="black" stroke-opacity="1" x1="427" y1="386" x2="638" y2="329" />
+	<polygon fill="#000000" stroke="black" stroke-opacity="1" points="427,386 431,378 438,382 434,390" />
+</g>
+<g>
+	<line stroke="black" stroke-opacity="1" x1="374" y1="781" x2="380" y2="775" />
+	<line stroke="black" stroke-opacity="1" x1="374" y1="781" x2="368" y2="775" />
+	<line stroke="black" stroke-opacity="1" x1="374" y1="683" x2="374" y2="781" />
+	<polygon fill="#000000" stroke="black" stroke-opacity="1" points="374,683 380,689 374,695 368,689" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="423" y="387" width="3" height="33" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="325" y="417" width="101" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="321" y="383" width="102" height="34" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="372" y="392">ezcMvcRequest</text>
+	<line stroke="black" stroke-opacity="1" x1="321" y1="401" x2="423" y2="401" />
+	<line stroke="black" stroke-opacity="1" x1="321" y1="409" x2="423" y2="409" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="222" y="78" width="3" height="61" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="62" y="136" width="163" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="58" y="74" width="164" height="62" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" text-anchor="middle" x="140" y="83">&lt;&lt;struct&gt;&gt;</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="140" y="101">ezcMvcRequestUserAgent</text>
+	<line stroke="black" stroke-opacity="1" x1="58" y1="110" x2="222" y2="110" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="62" y="119">name</text>
+	<line stroke="black" stroke-opacity="1" x1="58" y1="128" x2="222" y2="128" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="773" y="80" width="3" height="77" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="589" y="154" width="187" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="585" y="76" width="188" height="78" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" text-anchor="middle" x="679" y="85">&lt;&lt;struct&gt;&gt;</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="679" y="103">ezcMvcRequestAuthentication</text>
+	<line stroke="black" stroke-opacity="1" x1="585" y1="112" x2="773" y2="112" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="589" y="121">identifier</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="589" y="137">password</text>
+	<line stroke="black" stroke-opacity="1" x1="585" y1="146" x2="773" y2="146" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="192" y="248" width="3" height="77" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="58" y="322" width="137" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="54" y="244" width="138" height="78" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" text-anchor="middle" x="123" y="253">&lt;&lt;struct&gt;&gt;</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="123" y="271">ezcMvcRequestCache</text>
+	<line stroke="black" stroke-opacity="1" x1="54" y1="280" x2="192" y2="280" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="58" y="289">lastAccess</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="58" y="305">etag</text>
+	<line stroke="black" stroke-opacity="1" x1="54" y1="314" x2="192" y2="314" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="761" y="254" width="3" height="125" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="643" y="376" width="121" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="639" y="250" width="122" height="126" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" text-anchor="middle" x="700" y="259">&lt;&lt;struct&gt;&gt;</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="700" y="277">ezcMvcRequestFile</text>
+	<line stroke="black" stroke-opacity="1" x1="639" y1="286" x2="761" y2="286" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="643" y="295">mimeType</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="643" y="311">name</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="643" y="327">size</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="643" y="343">status</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="643" y="359">tmpPath</text>
+	<line stroke="black" stroke-opacity="1" x1="639" y1="368" x2="761" y2="368" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="436" y="786" width="3" height="59" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="312" y="842" width="127" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="308" y="782" width="128" height="60" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="372" y="791">ezcMvcHttpRequest</text>
+	<line stroke="black" stroke-opacity="1" x1="308" y1="800" x2="436" y2="800" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="312" y="809">method</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="312" y="825">parameters</text>
+	<line stroke="black" stroke-opacity="1" x1="308" y1="834" x2="436" y2="834" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="437" y="621" width="3" height="61" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="311" y="679" width="129" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="307" y="617" width="130" height="62" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" text-anchor="middle" x="372" y="626">&lt;&lt;struct&gt;&gt;</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="372" y="644">ezcMvcRawRequest</text>
+	<line stroke="black" stroke-opacity="1" x1="307" y1="653" x2="437" y2="653" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="311" y="662">variables</text>
+	<line stroke="black" stroke-opacity="1" x1="307" y1="671" x2="437" y2="671" />
+</g>
+<g>
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="446" y="84" width="3" height="109" />
+	<rect fill="#808080" stroke="none" stroke-opacity="1" x="302" y="190" width="147" height="3" />
+	<rect fill="#ffffc0" stroke="black" stroke-width="1" stroke-opacity="1" x="298" y="80" width="148" height="110" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" text-anchor="middle" x="372" y="89">&lt;&lt;struct&gt;&gt;</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" font-weight="bold" text-anchor="middle" x="372" y="107">ezcMvcRequestContent</text>
+	<line stroke="black" stroke-opacity="1" x1="298" y1="116" x2="446" y2="116" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="302" y="125">type</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="302" y="141">charset</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="302" y="157">langage</text>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="302" y="173">compressions</text>
+	<line stroke="black" stroke-opacity="1" x1="298" y1="182" x2="446" y2="182" />
+</g>
+<g>
+	<polygon fill="#c0ffff" stroke="black" stroke-opacity="1" points="263,11 475,11 475,21 485,21 485,55 263,55 263,11" />
+	<line stroke="black" stroke-opacity="1" x1="475" y1="11" x2="485" y2="21" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="273" y="35">Protocol abstract fragment</text>
+</g>
+<g>
+	<polygon fill="#c0ffff" stroke="black" stroke-opacity="1" points="254,911 484,911 484,921 494,921 494,951 254,951 254,911" />
+	<line stroke="black" stroke-opacity="1" x1="484" y1="911" x2="494" y2="921" />
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="264" y="935">Protocol dependant fragment</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="384" y="605">raw</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="344" y="605">0..1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="357" y="435">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="646" y="394">files</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="621" y="394">*</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="423" y="605">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="183" y="154">userAgent</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="156" y="154">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="336" y="371">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="384" y="208">content</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="357" y="208">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="357" y="371">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="546" y="138">authentication</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="617" y="163">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="403" y="387">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="206" y="311">cache</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="206" y="336">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="316" y="400">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="606" y="316">files</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="623" y="341">*</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="437" y="398">1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="344" y="770">0..1</text>
+</g>
+<g>
+	<text font-family="Helvetica" font-size="7" fill="#000000" xml:space="preserve" x="384" y="770">http</text>
+</g>
+</svg>

@@ -1,0 +1,224 @@
+ezcMvcRequest::__set_state(array(
+   'date' => 
+  DateTime::__set_state(array(
+     'date' => '2008-07-01 09:26:39',
+     'timezone_type' => 1,
+     'timezone' => '+00:00',
+  )),
+   'protocol' => 'mail',
+   'host' => 'example.no',
+   'uri' => 'dr',
+   'requestId' => 'example.no/dr',
+   'referrer' => 'alpine.DEB.0.98.0807011003550.16594@kossu.example.no',
+   'variables' => 
+  array (
+    'fromAddress' => 'ts@example.no',
+    'fromName' => 'Tobias Schlitt',
+    'subject' => 'Re: [Components] [Sdk-public] MmvTools requirements and design',
+  ),
+   'body' => 'Ze body
+',
+   'files' => NULL,
+   'accept' => 
+  ezcMvcRequestAccept::__set_state(array(
+     'types' => 
+    array (
+    ),
+     'charsets' => 
+    array (
+    ),
+     'languages' => 
+    array (
+    ),
+     'encodings' => 
+    array (
+    ),
+  )),
+   'agent' => 
+  ezcMvcRequestUserAgent::__set_state(array(
+     'agent' => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041124 Thunderbird/0.9 Mnenhy/0.6.0.104',
+  )),
+   'authentication' => NULL,
+   'raw' => 
+  ezcMail::__set_state(array(
+     'headers' => 
+    ezcMailHeadersHolder::__set_state(array(
+       'lookup' => 
+      array (
+        'return-path' => 'Return-path',
+        'envelope-to' => 'Envelope-to',
+        'delivery-date' => 'Delivery-date',
+        'received' => 'Received',
+        'x-spam-tests' => 'X-Spam-Tests',
+        'x-spam-score' => 'X-Spam-Score',
+        'x-spam-flag' => 'X-Spam-Flag',
+        'x-spam-checker-version' => 'X-Spam-Checker-Version',
+        'x-spam-level' => 'X-Spam-Level',
+        'x-spam-status' => 'X-Spam-Status',
+        'x-spam-summary' => 'X-Spam-Summary',
+        'x-spam-report' => 'X-Spam-Report',
+        'x-virus-scanned' => 'X-Virus-Scanned',
+        'authentication-results' => 'Authentication-Results',
+        'x-greylist' => 'X-Greylist',
+        'message-id' => 'Message-ID',
+        'date' => 'Date',
+        'from' => 'From',
+        'organization' => 'Organization',
+        'user-agent' => 'User-Agent',
+        'mime-version' => 'MIME-Version',
+        'to' => 'To',
+        'cc' => 'Cc',
+        'subject' => 'Subject',
+        'references' => 'References',
+        'in-reply-to' => 'In-Reply-To',
+        'x-enigmail-version' => 'X-Enigmail-Version',
+        'content-type' => 'Content-Type',
+        'content-transfer-encoding' => 'Content-Transfer-Encoding',
+        'x-bogosity' => 'X-Bogosity',
+      ),
+       'map' => 
+      array (
+        'Return-path' => '<SRS0=DbNu=XN=example.no=ts@example.net>',
+        'Envelope-to' => 'derick@localhost',
+        'Delivery-date' => 'Tue, 01 Jul 2008 11:28:53 +0200',
+        'Received' => 'from [129.217.155.133] (vpn1133.hrz.uni-dortmund.de [129.217.155.133])    by smtp.example.no (Postfix) with ESMTP id 72581AB558;    Tue,  1 Jul 2008 11:18:30 +0200 (CEST)',
+        'X-Spam-Tests' => 'none',
+        'X-Spam-Score' => '0.0 required=8.0',
+        'X-Spam-Flag' => 'NO',
+        'X-Spam-Checker-Version' => 'SpamAssassin 3.2.5 (2008-06-10) on jdi.jdi-ict.nl',
+        'X-Spam-Level' => '',
+        'X-Spam-Status' => 'No, score=0.0 required=8.0 tests=none autolearn=disabled    version=3.2.5',
+        'X-Spam-Summary' => '_SUMMARY_',
+        'X-Spam-Report' => '',
+        'X-Virus-Scanned' => 'amavisd-new at example.org',
+        'Authentication-Results' => 'osu1.example.net smtp.mail=ts@example.no; spf=neutral; sender-id=neutral',
+        'X-Greylist' => 'domain auto-whitelisted by SQLgrey-1.7.4',
+        'Message-ID' => '<4869F84F.2060803@example.no>',
+        'Date' => 'Tue, 01 Jul 2008 11:26:39 +0200',
+        'From' => 'Tobias Schlitt <ts@example.no>',
+        'Organization' => 'eZ Systems AS',
+        'User-Agent' => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041124 Thunderbird/0.9 Mnenhy/0.6.0.104',
+        'MIME-Version' => '1.0',
+        'To' => 'Derick Rethans <dr@example.no>',
+        'Cc' => 'Components <components@lists.example.no>',
+        'Subject' => 'Re: [Components] [Sdk-public] MmvTools requirements and design',
+        'References' => '<alpine.DEB.0.98.0806251707220.16594@kossu.example.no> <48678AF4.7010908@example.no> <alpine.DEB.0.98.0806300846100.16594@kossu.example.no> <4868A272.2080800@example.no>    <alpine.DEB.0.98.0806301153050.16594@kossu.example.no> <4868DFE3.5090001@example.no> <alpine.DEB.0.98.0807011003550.16594@kossu.example.no>',
+        'In-Reply-To' => '<alpine.DEB.0.98.0807011003550.16594@kossu.example.no>',
+        'X-Enigmail-Version' => '0.95.6',
+        'Content-Type' => 'text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding' => '8bit',
+        'X-Bogosity' => 'No, tests=bogofilter, spamicity=0.000000, version=1.1.7',
+      ),
+    )),
+     'headerCharsets' => 
+    array (
+      'Return-path' => 'us-ascii',
+      'Envelope-to' => 'us-ascii',
+      'Delivery-date' => 'us-ascii',
+      'Received' => 'us-ascii',
+      'X-Spam-Tests' => 'us-ascii',
+      'X-Spam-Score' => 'us-ascii',
+      'X-Spam-Flag' => 'us-ascii',
+      'X-Spam-Checker-Version' => 'us-ascii',
+      'X-Spam-Level' => 'us-ascii',
+      'X-Spam-Status' => 'us-ascii',
+      'X-Spam-Summary' => 'us-ascii',
+      'X-Spam-Report' => 'us-ascii',
+      'X-Virus-Scanned' => 'us-ascii',
+      'Authentication-Results' => 'us-ascii',
+      'X-Greylist' => 'us-ascii',
+      'Message-ID' => 'us-ascii',
+      'Date' => 'us-ascii',
+      'From' => 'us-ascii',
+      'Organization' => 'us-ascii',
+      'User-Agent' => 'us-ascii',
+      'MIME-Version' => 'us-ascii',
+      'To' => 'us-ascii',
+      'Cc' => 'us-ascii',
+      'Subject' => 'us-ascii',
+      'References' => 'us-ascii',
+      'In-Reply-To' => 'us-ascii',
+      'X-Enigmail-Version' => 'us-ascii',
+      'Content-Type' => 'us-ascii',
+      'Content-Transfer-Encoding' => 'us-ascii',
+      'X-Bogosity' => 'us-ascii',
+    ),
+     'excludeHeaders' => 
+    array (
+    ),
+     'properties' => 
+    array (
+      'from' => 
+      ezcMailAddress::__set_state(array(
+         'name' => 'Tobias Schlitt',
+         'email' => 'ts@example.no',
+         'charset' => 'utf-8',
+      )),
+      'to' => 
+      array (
+        0 => 
+        ezcMailAddress::__set_state(array(
+           'name' => 'Derick Rethans',
+           'email' => 'dr@example.no',
+           'charset' => 'utf-8',
+        )),
+      ),
+      'cc' => 
+      array (
+        0 => 
+        ezcMailAddress::__set_state(array(
+           'name' => 'Components',
+           'email' => 'components@lists.example.no',
+           'charset' => 'utf-8',
+        )),
+      ),
+      'bcc' => 
+      array (
+      ),
+      'subject' => 'Re: [Components] [Sdk-public] MmvTools requirements and design',
+      'subjectCharset' => 'utf-8',
+      'body' => 
+      ezcMailText::__set_state(array(
+         'headers' => 
+        ezcMailHeadersHolder::__set_state(array(
+           'lookup' => 
+          array (
+            'content-type' => 'Content-Type',
+            'content-transfer-encoding' => 'Content-Transfer-Encoding',
+          ),
+           'map' => 
+          array (
+            'Content-Type' => 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding' => '8bit',
+          ),
+        )),
+         'headerCharsets' => 
+        array (
+          'Content-Type' => 'us-ascii',
+          'Content-Transfer-Encoding' => 'us-ascii',
+        ),
+         'excludeHeaders' => 
+        array (
+        ),
+         'properties' => 
+        array (
+          'text' => 'Ze body
+',
+          'charset' => 'utf-8',
+          'encoding' => '8bit',
+          'subType' => 'plain',
+          'originalCharset' => 'utf-8',
+          'size' => 8,
+        ),
+      )),
+      'messageId' => '<4869F84F.2060803@example.no>',
+      'returnPath' => 
+      ezcMailAddress::__set_state(array(
+         'name' => '',
+         'email' => 'SRS0=DbNu=XN=example.no=ts@example.net',
+         'charset' => 'utf-8',
+      )),
+      'size' => 3924,
+    ),
+  )),
+))
