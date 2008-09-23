@@ -50,9 +50,9 @@ class ezcWebdavServerAuthTest extends ezcWebdavTestCase
         $srv->reset();
 
         // Unset all configurations
-        foreach ( $srv->configurations as $conf  )
+        for ( $i = count( $srv->configurations ) - 1; $i >= 0; --$i )
         {
-            unset( $srv->configurations[0] );
+            unset( $srv->configurations[$i] );
         }
 
         $srv->configurations[0] = new ezcWebdavServerConfiguration(
