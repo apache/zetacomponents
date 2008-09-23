@@ -11,111 +11,111 @@ return array (
   1 => 
   ezcDocumentWikiEscapeCharacterToken::__set_state(array(
      'content' => '~',
-     'line' => 0,
-     'position' => 2,
+     'line' => 1,
+     'position' => 1,
   )),
   2 => 
   ezcDocumentWikiSpecialCharsToken::__set_state(array(
      'content' => '#',
-     'line' => 0,
-     'position' => 3,
+     'line' => 1,
+     'position' => 2,
   )),
   3 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => '1',
-     'line' => 0,
-     'position' => 4,
+     'line' => 1,
+     'position' => 3,
   )),
   4 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 5,
+     'line' => 1,
+     'position' => 4,
   )),
   5 => 
   ezcDocumentWikiExternalLinkToken::__set_state(array(
      'content' => 'http://www.foo.com/~bar/',
-     'line' => 0,
-     'position' => 6,
+     'line' => 2,
+     'position' => 1,
   )),
   6 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 30,
+     'line' => 2,
+     'position' => 25,
   )),
   7 => 
   ezcDocumentWikiEscapeCharacterToken::__set_state(array(
      'content' => '~',
-     'line' => 0,
-     'position' => 31,
+     'line' => 3,
+     'position' => 1,
   )),
   8 => 
   ezcDocumentWikiExternalLinkToken::__set_state(array(
      'content' => 'http://www.foo.com/',
-     'line' => 0,
-     'position' => 32,
+     'line' => 3,
+     'position' => 2,
   )),
   9 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 51,
+     'line' => 3,
+     'position' => 21,
   )),
   10 => 
   ezcDocumentWikiInternalLinkToken::__set_state(array(
      'content' => 'CamelCaseLink',
-     'line' => 0,
-     'position' => 52,
+     'line' => 4,
+     'position' => 1,
   )),
   11 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 65,
+     'line' => 4,
+     'position' => 14,
   )),
   12 => 
   ezcDocumentWikiEscapeCharacterToken::__set_state(array(
      'content' => '~',
-     'line' => 0,
-     'position' => 66,
+     'line' => 5,
+     'position' => 1,
   )),
   13 => 
   ezcDocumentWikiInternalLinkToken::__set_state(array(
      'content' => 'CamelCaseLink',
-     'line' => 0,
-     'position' => 67,
+     'line' => 5,
+     'position' => 2,
   )),
   14 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 80,
+     'line' => 5,
+     'position' => 15,
   )),
   15 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 81,
+     'line' => 6,
+     'position' => 1,
   )),
   16 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 81,
+     'line' => 6,
+     'position' => 1,
   )),
   17 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 81,
+     'line' => 6,
+     'position' => 1,
   )),
 );
 

@@ -18,49 +18,49 @@ return array (
   ezcDocumentWikiLiteralBlockToken::__set_state(array(
      'content' => 'This is pretty much the same, but you could use it to show that you quoted a
 file.  ',
-     'line' => 0,
-     'position' => 78,
+     'line' => 1,
+     'position' => 1,
   )),
   3 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 162,
+     'line' => 1,
+     'position' => 85,
   )),
   4 => 
-  ezcDocumentWikiLiteralBlockToken::__set_state(array(
+  ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'This is some text which contains addresses like this:
 http://www.splitbrain.org and **formatting**, but nothing is done with it.',
-     'line' => 0,
-     'position' => 163,
+     'line' => 2,
+     'position' => 1,
   )),
   5 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 291,
+     'line' => 2,
+     'position' => 129,
   )),
   6 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 292,
+     'line' => 3,
+     'position' => 1,
   )),
   7 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 292,
+     'line' => 3,
+     'position' => 1,
   )),
   8 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 292,
+     'line' => 3,
+     'position' => 1,
   )),
 );
 

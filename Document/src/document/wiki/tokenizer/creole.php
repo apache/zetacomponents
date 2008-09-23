@@ -57,79 +57,144 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
             // Match tokens which require to be at the start of a line before
             // matching the actual newlines, because they are the indicator for
             // line starts.
-            'ezcDocumentWikiTitleToken' =>
-                '(\\A' . self::NEW_LINE . '(?P<value>=+)' . self::WHITESPACE_CHARS . '+)S',
-            'ezcDocumentWikiBulletListItemToken' =>
-                '(\\A' . self::NEW_LINE . '(?P<value>\\*+)' . self::WHITESPACE_CHARS . '+)S',
-            'ezcDocumentWikiEnumeratedListItemToken' =>
-                '(\\A' . self::NEW_LINE . '(?P<value>#+)' . self::WHITESPACE_CHARS . '+)S',
-            'ezcDocumentWikiPageBreakToken' =>
-                '(\\A(?P<match>' . self::NEW_LINE . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)' . self::NEW_LINE . ')S',
-            'ezcDocumentWikiLiteralBlockToken' =>
-                '(\\A(?P<match>' . self::NEW_LINE . '\\{\\{\\{' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '\\}\\}\\})' . self::NEW_LINE . ')SUs',
-            'ezcDocumentWikiTableRowToken' =>
-                '(\\A(?P<match>' . self::NEW_LINE . ')(?P<value>\\|))S',
-            'ezcDocumentWikiParagraphIndentationToken' =>
-                '(\\A' . self::NEW_LINE . '(?P<value>(?:>|:)+)' . self::WHITESPACE_CHARS . '*)S',
+            array(
+                'class' => 'ezcDocumentWikiTitleToken',
+                'match' => '(\\A' . self::NEW_LINE . '(?P<value>=+)' . self::WHITESPACE_CHARS . '+)S' ),
+            array(
+                'class' => 'ezcDocumentWikiBulletListItemToken',
+                'match' => '(\\A' . self::NEW_LINE . '(?P<value>\\*+)' . self::WHITESPACE_CHARS . '+)S' ),
+            array(
+                'class' => 'ezcDocumentWikiEnumeratedListItemToken',
+                'match' => '(\\A' . self::NEW_LINE . '(?P<value>#+)' . self::WHITESPACE_CHARS . '+)S' ),
+            array(
+                'class' => 'ezcDocumentWikiPageBreakToken',
+                'match' => '(\\A(?P<match>' . self::NEW_LINE . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)' . self::NEW_LINE . ')S' ),
+            array(
+                'class' => 'ezcDocumentWikiLiteralBlockToken',
+                'match' => '(\\A(?P<match>' . self::NEW_LINE . '\\{\\{\\{' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '\\}\\}\\})' . self::NEW_LINE . ')SUs' ),
+            array(
+                'class' => 'ezcDocumentWikiTableRowToken',
+                'match' => '(\\A(?P<match>' . self::NEW_LINE . ')(?P<value>\\|))S' ),
+            array(
+                'class' => 'ezcDocumentWikiParagraphIndentationToken',
+                'match' => '(\\A' . self::NEW_LINE . '(?P<value>(?:>|:)+)' . self::WHITESPACE_CHARS . '*)S' ),
 
             // Whitespaces
-            'ezcDocumentWikiNewLineToken' =>
-                '(\\A' . self::WHITESPACE_CHARS . '*(?P<value>\\r\\n|\\r|\\n))S',
-            'ezcDocumentWikiWhitespaceToken' =>
-                '(\\A(?P<value>' . self::WHITESPACE_CHARS . '+))S',
-            'ezcDocumentWikiEndOfFileToken' =>
-                '(\\A(?P<value>\\x0c))S',
+            array(
+                'class' => 'ezcDocumentWikiNewLineToken',
+                'match' => '(\\A' . self::WHITESPACE_CHARS . '*(?P<value>\\r\\n|\\r|\\n))S' ),
+            array(
+                'class' => 'ezcDocumentWikiWhitespaceToken',
+                'match' => '(\\A(?P<value>' . self::WHITESPACE_CHARS . '+))S' ),
+            array(
+                'class' => 'ezcDocumentWikiEndOfFileToken',
+                'match' => '(\\A(?P<value>\\x0c))S' ),
 
             // Escape character
-            'ezcDocumentWikiEscapeCharacterToken' =>
-                '(\\A(?P<value>~))S',
+            array(
+                'class' => 'ezcDocumentWikiEscapeCharacterToken',
+                'match' => '(\\A(?P<value>~))S' ),
 
             // Inline markup
-            'ezcDocumentWikiBoldToken' =>
-                '(\\A(?P<value>\\*\\*))S',
-            'ezcDocumentWikiItalicToken' =>
-                '(\\A(?P<value>//))S',
-            'ezcDocumentWikiMonospaceToken' =>
-                '(\\A(?P<value>##))S',
-            'ezcDocumentWikiSuperscriptToken' =>
-                '(\\A(?P<value>\\^\\^))S',
-            'ezcDocumentWikiSubscriptToken' =>
-                '(\\A(?P<value>,,))S',
-            'ezcDocumentWikiUnderlineToken' =>
-                '(\\A(?P<value>__))S',
-            'ezcDocumentWikiInlineLiteralToken' =>
-                '(\\A\\{\\{\\{(?P<value>.+?\\}*)\\}\\}\\})Ss',
-            'ezcDocumentWikiLineBreakToken' =>
-                '(\\A(?P<value>\\\\\\\\))S',
-            'ezcDocumentWikiImageStartToken' =>
-                '(\\A(?P<value>\\{\\{))S',
-            'ezcDocumentWikiImageEndToken' =>
-                '(\\A(?P<value>\\}\\}))S',
-            'ezcDocumentWikiLinkStartToken' =>
-                '(\\A(?P<value>\\[\\[))S',
-            'ezcDocumentWikiLinkEndToken' =>
-                '(\\A(?P<value>\\]\\]))S',
-            'ezcDocumentWikiTableHeaderToken' =>
-                '(\\A(?P<value>\\|=))S',
-            'ezcDocumentWikiSeparatorToken' =>
-                '(\\A(?P<value>\\||' . self::WHITESPACE_CHARS . '*->' . self::WHITESPACE_CHARS . '*))S',
-            'ezcDocumentWikiInterWikiLinkToken' =>
-                '(\\A(?P<value>([A-Za-z]+):(?:[A-Z][a-z0-9_-]+){2,}))S',
-            'ezcDocumentWikiInternalLinkToken' =>
-                '(\\A(?P<value>(?:[A-Z][a-z]+){2,}))S',
-            'ezcDocumentWikiExternalLinkToken' =>
-                '(\\A(?P<match>(?P<value>[a-z]+://\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\||$))S',
+            array(
+                'class' => 'ezcDocumentWikiBoldToken',
+                'match' => '(\\A(?P<value>\\*\\*))S' ),
+            array(
+                'class' => 'ezcDocumentWikiItalicToken',
+                'match' => '(\\A(?P<value>//))S' ),
+            array(
+                'class' => 'ezcDocumentWikiMonospaceToken',
+                'match' => '(\\A(?P<value>##))S' ),
+            array(
+                'class' => 'ezcDocumentWikiSuperscriptToken',
+                'match' => '(\\A(?P<value>\\^\\^))S' ),
+            array(
+                'class' => 'ezcDocumentWikiSubscriptToken',
+                'match' => '(\\A(?P<value>,,))S' ),
+            array(
+                'class' => 'ezcDocumentWikiUnderlineToken',
+                'match' => '(\\A(?P<value>__))S' ),
+            array(
+                'class' => 'ezcDocumentWikiInlineLiteralToken',
+                'match' => '(\\A\\{\\{\\{(?P<value>.+?\\}*)\\}\\}\\})Ss' ),
+            array(
+                'class' => 'ezcDocumentWikiLineBreakToken',
+                'match' => '(\\A(?P<value>\\\\\\\\))S' ),
+            array(
+                'class' => 'ezcDocumentWikiImageStartToken',
+                'match' => '(\\A(?P<value>\\{\\{))S' ),
+            array(
+                'class' => 'ezcDocumentWikiImageEndToken',
+                'match' => '(\\A(?P<value>\\}\\}))S' ),
+            array(
+                'class' => 'ezcDocumentWikiLinkStartToken',
+                'match' => '(\\A(?P<value>\\[\\[))S' ),
+            array(
+                'class' => 'ezcDocumentWikiLinkEndToken',
+                'match' => '(\\A(?P<value>\\]\\]))S' ),
+            array(
+                'class' => 'ezcDocumentWikiTableHeaderToken',
+                'match' => '(\\A(?P<value>\\|=))S' ),
+            array(
+                'class' => 'ezcDocumentWikiSeparatorToken',
+                'match' => '(\\A(?P<value>\\||' . self::WHITESPACE_CHARS . '*->' . self::WHITESPACE_CHARS . '*))S' ),
+            array(
+                'class' => 'ezcDocumentWikiInterWikiLinkToken',
+                'match' => '(\\A(?P<value>([A-Za-z]+):(?:[A-Z][a-z0-9_-]+){2,}))S' ),
+            array(
+                'class' => 'ezcDocumentWikiInternalLinkToken',
+                'match' => '(\\A(?P<value>(?:[A-Z][a-z]+){2,}))S' ),
+            array(
+                'class' => 'ezcDocumentWikiExternalLinkToken',
+                'match' => '(\\A(?P<match>(?P<value>[a-z]+://\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\||$))S' ),
 
+            // Handle plugins
+            array(
+                'class' => 'ezcDocumentWikiPluginToken',
+                'match' => '(\\A<<(?P<value>.*?)>>)Ss' ),
 
             // Match text except 
-            'ezcDocumentWikiTextLineToken' =>
-                '(\\A(?P<value>[^' . self::TEXT_END_CHARS . ']+))S',
+            array(
+                'class' => 'ezcDocumentWikiTextLineToken',
+                'match' => '(\\A(?P<value>[^' . self::TEXT_END_CHARS . ']+))S' ),
 
             // Match all special characters, which are not valid textual chars,
             // but do not have been matched by any other expression.
-            'ezcDocumentWikiSpecialCharsToken' =>
-                '(\\A(?P<value>(?:[' . self::SPECIAL_CHARS . '])+))S',
+            array(
+                'class' => 'ezcDocumentWikiSpecialCharsToken',
+                'match' => '(\\A(?P<value>(?:[' . self::SPECIAL_CHARS . '])+))S' ),
         );
+    }
+
+    /**
+     * Parse plugin contents
+     *
+     * Plugins are totally different in each wiki component and its contents
+     * should not be passed through the normal wiki parser. So we fetch its
+     * contents completely and let each tokinzer extract names and parameters
+     * from the complete token itself.
+     * 
+     * @param ezcDocumentWikiPluginToken $plugin 
+     * @return void
+     */
+    protected function parsePluginContents( ezcDocumentWikiPluginToken $plugin )
+    {
+        // Match name of plugin
+        if ( preg_match( '(^[a-z]+)i', $plugin->content, $match ) )
+        {
+            $plugin->type = $match[0];
+        }
+
+        // Match plugin parameters
+        $parameters = array();
+        if ( preg_match_all( '(\s+(?P<key>[a-zA-Z_-]+)=([\'"])(?P<value>.*?)(?!\\\\)\\2)s', $plugin->content, $match ) )
+        {
+            foreach ( $match['key'] as $nr => $key )
+            {
+                $parameters[$key] = $match['value'][$nr];
+            }
+        }
+        $plugin->parameters = $parameters;
     }
 
     /**
@@ -159,6 +224,10 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 case $token instanceof ezcDocumentWikiBulletListItemToken:
                 case $token instanceof ezcDocumentWikiEnumeratedListItemToken:
                     $token->indentation = strlen( $token->content );
+                    break;
+
+                case $token instanceof ezcDocumentWikiPluginToken:
+                    $this->parsePluginContents( $token );
                     break;
             }
         }

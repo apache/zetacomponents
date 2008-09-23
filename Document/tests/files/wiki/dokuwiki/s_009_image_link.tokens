@@ -11,20 +11,20 @@ return array (
   1 => 
   ezcDocumentWikiLinkStartToken::__set_state(array(
      'content' => '[[',
-     'line' => 0,
-     'position' => 2,
+     'line' => 1,
+     'position' => 1,
   )),
   2 => 
   ezcDocumentWikiExternalLinkToken::__set_state(array(
      'content' => 'http://www.php.net',
-     'line' => 0,
-     'position' => 4,
+     'line' => 1,
+     'position' => 3,
   )),
   3 => 
   ezcDocumentWikiSeparatorToken::__set_state(array(
      'content' => '|',
-     'line' => 0,
-     'position' => 22,
+     'line' => 1,
+     'position' => 21,
   )),
   4 => 
   ezcDocumentWikiImageStartToken::__set_state(array(
@@ -32,53 +32,53 @@ return array (
      'height' => NULL,
      'alignement' => NULL,
      'content' => '{{',
-     'line' => 0,
-     'position' => 23,
+     'line' => 1,
+     'position' => 22,
   )),
   5 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'wiki:dokuwiki-128.png',
-     'line' => 0,
-     'position' => 25,
+     'line' => 1,
+     'position' => 24,
   )),
   6 => 
   ezcDocumentWikiImageEndToken::__set_state(array(
      'content' => '}}',
-     'line' => 0,
-     'position' => 46,
+     'line' => 1,
+     'position' => 45,
   )),
   7 => 
   ezcDocumentWikiLinkEndToken::__set_state(array(
      'content' => ']]',
-     'line' => 0,
-     'position' => 48,
+     'line' => 1,
+     'position' => 47,
   )),
   8 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 50,
+     'line' => 1,
+     'position' => 49,
   )),
   9 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 51,
+     'line' => 2,
+     'position' => 1,
   )),
   10 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 51,
+     'line' => 2,
+     'position' => 1,
   )),
   11 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 51,
+     'line' => 2,
+     'position' => 1,
   )),
 );
 

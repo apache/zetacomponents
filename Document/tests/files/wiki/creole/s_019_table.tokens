@@ -288,21 +288,21 @@ return array (
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 128,
+     'line' => 1,
+     'position' => 1,
   )),
   48 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 128,
+     'line' => 1,
+     'position' => 1,
   )),
   49 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 128,
+     'line' => 1,
+     'position' => 1,
   )),
 );
 

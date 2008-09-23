@@ -690,21 +690,21 @@ return array (
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 234,
+     'line' => 1,
+     'position' => 1,
   )),
   115 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 234,
+     'line' => 1,
+     'position' => 1,
   )),
   116 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 234,
+     'line' => 1,
+     'position' => 1,
   )),
 );
 

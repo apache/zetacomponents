@@ -87,21 +87,21 @@ return array (
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 26,
+     'line' => 1,
+     'position' => 1,
   )),
   14 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 26,
+     'line' => 1,
+     'position' => 1,
   )),
   15 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 26,
+     'line' => 1,
+     'position' => 1,
   )),
 );
 

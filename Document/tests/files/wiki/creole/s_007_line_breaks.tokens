@@ -11,143 +11,143 @@ return array (
   1 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'This',
-     'line' => 0,
-     'position' => 2,
+     'line' => 1,
+     'position' => 1,
   )),
   2 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
-     'line' => 0,
-     'position' => 6,
+     'line' => 1,
+     'position' => 5,
   )),
   3 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'is',
-     'line' => 0,
-     'position' => 7,
+     'line' => 1,
+     'position' => 6,
   )),
   4 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
-     'line' => 0,
-     'position' => 9,
+     'line' => 1,
+     'position' => 8,
   )),
   5 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'the',
-     'line' => 0,
-     'position' => 10,
+     'line' => 1,
+     'position' => 9,
   )),
   6 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
-     'line' => 0,
-     'position' => 13,
+     'line' => 1,
+     'position' => 12,
   )),
   7 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'first',
-     'line' => 0,
-     'position' => 14,
+     'line' => 1,
+     'position' => 13,
   )),
   8 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
-     'line' => 0,
-     'position' => 19,
+     'line' => 1,
+     'position' => 18,
   )),
   9 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'line',
-     'line' => 0,
-     'position' => 20,
+     'line' => 1,
+     'position' => 19,
   )),
   10 => 
   ezcDocumentWikiSpecialCharsToken::__set_state(array(
      'content' => ',\\\\',
-     'line' => 0,
-     'position' => 24,
+     'line' => 1,
+     'position' => 23,
   )),
   11 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'and',
-     'line' => 0,
-     'position' => 27,
+     'line' => 1,
+     'position' => 26,
   )),
   12 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
-     'line' => 0,
-     'position' => 30,
+     'line' => 1,
+     'position' => 29,
   )),
   13 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'this',
-     'line' => 0,
-     'position' => 31,
+     'line' => 1,
+     'position' => 30,
   )),
   14 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
-     'line' => 0,
-     'position' => 35,
+     'line' => 1,
+     'position' => 34,
   )),
   15 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'is',
-     'line' => 0,
-     'position' => 36,
+     'line' => 1,
+     'position' => 35,
   )),
   16 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
-     'line' => 0,
-     'position' => 38,
+     'line' => 1,
+     'position' => 37,
   )),
   17 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'the',
-     'line' => 0,
-     'position' => 39,
+     'line' => 1,
+     'position' => 38,
   )),
   18 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
-     'line' => 0,
-     'position' => 42,
+     'line' => 1,
+     'position' => 41,
   )),
   19 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'second.',
-     'line' => 0,
-     'position' => 43,
+     'line' => 1,
+     'position' => 42,
   )),
   20 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 50,
+     'line' => 1,
+     'position' => 49,
   )),
   21 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 51,
+     'line' => 2,
+     'position' => 1,
   )),
   22 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 51,
+     'line' => 2,
+     'position' => 1,
   )),
   23 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 51,
+     'line' => 2,
+     'position' => 1,
   )),
 );
 

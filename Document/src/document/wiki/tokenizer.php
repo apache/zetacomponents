@@ -109,13 +109,14 @@ abstract class ezcDocumentWikiTokenizer
 
         while ( strlen( $string ) > 0 )
         {
-            foreach ( $this->tokens as $token => $expression )
+            foreach ( $this->tokens as $match )
             {
-                if ( preg_match( $expression, $string, $matches ) )
+                if ( preg_match( $match['match'], $string, $matches ) )
                 {
                     // A token matched, so add the matched token to the token
                     // list and update all variables.
-                    $newToken = new $token(
+                    $class = $match['class'];
+                    $newToken = new $class(
                         ( isset( $matches['value'] ) ? $matches['value'] : null ),
                         $line,
                         $position
@@ -127,20 +128,20 @@ abstract class ezcDocumentWikiTokenizer
                     $string = substr( $string, $length = strlen( $match ) );
 
                     // On a newline token reset the line position and increase the line value
-                    if ( $token instanceof ezcDocumentWikiNewLineToken )
+                    if ( $newToken instanceof ezcDocumentWikiNewLineToken )
                     {
                         ++$line;
                         $position = 0;
                     }
 
                     // Convert tabs to spaces for whitespace tokens
-                    if ( $token instanceof ezcDocumentWikiWhitespaceToken )
+                    if ( $newToken instanceof ezcDocumentWikiWhitespaceToken )
                     {
                         $this->convertTabs( $newToken );
                     }
 
                     // If we found an explicit EOF token, just exit the parsing process.
-                    if ( $token instanceof ezcDocumentWikiEndOfFileToken )
+                    if ( $newToken instanceof ezcDocumentWikiEndOfFileToken )
                     {
                         break 2;
                     }
@@ -149,7 +150,7 @@ abstract class ezcDocumentWikiTokenizer
                     $tokens[] = $newToken;
 
                     // Update position, not before converting tabs to spaces.
-                    $position += ( $token instanceof ezcDocumentWikiNewLineToken ) ? 1 : strlen( $newToken->content );
+                    $position += ( $newToken instanceof ezcDocumentWikiNewLineToken ) ? 1 : strlen( $newToken->content );
 
                     // Restart the while loop, because we matched a token and
                     // can retry with shortened string.

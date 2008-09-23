@@ -312,21 +312,21 @@ return array (
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 190,
+     'line' => 1,
+     'position' => 1,
   )),
   52 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 190,
+     'line' => 1,
+     'position' => 1,
   )),
   53 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 190,
+     'line' => 1,
+     'position' => 1,
   )),
 );
 

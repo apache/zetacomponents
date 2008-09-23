@@ -18,21 +18,21 @@ return array (
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 42,
+     'line' => 1,
+     'position' => 1,
   )),
   3 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 42,
+     'line' => 1,
+     'position' => 1,
   )),
   4 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 0,
-     'position' => 42,
+     'line' => 1,
+     'position' => 1,
   )),
 );
 
