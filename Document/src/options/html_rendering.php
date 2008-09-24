@@ -23,6 +23,8 @@
  *           Stylesheet to embed in the HTML header, if the property
  *           $stylesheets has not been set. This property contains the default
  *           stylesheet for HTML output.
+ * @property string $headerLevel
+ *           Header level to start with. Is only used by inline HTML renderer.
  *
  * @package Document
  * @version //autogen//
@@ -44,6 +46,7 @@ class ezcDocumentHtmlConverterOptions extends ezcDocumentConverterOptions
         $this->formatOutput       = false;
         $this->styleSheets        = null;
         $this->styleSheet         = file_get_contents( dirname( __FILE__ ) . '/data/html_style.css' );
+        $this->headerLevel        = 1;
 
         parent::__construct( $options );
     }
@@ -85,6 +88,16 @@ class ezcDocumentHtmlConverterOptions extends ezcDocumentConverterOptions
 
             case 'styleSheet':
                 $this->properties[$name] = (string) $value;
+                break;
+
+            case 'headerLevel':
+                if ( !is_int( $value ) ||
+                     ( $value > 6 ) ||
+                     ( $value < 0 ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, '0 < int < 7' );
+                }
+                $this->properties[$name] = $value;
                 break;
 
             default:

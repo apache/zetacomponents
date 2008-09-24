@@ -85,6 +85,42 @@ class ezcDocumentRstXhtmlBodyVisitorTests extends ezcTestCase
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
     }
+
+    public function testDocumentHeaderLevel()
+    {
+        $from = dirname( __FILE__ ) . '/files/rst/xhtml_body/s_002_titles.txt';
+        $to   = dirname( __FILE__ ) . '/files/rst/xhtml_body/s_002_titles_header_level.html';
+
+        $document = new ezcDocumentRst();
+        $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+        $document->options->xhtmlVisitor   = 'ezcDocumentRstXhtmlBodyVisitor';
+        $document->options->xhtmlVisitorOptions->headerLevel = 3;
+
+        $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'user', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'book', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'function', 'ezcDocumentTestDummyXhtmlDirective' );
+        $document->registerDirective( 'replace', 'ezcDocumentTestDummyXhtmlDirective' );
+
+        $document->loadFile( $from );
+
+        $html = $document->getAsXhtml();
+        $html->options->xmlHeader = true;
+        $xml = $html->save();
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'html_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
 }
 
 ?>

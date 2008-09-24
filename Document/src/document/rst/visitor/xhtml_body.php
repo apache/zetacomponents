@@ -38,6 +38,9 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
             $this->footnoteCounter[$label] = 0;
         }
 
+        // Set title level from options
+        $this->depth = $this->options->headerLevel - 1;
+
         // Create article from AST
         $this->document = new DOMDocument();
         $this->document->formatOutput = true;
