@@ -182,7 +182,6 @@ return array(
     'ezcDocumentWikiLinkEndToken'                        => 'Document/document/wiki/token/link_end.php',
     'ezcDocumentWikiLinkStartToken'                      => 'Document/document/wiki/token/link_start.php',
     'ezcDocumentWikiLiteralBlockToken'                   => 'Document/document/wiki/token/literal_block.php',
-    'ezcDocumentWikiMediawikiTokenizer'                  => 'Document/document/wiki/tokenizer/mediawiki.php',
     'ezcDocumentWikiMonospaceToken'                      => 'Document/document/wiki/token/monospace.php',
     'ezcDocumentWikiNewLineToken'                        => 'Document/document/wiki/token/new_line.php',
     'ezcDocumentWikiOptions'                             => 'Document/options/document_wiki.php',
