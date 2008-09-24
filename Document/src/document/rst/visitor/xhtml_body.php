@@ -103,7 +103,7 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
 
         foreach ( $node->title->nodes as $child )
         {
-            $this->visitNode( $reference, $child );
+            $this->visitNode( $header, $child );
         }
 
         foreach ( $node->nodes as $child )
