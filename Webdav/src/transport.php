@@ -507,12 +507,11 @@ class ezcWebdavTransport
                 break;
             case ( $info instanceof ezcWebdavEmptyDisplayInformation ):
             default:
-                if ( ( $contenTypeHeader = $info->response->getHeader( 'Content-Type' ) ) !== null  )
+                // Ensure a content length header is set
+                if ( ( $header = $info->response->getHeader( 'Content-Length' ) ) === null )
                 {
-                    throw new ezcWebdavInvalidHeaderException( 'Content-Type', $contenTypeHeader, 'null' );
+                    $output->headers['Content-Length'] = 0;
                 }
-                $output->body = '';
-                $output->headers['Content-Length'] = 0;
                 break;
         }
         
