@@ -65,7 +65,57 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
             $value,
             'Value for Authorization not parsed correctly.'
         );
+    }
 
+    /**
+     * testParseAuthorizationHeaderDigestPreprocessed 
+     * 
+     * @param mixed $headerContent 
+     * @param mixed $expectedValue 
+     * @return void
+     *
+     * @dataProvider provideAuthorizationHeaderDigestPreprocessedSets
+     */
+    public function testParseAuthorizationHeaderDigestPreprocessed( $headerContent, $expectedValue )
+    {
+        $_SERVER['PHP_AUTH_DIGEST'] = $headerContent[0];
+        if ( isset( $headerContent[1] ) )
+        {
+            $_SERVER['REQUEST_METHOD'] = $headerContent[1];
+        }
+
+        $headerHandler = new ezcWebdavHeaderHandler();
+        $value = $headerHandler->parseHeader( 'Authorization' );
+
+        $this->assertEquals(
+            $expectedValue,
+            $value,
+            'Value for Authorization not parsed correctly.'
+        );
+    }
+
+    /**
+     * testParseAuthorizationHeaderBasicPreprocessed 
+     * 
+     * @param mixed $headerContent 
+     * @param mixed $expectedValue 
+     * @return void
+     *
+     * @dataProvider provideAuthorizationHeaderBasicPreprocessedSets
+     */
+    public function testParseAuthorizationHeaderBasicPreprocessed( $headerContent, $expectedValue )
+    {
+        $_SERVER['PHP_AUTH_USER'] = $headerContent[0];
+        $_SERVER['PHP_AUTH_PW']   = $headerContent[1];
+
+        $headerHandler = new ezcWebdavHeaderHandler();
+        $value = $headerHandler->parseHeader( 'Authorization' );
+
+        $this->assertEquals(
+            $expectedValue,
+            $value,
+            'Value for Authorization not parsed correctly.'
+        );
     }
 
     /**
@@ -270,6 +320,66 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
         );
     }
 
+    public static function provideAuthorizationHeaderBasicPreprocessedSets()
+    {
+        return array(
+            array(
+                array( 'foo', 'bar', ),
+                new ezcWebdavBasicAuth( 'foo', 'bar' )
+            ),
+            array(
+                array( 'user', 'pass', ),
+                new ezcWebdavBasicAuth( 'user', 'pass' )
+            ),
+            array(
+                array( 'user', 'passwith:init', ),
+                new ezcWebdavBasicAuth( 'user', 'passwith:init' )
+            ),
+        );
+    }
+
+    public static function provideAuthorizationHeaderDigestPreprocessedSets()
+    {
+        return array(
+            // Simple digest, provided by Litmus
+            array(
+                array(
+                    'username="some", realm="eZ Components WebDAV", nonce="7feee2d8f6681389933bcdcbab789c8c", uri="/secure_collection/litmus/", response="ecde6f7d4bd072df1cb8f338f8a93132", algorithm="MD5"',
+                    'GET'
+                ),
+                new ezcWebdavDigestAuth(
+                    'GET',
+                    'some',
+                    'eZ Components WebDAV',
+                    '7feee2d8f6681389933bcdcbab789c8c',
+                    '/secure_collection/litmus/',
+                    'ecde6f7d4bd072df1cb8f338f8a93132',
+                    'MD5'
+                ),
+            ),
+            // Complex digest, provided by WP
+            array(
+                array(
+                    'username="Mufasa", realm="testrealm@host.com", nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", uri="/dir/index.html", qop=auth, nc=00000001, cnonce="0a4f113b", response="6629fae49393a05397450978507c4ef1", opaque="5ccc069c403ebaf9f0171e9517f40e41"',
+                    'PROPFIND',
+                ),
+                new ezcWebdavDigestAuth(
+                    'PROPFIND',
+                    'Mufasa',
+                    'testrealm@host.com',
+                    'dcd98b7102dd2f0e8b11d0f600bfb0c093',
+                    '/dir/index.html',
+                    '6629fae49393a05397450978507c4ef1',
+                    'MD5',
+                    'auth',
+                    '00000001',
+                    '0a4f113b',
+                    '5ccc069c403ebaf9f0171e9517f40e41'
+                ),
+            ),
+        );
+    }
+
     public static function provideDepthTestSets()
     {
         return array(
@@ -394,6 +504,85 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
                     'Depth'        => ezcWebdavRequest::DEPTH_ONE,
                     'Content-Type' => 'text/plain; charset=utf-8',
                     'Lock-Token'   => 'abc',
+                ),
+            ),
+            // Set 6
+            array(
+                array(
+                    'HTTP_AUTHORIZATION' => 'Basic Zm9vOmJhcg==',
+                    'HTTP_DEPTH'         => 1,
+                ),
+                array(
+                    'Depth',
+                    'Authorization',
+                ),
+                array(
+                    'Depth'         => ezcWebdavRequest::DEPTH_ONE,
+                    'Authorization' => new ezcWebdavBasicAuth( 'foo', 'bar' ),
+                ),
+            ),
+            // Set 7
+            array(
+                array(
+                    'PHP_AUTH_USER' => 'foo',
+                    'PHP_AUTH_PW'   => 'bar',
+                    'HTTP_DEPTH'    => 1,
+                ),
+                array(
+                    'Depth',
+                    'Authorization',
+                ),
+                array(
+                    'Depth'         => ezcWebdavRequest::DEPTH_ONE,
+                    'Authorization' => new ezcWebdavBasicAuth( 'foo', 'bar' ),
+                ),
+            ),
+            // Set 8
+            array(
+                array(
+                    'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="7feee2d8f6681389933bcdcbab789c8c", uri="/secure_collection/litmus/", response="ecde6f7d4bd072df1cb8f338f8a93132", algorithm="MD5"',
+                    'REQUEST_METHOD'     => 'GET',
+                    'HTTP_DEPTH'         => 1,
+                ),
+                array(
+                    'Depth',
+                    'Authorization',
+                ),
+                array(
+                    'Depth'         => ezcWebdavRequest::DEPTH_ONE,
+                    'Authorization' => new ezcWebdavDigestAuth(
+                        'GET',
+                        'some',
+                        'eZ Components WebDAV',
+                        '7feee2d8f6681389933bcdcbab789c8c',
+                        '/secure_collection/litmus/',
+                        'ecde6f7d4bd072df1cb8f338f8a93132',
+                        'MD5'
+                    ),
+                ),
+            ),
+            // Set 9
+            array(
+                array(
+                    'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="7feee2d8f6681389933bcdcbab789c8c", uri="/secure_collection/litmus/", response="ecde6f7d4bd072df1cb8f338f8a93132", algorithm="MD5"',
+                    'REQUEST_METHOD'  => 'GET',
+                    'HTTP_DEPTH'      => 1,
+                ),
+                array(
+                    'Depth',
+                    'Authorization',
+                ),
+                array(
+                    'Depth'         => ezcWebdavRequest::DEPTH_ONE,
+                    'Authorization' => new ezcWebdavDigestAuth(
+                        'GET',
+                        'some',
+                        'eZ Components WebDAV',
+                        '7feee2d8f6681389933bcdcbab789c8c',
+                        '/secure_collection/litmus/',
+                        'ecde6f7d4bd072df1cb8f338f8a93132',
+                        'MD5'
+                    ),
                 ),
             ),
         );
