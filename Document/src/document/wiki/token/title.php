@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiTitleToken extends ezcDocumentWikiToken
+class ezcDocumentWikiTitleToken extends ezcDocumentWikiLineMarkupToken
 {
     /**
      * Level of title.

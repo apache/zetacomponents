@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiImageStartToken extends ezcDocumentWikiToken
+class ezcDocumentWikiImageStartToken extends ezcDocumentWikiInlineMarkupToken
 {
     /**
      * Image width

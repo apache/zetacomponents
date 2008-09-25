@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiParagraphIndentationToken extends ezcDocumentWikiToken
+class ezcDocumentWikiParagraphIndentationToken extends ezcDocumentWikiLineMarkupToken
 {
     /**
      * Level of paragraph indentation.

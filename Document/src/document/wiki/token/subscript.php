@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiSubscriptToken extends ezcDocumentWikiToken
+class ezcDocumentWikiSubscriptToken extends ezcDocumentWikiInlineMarkupToken
 {
     /**
      * Set state after var_export
