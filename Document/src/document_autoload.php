@@ -191,6 +191,7 @@ return array(
     'ezcDocumentWikiInvisibleBreakNode'                  => 'Document/document/wiki/nodes/invisible_break.php',
     'ezcDocumentWikiItalicNode'                          => 'Document/document/wiki/nodes/italic.php',
     'ezcDocumentWikiItalicToken'                         => 'Document/document/wiki/token/italic.php',
+    'ezcDocumentWikiLineBreakNode'                       => 'Document/document/wiki/nodes/line_break.php',
     'ezcDocumentWikiLineBreakToken'                      => 'Document/document/wiki/token/line_break.php',
     'ezcDocumentWikiLinkEndToken'                        => 'Document/document/wiki/token/link_end.php',
     'ezcDocumentWikiLinkStartToken'                      => 'Document/document/wiki/token/link_start.php',

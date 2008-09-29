@@ -137,6 +137,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiDeletedToken'      => 'ezcDocumentWikiDeletedNode',
         'ezcDocumentWikiStrikeToken'       => 'ezcDocumentWikiDeletedNode',
         'ezcDocumentWikiInlineQuoteToken'  => 'ezcDocumentWikiInlineQuoteNode',
+        'ezcDocumentWikiLineBreakToken'    => 'ezcDocumentWikiLineBreakNode',
     );
 
     /**

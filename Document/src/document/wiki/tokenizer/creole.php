@@ -163,7 +163,7 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
             // but do not have been matched by any other expression.
             array(
                 'class' => 'ezcDocumentWikiSpecialCharsToken',
-                'match' => '(\\A(?P<value>(?:[' . self::SPECIAL_CHARS . '])+))S' ),
+                'match' => '(\\A(?P<value>([' . self::SPECIAL_CHARS . '])\\2*))S' ),
         );
     }
 

@@ -64,77 +64,76 @@ return array (
   )),
   10 => 
   ezcDocumentWikiSpecialCharsToken::__set_state(array(
-     'content' => ',\\\\',
+     'content' => ',',
      'line' => 1,
      'position' => 23,
   )),
   11 => 
+  ezcDocumentWikiLineBreakToken::__set_state(array(
+     'content' => '\\\\',
+     'line' => 1,
+     'position' => 24,
+  )),
+  12 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'and',
      'line' => 1,
      'position' => 26,
   )),
-  12 => 
+  13 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
      'line' => 1,
      'position' => 29,
   )),
-  13 => 
+  14 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'this',
      'line' => 1,
      'position' => 30,
   )),
-  14 => 
+  15 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
      'line' => 1,
      'position' => 34,
   )),
-  15 => 
+  16 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'is',
      'line' => 1,
      'position' => 35,
   )),
-  16 => 
+  17 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
      'line' => 1,
      'position' => 37,
   )),
-  17 => 
+  18 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'the',
      'line' => 1,
      'position' => 38,
   )),
-  18 => 
+  19 => 
   ezcDocumentWikiWhitespaceToken::__set_state(array(
      'content' => ' ',
      'line' => 1,
      'position' => 41,
   )),
-  19 => 
+  20 => 
   ezcDocumentWikiTextLineToken::__set_state(array(
      'content' => 'second.',
      'line' => 1,
      'position' => 42,
   )),
-  20 => 
+  21 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 1,
      'position' => 49,
-  )),
-  21 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 2,
-     'position' => 1,
   )),
   22 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
@@ -144,6 +143,13 @@ return array (
      'position' => 1,
   )),
   23 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  24 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
      'line' => 2,
