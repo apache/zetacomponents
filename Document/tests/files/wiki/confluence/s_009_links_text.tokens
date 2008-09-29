@@ -9,7 +9,7 @@ return array (
      'position' => 1,
   )),
   1 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 1,
      'position' => 1,
@@ -88,7 +88,7 @@ return array (
      'position' => 30,
   )),
   14 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 2,
      'position' => 1,
@@ -180,7 +180,7 @@ return array (
      'position' => 3,
   )),
   29 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 4,
      'position' => 1,
@@ -253,7 +253,7 @@ return array (
      'position' => 32,
   )),
   41 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 5,
      'position' => 1,
@@ -338,7 +338,7 @@ return array (
      'position' => 39,
   )),
   55 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 6,
      'position' => 1,
@@ -436,7 +436,7 @@ return array (
      'position' => 3,
   )),
   71 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 8,
      'position' => 1,
@@ -509,7 +509,7 @@ return array (
      'position' => 41,
   )),
   83 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 9,
      'position' => 1,
@@ -594,7 +594,7 @@ return array (
      'position' => 48,
   )),
   97 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 10,
      'position' => 1,

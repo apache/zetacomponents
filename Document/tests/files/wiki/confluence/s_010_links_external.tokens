@@ -9,7 +9,7 @@ return array (
      'position' => 1,
   )),
   1 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 1,
      'position' => 1,
@@ -99,7 +99,7 @@ return array (
      'position' => 27,
   )),
   16 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 1,
      'position' => 28,
@@ -196,7 +196,7 @@ return array (
      'position' => 63,
   )),
   32 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 2,
      'position' => 1,
@@ -251,7 +251,7 @@ return array (
      'position' => 14,
   )),
   41 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 3,
      'position' => 1,
@@ -325,7 +325,7 @@ return array (
      'position' => 3,
   )),
   53 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 5,
      'position' => 1,
@@ -416,7 +416,7 @@ return array (
      'position' => 27,
   )),
   68 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 6,
      'position' => 1,
@@ -513,7 +513,7 @@ return array (
      'position' => 36,
   )),
   84 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 7,
      'position' => 1,
@@ -538,7 +538,7 @@ return array (
      'position' => 34,
   )),
   88 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 8,
      'position' => 1,
@@ -575,7 +575,7 @@ return array (
      'position' => 33,
   )),
   94 => 
-  ezcDocumentWikiLinkStartToken::__set_state(array(
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '[',
      'line' => 9,
      'position' => 1,
