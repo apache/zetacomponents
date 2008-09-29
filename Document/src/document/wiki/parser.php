@@ -140,6 +140,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiTitleToken'                => 'ezcDocumentWikiTitleNode',
         'ezcDocumentWikiParagraphIndentationToken' => 'ezcDocumentWikiBlockquoteNode',
         'ezcDocumentWikiQuoteToken'                => 'ezcDocumentWikiBlockquoteNode',
+        'ezcDocumentWikiPageBreakToken'            => 'ezcDocumentWikiPageBreakNode',
                                             
         'ezcDocumentWikiBoldToken'                 => 'ezcDocumentWikiBoldNode',
         'ezcDocumentWikiItalicToken'               => 'ezcDocumentWikiItalicNode',

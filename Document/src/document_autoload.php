@@ -210,6 +210,7 @@ return array(
     'ezcDocumentWikiMonospaceToken'                      => 'Document/document/wiki/token/monospace.php',
     'ezcDocumentWikiNewLineToken'                        => 'Document/document/wiki/token/new_line.php',
     'ezcDocumentWikiOptions'                             => 'Document/options/document_wiki.php',
+    'ezcDocumentWikiPageBreakNode'                       => 'Document/document/wiki/nodes/page_break.php',
     'ezcDocumentWikiPageBreakToken'                      => 'Document/document/wiki/token/page_break.php',
     'ezcDocumentWikiParagraphIndentationToken'           => 'Document/document/wiki/token/indentation.php',
     'ezcDocumentWikiParagraphNode'                       => 'Document/document/wiki/nodes/paragraph.php',
