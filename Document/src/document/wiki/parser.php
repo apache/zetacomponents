@@ -49,8 +49,10 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     protected $shifts = array(
         'ezcDocumentWikiEscapeCharacterToken'
             => 'shiftEscapeToken',
+        'ezcDocumentWikiTitleToken'
+            => 'shiftTitleToken',
         'ezcDocumentWikiNewLineToken'
-            => 'shiftParagraph',
+            => 'shiftNewLineToken',
         'ezcDocumentWikiToken'
             => 'shiftWithTokenConversion',
     );
@@ -81,6 +83,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiDocumentNode' => array(
             'reduceDocument',
         ),
+        'ezcDocumentWikiInvisibleBreakNode' => array(
+            'reduceLineNode',
+        ),
     );
 
     /**
@@ -99,6 +104,13 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     protected $documentStack = array();
 
     /**
+     * Flag if we are inside a line level node
+     * 
+     * @var bool
+     */
+    protected $insideLineToken = false;
+
+    /**
      * Array with token node conversions.
      *
      * Token to node conversions are used for tokens, which do not require any
@@ -108,7 +120,11 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * @var array
      */
     protected $conversionsArray = array(
-        'ezcDocumentWikiEndOfFileToken' => 'ezcDocumentWikiDocumentNode',
+        'ezcDocumentWikiEndOfFileToken'    => 'ezcDocumentWikiDocumentNode',
+        'ezcDocumentWikiTextLineToken'     => 'ezcDocumentWikiTextNode',
+        'ezcDocumentWikiWhitespaceToken'   => 'ezcDocumentWikiTextNode',
+        'ezcDocumentWikiSpecialCharsToken' => 'ezcDocumentWikiTextNode',
+        'ezcDocumentWikiTitleToken'        => 'ezcDocumentWikiTitleNode',
     );
 
     /**
@@ -117,18 +133,18 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Parse an array of ezcDocumentWikiToken objects into a wiki abstract
      * syntax tree.
      * 
-     * @param array $tokens 
+     * @param array &$tokens 
      * @return ezcDocumentWikiDocumentNode
      */
     public function parse( array $tokens )
     {
-        /* DEBUG
+        // /* DEBUG
         echo "\n\nStart parser\n============\n\n";
         // /DEBUG */
 
         while ( ( $token = array_shift( $tokens ) ) !== null )
         {
-            /* DEBUG
+            // /* DEBUG
             echo "[T] Token: " . get_class( $token ) . " at {$token->line}:{$token->position}.\n";
             // /DEBUG */
 
@@ -138,7 +154,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             {
                 if ( $token instanceof $class )
                 {
-                    /* DEBUG
+                    // /* DEBUG
                     echo " - Handle token with ->$method\n";
                     // /DEBUG */
 
@@ -165,7 +181,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
                 continue;
             }
 
-            /* DEBUG
+            // /* DEBUG
             echo "[N] Node: " . get_class( $node ) . " at {$node->token->line}:{$node->token->position}.\n";
             // /DEBUG */
 
@@ -176,7 +192,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
                 {
                     foreach ( $methods as $method )
                     {
-                        /* DEBUG
+                        // /* DEBUG
                         echo " - Handle node with ->$method\n";
                         // /DEBUG */
 
@@ -193,7 +209,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             // node, just add to document stack in this case.
             if ( $node !== null )
             {
-                /* DEBUG
+                // /* DEBUG
                 echo " => Prepend " . get_class( $node ) . " to document stack.\n";
                 // /DEBUG */
                 array_unshift( $this->documentStack, $node );
@@ -207,7 +223,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             $node = isset( $document ) ? $document : reset( $this->documentStack );
             $this->triggerError(    
                 E_PARSE,
-                'Expected end of file, got: ' . get_class( $node ) . ".",
+                'Expected end of file, got: ' . get_class( $this->documentStack[1] ) . ".",
                 null, null, null
             );
         }
@@ -223,35 +239,86 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * the escape token will be removed.
      * 
      * @param ezcDocumentWikiToken $token 
-     * @param array $tokens 
+     * @param array &$tokens 
      * @return mixed
      */
-    protected function shiftEscapeToken( ezcDocumentWikiToken $token, array $tokens )
+    protected function shiftEscapeToken( ezcDocumentWikiToken $token, array &$tokens )
     {
         return false;
     }
 
     /**
-     * Shift paragraph
+     * Shift title token
+     *
+     * Some wiki markup languages use a second title token at the end of the
+     * line instead of just a line break. In the case we are already inside a
+     * line token, just shift an invisible line break.
+     * 
+     * @param ezcDocumentWikiToken $token 
+     * @param array &$tokens 
+     * @return mixed
+     */
+    protected function shiftTitleToken( ezcDocumentWikiToken $token, array &$tokens )
+    {
+        if ( $this->insideLineToken )
+        {
+            // If the title token is already the one in the next line reprepend
+            // it to the token list.
+            var_dump( $token );
+            if ( $token->position === 0 )
+            {
+                array_unshift( $tokens, $token );
+            }
+
+            $this->insideLineToken = false;
+            return new ezcDocumentWikiInvisibleBreakNode( $token );
+        }
+
+        return false;
+    }
+
+    /**
+     * Shift new line token
      *
      * Paragraphs are always indicated by multiple new line tokens. When
      * detected we just shift a paragraph node, which the will be reduced with
      * prior inline nodes.
      * 
      * @param ezcDocumentWikiToken $token 
-     * @param array $tokens 
+     * @param array &$tokens 
      * @return mixed
      */
-    protected function shiftParagraph( ezcDocumentWikiToken $token, array $tokens )
+    protected function shiftNewLineToken( ezcDocumentWikiToken $token, array &$tokens )
     {
+        // Wiki markup knows a lot of markup, which is limited to one line. If
+        // a token starting su a line the $insideLineToken flag is set true and
+        // we shift an end marker to the stack for a single new line.
+        if ( $this->insideLineToken )
+        {
+            // /* DEBUG
+            echo "  -> End of line markup.\n";
+            // /DEBUG */
+
+            $this->insideLineToken = false;
+            return new ezcDocumentWikiInvisibleBreakNode( $token );
+        }
+
+        // Only shift a paragraph node, if there are multiple new lines, and if
+        // there is already inline markup on the document stack.
         if ( isset( $tokens[0] ) &&
-             ( $tokens[0] instanceof ezcDocumentWikiNewLineToken ) )
+             ( $tokens[0] instanceof ezcDocumentWikiNewLineToken ) &&
+             isset( $this->documentStack[0] ) &&
+             ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) )
         {
             // Remove all subsequent new line tokens.
             do {
                 array_shift( $tokens );
             } while ( isset( $tokens[0] ) &&
                       ( $tokens[0] instanceof ezcDocumentWikiNewLineToken ) );
+
+            // /* DEBUG
+            echo "  -> End of paragraph.\n";
+            // /DEBUG */
 
             return new ezcDocumentWikiParagraphNode( $token );
         }
@@ -271,15 +338,23 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * $conversionsArray.
      *
      * @param ezcDocumentWikiToken $token 
-     * @param array $tokens 
+     * @param array &$tokens 
      * @return mixed
      */
-    protected function shiftWithTokenConversion( ezcDocumentWikiToken $token, array $tokens )
+    protected function shiftWithTokenConversion( ezcDocumentWikiToken $token, array &$tokens )
     {
         foreach ( $this->conversionsArray as $tokenClass => $nodeClass )
         {
             if ( $token instanceof $tokenClass )
             {
+                if ( $token instanceof ezcDocumentWikiLineMarkupToken )
+                {
+                    $this->insideLineToken = true;
+                }
+
+                // /* DEBUG
+                echo "  -> Converted  to $nodeClass (" . ( (int) $this->insideLineToken ) . ")\n";
+                // /DEBUG */
                 return new $nodeClass( $token );
             }
         }
@@ -315,6 +390,38 @@ class ezcDocumentWikiParser extends ezcDocumentParser
 
         $node->nodes = $collected;
         return $node;
+    }
+
+    /**
+     * Reduce line node
+     *
+     * Line nodes are closed at the end of their respective line. The end is
+     * marked by an ezcDocumentWikiInvisibleBreakNode.
+     * 
+     * @param ezcDocumentWikiInvisibleBreakNode $node 
+     * @return mixed
+     */
+    protected function reduceLineNode( ezcDocumentWikiInvisibleBreakNode $node )
+    {
+        // Collect inline nodes
+        $collected = array();
+        while ( isset( $this->documentStack[0] ) &&
+                ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) )
+        {
+            array_unshift( $collected, array_shift( $this->documentStack ) );
+        }
+
+        if ( count( $collected ) &&
+             isset( $this->documentStack[0] ) &&
+             ( $this->documentStack[0] instanceof ezcDocumentWikiLineLevelNode ) )
+        {
+            $lineNode = array_shift( $this->documentStack );
+            $lineNode->nodes = $collected;
+            return $lineNode;
+        }
+
+        // No tokens found, we can ommit the break node.
+        return null;
     }
 
     /**

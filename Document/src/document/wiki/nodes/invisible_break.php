@@ -1,20 +1,20 @@
 <?php
 /**
- * File containing the ezcDocumentWikiBlockLevelNode struct
+ * File containing the ezcDocumentWikiInvisibleBreakNode struct
  *
- * @package Document
+ * @package InvisibleBreak
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
- * Struct for Wiki document paragraph abstract syntax tree nodes
+ * Struct for Wiki document abstract syntax tree title nodes
  * 
- * @package Document
+ * @package InvisibleBreak
  * @version //autogen//
  */
-class ezcDocumentWikiParagraphNode extends ezcDocumentWikiBlockLevelNode
+class ezcDocumentWikiInvisibleBreakNode extends ezcDocumentWikiInlineNode
 {
     /**
      * Set state after var_export

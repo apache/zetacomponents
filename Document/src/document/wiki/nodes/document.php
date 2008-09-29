@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiBlockLevelNode struct
+ * File containing the ezcDocumentWikiDocumentNode struct
  *
  * @package Document
  * @version //autogen//
@@ -27,6 +27,7 @@ class ezcDocumentWikiDocumentNode extends ezcDocumentWikiBlockLevelNode
     {
         $nodeClass = __CLASS__;
         $node = new $nodeClass( $properties['token'] );
+        $node->nodes = $properties['nodes'];
 
         // Set additional node values
         // $node->indentation = $properties['indentation'];

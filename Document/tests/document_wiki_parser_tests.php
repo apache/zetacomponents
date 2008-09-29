@@ -54,7 +54,10 @@ class ezcDocumentWikiParserTests extends ezcTestCase
             $this->markTestSkipped( "Comparision file '$to' not yet defined." );
         }
 
-        $tokenizer = new ezcDocumentWikiCreoleTokenizer();
+        $type           = ucfirst( basename( dirname( $from ) ) );
+        $tokenizerClass = 'ezcDocumentWiki' . $type . 'Tokenizer';
+
+        $tokenizer = new $tokenizerClass();
         $parser    = new ezcDocumentWikiParser();
         $ast       = $parser->parse( $tokenizer->tokenizeFile( $from ) );
 
