@@ -92,6 +92,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiBlockquoteNode' => array(
             'reduceBlockquoteNode',
         ),
+        'ezcDocumentWikiLinkEndNode' => array(
+            'reduceLinkNodes',
+        ),
     );
 
     /**
@@ -145,6 +148,11 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiStrikeToken'               => 'ezcDocumentWikiDeletedNode',
         'ezcDocumentWikiInlineQuoteToken'          => 'ezcDocumentWikiInlineQuoteNode',
         'ezcDocumentWikiLineBreakToken'            => 'ezcDocumentWikiLineBreakNode',
+
+        'ezcDocumentWikiExternalLinkToken'         => 'ezcDocumentWikiExternalLinkNode',
+        'ezcDocumentWikiSeparatorToken'            => 'ezcDocumentWikiSeparatorNode',
+        'ezcDocumentWikiLinkStartToken'            => 'ezcDocumentWikiLinkNode',
+        'ezcDocumentWikiLinkEndToken'              => 'ezcDocumentWikiLinkEndNode',
     );
 
     /**
@@ -506,6 +514,56 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         // /DEBUG */
         $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
         return null;
+    }
+
+    /**
+     * Reduce wiki image links
+     *
+     * Reduce image links with all of their aggregated parameters.
+     * 
+     * @param ezcDocumentWikiLinkEndToken $node 
+     * @return mixed
+     */
+    protected function reduceLinkNodes( ezcDocumentWikiLinkEndNode $node )
+    {
+        // Collect inline nodes
+        $collected = array( array() );
+        $parameter = 0;
+        while ( isset( $this->documentStack[0] ) &&
+                ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) &&
+                ( !$this->documentStack[0] instanceof ezcDocumentWikiLinkNode ) )
+        {
+            $child = array_shift( $this->documentStack );
+            if ( $child instanceof ezcDocumentWikiSeparatorNode )
+            {
+                $collected[++$parameter] = array();
+            }
+            else
+            {
+                array_unshift( $collected[$parameter], $child );
+            }
+        }
+
+        // We could not find a corresponding start element, put everything back
+        // on stack and convert node into plain text
+        if ( !isset( $this->documentStack[0] ) ||
+             ( !$this->documentStack[0] instanceof ezcDocumentWikiLinkNode ) )
+        {
+            $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
+            return new ezcDocumentWikiTextNode( $node->token );
+        }
+
+        // Reverse parameter order
+        $collected = array_reverse( $collected );
+        $linkStart = array_shift( $this->documentStack );
+
+        $parameter = $linkStart->token->getLinkParameterOrder( count( $collected ) );
+        foreach ( $parameter as $nr => $name )
+        {
+            $linkStart->$name = $collected[$nr];
+        }
+
+        return $linkStart;
     }
 
     /**

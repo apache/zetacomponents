@@ -9,10 +9,7 @@ return array (
      'position' => 1,
   )),
   1 => 
-  ezcDocumentWikiImageStartToken::__set_state(array(
-     'width' => NULL,
-     'height' => NULL,
-     'alignement' => NULL,
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '!',
      'line' => 1,
      'position' => 1,
@@ -50,10 +47,7 @@ return array (
      'position' => 3,
   )),
   7 => 
-  ezcDocumentWikiImageStartToken::__set_state(array(
-     'width' => NULL,
-     'height' => NULL,
-     'alignement' => NULL,
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '!',
      'line' => 3,
      'position' => 1,
@@ -97,10 +91,7 @@ return array (
      'position' => 1,
   )),
   14 => 
-  ezcDocumentWikiImageStartToken::__set_state(array(
-     'width' => NULL,
-     'height' => NULL,
-     'alignement' => NULL,
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '!',
      'line' => 5,
      'position' => 1,
@@ -144,10 +135,7 @@ return array (
      'position' => 1,
   )),
   21 => 
-  ezcDocumentWikiImageStartToken::__set_state(array(
-     'width' => NULL,
-     'height' => NULL,
-     'alignement' => NULL,
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '!',
      'line' => 7,
      'position' => 1,
@@ -257,10 +245,7 @@ return array (
      'position' => 1,
   )),
   39 => 
-  ezcDocumentWikiImageStartToken::__set_state(array(
-     'width' => NULL,
-     'height' => NULL,
-     'alignement' => NULL,
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '!',
      'line' => 9,
      'position' => 1,
@@ -297,10 +282,7 @@ return array (
      'position' => 22,
   )),
   45 => 
-  ezcDocumentWikiImageStartToken::__set_state(array(
-     'width' => NULL,
-     'height' => NULL,
-     'alignement' => NULL,
+  ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
      'content' => '!',
      'line' => 10,
      'position' => 1,

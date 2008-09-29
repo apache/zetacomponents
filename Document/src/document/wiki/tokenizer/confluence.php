@@ -142,7 +142,7 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
                 'class' => 'ezcDocumentWikiExternalLinkToken',
                 'match' => '(\\A(?P<match>(?P<value>[a-z]+://\\S+?|mailto:\\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|\\n|\\||]|$))S' ),
             array(
-                'class' => 'ezcDocumentWikiImageStartToken',
+                'class' => 'ezcDocumentWikiConfluenceLinkStartToken',
                 'match' => '(\\A(?P<match>(?P<value>!))\S)S' ),
             array(
                 'class' => 'ezcDocumentWikiImageEndToken',

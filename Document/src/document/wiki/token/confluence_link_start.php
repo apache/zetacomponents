@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiLinkStartToken extends ezcDocumentWikiInlineMarkupToken
+class ezcDocumentWikiConfluenceLinkStartToken extends ezcDocumentWikiLinkStartToken
 {
     /**
      * Get link parameter order
@@ -28,10 +28,15 @@ class ezcDocumentWikiLinkStartToken extends ezcDocumentWikiInlineMarkupToken
      */
     public function getLinkParameterOrder( $count )
     {
+        if ( $count === 1 )
+        {
+            return array( 'link' );
+        }
+
         return array_slice(
             array(
-                'link',
                 'title',
+                'link',
                 'description',
             ),
             0, $count
