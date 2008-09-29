@@ -22,56 +22,63 @@ return array (
      'position' => 5,
   )),
   3 => 
-  ezcDocumentWikiPageBreakToken::__set_state(array(
-     'content' => '----',
-     'line' => 2,
-     'position' => 1,
-  )),
-  4 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 2,
-     'position' => 5,
+     'position' => 1,
+  )),
+  4 => 
+  ezcDocumentWikiPageBreakToken::__set_state(array(
+     'content' => '----',
+     'line' => 3,
+     'position' => 0,
   )),
   5 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 3,
-     'position' => 1,
+     'line' => 4,
+     'position' => 4,
   )),
   6 => 
-  ezcDocumentWikiTextLineToken::__set_state(array(
-     'content' => 'Text',
-     'line' => 4,
-     'position' => 1,
-  )),
-  7 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 4,
-     'position' => 5,
+     'line' => 5,
+     'position' => 1,
+  )),
+  7 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'Text',
+     'line' => 6,
+     'position' => 1,
   )),
   8 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 5,
-     'position' => 1,
+     'line' => 6,
+     'position' => 5,
   )),
   9 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 5,
+     'line' => 7,
      'position' => 1,
   )),
   10 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 7,
+     'position' => 1,
+  )),
+  11 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 5,
+     'line' => 7,
      'position' => 1,
   )),
 );

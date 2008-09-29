@@ -31,11 +31,6 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
     const WHITESPACE_CHARS  = '[\\x20\\t]';
 
     /**
-     * Regular sub expression to match newlines.
-     */
-    const NEW_LINE  = '[\\x20\\t]*(?:\\r\\n|\\r|\\n)';
-
-    /**
      * Characters ending a pure text section.
      */
     const TEXT_END_CHARS    = '/*^,\'_<>\\\\\\[\\]{}()|=\\r\\n\\t\\x20';
@@ -62,25 +57,25 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
             // line starts.
             array(
                 'class' => 'ezcDocumentWikiTitleToken',
-                'match' => '(\\A(?P<match>(?:' . self::NEW_LINE . '|' . self::WHITESPACE_CHARS . '+)(?P<value>={2,6}))(?:' . self::NEW_LINE . '|' . self::WHITESPACE_CHARS . '+))S' ),
+                'match' => '(\\A(?P<match>(?:\\n|' . self::WHITESPACE_CHARS . '+)(?P<value>={2,6}))(?:\\n|' . self::WHITESPACE_CHARS . '+))S' ),
             array(
                 'class' => 'ezcDocumentWikiBulletListItemToken',
-                'match' => '(\\A' . self::NEW_LINE . '(?P<value>\\x20*\\*)' . self::WHITESPACE_CHARS . '+)S' ),
+                'match' => '(\\A\\n(?P<value>\\x20*\\*)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
                 'class' => 'ezcDocumentWikiEnumeratedListItemToken',
-                'match' => '(\\A' . self::NEW_LINE . '(?P<value>\\x20*-)' . self::WHITESPACE_CHARS . '+)S' ),
+                'match' => '(\\A\\n(?P<value>\\x20*-)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
                 'class' => 'ezcDocumentWikiLiteralBlockToken',
-                'match' => '(\\A(?P<match>' . self::NEW_LINE . '<(code|file)>' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '</\\2>)' . self::NEW_LINE . ')SUsi' ),
+                'match' => '(\\A(?P<match>\\n<(code|file)>\\n(?P<value>.+)\\n</\\2>)\\n)SUsi' ),
             array(
                 'class' => 'ezcDocumentWikiTextLineToken',
-                'match' => '(\\A(?P<match>' . self::NEW_LINE . '<nowiki>' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '</nowiki>)' . self::NEW_LINE . ')SUsi' ),
+                'match' => '(\\A(?P<match>\\n<nowiki>\\n(?P<value>.+)\\n</nowiki>)\\n)SUsi' ),
             array(
                 'class' => 'ezcDocumentWikiTableRowToken',
-                'match' => '(\\A(?P<match>' . self::NEW_LINE . ')(?P<value>[|^]))S' ),
+                'match' => '(\\A(?P<match>\\n)(?P<value>[|^]))S' ),
             array(
                 'class' => 'ezcDocumentWikiParagraphIndentationToken',
-                'match' => '(\\A' . self::NEW_LINE . '(?P<value>>+)' . self::WHITESPACE_CHARS . '*)S' ),
+                'match' => '(\\A\\n(?P<value>>+)' . self::WHITESPACE_CHARS . '*)S' ),
 
             // Whitespaces
             array(
@@ -130,7 +125,7 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
                 'match' => '(\\A%%(?P<value>.*)%%)SUi' ),
             array(
                 'class' => 'ezcDocumentWikiLineBreakToken',
-                'match' => '(\\A(?P<match>(?P<value>\\\\\\\\))(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '))S' ),
+                'match' => '(\\A(?P<match>(?P<value>\\\\\\\\))(?:' . self::WHITESPACE_CHARS . '|\\n))S' ),
             array(
                 'class' => 'ezcDocumentWikiLinkStartToken',
                 'match' => '(\\A(?P<value>\\[\\[))S' ),
@@ -151,7 +146,7 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
                                 <[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?>
                             )
                          # Greedy match on text end chars, which should NOT be included in URLs
-                         )[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\}\\}|$)
+                         )[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|\\n|\\||]]|\\}\\}|$)
                     )Sx' ),
             array(
                 'class' => 'ezcDocumentWikiInterWikiLinkToken',

@@ -31,11 +31,6 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
     const WHITESPACE_CHARS  = '[\\x20\\t]';
 
     /**
-     * Regular sub expression to match newlines.
-     */
-    const NEW_LINE  = '[\\x20\\t]*(?:\\r\\n|\\r|\\n)';
-
-    /**
      * Characters ending a pure text section.
      */
     const TEXT_END_CHARS    = '/*^,#_\\\\\\[\\]{}|=\\r\\n\\t\\x20-';
@@ -62,25 +57,25 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
             // line starts.
             array(
                 'class' => 'ezcDocumentWikiTitleToken',
-                'match' => '(\\A' . self::NEW_LINE . '(?P<value>=+)' . self::WHITESPACE_CHARS . '+)S' ),
+                'match' => '(\\A\\n(?P<value>=+)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
                 'class' => 'ezcDocumentWikiBulletListItemToken',
-                'match' => '(\\A' . self::NEW_LINE . '(?P<value>\\*+)' . self::WHITESPACE_CHARS . '+)S' ),
+                'match' => '(\\A\\n(?P<value>\\*+)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
                 'class' => 'ezcDocumentWikiEnumeratedListItemToken',
-                'match' => '(\\A' . self::NEW_LINE . '(?P<value>#+)' . self::WHITESPACE_CHARS . '+)S' ),
+                'match' => '(\\A\\n(?P<value>#+)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
                 'class' => 'ezcDocumentWikiPageBreakToken',
-                'match' => '(\\A(?P<match>' . self::NEW_LINE . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)' . self::NEW_LINE . ')S' ),
+                'match' => '(\\A(?P<match>\n' . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)\\n)S' ),
             array(
                 'class' => 'ezcDocumentWikiLiteralBlockToken',
-                'match' => '(\\A(?P<match>' . self::NEW_LINE . '\\{\\{\\{' . self::NEW_LINE . '(?P<value>.+)' . self::NEW_LINE . '\\}\\}\\})' . self::NEW_LINE . ')SUs' ),
+                'match' => '(\\A(?P<match>\\n\\{\\{\\{\\n(?P<value>.+)\\n\\}\\}\\})\\n)SUs' ),
             array(
                 'class' => 'ezcDocumentWikiTableRowToken',
-                'match' => '(\\A(?P<match>' . self::NEW_LINE . ')(?P<value>\\|))S' ),
+                'match' => '(\\A(?P<match>\\n)(?P<value>\\|))S' ),
             array(
                 'class' => 'ezcDocumentWikiParagraphIndentationToken',
-                'match' => '(\\A' . self::NEW_LINE . '(?P<value>(?:>|:)+)' . self::WHITESPACE_CHARS . '*)S' ),
+                'match' => '(\\A\\n(?P<value>(?:>|:)+)' . self::WHITESPACE_CHARS . '*)S' ),
 
             // Whitespaces
             array(
@@ -149,7 +144,7 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 'match' => '(\\A(?P<value>(?:[A-Z][a-z]+){2,}))S' ),
             array(
                 'class' => 'ezcDocumentWikiExternalLinkToken',
-                'match' => '(\\A(?P<match>(?P<value>[a-z]+://\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|' . self::NEW_LINE . '|\\||]]|\\||$))S' ),
+                'match' => '(\\A(?P<match>(?P<value>[a-z]+://\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|\\n|\\||]]|\\||$))S' ),
 
             // Handle plugins
             array(

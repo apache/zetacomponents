@@ -2,6 +2,13 @@
 
 return array (
   0 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
   ezcDocumentWikiPluginToken::__set_state(array(
      'type' => NULL,
      'parameters' => 
@@ -15,17 +22,24 @@ public String getFoo()
     return foo;
 }
 {code}',
-     'line' => 0,
-     'position' => 1,
+     'line' => 1,
+     'position' => 0,
   )),
-  1 => 
+  2 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 0,
-     'position' => 112,
+     'line' => 8,
+     'position' => 111,
   )),
-  2 => 
+  3 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 9,
+     'position' => 1,
+  )),
+  4 => 
   ezcDocumentWikiPluginToken::__set_state(array(
      'type' => NULL,
      'parameters' => 
@@ -38,17 +52,24 @@ public String getFoo()
   <another tag="attribute"/>
 </test>
 {code}',
-     'line' => 1,
-     'position' => 1,
+     'line' => 10,
+     'position' => 0,
   )),
-  3 => 
+  5 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 1,
-     'position' => 62,
+     'line' => 15,
+     'position' => 61,
   )),
-  4 => 
+  6 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 16,
+     'position' => 1,
+  )),
+  7 => 
   ezcDocumentWikiPluginToken::__set_state(array(
      'type' => NULL,
      'parameters' => 
@@ -56,34 +77,34 @@ public String getFoo()
     ),
      'text' => NULL,
      'content' => '{calendar:id=myCalendar|title=My Calendar|defaultView=week}',
-     'line' => 2,
-     'position' => 1,
-  )),
-  5 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 2,
-     'position' => 60,
-  )),
-  6 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 3,
-     'position' => 1,
-  )),
-  7 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 3,
-     'position' => 1,
+     'line' => 17,
+     'position' => 0,
   )),
   8 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 18,
+     'position' => 59,
+  )),
+  9 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 19,
+     'position' => 1,
+  )),
+  10 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 19,
+     'position' => 1,
+  )),
+  11 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 3,
+     'line' => 19,
      'position' => 1,
   )),
 );

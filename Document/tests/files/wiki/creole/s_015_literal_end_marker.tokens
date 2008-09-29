@@ -2,40 +2,47 @@
 
 return array (
   0 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
   ezcDocumentWikiLiteralBlockToken::__set_state(array(
      'content' => 'if (x != NULL) {
   for (i = 0; i < size; i++) {
     if (x[i] > 0) {
       x[i]--;
   }}}',
-     'line' => 0,
-     'position' => 1,
-  )),
-  1 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 0,
-     'position' => 88,
+     'line' => 1,
+     'position' => 0,
   )),
   2 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 1,
-     'position' => 1,
+     'line' => 8,
+     'position' => 87,
   )),
   3 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 1,
+     'line' => 9,
      'position' => 1,
   )),
   4 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 9,
+     'position' => 1,
+  )),
+  5 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 1,
+     'line' => 9,
      'position' => 1,
   )),
 );

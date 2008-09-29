@@ -2,64 +2,85 @@
 
 return array (
   0 => 
-  ezcDocumentWikiLiteralBlockToken::__set_state(array(
-     'content' => 'This is preformatted code all spaces are preserved: like              <-this',
-     'line' => 0,
-     'position' => 1,
-  )),
-  1 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 0,
-     'position' => 77,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentWikiLiteralBlockToken::__set_state(array(
+     'content' => 'This is preformatted code all spaces are preserved: like              <-this',
+     'line' => 1,
+     'position' => 0,
   )),
   2 => 
-  ezcDocumentWikiLiteralBlockToken::__set_state(array(
-     'content' => 'This is pretty much the same, but you could use it to show that you quoted a
-file.',
-     'line' => 1,
-     'position' => 1,
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 4,
+     'position' => 76,
   )),
   3 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 1,
-     'position' => 83,
+     'line' => 5,
+     'position' => 1,
   )),
   4 => 
-  ezcDocumentWikiTextLineToken::__set_state(array(
-     'content' => 'This is some text which contains addresses like this:
-http://www.splitbrain.org and **formatting**, but nothing is done with it.',
-     'line' => 2,
-     'position' => 1,
+  ezcDocumentWikiLiteralBlockToken::__set_state(array(
+     'content' => 'This is pretty much the same, but you could use it to show that you quoted a
+file.',
+     'line' => 6,
+     'position' => 0,
   )),
   5 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 2,
-     'position' => 129,
+     'line' => 10,
+     'position' => 82,
   )),
   6 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 3,
+     'line' => 11,
      'position' => 1,
   )),
   7 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'This is some text which contains addresses like this:
+http://www.splitbrain.org and **formatting**, but nothing is done with it.',
+     'line' => 12,
+     'position' => 0,
+  )),
+  8 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 3,
+     'line' => 16,
+     'position' => 128,
+  )),
+  9 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 17,
      'position' => 1,
   )),
-  8 => 
+  10 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 17,
+     'position' => 1,
+  )),
+  11 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 3,
+     'line' => 17,
      'position' => 1,
   )),
 );

@@ -157,12 +157,26 @@ abstract class ezcDocumentWikiTokenizer
         $tokens   = array();
         $string   = "\n" . $string;
 
+        // Normalize newlines
+        $string = preg_replace( '([\x20\\t]*(?:\\r\\n|\\r|\\n))', "\n", $string );
+
         while ( strlen( $string ) > 0 )
         {
             foreach ( $this->tokens as $match )
             {
                 if ( preg_match( $match['match'], $string, $matches ) )
                 {
+                    // If the first part of the match is a
+                    // newline, add a respective token to the
+                    // stack.
+                    if ( ( $matches[0][0] === "\n" ) &&
+                         ( $match['class'] !== 'ezcDocumentWikiNewLineToken' ) )
+                    {
+                        $tokens[] = new ezcDocumentWikiNewLineToken( $matches[0][0], $line, $position );
+                        ++$line;
+                        $position = 0;
+                    }
+
                     // A token matched, so add the matched token to the token
                     // list and update all variables.
                     $class = $match['class'];
@@ -182,6 +196,18 @@ abstract class ezcDocumentWikiTokenizer
                     {
                         ++$line;
                         $position = 0;
+                    }
+                    else
+                    {
+                        // Otherwise still update the line
+                        // value, when there is at minimum
+                        // one newline in the match. This may
+                        // lead to a false position value.
+                        if ( ( $newLines = substr_count( $match, "\n" ) ) > 0 )
+                        {
+                            $line += $newLines;
+                            $position = 0;
+                        }
                     }
 
                     // Convert tabs to spaces for whitespace tokens
