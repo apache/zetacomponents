@@ -28,10 +28,6 @@ class ezcDocumentWikiTextNode extends ezcDocumentWikiInlineNode
         $nodeClass = __CLASS__;
         $node = new $nodeClass( $properties['token'] );
         $node->nodes = $properties['nodes'];
-
-        // Set additional node values
-        // $node->indentation = $properties['indentation'];
-
         return $node;
     }
 }

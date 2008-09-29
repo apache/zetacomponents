@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiBlockLevelNode struct
+ * File containing the ezcDocumentWikiItalicNode struct
  *
  * @package Document
  * @version //autogen//
@@ -9,12 +9,12 @@
  */
 
 /**
- * Struct for Wiki document paragraph abstract syntax tree nodes
+ * Struct for Wiki document inline italic syntax tree nodes
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiParagraphNode extends ezcDocumentWikiBlockLevelNode
+class ezcDocumentWikiItalicNode extends ezcDocumentWikiMatchingInlineNode
 {
     /**
      * Set state after var_export

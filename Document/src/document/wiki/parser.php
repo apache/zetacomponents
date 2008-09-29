@@ -86,6 +86,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiInvisibleBreakNode' => array(
             'reduceLineNode',
         ),
+        'ezcDocumentWikiMatchingInlineNode' => array(
+            'reduceMatchingInlineMarkup',
+        ),
     );
 
     /**
@@ -125,6 +128,15 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiWhitespaceToken'   => 'ezcDocumentWikiTextNode',
         'ezcDocumentWikiSpecialCharsToken' => 'ezcDocumentWikiTextNode',
         'ezcDocumentWikiTitleToken'        => 'ezcDocumentWikiTitleNode',
+        'ezcDocumentWikiBoldToken'         => 'ezcDocumentWikiBoldNode',
+        'ezcDocumentWikiItalicToken'       => 'ezcDocumentWikiItalicNode',
+        'ezcDocumentWikiUnderlineToken'    => 'ezcDocumentWikiUnderlineNode',
+        'ezcDocumentWikiMonospaceToken'    => 'ezcDocumentWikiMonospaceNode',
+        'ezcDocumentWikiSubscriptToken'    => 'ezcDocumentWikiSubscriptNode',
+        'ezcDocumentWikiSuperscriptToken'  => 'ezcDocumentWikiSuperscriptNode',
+        'ezcDocumentWikiDeletedToken'      => 'ezcDocumentWikiDeletedNode',
+        'ezcDocumentWikiStrikeToken'       => 'ezcDocumentWikiDeletedNode',
+        'ezcDocumentWikiInlineQuoteToken'  => 'ezcDocumentWikiInlineQuoteNode',
     );
 
     /**
@@ -138,13 +150,13 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      */
     public function parse( array $tokens )
     {
-        // /* DEBUG
+        /* DEBUG
         echo "\n\nStart parser\n============\n\n";
         // /DEBUG */
 
         while ( ( $token = array_shift( $tokens ) ) !== null )
         {
-            // /* DEBUG
+            /* DEBUG
             echo "[T] Token: " . get_class( $token ) . " at {$token->line}:{$token->position}.\n";
             // /DEBUG */
 
@@ -154,7 +166,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             {
                 if ( $token instanceof $class )
                 {
-                    // /* DEBUG
+                    /* DEBUG
                     echo " - Handle token with ->$method\n";
                     // /DEBUG */
 
@@ -181,7 +193,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
                 continue;
             }
 
-            // /* DEBUG
+            /* DEBUG
             echo "[N] Node: " . get_class( $node ) . " at {$node->token->line}:{$node->token->position}.\n";
             // /DEBUG */
 
@@ -192,7 +204,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
                 {
                     foreach ( $methods as $method )
                     {
-                        // /* DEBUG
+                        /* DEBUG
                         echo " - Handle node with ->$method\n";
                         // /DEBUG */
 
@@ -209,7 +221,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             // node, just add to document stack in this case.
             if ( $node !== null )
             {
-                // /* DEBUG
+                /* DEBUG
                 echo " => Prepend " . get_class( $node ) . " to document stack.\n";
                 // /DEBUG */
                 array_unshift( $this->documentStack, $node );
@@ -264,7 +276,6 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         {
             // If the title token is already the one in the next line reprepend
             // it to the token list.
-            var_dump( $token );
             if ( $token->position === 0 )
             {
                 array_unshift( $tokens, $token );
@@ -295,7 +306,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         // we shift an end marker to the stack for a single new line.
         if ( $this->insideLineToken )
         {
-            // /* DEBUG
+            /* DEBUG
             echo "  -> End of line markup.\n";
             // /DEBUG */
 
@@ -316,7 +327,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             } while ( isset( $tokens[0] ) &&
                       ( $tokens[0] instanceof ezcDocumentWikiNewLineToken ) );
 
-            // /* DEBUG
+            /* DEBUG
             echo "  -> End of paragraph.\n";
             // /DEBUG */
 
@@ -352,7 +363,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
                     $this->insideLineToken = true;
                 }
 
-                // /* DEBUG
+                /* DEBUG
                 echo "  -> Converted  to $nodeClass (" . ( (int) $this->insideLineToken ) . ")\n";
                 // /DEBUG */
                 return new $nodeClass( $token );
@@ -379,7 +390,16 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         while ( isset( $this->documentStack[0] ) &&
                 ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) )
         {
-            array_unshift( $collected, array_shift( $this->documentStack ) );
+            $inlineNode = array_shift( $this->documentStack );
+
+            // Convert markup nodes without matches to text nodes.
+            if ( ( $inlineNode instanceof ezcDocumentWikiMatchingInlineNode ) &&
+                 ( $inlineNode->nodes === array() ) )
+            {
+                $inlineNode = new ezcDocumentWikiTextNode( $inlineNode->token );
+            }
+
+            array_unshift( $collected, $inlineNode );
         }
 
         if ( !count( $collected ) )
@@ -390,6 +410,44 @@ class ezcDocumentWikiParser extends ezcDocumentParser
 
         $node->nodes = $collected;
         return $node;
+    }
+
+    /**
+     * Reduce matching inline markup
+     *
+     * Reduction rule for inline markup which is intended to have a matching
+     * counterpart in the same block level element.
+     * 
+     * @param ezcDocumentWikiMatchingInlineNode $node 
+     * @return mixed
+     */
+    protected function reduceMatchingInlineMarkup( ezcDocumentWikiMatchingInlineNode $node )
+    {
+        // Collect inline nodes
+        $collected = array();
+        $class     = get_class( $node );
+        while ( isset( $this->documentStack[0] ) &&
+                ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) &&
+                ( ( !$this->documentStack[0] instanceof $class ) ||
+                  ( $this->documentStack[0]->nodes !== array() ) ) )
+        {
+            array_unshift( $collected, array_shift( $this->documentStack ) );
+        }
+
+        if ( isset( $this->documentStack[0] ) &&
+             ( $this->documentStack[0] instanceof $class ) )
+        {
+            // We found an empty matching node. Reduce
+            $markupNode = array_shift( $this->documentStack );
+            $markupNode->nodes = $collected;
+            return $markupNode;
+        }
+        else
+        {
+            // No matching node found, just leave it on the stack.
+            $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
+            return $node;
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiBlockLevelNode struct
+ * File containing the ezcDocumentWikiSubscriptNode struct
  *
  * @package Document
  * @version //autogen//
@@ -9,12 +9,12 @@
  */
 
 /**
- * Struct for Wiki document paragraph abstract syntax tree nodes
+ * Struct for Wiki document inline subscript syntax tree nodes
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiParagraphNode extends ezcDocumentWikiBlockLevelNode
+class ezcDocumentWikiSubscriptNode extends ezcDocumentWikiMatchingInlineNode
 {
     /**
      * Set state after var_export
