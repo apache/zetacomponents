@@ -754,6 +754,14 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'title' => 
           array (
+          ),
+           'description' => 
+          array (
+          ),
+           'line' => 5,
+           'position' => 1,
+           'nodes' => 
+          array (
             0 => 
             ezcDocumentWikiTextNode::__set_state(array(
                'line' => 5,
@@ -824,14 +832,6 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
                  'position' => 10,
               )),
             )),
-          ),
-           'description' => 
-          array (
-          ),
-           'line' => 5,
-           'position' => 1,
-           'nodes' => 
-          array (
           ),
            'token' => 
           ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
@@ -945,6 +945,14 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'title' => 
           array (
+          ),
+           'description' => 
+          array (
+          ),
+           'line' => 6,
+           'position' => 1,
+           'nodes' => 
+          array (
             0 => 
             ezcDocumentWikiTextNode::__set_state(array(
                'line' => 6,
@@ -1016,14 +1024,6 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
               )),
             )),
           ),
-           'description' => 
-          array (
-          ),
-           'line' => 6,
-           'position' => 1,
-           'nodes' => 
-          array (
-          ),
            'token' => 
           ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(
              'content' => '[',
@@ -1089,6 +1089,14 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'title' => 
           array (
+          ),
+           'description' => 
+          array (
+          ),
+           'line' => 8,
+           'position' => 1,
+           'nodes' => 
+          array (
             0 => 
             ezcDocumentWikiTextNode::__set_state(array(
                'line' => 8,
@@ -1103,14 +1111,6 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
                  'position' => 2,
               )),
             )),
-          ),
-           'description' => 
-          array (
-          ),
-           'line' => 8,
-           'position' => 1,
-           'nodes' => 
-          array (
           ),
            'token' => 
           ezcDocumentWikiConfluenceLinkStartToken::__set_state(array(

@@ -66,6 +66,14 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
               ),
                'title' => 
               array (
+              ),
+               'description' => 
+              array (
+              ),
+               'line' => 1,
+               'position' => 3,
+               'nodes' => 
+              array (
                 0 => 
                 ezcDocumentWikiTextNode::__set_state(array(
                    'line' => 1,
@@ -164,14 +172,6 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
                      'position' => 33,
                   )),
                 )),
-              ),
-               'description' => 
-              array (
-              ),
-               'line' => 1,
-               'position' => 3,
-               'nodes' => 
-              array (
               ),
                'token' => 
               ezcDocumentWikiLinkStartToken::__set_state(array(

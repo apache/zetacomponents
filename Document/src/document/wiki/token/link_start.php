@@ -31,7 +31,7 @@ class ezcDocumentWikiLinkStartToken extends ezcDocumentWikiInlineMarkupToken
         return array_slice(
             array(
                 'link',
-                'title',
+                'nodes',
                 'description',
             ),
             0, $count

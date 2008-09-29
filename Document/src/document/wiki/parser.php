@@ -95,6 +95,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiLinkEndNode' => array(
             'reduceLinkNodes',
         ),
+        'ezcDocumentWikiImageEndNode' => array(
+            'reduceImageNodes',
+        ),
     );
 
     /**
@@ -149,12 +152,16 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiInlineQuoteToken'          => 'ezcDocumentWikiInlineQuoteNode',
         'ezcDocumentWikiLineBreakToken'            => 'ezcDocumentWikiLineBreakNode',
 
+        'ezcDocumentWikiSeparatorToken'            => 'ezcDocumentWikiSeparatorNode',
+
         'ezcDocumentWikiExternalLinkToken'         => 'ezcDocumentWikiExternalLinkNode',
         'ezcDocumentWikiInterWikiLinkToken'        => 'ezcDocumentWikiInterWikiLinkNode',
         'ezcDocumentWikiInternalLinkToken'         => 'ezcDocumentWikiInternalLinkNode',
-        'ezcDocumentWikiSeparatorToken'            => 'ezcDocumentWikiSeparatorNode',
         'ezcDocumentWikiLinkStartToken'            => 'ezcDocumentWikiLinkNode',
         'ezcDocumentWikiLinkEndToken'              => 'ezcDocumentWikiLinkEndNode',
+
+        'ezcDocumentWikiImageStartToken'           => 'ezcDocumentWikiImageNode',
+        'ezcDocumentWikiImageEndToken'             => 'ezcDocumentWikiImageEndNode',
     );
 
     /**
@@ -541,9 +548,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     }
 
     /**
-     * Reduce wiki image links
+     * Reduce wiki links
      *
-     * Reduce image links with all of their aggregated parameters.
+     * Reduce links with all of their aggregated parameters.
      * 
      * @param ezcDocumentWikiLinkEndToken $node 
      * @return mixed
@@ -582,6 +589,62 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         $linkStart = array_shift( $this->documentStack );
 
         $parameter = $linkStart->token->getLinkParameterOrder( count( $collected ) );
+        foreach ( $parameter as $nr => $name )
+        {
+            $linkStart->$name = $collected[$nr];
+        }
+
+        return $linkStart;
+    }
+
+    /**
+     * Reduce wiki image references
+     *
+     * Reduce image references with all of their aggregated parameters.
+     * 
+     * @param ezcDocumentWikiLinkEndToken $node 
+     * @return mixed
+     */
+    protected function reduceImageNodes( ezcDocumentWikiImageEndNode $node )
+    {
+        // Collect inline nodes
+        $collected = array( array() );
+        $parameter = 0;
+        while ( isset( $this->documentStack[0] ) &&
+                ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) &&
+                ( !$this->documentStack[0] instanceof ezcDocumentWikiImageNode ) )
+        {
+            $child = array_shift( $this->documentStack );
+            if ( $child instanceof ezcDocumentWikiSeparatorNode )
+            {
+                $collected[++$parameter] = array();
+            }
+            else
+            {
+                array_unshift( $collected[$parameter], $child );
+            }
+        }
+
+        // We could not find a corresponding start element, put everything back
+        // on stack and convert node into plain text
+        if ( !isset( $this->documentStack[0] ) ||
+             ( !$this->documentStack[0] instanceof ezcDocumentWikiImageNode ) )
+        {
+            $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
+            return new ezcDocumentWikiTextNode( $node->token );
+        }
+
+        // Reverse parameter order
+        $collected = array_reverse( $collected );
+        $linkStart = array_shift( $this->documentStack );
+
+        // Apply token parameters, which may be overwritten by parameters
+        // detected from parser
+        $linkStart->alignement = $linkStart->token->alignement;
+        $linkStart->width      = $linkStart->token->width;
+        $linkStart->height     = $linkStart->token->height;
+
+        $parameter = $linkStart->token->getImageParameterOrder( count( $collected ) );
         foreach ( $parameter as $nr => $name )
         {
             $linkStart->$name = $collected[$nr];

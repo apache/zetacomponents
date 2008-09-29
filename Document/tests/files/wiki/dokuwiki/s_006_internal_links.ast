@@ -97,6 +97,14 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'title' => 
           array (
+          ),
+           'description' => 
+          array (
+          ),
+           'line' => 2,
+           'position' => 37,
+           'nodes' => 
+          array (
             0 => 
             ezcDocumentWikiTextNode::__set_state(array(
                'line' => 2,
@@ -139,14 +147,6 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
                  'position' => 53,
               )),
             )),
-          ),
-           'description' => 
-          array (
-          ),
-           'line' => 2,
-           'position' => 37,
-           'nodes' => 
-          array (
           ),
            'token' => 
           ezcDocumentWikiLinkStartToken::__set_state(array(
@@ -219,6 +219,14 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'title' => 
           array (
+          ),
+           'description' => 
+          array (
+          ),
+           'line' => 4,
+           'position' => 15,
+           'nodes' => 
+          array (
             0 => 
             ezcDocumentWikiTextNode::__set_state(array(
                'line' => 4,
@@ -261,14 +269,6 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
                  'position' => 38,
               )),
             )),
-          ),
-           'description' => 
-          array (
-          ),
-           'line' => 4,
-           'position' => 15,
-           'nodes' => 
-          array (
           ),
            'token' => 
           ezcDocumentWikiLinkStartToken::__set_state(array(

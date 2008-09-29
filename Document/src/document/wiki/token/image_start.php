@@ -38,6 +38,27 @@ class ezcDocumentWikiImageStartToken extends ezcDocumentWikiInlineMarkupToken
     public $alignement = null;
 
     /**
+     * Get image parameter order
+     * 
+     * Images may have any amount of parameters and the order may not be the
+     * same for each amount. This method should return an ordered list of
+     * parameter names for the given amount of parameters.
+     *
+     * @param int $count 
+     * @return array
+     */
+    public function getImageParameterOrder( $count )
+    {
+        return array_slice(
+            array(
+                'resource',
+                'title',
+            ),
+            0, $count
+        );
+    }
+
+    /**
      * Set state after var_export
      * 
      * @param array $properties 

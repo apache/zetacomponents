@@ -35,7 +35,7 @@ class ezcDocumentWikiConfluenceLinkStartToken extends ezcDocumentWikiLinkStartTo
 
         return array_slice(
             array(
-                'title',
+                'nodes',
                 'link',
                 'description',
             ),
