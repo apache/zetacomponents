@@ -1360,20 +1360,70 @@ class ezcWebdavTransport
      */
     protected function processHeadResponse( ezcWebdavHeadResponse $response )
     {
-        // Generate Content-Type header if necessary
-        if ( $response->getHeader( 'Content-Type' ) === null && $response->resource instanceof ezcWebdavResource )
+        if ( $response->resource instanceof ezcWebdavResource )
+        {
+            return $this->processHeadResourceResponse( $response );
+        }
+        return $this->processHeadCollectionResponse( $response );
+    }
+
+    /**
+     * Creates display information for a HEAD response of a non-collection resource.
+     * 
+     * Generates default Content-Type and Content-Length header, if not set in
+     * the $response (generated from the backend). Content-Type is determined
+     * by the 'getcontenttype' property, if set, otherwise
+     * 'application/octet-stream' is used. Same applies to the charset
+     * parameter, where 'utf-8' is the default. The Content-Length is determined
+     * by strlen() on the resource content.
+     * 
+     * @param ezcWebdavHeadResponse $response 
+     * @return ezcWebdavEmptyDisplayInformation
+     */
+    private function processHeadResourceResponse( ezcWebdavHeadResponse $response )
+    {
+        // Generate default Content-Type header if necessary
+        if ( $response->getHeader( 'Content-Type' ) === null )
         {
             $contentTypeProperty = $response->resource->liveProperties->get( 'getcontenttype' );
-            $contentTypeHeader   = ( $contentTypeProperty->mime    !== null ? $contentTypeProperty->mime    : 'application/octet-stream' ) .
-                '; charset="' . ( $contentTypeProperty->charset !== null ? $contentTypeProperty->charset : 'utf-8' ) . '"';
+
+            $contentTypeHeader = ( $contentTypeProperty->mime !== null    ? $contentTypeProperty->mime    : 'application/octet-stream' )
+               . '; charset="' . ( $contentTypeProperty->charset !== null ? $contentTypeProperty->charset : 'utf-8' ) . '"';
+
             $response->setHeader( 'Content-Type', $contentTypeHeader );
         }
-        // Generate Content-Length header if necessary
-        if ( $response->getHeader( 'Content-Length' ) === null && $response->resource instanceof ezcWebdavResource )
+
+        // Generate default Content-Length header if necessary
+        if ( $response->getHeader( 'Content-Length' ) === null )
         {
             $response->setHeader( 'Content-Length', strlen( $response->resource->content ) );
         }
-        return new ezcWebdavStringDisplayInformation( $response, '' );
+        return new ezcWebdavEmptyDisplayInformation( $response );
+    }
+
+    /**
+     * Creates display information for a HEAD response of a collection resource.
+     * 
+     * Generates default Content-Type and Content-Length header, if not set in
+     * the $response (generated from the backend). Content-Type is set to .
+     * 
+     * @param ezcWebdavHeadResponse $response 
+     * @return ezcWebdavEmptyDisplayInformation
+     */
+    private function processHeadCollectionResponse( ezcWebdavHeadResponse $response )
+    {
+        // Generate default Content-Type header if necessary
+        if ( $response->getHeader( 'Content-Type' ) === null )
+        {
+            $response->setHeader( 'Content-Type', 'httpd/unix-directory' );
+        }
+
+        // Generate default Content-Length header if necessary
+        if ( $response->getHeader( 'Content-Length' ) === null )
+        {
+            $response->setHeader( 'Content-Length', ezcWebdavGetContentLengthProperty::COLLECTION );
+        }
+        return new ezcWebdavEmptyDisplayInformation( $response );
     }
 
     // ezcWebdavMakeCollectionResponse
