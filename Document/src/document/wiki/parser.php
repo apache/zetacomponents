@@ -150,6 +150,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiLineBreakToken'            => 'ezcDocumentWikiLineBreakNode',
 
         'ezcDocumentWikiExternalLinkToken'         => 'ezcDocumentWikiExternalLinkNode',
+        'ezcDocumentWikiInterWikiLinkToken'        => 'ezcDocumentWikiInterWikiLinkNode',
+        'ezcDocumentWikiInternalLinkToken'         => 'ezcDocumentWikiInternalLinkNode',
         'ezcDocumentWikiSeparatorToken'            => 'ezcDocumentWikiSeparatorNode',
         'ezcDocumentWikiLinkStartToken'            => 'ezcDocumentWikiLinkNode',
         'ezcDocumentWikiLinkEndToken'              => 'ezcDocumentWikiLinkEndNode',

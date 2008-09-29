@@ -127,7 +127,7 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
                 'class' => 'ezcDocumentWikiLineBreakToken',
                 'match' => '(\\A(?P<value>\\\\\\\\))S' ),
             array(
-                'class' => 'ezcDocumentWikiLinkStartToken',
+                'class' => 'ezcDocumentWikiConfluenceLinkStartToken',
                 'match' => '(\\A(?P<value>\\[))S' ),
             array(
                 'class' => 'ezcDocumentWikiLinkEndToken',
@@ -142,7 +142,7 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
                 'class' => 'ezcDocumentWikiExternalLinkToken',
                 'match' => '(\\A(?P<match>(?P<value>[a-z]+://\\S+?|mailto:\\S+?))[,.?!:;"\']?(?:' . self::WHITESPACE_CHARS . '|\\n|\\||]|$))S' ),
             array(
-                'class' => 'ezcDocumentWikiConfluenceLinkStartToken',
+                'class' => 'ezcDocumentWikiImageStartToken',
                 'match' => '(\\A(?P<match>(?P<value>!))\S)S' ),
             array(
                 'class' => 'ezcDocumentWikiImageEndToken',
