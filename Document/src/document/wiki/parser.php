@@ -424,7 +424,29 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             return null;
         }
 
-        $node->nodes = $collected;
+        // Reduce text nodes in single AST nodes
+        $textNode = null;
+        foreach ( $collected as $nr => $child )
+        {
+            if ( $child instanceof ezcDocumentWikiTextNode )
+            {
+                if ( $textNode === null )
+                {
+                    $textNode = $child;
+                }
+                else
+                {
+                    $textNode->token->content .= $child->token->content;
+                    unset( $collected[$nr] );
+                }
+            }
+            else
+            {
+                $textNode = null;
+            }
+        }
+
+        $node->nodes = array_values( $collected );
         return $node;
     }
 
