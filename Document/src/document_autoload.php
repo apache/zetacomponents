@@ -166,6 +166,7 @@ return array(
     'ezcDocumentRstXhtmlBodyVisitor'                     => 'Document/document/rst/visitor/xhtml_body.php',
     'ezcDocumentValidationError'                         => 'Document/validation_error.php',
     'ezcDocumentWiki'                                    => 'Document/document/wiki.php',
+    'ezcDocumentWikiBlockquoteNode'                      => 'Document/document/wiki/nodes/blockquote.php',
     'ezcDocumentWikiBoldNode'                            => 'Document/document/wiki/nodes/bold.php',
     'ezcDocumentWikiBoldToken'                           => 'Document/document/wiki/token/bold.php',
     'ezcDocumentWikiBulletListItemToken'                 => 'Document/document/wiki/token/bullet_list.php',

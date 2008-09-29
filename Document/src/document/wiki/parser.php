@@ -89,6 +89,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiMatchingInlineNode' => array(
             'reduceMatchingInlineMarkup',
         ),
+        'ezcDocumentWikiBlockquoteNode' => array(
+            'reduceBlockquoteNode',
+        ),
     );
 
     /**
@@ -123,21 +126,25 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * @var array
      */
     protected $conversionsArray = array(
-        'ezcDocumentWikiEndOfFileToken'    => 'ezcDocumentWikiDocumentNode',
-        'ezcDocumentWikiTextLineToken'     => 'ezcDocumentWikiTextNode',
-        'ezcDocumentWikiWhitespaceToken'   => 'ezcDocumentWikiTextNode',
-        'ezcDocumentWikiSpecialCharsToken' => 'ezcDocumentWikiTextNode',
-        'ezcDocumentWikiTitleToken'        => 'ezcDocumentWikiTitleNode',
-        'ezcDocumentWikiBoldToken'         => 'ezcDocumentWikiBoldNode',
-        'ezcDocumentWikiItalicToken'       => 'ezcDocumentWikiItalicNode',
-        'ezcDocumentWikiUnderlineToken'    => 'ezcDocumentWikiUnderlineNode',
-        'ezcDocumentWikiMonospaceToken'    => 'ezcDocumentWikiMonospaceNode',
-        'ezcDocumentWikiSubscriptToken'    => 'ezcDocumentWikiSubscriptNode',
-        'ezcDocumentWikiSuperscriptToken'  => 'ezcDocumentWikiSuperscriptNode',
-        'ezcDocumentWikiDeletedToken'      => 'ezcDocumentWikiDeletedNode',
-        'ezcDocumentWikiStrikeToken'       => 'ezcDocumentWikiDeletedNode',
-        'ezcDocumentWikiInlineQuoteToken'  => 'ezcDocumentWikiInlineQuoteNode',
-        'ezcDocumentWikiLineBreakToken'    => 'ezcDocumentWikiLineBreakNode',
+        'ezcDocumentWikiEndOfFileToken'            => 'ezcDocumentWikiDocumentNode',
+        'ezcDocumentWikiTextLineToken'             => 'ezcDocumentWikiTextNode',
+        'ezcDocumentWikiWhitespaceToken'           => 'ezcDocumentWikiTextNode',
+        'ezcDocumentWikiSpecialCharsToken'         => 'ezcDocumentWikiTextNode',
+                                            
+        'ezcDocumentWikiTitleToken'                => 'ezcDocumentWikiTitleNode',
+        'ezcDocumentWikiParagraphIndentationToken' => 'ezcDocumentWikiBlockquoteNode',
+        'ezcDocumentWikiQuoteToken'                => 'ezcDocumentWikiBlockquoteNode',
+                                            
+        'ezcDocumentWikiBoldToken'                 => 'ezcDocumentWikiBoldNode',
+        'ezcDocumentWikiItalicToken'               => 'ezcDocumentWikiItalicNode',
+        'ezcDocumentWikiUnderlineToken'            => 'ezcDocumentWikiUnderlineNode',
+        'ezcDocumentWikiMonospaceToken'            => 'ezcDocumentWikiMonospaceNode',
+        'ezcDocumentWikiSubscriptToken'            => 'ezcDocumentWikiSubscriptNode',
+        'ezcDocumentWikiSuperscriptToken'          => 'ezcDocumentWikiSuperscriptNode',
+        'ezcDocumentWikiDeletedToken'              => 'ezcDocumentWikiDeletedNode',
+        'ezcDocumentWikiStrikeToken'               => 'ezcDocumentWikiDeletedNode',
+        'ezcDocumentWikiInlineQuoteToken'          => 'ezcDocumentWikiInlineQuoteNode',
+        'ezcDocumentWikiLineBreakToken'            => 'ezcDocumentWikiLineBreakNode',
     );
 
     /**
@@ -436,7 +443,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         }
 
         if ( isset( $this->documentStack[0] ) &&
-             ( $this->documentStack[0] instanceof $class ) )
+             ( $this->documentStack[0] instanceof $class ) &&
+             ( $this->documentStack[0]->nodes === array() ) )
         {
             // We found an empty matching node. Reduce
             $markupNode = array_shift( $this->documentStack );
@@ -463,24 +471,79 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     protected function reduceLineNode( ezcDocumentWikiInvisibleBreakNode $node )
     {
         // Collect inline nodes
+        /* DEBUG
+        echo "  -> Find childs for line level markup:";
+        // /DEBUG */
         $collected = array();
         while ( isset( $this->documentStack[0] ) &&
                 ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) )
         {
             array_unshift( $collected, array_shift( $this->documentStack ) );
+            /* DEBUG
+            echo ".";
+            // /DEBUG */
         }
+        /* DEBUG
+        echo " " . count( $collected ) . " found.\n";
+        // /DEBUG */
 
         if ( count( $collected ) &&
              isset( $this->documentStack[0] ) &&
              ( $this->documentStack[0] instanceof ezcDocumentWikiLineLevelNode ) )
         {
-            $lineNode = array_shift( $this->documentStack );
-            $lineNode->nodes = $collected;
-            return $lineNode;
+            $this->documentStack[0]->nodes = $collected;
+
+            /* DEBUG
+            echo "  => Reduce line node: " . get_class( $this->documentStack[0] ) . "\n";
+            // /DEBUG */
+            return null;
         }
 
-        // No tokens found, we can ommit the break node.
+        // No tokens found, we can ommit the break node, and put everything
+        // back on the document stack
+        /* DEBUG
+        echo "  => Nothing found - line break ommitted.\n";
+        // /DEBUG */
+        $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
         return null;
+    }
+
+    /**
+     * Reduce multiline blockquote nodes
+     *
+     * Reduce multline block quote nodes, which are not already closed by line
+     * endings.
+     * 
+     * @param ezcDocumentWikiBlockquoteNode $node 
+     * @return mixed
+     */
+    protected function reduceBlockquoteNode( ezcDocumentWikiBlockquoteNode $node )
+    {
+        // Collect inline nodes
+        $collected = array();
+        while ( isset( $this->documentStack[0] ) &&
+                ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) &&
+                ( ( !$this->documentStack[0] instanceof ezcDocumentWikiBlockquoteNode ) ||
+                  ( $this->documentStack[0]->nodes !== array() ) ) )
+        {
+            array_unshift( $collected, array_shift( $this->documentStack ) );
+        }
+
+        if ( isset( $this->documentStack[0] ) &&
+             ( $this->documentStack[0] instanceof ezcDocumentWikiBlockquoteNode ) &&
+             ( $this->documentStack[0]->nodes === array() ) )
+        {
+            // We found an empty matching node. Reduce
+            $blockquote = array_shift( $this->documentStack );
+            $blockquote->nodes = $collected;
+            return $blockquote;
+        }
+        else
+        {
+            // No matching node found, just leave it on the stack.
+            $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
+            return $node;
+        }
     }
 
     /**
