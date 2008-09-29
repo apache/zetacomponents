@@ -59,6 +59,9 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 'class' => 'ezcDocumentWikiTitleToken',
                 'match' => '(\\A\\n(?P<value>=+)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
+                'class' => 'ezcDocumentWikiTitleToken',
+                'match' => '(\\A(?P<match>' . self::WHITESPACE_CHARS . '+(?P<value>=+))\\n)S' ),
+            array(
                 'class' => 'ezcDocumentWikiBulletListItemToken',
                 'match' => '(\\A\\n(?P<value>\\*+)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
