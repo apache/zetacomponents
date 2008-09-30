@@ -144,6 +144,13 @@ class ezcWebdavClientTestGenerator
         'REMOTE_HOST'  => '127.0.0.1',
         'REMOTE_PORT'  => '33458',
     );
+
+    /**
+     * Number of digits for the test case number. 
+     * 
+     * @var mixed
+     */
+    protected $testCaseNoDigits;
     
     /**
      * Template to mock transport classes.
@@ -200,9 +207,21 @@ class ezcWebdavClientTestGenerator
      * @param string $baseUri Base URI, if server is not in doc root.
      * @return void
      */
-    public function __construct( $baseUri = '', $storeBackends = false, $ie = false )
+    public function __construct( $baseUri = '', $storeBackends = false, $ie = false, $testCaseNoDigits = 3 )
     {
+        $this->lock = TMP_DIR . '/test_generator.lock';
+
+        // Lock for exclusive access
+        while ( ( $fp = @fopen( $this->lock, 'x' ) ) === false )
+        {
+            usleep( 100 );
+        }
+        fwrite( $fp, microtime() );
+        fclose( $fp );
+
+
         $this->storeBackends = $storeBackends;
+        $this->testCaseNoDigits = $testCaseNoDigits;
 
         $this->filterServerVars();
 
@@ -229,7 +248,7 @@ class ezcWebdavClientTestGenerator
             : 1
         );
         // The captured data will be stored here.
-        $this->logFileBase = sprintf( '%s/%03s_%s',
+        $this->logFileBase = sprintf( "%s/%0{$this->testCaseNoDigits}s_%s",
             LOG_DIR,
             $testNo,
             strtr(
@@ -339,6 +358,16 @@ class ezcWebdavClientTestGenerator
                 $serBackend
             );
         }
+    }
+
+    /**
+     * Finish and cleanup.
+     * 
+     * @return void
+     */
+    public function finish()
+    {
+        unlink( $this->lock );
     }
 
     /**
