@@ -850,9 +850,13 @@ class ezcFeed
         }
 
         $xml = new DOMDocument();
-        $retval = @$xml->load( $uri );
+        $oldSetting = libxml_use_internal_errors( true );
+        $retval = $xml->load( $uri );
+        libxml_use_internal_errors( $oldSetting );
+
         if ( $retval === false )
         {
+            libxml_clear_errors();
             throw new ezcFeedParseErrorException( $uri, "It is not a valid XML file" );
         }
 
@@ -878,9 +882,13 @@ class ezcFeed
     public static function parseContent( $content )
     {
         $xml = new DOMDocument();
-        $retval = @$xml->loadXML( $content );
+        $oldSetting = libxml_use_internal_errors( true );
+        $retval = $xml->loadXML( $content );
+        libxml_use_internal_errors( $oldSetting );
+
         if ( $retval === false )
         {
+            libxml_clear_errors();
             throw new ezcFeedParseErrorException( null, "Content is no valid XML" );
         }
 
