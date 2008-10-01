@@ -98,12 +98,8 @@ class ezcDocumentConverterDocbookToHtmlXsltTests extends ezcTestCase
         file_put_contents( $tempDir . basename( $to ), $created->getDomDocument()->saveXml() );
 
         $dest = new DOMDocument();
-        $dest->load( $to );
-
-        $this->assertEquals(
-            $dest,
-            $created->getDomDocument()
-        );
+        $dest->loadHtml( file_get_contents( $to ) );
+        $this->assertEquals( $dest, $created->getDomDocument() );
 
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
