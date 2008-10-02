@@ -42,7 +42,7 @@ class ezcDocumentWikiParserTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, 63, 1 );
+        return array_slice( self::$testDocuments, 62, 1 );
     }
 
     /**

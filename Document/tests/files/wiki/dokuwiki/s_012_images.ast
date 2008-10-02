@@ -407,93 +407,9 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
               ),
                'token' => 
               ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'This',
+                 'content' => 'This is the caption',
                  'line' => 10,
                  'position' => 27,
-              )),
-            )),
-            1 => 
-            ezcDocumentWikiTextNode::__set_state(array(
-               'line' => 10,
-               'position' => 31,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentWikiWhitespaceToken::__set_state(array(
-                 'content' => ' ',
-                 'line' => 10,
-                 'position' => 31,
-              )),
-            )),
-            2 => 
-            ezcDocumentWikiTextNode::__set_state(array(
-               'line' => 10,
-               'position' => 32,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'is',
-                 'line' => 10,
-                 'position' => 32,
-              )),
-            )),
-            3 => 
-            ezcDocumentWikiTextNode::__set_state(array(
-               'line' => 10,
-               'position' => 34,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentWikiWhitespaceToken::__set_state(array(
-                 'content' => ' ',
-                 'line' => 10,
-                 'position' => 34,
-              )),
-            )),
-            4 => 
-            ezcDocumentWikiTextNode::__set_state(array(
-               'line' => 10,
-               'position' => 35,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'the',
-                 'line' => 10,
-                 'position' => 35,
-              )),
-            )),
-            5 => 
-            ezcDocumentWikiTextNode::__set_state(array(
-               'line' => 10,
-               'position' => 38,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentWikiWhitespaceToken::__set_state(array(
-                 'content' => ' ',
-                 'line' => 10,
-                 'position' => 38,
-              )),
-            )),
-            6 => 
-            ezcDocumentWikiTextNode::__set_state(array(
-               'line' => 10,
-               'position' => 39,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'caption',
-                 'line' => 10,
-                 'position' => 39,
               )),
             )),
           ),

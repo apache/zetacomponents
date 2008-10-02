@@ -40,23 +40,9 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
               ),
                'token' => 
               ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'be',
+                 'content' => 'beable',
                  'line' => 1,
                  'position' => 27,
-              )),
-            )),
-            1 => 
-            ezcDocumentWikiTextNode::__set_state(array(
-               'line' => 2,
-               'position' => 1,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'able',
-                 'line' => 2,
-                 'position' => 1,
               )),
             )),
           ),
@@ -105,9 +91,37 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'But, should //not be...',
+             'content' => 'But, should ',
              'line' => 4,
              'position' => 1,
+          )),
+        )),
+        1 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 4,
+           'position' => 13,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiItalicToken::__set_state(array(
+             'content' => '//',
+             'line' => 4,
+             'position' => 13,
+          )),
+        )),
+        2 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 4,
+           'position' => 15,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiTextLineToken::__set_state(array(
+             'content' => 'not be...',
+             'line' => 4,
+             'position' => 15,
           )),
         )),
       ),
@@ -134,9 +148,37 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => '...able// to cross paragraphs.',
+             'content' => '...able',
              'line' => 6,
              'position' => 1,
+          )),
+        )),
+        1 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 6,
+           'position' => 8,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiItalicToken::__set_state(array(
+             'content' => '//',
+             'line' => 6,
+             'position' => 8,
+          )),
+        )),
+        2 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 6,
+           'position' => 10,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiWhitespaceToken::__set_state(array(
+             'content' => ' to cross paragraphs.',
+             'line' => 6,
+             'position' => 10,
           )),
         )),
       ),

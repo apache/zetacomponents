@@ -77,10 +77,14 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     protected $reductions = array(
 //        'ezcDocumentWikiMatchingInlineMarkupNode'
 //            => 'reduceMatchingInlineMarkup',
+        'ezcDocumentWikiTextNode' => array(
+            'reduceText',
+        ),
         'ezcDocumentWikiParagraphNode' => array(
             'reduceParagraph',
         ),
         'ezcDocumentWikiDocumentNode' => array(
+            'reduceLists',
             'reduceDocument',
         ),
         'ezcDocumentWikiInvisibleBreakNode' => array(
@@ -97,6 +101,12 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         ),
         'ezcDocumentWikiImageEndNode' => array(
             'reduceImageNodes',
+        ),
+        'ezcDocumentWikiBulletListItemNode' => array(
+            'reduceBulletListItem',
+        ),
+        'ezcDocumentWikiEnumeratedListItemNode' => array(
+            'reduceEnumeratedListItem',
         ),
     );
 
@@ -141,6 +151,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiParagraphIndentationToken' => 'ezcDocumentWikiBlockquoteNode',
         'ezcDocumentWikiQuoteToken'                => 'ezcDocumentWikiBlockquoteNode',
         'ezcDocumentWikiPageBreakToken'            => 'ezcDocumentWikiPageBreakNode',
+        'ezcDocumentWikiBulletListItemToken'       => 'ezcDocumentWikiBulletListItemNode',
+        'ezcDocumentWikiEnumeratedListItemToken'   => 'ezcDocumentWikiEnumeratedListItemNode',
                                             
         'ezcDocumentWikiBoldToken'                 => 'ezcDocumentWikiBoldNode',
         'ezcDocumentWikiItalicToken'               => 'ezcDocumentWikiItalicNode',
@@ -183,7 +195,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         while ( ( $token = array_shift( $tokens ) ) !== null )
         {
             /* DEBUG
-            echo "[T] Token: " . get_class( $token ) . " at {$token->line}:{$token->position}.\n";
+            echo "[T] ({$token->line}:{$token->position}) Token: " . get_class( $token ) . " at {$token->line}:{$token->position}.\n";
             // /DEBUG */
 
             // First shift given token by the defined reduction methods
@@ -400,6 +412,28 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     }
 
     /**
+     * Reduce text nodes
+     *
+     * Reduce texts into single nodes, if the prior node is also a text node.
+     * This reduces the number of AST nodes required to represent texts
+     * drastically.
+     * 
+     * @param ezcDocumentWikiTextNode $node 
+     * @return mixed
+     */
+    protected function reduceText( ezcDocumentWikiTextNode $node )
+    {
+        if ( isset( $this->documentStack[0] ) &&
+            ( $this->documentStack[0] instanceof ezcDocumentWikiTextNode ) )
+        {
+            $this->documentStack[0]->token->content .= $node->token->content;
+            return null;
+        }
+
+        return $node;
+    }
+
+    /**
      * Reduce paragraph
      *
      * Paragraphs are reduce with all inline tokens, which have been added to
@@ -432,28 +466,6 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         {
             // No tokens found, we can ommit the paragraph.
             return null;
-        }
-
-        // Reduce text nodes in single AST nodes
-        $textNode = null;
-        foreach ( $collected as $nr => $child )
-        {
-            if ( $child instanceof ezcDocumentWikiTextNode )
-            {
-                if ( $textNode === null )
-                {
-                    $textNode = $child;
-                }
-                else
-                {
-                    $textNode->token->content .= $child->token->content;
-                    unset( $collected[$nr] );
-                }
-            }
-            else
-            {
-                $textNode = null;
-            }
         }
 
         $node->nodes = array_values( $collected );
@@ -531,12 +543,13 @@ class ezcDocumentWikiParser extends ezcDocumentParser
              isset( $this->documentStack[0] ) &&
              ( $this->documentStack[0] instanceof ezcDocumentWikiLineLevelNode ) )
         {
-            $this->documentStack[0]->nodes = $collected;
+            $lineNode = array_shift( $this->documentStack );
+            $lineNode->nodes = $collected;
 
             /* DEBUG
-            echo "  => Reduce line node: " . get_class( $this->documentStack[0] ) . "\n";
+            echo "  => Reduce line node: " . get_class( $lineNode ) . "\n";
             // /DEBUG */
-            return null;
+            return $lineNode;
         }
 
         // No tokens found, we can ommit the break node, and put everything
@@ -693,6 +706,177 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     }
 
     /**
+     * Reduce bullet list items to list
+     *
+     * Reduce list items to lists, and create new wrapping list nodes.
+     * 
+     * @param ezcDocumentWikiBlockLevelNode $node 
+     * @return mixed
+     */
+    protected function reduceBulletListItem( ezcDocumentWikiBlockLevelNode $node )
+    {
+        // Do not reduce empty bullet list nodes, but wait until they are
+        // filled
+        if ( $node->nodes === array() )
+        {
+            return $node;
+        }
+
+        // If there is not already a list node which matches the properties of
+        // the current list item, create a new bullet list.
+        if ( !isset( $this->documentStack[0] ) ||
+             ( !$this->documentStack[0] instanceof ezcDocumentWikiBulletListNode ) ||
+             ( $this->documentStack[0]->level !== $node->level ) )
+        {
+            $list = new ezcDocumentWikiBulletListNode( $node->token );
+        }
+        else
+        {
+            $list = array_shift( $this->documentStack );
+        }
+
+        $list->nodes = array_merge( $list->nodes, array( $node ) );
+        return $list;
+    }
+
+    /**
+     * Reduce enumerated list items to list
+     *
+     * Reduce list items to lists, and create new wrapping list nodes.
+     * 
+     * @param ezcDocumentWikiBlockLevelNode $node 
+     * @return mixed
+     */
+    protected function reduceEnumeratedListItem( ezcDocumentWikiBlockLevelNode $node )
+    {
+        // Do not reduce empty enumerated list nodes, but wait until they are
+        // filled
+        if ( $node->nodes === array() )
+        {
+            return $node;
+        }
+
+        // If there is not already a list node which matches the properties of
+        // the current list item, create a new bullet list.
+        if ( !isset( $this->documentStack[0] ) ||
+             ( !$this->documentStack[0] instanceof ezcDocumentWikiEnumeratedListNode ) ||
+             ( $this->documentStack[0]->level !== $node->level ) )
+        {
+            $list = new ezcDocumentWikiEnumeratedListNode( $node->token );
+        }
+        else
+        {
+            $list = array_shift( $this->documentStack );
+        }
+
+        $list->nodes = array_merge( $list->nodes, array( $node ) );
+        return $list;
+    }
+
+    /**
+     * Merge lists recusively
+     * 
+     * Merge lists recusively
+     * 
+     * @param array $lists 
+     * @return ezcDocumentWikiListNode
+     */
+    protected function mergeListRecursively( array $lists )
+    {
+        $list      = array_shift( $lists );
+        $collected = array();
+        while ( $child = array_shift( $lists ) )
+        {
+            if ( $child->level > $list->level )
+            {
+                array_unshift( $collected, $child );
+            }
+            else
+            {
+                if ( count( $collected ) )
+                {
+                    $list->nodes[] = $this->mergeListRecursively( $collected );
+                    $collected     = array();
+                }
+
+                $list->nodes = array_merge(
+                    $list->nodes,
+                    $child->nodes
+                );
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * Reduce lists
+     *
+     * Stack lists with higher indentation into each other and merge multiple
+     * lists of same type and indentation.
+     * 
+     * @param ezcDocumentWikiDocumentNode $node 
+     * @return mixed
+     */
+    protected function reduceLists( ezcDocumentWikiDocumentNode $node )
+    {
+        $collected       = array();
+        $documentStack   = array();
+        $class           = null;
+
+        while ( $child = array_shift( $this->documentStack ) )
+        {
+            /* DEBUG
+            echo "   -> Found ", get_class( $child ), "\n";
+            // /DEBUG */
+
+            // If element is not a list, clean up
+            if ( ( !$child instanceof ezcDocumentWikiListNode ) ||
+                 ( ( $class !== null ) &&
+                   ( !$child instanceof $class ) ) )
+            {
+                /* DEBUG
+                echo "     -> Merge lists: ", count( $collected ), " entries.\n";
+                // /DEBUG */
+                if ( count( $collected ) )
+                {
+                    $documentStack[] = $this->mergeListRecursively( $collected );
+                    $class     = null;
+                    $collected = array();
+                }
+                $documentStack[] = $child;
+
+                if ( !$child instanceof ezcDocumentWikiListNode )
+                {
+                    /* DEBUG
+                    echo "     -> Skip element.\n";
+                    // /DEBUG */
+                    continue;
+                }
+            }
+
+            // Collect all belonging lists
+            /* DEBUG
+            echo "     -> Collect element.\n";
+            // /DEBUG */
+            $class = get_class( $child );
+            array_unshift( $collected, $child );
+        }
+
+        // Merge, when end of document is reached
+        if ( count( $collected ) )
+        {
+            /* DEBUG
+            echo "     -> Merge lists: ", count( $collected ), " entries.\n";
+            // /DEBUG */
+            $documentStack[] = $this->mergeListRecursively( $collected );
+        }
+        $this->documentStack = $documentStack;
+
+        return $node;
+    }
+
+    /**
      * Reduce document
      *
      * The document reduction aggregates all block level nodes from the
@@ -704,7 +888,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      */
     protected function reduceDocument( ezcDocumentWikiDocumentNode $node )
     {
-        // Collect inline nodes
+        // Collect block level nodes
         $collected = array();
         while ( isset( $this->documentStack[0] ) &&
                 ( $this->documentStack[0] instanceof ezcDocumentWikiBlockLevelNode ) )
