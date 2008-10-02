@@ -1,0 +1,100 @@
+<?php
+
+return ezcDocumentWikiDocumentNode::__set_state(array(
+   'line' => 19,
+   'position' => 1,
+   'nodes' => 
+  array (
+    0 => 
+    ezcDocumentWikiPluginNode::__set_state(array(
+       'type' => NULL,
+       'parameters' => 
+      array (
+      ),
+       'text' => NULL,
+       'line' => 1,
+       'position' => 0,
+       'nodes' => 
+      array (
+      ),
+       'token' => 
+      ezcDocumentWikiPluginToken::__set_state(array(
+         'type' => NULL,
+         'parameters' => 
+        array (
+        ),
+         'text' => NULL,
+         'content' => '{code:title=Bar.java|borderStyle=solid}
+// Some comments here
+public String getFoo()
+{
+    return foo;
+}
+{code}',
+         'line' => 1,
+         'position' => 0,
+      )),
+    )),
+    1 => 
+    ezcDocumentWikiPluginNode::__set_state(array(
+       'type' => NULL,
+       'parameters' => 
+      array (
+        'tag' => 'attribute',
+      ),
+       'text' => NULL,
+       'line' => 10,
+       'position' => 0,
+       'nodes' => 
+      array (
+      ),
+       'token' => 
+      ezcDocumentWikiPluginToken::__set_state(array(
+         'type' => NULL,
+         'parameters' => 
+        array (
+          'tag' => 'attribute',
+        ),
+         'text' => NULL,
+         'content' => '{code:xml}
+<test>
+  <another tag="attribute"/>
+</test>
+{code}',
+         'line' => 10,
+         'position' => 0,
+      )),
+    )),
+    2 => 
+    ezcDocumentWikiPluginNode::__set_state(array(
+       'type' => NULL,
+       'parameters' => 
+      array (
+      ),
+       'text' => NULL,
+       'line' => 17,
+       'position' => 0,
+       'nodes' => 
+      array (
+      ),
+       'token' => 
+      ezcDocumentWikiPluginToken::__set_state(array(
+         'type' => NULL,
+         'parameters' => 
+        array (
+        ),
+         'text' => NULL,
+         'content' => '{calendar:id=myCalendar|title=My Calendar|defaultView=week}',
+         'line' => 17,
+         'position' => 0,
+      )),
+    )),
+  ),
+   'token' => 
+  ezcDocumentWikiEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 19,
+     'position' => 1,
+  )),
+));
+

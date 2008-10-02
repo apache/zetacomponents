@@ -223,6 +223,7 @@ return array(
     'ezcDocumentWikiParagraphIndentationToken'           => 'Document/document/wiki/token/indentation.php',
     'ezcDocumentWikiParagraphNode'                       => 'Document/document/wiki/nodes/paragraph.php',
     'ezcDocumentWikiParser'                              => 'Document/document/wiki/parser.php',
+    'ezcDocumentWikiPluginNode'                          => 'Document/document/wiki/nodes/plugin.php',
     'ezcDocumentWikiPluginToken'                         => 'Document/document/wiki/token/plugin.php',
     'ezcDocumentWikiQuoteToken'                          => 'Document/document/wiki/token/quote.php',
     'ezcDocumentWikiSeparatorToken'                      => 'Document/document/wiki/token/separator.php',

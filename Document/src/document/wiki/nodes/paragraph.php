@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiBlockLevelNode struct
+ * File containing the ezcDocumentWikiParagraphNode struct
  *
  * @package Document
  * @version //autogen//

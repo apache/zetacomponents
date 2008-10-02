@@ -160,6 +160,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiEnumeratedListItemToken'   => 'ezcDocumentWikiEnumeratedListItemNode',
         'ezcDocumentWikiLiteralBlockToken'         => 'ezcDocumentWikiLiteralBlockNode',
         'ezcDocumentWikiTableRowToken'             => 'ezcDocumentWikiTableRowNode',
+        'ezcDocumentWikiPluginToken'               => 'ezcDocumentWikiPluginNode',
                                             
         'ezcDocumentWikiBoldToken'                 => 'ezcDocumentWikiBoldNode',
         'ezcDocumentWikiItalicToken'               => 'ezcDocumentWikiItalicNode',
