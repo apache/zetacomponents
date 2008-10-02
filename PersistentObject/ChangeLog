@@ -3,6 +3,8 @@
 
 - Implemented issue #13218: Add lazy initialization to PersistentObject
   component.
+- Implemented issue #13558: Small optimizations in the load handler.
+
 
 1.4 - Monday 16 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

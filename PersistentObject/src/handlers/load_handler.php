@@ -532,17 +532,15 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
         array $objectState
     )
     {
+        $db = $this->database;
+        $relationTableQuoted = $db->quoteIdentifier( $relation->relationTable );
         // Join with relation table.
-        $query->from(
-            $this->database->quoteIdentifier( $relation->relationTable )
-        );
+        $query->from( $relationTableQuoted );
         foreach ( $relation->columnMap as $map )
         {
             $query->where(
                 $query->expr->eq(
-                    $this->database->quoteIdentifier( $relation->relationTable ) 
-                        . "." 
-                        . $this->database->quoteIdentifier( $map->relationSourceColumn ),
+                    $relationTableQuoted . "." .  $db->quoteIdentifier( $map->relationSourceColumn ),
                     $query->bindValue(
                         $objectState[$def->columns[$map->sourceColumn]->propertyName],
                         null,
@@ -550,12 +548,8 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
                     )
                 ),
                 $query->expr->eq(
-                    $this->database->quoteIdentifier( $relation->relationTable )
-                        . "." 
-                        . $this->database->quoteIdentifier( $map->relationDestinationColumn ),
-                    $this->database->quoteIdentifier( $relation->destinationTable )
-                        . "." 
-                        . $this->database->quoteIdentifier( $map->destinationColumn )
+                    $relationTableQuoted . "." .  $db->quoteIdentifier( $map->relationDestinationColumn ),
+                    $db->quoteIdentifier( $relation->destinationTable ) .  "." .  $db->quoteIdentifier( $map->destinationColumn )
                 )
             );
         }
