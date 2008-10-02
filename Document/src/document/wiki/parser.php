@@ -110,6 +110,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiEnumeratedListItemNode' => array(
             'reduceEnumeratedListItem',
         ),
+        'ezcDocumentWikiTableRowNode' => array(
+            'reduceTableRow',
+        ),
     );
 
     /**
@@ -156,6 +159,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiBulletListItemToken'       => 'ezcDocumentWikiBulletListItemNode',
         'ezcDocumentWikiEnumeratedListItemToken'   => 'ezcDocumentWikiEnumeratedListItemNode',
         'ezcDocumentWikiLiteralBlockToken'         => 'ezcDocumentWikiLiteralBlockNode',
+        'ezcDocumentWikiTableRowToken'             => 'ezcDocumentWikiTableRowNode',
                                             
         'ezcDocumentWikiBoldToken'                 => 'ezcDocumentWikiBoldNode',
         'ezcDocumentWikiItalicToken'               => 'ezcDocumentWikiItalicNode',
@@ -170,6 +174,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiInlineLiteralToken'        => 'ezcDocumentWikiInlineLiteralNode',
 
         'ezcDocumentWikiSeparatorToken'            => 'ezcDocumentWikiSeparatorNode',
+        'ezcDocumentWikiTableHeaderToken'          => 'ezcDocumentWikiTableHeaderSeparatorNode',
 
         'ezcDocumentWikiExternalLinkToken'         => 'ezcDocumentWikiExternalLinkNode',
         'ezcDocumentWikiInterWikiLinkToken'        => 'ezcDocumentWikiInterWikiLinkNode',
@@ -895,6 +900,61 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         $this->documentStack = $documentStack;
 
         return $node;
+    }
+
+    /**
+     * Reduce table rows
+     *
+     * Reduce the nodes aagregated for one table row into table cells, and
+     * merge the table rows into table nodes.
+     * 
+     * @param ezcDocumentWikiTableRowNode $node 
+     * @return mixed
+     */
+    protected function reduceTableRow( ezcDocumentWikiTableRowNode $node )
+    {
+        // We only care about table rows which already have some contents
+        // assigned.
+        if ( $node->nodes === array() )
+        {
+            return $node;
+        }
+
+        $cells      = array();
+        $separators = array();
+        $cell       = -1;
+        foreach ( $node->nodes as $child )
+        {
+            if ( $child instanceof ezcDocumentWikiSeparatorNode )
+            {
+                $separators[++$cell] = $child;
+                continue;
+            }
+
+            $cells[$cell][] = $child;
+        }
+
+        // Transform aggregated contents in cell nodes
+        foreach ( $cells as $nr => $cellNodes )
+        {
+            $cells[$nr] = new ezcDocumentWikiTableCellNode( $separators[$nr]->token );
+            $cells[$nr]->nodes = $cellNodes;
+        }
+        $node->nodes = $cells;
+
+        // Merge the table row into a table.
+        if ( !isset( $this->documentStack[0] ) ||
+             ( !$this->documentStack[0] instanceof ezcDocumentWikiTableNode ) )
+        {
+            $table = new ezcDocumentWikiTableNode( $node->token );
+        }
+        else
+        {
+            $table = array_shift( $this->documentStack );
+        }
+        $table->nodes[] = $node;
+    
+        return $table;
     }
 
     /**
