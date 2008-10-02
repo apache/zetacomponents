@@ -53,6 +53,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             => 'shiftTitleToken',
         'ezcDocumentWikiNewLineToken'
             => 'shiftNewLineToken',
+        'ezcDocumentWikiEscapeCharacterToken'
+            => 'shiftEscapeToken',
         'ezcDocumentWikiToken'
             => 'shiftWithTokenConversion',
     );
@@ -296,7 +298,15 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      */
     protected function shiftEscapeToken( ezcDocumentWikiToken $token, array &$tokens )
     {
-        return false;
+        // If there is nothing to escape, shift as text node
+        if ( !isset( $tokens[0] ) )
+        {
+            return new ezcDocumentWikiTextNode( $token );
+        }
+
+        // Otherwise shift the following token as text node
+        $token = array_shift( $tokens );
+        return new ezcDocumentWikiTextNode( $token );
     }
 
     /**
