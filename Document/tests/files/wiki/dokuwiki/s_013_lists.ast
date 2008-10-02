@@ -158,52 +158,6 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
       )),
     )),
     1 => 
-    ezcDocumentWikiBulletListNode::__set_state(array(
-       'level' => 0,
-       'line' => 7,
-       'position' => 0,
-       'nodes' => 
-      array (
-        0 => 
-        ezcDocumentWikiBulletListItemNode::__set_state(array(
-           'level' => 0,
-           'line' => 7,
-           'position' => 0,
-           'nodes' => 
-          array (
-            0 => 
-            ezcDocumentWikiTextNode::__set_state(array(
-               'line' => 8,
-               'position' => 1,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'Another item',
-                 'line' => 8,
-                 'position' => 1,
-              )),
-            )),
-          ),
-           'token' => 
-          ezcDocumentWikiBulletListItemToken::__set_state(array(
-             'indentation' => 0,
-             'content' => '*',
-             'line' => 7,
-             'position' => 0,
-          )),
-        )),
-      ),
-       'token' => 
-      ezcDocumentWikiBulletListItemToken::__set_state(array(
-         'indentation' => 0,
-         'content' => '*',
-         'line' => 7,
-         'position' => 0,
-      )),
-    )),
-    2 => 
     ezcDocumentWikiEnumeratedListNode::__set_state(array(
        'level' => 0,
        'line' => 10,

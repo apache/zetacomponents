@@ -153,6 +153,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiPageBreakToken'            => 'ezcDocumentWikiPageBreakNode',
         'ezcDocumentWikiBulletListItemToken'       => 'ezcDocumentWikiBulletListItemNode',
         'ezcDocumentWikiEnumeratedListItemToken'   => 'ezcDocumentWikiEnumeratedListItemNode',
+        'ezcDocumentWikiLiteralBlockToken'         => 'ezcDocumentWikiLiteralBlockNode',
                                             
         'ezcDocumentWikiBoldToken'                 => 'ezcDocumentWikiBoldNode',
         'ezcDocumentWikiItalicToken'               => 'ezcDocumentWikiItalicNode',
@@ -164,6 +165,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiStrikeToken'               => 'ezcDocumentWikiDeletedNode',
         'ezcDocumentWikiInlineQuoteToken'          => 'ezcDocumentWikiInlineQuoteNode',
         'ezcDocumentWikiLineBreakToken'            => 'ezcDocumentWikiLineBreakNode',
+        'ezcDocumentWikiInlineLiteralToken'        => 'ezcDocumentWikiInlineLiteralNode',
 
         'ezcDocumentWikiSeparatorToken'            => 'ezcDocumentWikiSeparatorNode',
 
@@ -835,22 +837,22 @@ class ezcDocumentWikiParser extends ezcDocumentParser
                  ( ( $class !== null ) &&
                    ( !$child instanceof $class ) ) )
             {
-                /* DEBUG
-                echo "     -> Merge lists: ", count( $collected ), " entries.\n";
-                // /DEBUG */
                 if ( count( $collected ) )
                 {
+                    /* DEBUG
+                    echo "     -> Merge lists: ", count( $collected ), " entries.\n";
+                    // /DEBUG */
                     $documentStack[] = $this->mergeListRecursively( $collected );
                     $class     = null;
                     $collected = array();
                 }
-                $documentStack[] = $child;
 
                 if ( !$child instanceof ezcDocumentWikiListNode )
                 {
                     /* DEBUG
                     echo "     -> Skip element.\n";
                     // /DEBUG */
+                    $documentStack[] = $child;
                     continue;
                 }
             }
