@@ -384,7 +384,16 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             return new ezcDocumentWikiParagraphNode( $token );
         }
 
-        // Ignore all other newlines
+        // Return all other newlines as text nodes - they may be whitespaces
+        // required in text, if we are inside a paragraph node
+        if ( isset( $this->documentStack[0] ) &&
+             ( ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) ||
+               ( $this->documentStack[0] instanceof ezcDocumentWikiParagraphNode ) ) )
+        {
+            return new ezcDocumentWikiTextNode( $token );
+        }
+
+        // Otherwise just ommit newline
         return null;
     }
 

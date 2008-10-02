@@ -20,7 +20,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiSpecialCharsToken::__set_state(array(
-             'content' => '#1',
+             'content' => '#1
+',
              'line' => 1,
              'position' => 2,
           )),
@@ -41,16 +42,18 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
         )),
         2 => 
         ezcDocumentWikiTextNode::__set_state(array(
-           'line' => 3,
-           'position' => 2,
+           'line' => 2,
+           'position' => 25,
            'nodes' => 
           array (
           ),
            'token' => 
-          ezcDocumentWikiExternalLinkToken::__set_state(array(
-             'content' => 'http://www.foo.com/',
-             'line' => 3,
-             'position' => 2,
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+http://www.foo.com/
+',
+             'line' => 2,
+             'position' => 25,
           )),
         )),
         3 => 
@@ -69,16 +72,17 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
         )),
         4 => 
         ezcDocumentWikiTextNode::__set_state(array(
-           'line' => 5,
-           'position' => 2,
+           'line' => 4,
+           'position' => 14,
            'nodes' => 
           array (
           ),
            'token' => 
-          ezcDocumentWikiInternalLinkToken::__set_state(array(
-             'content' => 'CamelCaseLink',
-             'line' => 5,
-             'position' => 2,
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+CamelCaseLink',
+             'line' => 4,
+             'position' => 14,
           )),
         )),
       ),

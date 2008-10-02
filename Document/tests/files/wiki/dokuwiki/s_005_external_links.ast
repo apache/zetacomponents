@@ -20,7 +20,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'DokuWiki supports multiple ways of creating links. External links arerecognized automagically: ',
+             'content' => 'DokuWiki supports multiple ways of creating links. External links are
+recognized automagically: ',
              'line' => 1,
              'position' => 1,
           )),
@@ -48,7 +49,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' or simply www.google.com - Youcan set link text as well: ',
+             'content' => ' or simply www.google.com - You
+can set link text as well: ',
              'line' => 2,
              'position' => 48,
           )),
@@ -91,7 +93,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
               ),
                'token' => 
               ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'This Link points togoogle',
+                 'content' => 'This Link points to
+google',
                  'line' => 3,
                  'position' => 52,
               )),
@@ -141,7 +144,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' are recognized,too.',
+             'content' => ' are recognized,
+too.',
              'line' => 4,
              'position' => 63,
           )),

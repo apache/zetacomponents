@@ -181,16 +181,17 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
         )),
         8 => 
         ezcDocumentWikiTextNode::__set_state(array(
-           'line' => 2,
-           'position' => 1,
+           'line' => 1,
+           'position' => 74,
            'nodes' => 
           array (
           ),
            'token' => 
-          ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'texts. Of course you can ',
-             'line' => 2,
-             'position' => 1,
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+texts. Of course you can ',
+             'line' => 1,
+             'position' => 74,
           )),
         )),
         9 => 

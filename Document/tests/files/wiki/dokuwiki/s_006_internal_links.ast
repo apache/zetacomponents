@@ -20,7 +20,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'Internal links are created by using square brackets. You can either just givea ',
+             'content' => 'Internal links are created by using square brackets. You can either just give
+a ',
              'line' => 1,
              'position' => 1,
           )),

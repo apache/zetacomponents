@@ -48,7 +48,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' Makes text strong.',
+             'content' => ' Makes text strong.
+',
              'line' => 1,
              'position' => 9,
           )),
@@ -90,7 +91,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' Makes text emphasis.',
+             'content' => ' Makes text emphasis.
+',
              'line' => 2,
              'position' => 11,
           )),
@@ -132,7 +134,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' Makes text in citation.',
+             'content' => ' Makes text in citation.
+',
              'line' => 3,
              'position' => 13,
           )),
@@ -174,7 +177,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' Makes text as strikethrough.',
+             'content' => ' Makes text as strikethrough.
+',
              'line' => 4,
              'position' => 16,
           )),
@@ -216,7 +220,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' Makes text as underlined.',
+             'content' => ' Makes text as underlined.
+',
              'line' => 5,
              'position' => 13,
           )),
@@ -258,7 +263,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' Makes text in superscript.',
+             'content' => ' Makes text in superscript.
+',
              'line' => 6,
              'position' => 14,
           )),

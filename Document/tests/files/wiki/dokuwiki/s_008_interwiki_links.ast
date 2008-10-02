@@ -71,7 +71,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' links. These are quick links to otherWikis. For example this is a link to Wikipedia\'s page about Wikis: ',
+             'content' => ' links. These are quick links to other
+Wikis. For example this is a link to Wikipedia\'s page about Wikis: ',
              'line' => 1,
              'position' => 37,
           )),

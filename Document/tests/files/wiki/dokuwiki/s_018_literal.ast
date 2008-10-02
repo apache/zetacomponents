@@ -20,7 +20,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'To let the parser ignore an area completely (ie. do no formatting on it),enclose the area either with ',
+             'content' => 'To let the parser ignore an area completely (ie. do no formatting on it),
+enclose the area either with ',
              'line' => 1,
              'position' => 1,
           )),
@@ -62,7 +63,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' tags or even simpler, with doublepercent signs ',
+             'content' => ' tags or even simpler, with double
+percent signs ',
              'line' => 2,
              'position' => 40,
           )),

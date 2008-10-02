@@ -49,6 +49,21 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           )),
         )),
         1 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 1,
+           'position' => 9,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 1,
+             'position' => 9,
+          )),
+        )),
+        2 => 
         ezcDocumentWikiLinkNode::__set_state(array(
            'link' => 
           array (
@@ -99,7 +114,22 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 1,
           )),
         )),
-        2 => 
+        3 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 2,
+           'position' => 28,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 2,
+             'position' => 28,
+          )),
+        )),
+        4 => 
         ezcDocumentWikiLinkNode::__set_state(array(
            'link' => 
           array (
@@ -136,7 +166,22 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 1,
           )),
         )),
-        3 => 
+        5 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 3,
+           'position' => 31,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 3,
+             'position' => 31,
+          )),
+        )),
+        6 => 
         ezcDocumentWikiExternalLinkNode::__set_state(array(
            'line' => 4,
            'position' => 1,
@@ -150,7 +195,7 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 1,
           )),
         )),
-        4 => 
+        7 => 
         ezcDocumentWikiTextNode::__set_state(array(
            'line' => 4,
            'position' => 24,
@@ -164,7 +209,7 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 24,
           )),
         )),
-        5 => 
+        8 => 
         ezcDocumentWikiExternalLinkNode::__set_state(array(
            'line' => 4,
            'position' => 26,
@@ -178,7 +223,22 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 26,
           )),
         )),
-        6 => 
+        9 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 4,
+           'position' => 56,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 4,
+             'position' => 56,
+          )),
+        )),
+        10 => 
         ezcDocumentWikiLinkNode::__set_state(array(
            'link' => 
           array (
@@ -257,7 +317,22 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 1,
           )),
         )),
-        7 => 
+        11 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 5,
+           'position' => 60,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 5,
+             'position' => 60,
+          )),
+        )),
+        12 => 
         ezcDocumentWikiLinkNode::__set_state(array(
            'link' => 
           array (
@@ -364,7 +439,22 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 1,
           )),
         )),
-        8 => 
+        13 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 6,
+           'position' => 36,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 6,
+             'position' => 36,
+          )),
+        )),
+        14 => 
         ezcDocumentWikiLinkNode::__set_state(array(
            'link' => 
           array (

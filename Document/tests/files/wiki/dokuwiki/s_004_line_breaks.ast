@@ -48,7 +48,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiWhitespaceToken::__set_state(array(
-             'content' => ' Note that thetwo backslashes are only recognized at the end of a line',
+             'content' => ' Note that the
+two backslashes are only recognized at the end of a line',
              'line' => 1,
              'position' => 41,
           )),
@@ -69,16 +70,17 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
         )),
         4 => 
         ezcDocumentWikiTextNode::__set_state(array(
-           'line' => 3,
-           'position' => 1,
+           'line' => 2,
+           'position' => 59,
            'nodes' => 
           array (
           ),
            'token' => 
-          ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'or followed by',
-             'line' => 3,
-             'position' => 1,
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+or followed by',
+             'line' => 2,
+             'position' => 59,
           )),
         )),
         5 => 

@@ -21,7 +21,9 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'here is quoteablecontent to be quoted',
+             'content' => 'here is quoteable
+content to be quoted
+',
              'line' => 3,
              'position' => 1,
           )),

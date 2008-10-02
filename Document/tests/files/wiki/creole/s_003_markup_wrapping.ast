@@ -40,7 +40,8 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
               ),
                'token' => 
               ezcDocumentWikiTextLineToken::__set_state(array(
-                 'content' => 'beable',
+                 'content' => 'be
+able',
                  'line' => 1,
                  'position' => 27,
               )),

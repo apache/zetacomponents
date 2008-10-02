@@ -54,6 +54,21 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           )),
         )),
         1 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 1,
+           'position' => 21,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 1,
+             'position' => 21,
+          )),
+        )),
+        2 => 
         ezcDocumentWikiItalicNode::__set_state(array(
            'line' => 2,
            'position' => 1,
@@ -95,7 +110,22 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 1,
           )),
         )),
-        2 => 
+        3 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 2,
+           'position' => 21,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 2,
+             'position' => 21,
+          )),
+        )),
+        4 => 
         ezcDocumentWikiItalicNode::__set_state(array(
            'line' => 3,
            'position' => 1,

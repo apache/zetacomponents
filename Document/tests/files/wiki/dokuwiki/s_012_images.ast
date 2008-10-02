@@ -67,16 +67,17 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
         )),
         2 => 
         ezcDocumentWikiTextNode::__set_state(array(
-           'line' => 2,
-           'position' => 1,
+           'line' => 1,
+           'position' => 60,
            'nodes' => 
           array (
           ),
            'token' => 
-          ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'Resize to given width:            ',
-             'line' => 2,
-             'position' => 1,
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+Resize to given width:            ',
+             'line' => 1,
+             'position' => 60,
           )),
         )),
         3 => 
@@ -121,16 +122,17 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
         )),
         4 => 
         ezcDocumentWikiTextNode::__set_state(array(
-           'line' => 3,
-           'position' => 1,
+           'line' => 2,
+           'position' => 63,
            'nodes' => 
           array (
           ),
            'token' => 
-          ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'Resize to given width and height: ',
-             'line' => 3,
-             'position' => 1,
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+Resize to given width and height: ',
+             'line' => 2,
+             'position' => 63,
           )),
         )),
         5 => 
@@ -175,16 +177,17 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
         )),
         6 => 
         ezcDocumentWikiTextNode::__set_state(array(
-           'line' => 4,
-           'position' => 1,
+           'line' => 3,
+           'position' => 67,
            'nodes' => 
           array (
           ),
            'token' => 
-          ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'Resized external image:           ',
-             'line' => 4,
-             'position' => 1,
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+Resized external image:           ',
+             'line' => 3,
+             'position' => 67,
           )),
         )),
         7 => 
@@ -283,6 +286,21 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
           )),
         )),
         1 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 6,
+           'position' => 27,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 6,
+             'position' => 27,
+          )),
+        )),
+        2 => 
         ezcDocumentWikiImageNode::__set_state(array(
            'resource' => 
           array (
@@ -322,7 +340,22 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
              'position' => 1,
           )),
         )),
-        2 => 
+        3 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 7,
+           'position' => 27,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiNewLineToken::__set_state(array(
+             'content' => '
+',
+             'line' => 7,
+             'position' => 27,
+          )),
+        )),
+        4 => 
         ezcDocumentWikiImageNode::__set_state(array(
            'resource' => 
           array (
