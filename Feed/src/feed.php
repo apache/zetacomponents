@@ -837,6 +837,8 @@ class ezcFeed
     {
         if ( !file_exists( $uri ) )
         {
+            // hide the notices caused by getaddrinfo (php_network_getaddresses)
+            // in case of unreachable hosts ("Name or service not known")
             $headers = @get_headers( $uri );
             // HTTP headers
             // 200 = OK
