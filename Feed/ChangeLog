@@ -1,4 +1,4 @@
-1.1.1alpha1 - [RELEASEDATE]
+1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13570: Use internal libxml error handling.

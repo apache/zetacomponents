@@ -3,14 +3,10 @@
 
 - Implemented feature #13344: Authentication / authorization support for
   Webdav.
-
-
-1.0.2 - [RELEASEDATE]
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 - Fixed issue #13462: The backend methods DELETE and PROPPATCH do now return
   the RFC conform multi status responses on error and these get serialized
   correctly by the transport.
+
 
 1.0.1 - Monday 04 August 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
