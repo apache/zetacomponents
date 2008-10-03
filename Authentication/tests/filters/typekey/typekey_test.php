@@ -254,7 +254,6 @@ class ezcAuthenticationTypekeyTest extends ezcAuthenticationTest
     {
         $options = new ezcAuthenticationTypekeyOptions();
 
-        
         $this->missingFileTest( $options, 'keysFile', self::$keysFileUrlMissing );
     }
 
@@ -262,7 +261,6 @@ class ezcAuthenticationTypekeyTest extends ezcAuthenticationTest
     {
         $options = new ezcAuthenticationTypekeyOptions();
 
-        
         $this->missingFileTest( $options, 'keysFile', self::$keysFileUrlUnconnectable );
     }
 

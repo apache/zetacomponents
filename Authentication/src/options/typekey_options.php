@@ -122,8 +122,13 @@ class ezcAuthenticationTypekeyOptions extends ezcAuthenticationFilterOptions
                 else
                 {
                     // if $value is an URL
+
+                    // hide the notices caused by getaddrinfo (php_network_getaddresses)
+                    // in case of unreachable hosts ("Name or service not known")
                     $headers = @get_headers( $value );
-                    if ( $headers === false || strpos( $headers[0], '404 Not Found' ) !== false )
+                    if ( $headers === false
+                         || count( $headers ) === 0 // get_headers returns an empty array for unreachable hosts
+                         || strpos( $headers[0], '404 Not Found' ) !== false )
                     {
                         throw new ezcBaseFileNotFoundException( $value );
                     }
