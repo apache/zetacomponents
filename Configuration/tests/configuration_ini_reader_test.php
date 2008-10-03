@@ -371,7 +371,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
             'int32' => array(
                 'InRange1' => -51,
                 'InRange2' => 59,
-                'InRangeJust1' => -2147483648,
+                'InRangeJust1' => (int) '-2147483648',
                 'InRangeJust2' => 2147483647,
                 'OutRangeJust1' => '-2147483649',
                 'OutRangeJust2' => '2147483648',
