@@ -155,9 +155,17 @@ class ezcConfigurationIniParser implements Iterator
             return true;
 
         /* Check for numbers - decimal */
-        if ( preg_match( '@^(([1-9][0-9]*)|(0))$@', $value ) )
+        if ( preg_match( '@^-?(([1-9][0-9]*)|(0))$@', $value ) )
         {
-            return (int) $value;
+            /* Check the integer range, if it falls out of the range, return a string instead. */
+            if ( (string) $value === (string)(int) $value )
+            {
+                return (int) $value;
+            }
+            else
+            {
+                return (string) $value;
+            }
         }
 
         /* Check for hexadecimals */

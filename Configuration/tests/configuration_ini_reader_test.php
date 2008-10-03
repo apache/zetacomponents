@@ -358,6 +358,104 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         $this->assertEquals( $expected, $return );
     }
 
+    public function testIntegerRanges32Bit()
+    {
+        if ( PHP_INT_SIZE !== 4 )
+        {
+            $this->markTestSkipped( "Only for 32 bit machines" );
+        }
+        $backend = new ezcConfigurationIniReader( 'Configuration/tests/files/int-range.ini' );
+        $return = $backend->load();
+
+        $settings = array(
+            'int32' => array(
+                'InRange1' => -51,
+                'InRange2' => 59,
+                'InRangeJust1' => -2147483648,
+                'InRangeJust2' => 2147483647,
+                'OutRangeJust1' => '-2147483649',
+                'OutRangeJust2' => '2147483648',
+                'OutRange1' => '-21474836480',
+                'OutRange2' => '21474836480',
+            ),
+            'int64' => array(
+                'InRange1' => -51,
+                'InRange2' => 59,
+                'InRangeJust0' => '-9223372036854775807',
+                'InRangeJust1' => '-9223372036854775808',
+                'InRangeJust2' => '9223372036854775807',
+                'OutRangeJust1' => '-9223372036854775809',
+                'OutRangeJust2' => '9223372036854775808',
+                'OutRange1' => '-92233720368547758080',
+                'OutRange2' => '92233720368547758080',
+            ),
+        );
+        $comments = array(
+        );
+        $expected = new ezcConfiguration( $settings, $comments );
+
+        $this->assertSame( $expected->getAllSettings(), $return->getAllSettings() );
+        $this->assertSame( -2147483648, $expected->getSetting( 'int32', 'InRangeJust0' ) );
+        $this->assertSame( '-2147483649', $expected->getStringSetting( 'int32', 'OutRangeJust1' ) );
+        try
+        {
+            $this->assertSame( '-2147483649', $expected->getNumberSetting( 'int32', 'OutRangeJust1' ) );
+        }
+        catch ( ezcConfigurationSettingWrongTypeException $e )
+        {
+            self::assertSame( "The expected type for the setting 'int32', 'OutRangeJust1' is 'double or integer'. The setting was of type 'string'.", $e->getMessage() );
+        }
+    }
+
+    public function testIntegerRanges64Bit()
+    {
+        if ( PHP_INT_SIZE !== 8 )
+        {
+            $this->markTestSkipped( "Only for 64 bit machines" );
+        }
+        $backend = new ezcConfigurationIniReader( 'Configuration/tests/files/int-range.ini' );
+        $return = $backend->load();
+
+        $settings = array(
+            'int32' => array(
+                'InRange1' => -51,
+                'InRange2' => 59,
+                'InRangeJust1' => -2147483648,
+                'InRangeJust2' => 2147483647,
+                'OutRangeJust1' => -2147483649,
+                'OutRangeJust2' => 2147483648,
+                'OutRange1' => -21474836480,
+                'OutRange2' => 21474836480,
+            ),
+            'int64' => array(
+                'InRange1' => -51,
+                'InRange2' => 59,
+                'InRangeJust0' => -9223372036854775807,
+                'InRangeJust1' => (int) '-9223372036854775808', // yes, this is really necessary
+                'InRangeJust2' => 9223372036854775807,
+                'OutRangeJust1' => '-9223372036854775809',
+                'OutRangeJust2' => '9223372036854775808',
+                'OutRange1' => '-92233720368547758080',
+                'OutRange2' => '92233720368547758080',
+            ),
+        );
+        $comments = array(
+        );
+        $expected = new ezcConfiguration( $settings, $comments );
+
+        $this->assertSame( $expected->getAllSettings(), $return->getAllSettings() );
+        $this->assertSame( -9223372036854775807, $expected->getSetting( 'int64', 'InRangeJust0' ) );
+        $this->assertSame( '-9223372036854775809', $expected->getStringSetting( 'int64', 'OutRangeJust1' ) );
+        try
+        {
+            $this->assertSame( '-9223372036854775809', $expected->getNumberSetting( 'int64', 'OutRangeJust1' ) );
+        }
+        catch ( ezcConfigurationSettingWrongTypeException $e )
+        {
+            self::assertSame( "The expected type for the setting 'int64', 'OutRangeJust1' is 'double or integer'. The setting was of type 'string'.", $e->getMessage() );
+        }
+    }
+
     public function testTimestamp()
     {
         $backend = new ezcConfigurationIniReader( 'Configuration/tests/files/empty.ini' );
