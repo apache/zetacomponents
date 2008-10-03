@@ -48,6 +48,22 @@ class ezcFeedTest extends ezcFeedTestCase
     }
 
     /**
+     * Test for unreachable hosts.
+     */
+    public function testFeedUnreachableHost()
+    {
+        try
+        {
+            $feed = ezcFeed::parse( 'http://localhost.nothere/this-file-cannot-possibly-exist.xml' );
+            $this->fail( 'Expected exception not thrown' );
+        }
+        catch ( ezcBaseFileNotFoundException $e )
+        {
+            $this->assertEquals( "The file 'http://localhost.nothere/this-file-cannot-possibly-exist.xml' could not be found.", $e->getMessage() );
+        }
+    }
+
+    /**
      * Test for issue #13110: Add support for feed redirection.
      */
     public function testFeedRedirect302Header()
