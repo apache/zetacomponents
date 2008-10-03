@@ -371,6 +371,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
             'int32' => array(
                 'InRange1' => -51,
                 'InRange2' => 59,
+                'InRangeJust0' => -2147483647,
                 'InRangeJust1' => (int) '-2147483648',
                 'InRangeJust2' => 2147483647,
                 'OutRangeJust1' => '-2147483649',
@@ -395,7 +396,7 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         $expected = new ezcConfiguration( $settings, $comments );
 
         $this->assertSame( $expected->getAllSettings(), $return->getAllSettings() );
-        $this->assertSame( -2147483648, $expected->getSetting( 'int32', 'InRangeJust0' ) );
+        $this->assertSame( -2147483647, $expected->getSetting( 'int32', 'InRangeJust0' ) );
         $this->assertSame( '-2147483649', $expected->getStringSetting( 'int32', 'OutRangeJust1' ) );
         try
         {
