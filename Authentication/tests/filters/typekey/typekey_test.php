@@ -250,11 +250,26 @@ class ezcAuthenticationTypekeyTest extends ezcAuthenticationTest
         $this->missingFileTest( $options, 'keysFile', self::$keysFileMissing );
     }
 
+    /**
+     * Test for files not found at an existing host.
+     *
+     * If Apache or another web server is running on 'localhost' then it can
+     * interfere with this test as a normal page can be returned even for non-existing
+     * pages, instead of 404. So if a web server is running, this test is skipped.
+     */
     public function testTypekeyPublicKeysFileUrlMissing()
     {
         $options = new ezcAuthenticationTypekeyOptions();
 
-        $this->missingFileTest( $options, 'keysFile', self::$keysFileUrlMissing );
+        $headers = @get_headers( self::$keysFileUrlMissing );
+        if ( $headers !== false && count( $headers ) > 0 )
+        {
+            $this->markTestSkipped( "This test works only if the web server (Apache, etc.) at 'localhost' is stopped." );
+        }
+        else
+        {
+            $this->missingFileTest( $options, 'keysFile', self::$keysFileUrlMissing );
+        }
     }
 
     public function testTypekeyPublicKeysFileUrlUnconnectable()
