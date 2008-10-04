@@ -110,10 +110,67 @@ You can also access the WebDAV server with a browser, since WebDAV is just an
 extension to the HTTP protocol. You should be able to get valid results out of
 this, and also see possible errors. Remember that collections (or directories),
 although they can contain other collections and resources, do not consist of
-any data themselves. Therefore, if everything
-is working properly, you will get a blank page when viewing collections in your
-browser. However, you should still be able to download resources (or files) in
-the WebDAV share.
+any data themselves. Therefore, if everything is working properly, you will get
+a blank page when viewing collections in your browser. However, you should
+still be able to download resources (or files) in the WebDAV share.
+
+Authentication / authorization
+==============================
+
+Since version 1.1, the Webdav component allows you to integrate your own
+authentication and authorization mechanisms into the server. To achieve this,
+you need to create a class which implements one of the following interfaces:
+
+- ezcWebdavBasicAuthenticator
+- ezcWebdavDigestAuthenticator
+
+The first one only provides `HTTP Basic authentication`__ to clients, which
+might not be supported by some, the second interface makes the server provide
+Basic and `Digest authentication`__. To ease the implementation of Digest
+authentication, you can extend the abstract base class
+ezcWebdavDigestAuthenticatorBase
+
+If you also want to have fine graned authorization support, the class must in
+addition implement ezcWebdavAuthorizer.
+
+.. __: http://en.wikipedia.org/wiki/Basic_access_authentication
+.. __: http://en.wikipedia.org/wiki/Digest_access_authentication
+
+The following source shows an example implementation for Digest authentication
+with authorization support:
+
+.. include:: tutorial/custom_auth.php
+   :literal:
+
+The method authenticateBasic() is called by the server, when Basic
+authentication is provided by the client or if no authentication is provided at
+all. In the latter case, the $username and $password fields both contain empty
+strings.
+
+If the client provides Digest authentication, the method authenticateDigest()
+is called instead. The given ezcWebdavDigestAuth contains all necessary
+information to calculate the digest. This task is performed by the method
+checkDigest() of the base class. It is recommended, that you implement the
+digest calculation yourself, if you have the capability to e.g. do it right in
+the database. This avoids the risk of copying the plain text password data into
+PHPs memory scope.
+
+The auhtorize() method is called by the back end, for each path that is affected
+by a request. The back end provides the $username of the user that wishes to gain
+access and the type of access, which might be of of::
+
+- ezcWebdavAuthorizer::ACCESS_READ
+- ezcWebdavAuthorizer::ACCESS_WRITE
+
+For recursive operations the backend will call the authorize() method for each
+sub-sequent path, too, so you don't need to worry about this yourself.
+
+To activate authentication / authorization in the server you need to
+instantiate your class and assign the created object to the servers $auth
+property, like this:
+
+.. include:: tutorial/basic_server_auth.php
+   :literal:
 
 Writing a custom back-end
 =========================
