@@ -154,6 +154,27 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             $response['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $response['headers']['WWW-Authenticate']['digest'] );
         }
 
+        // Check for broken DateTime in PHP versions (timestamp time zone issue)
+        // The test must have been run nonetheless, since client tests are continouse!
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            if ( $request['server']['REQUEST_METHOD'] === 'PROPFIND' )
+            {
+                // PROPFIND responses contain dates in XML
+                $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+                return;
+            }
+            if ( isset( $response['headers']['ETag'] ) )
+            {
+                // Assert that ETag has been generated
+                $this->assertTrue(
+                    isset( $responseHeaders['ETag'] )
+                );
+                unset( $response['headers']['ETag'] );
+                unset( $responseHeaders['ETag'] );
+            }
+        }
+
         $this->assertEquals(
             $response,
             array(

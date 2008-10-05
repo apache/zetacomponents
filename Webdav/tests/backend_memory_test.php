@@ -302,6 +302,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceHead()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
@@ -332,6 +338,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testCollectionHead()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
@@ -388,6 +400,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceGet()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
@@ -444,6 +462,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceGetWithProperties()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend( true );
         $backend->addContents( array(
             'foo' => 'bar',
@@ -505,6 +529,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testCollectionGet()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
@@ -545,6 +575,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testResourceDeepGet()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
@@ -1540,6 +1576,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPutOnExistingCollection()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
@@ -1624,6 +1666,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPut()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',
@@ -1672,6 +1720,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 
     public function testPutOnExistingRessource()
     {
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+            return;
+        }
+
         $backend = new ezcWebdavMemoryBackend();
         $backend->addContents( array(
             'foo' => 'bar',

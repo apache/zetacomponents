@@ -95,6 +95,23 @@ class ezcWebdavServerAuthTest extends ezcWebdavTestCase
                 $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['WWW-Authenticate']['digest']
             );
         }
+        
+        // Check for broken DateTime in PHP versions (timestamp time zone issue)
+        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
+        {
+            if ( $input['server']['REQUEST_METHOD'] === 'PROPFIND' )
+            {
+                // PROPFIND responses contain dates in XML
+                $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
+                return;
+            }
+            if ( isset( $output['headers']['ETag'] ) )
+            {
+                unset( $output['headers']['ETag'] );
+                unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['ETag'] );
+            }
+        }
+
 
         $this->assertEquals(
             $output['status'],
