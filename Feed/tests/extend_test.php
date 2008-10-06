@@ -113,6 +113,7 @@ EOL;
         $generated = preg_replace( '@<pubDate>.*?</pubDate>@', '<pubDate>XXX</pubDate>', $generated );
         $generated = preg_replace( '@<lastBuildDate>.*?</lastBuildDate>@', '<lastBuildDate>XXX</lastBuildDate>', $generated );
         $generated = preg_replace( '@<generator.*?>.*?</generator>@', '<generator>XXX</generator>', $generated );
+        $generated = str_replace( "\n", PHP_EOL, $generated );
         $this->assertEquals( trim( $expected ), trim( $generated ) );
     }
 
