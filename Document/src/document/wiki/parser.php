@@ -104,6 +104,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiImageEndNode' => array(
             'reduceImageNodes',
         ),
+        'ezcDocumentWikiFootnoteEndNode' => array(
+            'reduceFootnoteNodes',
+        ),
         'ezcDocumentWikiBulletListItemNode' => array(
             'reduceBulletListItem',
         ),
@@ -185,6 +188,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
 
         'ezcDocumentWikiImageStartToken'           => 'ezcDocumentWikiImageNode',
         'ezcDocumentWikiImageEndToken'             => 'ezcDocumentWikiImageEndNode',
+
+        'ezcDocumentWikiFootnoteStartToken'        => 'ezcDocumentWikiFootnoteNode',
+        'ezcDocumentWikiFootnoteEndToken'          => 'ezcDocumentWikiFootnoteEndNode',
     );
 
     /**
@@ -706,6 +712,40 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         }
 
         return $linkStart;
+    }
+
+    /**
+     * Reduce wiki footnotes
+     *
+     * Reduce inline footnotes
+     * 
+     * @param ezcDocumentWikiFootnoteEndNode $node 
+     * @return mixed
+     */
+    protected function reduceFootnoteNodes( ezcDocumentWikiFootnoteEndNode $node )
+    {
+        // Collect inline nodes
+        $collected = array(); 
+        while ( isset( $this->documentStack[0] ) &&
+                ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) &&
+                ( !$this->documentStack[0] instanceof ezcDocumentWikiFootnoteNode ) )
+        {
+            array_unshift( $collected, array_shift( $this->documentStack ) );
+        }
+
+        // We could not find a corresponding start element, put everything back
+        // on stack and convert node into plain text
+        if ( !isset( $this->documentStack[0] ) ||
+             ( !$this->documentStack[0] instanceof ezcDocumentWikiFootnoteNode ) )
+        {
+            $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
+            return new ezcDocumentWikiTextNode( $node->token );
+        }
+
+        // Reverse parameter order
+        $footnote        = array_shift( $this->documentStack );
+        $footnote->nodes = array_reverse( $collected );
+        return $footnote;
     }
 
     /**
