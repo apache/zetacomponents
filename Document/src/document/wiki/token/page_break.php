@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiPageBreakToken extends ezcDocumentWikiToken
+class ezcDocumentWikiPageBreakToken extends ezcDocumentWikiBlockMarkupToken
 {
     /**
      * Set state after var_export

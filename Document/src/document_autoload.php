@@ -33,6 +33,7 @@ return array(
     'ezcDocumentRstXhtmlDirective'                       => 'Document/interfaces/rst_xhtml_directive.php',
     'ezcDocumentValidation'                              => 'Document/interfaces/validation.php',
     'ezcDocumentWikiBlockLevelNode'                      => 'Document/document/wiki/nodes/block.php',
+    'ezcDocumentWikiBlockMarkupToken'                    => 'Document/document/wiki/token/block_markup.php',
     'ezcDocumentWikiInlineMarkupToken'                   => 'Document/document/wiki/token/inline_markup.php',
     'ezcDocumentWikiInlineNode'                          => 'Document/document/wiki/nodes/inline.php',
     'ezcDocumentDocbookElementVisitorConverter'          => 'Document/converters/element_visitor.php',

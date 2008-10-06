@@ -18,7 +18,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiPluginToken extends ezcDocumentWikiToken
+class ezcDocumentWikiPluginToken extends ezcDocumentWikiBlockMarkupToken
 {
     /**
      * Plugin type / name.

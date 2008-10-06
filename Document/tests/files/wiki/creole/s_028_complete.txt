@@ -55,8 +55,8 @@ or you can number them
 # [[item 1]]
 # item 2
 # // italic item 3 //
-    ## item 3.1
-  ## item 3.2
+## item 3.1
+## item 3.2
 
 up to five levels
 * 1
@@ -65,10 +65,8 @@ up to five levels
 **** 4
 ***** 5
 
-* You can have
-multiline list items
-* this is a second multiline
-list item
+* You can have\\multiline list items
+* this is a second multiline\\list item
 
 You can use nowiki syntax if you would like do stuff like this:
 
@@ -90,7 +88,7 @@ by one space).
 
 You can also use it inline nowiki {{{ in a sentence }}} like this.
 
-!!! Escapes 
+== Escapes 
 Normal Link: http://wikicreole.org/ - now same link, but escaped: ~http://wikicreole.org/ 
 
 Normal asterisks: ~**not bold~**
@@ -99,13 +97,13 @@ a tilde alone: ~
 
 a tilde escapes itself: ~~xxx
 
-!! Creole 0.2 
+=== Creole 0.2 
 
 This should be a flower with the ALT text "this is a flower" if your wiki supports ALT text on images:
 
-[{ImagePro src='Red-Flower.jpg' caption='here is a red flower' }]
+[[ImagePro|{{Red-Flower.jpg|Here is a red flower}}]]
 
-!! Creole 0.4 
+=== Creole 0.4 
 
 Tables are done like this:
 
@@ -121,13 +119,13 @@ Pone: xyz\\
 Fax: +45\\
 Mobile: abc
 
-!! Creole 0.5 
+=== Creole 0.5 
 
-|| Header title               || Another header title     
+|= Header title               |= Another header title     
 | {{{ //not italic text// }}} | {{{ **not bold text** }}} 
-| ''italic text''             | __  bold text __          
+| //italic text//             | **  bold text **
 
-!! Creole 1.0 
+=== Creole 1.0 
 
-If interwiki links are setup in your wiki, this links to the WikiCreole page about Creole 1.0 test cases: [WikiCreole:Creole1.0TestCases].
+If interwiki links are setup in your wiki, this links to the WikiCreole page about Creole 1.0 test cases: [[WikiCreole:Creole1.0TestCases]].
 

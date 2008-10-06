@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentWikiLineMarkupToken extends ezcDocumentWikiBlockMarkupToken
+abstract class ezcDocumentWikiBlockMarkupToken extends ezcDocumentWikiToken
 {
 }
 

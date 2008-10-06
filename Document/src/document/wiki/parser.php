@@ -284,7 +284,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             $this->triggerError(    
                 E_PARSE,
                 'Expected end of file, got: ' . get_class( $this->documentStack[1] ) . ".",
-                null, null, null
+                $this->documentStack[1]->token->line, $this->documentStack[1]->token->position
             );
         }
 
@@ -370,6 +370,20 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             return new ezcDocumentWikiInvisibleBreakNode( $token );
         }
 
+        // Shift a single newline as a paragrapoh, if the following token is a
+        // block level token.
+        if ( isset( $tokens[0] ) &&
+             ( $tokens[0] instanceof ezcDocumentWikiBlockMarkupToken ) &&
+             isset( $this->documentStack[0] ) &&
+             ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) )
+        {
+            /* DEBUG
+            echo "  -> End of paragraph, because of block level token.\n";
+            // /DEBUG */
+
+            return new ezcDocumentWikiParagraphNode( $token );
+        }
+
         // Only shift a paragraph node, if there are multiple new lines, and if
         // there is already inline markup on the document stack.
         if ( isset( $tokens[0] ) &&
@@ -384,7 +398,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
                       ( $tokens[0] instanceof ezcDocumentWikiNewLineToken ) );
 
             /* DEBUG
-            echo "  -> End of paragraph.\n";
+            echo "  -> End of paragraph, because of multiple newlines.\n";
             // /DEBUG */
 
             return new ezcDocumentWikiParagraphNode( $token );
