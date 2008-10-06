@@ -4,5 +4,4 @@
 “If you are going through hell, keep going.”</blockquote>
 
 <div id='nav'>
- <a href='?page=1'>1</a>  [2]  <a href='?page=3'>3</a>  <a href='?page=4'>4</a>  <a href='?page=5'>5</a>  
-</div>
+ <a href='?page=1'>1</a>  [2]  <a href='?page=3'>3</a>  <a href='?page=4'>4</a>  <a href='?page=5'>5</a> </div>
