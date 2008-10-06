@@ -22,6 +22,8 @@ require_once 'test_case.php';
  */
 class ezcWebdavFileBackendTest extends ezcWebdavTestCase
 {
+    const KEEP_TEMP_DIR = false;
+
     protected $tempDir;
 
     protected $oldTimezone;
@@ -199,7 +201,7 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
         // Reset old timezone
         date_default_timezone_set( $this->oldTimezone );
 
-        if ( !$this->hasFailed() )
+        if ( !$this->hasFailed() || self::KEEP_TEMP_DIR === false )
         {
             $this->removeTempDir();
         }

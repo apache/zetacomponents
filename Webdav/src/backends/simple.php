@@ -438,7 +438,7 @@ abstract class ezcWebdavSimpleBackend
                 foreach ( $unauthorizedPaths as $unauthorizedPath )
                 {
                     // Check if a parent path was already determined as unauthorized
-                    if ( substr( $nodePath, $unauthorizedPath ) === 0 )
+                    if ( strpos( $nodePath, $unauthorizedPath ) === 0 )
                     {
                         // Skip this node completely, since we already have a
                         // parent node with 403
