@@ -93,3 +93,4 @@ class ezcMvcTemplateViewHandler implements ezcMvcViewHandler
         return $this->result;
     }
 }
+?>

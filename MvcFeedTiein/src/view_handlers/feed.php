@@ -140,3 +140,4 @@ class ezcMvcFeedViewHandler implements ezcMvcViewHandler
         return $this->result;
     }
 }
+?>
