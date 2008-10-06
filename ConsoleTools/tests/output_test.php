@@ -203,6 +203,8 @@ EOT;
             $this->consoleOutput->formatText( "Hello, I'm a cool text, written to a file!", "targetFile" ),
             file_get_contents( $outFile )
         );
+
+        $this->removeTempDir();
     }
 
     public function testSetOptionsSuccess()
