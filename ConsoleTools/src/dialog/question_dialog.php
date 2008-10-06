@@ -212,7 +212,7 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
-                        get_class( $propertyValue ),
+                        ( is_object( $propertyValue ) ? get_class( $propertyValue ) : gettype( $propertyValue ) ),
                         "instance of ezcConsoleQuestionDialogOptions"
                     );
                 }
@@ -222,7 +222,7 @@ class ezcConsoleQuestionDialog implements ezcConsoleDialog
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
-                        get_class( $propertyValue ),
+                        ( is_object( $propertyValue ) ? get_class( $propertyValue ) : gettype( $propertyValue ) ),
                         "instance of ezcConsoleOutput"
                     );
                 }

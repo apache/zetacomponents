@@ -176,13 +176,21 @@ class ezcConsoleMenuDialog implements ezcConsoleDialog
             case "options":
                 if ( ( $propertyValue instanceof ezcConsoleMenuDialogOptions ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, get_class( $propertyValue ), "instance of ezcConsoleMenuDialogOptions" );
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        ( is_object( $propertyValue ) ? get_class( $propertyValue ) : gettype( $propertyValue ) ),
+                        "instance of ezcConsoleMenuDialogOptions"
+                    );
                 }
                 break;
             case "output":
                 if ( ( $propertyValue instanceof ezcConsoleOutput ) === false )
                 {
-                    throw new ezcBaseValueException( $propertyName, get_class( $propertyValue ), "instance of ezcConsoleOutput" );
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        ( is_object( $propertyValue ) ? get_class( $propertyValue ) : gettype( $propertyValue ) ),
+                        "instance of ezcConsoleOutput"
+                    );
                 }
                 break;
             default:
