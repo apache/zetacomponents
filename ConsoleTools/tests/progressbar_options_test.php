@@ -42,7 +42,7 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
                 "width" => 78,
                 "actFormat" => "%.0f",
                 "maxFormat" => "%.0f",
-                "minVerbosity" => 0,
+                "minVerbosity" => 1,
                 "maxVerbosity" => false,
             )
         );
@@ -66,7 +66,7 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $this->assertEquals( 78, $opt->width );
         $this->assertEquals( "%.0f", $opt->actFormat );
         $this->assertEquals( "%.0f", $opt->maxFormat );
-        $this->assertEquals( 0, $opt->minVerbosity );
+        $this->assertEquals( 1, $opt->minVerbosity );
         $this->assertEquals( false, $opt->maxVerbosity );
 
         $this->assertEquals( $opt["barChar"], "+" );
@@ -79,7 +79,7 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $this->assertEquals( $opt["width"], 78 );
         $this->assertEquals( $opt["actFormat"], "%.0f" );
         $this->assertEquals( $opt["maxFormat"], "%.0f" );
-        $this->assertEquals( $opt["minVerbosity"], 0 );
+        $this->assertEquals( $opt["minVerbosity"], 1 );
         $this->assertEquals( $opt["maxVerbosity"], false );
     }
 
@@ -96,7 +96,7 @@ class ezcConsoleProgressbarOptionsTest extends ezcTestCase
         $this->assertEquals( 78, $opt->width );
         $this->assertEquals( '%.0f', $opt->actFormat );
         $this->assertEquals( '%.0f', $opt->maxFormat );
-        $this->assertEquals( 0, $opt->minVerbosity );
+        $this->assertEquals( 1, $opt->minVerbosity );
         $this->assertEquals( false, $opt->maxVerbosity );
     }
 
