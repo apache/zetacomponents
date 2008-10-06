@@ -1,4 +1,4 @@
-1.2.1 - [RELEASEDATE]
+1.2.1 - Monday 06 October 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Avoid a notice caused by opening a Typekey keys file from an unreachable
