@@ -34,6 +34,48 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
         self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'nonRedirVar' => 4,[CR]  'ReqRedirVar' => 4,[CR])", $config->store );
     }
 
+    function testExternalRedirect()
+    {
+        $config = new simpleConfiguration();
+        $config->route = 'IRController';
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        $dispatcher->run();
+        self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'nonRedirVar' => 4,[CR]  'ReqRedirVar' => 4,[CR])", $config->store );
+    }
+
+    function testRoutingException()
+    {
+        $config = new simpleConfiguration();
+        $config->requestParser = 'FaultyRoutes';
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        $dispatcher->run();
+        self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'fatal' => 'Very fatal',[CR])", $config->store );
+    }
+
+    function testInternalRedirectRequestFilter()
+    {
+        $config = new simpleConfiguration();
+        $config->internalRedirectRequestFilter = true;
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        $dispatcher->run();
+        self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'fatal' => 'Very fatal',[CR])", $config->store );
+    }
+
+    function testInternalRedirectRequestFilterException()
+    {
+        $config = new simpleConfiguration();
+        $config->internalRedirectRequestFilter = 'exception';
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        try
+        {
+            $dispatcher->run();
+        }
+        catch ( PHPUnit_Framework_Error $e )
+        {
+            self::assertRegExp( "/^Argument 1 passed to simpleConfiguration::createRouter\(\) must be an instance of ezcMvcRequest, null given, called in/", $e->getMessage() );
+        }
+    }
+
     function testViewException()
     {
         $config = new simpleConfiguration();

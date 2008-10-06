@@ -4,9 +4,15 @@ class simpleConfiguration implements ezcMvcDispatcherConfiguration
     var $store = 43;
     var $route = null;
     var $view  = null;
+    var $requestParser = null;
+    var $internalRedirectRequestFilter = false;
 
     function createRequestParser()
     {
+        if ( $this->requestParser == 'FaultyRoutes' )
+        {
+            return new testRequestParserFaultyRoutes();
+        }
         return new testRequestParser();
     }
 
@@ -54,6 +60,19 @@ class simpleConfiguration implements ezcMvcDispatcherConfiguration
 
     public function runRequestFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request )
     {
+        if ( $this->internalRedirectRequestFilter === true)
+        {
+            $ir = new ezcMvcInternalRedirect;
+            $ir->request = new ezcMvcRequest;
+            $this->internalRedirectRequestFilter = false;
+            $ir->request->variables['request_filter'] = true;
+            return $ir;
+        }
+        if ( $this->internalRedirectRequestFilter == 'exception' )
+        {
+            $ir = new ezcMvcInternalRedirect;
+            return $ir;
+        }
     }
 
     public function runResultFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result )
@@ -71,6 +90,17 @@ class testRequestParser extends ezcMvcRequestParser
     {
         $req = new ezcMvcRequest;
         $req->uri = '/';
+
+        return $req;
+    }
+}
+
+class testRequestParserFaultyRoutes extends ezcMvcRequestParser
+{
+    function createRequest()
+    {
+        $req = new ezcMvcRequest;
+        $req->uri = '/does not exist';
 
         return $req;
     }
