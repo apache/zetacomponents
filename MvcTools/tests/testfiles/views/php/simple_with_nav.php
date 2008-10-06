@@ -1,7 +1,11 @@
 <h1><?php echo $this->name; ?></h1>
 
 <blockquote>
-<?php echo $this->quote; ?>
+<?php 
+echo $this->quote; 
+?>
 </blockquote>
 
-<?php echo $this->nav; ?>
+<?php
+echo $this->nav; 
+?>

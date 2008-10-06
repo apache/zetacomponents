@@ -116,3 +116,4 @@ class ezcMvcPhpViewHandler implements ezcMvcViewHandler
         return $this->result;
     }
 }
+?>

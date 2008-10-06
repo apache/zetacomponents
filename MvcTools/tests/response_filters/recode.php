@@ -80,4 +80,3 @@ class ezcMvcToolsRecodeResponseFilterTest extends ezcTestCase
     }
 }
 ?>
-

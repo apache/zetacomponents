@@ -57,3 +57,4 @@ interface ezcMvcViewHandler
      */
     public function getResult();
 }
+?>

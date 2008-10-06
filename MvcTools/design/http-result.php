@@ -54,3 +54,4 @@ $result->content->charset = 'utf-8';
 
 $result->content->encoding = 'gzip';
 // = Content-Encoding: gzip
+?>

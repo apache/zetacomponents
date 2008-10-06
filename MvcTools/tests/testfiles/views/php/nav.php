@@ -1,5 +1,5 @@
-<div id='nav'>
 <?php
+echo "<div id='nav'>\n";
 for ( $i = 1; $i <= $this->navMaxPages; $i++ )
 {
     if ( $i == $this->navCurrentPage )
@@ -11,5 +11,5 @@ for ( $i = 1; $i <= $this->navMaxPages; $i++ )
         echo " <a href='?page=$i'>$i</a> ";
     }
 }
-?> 
-</div>
+echo "</div>\n";
+?>

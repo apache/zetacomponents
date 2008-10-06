@@ -104,3 +104,4 @@ class ezcMvcJsonViewHandler implements ezcMvcViewHandler
         return $this->result;
     }
 }
+?>

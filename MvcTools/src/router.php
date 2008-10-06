@@ -112,3 +112,4 @@ abstract class ezcMvcRouter
         return $routes;
     }
 }
+?>
