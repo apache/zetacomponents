@@ -30,9 +30,9 @@ class ezcWebdavLockIfHeaderTaggedList extends ezcWebdavLockIfHeaderList
      * This list contains items of type {@link ezcWebdavLockIfHeaderListItem}
      * assigned to resource pathes.
      */
-    public function __construct()
+    public function __construct( array $items = array() )
     {
-        $this->items = array();
+        $this->items = $items;
     }
 
     /**
