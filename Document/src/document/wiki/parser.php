@@ -904,17 +904,23 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         $collected       = array();
         $documentStack   = array();
         $class           = null;
+        $lastIndentation = 1;
 
         while ( $child = array_shift( $this->documentStack ) )
         {
             /* DEBUG
-            echo "   -> Found ", get_class( $child ), "\n";
+            echo "   -> Found ", get_class( $child ), " - current indentation: $lastIndentation.\n";
             // /DEBUG */
 
-            // If element is not a list, clean up
+            // Clean up, on:
+            // - List nodes have already be found, AND
+            // - Not a list node
+            // - A list node of a different type on the same or lower level
             if ( ( !$child instanceof ezcDocumentWikiListNode ) ||
                  ( ( $class !== null ) &&
-                   ( !$child instanceof $class ) ) )
+                   ( ( !$child instanceof ezcDocumentWikiListNode ) ||
+                     ( ( !$child instanceof $class ) &&
+                       ( $child->level <= $lastIndentation ) ) ) ) )
             {
                 if ( count( $collected ) )
                 {
@@ -937,11 +943,16 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             }
 
             // Collect all belonging lists
-            /* DEBUG
-            echo "     -> Collect element.\n";
-            // /DEBUG */
-            $class = get_class( $child );
+            if ( ( $class === null ) ||
+                 ( $child instanceof $class ) )
+            {
+                $class           = get_class( $child );
+                $lastIndentation = $child->level;
+            }
             array_unshift( $collected, $child );
+            /* DEBUG
+            echo "     -> Collect element ($class, $lastIndentation).\n";
+            // /DEBUG */
         }
 
         // Merge, when end of document is reached
