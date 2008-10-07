@@ -56,6 +56,9 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
         $this->properties['failForRegexp']      = null;
         $this->properties['failingOperations']  = 0;
 
+        // Enforce property set check
+        $this->lockFile = dirname( __FILE__ ) . '/../../../run-tests-tmp/webdav_memory_backend.lock';
+
         parent::__construct( $options );
     }
 
@@ -88,6 +91,15 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
                 if ( !is_int( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'integer' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'lockFile':
+                if ( !is_string( $value ) || !is_writeable( dirname( $value ) ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'writable file name' );
                 }
 
                 $this->properties[$name] = $value;

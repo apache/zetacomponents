@@ -105,6 +105,53 @@ class ezcWebdavMemoryBackend
     }
 
     /**
+     * Acquire a backend lock.
+     *
+     * Locks the complete backend using the lock file specified in {@link
+     * ezcWebdavMemoryBackendOptions->$lockFile}.
+     *
+     * @param int $waitTime Microseconds.
+     * @param int $timeout Microseconds.
+     * @return void
+     */
+    public function lock( $waitTime, $timeout )
+    {
+        $lockFile = $this->options->lockFile;
+        
+        $lockStart = microtime( true );
+
+        // fopen in mode 'x' will only open the file, if it does not exist yet.
+        // Even this is is expected it will throw a warning, if the file
+        // exists, which we need to silence using the @
+        while ( ( $fp = @fopen( $lockFile, 'x' ) ) === false )
+        {
+            if ( microtime( true ) - $lockStart > $timeout )
+            {
+                throw new ezcWebdavLockTimeoutException();
+            }
+            // This is untestable.
+            usleep( $waitTime );
+        }
+
+        // Store random bit in file ... the microtime for example - might prove
+        // useful some time.
+        fwrite( $fp, microtime() );
+        fclose( $fp );
+    }
+
+    /**
+     * Release the backend lock.
+     *
+     * Releases the lock acquired by {@link lock()}.
+     * 
+     * @return void
+     */
+    public function unlock()
+    {
+        unlink( $this->options->lockFile );
+    }
+
+    /**
      * Offer access to some of the server properties.
      * 
      * @throws ezcBasePropertyNotFoundException

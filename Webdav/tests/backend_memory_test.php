@@ -232,6 +232,27 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
     }
 
+    public function testMemoryBackendOptionsLockFile()
+    {
+        $options = new ezcWebdavMemoryBackendOptions();
+
+        $tmp = $this->createTempDir( 'ezcWebdavMemoryBackendLock' );
+
+        $lockFile = $tmp . '/test.lock';
+
+        $this->assertSetProperty(
+            $options,
+            'lockFile',
+            array( $lockFile )
+        );
+        
+        $this->assertSetPropertyFails(
+            $options,
+            'lockFile',
+            array( '/foo/bar/baz/test.lock', $tmp . '/foo/test.lock' )
+        );
+    }
+
     public function testSettingProperty()
     {
         $backend = new ezcWebdavMemoryBackend( true );
@@ -3109,6 +3130,25 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             'Expected property removing PROPPATCH response does not match real response.',
             0,
             20
+        );
+    }
+
+    public function testLock()
+    {
+        $backend = new ezcWebdavMemoryBackend();
+
+        $backend->lock( 1000, 200000 );
+
+        $this->assertFileExists(
+            $backend->options->lockFile,
+            'Lock file not created'
+        );
+
+        $backend->unlock();
+
+        $this->assertFileNotExists(
+            $backend->options->lockFile,
+            'Lock file not removed.'
         );
     }
 }
