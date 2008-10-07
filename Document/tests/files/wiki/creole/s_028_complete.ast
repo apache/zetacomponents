@@ -2282,7 +2282,7 @@ something like ',
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'Note: if you look at the source code of the above, you see the escape char (tilde,  )
+             'content' => 'Note: if you look at the source code of the above, you see the escape char (tilde, ~ )
 being used to escape the closing triple curly braces. This is to do nowiki nesting in this
 wiki which doesn\'t follow Creole 1.0 yet (closing triple curly braces should be indented
 by one space).',
@@ -2458,23 +2458,9 @@ by one space).',
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'Normal asterisks: **not bold~',
+             'content' => 'Normal asterisks: **not bold**',
              'line' => 126,
              'position' => 1,
-          )),
-        )),
-        1 => 
-        ezcDocumentWikiTextNode::__set_state(array(
-           'line' => 126,
-           'position' => 31,
-           'nodes' => 
-          array (
-          ),
-           'token' => 
-          ezcDocumentWikiBoldToken::__set_state(array(
-             'content' => '**',
-             'line' => 126,
-             'position' => 31,
           )),
         )),
       ),
@@ -2488,8 +2474,8 @@ by one space).',
     )),
     38 => 
     ezcDocumentWikiParagraphNode::__set_state(array(
-       'line' => 130,
-       'position' => 30,
+       'line' => 128,
+       'position' => 17,
        'nodes' => 
       array (
         0 => 
@@ -2501,10 +2487,37 @@ by one space).',
           ),
            'token' => 
           ezcDocumentWikiTextLineToken::__set_state(array(
-             'content' => 'a tilde alone: 
-
-a tilde escapes itself: ~xxx',
+             'content' => 'a tilde alone: ~',
              'line' => 128,
+             'position' => 1,
+          )),
+        )),
+      ),
+       'token' => 
+      ezcDocumentWikiNewLineToken::__set_state(array(
+         'content' => '
+',
+         'line' => 128,
+         'position' => 17,
+      )),
+    )),
+    39 => 
+    ezcDocumentWikiParagraphNode::__set_state(array(
+       'line' => 130,
+       'position' => 30,
+       'nodes' => 
+      array (
+        0 => 
+        ezcDocumentWikiTextNode::__set_state(array(
+           'line' => 130,
+           'position' => 1,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentWikiTextLineToken::__set_state(array(
+             'content' => 'a tilde escapes itself: ~xxx',
+             'line' => 130,
              'position' => 1,
           )),
         )),
@@ -2517,7 +2530,7 @@ a tilde escapes itself: ~xxx',
          'position' => 30,
       )),
     )),
-    39 => 
+    40 => 
     ezcDocumentWikiTitleNode::__set_state(array(
        'level' => 3,
        'line' => 132,
@@ -2547,7 +2560,7 @@ a tilde escapes itself: ~xxx',
          'position' => 0,
       )),
     )),
-    40 => 
+    41 => 
     ezcDocumentWikiParagraphNode::__set_state(array(
        'line' => 135,
        'position' => 103,
@@ -2576,7 +2589,7 @@ a tilde escapes itself: ~xxx',
          'position' => 103,
       )),
     )),
-    41 => 
+    42 => 
     ezcDocumentWikiParagraphNode::__set_state(array(
        'line' => 137,
        'position' => 53,
@@ -2682,7 +2695,7 @@ a tilde escapes itself: ~xxx',
          'position' => 53,
       )),
     )),
-    42 => 
+    43 => 
     ezcDocumentWikiTitleNode::__set_state(array(
        'level' => 3,
        'line' => 139,
@@ -2712,7 +2725,7 @@ a tilde escapes itself: ~xxx',
          'position' => 0,
       )),
     )),
-    43 => 
+    44 => 
     ezcDocumentWikiParagraphNode::__set_state(array(
        'line' => 142,
        'position' => 27,
@@ -2741,7 +2754,7 @@ a tilde escapes itself: ~xxx',
          'position' => 27,
       )),
     )),
-    44 => 
+    45 => 
     ezcDocumentWikiTableNode::__set_state(array(
        'line' => 144,
        'position' => 0,
@@ -3071,7 +3084,7 @@ a tilde escapes itself: ~xxx',
          'position' => 0,
       )),
     )),
-    45 => 
+    46 => 
     ezcDocumentWikiParagraphNode::__set_state(array(
        'line' => 153,
        'position' => 56,
@@ -3100,7 +3113,7 @@ a tilde escapes itself: ~xxx',
          'position' => 56,
       )),
     )),
-    46 => 
+    47 => 
     ezcDocumentWikiParagraphNode::__set_state(array(
        'line' => 158,
        'position' => 12,
@@ -3216,7 +3229,7 @@ Mobile: abc',
          'position' => 12,
       )),
     )),
-    47 => 
+    48 => 
     ezcDocumentWikiTitleNode::__set_state(array(
        'level' => 3,
        'line' => 160,
@@ -3246,7 +3259,7 @@ Mobile: abc',
          'position' => 0,
       )),
     )),
-    48 => 
+    49 => 
     ezcDocumentWikiTableNode::__set_state(array(
        'line' => 163,
        'position' => 0,
@@ -3588,7 +3601,7 @@ Mobile: abc',
          'position' => 0,
       )),
     )),
-    49 => 
+    50 => 
     ezcDocumentWikiTitleNode::__set_state(array(
        'level' => 3,
        'line' => 170,
@@ -3618,7 +3631,7 @@ Mobile: abc',
          'position' => 0,
       )),
     )),
-    50 => 
+    51 => 
     ezcDocumentWikiParagraphNode::__set_state(array(
        'line' => 173,
        'position' => 141,

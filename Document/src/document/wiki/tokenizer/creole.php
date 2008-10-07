@@ -33,13 +33,13 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
     /**
      * Characters ending a pure text section.
      */
-    const TEXT_END_CHARS    = '/*^,#_\\\\\\[\\]{}|=\\r\\n\\t\\x20-';
+    const TEXT_END_CHARS    = '/*^,#_~\\\\\\[\\]{}|=\\r\\n\\t\\x20-';
 
     /**
      * Special characters, which do have some special meaaning and though may
      * not have been matched otherwise.
      */
-    const SPECIAL_CHARS    = '/*^,#_\\\\\\[\\]{}|=-';
+    const SPECIAL_CHARS     = '/*^,#_~\\\\\\[\\]{}|=-';
 
     /**
      * Construct tokenizer

@@ -311,7 +311,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     protected function shiftEscapeToken( ezcDocumentWikiToken $token, array &$tokens )
     {
         // If there is nothing to escape, shift as text node
-        if ( !isset( $tokens[0] ) )
+        if ( !isset( $tokens[0] ) ||
+             ( $tokens[0] instanceof ezcDocumentWikiWhitespaceToken ) ||
+             ( $tokens[0] instanceof ezcDocumentWikiNewLineToken ) )
         {
             return new ezcDocumentWikiTextNode( $token );
         }
