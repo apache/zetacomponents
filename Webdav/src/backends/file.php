@@ -30,9 +30,8 @@
  * @package Webdav
  * @mainclass
  */
-class ezcWebdavFileBackend
-    extends
-        ezcWebdavSimpleBackend
+class ezcWebdavFileBackend extends ezcWebdavSimpleBackend
+                           implements ezcWebdavLockBackend
 {
     /**
      * Options.
@@ -47,6 +46,22 @@ class ezcWebdavFileBackend
      * @var string
      */
     protected $root;
+
+    /**
+     * Keeps track of the lock level.
+     *
+     * Each time the lock() method is called, this counter is raised by 1. if
+     * it was 0 before, the actual locking mechanism gets into action,
+     * otherwise just the counter is raised. The lock is physically only freed,
+     * if this counter is 0.
+     *
+     * This mechanism allows nested locking, as it is necessary, if the lock
+     * plugin locks this backend external, but interal locking needs still to
+     * be supported.
+     * 
+     * @var int
+     */
+    protected $lockLevel = 0;
 
     /**
      * Names of live properties from the DAV: namespace which will be handled
@@ -96,6 +111,73 @@ class ezcWebdavFileBackend
         $this->root = realpath( $root );
         $this->options = new ezcWebdavFileBackendOptions();
     }
+
+    /**
+     * Locks the backend.
+     *
+     * Tries to lock the backend. If the lock is already owned by this process,
+     * locking is successful. If $timeout is reached before a lock could be
+     * acquired, an {@link ezcWebdavLockTimeoutException} is thrown. Waits
+     * $waitTime microseconds between attempts to lock the backend.
+     * 
+     * @param int $waitTime 
+     * @param int $timeout 
+     * @return void
+     *
+     * @throws ezcWebdavLockTimeoutException
+     *         if no lock could be acquired for $timeout microseconds.
+     */
+    public function lock( $waitTime, $timeout )
+    {
+        // Check and raise lockLevel counter
+        if ( $this->lockLevel > 0 )
+        {
+            // Lock already acquired
+            ++$this->lockLevel;
+            return;
+        }
+
+        $lockStart = microtime( true );
+
+        $lockFileName = $this->root . '/' . $this->options->lockFileName;
+
+        // fopen in mode 'x' will only open the file, if it does not exist yet.
+        // Even this is is expected it will throw a warning, if the file
+        // exists, which we need to silence using the @
+        while ( ( $fp = @fopen( $lockFileName, 'x' ) ) === false )
+        {
+            if ( microtime( true ) - $lockStart > $timeout )
+            {
+                throw new ezcWebdavLockTimeoutException();
+            }
+            // This is untestable.
+            usleep( $waitTime );
+        }
+
+        // Store random bit in file ... the microtime for example - might prove
+        // useful some time.
+        fwrite( $fp, microtime() );
+        fclose( $fp );
+
+        // Add first lock
+        ++$this->lockLevel;
+    }
+
+    /**
+     * Removes the lock.
+     * 
+     * @return void
+     */
+    public function unlock()
+    {
+        if ( --$this->lockLevel === 0 )
+        {
+            // Remove the lock file
+            $lockFileName = $this->root . '/' . $this->options->lockFileName;
+            unlink( $lockFileName );
+        }
+    }
+
 
     /**
      * Property get access.
@@ -189,24 +271,15 @@ class ezcWebdavFileBackend
         {
             return true;
         }
-
-        $sleeptime = $this->options->waitForLock;
-        $lockFileName = $this->root . '/' . $this->options->lockFileName;
-
-        // fopen in mode 'x' will only open the file, if it does not exist yet.
-        // Even this is is expected it will throw a warning, if the file
-        // exists, which we need to silence using the @
-        while ( ( $fp = @fopen( $lockFileName, 'x' ) ) === false )
+        
+        try
         {
-            // This is untestable.
-            usleep( $sleeptime );
+            $this->lock( $this->options->waitForLock, 2000000 );
         }
-
-        // Store random bit in file ... the microtime for example - might prove
-        // useful some time.
-        fwrite( $fp, microtime() );
-        fclose( $fp );
-
+        catch ( ezcWebdavLockTimeoutException $e )
+        {
+            return false;
+        }
         return true;
     }
 
@@ -223,10 +296,8 @@ class ezcWebdavFileBackend
         {
             return true;
         }
-
-        // Just remove the lock file
-        $lockFileName = $this->root . '/' . $this->options->lockFileName;
-        unlink( $lockFileName );
+        
+        $this->unlock();
     }
 
     /**

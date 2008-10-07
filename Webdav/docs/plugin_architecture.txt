@@ -969,6 +969,8 @@ path
   ezcWebdavPathFactory, as a string.
 body
   The body contained in the request as a string.
+requestMethod
+  The request method as provided by $_SERVER.
 
 Both parameters are submitted by reference, so any changes made to them will
 have effects on other mechanisms accessing those. Therefore, all manipulations

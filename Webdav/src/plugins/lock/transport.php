@@ -23,6 +23,53 @@
 class ezcWebdavLockPluginTransport
 {
     /**
+     * Map for request parsers.
+     *
+     * Maps request method names as provided by $_SERVER to methods of this
+     * class.
+     *
+     * @array(string=>string)
+     */
+    protected static $parsingMap = array(
+        'LOCK'   => 'parseLockRequest',
+        'UNLOCK' => 'parseUnlockRequest',
+    ):
+
+    /**
+     * Callback for the hook ezcWebdavTransport::parseUnknownRequest().
+     *
+     * Reacts on the LOCK and UNLOCK request methods.
+     * 
+     * @param string $method
+     * @param string $path
+     * @param string $body
+     * @return ezcWebdavRequest
+     */
+    public function parseRequest( $method, $path, $body )
+    {
+        if ( isset( self::$parsingMap[$params['requestUri']] ) )
+        {
+            return call_user_func(
+                array( $this, self::$parsingMap[$params['requestUri']] ),
+                $params['path'],
+                $params['body']
+            );
+        }
+        // return null;
+    }
+
+    /**
+     * Handles responses of the LOCK plugin.
+     * 
+     * @param ezcWebdavResponse $response 
+     * @return ezcWebdavDisplayInformation
+     */
+    public function handleResponse( ezcWebdavResponse $response )
+    {
+        throw new RuntimeException( 'Not implemented.' );
+    }
+
+    /**
      * Parses the LOCK request and returns a request object.
      *
      * This method is responsible for parsing the LOCK request. It retrieves

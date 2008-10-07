@@ -2236,6 +2236,140 @@ class ezcWebdavFileBackendTest extends ezcWebdavTestCase
             $backend->getProperty( '/resource', 'getetag' )->etag 
         );
     }
+
+    public function testExternalLock()
+    {
+        $backendDir = $this->tempDir . 'backend/';
+        $backend = new ezcWebdavFileBackend( $backendDir );
+
+        $backend->lock( 1000, 200000 );
+
+        $this->assertFileExists(
+            $backendDir . $backend->options->lockFileName,
+            'Lock file not created'
+        );
+
+        $this->assertAttributeEquals(
+            1,
+            'lockLevel',
+            $backend,
+            'Lock level not incremented.'
+        );
+
+        $backend->unlock();
+
+        $this->assertFileNotExists(
+            $backendDir . $backend->options->lockFileName,
+            'Lock file not removed.'
+        );
+
+        $this->assertAttributeEquals(
+            0,
+            'lockLevel',
+            $backend,
+            'Lock level not decremented.'
+        );
+    }
+
+    public function testExternalAndInternalLock()
+    {
+        $backendDir = $this->tempDir . 'backend/';
+        $backend = new ezcWebdavFileBackend( $backendDir );
+
+        $backend->lock( 1000, 200000 );
+
+        $this->assertFileExists(
+            $backendDir . $backend->options->lockFileName,
+            'Lock file not created'
+        );
+
+        $this->assertAttributeEquals(
+            1,
+            'lockLevel',
+            $backend,
+            'Lock level not incremented.'
+        );
+
+        $request = new ezcWebdavGetRequest( '/resource' );
+        $request->validateHeaders();
+        $response = $backend->get( $request );
+
+        $backend->unlock();
+
+        $this->assertFileNotExists(
+            $backendDir . $backend->options->lockFileName,
+            'Lock file not removed.'
+        );
+
+        $this->assertAttributeEquals(
+            0,
+            'lockLevel',
+            $backend,
+            'Lock level not decremented.'
+        );
+    }
+
+    public function testExternalLockMultiple()
+    {
+        $backendDir = $this->tempDir . 'backend/';
+        $backend = new ezcWebdavFileBackend( $backendDir );
+
+        $backend->lock( 1000, 200000 );
+
+        $this->assertFileExists(
+            $backendDir . $backend->options->lockFileName,
+            'Lock file not created'
+        );
+
+        $this->assertAttributeEquals(
+            1,
+            'lockLevel',
+            $backend,
+            'Lock level not incremented.'
+        );
+
+        $backend->lock( 1000, 200000 );
+
+        $this->assertFileExists(
+            $backendDir . $backend->options->lockFileName,
+            'Lock file not created'
+        );
+
+        $this->assertAttributeEquals(
+            2,
+            'lockLevel',
+            $backend,
+            'Lock level not incremented.'
+        );
+
+        $backend->unlock();
+
+        $this->assertFileExists(
+            $backendDir . $backend->options->lockFileName,
+            'Lock file not created'
+        );
+
+        $this->assertAttributeEquals(
+            1,
+            'lockLevel',
+            $backend,
+            'Lock level not incremented.'
+        );
+
+        $backend->unlock();
+
+        $this->assertFileNotExists(
+            $backendDir . $backend->options->lockFileName,
+            'Lock file not removed.'
+        );
+
+        $this->assertAttributeEquals(
+            0,
+            'lockLevel',
+            $backend,
+            'Lock level not decremented.'
+        );
+    }
 }
 
 ?>

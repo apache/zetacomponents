@@ -215,8 +215,9 @@ class ezcWebdavTransport
                 'parseUnkownRequest',
                 new ezcWebdavPluginParameters(
                     array(
-                        'path' => &$path,
-                        'body' => &$body,
+                        'path'          => &$path,
+                        'body'          => &$body,
+                        'requestMethod' => &$_SERVER['REQUEST_METHOD'],
                     )
                 )
             );

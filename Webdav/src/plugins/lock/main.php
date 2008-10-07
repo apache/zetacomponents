@@ -49,35 +49,34 @@ class ezcWebdavLockPlugin
      * Parameters are:
      * - string path
      * - string body
+     * - string requestUri
      *
      * Reacts on the LOCK and UNLOCK request methods.
      * 
      * @param ezcWebdavPluginParameters $params 
-     * @return void
+     * @return ezcWebdavRequest|null
      */
-    public function parseRequest( ezcWebdavPluginParameters $params )
+    public function parseUnknownRequest( ezcWebdavPluginParameters $params )
     {
-        switch ( $_SERVER['REQUEST_METHOD'] )
-        {
-            case 'LOCK':
-                return $this->transport->parseLockRequest( $params['path'], $params['body'] );
-            case 'UNLOCK':
-                return $this->transport->parseUnlockRequest( $params['path'], $params['body'] );
-        }
+        return $this->transport->parseRequest(
+            $params['requestMethod'],
+            $params['path'],
+            $params['body']
+        );
     }
 
     /**
      * Callback for the hook ezcWebdavTransport::handleUnknownResponse().
      *
      * Parameters are:
-     * - ezcWebdavResponse reponse
+     * - ezcWebdavResponse response
      * 
      * @param ezcWebdavPluginParameters $params 
-     * @return void
+     * @return ezcWebdavDisplayInformation
      */
-    public function handleResponse( ezcWebdavPluginParameters $params )
+    public function handleUnknownResponse( ezcWebdavPluginParameters $params )
     {
-        // @todo anything to do here?
+        return $this->transport->handleResponse( $params['response'] );
     }
 
     /**
