@@ -40,8 +40,8 @@ class ezcWebdavLockIfHeaderTaggedListTest extends ezcWebdavTestCase
     {
         $list = new ezcWebdavLockIfHeaderTaggedList();
 
-        $item1 = new ezcWebdavLockIfHeaderListItem();
-        $item2 = new ezcWebdavLockIfHeaderListItem();
+        $item1 = array( new ezcWebdavLockIfHeaderListItem() );
+        $item2 = array( new ezcWebdavLockIfHeaderListItem() );
 
         $list['/some/path'] = $item1;
         $list['/'] = $item2;
@@ -96,8 +96,8 @@ class ezcWebdavLockIfHeaderTaggedListTest extends ezcWebdavTestCase
     {
         $list = new ezcWebdavLockIfHeaderTaggedList();
 
-        $item1 = new ezcWebdavLockIfHeaderListItem();
-        $item2 = new ezcWebdavLockIfHeaderListItem();
+        $item1 = array( new ezcWebdavLockIfHeaderListItem() );
+        $item2 = array( new ezcWebdavLockIfHeaderListItem() );
 
         $list['/some/path'] = $item1;
         $list['/'] = $item2;
@@ -138,8 +138,8 @@ class ezcWebdavLockIfHeaderTaggedListTest extends ezcWebdavTestCase
     {
         $list = new ezcWebdavLockIfHeaderTaggedList();
 
-        $item1 = new ezcWebdavLockIfHeaderListItem();
-        $item2 = new ezcWebdavLockIfHeaderListItem();
+        $item1 = array( new ezcWebdavLockIfHeaderListItem() );
+        $item2 = array( new ezcWebdavLockIfHeaderListItem() );
 
         $list['/some/path'] = $item1;
         $list['/'] = $item2;
@@ -178,8 +178,8 @@ class ezcWebdavLockIfHeaderTaggedListTest extends ezcWebdavTestCase
     {
         $list = new ezcWebdavLockIfHeaderTaggedList();
 
-        $item1 = new ezcWebdavLockIfHeaderListItem();
-        $item2 = new ezcWebdavLockIfHeaderListItem();
+        $item1 = array( new ezcWebdavLockIfHeaderListItem() );
+        $item2 = array( new ezcWebdavLockIfHeaderListItem() );
 
         $list['/some/path'] = $item1;
         $list['/'] = $item2;

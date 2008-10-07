@@ -1193,8 +1193,6 @@ will look as follows: ::
 
     $res1items = $ifHeader['/resource1'];
 
-    $res2items = $ifHeader['/resource2'];
-
     $randomItems = $ifHeader['/random'];
 
 The $res1items variable will contain an array reflecting the conditions

@@ -20,7 +20,7 @@ class ezcWebdavLockIfHeaderTaggedList extends ezcWebdavLockIfHeaderList
     /**
      * List items. 
      * 
-     * @var array(ezcWebdavLockIfHeaderListItem)
+     * @var array(string=>array(ezcWebdavLockIfHeaderListItem))
      */
     protected $items;
 
@@ -115,7 +115,7 @@ class ezcWebdavLockIfHeaderTaggedList extends ezcWebdavLockIfHeaderList
             );
         }
 
-        if ( !( $value instanceof ezcWebdavLockIfHeaderListItem ) )
+        if ( !is_array( $value ) )
         {
             throw new ezcBaseValueException(
                 'value',

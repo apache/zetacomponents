@@ -27,19 +27,19 @@ class ezcWebdavLockIfHeaderNoTagListTest extends ezcWebdavTestCase
 
     public function testConstructor()
     {
-        $item = new ezcWebdavLockIfHeaderListItem();
+        $item = array( new ezcWebdavLockIfHeaderListItem() );
         $list = new ezcWebdavLockIfHeaderNoTagList( $item );
 
-        $this->assertAttributeSame(
+        $this->assertAttributeEquals(
             $item,
-            'item',
+            'items',
             $list
         );
     }
 
     public function testOffsetSetFailure()
     {
-        $item = new ezcWebdavLockIfHeaderListItem();
+        $item = array( new ezcWebdavLockIfHeaderListItem() );
         $list = new ezcWebdavLockIfHeaderNoTagList( $item );
 
         try
@@ -51,14 +51,14 @@ class ezcWebdavLockIfHeaderNoTagListTest extends ezcWebdavTestCase
 
         $this->assertAttributeSame(
             $item,
-            'item',
+            'items',
             $list
         );
     }
 
     public function testOffsetGetSuccess()
     {
-        $item = new ezcWebdavLockIfHeaderListItem();
+        $item = array( new ezcWebdavLockIfHeaderListItem() );
         $list = new ezcWebdavLockIfHeaderNoTagList( $item );
         
         $this->assertEquals(
@@ -73,7 +73,7 @@ class ezcWebdavLockIfHeaderNoTagListTest extends ezcWebdavTestCase
 
     public function testOffsetGetFailure()
     {
-        $item = new ezcWebdavLockIfHeaderListItem();
+        $item = array( new ezcWebdavLockIfHeaderListItem() );
         $list = new ezcWebdavLockIfHeaderNoTagList( $item );
 
         try
@@ -93,7 +93,7 @@ class ezcWebdavLockIfHeaderNoTagListTest extends ezcWebdavTestCase
 
     public function testOffsetIssetSuccess()
     {
-        $item = new ezcWebdavLockIfHeaderListItem();
+        $item = array( new ezcWebdavLockIfHeaderListItem() );
         $list = new ezcWebdavLockIfHeaderNoTagList( $item );
 
         $this->assertTrue(
@@ -109,7 +109,7 @@ class ezcWebdavLockIfHeaderNoTagListTest extends ezcWebdavTestCase
 
     public function testOffsetIssetFailure()
     {
-        $item = new ezcWebdavLockIfHeaderListItem();
+        $item = array( new ezcWebdavLockIfHeaderListItem() );
         $list = new ezcWebdavLockIfHeaderNoTagList( $item );
 
         try
@@ -129,7 +129,7 @@ class ezcWebdavLockIfHeaderNoTagListTest extends ezcWebdavTestCase
 
     public function testOffsetUnsetFailure()
     {
-        $item = new ezcWebdavLockIfHeaderListItem();
+        $item = array( new ezcWebdavLockIfHeaderListItem() );
         $list = new ezcWebdavLockIfHeaderNoTagList( $item );
 
         try
@@ -141,7 +141,7 @@ class ezcWebdavLockIfHeaderNoTagListTest extends ezcWebdavTestCase
 
         $this->assertAttributeSame(
             $item,
-            'item',
+            'items',
             $list
         );
     }

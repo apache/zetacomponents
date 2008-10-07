@@ -18,11 +18,11 @@
 class ezcWebdavLockIfHeaderNoTagList extends ezcWebdavLockIfHeaderList
 {
     /**
-     * List item.
+     * List items.
      * 
-     * @var ezcWebdavLockIfHeaderListItem
+     * @var array(ezcWebdavLockIfHeaderListItem)
      */
-    protected $item;
+    protected $items;
 
     /**
      * Creates a new tagged If header list.
@@ -30,10 +30,12 @@ class ezcWebdavLockIfHeaderNoTagList extends ezcWebdavLockIfHeaderList
      * This list contains a single item of type {@link
      * ezcWebdavLockIfHeaderListItem} which is returned for every resource
      * path.
+     *
+     * @param array(ezcWebdavLockIfHeaderListItem) $items
      */
-    public function __construct( ezcWebdavLockIfHeaderListItem $item )
+    public function __construct( array $items )
     {
-        $this->item = $item;
+        $this->items = $items;
     }
 
     /**
@@ -67,7 +69,7 @@ class ezcWebdavLockIfHeaderNoTagList extends ezcWebdavLockIfHeaderList
      * exists, null otherwise.
      * 
      * @param string $offset 
-     * @return ezcWebdavLockIfHeaderListItem|null
+     * @return array(ezcWebdavLockIfHeaderListItem)
      *
      * @throws ezcBaseValueException
      *         if $offset is not a string with length > 0.
@@ -84,7 +86,7 @@ class ezcWebdavLockIfHeaderNoTagList extends ezcWebdavLockIfHeaderList
             );
         }
 
-        return $this->item;
+        return $this->items;
     }
 
     /**
