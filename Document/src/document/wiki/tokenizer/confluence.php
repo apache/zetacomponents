@@ -44,6 +44,18 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
     const SPECIAL_CHARS     = '/*^,#_~?+!\\\\\\[\\]{}|=-';
 
     /**
+     * Mapping of confluence image attribute names to image start token
+     * properties.
+     * 
+     * @var array
+     */
+    protected $imageAttributeMapping = array(
+        'width'  => 'width',
+        'height' => 'height',
+        'align'  => 'alignement',
+    );
+
+    /**
      * Construct tokenizer
      *
      * Create token array with regular repression matching the respective
@@ -193,6 +205,36 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
     }
 
     /**
+     * Parse confluence image descriptors
+     *
+     * Parse confluence image descriptors which are completely different from
+     * other wiki languages, so that they cannot be handled by the default
+     * parser.
+     *
+     * @param ezcDocumentWikiImageStartToken $token 
+     * @param mixed $descriptor 
+     * @return void
+     */
+    protected function parseImageDescriptor( ezcDocumentWikiImageStartToken $token, $descriptor )
+    {
+        if ( !preg_match_all( '((?P<name>[a-zA-Z]+)(?:=(?P<value>[^,]+))?)', $descriptor, $matches ) )
+        {
+            return;
+        }
+
+        // Set known properties on image start node, if available.
+        foreach ( $matches['name'] as $nr => $name )
+        {
+            $name = strtolower( $name );
+            if ( isset( $this->imageAttributeMapping[$name] ) )
+            {
+                $property         = $this->imageAttributeMapping[$name];
+                $token->$property = $matches['value'][$nr];
+            }
+        }
+    }
+
+    /**
      * Filter tokens
      *
      * Method to filter tokens, after the input string ahs been tokenized. The
@@ -205,7 +247,9 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
      */
     protected function filterTokens( array $tokens )
     {
-        foreach ( $tokens as $token )
+        $lastImageStartToken = null;
+        $lastImageSeparator  = null;
+        foreach ( $tokens as $nr => $token )
         {
             switch ( true )
             {
@@ -227,10 +271,52 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
                 case $token instanceof ezcDocumentWikiPluginToken:
                     $this->parsePluginContents( $token );
                     break;
+
+                case $token instanceof ezcDocumentWikiImageStartToken:
+                    // Store reference to last image start token
+                    $lastImageStartToken = $token;
+                    break;
+
+                case $token instanceof ezcDocumentWikiSeparatorToken:
+                    if ( $lastImageStartToken !==  null )
+                    {
+                        $lastImageSeparator = $token;
+                    }
+                    break;
+
+                case $token instanceof ezcDocumentWikiImageEndToken:
+                    if ( $lastImageSeparator === null )
+                    {
+                        // No relating start token and/or separator - we do not
+                        // need to care.
+                        continue;
+                    }
+
+                    // Aggregate all texts until the separator
+                    $imageTokens = array();
+                    $i           = $nr - 1;
+                    while ( ( $i > 0 ) &&
+                            ( $tokens[$i] !== $lastImageSeparator ) )
+                    {
+                        $imageTokens[] = $tokens[$i]->content;
+                        unset( $tokens[$i--] );
+                    }
+                    unset( $tokens[$i] );
+
+                    // Extract and combine image descritor string, and remove
+                    // relating tokens, so that are not used elsewhere.
+                    $descriptior = implode( '', array_reverse( $imageTokens ) );
+
+                    $this->parseImageDescriptor( $lastImageStartToken, $descriptior );
+
+                    // Reset image token parsing environment
+                    $lastImageStartToken = null;
+                    $lastImageSeparator  = null;
+                    break;
             }
         }
 
-        return $tokens;
+        return array_values( $tokens );
     }
 }
 
