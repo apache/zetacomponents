@@ -1465,8 +1465,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Create enumerated list from list items surrounded by parantheses
         if ( ( $tokens[0]->content === '(' ) &&
              isset( $tokens[1] ) &&
-             ( $tokens[1]->type === ezcDocumentRstToken::TEXT_LINE ) &&
-             ( preg_match( $enumeratedListPattern, $tokens[1]->content ) ) &&
+             ( ( ( $tokens[1]->type === ezcDocumentRstToken::TEXT_LINE ) &&
+                 ( preg_match( $enumeratedListPattern, $tokens[1]->content ) ) ) ||
+               ( ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                 ( $tokens[1]->content === '#' ) ) ) &&
              isset( $tokens[2] ) &&
              ( $tokens[2]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
              ( $tokens[2]->content === ')' ) &&
@@ -1482,8 +1484,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Create enumerated list from list items followed by a parantheses or
         // a dot
-        if ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) &&
-             ( preg_match( $enumeratedListPattern, $tokens[0]->content ) ) &&
+        if ( ( ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) &&
+                 ( preg_match( $enumeratedListPattern, $tokens[0]->content ) ) ) ||
+               ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                 ( $tokens[0]->content === '#' ) ) ) &&
              isset( $tokens[1] ) &&
              ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
              ( ( $tokens[1]->content === ')' ) ||
@@ -1541,16 +1545,18 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // An opening brace is the only possible content before the actual list
         // item identifier - skip it.
         $content = '';
+        $indentationIncrease = 1;
         if ( $token->content === '(' )
         {
             $token = array_shift( $tokens );
             $content .= $token->content;
+            $indentationIncrease = 2;
         }
 
         // The bullet list should always start at the very beginning of a line
         // / paragraph, so that the char postion should match the current
         // identation level.
-        if ( $token->position !== ( $this->indentation + 1 ) )
+        if ( $token->position !== ( $this->indentation + $indentationIncrease ) )
         {
             /* DEBUG
             echo "   -> Indentation mismatch ({$token->position} <> {$this->indentation})\n";
