@@ -244,7 +244,6 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
                         ++$next;
                     }
 
-                case $token instanceof ezcDocumentWikiImageStartToken:
                     if ( preg_match( '(\\?(?P<width>\d+)(?:x(?P<height>\d+))?$)', $tokens[$next]->content, $match ) )
                     {
                         $tokens[$next]->content = substr( $tokens[$next]->content, 0, -strlen( $match[0] ) );
