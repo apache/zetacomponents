@@ -516,8 +516,18 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             // No tokens found, we can ommit the paragraph.
             return null;
         }
-
         $node->nodes = array_values( $collected );
+
+        if ( isset( $this->documentStack[0] ) &&
+             ( ( $this->documentStack[0] instanceof ezcDocumentWikiBulletListItemNode ) ||
+               ( $this->documentStack[0] instanceof ezcDocumentWikiEnumeratedListItemNode ) ) &&
+             ( $this->documentStack[0]->nodes === array() ) )
+        {
+            $paragraph = $node;
+            $node = array_shift( $this->documentStack );
+            $node->nodes[] = $paragraph;
+        }
+
         return $node;
     }
 
@@ -990,7 +1000,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
 
         $cells      = array();
         $separators = array();
-        $cell       = -1;
+        $cell       = ( $node->nodes[0] instanceof ezcDocumentWikiSeparatorNode ) ? -1 : 0;
         foreach ( $node->nodes as $child )
         {
             if ( $child instanceof ezcDocumentWikiSeparatorNode )

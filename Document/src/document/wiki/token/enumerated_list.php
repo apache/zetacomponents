@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiEnumeratedListItemToken extends ezcDocumentWikiLineMarkupToken
+class ezcDocumentWikiEnumeratedListItemToken extends ezcDocumentWikiBlockMarkupToken
 {
     /**
      * List element indentation
