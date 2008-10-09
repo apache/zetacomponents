@@ -63,10 +63,10 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 'match' => '(\\A(?P<match>' . self::WHITESPACE_CHARS . '+(?P<value>=+))\\n)S' ),
             array(
                 'class' => 'ezcDocumentWikiBulletListItemToken',
-                'match' => '(\\A\\n(?P<value>[*-]+)' . self::WHITESPACE_CHARS . '+)S' ),
+                'match' => '(\\A\\n' . self::WHITESPACE_CHARS . '*(?P<value>[*-]+)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
                 'class' => 'ezcDocumentWikiEnumeratedListItemToken',
-                'match' => '(\\A\\n(?P<value>#+)' . self::WHITESPACE_CHARS . '+)S' ),
+                'match' => '(\\A\\n' . self::WHITESPACE_CHARS . '*(?P<value>#+)' . self::WHITESPACE_CHARS . '+)S' ),
             array(
                 'class' => 'ezcDocumentWikiPageBreakToken',
                 'match' => '(\\A(?P<match>\n' . self::WHITESPACE_CHARS . '*(?P<value>-{4})' . self::WHITESPACE_CHARS . '*)\\n)S' ),
