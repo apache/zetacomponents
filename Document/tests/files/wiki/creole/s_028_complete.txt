@@ -46,17 +46,17 @@ unnumbered lists are like
 * **bold item c**
 
 blank space is also permitted before lists like:
-*   item a
-* item b
+  *   item a
+ * item b
 * item c
-** item c.a
+ ** item c.a
 
 or you can number them
 # [[item 1]]
 # item 2
 # // italic item 3 //
-## item 3.1
-## item 3.2
+    ## item 3.1
+  ## item 3.2
 
 up to five levels
 * 1
@@ -65,8 +65,10 @@ up to five levels
 **** 4
 ***** 5
 
-* You can have\\multiline list items
-* this is a second multiline\\list item
+* You can have
+multiline list items
+* this is a second multiline
+list item
 
 You can use nowiki syntax if you would like do stuff like this:
 
@@ -81,14 +83,9 @@ Guitar Chord C:
 ||---|---|---|
 }}}
 
-Note: if you look at the source code of the above, you see the escape char (tilde, ~ )
-being used to escape the closing triple curly braces. This is to do nowiki nesting in this
-wiki which doesn't follow Creole 1.0 yet (closing triple curly braces should be indented
-by one space).
-
 You can also use it inline nowiki {{{ in a sentence }}} like this.
 
-== Escapes 
+= Escapes =
 Normal Link: http://wikicreole.org/ - now same link, but escaped: ~http://wikicreole.org/ 
 
 Normal asterisks: ~**not bold~**
@@ -97,20 +94,20 @@ a tilde alone: ~
 
 a tilde escapes itself: ~~xxx
 
-=== Creole 0.2 
+=== Creole 0.2 ===
 
 This should be a flower with the ALT text "this is a flower" if your wiki supports ALT text on images:
 
-[[ImagePro|{{Red-Flower.jpg|Here is a red flower}}]]
+{{Red-Flower.jpg|here is a red flower}}
 
-=== Creole 0.4 
+=== Creole 0.4 ===
 
 Tables are done like this:
 
-||header col1||header col2
-|col1|col2
-|you         |can         
-|also        |align\\ it. 
+|=header col1|=header col2| 
+|col1|col2| 
+|you         |can         | 
+|also        |align\\ it. | 
 
 You can format an address by simply forcing linebreaks:
 
@@ -119,13 +116,13 @@ Pone: xyz\\
 Fax: +45\\
 Mobile: abc
 
-=== Creole 0.5 
+=== Creole 0.5 ===
 
-|= Header title               |= Another header title     
-| {{{ //not italic text// }}} | {{{ **not bold text** }}} 
-| //italic text//             | **  bold text **
+|= Header title               |= Another header title     |
+| {{{ //not italic text// }}} | {{{ **not bold text** }}} |
+| //italic text//             | **  bold text **          |
 
-=== Creole 1.0 
+=== Creole 1.0 ===
 
 If interwiki links are setup in your wiki, this links to the WikiCreole page about Creole 1.0 test cases: [[WikiCreole:Creole1.0TestCases]].
 
