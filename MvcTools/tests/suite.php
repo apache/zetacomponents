@@ -23,6 +23,7 @@ require 'response_filters/gzip.php';
 require 'response_filters/gzdeflate.php';
 require 'response_filters/recode.php';
 require 'dispatchers/configurable.php';
+require 'structs/routing_information.php';
 
 /**
  * @package MvcTools
@@ -47,6 +48,7 @@ class ezcMvcToolsSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcMvcToolsGzDeflateResponseFilterTest::suite() );
         $this->addTest( ezcMvcToolsRecodeResponseFilterTest::suite() );
         $this->addTest( ezcMvcToolsConfigurableDispatcherTest::suite() );
+        $this->addTest( ezcMvcRoutingInformationTest::suite() );
     }
 
     public static function suite()
