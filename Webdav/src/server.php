@@ -209,10 +209,12 @@ class ezcWebdavServer
             );
             if ( is_object( $pluginRes ) && $pluginRes instanceof ezcWebdavResponse )
             {
+                // Plugin already took care about processing the request
                 $response = $pluginRes;
             }
             else
             {
+                // Let backend process the request
                 $response = $this->backend->performRequest( $request );
             }
         }
@@ -322,6 +324,42 @@ class ezcWebdavServer
         }
 
         return $res;
+    }
+
+    /**
+     * Performs authorization.
+     *
+     * This method does several things:
+     *
+     * - Check if authorization is enabled by ezcWebdavServer->$auth
+     * - If it is, extract username from Authenticate header or choose ''
+     * - Check authorization
+     *
+     * It returns true, if authorization is not enabled or succeeded. False is
+     * returned otherwise.
+     * 
+     * @param ezcWebdavRequest $request 
+     * @param string $path 
+     * @param int $access
+     * @return bool
+     *
+     * @todo Mark protected as soon as API is final.
+     * @access private
+     */
+    public function isAuthorized( $request, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
+    {
+        $auth = $this->auth;
+
+        if ( $auth === null || !( $auth instanceof ezcWebdavAuthorizer ) )
+        {
+            // No auth mechanism
+            return true;
+        }
+
+        $authHeader = $request->getHeader( 'Authorization' );
+        $authUser   = ( $authHeader !== null ? $authHeader->username : '' );
+        
+        return $auth->authorize( $authUser, $path, $access );
     }
 
     /**
