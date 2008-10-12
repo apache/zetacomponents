@@ -200,7 +200,6 @@ class ezcWebdavTransport
                         )
                     )
                 );
-                $request->validateHeaders();
             }
             catch ( Exception $e )
             {
@@ -209,10 +208,10 @@ class ezcWebdavTransport
         }
         else
         {
-            // Plugin hook parseUnkownRequest
+            // Plugin hook parseUnknownRequest
             $request = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
                 __CLASS__,
-                'parseUnkownRequest',
+                'parseUnknownRequest',
                 new ezcWebdavPluginParameters(
                     array(
                         'path'          => &$path,
@@ -232,6 +231,7 @@ class ezcWebdavTransport
                 );
             }
         }
+        $request->validateHeaders();
         
         return $request;
     }
@@ -417,10 +417,10 @@ class ezcWebdavTransport
         // Check if response can be processed by default
         if ( !isset( self::$handlingMap[( $responseClass = get_class( $response ) )] ) )
         {
-            // Plugin hook processUnkownResponse
+            // Plugin hook processUnknownResponse
             $result = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
                 __CLASS__,
-                'processUnkownResponse',
+                'processUnknownResponse',
                 new ezcWebdavPluginParameters(
                     array(
                         'response'  => $response,

@@ -108,7 +108,7 @@ class ezcWebdavPluginRegistry
         }
         // Add additional Transport layer hooks
         $this->createHook( 'ezcWebdavTransport', 'parseUnknownRequest' );
-        $this->createHook( 'ezcWebdavTransport', 'handleUnknownResponse' );
+        $this->createHook( 'ezcWebdavTransport', 'processUnknownResponse' );
 
         // Property related hooks
         $this->createHook( 'ezcWebdavPropertyHandler', 'extractLiveProperty', 'before' );
@@ -172,7 +172,7 @@ class ezcWebdavPluginRegistry
         }
         if ( isset( $this->plugins[$namespace] ) )
         {
-            throw new ezcBaseValueException( 'namespace', $namespace, 'not registered' );
+            throw new ezcBaseValueException( 'namespace', $namespace, 'already registered' );
         }
 
         if ( !is_array( ( $hooks = $config->getHooks() ) ) )
@@ -186,11 +186,18 @@ class ezcWebdavPluginRegistry
             {
                 throw new ezcWebdavInvalidHookException( $class );
             }
-            foreach ( $hookInfos as $hook => $callback )
+            foreach ( $hookInfos as $hook => $callbacks )
             {
                 if ( !isset( $this->hooks[$class][$hook] ) )
                 {
                     throw new ezcWebdavInvalidHookException( $class, $hook );
+                }
+                foreach( $callbacks as $callback )
+                {
+                    if ( !is_callable( $callback ) )
+                    {
+                        throw new ezcWebdavInvalidCallbackException( $callback );
+                    }
                 }
             }
         }
@@ -307,9 +314,17 @@ class ezcWebdavPluginRegistry
      */
     public final function announceHook( $class, $hook, ezcWebdavPluginParameters $params )
     {
+        // Sanity check
+        if ( !isset( $this->hooks[$class][$hook] ) )
+        {
+            throw new RuntimeException(
+                "Internal error in Webdav component. Announced non-existent hook: $class->$hook."
+            );
+        }
+
         if ( !isset( $this->assignedHooks[$class][$hook] ) )
         {
-            // No plugins asssigned
+            // No plugins assigned
             return;
         }
         foreach ( $this->assignedHooks[$class][$hook] as $namespace => $callbacks )
