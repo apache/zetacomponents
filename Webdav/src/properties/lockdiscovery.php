@@ -31,11 +31,11 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
      * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
      * @return void
      */
-    public function __construct( array $activeLock = null )
+    public function __construct( ArrayObject $activeLock = null )
     {
         parent::__construct( 'lockdiscovery' );
 
-        $this->activeLock = $activeLock;
+        $this->activeLock = ( $activeLock === null ? new ArrayObject() : $activeLock );
     }
 
     /**
@@ -60,9 +60,13 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'activeLock':
-                if ( !is_array( $propertyValue ) && $propertyValue !== null )
+                if ( ( !is_object( $propertyValue ) || !( $propertyValue instanceof ArrayObject ) ) && $propertyValue !== null )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'array(ezcWebdavLockDiscoveryPropertyActiveLock)' );
+                    return $this->hasError(
+                        $propertyName,
+                        $propertyValue,
+                        'ArrayObject(ezcWebdavLockDiscoveryPropertyActiveLock)'
+                    );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
