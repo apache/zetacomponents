@@ -87,7 +87,7 @@ class ezcWebdavLockIfHeaderTaggedList extends ezcWebdavLockIfHeaderList
         {
             return $this->items[$offset];
         }
-        return null;
+        return array();
     }
 
     /**

@@ -110,7 +110,8 @@ class ezcWebdavLockIfHeaderTaggedListTest extends ezcWebdavTestCase
             $item2,
             $list['/']
         );
-        $this->assertNull(
+        $this->assertEquals(
+            array(),
             $list['/non/existent']
         );
     }
