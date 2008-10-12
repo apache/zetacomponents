@@ -78,16 +78,28 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
     {
         return array(
             'ezcWebdavTransport' => array(
-                'parseUnknownRequest'   => array( $this->main, 'parseRequest' ),
-                'handleUnknownResponse' => array( $this->main, 'handleResponse' ),
+                'parseUnknownRequest'   => array(
+                    array( $this->main, 'parseUnknownRequest' ),
+                ),
+                'processUnknownResponse' => array(
+                    array( $this->main, 'handleUnknownResponse' ),
+                ),
             ),
-            'ezcWebavPropertyHandler' => array(
-                'extractUnknownLiveProperty'   => array( $this->main, 'parseProperty' ),
-                'serializeUnknownLiveProperty' => array( $this->main, 'parseProperty' ),
+            'ezcWebdavPropertyHandler' => array(
+                'extractUnknownLiveProperty'   => array(
+                    array( $this->main, 'extractUnknownLiveProperty' ),
+                ),
+                'serializeUnknownLiveProperty' => array(
+                    array( $this->main, 'serializeUnknownLiveProperty' ),
+                ),
             ),
             'ezcWebdavServer' => array(
-                'receivedRequest'   => array( $this->main, 'receivedRequest' ),
-                'generatedResponse' => array( $this->main, 'generatedResponse' ),
+                'receivedRequest'   => array(
+                    array( $this->main, 'receivedRequest' ),
+                ),
+                'generatedResponse' => array(
+                    array( $this->main, 'generatedResponse' ),
+                ),
             ),
         );
     }

@@ -27,6 +27,17 @@ class ezcWebdavLockPlugin
     protected $properties = array(
         'transport'       => null,
         'propertyHandler' => null,
+        'headerHandler'   => null,
+    );
+
+    /**
+     * Maps request classes to handling methods.
+     *
+     * @array(string=>string)
+     */
+    protected static $requestHandlingMap = array(
+        'ezcWebdavLockRequest'   => 'handleLockRequest',
+        'ezcWebdavUnlockRequest' => 'handleUnlockRequest',
     );
 
     /**
@@ -36,8 +47,9 @@ class ezcWebdavLockPlugin
      */
     public function __construct()
     {
-        $this->transport       = new ezcWebdavLockPluginTransport();
-        $this->propertyHandler = new ezcWebdavLockPluginPropertyHandler();
+        $this->transport       = new ezcWebdavLockTransport();
+        $this->propertyHandler = new ezcWebdavLockPropertyHandler();
+        $this->headerHandler   = new ezcWebdavLockHeaderHandler();
     }
 
     /**
@@ -135,43 +147,48 @@ class ezcWebdavLockPlugin
      * - ezcWebdavPutRequest
      * 
      * @param ezcWebdavPluginParameters $params 
-     * @return void
+     * @return ezcWebdavResponse|null
      */
     public function receivedRequest( ezcWebdavPluginParameters $params )
     {
-        switch ( true )
+        $ifHeader = $this->headerHandler->parseIfHeader( $params['request'] );
+
+        if ( $ifHeader !== null )
         {
-            case ( $params['request'] instanceof ezcWebdavLockRequest ):
-                return $this->handleLockRequest( $params['request'] );
-            case ( $params['request'] instanceof ezcWebdavUnlockRequest ):
-                return $this->handleUnlockRequest( $params['request'] );
+            $params['request']->setHeader( 'If', $ifHeader );
         }
+
+        if ( isset( self::$requestHandlingMap[get_class( $params['request'] )] ) )
+        {
+            $method = self::$requestHandlingMap[get_class( $params['request'] )];
+            return $this->$method( $params['request'] );
+        }
+        // return null
     }
 
+    public function generatedResponse( ezcWebdavPluginParameters $params )
+    {
+        // @TODO: Implement and document!
+    }
+
+    //
+    //
+    // Request handling
+    //
+    //
+
     /**
-     * handleLockRequest 
+     * Handles LOCK requests (completely).
      * 
      * Internal notes:
      *
      * A lock token must be unique throughout all resources for all times. The code snippet
      *
      * <code>
-     * $token = md5( uniqid( rand(), true ) ); 
+     * $token = md5( $serverInfo . $pathInfo . uniqid( rand(), true ) ); 
      * </code>
      *
-     * Should therefore be used to generate a unique ID. This ID should be
-     * appended to the URI of the resource affected. This combination should be
-     * sufficiently unique. (e.g. http://webdav/foo/bar.txt#<id>)
-     *
-     * Everybody has access to lock tokens, so the lock must be bound to a
-     * different authetication mechanism. We will go for the IP address in a
-     * first glance here and must extend this to be plugable at a later stage,
-     * to tie-in Authentication.
-     *
-     * @todo Tie in Authentication to authenticate for locking
-     * @todo A mechanism to determine authorization?
-     * 
-     * Alternatively: Opaquelock token scheme.
+     * The created MD5 hash should be represented as an opaquelock: UUID.
      *
      * Write LOCK affects:
      *  - PUT
@@ -190,14 +207,12 @@ class ezcWebdavLockPlugin
      */
     protected function handleLockRequest( ezcWebdavLockRequest $request )
     {
+        // Authentication has already taken place here.
+        
         // New lock
-        if ( isset( $request->lockInfo ) )
+        if ( $request->lockInfo !== null )
         {
-            if ( ( $res = $this->checkLock( $request ) ) !== null )
-            {
-                return $res;
-            }
-            return $this->accquireLock( $request );
+            return $this->acquireLock( $request );
         }
         // Lock refresh
         else
@@ -206,99 +221,295 @@ class ezcWebdavLockPlugin
         }
     }
 
+    protected function refreshLock( ezcWebdavLockRequest $request )
+    {
+        throw new RuntimeException( 'Not implemented.' );
+    }
+    
+
     /**
-     * Checks for active locks.
+     * Aquires a new lock.
+     *
+     * Performs all necessary checks for the lock to be acquired by $request.
+     * If any failures occur, either an instance of {@link
+     * ezcWebdavErrorResponse} or {@link ezcWebdavMultistatusResponse} is
+     * returned. If the lock was acquired successfully, an instance of {@link
+     * ezcWebdavLockResponse} is returned.
      * 
      * @param ezcWebdavLockRequest $request 
-     * @return null|ezcWebdavErrorResponse Null on success.
+     * @return ezcWebdavResponse
      */
-    protected function checkLock( ezcWebdavLockRequest $request )
+    private function acquireLock( ezcWebdavLockRequest $request )
     {
-        $propFindRequest = new ezcWebdavPropFindRequest( $request->requestUri );
-        $propFindRequest->prop = new ezcWebdavPropertyStorage();
-        $propFindRequest->prop->attach(
-            new ezcWebdavLockDiscoveryProperty()
-        );
-        $propFindRequest->prop->attach(
-            new ezcWebdavSupportedLockProperty()
-        );
-        $propFindRequest->setHeader(
-            'Depth',
-            $request->getHeader( 'Depth' )
+        // Active lock part to be used in PROPPATCH requests and LOCK response
+        $lockToken = $this->generateLockToken( $request );
+        $activeLock = $this->generateActiveLock( $request, $lockToken );
+
+        $requestGenerator = new ezcWebdavLockLockRequestGenerator(
+            $request,
+            $activeLock
         );
 
-        $propFindResponse = ezcWebdavServer::getInstance()->backend->performRequest(
-            $propFindRequest
-        );
+        // Check violations and collect PROPPATCH requests
+        $res = $this->checkViolations( $request, $requestGenerator );
 
-        // Return error, if occured
-        if ( $propFindRequest instanceof ezcWebdavErrorResponse )
+        if ( $res !== null )
         {
-            return $propFindRequest;
+            // 404 -> need to create lock-null resource
+            if ( $res instanceof ezcWebdavErrorResponse && $res->status === ezcWebdavResponse::STATUS_404 )
+            {
+                return $this->createLockNullResource( $request );
+            }
+
+            // Other violations -> return error response
+            return $res;
         }
         
-        return $this->checkLocks(
-            $request,
-            $propFindResponse
+        $affectedLockDiscovery = null;
+
+        // Send all generated PROPPATCH requests to the backend to update lock information
+        foreach ( $requestGenerator->getRequests() as $propPatch )
+        {
+            // Store main affected resources property for use in LOCK response
+            // Might include other locks, too, so we grab it here instead of
+            // using the $activeLock content from above
+            if ( $propPatch->requestUri === $request->requestUri )
+            {
+                $affectedLockDiscovery = $propPatch->updates->get( 'lockdiscovery' );
+            }
+
+            // Authorization for lock assignement
+            $propPatch->setHeader( 'Authorization', $request->getHeader( 'Authorization' ) );
+
+            $propPatch->validateHeaders();
+
+            $res = ezcWebdavServer::getInstance()->backend->performRequest(
+                $propPatch
+            );
+
+            if ( !( $res instanceof ezcWebdavPropPatchResponse  ) )
+            {
+                // An error occured while performing PROPPATCH, very bad thing!
+                // @TODO: Should usually cleanup successful patches again!
+                return $res;
+            }
+        }
+
+        return new ezcWebdavLockResponse( $affectedLockDiscovery, $lockToken );
+    }
+
+    /**
+     * Returns a new active lock element according to the given data.
+     *
+     * Creates a new instance of {@link
+     * ezcWebdavLockDiscoveryPropertyActiveLock} that can be used with an
+     * {@link ezcWebdavLockDiscoveryProperty}. Most information for this
+     * property content is fetched from the given $request. The $lockToken for
+     * the acquired lock must be provided in addition. Information used is:
+     * 
+     * @param ezcWebdavLockRequest $request 
+     * @param string $lockToken 
+     * @return ezcWebdavLockDiscoveryPropertyActiveLock
+     */
+    protected function generateActiveLock( ezcWebdavLockRequest $request, $lockToken )
+    {
+        return new ezcWebdavLockDiscoveryPropertyActiveLock(
+            $request->lockInfo->lockType,
+            $request->lockInfo->lockScope,
+            $request->getHeader( 'Depth' ),
+            $request->lockInfo->owner,
+            // @TODO: Parse timeout header!
+            // $request->getHeader( 'Timeout' ),
+            null,
+            array( $lockToken )
         );
     }
 
     /**
-     * Checks a response for lock violations.
+     * Returns a lock token for the resource affected by $request.
+     *
+     * Generates a lock token that obeys to the opaquelocktoken scheme, using a
+     * UUID v3.
      * 
      * @param ezcWebdavLockRequest $request 
-     * @param ezcWebdavResponse $response 
-     * @return null|ezcWebavErrorResponse Null on success.
+     * @return string
+     *
+     * @TODO Should we use sha1 instead of md5?
      */
-    protected function checkLockViolation( ezcWebdavLockRequest $request, ezcWebdavResponse $response )
+    protected function generateLockToken( ezcWebdavLockRequest $request )
     {
-        if ( $response instanceof ezcWebdavMultistatusResponse )
+        $rawToken = md5(
+            $_SERVER['SERVER_PROTOCOL'] . $_SERVER['HTTP_HOST'] . $request->requestUri . microtime( true )
+        );
+
+        // @TODO: Needs version number in UUID v3/5!
+
+        return sprintf(
+            'opaquelocktoken:%s-%s-%s-%s-%s',
+            substr( $rawToken,  0, 8 ),
+            substr( $rawToken,  8, 4 ),
+            substr( $rawToken, 12, 4 ),
+            substr( $rawToken, 16, 4 ),
+            substr( $rawToken, 20 )
+        );
+    }
+
+    protected function checkViolations( ezcWebdavRequest $request, ezcWebdavLockRequestGenerator $generator )
+    {
+        $srv = ezcWebdavServer::getInstance();
+
+        $propFind       = new ezcWebdavPropFindRequest( $request->requestUri );
+        $propFind->prop = new ezcWebdavBasicPropertyStorage();
+
+        $propFind->prop->attach( new ezcWebdavLockDiscoveryProperty() );
+        $propFind->prop->attach( new ezcWebdavGetEtagProperty() );
+        $propFind->setHeader(
+            'Depth',
+            ( $depth = $request->getHeader( 'Depth' ) ) !== null ? $depth : ezcWebdavRequest::DEPTH_ONE
+        );
+
+        $propFind->validateHeaders();
+
+        $propFindMultistatusRes = $srv->backend->performRequest( $propFind );
+
+        if ( !( $propFindMultistatusRes instanceof ezcWebdavMultistatusResponse ) )
         {
-            foreach ( $reponse->responses as $subResponse )
+            return $propFindMultistatusRes;
+        }
+
+        $violations = array();
+        foreach ( $propFindMultistatusRes->responses as $propFindRes )
+        {
+            // Check authorization of the affected node
+            if ( !$srv->isAuthorized(
+                    $request,
+                    $propFindRes->node->path,
+                    ezcWebdavAuthorizer::ACCESS_WRITE
+                 ) 
+            )
             {
-                if ( ( $res = $this->checkLockViolation( $request, $subResponse ) ) !== null )
+                $violations[] = $srv->createUnauthorizedResponse( $propFindRes->path, 'Authorization failed' );
+                // No need for further checks on this path
+                continue;
+            }
+
+            // Auth check passed, check etags and lock tokens
+            foreach ( $propFindRes->responses as $propStatRes )
+            {
+                // @TODO: Do we need to obey to other statuus, too?
+                if ( $propStatRes->status === ezcWebdavResponse::STATUS_200 )
                 {
-                    // A recursive call produced an error
-                    return $res;
+                    $res = $this->checkEtagsAndLocks( $propStatRes->storage, $request );
+                    if ( $res !== null )
+                    {
+                        $violations[] = $res;
+                    }
+                }
+                // Notify request generator
+                if ( $generator !== null )
+                {
+                    $generator->notify( $propFindRes );
                 }
             }
         }
-        else if ( $response instanceof ezcWebdavPropFindResponse )
+
+        if ( $violations !== array() )
         {
-            // Check the propfind response for violations and return error in
-            // case
+            return new ezcWebdavMultistatusResponse( $violations );
         }
-        else
+        // return null;
+    }
+
+    protected function checkEtagsAndLocks( ezcWebdavPropertyStorage $propertyStorage, ezcWebdavRequest $req )
+    {
+        if ( ( $ifHeader = $req->getHeader( 'If' ) ) === null ||
+             ( $ifHeaderItems = $ifHeader[$req->requestUri] ) === array()
+        )
         {
-            // Found an invalid response, return it
-            return $response;
+            // No If header items for this path, just check if item is not
+            // locked exclusively
+            if ( $propertyStorage->contains( 'lockdiscovery' ) )
+            {
+                $lockDiscoveryProperty = $propertyStorage->get( 'lockdiscovery' );
+                foreach ( $lockDiscoveryProperty->activeLock as $activeLock )
+                {
+                    if ( $activeLock->lockType === ezcWebdavLockRequest::SCOPE_EXCLUSIVE )
+                    {
+                        // Found an exlusive lock, operation not permitted
+                        return new ezcWebdavErrorResponse(
+                            ezcWebdavResponse::STATUS_423,
+                            $req->requestUri,
+                            "Resource locked exclusively by {$activeLock->owner}."
+                        );
+                    }
+                }
+            }
+
+            // If no return happened so far, everything seems to be fine
+            return null;
         }
+
+        // An If header is present for the affected resource and its items are
+        // in $ifHeaderItems
+
+        $etag = ( $propertyStorage->contains( 'getetag' ) ? $propertyStorage->get( 'getetag' )->etag : null );
+        $lockTokens = array();
+
+        // Fetch all lock tokens assigned
+        if ( $propertyStorage->contains( 'lockdiscovery' ) )
+        {
+            $lockDiscoveryProperty = $propertyStorage->get( 'lockdiscovery' );
+            foreach ( $lockDiscoveryProperty->activeLock as $activeLock )
+            {
+                $lockTokens = $lockTokens + $activeLock->tokens;
+            }
+            $lockTokens = array_unique( $lockTokens );
+        }
+        
+        $verified = false;
+
+        // Logical OR connected items
+        foreach ( $ifHeaderItems as $item )
+        {
+            // Logical AND connected etags and lockitems
+            foreach ( $item->eTags as $itemEtag )
+            {
+                if ( $etag !== $itemEtag )
+                {
+                    // Etag not validated
+                    continue 2;
+                }
+            }
+            foreach ( $item->lockTokens as $itemLockToken )
+            {
+                if ( !in_array( $itemLockToken, $lockTokens ) )
+                {
+                    // Lock token not provided
+                    continue 2;
+                }
+            }
+            // All tests passed for a combination
+            $verified = true;
+            break;
+        }
+
+        if ( !$verified )
+        {
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_409,
+                $req->requestUri,
+                'No valid state provided in If header'
+            );
+        }
+        // All right!
+        return null;
     }
 
-    /**
-     * Handle ezcWebdavUnlockRequest objects.
-     * 
-     * @param ezcWebavUnlockRequest $request 
-     * @return void
-     */
-    protected function handleUnlockRequest( ezcWebavUnlockRequest $request )
-    {
-
-    }
-
-    /**
-     * Callback for the hook ezcWebdavServer::generatedResponse().;
-     *
-     * Parameters are:
-     * - ezcWebdavResponse response
-     * 
-     * @param ezcWebdavPluginParameters $params 
-     * @return void
-     */
-    public function generatedResponse( ezcWebdavPluginParameters $params )
-    {
-        // @todo: Anything to do here?
-    }
+    //
+    //
+    // Property access
+    //
+    //
 
     /**
      * Sets a property.
@@ -322,15 +533,21 @@ class ezcWebdavLockPlugin
         switch ( $propertyName )
         {
             case 'transport':
-                if ( !( $propertyValue instanceof ezcWebdavLockPluginTransport ) )
+                if ( !( $propertyValue instanceof ezcWebdavLockTransport ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockPluginTransport' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockTransport' );
                 }
                 break;
             case 'propertyHandler':
-                if ( !( $propertyValue instanceof ezcWebdavLockPluginPropertyHandler ) )
+                if ( !( $propertyValue instanceof ezcWebdavLockPropertyHandler ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockPluginPropertyHandler' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockPropertyHandler' );
+                }
+                break;
+            case 'headerHandler':
+                if ( !( $propertyValue instanceof ezcWebdavLockHeaderHandler ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'ezcWebdavLockPropertyHandler' );
                 }
                 break;
 

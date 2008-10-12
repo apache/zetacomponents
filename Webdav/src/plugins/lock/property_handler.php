@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavLockPluginPropertyHandler class.
+ * File containing the ezcWebdavLockPropertyHandler class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -17,7 +17,7 @@
  *
  * @access private
  */
-class ezcWebdavLockPluginPropertyHandler
+class ezcWebdavLockPropertyHandler
 {
     /**
      * Extracts a live property from a DOMElement.

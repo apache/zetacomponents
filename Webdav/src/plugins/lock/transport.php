@@ -20,7 +20,7 @@
  *
  * @access private
  */
-class ezcWebdavLockPluginTransport
+class ezcWebdavLockTransport
 {
     /**
      * Map for request parsers.
@@ -33,7 +33,7 @@ class ezcWebdavLockPluginTransport
     protected static $parsingMap = array(
         'LOCK'   => 'parseLockRequest',
         'UNLOCK' => 'parseUnlockRequest',
-    ):
+    );
 
     /**
      * Callback for the hook ezcWebdavTransport::parseUnknownRequest().
@@ -47,13 +47,15 @@ class ezcWebdavLockPluginTransport
      */
     public function parseRequest( $method, $path, $body )
     {
-        if ( isset( self::$parsingMap[$params['requestUri']] ) )
+        if ( isset( self::$parsingMap[$method] ) )
         {
-            return call_user_func(
-                array( $this, self::$parsingMap[$params['requestUri']] ),
-                $params['path'],
-                $params['body']
+            $req = call_user_func(
+                array( $this, self::$parsingMap[$method] ),
+                $path,
+                $body
             );
+            $req->validateHeaders();
+            return $req;
         }
         // return null;
     }
@@ -66,6 +68,7 @@ class ezcWebdavLockPluginTransport
      */
     public function handleResponse( ezcWebdavResponse $response )
     {
+        var_dump( $response );
         throw new RuntimeException( 'Not implemented.' );
     }
 
