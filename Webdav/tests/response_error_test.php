@@ -15,16 +15,16 @@
 require_once 'test_case.php';
 
 /**
- * Tests for ezcWebdavErrorResonse class.
+ * Tests for ezcWebdavErrorResponse class.
  * 
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavErrorResonseTest extends ezcWebdavTestCase
+class ezcWebdavErrorResponseTest extends ezcWebdavTestCase
 {
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( 'ezcWebdavErrorResonseTest' );
+		return new PHPUnit_Framework_TestSuite( 'ezcWebdavErrorResponseTest' );
 	}
 
     public function testGetUnknownProperty()
