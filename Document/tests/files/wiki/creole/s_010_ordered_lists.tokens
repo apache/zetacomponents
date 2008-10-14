@@ -112,16 +112,95 @@ return array (
      'position' => 1,
   )),
   17 => 
+  ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => 1,
+     'content' => '#',
+     'line' => 8,
+     'position' => 0,
+  )),
+  18 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'Blanks',
+     'line' => 9,
+     'position' => 1,
+  )),
+  19 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 7,
+     'line' => 9,
+     'position' => 7,
+  )),
+  20 => 
+  ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => 2,
+     'content' => '##',
+     'line' => 10,
+     'position' => 0,
+  )),
+  21 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'are',
+     'line' => 11,
+     'position' => 2,
+  )),
+  22 => 
+  ezcDocumentWikiWhitespaceToken::__set_state(array(
+     'content' => ' ',
+     'line' => 11,
+     'position' => 5,
+  )),
+  23 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'also',
+     'line' => 11,
+     'position' => 6,
+  )),
+  24 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 11,
+     'position' => 10,
+  )),
+  25 => 
+  ezcDocumentWikiEnumeratedListItemToken::__set_state(array(
+     'indentation' => 1,
+     'content' => '#',
+     'line' => 12,
+     'position' => 0,
+  )),
+  26 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'allowed.',
+     'line' => 13,
      'position' => 1,
   )),
-  18 => 
+  27 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 13,
+     'position' => 9,
+  )),
+  28 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 14,
+     'position' => 1,
+  )),
+  29 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 14,
+     'position' => 1,
+  )),
+  30 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 7,
+     'line' => 14,
      'position' => 1,
   )),
 );
