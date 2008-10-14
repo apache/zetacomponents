@@ -233,7 +233,7 @@ class ezcWebdavLockPropertyHandler
      * @param ezcWebdavXmlTool $xmlTool
      * @return array(DOMElement)
      */
-    protected function serializeActiveLockContent( array $activeLocks = null, DOMDocument $dom, ezcWebdavXmlTool $xmlTool )
+    protected function serializeActiveLockContent( ArrayObject $activeLocks = null, DOMDocument $dom, ezcWebdavXmlTool $xmlTool )
     {
         $activeLockElements = array();
         foreach ( $activeLocks as $activeLock )
@@ -269,7 +269,7 @@ class ezcWebdavLockPropertyHandler
                     $depthElement->nodeValue = '1';
                     break;
                 case ezcWebdavRequest::DEPTH_INFINITY:
-                    $depthElement->nodeValue = 'Infity';
+                    $depthElement->nodeValue = 'Infinity';
                     break;
             }
 
@@ -277,12 +277,14 @@ class ezcWebdavLockPropertyHandler
             {
                 $activeLockElement->appendChild(
                     $xmlTool->createDomElement( $dom, 'owner' )
+                )->appendChild(
+                    $xmlTool->createDomElement( $dom, 'href' )
                 )->nodeValue = $activeLock->owner;
             }
 
             $activeLockElement->appendChild(
                 $xmlTool->createDomElement( $dom, 'timeout' )
-            )->$activeLock->timeout;
+            )->nodeValue = $activeLock->timeout;
 
             foreach ( $activeLock->tokens as $token )
             {
@@ -293,7 +295,7 @@ class ezcWebdavLockPropertyHandler
                 )->nodeValue = $token;
             }
 
-            $activeLockElements[] = $lockElement;
+            $activeLockElements[] = $activeLockElement;
         }
 
         return $activeLockElements;

@@ -86,9 +86,9 @@ class ezcWebdavLockPlugin
      * @param ezcWebdavPluginParameters $params 
      * @return ezcWebdavDisplayInformation
      */
-    public function handleUnknownResponse( ezcWebdavPluginParameters $params )
+    public function processUnknownResponse( ezcWebdavPluginParameters $params )
     {
-        return $this->transport->handleResponse( $params['response'] );
+        return $this->transport->processResponse( $params['response'] );
     }
 
     /**

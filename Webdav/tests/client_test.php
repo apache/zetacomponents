@@ -154,6 +154,15 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             $response['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $response['headers']['WWW-Authenticate']['digest'] );
         }
 
+        // Unify server generated lock token
+        $response['body'] = preg_replace( '(opaquelocktoken:[^<]+)', 'opaquelocktoken:12345678-1234-1234-1234-123456789012', $response['body'] );
+        $responseBody = preg_replace( '(opaquelocktoken:[^<]+)', 'opaquelocktoken:12345678-1234-1234-1234-123456789012', $responseBody );
+        if ( isset( $response['headers']['Lock-Token'] ) )
+        {
+            $response['headers']['Lock-Token'] = preg_replace( '(opaquelocktoken:[^<]+)', 'opaquelocktoken:12345678-1234-1234-1234-123456789012', $response['headers']['Lock-Token'] );
+            $responseHeaders['Lock-Token'] = preg_replace( '(opaquelocktoken:[^<]+)', 'opaquelocktoken:12345678-1234-1234-1234-123456789012', $responseHeaders['Lock-Token'] );
+        }
+
         // Check for broken DateTime in PHP versions (timestamp time zone issue)
         // The test must have been run nonetheless, since client tests are continouse!
         if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )

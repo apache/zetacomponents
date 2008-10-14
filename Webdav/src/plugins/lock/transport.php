@@ -36,6 +36,33 @@ class ezcWebdavLockTransport
     );
 
     /**
+     * Map for response handling.
+     *
+     * Maps response classes to a method that handles objects of this class.
+     *
+     * @array(string=>string)
+     */
+    protected static $processingMap = array(
+        'ezcWebdavLockResponse' => 'processLockResponse',
+    );
+
+
+    /**
+     * Property handler. 
+     * 
+     * @var ezcWebdavLockPropertyHandler
+     */
+    protected $propertyHandler;
+
+    /**
+     * Creates a new lock transport.
+     */
+    public function __construct()
+    {
+        $this->propertyHandler = new ezcWebdavLockPropertyHandler();
+    }
+
+    /**
      * Callback for the hook ezcWebdavTransport::parseUnknownRequest().
      *
      * Reacts on the LOCK and UNLOCK request methods.
@@ -66,10 +93,14 @@ class ezcWebdavLockTransport
      * @param ezcWebdavResponse $response 
      * @return ezcWebdavDisplayInformation
      */
-    public function handleResponse( ezcWebdavResponse $response )
+    public function processResponse( ezcWebdavResponse $response )
     {
-        var_dump( $response );
-        throw new RuntimeException( 'Not implemented.' );
+        if( isset( self::$processingMap[( $responseClass = get_class( $response ) )] ) )
+        {
+            $method = self::$processingMap[$responseClass];
+            return $this->$method( $response );
+        }
+        // return null;
     }
 
     /**
@@ -86,7 +117,7 @@ class ezcWebdavLockTransport
      * @param string $body 
      * @return ezcWebdavLockRequest
      */
-    public function parseLockRequest( $path, $body )
+    protected function parseLockRequest( $path, $body )
     {
         $request = new ezcWebdavLockRequest( $path );
 
@@ -117,9 +148,18 @@ class ezcWebdavLockTransport
             );
         }
 
-        $lockTypeElements  = $dom->documentElement->getElementsByTagnameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'locktype' );
-        $lockScopeElements = $dom->documentElement->getElementsByTagnameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'lockscope' );
-        $ownerElements     = $dom->documentElement->getElementsByTagnameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'owner' );
+        $lockTypeElements  = $dom->documentElement->getElementsByTagnameNS(
+            ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE,
+            'locktype'
+        );
+        $lockScopeElements = $dom->documentElement->getElementsByTagnameNS(
+            ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE,
+            'lockscope'
+        );
+        $ownerElements = $dom->documentElement->getElementsByTagnameNS(
+            ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE,
+            'owner'
+        );
 
         if ( $lockTypeElements->length === 0 )
         {
@@ -166,7 +206,7 @@ class ezcWebdavLockTransport
      * @param string $body 
      * @return ezcWebdavUnlockRequest
      */
-    public function parseUnlockRequest( $path, $body )
+    protected function parseUnlockRequest( $path, $body )
     {
         $request = new ezcWebdavUnlockRequest( $path );
 
@@ -177,6 +217,37 @@ class ezcWebdavLockTransport
         );
 
         return $request;
+    }
+
+    /**
+     * Processes a lock response into a korresponding display information struct.
+     *
+     * The struct ist the processed by {@link
+     * ezcWebdavTransport::flattenResponse()} and send by {@link
+     * ezcWebdavTransport::sendResponse()}.
+     * 
+     * @param ezcWebdavLockResponse $response 
+     * @return ezcWebdavXmlDisplayInformation
+     */
+    protected function processLockResponse( ezcWebdavLockResponse $response )
+    {
+        $xmlTool = ezcWebdavServer::getInstance()->xmlTool;
+        $dom     = $xmlTool->createDomDocument();
+
+        $propElement = $dom->appendChild(
+            $xmlTool->createDomElement( $dom, 'prop' )
+        );
+
+        $this->propertyHandler->serializeLiveProperty(
+            $response->lockDiscovery,
+            $propElement,
+            $xmlTool
+        );
+
+        return new ezcWebdavXmlDisplayInformation(
+            $response,
+            $dom
+        );
     }
 }
 

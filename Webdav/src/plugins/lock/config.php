@@ -82,7 +82,7 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
                     array( $this->main, 'parseUnknownRequest' ),
                 ),
                 'processUnknownResponse' => array(
-                    array( $this->main, 'handleUnknownResponse' ),
+                    array( $this->main, 'processUnknownResponse' ),
                 ),
             ),
             'ezcWebdavPropertyHandler' => array(
