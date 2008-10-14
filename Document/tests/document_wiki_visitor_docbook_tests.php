@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcDocumentConverterEzp3TpEzp4Tests
+ * ezcDocumentWikiParserTests
  * 
  * @package Document
  * @version //autogen//
@@ -15,7 +15,7 @@
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentWikiParserTests extends ezcTestCase
+class ezcDocumentWikiDocbookVisitorTests extends ezcTestCase
 {
     protected static $testDocuments = null;
 
@@ -29,50 +29,48 @@ class ezcDocumentWikiParserTests extends ezcTestCase
         if ( self::$testDocuments === null )
         {
             // Get a list of all test files from the respektive folder
-            $testFiles = glob( dirname( __FILE__ ) . '/files/wiki/*/*.txt' );
+            $testFiles = glob( dirname( __FILE__ ) . '/files/wiki/*/s_*.txt' );
 
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
             {
                 self::$testDocuments[] = array(
                     $file,
-                    substr( $file, 0, -3 ) . 'ast'
+                    substr( $file, 0, -3 ) . 'xml'
                 );
             }
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, 1, 1 );
+        return array_slice( self::$testDocuments, -1, 1 );
     }
 
     /**
      * @dataProvider getTestDocuments
      */
-    public function testParseFile( $from, $to )
+    public function testParseWikiFile( $from, $to )
     {
         if ( !is_file( $to ) )
         {
             $this->markTestSkipped( "Comparision file '$to' not yet defined." );
         }
 
-        $type           = ucfirst( basename( dirname( $from ) ) );
-        $tokenizerClass = 'ezcDocumentWiki' . $type . 'Tokenizer';
+        $document = new ezcDocumentWiki();
+        $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
 
-        $tokenizer = new $tokenizerClass();
-        $parser    = new ezcDocumentWikiParser();
-        $parser->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
-        $ast       = $parser->parse( $tokenizer->tokenizeFile( $from ) );
+        $document->loadFile( $from );
 
-        $expected = include $to;
+        $docbook = $document->getAsDocbook();
+        $xml = $docbook->save();
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'wiki_parser_' ) . '/';
-        file_put_contents( $tempDir . basename( $to ), "<?php\n\nreturn " . var_export( $ast, true ) . ";\n\n" );
+        $tempDir = $this->createTempDir( 'wiki_visitor_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml );
 
         $this->assertEquals(
-            $expected,
-            $ast,
-            'Extracted ast do not match expected ast.'
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
         );
 
         // Remove tempdir, when nothing failed.

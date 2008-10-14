@@ -77,20 +77,21 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * @var array
      */
     protected $reductions = array(
-//        'ezcDocumentWikiMatchingInlineMarkupNode'
-//            => 'reduceMatchingInlineMarkup',
         'ezcDocumentWikiTextNode' => array(
             'reduceText',
         ),
         'ezcDocumentWikiParagraphNode' => array(
             'reduceParagraph',
         ),
-        'ezcDocumentWikiDocumentNode' => array(
-            'reduceLists',
-            'reduceDocument',
-        ),
         'ezcDocumentWikiInvisibleBreakNode' => array(
             'reduceLineNode',
+        ),
+        'ezcDocumentWikiTitleNode' => array(
+            'reduceTitleToSection',
+        ),
+        'ezcDocumentWikiSectionNode' => array(
+            'reduceLists',
+            'reduceSection',
         ),
         'ezcDocumentWikiMatchingInlineNode' => array(
             'reduceMatchingInlineMarkup',
@@ -252,24 +253,40 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             // /DEBUG */
 
             // Apply reductions to shifted node
-            foreach ( $this->reductions as $class => $methods )
-            {
-                if ( $node instanceof $class )
+            do {
+                foreach ( $this->reductions as $class => $methods )
                 {
-                    foreach ( $methods as $method )
+                    if ( $node instanceof $class )
                     {
-                        /* DEBUG
-                        echo " - Handle node with ->$method\n";
-                        // /DEBUG */
-
-                        if ( ( $node = $this->$method( $node ) ) === null )
+                        foreach ( $methods as $method )
                         {
-                            // The node has been handled, exit loop.
-                            break 2;
+                            /* DEBUG
+                            echo " - Handle node with ->$method\n";
+                            // /DEBUG */
+
+                            if ( ( $node = $this->$method( $node ) ) === null )
+                            {
+                                /* DEBUG
+                                echo "   - Reduced.\n";
+                                // /DEBUG */
+                                // The node has been handled, exit loop.
+                                break 3;
+                            }
+
+                            // Check if the node class has changed and rehandle
+                            // node in this case.
+                            if ( !$node instanceof $class )
+                            {
+                                /* DEBUG
+                                echo "   - Try subsequent reductions...\n";
+                                // /DEBUG */
+
+                                continue 2;
+                            }
                         }
                     }
                 }
-            }
+            } while ( false );
 
             // Check if reductions have been applied, but still returned a
             // node, just add to document stack in this case.
@@ -532,6 +549,114 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     }
 
     /**
+     * Reduce prior sections, if a new section has been found.
+     *
+     * If a new section has been found all sections with a higher depth level
+     * can be closed, and all items fitting into sections may be aggregated by
+     * the respective sections as well.
+     * 
+     * @param ezcDocumentWikiSectionNode $node 
+     * @return void
+     */
+    protected function reduceSection( ezcDocumentWikiSectionNode $node )
+    {
+        // Collected node for prior section
+        $collected = array();
+        $lastSectionLevel = -1;
+
+        // Include all paragraphs, tables, lists and sections with a higher
+        // nesting depth
+        while ( $child = array_shift( $this->documentStack ) )
+        {
+            /* DEBUG
+            echo "  -> Try node: " . get_class( $child ) . ".\n";
+            // /DEBUG */
+            if ( !$child instanceof ezcDocumentWikiBlockLevelNode )
+            {
+                $this->triggerError(
+                    E_PARSE,
+                    "Unexpected node: " . get_class( $child ) . ".",
+                    null, $child->token->line, $child->token->position
+                );
+            }
+
+            if ( $child instanceof ezcDocumentWikiSectionNode )
+            {
+                if ( $child->level <= $node->level )
+                {
+                    $child->nodes = array_merge( 
+                        $child->nodes,
+                        $collected
+                    );
+                    // If the found section has a same or higher level, just
+                    // put it back on the stack
+                    array_unshift( $this->documentStack, $child );
+                    /* DEBUG
+                    echo "   -> Leave on stack.\n";
+                    // /DEBUG */
+                    return $node;
+                }
+
+                if ( ( $lastSectionLevel - $child->level ) > 1 )
+                {
+                    $this->triggerError(
+                        E_NOTICE,
+                        "Title depth inconsitency.",
+                        null, $child->token->line, $child->token->position
+                    );
+                }
+
+                if ( ( $lastSectionLevel === -1 ) ||
+                     ( $lastSectionLevel > $child->level ) )
+                {
+                    // If the section level is higher then in our new node and
+                    // lower the the last node, reduce sections.
+                    /* DEBUG
+                    echo "   -> Reduce section {$child->level}.\n";
+                    // /DEBUG */
+                    $child->nodes = array_merge( 
+                        $child->nodes,
+                        $collected
+                    );
+                    $collected = array();
+                }
+
+                // Sections on an equal level are just appended, for all
+                // sections we remember the last depth.
+                $lastSectionLevel = $child->level;
+            }
+
+            array_unshift( $collected, $child );
+        }
+
+        $node->nodes = array_merge(
+            $node->nodes,
+            $collected
+        );
+        return $node;
+    }
+
+    /**
+     * Reduce all elements to one document node.
+     * 
+     * @param ezcDocumentWikiTitleNode $node 
+     * @return void
+     */
+    protected function reduceTitleToSection( ezcDocumentWikiTitleNode $node )
+    {
+        if ( $node->nodes === array() )
+        {
+            // Title node has no content yet, skip for now.
+            return $node;
+        }
+
+        // Prepend section element to document stack
+        $section = new ezcDocumentWikiSectionNode( $node->token );
+        $section->nodes = array( $node );
+        return $section;
+    }
+
+    /**
      * Reduce matching inline markup
      *
      * Reduction rule for inline markup which is intended to have a matching
@@ -614,7 +739,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         // No tokens found, we can ommit the break node, and put everything
         // back on the document stack
         /* DEBUG
-        echo "  => Nothing found - line break ommitted.\n";
+        echo "  => Nothing found (", get_class( $this->documentStack[0] ), ") - line break ommitted.\n";
         // /DEBUG */
         $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
         return null;
@@ -908,10 +1033,10 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Stack lists with higher indentation into each other and merge multiple
      * lists of same type and indentation.
      * 
-     * @param ezcDocumentWikiDocumentNode $node 
+     * @param ezcDocumentWikiBlockLevelNode $node 
      * @return mixed
      */
-    protected function reduceLists( ezcDocumentWikiDocumentNode $node )
+    protected function reduceLists( ezcDocumentWikiBlockLevelNode $node )
     {
         $collected       = array();
         $documentStack   = array();
@@ -1033,30 +1158,6 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         $table->nodes[] = $node;
     
         return $table;
-    }
-
-    /**
-     * Reduce document
-     *
-     * The document reduction aggregates all block level nodes from the
-     * document stack and appends them to the document node. No other nodes are
-     * appended, so they will cause a parse error.
-     * 
-     * @param ezcDocumentWikiDocumentNode $node 
-     * @return mixed
-     */
-    protected function reduceDocument( ezcDocumentWikiDocumentNode $node )
-    {
-        // Collect block level nodes
-        $collected = array();
-        while ( isset( $this->documentStack[0] ) &&
-                ( $this->documentStack[0] instanceof ezcDocumentWikiBlockLevelNode ) )
-        {
-            array_unshift( $collected, array_shift( $this->documentStack ) );
-        }
-
-        $node->nodes = $collected;
-        return $node;
     }
 }
 

@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentWikiDocumentNode extends ezcDocumentWikiBlockLevelNode
+class ezcDocumentWikiDocumentNode extends ezcDocumentWikiSectionNode
 {
     /**
      * Set state after var_export
