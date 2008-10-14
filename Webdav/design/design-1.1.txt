@@ -395,6 +395,9 @@ mechanisms as the base Webdav transport layer. It might be necessary to adjust
 the lock plugin to work with several clients and introduce exceptions from the
 usual workflow for them.
 
+.. note:: For the 1.1 release of the Webdav component we will only support
+          exclusive locks. Shared locks might be supported later.
+
 ======
 Design
 ======
