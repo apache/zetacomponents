@@ -201,23 +201,94 @@ return array (
      'position' => 20,
   )),
   31 => 
-  ezcDocumentWikiNewLineToken::__set_state(array(
-     'content' => '
-',
+  ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 2,
+     'content' => 'h2. ',
      'line' => 13,
-     'position' => 1,
+     'position' => 0,
   )),
   32 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'Bigger',
+     'line' => 14,
+     'position' => 4,
+  )),
+  33 => 
+  ezcDocumentWikiWhitespaceToken::__set_state(array(
+     'content' => ' ',
+     'line' => 14,
+     'position' => 10,
+  )),
+  34 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'heading',
+     'line' => 14,
+     'position' => 11,
+  )),
+  35 => 
   ezcDocumentWikiNewLineToken::__set_state(array(
      'content' => '
 ',
-     'line' => 13,
+     'line' => 14,
+     'position' => 18,
+  )),
+  36 => 
+  ezcDocumentWikiTitleToken::__set_state(array(
+     'level' => 3,
+     'content' => 'h3. ',
+     'line' => 15,
+     'position' => 0,
+  )),
+  37 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'Big',
+     'line' => 16,
+     'position' => 4,
+  )),
+  38 => 
+  ezcDocumentWikiWhitespaceToken::__set_state(array(
+     'content' => ' ',
+     'line' => 16,
+     'position' => 7,
+  )),
+  39 => 
+  ezcDocumentWikiTextLineToken::__set_state(array(
+     'content' => 'Heading',
+     'line' => 16,
+     'position' => 8,
+  )),
+  40 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 16,
+     'position' => 15,
+  )),
+  41 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 17,
      'position' => 1,
   )),
-  33 => 
+  42 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 18,
+     'position' => 1,
+  )),
+  43 => 
+  ezcDocumentWikiNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 18,
+     'position' => 1,
+  )),
+  44 => 
   ezcDocumentWikiEndOfFileToken::__set_state(array(
      'content' => NULL,
-     'line' => 13,
+     'line' => 18,
      'position' => 1,
   )),
 );
