@@ -57,9 +57,6 @@ class ezcWebdavHeaderHandler
         'Overwrite'      => array(
             'HTTP_OVERWRITE',
         ),
-        'Timeout'        => array(
-            'HTTP_TIMEOUT',
-        ),
         'Server'         => array(
             'SERVER_SOFTWARE',
         ),

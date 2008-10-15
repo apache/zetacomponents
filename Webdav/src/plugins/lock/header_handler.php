@@ -3,6 +3,46 @@
 class ezcWebdavLockHeaderHandler
 {
     /**
+     * Parses the Timeout header content.
+     *
+     * Parses the Timeout header. Might return an empty array, in case no
+     * Timeout header is present or none of the values in the header could be
+     * parsed. The values of the returned array are seconds and indicate the
+     * number of seconds, that the client wishes the lock to disappear after it
+     * was created or used the last time.
+     * 
+     * @return array(int)
+     */
+    public function parseTimeoutHeader()
+    {
+        if ( !isset( $_SERVER['HTTP_TIMEOUT'] ) )
+        {
+            return null;
+        }
+        
+        $result = array();
+
+        $content = explode( ', ', $_SERVER['HTTP_TIMEOUT'] );
+        foreach ( $content as $timeVal )
+        {
+            // Sanitize
+            $timeVal = trim( $timeVal );
+
+            // We only react on 'Second-' values for now
+            if ( substr( $timeVal, 0, 7 ) === 'Second-' )
+            {
+                $result[] = (int) substr( $timeVal, 7 );
+                continue;
+            }
+            
+            // Ignore all other for now.
+            // @TODO: Let's see, what clients send.
+        }
+
+        return $result;
+    }
+
+    /**
      * Parses either type of If header content.
      *
      * Returns an {@link ezcWebdavLockIfHeaderList} or null, if the header was

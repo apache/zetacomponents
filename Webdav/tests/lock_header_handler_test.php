@@ -48,7 +48,7 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
      * @param mixed $result 
      * @return void
      *
-     * @dataProvider provideNoTagListData
+     * @dataProvider provideIfHeaderData
      */
     public function testParseIfHeader( $content, $result )
     {
@@ -62,7 +62,49 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
         );
     }
 
-    public function provideNoTagListData()
+    /**
+     * testParseTimeoutHeader 
+     * 
+     * @param mixed $content 
+     * @param mixed $result 
+     * @return void
+     *
+     * @dataProvider provideTimeoutHeaderData
+     */
+    public function testParseTimeoutHeader( $content, $result )
+    {
+        $_SERVER['HTTP_TIMEOUT'] = $content;
+        
+        $handler = new ezcWebdavLockHeaderHandler();
+        
+        $this->assertEquals(
+            $result,
+            $handler->parseTimeoutHeader()
+        );
+    }
+
+    public function provideTimeoutHeaderData()
+    {
+        return array(
+            // Set 1 - Ususally expected
+            array(
+                'Second-23',
+                array( 23 )
+            ),
+            // Set 2 - Also expected
+            array(
+                'Infinite, Second-23',
+                array( 23 )
+            ),
+            // Set 3 - May occur
+            array(
+                'Infinite, Second-123456789, Second-23',
+                array( 123456789, 23 )
+            ),
+        );
+    }
+
+    public function provideIfHeaderData()
     {
         return array(
             // Set 1 - Not tagged
