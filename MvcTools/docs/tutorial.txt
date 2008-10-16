@@ -24,7 +24,7 @@ MVC framework. It provides functionality for dispatching, routing, views
 generation, input parsing, output generation and filters. The diagram below
 shows the code flow through all the different parts.
 
-.. image:: images/dispatcher-flow.png
+.. image:: img/dispatcher-flow.png
    :alt:   Request flow
 
 The next few sections describe the different parts of the diagram. How this all
@@ -460,7 +460,7 @@ Before we create the view classes, the concept of zones should be explained.
 Zones are a way for arranging different parts of a layout. Take for example the
 following layout:
 
-.. image:: images/zones.png
+.. image:: img/zones.png
    :alt:   Layout zones
 
 In this small example there are three zones:
