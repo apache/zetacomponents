@@ -55,8 +55,12 @@ class ezcDocumentWikiDocbookVisitorTests extends ezcTestCase
             $this->markTestSkipped( "Comparision file '$to' not yet defined." );
         }
 
+        $type           = ucfirst( basename( dirname( $from ) ) );
+        $tokenizerClass = 'ezcDocumentWiki' . $type . 'Tokenizer';
+
         $document = new ezcDocumentWiki();
         $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+        $document->options->tokenizer      = new $tokenizerClass();
 
         $document->loadFile( $from );
 

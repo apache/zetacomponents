@@ -22,11 +22,13 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * @var array
      */
     protected $complexVisitMapping = array(
-        'ezcDocumentWikiTextNode'    => 'visitText',
-        'ezcDocumentWikiBoldNode'    => 'visitEmphasisMarkup',
-        'ezcDocumentWikiItalicNode'  => 'visitEmphasisMarkup',
-        'ezcDocumentWikiTitleNode'   => 'visitTitle',
+        'ezcDocumentWikiTextNode'      => 'visitText',
+        'ezcDocumentWikiBoldNode'      => 'visitEmphasisMarkup',
+        'ezcDocumentWikiItalicNode'    => 'visitEmphasisMarkup',
+        'ezcDocumentWikiUnderlineNode' => 'visitEmphasisMarkup',
+        'ezcDocumentWikiTitleNode'     => 'visitTitle',
 
+        'ezcDocumentWikiDeletedNode'   => 'visitChildren',
 /*
         'ezcDocumentWikiLiteralNode'               => 'visitText',
         'ezcDocumentWikiExternalReferenceNode'     => 'visitExternalReference',
@@ -54,8 +56,13 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * @var array
      */
     protected $simpleVisitMapping = array(
-        'ezcDocumentWikiParagraphNode' => 'para',
-        'ezcDocumentWikiSectionNode'   => 'section',
+        'ezcDocumentWikiParagraphNode'   => 'para',
+        'ezcDocumentWikiSectionNode'     => 'section',
+        'ezcDocumentWikiInlineQuoteNode' => 'quote',
+        'ezcDocumentWikiSuperscriptNode' => 'superscript',
+        'ezcDocumentWikiSubscriptNode'   => 'subscript',
+        'ezcDocumentWikiMonospaceNode'   => 'literal',
+        'ezcDocumentWikiBlockquoteNode'  => 'blockquote',
 
 /*
         'ezcDocumentWikiMarkupInlineLiteralNode' => 'literal',
