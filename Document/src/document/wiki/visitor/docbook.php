@@ -22,14 +22,16 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * @var array
      */
     protected $complexVisitMapping = array(
-        'ezcDocumentWikiTextNode'         => 'visitText',
-        'ezcDocumentWikiBoldNode'         => 'visitEmphasisMarkup',
-        'ezcDocumentWikiItalicNode'       => 'visitEmphasisMarkup',
-        'ezcDocumentWikiUnderlineNode'    => 'visitEmphasisMarkup',
-        'ezcDocumentWikiTitleNode'        => 'visitTitle',
-        'ezcDocumentWikiLinkNode'         => 'visitLink',
-        'ezcDocumentWikiExternalLinkNode' => 'visitExternalLink',
-        'ezcDocumentWikiInternalLinkNode' => 'visitExternalLink',
+        'ezcDocumentWikiTextNode'           => 'visitText',
+        'ezcDocumentWikiBoldNode'           => 'visitEmphasisMarkup',
+        'ezcDocumentWikiItalicNode'         => 'visitEmphasisMarkup',
+        'ezcDocumentWikiUnderlineNode'      => 'visitEmphasisMarkup',
+        'ezcDocumentWikiTitleNode'          => 'visitTitle',
+        'ezcDocumentWikiLinkNode'           => 'visitLink',
+        'ezcDocumentWikiExternalLinkNode'   => 'visitExternalLink',
+        'ezcDocumentWikiInternalLinkNode'   => 'visitExternalLink',
+        'ezcDocumentWikiBulletListNode'     => 'visitList',
+        'ezcDocumentWikiEnumeratedListNode' => 'visitList',
 
         // Node markup is ignored, because there is no equivalent in docbook
         'ezcDocumentWikiDeletedNode'   => 'visitChildren',
@@ -41,13 +43,15 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * @var array
      */
     protected $simpleVisitMapping = array(
-        'ezcDocumentWikiParagraphNode'   => 'para',
-        'ezcDocumentWikiSectionNode'     => 'section',
-        'ezcDocumentWikiInlineQuoteNode' => 'quote',
-        'ezcDocumentWikiSuperscriptNode' => 'superscript',
-        'ezcDocumentWikiSubscriptNode'   => 'subscript',
-        'ezcDocumentWikiMonospaceNode'   => 'literal',
-        'ezcDocumentWikiBlockquoteNode'  => 'blockquote',
+        'ezcDocumentWikiParagraphNode'          => 'para',
+        'ezcDocumentWikiSectionNode'            => 'section',
+        'ezcDocumentWikiInlineQuoteNode'        => 'quote',
+        'ezcDocumentWikiSuperscriptNode'        => 'superscript',
+        'ezcDocumentWikiSubscriptNode'          => 'subscript',
+        'ezcDocumentWikiMonospaceNode'          => 'literal',
+        'ezcDocumentWikiBlockquoteNode'         => 'blockquote',
+        'ezcDocumentWikiBulletListItemNode'     => 'listitem',
+        'ezcDocumentWikiEnumeratedListItemNode' => 'listitem',
     );
 
     /**
@@ -237,6 +241,36 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
             {
                 $this->visitNode( $link, $child );
             }
+        }
+    }
+
+    /**
+     * Visit list
+     *
+     * Ensure stacked lists are created inside another list item.
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitList( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        if ( ( $root->tagName === 'itemizedlist' ) ||
+             ( $root->tagName === 'orderedlist' ) )
+        {
+            $listitem = $this->document->createElement( 'listitem' );
+            $root->appendChild( $listitem );
+            $root = $listitem;
+        }
+
+        $list = $this->document->createElement(
+            $node instanceof ezcDocumentWikiBulletListNode ? 'itemizedlist' : 'orderedlist'
+        );
+        $root->appendChild( $list );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $list, $child );
         }
     }
 }
