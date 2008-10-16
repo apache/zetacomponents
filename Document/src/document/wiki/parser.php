@@ -518,9 +518,17 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         {
             $inlineNode = array_shift( $this->documentStack );
 
-            // Convert markup nodes without matches to text nodes.
-            if ( ( $inlineNode instanceof ezcDocumentWikiMatchingInlineNode ) &&
-                 ( $inlineNode->nodes === array() ) )
+            // Convert markup nodes without matching equivalent or out of the
+            // normal context to text nodes.
+            if ( ( ( $inlineNode instanceof ezcDocumentWikiMatchingInlineNode ) &&
+                   ( $inlineNode->nodes === array() ) ) ||
+                 ( ( $inlineNode instanceof ezcDocumentWikiSeparatorNode ) ) ||
+                 ( ( $inlineNode instanceof ezcDocumentWikiImageNode ) &&
+                   ( $inlineNode->resource === array() ) ) ||
+                 ( ( $inlineNode instanceof ezcDocumentWikiFootnoteNode ) &&
+                   ( $inlineNode->nodes === array() ) ) ||
+                 ( ( $inlineNode instanceof ezcDocumentWikiLinkNode ) &&
+                   ( $inlineNode->link === array() ) ) )
             {
                 $inlineNode = new ezcDocumentWikiTextNode( $inlineNode->token );
             }
@@ -756,20 +764,23 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     protected function reduceLinkNodes( ezcDocumentWikiLinkEndNode $node )
     {
         // Collect inline nodes
-        $collected = array( array() );
-        $parameter = 0;
+        $parameters = array( array() );
+        $collected  = array();
+        $parameter  = 0;
         while ( isset( $this->documentStack[0] ) &&
                 ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) &&
                 ( !$this->documentStack[0] instanceof ezcDocumentWikiLinkNode ) )
         {
             $child = array_shift( $this->documentStack );
+            $collected[] = $child;
+
             if ( $child instanceof ezcDocumentWikiSeparatorNode )
             {
-                $collected[++$parameter] = array();
+                $parameters[++$parameter] = array();
             }
             else
             {
-                array_unshift( $collected[$parameter], $child );
+                array_unshift( $parameters[$parameter], $child );
             }
         }
 
@@ -778,18 +789,18 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         if ( !isset( $this->documentStack[0] ) ||
              ( !$this->documentStack[0] instanceof ezcDocumentWikiLinkNode ) )
         {
-            $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
+            $this->documentStack = array_merge( $collected, $this->documentStack );
             return new ezcDocumentWikiTextNode( $node->token );
         }
 
         // Reverse parameter order
-        $collected = array_reverse( $collected );
+        $parameters = array_reverse( $parameters );
         $linkStart = array_shift( $this->documentStack );
 
-        $parameter = $linkStart->token->getLinkParameterOrder( count( $collected ) );
+        $parameter = $linkStart->token->getLinkParameterOrder( count( $parameters ) );
         foreach ( $parameter as $nr => $name )
         {
-            $linkStart->$name = $collected[$nr];
+            $linkStart->$name = $parameters[$nr];
         }
 
         return $linkStart;
@@ -806,20 +817,23 @@ class ezcDocumentWikiParser extends ezcDocumentParser
     protected function reduceImageNodes( ezcDocumentWikiImageEndNode $node )
     {
         // Collect inline nodes
-        $collected = array( array() );
-        $parameter = 0;
+        $parameters = array( array() );
+        $collected  = array();
+        $parameter  = 0;
         while ( isset( $this->documentStack[0] ) &&
                 ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) &&
                 ( !$this->documentStack[0] instanceof ezcDocumentWikiImageNode ) )
         {
             $child = array_shift( $this->documentStack );
+            $collected[] = $child;
+
             if ( $child instanceof ezcDocumentWikiSeparatorNode )
             {
-                $collected[++$parameter] = array();
+                $parameters[++$parameter] = array();
             }
             else
             {
-                array_unshift( $collected[$parameter], $child );
+                array_unshift( $parameters[$parameter], $child );
             }
         }
 
@@ -828,12 +842,12 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         if ( !isset( $this->documentStack[0] ) ||
              ( !$this->documentStack[0] instanceof ezcDocumentWikiImageNode ) )
         {
-            $this->documentStack = array_merge( array_reverse( $collected ), $this->documentStack );
+            $this->documentStack = array_merge( $collected, $this->documentStack );
             return new ezcDocumentWikiTextNode( $node->token );
         }
 
         // Reverse parameter order
-        $collected = array_reverse( $collected );
+        $parameters = array_reverse( $parameters );
         $linkStart = array_shift( $this->documentStack );
 
         // Apply token parameters, which may be overwritten by parameters
@@ -842,10 +856,10 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         $linkStart->width      = $linkStart->token->width;
         $linkStart->height     = $linkStart->token->height;
 
-        $parameter = $linkStart->token->getImageParameterOrder( count( $collected ) );
+        $parameter = $linkStart->token->getImageParameterOrder( count( $parameters ) );
         foreach ( $parameter as $nr => $name )
         {
-            $linkStart->$name = $collected[$nr];
+            $linkStart->$name = $parameters[$nr];
         }
 
         return $linkStart;

@@ -22,10 +22,10 @@ class ezcDocumentMissingVisitorException extends ezcDocumentException
      * @param string $class 
      * @return void
      */
-    public function __construct( $class )
+    public function __construct( $class, $line = 0, $position = 0 )
     {
         parent::__construct( 
-            "Could not find visitor for '{$class}'."
+            "Could not find visitor for '{$class}' at {$line}, {$position}."
         );
     }
 }

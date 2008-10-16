@@ -23,6 +23,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      */
     protected $complexVisitMapping = array(
         'ezcDocumentWikiTextNode'           => 'visitText',
+        'ezcDocumentWikiSeparatorNode'      => 'visitText',
         'ezcDocumentWikiBoldNode'           => 'visitEmphasisMarkup',
         'ezcDocumentWikiItalicNode'         => 'visitEmphasisMarkup',
         'ezcDocumentWikiUnderlineNode'      => 'visitEmphasisMarkup',
@@ -57,6 +58,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiBlockquoteNode'         => 'blockquote',
         'ezcDocumentWikiBulletListItemNode'     => 'listitem',
         'ezcDocumentWikiEnumeratedListItemNode' => 'listitem',
+        'ezcDocumentWikiFootnoteNode'           => 'footnote',
         'ezcDocumentWikiPageBreakNode'          => 'beginpage',
 
         'ezcDocumentWikiTableNode'              => 'table',
@@ -69,12 +71,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * 
      * @var array
      */
-    protected $skipNodes = array(
-        'ezcDocumentWikiNamedReferenceNode',
-        'ezcDocumentWikiAnonymousReferenceNode',
-        'ezcDocumentWikiSubstitutionNode',
-        'ezcDocumentWikiFootnoteNode',
-    );
+    protected $skipNodes = array();
 
     /**
      * DOM document
@@ -163,7 +160,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         }
 
         // We could not find any valid visitor.
-        throw new ezcDocumentMissingVisitorException( get_class( $node ) );
+        throw new ezcDocumentMissingVisitorException( get_class( $node ), $node->token->line, $node->token->position );
     }
 
     /**
@@ -450,6 +447,9 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
             $this->visitNode( $para, $child );
         }
 
+        // Check if paragraph should be converted into a literalayout section,
+        // because it contains intentional line breaks. This marker is set by
+        // the visitLineBreak() method.
         if ( $para->hasAttribute( 'type' ) &&
              ( $para->getAttribute( 'type' ) === 'literallayout' ) )
         {

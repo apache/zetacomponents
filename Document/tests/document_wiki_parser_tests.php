@@ -42,7 +42,7 @@ class ezcDocumentWikiParserTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$testDocuments, 1, 1 );
+        return array_slice( self::$testDocuments, 19, 1 );
     }
 
     /**
@@ -66,7 +66,7 @@ class ezcDocumentWikiParserTests extends ezcTestCase
         $expected = include $to;
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'wiki_parser_' ) . '/';
+        $tempDir = $this->createTempDir( 'wiki_parser_' . $type . '_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), "<?php\n\nreturn " . var_export( $ast, true ) . ";\n\n" );
 
         $this->assertEquals(
