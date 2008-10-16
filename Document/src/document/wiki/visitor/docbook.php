@@ -36,10 +36,11 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiLiteralBlockNode'   => 'visitLiteralBlock',
         'ezcDocumentWikiInlineLiteralNode'  => 'visitLiteral',
         'ezcDocumentWikiTableRowNode'       => 'visitTableRow',
+        'ezcDocumentWikiLineBreakNode'      => 'visitLineBreak',
+        'ezcDocumentWikiParagraphNode'      => 'visitParagraph',
 
         // Node markup is ignored, because there is no equivalent in docbook
         'ezcDocumentWikiDeletedNode'   => 'visitChildren',
-        'ezcDocumentWikiLineBreakNode' => 'visitChildren',
     );
 
     /**
@@ -48,7 +49,6 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * @var array
      */
     protected $simpleVisitMapping = array(
-        'ezcDocumentWikiParagraphNode'          => 'para',
         'ezcDocumentWikiSectionNode'            => 'section',
         'ezcDocumentWikiInlineQuoteNode'        => 'quote',
         'ezcDocumentWikiSuperscriptNode'        => 'superscript',
@@ -201,7 +201,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         $title = $this->document->createElement( 'title' );
         $root->appendChild( $title );
 
-        // Add id for internal references.
+        // @TODO: Add id for internal references.
 
         foreach ( $node->nodes as $child )
         {
@@ -404,6 +404,68 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         foreach ( $node->nodes as $child )
         {
             $this->visitNode( $row, $child );
+        }
+    }
+
+    /**
+     * Visit line break
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitLineBreak( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $root->appendChild( new DOMText( "\n" ) );
+
+        // Mark paragraph, so it will be converted into a literallayout
+        // element.
+        if ( $root->tagName === 'para' )
+        {
+            $root->setAttribute( 'type', 'literallayout' );
+        }
+        else
+        {
+            $this->triggerError(
+                E_NOTICE, 'Intentional line break outside of paragraph ignored.',
+                null, $node->token->line, $node->token->position
+            );
+        }
+    }
+
+    /**
+     * Visit paragraph
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitParagraph( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $para = $this->document->createElement( 'para' );
+        $root->appendChild( $para );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $para, $child );
+        }
+
+        if ( $para->hasAttribute( 'type' ) &&
+             ( $para->getAttribute( 'type' ) === 'literallayout' ) )
+        {
+            // Change paragraph into a literallayout section
+            $newPara = $this->document->createElement( 'literallayout' );
+            $newPara->setAttribute( 'class', 'Normal' );
+            $root->appendChild( $newPara );
+
+            // Move all childs to new paragraph
+            foreach ( $para->childNodes as $child )
+            {
+                $newPara->appendChild( $child->cloneNode( true ) );
+            }
+
+            // Remove old paragraph
+            $root->removeChild( $para );
         }
     }
 }

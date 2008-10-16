@@ -68,7 +68,7 @@ class ezcDocumentWikiDocbookVisitorTests extends ezcTestCase
         $xml = $docbook->save();
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'wiki_visitor_' ) . '/';
+        $tempDir = $this->createTempDir( 'wiki_visitor_' . $type . '_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         $this->assertEquals(

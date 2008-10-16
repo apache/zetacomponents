@@ -5,17 +5,18 @@
     <thead>
       <row>
         <cell>Heading Col 1 </cell>
-        <cell>Heading Col 2         </cell>
+        <cell>Heading Col 2 </cell>
       </row>
     </thead>
     <tbody>
       <row>
-        <cell>Cell 1.1       </cell>
-        <cell>Two linesin Cell 1.2 </cell>
+        <cell>Cell 1.1 </cell>
+        <cell>Two lines
+in Cell 1.2 </cell>
       </row>
       <row>
-        <cell>Cell 2.1       </cell>
-        <cell>Cell 2.2               </cell>
+        <cell>Cell 2.1 </cell>
+        <cell>Cell 2.2 </cell>
       </row>
     </tbody>
   </table>

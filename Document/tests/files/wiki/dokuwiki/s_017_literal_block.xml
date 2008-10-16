@@ -4,6 +4,5 @@
   <literallayout>This is preformatted code all spaces are preserved: like              &lt;-this</literallayout>
   <literallayout>This is pretty much the same, but you could use it to show that you quoted a
 file.</literallayout>
-  <para>This is some text which contains addresses like this:
-http://www.splitbrain.org and **formatting**, but nothing is done with it.</para>
+  <para>This is some text which contains addresses like this: http://www.splitbrain.org and **formatting**, but nothing is done with it.</para>
 </article>

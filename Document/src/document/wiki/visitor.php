@@ -254,7 +254,7 @@ abstract class ezcDocumentWikiVisitor
     protected function visitText( DOMNode $root, ezcDocumentWikiNode $node )
     {
         $root->appendChild(
-            new DOMText( $node->token->content )
+            new DOMText( preg_replace( '(\\s+)', ' ', $node->token->content ) )
         );
     }
 
