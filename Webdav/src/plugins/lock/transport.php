@@ -55,11 +55,19 @@ class ezcWebdavLockTransport
     protected $propertyHandler;
 
     /**
+     * Header handler. 
+     * 
+     * @var ezcWebdavLockHeaderHandler
+     */
+    protected $headerHandler;
+
+    /**
      * Creates a new lock transport.
      */
-    public function __construct()
+    public function __construct( $headerHandler, $propertyHandler )
     {
-        $this->propertyHandler = new ezcWebdavLockPropertyHandler();
+        $this->propertyHandler = $propertyHandler;
+        $this->headerHandler   = $headerHandler;
     }
 
     /**
@@ -123,7 +131,7 @@ class ezcWebdavLockTransport
 
         $request->setHeaders(
             ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
-                array( 'Depth', 'Timeout' )
+                array( 'Depth' )
             )
         );
 
@@ -188,6 +196,8 @@ class ezcWebdavLockTransport
                 ? $ownerElements->item( 0 )->textContent
                 : null )
         );
+
+        $request->setHeader( 'Timeout', $this->headerHandler->parseTimeoutHeader() );
 
         return $request;
     }

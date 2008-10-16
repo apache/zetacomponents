@@ -23,7 +23,11 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             ( $customPathFactory === null ? $pathFactory : $customPathFactory )
         );
         $test->server->pluginRegistry->registerPlugin(
-            new ezcWebdavLockPluginConfiguration()
+            new ezcWebdavLockPluginConfiguration(
+                new ezcWebdavLockPluginOptions(
+                    array( 'lockTimeout' => 604800 )
+                )
+            )
         );
     }
 

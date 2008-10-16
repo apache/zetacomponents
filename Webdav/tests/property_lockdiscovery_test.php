@@ -14,14 +14,16 @@ class ezcWebdavLockDiscoveryPropertyTest extends ezcWebdavWebdavPropertyTestCase
         $this->className = 'ezcWebdavLockDiscoveryProperty';
         $this->propertyName = 'lockdiscovery';
         $this->defaultValues = array(
-            'activeLock' => null,
+            'activeLock' => new ArrayObject(),
         );
         $this->workingValues = array(
             'activeLock' => array(
-                null,
-                array(
-                    new ezcWebdavLockDiscoveryPropertyActiveLock(),
-                    new ezcWebdavLockDiscoveryPropertyActiveLock(),
+                new ArrayObject(),
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockDiscoveryPropertyActiveLock(),
+                        new ezcWebdavLockDiscoveryPropertyActiveLock(),
+                    )
                 ),
             ),
         );
@@ -33,6 +35,7 @@ class ezcWebdavLockDiscoveryPropertyTest extends ezcWebdavWebdavPropertyTestCase
                 true,
                 false,
                 new stdClass(),
+                array(),
             ),
         );
     }

@@ -49,12 +49,12 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * @param array(string) $tokens
      * @return void
      */
-    public function __construct( $lockType         = ezcWebdavLockRequest::TYPE_READ,
-                                 $lockScope        = ezcWebdavLockRequest::SCOPE_SHARED,
-                                 $depth            = ezcWebdavRequest::DEPTH_INFINITY,
-                                 $owner            = null,
-                                 ezcWebdavDateTime $timeout = null,
-                                 $tokens           = array() )
+    public function __construct( $lockType  = ezcWebdavLockRequest::TYPE_READ,
+                                 $lockScope = ezcWebdavLockRequest::SCOPE_SHARED,
+                                 $depth     = ezcWebdavRequest::DEPTH_INFINITY,
+                                 $owner     = null,
+                                 $timeout   = null,
+                                 $tokens    = array() )
     {
         parent::__construct( $lockType, $lockScope );
         $this->depth   = $depth;
@@ -99,15 +99,9 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                 }
                 break;
             case 'timeout':
-                if ( !( $propertyValue instanceof ezcWebdavDateTime ) && $propertyValue !== null )
+                if ( ( !is_int( $propertyValue ) || $propertyValue < 1 ) && $propertyValue !== null )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
-                }
-                break;
-            case 'timeout':
-                if ( !( $propertyValue instanceof ezcWebdavDateTime ) && $propertyValue !== null )
-                {
-                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime' );
+                    return $this->hasError( $propertyName, $propertyValue, 'int > 0' );
                 }
                 break;
             case 'tokens':

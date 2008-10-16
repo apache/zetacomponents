@@ -80,6 +80,7 @@ require_once 'client_test_ie6_auth.php';
 require_once 'client_test_ie7.php';
 require_once 'client_test_ie7_auth.php';
 
+require_once 'lock_plugin_options_test.php';
 require_once 'lock_if_header_list_item_test.php';
 require_once 'lock_if_header_tagged_list_test.php';
 require_once 'lock_if_header_no_tag_list_test.php';
@@ -156,6 +157,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavBasicPathFactoryTest::suite() );
         $this->addTest( ezcWebdavAutomaticPathFactoryTest::suite() );
 
+        $this->addTest( ezcWebdavLockPluginOptionsTest::suite() );
         $this->addTest( ezcWebdavLockIfHeaderListItemTest::suite() );
         $this->addTest( ezcWebdavLockIfHeaderTaggedListTest::suite() );
         $this->addTest( ezcWebdavLockIfHeaderNoTagListTest::suite() );

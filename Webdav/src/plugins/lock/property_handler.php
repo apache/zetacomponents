@@ -278,13 +278,14 @@ class ezcWebdavLockPropertyHandler
                 $activeLockElement->appendChild(
                     $xmlTool->createDomElement( $dom, 'owner' )
                 )->appendChild(
+                // @TODO: Is the owner element really always an URI?
                     $xmlTool->createDomElement( $dom, 'href' )
                 )->nodeValue = $activeLock->owner;
             }
 
             $activeLockElement->appendChild(
                 $xmlTool->createDomElement( $dom, 'timeout' )
-            )->nodeValue = $activeLock->timeout;
+            )->nodeValue = "Second-{$activeLock->timeout}";
 
             foreach ( $activeLock->tokens as $token )
             {

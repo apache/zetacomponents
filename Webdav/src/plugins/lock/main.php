@@ -41,15 +41,47 @@ class ezcWebdavLockPlugin
     );
 
     /**
+     * Lock plugin options. 
+     * 
+     * @var ezcWebdavLockPluginOptions
+     */
+    protected $options;
+
+    /**
+     * Lock transport. 
+     * 
+     * @var ezcWebdavLockTransport
+     */
+    protected $transport;
+
+    /**
+     * Lock property handler. 
+     * 
+     * @var ezcWebdavLockPropertyHandler
+     */
+    protected $propertyHandler;
+
+    /**
+     * Lock header handler. 
+     * 
+     * @var ezcWebdavLockHeaderHandler
+     */
+    protected $headerHandler;
+
+    /**
      * Creates the objects needed for dispatching the hooks.
      * 
      * @return void
      */
-    public function __construct()
+    public function __construct( ezcWebdavLockPluginOptions $options )
     {
-        $this->transport       = new ezcWebdavLockTransport();
-        $this->propertyHandler = new ezcWebdavLockPropertyHandler();
+        $this->options         = $options;
         $this->headerHandler   = new ezcWebdavLockHeaderHandler();
+        $this->propertyHandler = new ezcWebdavLockPropertyHandler();
+        $this->transport       = new ezcWebdavLockTransport(
+            $this->headerHandler,
+            $this->propertyHandler
+        );
     }
 
     /**
@@ -243,8 +275,13 @@ class ezcWebdavLockPlugin
     {
         // Active lock part to be used in PROPPATCH requests and LOCK response
         $lockToken = $this->generateLockToken( $request );
-        $activeLock = $this->generateActiveLock( $request, $lockToken );
+        $activeLock = $this->generateActiveLock(
+            $request,
+            $lockToken,
+            $this->getTimeoutValue( $request )
+        );
 
+        // Generates PROPPATCH requests while checking violations
         $requestGenerator = new ezcWebdavLockLockRequestGenerator(
             $request,
             $activeLock
@@ -298,6 +335,23 @@ class ezcWebdavLockPlugin
         return new ezcWebdavLockResponse( $affectedLockDiscovery, $lockToken );
     }
 
+    protected function getTimeoutValue( ezcWebdavLockRequest $request )
+    {
+        // Default
+        $timeout = $this->options->lockTimeout;
+
+        $timeoutHeader = $request->getHeader( 'Timeout' );
+        foreach ( $timeoutHeader as $desiredTimeout )
+        {
+            if ( $desiredTimeout < $timeout )
+            {
+                $timeout = $desiredTimeout;
+            }
+        }
+
+        return $timeout;
+    }
+
     /**
      * Returns a new active lock element according to the given data.
      *
@@ -311,16 +365,14 @@ class ezcWebdavLockPlugin
      * @param string $lockToken 
      * @return ezcWebdavLockDiscoveryPropertyActiveLock
      */
-    protected function generateActiveLock( ezcWebdavLockRequest $request, $lockToken )
+    protected function generateActiveLock( ezcWebdavLockRequest $request, $lockToken, $timeout )
     {
         return new ezcWebdavLockDiscoveryPropertyActiveLock(
             $request->lockInfo->lockType,
             $request->lockInfo->lockScope,
             $request->getHeader( 'Depth' ),
             $request->lockInfo->owner,
-            // @TODO: Parse timeout header!
-            // $request->getHeader( 'Timeout' ),
-            null,
+            $timeout,
             array( $lockToken )
         );
     }

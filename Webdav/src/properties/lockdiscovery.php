@@ -60,7 +60,7 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
         switch ( $propertyName )
         {
             case 'activeLock':
-                if ( ( !is_object( $propertyValue ) || !( $propertyValue instanceof ArrayObject ) ) && $propertyValue !== null )
+                if ( !is_object( $propertyValue ) || !( $propertyValue instanceof ArrayObject ) )
                 {
                     return $this->hasError(
                         $propertyName,
@@ -86,7 +86,19 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
      */
     public function hasNoContent()
     {
-        return $this->properties['activeLock'] === null;
+        return count( $this->properties['activeLock'] ) === 0;
+    }
+
+    /**
+     * Remove all contents from a property.
+     *
+     * Clear a property, so that it will be recognized as empty later.
+     * 
+     * @return void
+     */
+    public function clear()
+    {
+        $this->activeLock = new ArrayObject();
     }
 }
 

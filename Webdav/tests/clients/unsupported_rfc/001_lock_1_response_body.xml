@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <D:prop xmlns:D="DAV:">
   <D:lockdiscovery>
     <D:activelock>
       <D:locktype>
-	     <D:write/>
+        <D:write/>
       </D:locktype>
       <D:lockscope>
-	     <D:exclusive/>
+        <D:exclusive/>
       </D:lockscope>
       <D:depth>Infinity</D:depth>
       <D:owner>

@@ -495,9 +495,9 @@ class ezcWebdavTransport
         switch ( true )
         {
             case ( $info instanceof ezcWebdavXmlDisplayInformation ):
-                $output->headers['Content-Type']  = ( isset( $output->headers['Content-Type'] ) ? $output->headers['Content-Type'] : 'text/xml; charset="utf-8"' );
-                $info->body->formatOutput         = true;
-                $output->body                     = $info->body->saveXML( $info->body );
+                $output->headers['Content-Type'] = ( isset( $output->headers['Content-Type'] ) ? $output->headers['Content-Type'] : 'text/xml; charset="utf-8"' );
+                $info->body->formatOutput        = true;
+                $output->body                    = $info->body->saveXML( $info->body );
                 break;
             case ( $info instanceof ezcWebdavStringDisplayInformation ):
                 if ( $info->response->getHeader( 'Content-Type' ) === null )

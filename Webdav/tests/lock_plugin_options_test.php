@@ -1,0 +1,96 @@
+<?php
+/**
+ * File containing the ezcWebdavLockPluginOptionsTest class.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @subpackage Test
+ */
+
+require_once 'test_case.php';
+
+/**
+ * Test case for the ezcWebdavLockPluginOptions class.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @subpackage Test
+ */
+class ezcWebdavLockPluginOptionsTest extends ezcWebdavTestCase
+{
+    public static function suite()
+    {
+		return new PHPUnit_Framework_TestSuite( __CLASS__ );
+    }
+
+    public function testConstructorSuccess()
+    {
+        $opt = new ezcWebdavLockPluginOptions();
+
+        $this->assertAttributeEquals(
+            array( 'lockTimeout' => 900 ),
+            'properties',
+            $opt
+        );
+
+        $opt = new ezcWebdavLockPluginOptions(
+            array( 'lockTimeout' => 123 )
+        );
+
+        $this->assertAttributeEquals(
+            array( 'lockTimeout' => 123 ),
+            'properties',
+            $opt
+        );
+    }
+
+    public function testSetAccessSuccess()
+    {
+        $opt = new ezcWebdavLockPluginOptions();
+
+        $this->assertSetProperty(
+            $opt,
+            'lockTimeout',
+            array( 1, 23, 42, 100000, 2147483647 )
+        );
+    }
+
+    public function testSetAccessFailure()
+    {
+        $opt = new ezcWebdavLockPluginOptions();
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'lockTimeout',
+            array( 0, -42, true, false, 'foo', 23.42, array(), new stdClass() )
+        );
+    }
+
+    public function testGetAccessFailure()
+    {
+        $opt = new ezcWebdavLockPluginOptions();
+
+        try
+        {
+            echo $opt->foo;
+            $this->fail( 'Exception not thrown on get access to non-existent property.' );
+        }
+        catch( ezcBasePropertyNotFoundException $e ) {}
+    }
+
+    public function testIssetAccess()
+    {
+        $opt = new ezcWebdavLockPluginOptions();
+
+        $this->assertTrue(
+            isset( $opt->lockTimeout )
+        );
+        $this->assertFalse(
+            isset( $opt->foo )
+        );
+    }
+}
+
+?>

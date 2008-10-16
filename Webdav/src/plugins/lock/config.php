@@ -37,11 +37,16 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
     /**
      * Creates a new lock plugin configuration.
      * 
+     * @param ezcWebdavLockPluginOptions $options
      * @return void
      */
-    public function __construct()
+    public function __construct( ezcWebdavLockPluginOptions $options = null )
     {
-        $this->main = new ezcWebdavLockPlugin();
+        if ( $options === null )
+        {
+            $options = new ezcWebdavLockPluginOptions();
+        }
+        $this->main = new ezcWebdavLockPlugin( $options );
     }
 
     /**

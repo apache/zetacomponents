@@ -1,0 +1,44 @@
+Webdav 1.1: Dead properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Some of the Webdav plugins need to store additional information in the
+backend. To achieve this, new properties are introduced, which will be handled
+by the backend as so-called "dead properties". The property contents should be
+XML.
+
+All dead properties provided by any plugin that is shipped with eZ Components
+must reside in the namespace::
+
+	http://ezcomponents.org/s/Webdav
+
+===========
+Lock plugin
+===========
+
+Due to the complexity of the Webdav standard and the abstraction of the lock
+plugin, a new dead property is introduced which stores additional information
+about locks. The <ezclock> property is an XML document that has the following
+structure::
+
+	<ezclock>
+		<null />
+		<tokeninfo>
+			<token>opaquelocktoken:abc</token>
+			<lockbase>/path/to/lock/base</lockbase>
+		</tokeninfo>
+		<tokeninfo>
+			<token>opaquelocktoken:def</token>
+			<lastaccess>2008-10-12T15:19:21+00:00</lastaccess>
+		</tokeninfo>
+	</ezclock>
+
+If the <null> tag is set, the resource is a null lock resource. The
+<tokeninfo> element stores information about the base of the lock, if the lock
+was not issued on the resource itself but on a higher level resource. If the
+lock was issued on the resource itself, the <lockbase> element is not present,
+but the <lastaccess> element is present. It indicates the last time when the
+client performed an operation on any of the resources locked by the token.
+
+The <lockbase> element is used to identify the resource on which the lock was
+originally issued. The <lastaccess> element is used to purge locks that have
+not been accessed for a certain time period.
