@@ -32,6 +32,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiInternalLinkNode'   => 'visitExternalLink',
         'ezcDocumentWikiBulletListNode'     => 'visitList',
         'ezcDocumentWikiEnumeratedListNode' => 'visitList',
+        'ezcDocumentWikiImageNode'          => 'visitImages',
 
         // Node markup is ignored, because there is no equivalent in docbook
         'ezcDocumentWikiDeletedNode'   => 'visitChildren',
@@ -267,6 +268,57 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
             $node instanceof ezcDocumentWikiBulletListNode ? 'itemizedlist' : 'orderedlist'
         );
         $root->appendChild( $list );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $list, $child );
+        }
+    }
+
+    /**
+     * Visit images
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitImages( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $media = $this->document->createElement( $root->tagName === 'para' ? 'inlinemediaobject' : 'mediaobject' );
+        $root->appendChild( $media );
+
+        $imageObject = $this->document->createElement( 'imageobject' );
+        $media->appendChild( $imageObject );
+
+        $image = $this->document->createElement( 'imagedata' );
+        $image->setAttribute( 'fileref', $this->nodeListToString( $node->resource ) );
+        $imageObject->appendChild( $image );
+
+        // Handle optional settings on images
+        if ( $node->title !== array() )
+        {
+            $text = $this->document->createElement( 'textobject' );
+            $media->appendChild( $text );
+            foreach ( $node->title as $child )
+            {
+                $this->visitNode( $text, $child );
+            }
+        }
+
+        if ( $node->width )
+        {
+            $image->setAttribute( 'width', (int) $node->width );
+        }
+
+        if ( $node->height )
+        {
+            $image->setAttribute( 'depth', (int) $node->height );
+        }
+
+        if ( $node->alignement )
+        {
+            $image->setAttribute( 'align', $node->alignement );
+        }
 
         foreach ( $node->nodes as $child )
         {
