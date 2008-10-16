@@ -1,0 +1,568 @@
+eZ Components - MvcTools
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. contents:: Table of Contents
+
+Introduction
+============
+
+The MvcTools component provides an application developer with all the tools to
+architect his application framework. It is not meant to provide a full
+framework but merely provides the different parts that can be used. In this
+tutorial we'll use the MvcTools and related components to build **TheWire** —
+a twitter__ like application to share information. The source code of TheWire is
+available in SVN as well, at
+http://svn.ez.no/svn/ezcomponents/docs/examples/applications/TheWire/.
+
+__ http://twitter.com
+
+Class Overview
+--------------
+
+The MvcTools component provides classes dealing with the different parts of an
+MVC framework. It provides functionality for dispatching, routing, views
+generation, input parsing, output generation and filters. The diagram below
+shows the code flow through all the different parts.
+
+.. image:: images/dispatcher-flow.png
+   :alt:   Request flow
+
+The next few sections describe the different parts of the diagram. How this all
+ties together follows in the section _`Dispatchers`.
+
+Request Parsers
+```````````````
+
+The request parser is responsible for taking input from a specific source and
+creating an abstract ezcMvcRequest object from this input data.
+
+ezcMvcHttpRequestParser
+    Uses HTTP input to create a request object. This is the request parser you
+    would use in most cases, as it's meant for the Web part of applications.
+
+ezcMvcMailRequestParser
+    Uses an e-mail messages to create a request object from. The request parser
+    requires an ezcMail object and therefore this request parser is only
+    available through the ezcMvcMailTiein component.
+
+Router
+``````
+
+The router analyses the request data in the abstract ezcMvcRequest object and
+decides which controller should be used to handle the incoming request data.
+The router uses route objects to matched against request data. Those route
+objects do the matching themselves, and there are multiple implementations
+available. Each route is linked to a controller class, an action name and an
+optional set of extra variables that are either set in the route object
+instantiation, or defined by URL parameters.
+
+ezcMvcRouter
+    Is an abstract class that should be inherited in the application to define
+    the routes with the help of route objects of the classes ezcMvcRailsRoute
+    and ezcMvcRegexpRoute. Matches are done against the full URI part of the
+    request information.
+
+ezcMvcRailsRoute
+    A route that uses a rails-like URL matcher to match against the URI. The
+    pattern accepts parameters in URL elements starting with : (a colon). An
+    example of a pattern is ``/rss/tag/:tagName`` where ``:tagname`` denotes a
+    variable URL element with the name *tagName*.
+
+ezcMvcRegexpRoute
+    This route class uses regular expressions to match URLs. Variables are
+    defined by using named sub patterns. An example of a pattern is
+    ``@^people/(?P<name>.*)$@`` — where ``(?P<name>.*)`` defines the location
+    of a variable URL element with the name *name*. The ezcMvcRegexpRoute
+    patterns are more complex than ezcMvcRailsRoute patterns, but also more
+    powerful because you can name one URL position different depending on the
+    contents such as in ``@^people(/((?P<nr>[0-9]+)|(?P<name>.+)))?$@`` (the
+    variable *nr* is returned if a sequence of numbers is matched, otherwise
+    the variable *name* is returned.
+
+Controller
+``````````
+
+The controller is created in the dispatcher by using information that is
+returned from the router (in the form of an ezcMvcRoutingInformation object).
+It is up to the dispatcher on how the controller is created.
+
+ezcMvcController
+    Every controller should inherit from this abstract class, which implements
+    a constructor that sets the action method and creates object variables for
+    each of the request variables. The abstract class also implements the 
+    createResult() method that will be called by the dispatcher to run an
+    action. The implementations of the actions should be done in the inherited
+    class.
+
+View Handlers
+`````````````
+
+Each action returns an abstract object of the class ezcMvcResult. This object
+contains a set of variables that have to be rendered by a view. A view is
+selected by the dispatcher and controls the rendering of different sections
+(zones).
+
+ezcMvcView
+    Is the abstract class that views should inherit from. Every view class
+    should implement the createZones() method to configure the different
+    zone of a view. Each zone can have a different view handler. And each view
+    handler implements ezcMvcViewHandler interface.
+
+ezcMvcPhpViewHandler
+    This view handler uses a plain PHP script to process the result variables.
+    All result variables are available as properties on the $this object.
+
+ezcMvcJsonViewHandler
+    The JSON view handler collects all the variables, and the result from
+    previous zones into an array that is then encoded as JSON.
+
+ezcMvcTemplateViewHandler
+    This view handler uses the Template component for rendering result
+    variables. It is part of the MvcTemplateTiein package. Variables are simply
+    passed as template variables.
+
+Response Writer
+```````````````
+
+The response writers are responsible for outputting the rendered result.
+
+ezcMvcHttpResponseWriter
+    Uses HTTP to output the rendered result. This is what you would normally
+    use for web applications. The response writer will also set the correct
+    headers.
+
+Dispatchers
+```````````
+
+The dispatcher is responsible for the whole flow of a request. Dispatchers
+should implement the ezcMvcDispatcher interface. The component comes with only
+one basic dispatcher at the moment.
+
+ezcMvcConfigurableDispatcher
+    The configurable dispatcher takes as parameter an object of a class that
+    implements the ezcMvcDispatcherConfiguration interface. The dispatcher uses
+    information from this object to decide on any of the above mentioned
+    categories.
+    
+ezcMvcDispatcherConfiguration
+    This interface describes the methods for creating the request parser,
+    router, views and response writers. Besides the above mentioned elements it
+    also is responsible for creating the correct request object for fatal
+    errors and the selection and running of filters. Where
+    the ezcMvcConfigurableDispatcher object is responsible for running the
+    code, a class implementing the ezcMvcDispatcherConfiguration interface is
+    responsible for selecting and configuring the application's specifics.
+
+
+A Simple Application: Hello World
+---------------------------------
+
+Before we go all the way with a complex application such as TheWire we'll be
+implementing a very simple application with only a few routes, one controller
+and two views. From this simple base we will then continue later on with adding
+more complex elements and end up with TheWire.
+
+Set-up
+``````
+
+First of all, we need to create a directory structure. Because we do not want
+all of our code available directly through the web server will will place the
+libraries and other related files outside of the document root. We therefore
+create four directories under our application root: cache, lib, templates and
+www.
+
+In the top level directory (HelloMvc) we place a config.php file, where we set
+the include path, add the class repository and configure the Template
+component. The file is otherwise really simple:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/config.php
+   :literal:
+
+In the "cache" directory, we create a subdirectory "compiled_templates" and
+give write access to the apache group::
+
+    $ mkdir cache/compiled_templates
+    # chgrp nogroup cache/compiled_templates
+    # chmod g+w cache/compiled_templates
+
+We create a file "index.php" in the "www" directory. This file contains the
+bootstrapping code that gets the application going. Again, the contents of this
+file are very simple:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/www/index.php
+   :literal:
+
+After the above steps, our directory structure now looks like::
+
+    HelloMvc
+    ├── cache/
+    │   └── compiled_templates/
+    ├── lib/
+    ├── templates/
+    ├── www/
+    │   └── index.php
+    └── config.php
+
+Dispatcher Configuration
+````````````````````````
+
+The dispatcher configuration controls the inner workings of the application. We
+first have to create the autoload file, and place the entry for the
+helloMvcConfiguration in this autoload file. The autoload.php file goes into
+the "lib/autoload" directory and for now should contain the following::
+
+    <?php
+    return array(
+        'helloMvcConfiguration' => 'config.php',
+    );  
+    ?>
+
+The config.php file we create in the "lib" directory, it contains the
+helloMvcConfiguration class that implements the ezcMvcDispatcherConfiguration
+interface::
+
+    <?php
+    class helloMvcConfiguration implements ezcMvcDispatcherConfiguration
+    {
+
+The next few paragraphs introduce all the methods that this class needs to
+implement. They control the different aspects, from request parsing to response
+writing.
+
+We start with the createRequestParser() method, which is required to return a
+request parser object that will be used to gather information from the
+environment. We're going to write a web site, so we're going to use the
+ezcMvcHttpRequestParser class. The method creates a parser object, and then we
+set the prefix to the directory in which the application is run (as seen
+through the browser)::
+
+    function createRequestParser()
+    {
+        $parser = new ezcMvcHttpRequestParser;
+        $parser->prefix = preg_replace( '@/index\.php$@', '', $_SERVER['SCRIPT_NAME'] );
+        return $parser;
+    }
+
+After the dispatcher created an ezcMvcRequest object with the request parser,
+it creates a router object through the createRouter() method. This method
+accepts the created ezcMvcRequest object so that it could chose a different
+router depending on information contained in the request object. We don't need
+that here however, so we just return the user-created router object directly::
+
+    function createRouter( ezcMvcRequest $request )
+    {
+        return new helloRouter( $request );
+    }
+
+We'll create the router object itself as first thing after the rest of the
+dispatcher configuration. We will create two routes, "/" for a general "Hello
+World" greeting and "/" + *name* for a personalized greeting.  The router and
+dispatcher will find a controller, execute the action and return a result in
+the form of an ezcMvcResult object.  This object needs to be processed with
+view handlers. View handlers are selected by returning a specific view class
+from the createView() method of the dispatcher configuration. For each of the
+two routes, we create a view. We can do that by using the 'matchedRoute'
+property of the route information object, which is also passed as argument to
+the createView() method. Our createView() method looks like::
+
+    function createView( ezcMvcRoutingInformation $routeInfo,
+                         ezcMvcRequest $request, ezcMvcResult $result )
+    {
+        switch ( $routeInfo->matchedRoute )
+        {
+            case '/:name':
+                return new helloNameView( $request, $result );
+            default:
+                return new helloRootView( $request, $result );
+        }
+    }
+
+In case the route '/:name' matches, it returns the helloNameView view and
+otherwise the helloRootView. We'll get back to the implementations of those
+views later.
+
+After the view has rendered the result, the rendered result needs to be
+transported back to the client. In order to select such a response writer, the
+dispatcher calls the createResponseWriter() method. In our case we're only
+interested in HTTP and therefore we'll just select the ezcMvcHttpResponseWriter
+as you can see in the implementation of this method::
+
+    function createResponseWriter( ezcMvcRoutingInformation $routeInfo, 
+                                   ezcMvcRequest $request, ezcMvcResult $result, 
+                                   ezcMvcResponse $response )
+    {
+        return new ezcMvcHttpResponseWriter( $response );
+    }
+
+The last method that we use, is the
+createFatalRedirectRequest() method. This method is called by the configurable
+dispatcher when no route could be found by the router, or when the view
+rendering threw an Exception. The purpose of the createFatalRedirectRequest()
+method is to reconstruct a new ezcMvcRequest object containing the URL
+parameters that the router will link to a controller/action handling a fatal
+request. In our simple example, we'll basically redirect to a "personal
+greeting" page with as name "FATAL".  The fatal redirect is an *internal*
+redirect. You need to be aware that if the processing of this fatal redirect
+requests generate other fatal errors, the code will loop. The configurable
+dispatcher has an internal redirect limit of 25. If this limit is reached, an
+ezcMvcInfiniteLoopException is thrown. Our createFatalRedirectRequest() method
+looks like::
+
+    function createFatalRedirectRequest( ezcMvcRequest $request,
+                                         ezcMvcResult $result, 
+                                         Exception $response )
+    {
+        $req = clone $request;
+        $req->uri = '/FATAL';
+
+        return $req;
+    }
+
+We're cloning the original request here to keep all the original request
+parameters (user agent, request time, etc). With this last method, we conclude
+the helloMvcConfiguration class. You can find the whole fine in SVN at
+http://svn.ez.no/svn/ezcomponents/docs/examples/applications/HelloMvc/lib/config.php
+
+There are three other methods defined in the interface. Those methods deal with
+running filters on request, result and response data. We will be using the
+runResultFilters() method to automatically add an "installRoot" variable to the
+variables that are available in the views. It's trivial to do so as the
+implementation of the runResultFilters() method shows::
+
+    function runResultFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result )
+    {
+        $result->variables['installRoot'] = preg_replace( '@/index\.php$@', '', $_SERVER['SCRIPT_NAME'] );
+    }
+
+
+Creating The Router
+```````````````````
+
+The first thing to implement is the router object. We're going to place this in
+the "lib/" directory with the name "router.php". First of all, we have to add
+this entry to the autoload file at "/lib/autoload/autoload.php". Add the
+following line below the 'helloMvcConfiguration' line::
+
+    'helloRouter'           => 'router.php',
+
+The router class should inherit from the ezcMvcRouter class, and re-implement
+the createRoutes() method. This method is expected to return an array with
+objects that implement the ezcMvcRoute interface. The MvcTools component comes
+with two implementations: ezcMvcRailsRoute and ezcMvcRegexpRoute. We'll be
+using the ezcMvcRailsRoute class as it is slightly easier to use. The router
+class' implementation is then really simple:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/lib/router.php
+   :literal:
+
+Each route defines a pattern ('/' or '/:name') and links that to a controller
+(helloController) and an action ('greet' or 'greetPersonally'). 
+
+The controller is created by the dispatcher, which assumes the controller class
+will be loaded through the autoload mechanism. If you do not want your
+controllers to have to use the autoload mechanism, you can inherit from the
+configurable dispatcher, and override the createController() method. See the
+class documentation for ezcMvcConfigurableDispatcher for more information about
+what this method's signature is.
+
+Creating the Controller
+```````````````````````
+
+The controller implements the real logic of the application. In our case that
+is of course not a whole lot as we'll only echo a greeting. We start again by
+adding the controller to the autoload.php file. Add the following line below
+the 'helloRouter' line::
+
+    'helloController'       => 'controllers/hello.php',
+
+Then we proceed creating the controller class in the 'lib/controllers'
+directory. We will inherit from the ezcMvcController class that implements
+calling action methods depending on the $this->action property that is set
+by the dispatcher. The action method is matched with the method name by using a
+very simple algorithm: 
+
+- The action name is split up by '_'.
+- Every element is run through ucfirst__ to uppercase the first character.
+- The method name is assembled by using "do" and then appending every element
+  (without the '_').
+
+Examples:
+
+- "list" turns into "doList()".
+- "greeting" turns into "doGreeting()".
+- "greet_personally" turns into "doGreetPersonally()".
+- "greetPersonally" turns into "doGreetPersonally()".
+
+__ http://php.net/ucfirst
+
+In our case, that means we'll have to implement the doGreet() and
+doGreetPersonally() methods in our inherited class. Every action method is
+required to return an object of the class ezcMvcResult or the class
+ezcMvcInternalRedirect. We will only use the ezcMvcResult class in our first
+example.
+
+Our doGreet() method will select a random language to use as greeting, we'll
+do the same for the doGreetPersonally() method but there we'll also set the
+person's name as variable on the ezcMvcResult object. Because we're sharing
+functionality between two methods, we create another method to select a random
+language's greeting::
+
+    <?php
+    class helloController extends ezcMvcController
+    {
+        private function selectGreeting()
+        {
+            $greetings = array( 'Hello', 'Hei', 'こんにちわ', 'доброе утро' );
+            return $greetings[mt_rand( 0, count( $greetings - 1 ) )];
+        }
+
+The doGreet() method uses this method to select a greeting, and adds this to
+the result as the 'greeting' variable. It then returns the result object::
+
+    public function doGreet()
+    {
+        $ret = new ezcMvcResult;
+        $ret->variables['greeting'] = $this->selectGreeting();
+        return $ret;
+    }
+
+The doGreetPersonally() method doesn't do a whole lot more. Compared to the
+doGreet() method above it adds another array key, "person", and set's it value
+to the $this->name variable. This "name" variable name comes from directly from
+the router where this part of the URL was defined with ":name". This means that
+the URL "/Derick" would cause the $this->name variable to be set to "Derick".
+The method below just passes this on as the "person" variable to the view
+handlers that will render the results from this action method. ::
+
+    public function doGreetPersonally()
+    {
+        $ret = new ezcMvcResult;
+        $ret->variables['greeting'] = $this->selectGreeting();
+        $ret->variables['person'] = $this->name;
+        return $ret;
+    }
+
+The whole controller file can be found in SVN as: 
+http://svn.ez.no/svn/ezcomponents/docs/examples/applications/HelloMvc/lib/controllers/hello.php
+
+Creating the Views
+``````````````````
+
+Now we've the abstract result object we can render this result with the two
+view that we'll be using: helloRootView and helloNameView. We place the two
+view files in the "lib/views/" directory and add the following two lines to the
+autoload.php file::
+
+    'helloRootView'         => 'views/root.php',
+    'helloNameView'         => 'views/name.php',
+
+Before we create the view classes, the concept of zones should be explained.
+Zones are a way for arranging different parts of a layout. Take for example the
+following layout:
+
+.. image:: images/zones.png
+   :alt:   Layout zones
+
+In this small example there are three zones:
+
+- The "menu" zone, where we'll put in a link to the home page.
+- The "content" zones, where we'll put the greeting.
+- The "pagelayout" zone, which encapsulates the others -- it provides the main
+  layout and HTML headers, stylesheets, etc.
+
+Each view that you define can include multiple zones, each with their own
+associated name and view handler. Zones are processed in order, and the result
+of each processed zone is added as a variable for use for subsequent zones.
+Because this becomes clearer with an example, we now show the helloRootView
+class that we put into the 'lib/views/' directory as root.php:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/lib/views/root.php
+   :literal:
+
+Here we define the three zones in order. First, the view would process the
+"menu.ezt" template with the template view handler. The result of this will
+be assigned to the "menu" variable. This "menu" variable would show up just
+like any other variable in a result object, which means it can be used in both
+the "content" and "page_layout" views. In our example, the "content" view
+will not make use of this, but the "page_layout" view will to put the content
+of the "menu" view (and also the "content" view) in the correct spot on the
+page. This mechanism prevents you from having to include the menu, content (and
+any other template) from the "page_layout" template and prevents you from
+having to send all the required variables along to the included templates. The
+zone mechanism also allows you to use different view handlers for different
+parts of the layout. In our case we use a template for the "menu" and
+"page_layout" zones, but the plain PHP for the "content" zone.
+
+The templates themselves we place in the "templates/" directory. We keep them
+as simple as possible. First the "menu.ezt" template:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/templates/menu.ezt
+   :literal:
+
+Secondly the "generic_greeting.php" PHP script:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/templates/generic_greeting.php
+   :literal:
+
+We'll also create the "personal_greeting.php" PHP script, that our other view
+(helloNameView) uses:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/templates/personal_greeting.php
+   :literal:
+
+And lastly the "layout.ezt" template:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/templates/layout.ezt
+   :literal:
+
+Please note that we're using the "{raw}" construct to include the already
+rendered zones. If we would not have done that, all HTML tags in there would
+be escaped again. This is a feature of the Template component. For the same
+reason, it's safe to just use "{$person}" in a template, but if you use a PHP
+style template like we've done here for "generic_greeting.php" and
+"personal_greeting.php" you need to think of placing htmlspecialchars() around
+variables that come from the input.
+
+Wrapping it Up
+``````````````
+To make the application work properly in Apache, we need to tell it to send all
+requests to the index.php script. We do that by using mod_rewrite through a
+.htaccess file. We place this file in the "www/" directory, and fill it with
+the following text:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/www/.htaccess
+   :literal:
+
+The full directory listing is now::
+
+    HelloMvc
+    ├── cache/
+    │   └── compiled_templates/
+    ├── lib/
+    │   ├── autoload/
+    │   │   └── autoload.php
+    │   ├── controllers/
+    │   │   └── hello.php
+    │   ├── views/
+    │   │   ├── name.php
+    │   │   └── root.php
+    │   ├── config.php
+    │   └── router.php
+    ├── templates/
+    │   ├── generic_greeting.php
+    │   ├── layout.ezt
+    │   ├── menu.ezt
+    │   └── personal_greeting.php
+    ├── www/
+    │   ├── .htaccess
+    │   └── index.php
+    └── config.php
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79 nocin
