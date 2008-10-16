@@ -195,6 +195,56 @@ abstract class ezcDocumentWikiVisitor
     }
 
     /**
+     * Transform a node tree into a string
+     * 
+     * Transform a node tree, with all its subnodes into a string by only
+     * getting the textuual contents from ezcDocumentWikiTextLineNode objects.
+     *
+     * @param ezcDocumentWikiNode $node 
+     * @return string
+     */
+    protected function nodeToString( ezcDocumentWikiNode $node )
+    {
+        $text = '';
+
+        foreach ( $node->nodes as $child )
+        {
+            if ( ( $child instanceof ezcDocumentWikiTextLineNode ) ||
+                 ( $child instanceof ezcDocumentWikiLiteralNode ) )
+            {
+                $text .= $child->token->content;
+            }
+            else
+            {
+                $text .= $this->nodeToString( $child );
+            }
+        }
+
+        return $text;
+    }
+
+    /**
+     * Node list to string
+     *
+     * Extract the contents of a node list and return a single string for the
+     * array of nodes.
+     *
+     * @param array $nodes 
+     * @return string
+     */
+    protected function nodeListToString( array $nodes )
+    {
+        $text = '';
+
+        foreach ( $nodes as $node )
+        {
+            $text .= $node->token->content;
+        }
+
+        return $text;
+    }
+
+    /**
      * Visit text node
      * 
      * @param DOMNode $root 
