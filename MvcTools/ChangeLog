@@ -1,3 +1,10 @@
+1.0alpha2 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Split out controller creation in the ezcMvcConfigurableDispatcher into its
+  own method (createController()) for easier customization of controller
+  loading.
+
 1.0alpha1 - Monday 06 October 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

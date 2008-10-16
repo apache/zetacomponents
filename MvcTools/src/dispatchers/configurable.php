@@ -36,6 +36,20 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
     }
 
     /**
+     * Creates the controller by using the routing information and request data.
+     *
+     * @param ezcMvcRoutingInformation $routingInformation
+     * @param ezcMvcRequest            $request
+     * @return ezcMvcController
+     */
+    protected function createController( ezcMvcRoutingInformation $routingInformation, ezcMvcRequest $request )
+    {
+        $controllerClass = $routingInformation->controllerClass;
+        $controller = new $controllerClass( $routingInformation->action, $request );
+        return $controller;
+    }
+
+    /**
      * Runs through the request, by using the configuration to obtain correct
      * handlers.
      */
@@ -87,8 +101,7 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             }
 
             // create the controller
-            $controllerClass = $routingInformation->controllerClass;
-            $controller = new $controllerClass( $routingInformation->action, $request );
+            $controller = $this->createController( $routingInformation, $request );
 
             // run the controller
             $result = $controller->createResult();
