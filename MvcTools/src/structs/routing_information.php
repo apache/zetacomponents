@@ -4,14 +4,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
- * @package ezcMvcTools
+ * @package MvcTools
  */
 
 /**
  * This struct contains information from the router that belongs to the matched
  * route.
  *
- * @package ezcMvcTools
+ * @package MvcTools
  * @version //autogentag//
  */
 class ezcMvcRoutingInformation extends ezcBaseStruct
