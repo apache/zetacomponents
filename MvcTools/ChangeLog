@@ -4,6 +4,9 @@
 - Split out controller creation in the ezcMvcConfigurableDispatcher into its
   own method (createController()) for easier customization of controller
   loading.
+- Fixed a bug where path elements where not urldecoded().
+- Added support for installation prefixes to the router, to the request parsers
+  to aid installation outside of the top-directory of a virtual host.
 
 1.0alpha1 - Monday 06 October 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

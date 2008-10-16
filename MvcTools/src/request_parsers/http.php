@@ -78,6 +78,10 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
             : '';
         // remove the query string from the URI
         $req->uri = preg_replace( '@\?.*$@', '', $req->uri );
+        // url decode the uri
+        $req->uri = urldecode( $req->uri );
+        // remove the prefix from the URI
+        $req->uri = preg_replace( '@^' . preg_quote( $this->properties['prefix'] ) . '@', '', $req->uri );
         $req->requestId = $req->host . $req->uri;
         $req->referrer = isset( $_SERVER['HTTP_REFERER'] )
             ? $_SERVER['HTTP_REFERER']
