@@ -9,6 +9,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once 'wiki_dummy_directives.php';
+
 /**
  * Test suite for class.
  * 
@@ -61,6 +63,10 @@ class ezcDocumentWikiDocbookVisitorTests extends ezcTestCase
         $document = new ezcDocumentWiki();
         $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
         $document->options->tokenizer      = new $tokenizerClass();
+
+        $document->registerPlugin( 'currenttimeplugin', 'ezcDocumentTestDummyPlugin' );
+        $document->registerPlugin( 'html', 'ezcDocumentTestDummyPlugin' );
+        $document->registerPlugin( 'php', 'ezcDocumentTestDummyPlugin' );
 
         $document->loadFile( $from );
 

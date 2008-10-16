@@ -29,6 +29,7 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      * @var array
      */
     protected $plugins = array(
+        'code' => 'ezcDocumentWikiCodePlugin',
     );
 
     /**

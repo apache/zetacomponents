@@ -31,6 +31,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiLinkNode'           => 'visitLink',
         'ezcDocumentWikiExternalLinkNode'   => 'visitExternalLink',
         'ezcDocumentWikiInternalLinkNode'   => 'visitExternalLink',
+        'ezcDocumentWikiInterWikiLinkNode'  => 'visitExternalLink',
         'ezcDocumentWikiBulletListNode'     => 'visitList',
         'ezcDocumentWikiEnumeratedListNode' => 'visitList',
         'ezcDocumentWikiImageNode'          => 'visitImages',
@@ -39,6 +40,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiTableRowNode'       => 'visitTableRow',
         'ezcDocumentWikiLineBreakNode'      => 'visitLineBreak',
         'ezcDocumentWikiParagraphNode'      => 'visitParagraph',
+        'ezcDocumentWikiPluginNode'         => 'visitPlugin',
 
         // Node markup is ignored, because there is no equivalent in docbook
         'ezcDocumentWikiDeletedNode'   => 'visitChildren',
@@ -467,6 +469,20 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
             // Remove old paragraph
             $root->removeChild( $para );
         }
+    }
+
+    /**
+     * Visit plugin
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitPlugin( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $handlerClass = $this->wiki->getPluginHandler( $node->type );
+        $pluginHandler = new $handlerClass( $this->ast, $this->path, $node );
+        $pluginHandler->toDocbook( $this->document, $root );
     }
 }
 
