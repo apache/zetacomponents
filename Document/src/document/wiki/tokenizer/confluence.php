@@ -186,22 +186,37 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
      */
     protected function parsePluginContents( ezcDocumentWikiPluginToken $plugin )
     {
-        // Match name of plugin
-        if ( preg_match( '(^[a-z]+)i', $plugin->content, $match ) )
+        // Match title, property string and plugin contents
+        //   {code:title=Bar.java|borderStyle=solid} ... {code}
+        if ( preg_match( '(^{(?P<type>[a-zA-Z]+)(?::(?P<params>[^}]+))?}(?:(?P<text>.*){\\1})?$)s', $plugin->content, $match ) )
         {
-            $plugin->type = $match[0];
-        }
+            $plugin->type = $match['type'];
 
-        // Match plugin parameters
-        $parameters = array();
-        if ( preg_match_all( '(\s+(?P<key>[a-zA-Z_-]+)=([\'"])(?P<value>.*?)(?!\\\\)\\2)s', $plugin->content, $match ) )
-        {
-            foreach ( $match['key'] as $nr => $key )
+            if ( isset( $match['text'] ) )
             {
-                $parameters[$key] = $match['value'][$nr];
+                $plugin->text = $match['text'];
+            }
+
+            // Parse plugin parameters
+            if ( isset( $match['params'] ) )
+            {
+                $rawParams  = explode( '|', $match['params'] );
+                $parameters = array();
+                foreach ( $rawParams as $content )
+                {
+                    if ( preg_match( '(^(?P<name>[a-zA-Z]+)=(?P<value>.*)$)', $content, $match ) )
+                    {
+                        $parameters[$match['name']] = $match['value'];
+                    }
+                    else
+                    {
+                        $parameters[] = $content;
+                    }
+                }
+
+                $plugin->parameters = $parameters;
             }
         }
-        $plugin->parameters = $parameters;
     }
 
     /**
@@ -312,6 +327,10 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
                     // Reset image token parsing environment
                     $lastImageStartToken = null;
                     $lastImageSeparator  = null;
+                    break;
+
+                case $token instanceof ezcDocumentWikiPluginToken:
+                    $this->parsePluginContents( $token );
                     break;
             }
         }

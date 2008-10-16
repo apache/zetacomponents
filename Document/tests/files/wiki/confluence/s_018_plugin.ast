@@ -1,17 +1,26 @@
 <?php
 
 return ezcDocumentWikiDocumentNode::__set_state(array(
+   'level' => 0,
    'line' => 19,
    'position' => 1,
    'nodes' => 
   array (
     0 => 
     ezcDocumentWikiPluginNode::__set_state(array(
-       'type' => NULL,
+       'type' => 'code',
        'parameters' => 
       array (
+        'title' => 'Bar.java',
+        'borderStyle' => 'solid',
       ),
-       'text' => NULL,
+       'text' => '
+// Some comments here
+public String getFoo()
+{
+    return foo;
+}
+',
        'line' => 1,
        'position' => 0,
        'nodes' => 
@@ -19,11 +28,19 @@ return ezcDocumentWikiDocumentNode::__set_state(array(
       ),
        'token' => 
       ezcDocumentWikiPluginToken::__set_state(array(
-         'type' => NULL,
+         'type' => 'code',
          'parameters' => 
         array (
+          'title' => 'Bar.java',
+          'borderStyle' => 'solid',
         ),
-         'text' => NULL,
+         'text' => '
+// Some comments here
+public String getFoo()
+{
+    return foo;
+}
+',
          'content' => '{code:title=Bar.java|borderStyle=solid}
 // Some comments here
 public String getFoo()
@@ -37,12 +54,16 @@ public String getFoo()
     )),
     1 => 
     ezcDocumentWikiPluginNode::__set_state(array(
-       'type' => NULL,
+       'type' => 'code',
        'parameters' => 
       array (
-        'tag' => 'attribute',
+        0 => 'xml',
       ),
-       'text' => NULL,
+       'text' => '
+<test>
+  <another tag="attribute"/>
+</test>
+',
        'line' => 10,
        'position' => 0,
        'nodes' => 
@@ -50,12 +71,16 @@ public String getFoo()
       ),
        'token' => 
       ezcDocumentWikiPluginToken::__set_state(array(
-         'type' => NULL,
+         'type' => 'code',
          'parameters' => 
         array (
-          'tag' => 'attribute',
+          0 => 'xml',
         ),
-         'text' => NULL,
+         'text' => '
+<test>
+  <another tag="attribute"/>
+</test>
+',
          'content' => '{code:xml}
 <test>
   <another tag="attribute"/>
@@ -67,9 +92,12 @@ public String getFoo()
     )),
     2 => 
     ezcDocumentWikiPluginNode::__set_state(array(
-       'type' => NULL,
+       'type' => 'calendar',
        'parameters' => 
       array (
+        'id' => 'myCalendar',
+        'title' => 'My Calendar',
+        'defaultView' => 'week',
       ),
        'text' => NULL,
        'line' => 17,
@@ -79,9 +107,12 @@ public String getFoo()
       ),
        'token' => 
       ezcDocumentWikiPluginToken::__set_state(array(
-         'type' => NULL,
+         'type' => 'calendar',
          'parameters' => 
         array (
+          'id' => 'myCalendar',
+          'title' => 'My Calendar',
+          'defaultView' => 'week',
         ),
          'text' => NULL,
          'content' => '{calendar:id=myCalendar|title=My Calendar|defaultView=week}',

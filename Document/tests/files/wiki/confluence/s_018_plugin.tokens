@@ -10,11 +10,19 @@ return array (
   )),
   1 => 
   ezcDocumentWikiPluginToken::__set_state(array(
-     'type' => NULL,
+     'type' => 'code',
      'parameters' => 
     array (
+      'title' => 'Bar.java',
+      'borderStyle' => 'solid',
     ),
-     'text' => NULL,
+     'text' => '
+// Some comments here
+public String getFoo()
+{
+    return foo;
+}
+',
      'content' => '{code:title=Bar.java|borderStyle=solid}
 // Some comments here
 public String getFoo()
@@ -41,12 +49,16 @@ public String getFoo()
   )),
   4 => 
   ezcDocumentWikiPluginToken::__set_state(array(
-     'type' => NULL,
+     'type' => 'code',
      'parameters' => 
     array (
-      'tag' => 'attribute',
+      0 => 'xml',
     ),
-     'text' => NULL,
+     'text' => '
+<test>
+  <another tag="attribute"/>
+</test>
+',
      'content' => '{code:xml}
 <test>
   <another tag="attribute"/>
@@ -71,9 +83,12 @@ public String getFoo()
   )),
   7 => 
   ezcDocumentWikiPluginToken::__set_state(array(
-     'type' => NULL,
+     'type' => 'calendar',
      'parameters' => 
     array (
+      'id' => 'myCalendar',
+      'title' => 'My Calendar',
+      'defaultView' => 'week',
     ),
      'text' => NULL,
      'content' => '{calendar:id=myCalendar|title=My Calendar|defaultView=week}',

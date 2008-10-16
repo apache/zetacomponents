@@ -65,6 +65,7 @@ class ezcDocumentWikiDocbookVisitorTests extends ezcTestCase
         $document->options->tokenizer      = new $tokenizerClass();
 
         $document->registerPlugin( 'currenttimeplugin', 'ezcDocumentTestDummyPlugin' );
+        $document->registerPlugin( 'calendar', 'ezcDocumentTestDummyPlugin' );
         $document->registerPlugin( 'html', 'ezcDocumentTestDummyPlugin' );
         $document->registerPlugin( 'php', 'ezcDocumentTestDummyPlugin' );
 
