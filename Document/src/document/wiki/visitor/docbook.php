@@ -33,6 +33,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiBulletListNode'     => 'visitList',
         'ezcDocumentWikiEnumeratedListNode' => 'visitList',
         'ezcDocumentWikiImageNode'          => 'visitImages',
+        'ezcDocumentWikiLiteralBlockNode'   => 'visitLiteralBlock',
+        'ezcDocumentWikiInlineLiteralNode'  => 'visitLiteral',
 
         // Node markup is ignored, because there is no equivalent in docbook
         'ezcDocumentWikiDeletedNode'   => 'visitChildren',
@@ -324,6 +326,32 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         {
             $this->visitNode( $list, $child );
         }
+    }
+
+    /**
+     * Visit literal block
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitLiteralBlock( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $literal = $this->document->createElement( 'literallayout', $node->token->content );
+        $root->appendChild( $literal );
+    }
+
+    /**
+     * Visit literal
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitLiteral( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $literal = $this->document->createElement( 'literal', $node->token->content );
+        $root->appendChild( $literal );
     }
 }
 
