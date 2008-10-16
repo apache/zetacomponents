@@ -35,9 +35,11 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiImageNode'          => 'visitImages',
         'ezcDocumentWikiLiteralBlockNode'   => 'visitLiteralBlock',
         'ezcDocumentWikiInlineLiteralNode'  => 'visitLiteral',
+        'ezcDocumentWikiTableRowNode'       => 'visitTableRow',
 
         // Node markup is ignored, because there is no equivalent in docbook
         'ezcDocumentWikiDeletedNode'   => 'visitChildren',
+        'ezcDocumentWikiLineBreakNode' => 'visitChildren',
     );
 
     /**
@@ -55,6 +57,10 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiBlockquoteNode'         => 'blockquote',
         'ezcDocumentWikiBulletListItemNode'     => 'listitem',
         'ezcDocumentWikiEnumeratedListItemNode' => 'listitem',
+        'ezcDocumentWikiPageBreakNode'          => 'beginpage',
+
+        'ezcDocumentWikiTableNode'              => 'table',
+        'ezcDocumentWikiTableCellNode'          => 'cell',
     );
 
     /**
@@ -352,6 +358,53 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     {
         $literal = $this->document->createElement( 'literal', $node->token->content );
         $root->appendChild( $literal );
+    }
+
+    /**
+     * Visit table row
+     *
+     * Visit a table row and decide if it belongs into a tbody or a thead
+     * section.
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitTableRow( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $header = false;
+        foreach ( $node->nodes as $cell )
+        {
+            $header = $header || $cell->header;
+        }
+
+        // Get last child element in table
+        if ( !( $last = $root->lastChild ) ||
+             ( $last->nodeType !== XML_ELEMENT_NODE ) )
+        {
+            $last = false;
+        }
+
+        $type = $header ? 'thead' : 'tbody';
+        if ( ( $last === false ) ||
+             ( $last->tagName !== $type ) )
+        {
+            $wrapper = $this->document->createElement( $type );
+            $root->appendChild( $wrapper );
+            $root = $wrapper;
+        }
+        else
+        {
+            $root = $last;
+        }
+
+        $row = $this->document->createElement( 'row' );
+        $root->appendChild( $row );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $row, $child );
+        }
     }
 }
 
