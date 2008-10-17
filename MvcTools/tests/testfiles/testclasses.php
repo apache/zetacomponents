@@ -10,7 +10,13 @@ class testController extends ezcMvcController
     }
     public function createResult()
     {
-        return new ezcMvcResult;
+        if ( $this->action == 'no-return' )
+        {
+        }
+        else
+        {
+            return new ezcMvcResult;
+        }
     }
     public function getVars()
     {

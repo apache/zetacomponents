@@ -22,6 +22,8 @@ class simpleConfiguration implements ezcMvcDispatcherConfiguration
         {
             case 'IRController':
                 return new testIRControllerRouter( $request );
+            case 'FaultyAction':
+                return new testFaultyActionRouter( $request );
             case 'EndlessIR':
                 return new testEndlessIRRouter( $request );
             default:
@@ -135,6 +137,16 @@ class testEndlessIRRouter extends ezcMvcRouter
         return array(
             new ezcMvcRegexpRoute( '@^/$@', 'testEndlessIRController', 'foo' ),
             new ezcMvcRegexpRoute( '@^/redir$@', 'testEndlessIRController', 'foo' ),
+        );
+    }
+}
+
+class testFaultyActionRouter extends ezcMvcRouter
+{
+    public function createRoutes()
+    {
+        return array(
+            new ezcMvcRegexpRoute( '@^/$@', 'testController', 'no-return' ),
         );
     }
 }

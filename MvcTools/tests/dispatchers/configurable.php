@@ -52,6 +52,22 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
         self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'fatal' => 'Very fatal',[CR])", $config->store );
     }
 
+    function testInvalidResultObject()
+    {
+        $config = new simpleConfiguration();
+        $config->route = 'FaultyAction';
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        try
+        {
+            $dispatcher->run();
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcMvcControllerException $e )
+        {
+            self::assertEquals( "The action 'no-return' of controller 'testController' did not return an ezcMvcResult object.", $e->getMessage() );
+        }
+    }
+
     function testInternalRedirectRequestFilter()
     {
         $config = new simpleConfiguration();

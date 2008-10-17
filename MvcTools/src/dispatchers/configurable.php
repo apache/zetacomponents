@@ -113,6 +113,10 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
                 $redirects++;
                 continue;
             }
+            if ( !$result instanceof ezcMvcResult )
+            {
+                throw new ezcMvcControllerException( "The action '{$routingInformation->action}' of controller '{$routingInformation->controllerClass}' did not return an ezcMvcResult object." );
+            }
 
             $this->configuration->runResultFilters( $routingInformation, $request, $result );
 

@@ -10,6 +10,9 @@
 - Refactored ezcMvcController to allow easier overloading by inherited classes.
 - Fixed a bug in action method name generation in the controller.
 - Fixed issue #13772: Changed the controller to require an action method.
+- Fixed issue #13773: Added a check for the return type for controller actions,
+  and throw an exception when it's neither an ezcMvcResult or
+  ezcMvcInternalRedirectObject.
 
 
 1.0alpha1 - Monday 06 October 2008
