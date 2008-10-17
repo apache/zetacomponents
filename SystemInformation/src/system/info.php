@@ -277,8 +277,8 @@ class ezcSystemInfo
         if ( ezcBaseFeatures::hasExtensionSupport( "Zend Performance Suite" ) )
         {
             $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
-                    "Zend WinEnabler (Zend Performance Suite)",                // name
-                    "http://www.zend.com/store/products/zend-win-enabler.php", // url
+                    "Zend Performance Suite",                                  // name
+                    "http://www.zend.com/en/products/platform/",               // url
                     true,                                                      // isEnabled
                     false,                                                     // version int
                     false                                                      // version string
