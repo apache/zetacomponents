@@ -43,7 +43,7 @@ ezcMvcHttpRequestParser
 ezcMvcMailRequestParser
     Uses an e-mail messages to create a request object from. The request parser
     requires an ezcMail object and therefore this request parser is only
-    available through the ezcMvcMailTiein component.
+    available through the MvcMailTiein component.
 
 Router
 ``````
