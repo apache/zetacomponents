@@ -7,20 +7,24 @@
     <section>
       <title> Basic text formatting</title>
       <para>DokuWiki supports <emphasis role="strong">bold</emphasis>, <emphasis>italic</emphasis>, <emphasis>underlined</emphasis> and <literal>monospaced</literal> texts. Of course you can <emphasis role="strong"><emphasis><emphasis><literal>combine</literal></emphasis></emphasis></emphasis> all these.</para>
-      <para> DokuWiki supports <emphasis role="strong">bold</emphasis>, <emphasis>italic</emphasis>, <emphasis>underlined</emphasis> and <literal>monospaced</literal> texts. Of course you can <emphasis role="strong"><emphasis><emphasis><literal>combine</literal></emphasis></emphasis></emphasis> all these.</para>
+      <literallayout>  DokuWiki supports **bold**, //italic//, __underlined__ and ''monospaced'' texts.
+  Of course you can **__//''combine''//__** all these.
+</literallayout>
       <para>You can use <subscript>subscript</subscript> and <superscript>superscript</superscript>, too.</para>
-      <para> You can use <subscript>subscript</subscript> and <superscript>superscript</superscript>, too.</para>
+      <literallayout>  You can use &lt;sub&gt;subscript&lt;/sub&gt; and &lt;sup&gt;superscript&lt;/sup&gt;, too.
+</literallayout>
       <para>You can mark something as deleted as well.</para>
-      <para> You can mark something as deleted as well.</para>
+      <literallayout>  You can mark something as &lt;del&gt;deleted&lt;/del&gt; as well.
+</literallayout>
       <para><emphasis role="strong">Paragraphs</emphasis> are created from blank lines. If you want to <emphasis role="strong">force a newline</emphasis> without a paragraph, you can use two backslashes followed by a whitespace or the end of line.</para>
       <literallayout class="Normal">This is some text with some linebreaks
  Note that the two backslashes are only recognized at the end of a line
  or followed by
  a whitespace \\this happens without it.</literallayout>
-      <literallayout class="Normal"> This is some text with some linebreaks
- Note that the two backslashes are only recognized at the end of a line
- or followed by
- a whitespace \\this happens without it.</literallayout>
+      <literallayout>  This is some text with some linebreaks\\ Note that the
+  two backslashes are only recognized at the end of a line\\
+  or followed by\\ a whitespace \\this happens without it.
+</literallayout>
       <para>You should use forced newlines only if really needed.</para>
     </section>
     <section>
@@ -29,18 +33,26 @@
       <section>
         <title> External</title>
         <para>External links are recognized automagically: <ulink url="http://www.google.com">http://www.google.com</ulink> or simply www.google.com - You can set the link text as well: <ulink url="http://www.google.com">This Link points to google</ulink>. Email addresses like this one: <ulink url="&lt;andi@splitbrain.org&gt;">&lt;andi@splitbrain.org&gt;</ulink> are recognized, too.</para>
-        <para> DokuWiki supports multiple ways of creating links. External links are recognized automagically: <ulink url="http://www.google.com">http://www.google.com</ulink> or simply www.google.com - You can set link text as well: <ulink url="http://www.google.com">This Link points to google</ulink>. Email addresses like this one: <ulink url="&lt;andi@splitbrain.org&gt;">&lt;andi@splitbrain.org&gt;</ulink> are recognized, too.</para>
+        <literallayout>  DokuWiki supports multiple ways of creating links. External links are recognized
+  automagically: http://www.google.com or simply www.google.com - You can set
+  link text as well: [[http://www.google.com|This Link points to google]]. Email
+  addresses like this one: &lt;andi@splitbrain.org&gt; are recognized, too.
+</literallayout>
       </section>
       <section>
         <title> Internal</title>
         <para>Internal links are created by using square brackets. You can either just give a <ulink url="pagename">pagename</ulink> or use an additional <ulink url="pagename">link text</ulink>.</para>
-        <para> Internal links are created by using square brackets. You can either just give a <ulink url="pagename">pagename</ulink> or use an additional <ulink url="pagename">link text</ulink>.</para>
+        <literallayout>  Internal links are created by using square brackets. You can either just give
+  a [[pagename]] or use an additional [[pagename|link text]].
+</literallayout>
         <para><ulink url="doku&gt;pagename">Wiki pagenames</ulink> are converted to lowercase automatically, special characters are not allowed.</para>
         <para>You can use <ulink url="some:namespaces">some:namespaces</ulink> by using a colon in the pagename.</para>
-        <para> You can use <ulink url="some:namespaces">some:namespaces</ulink> by using a colon in the pagename.</para>
+        <literallayout>  You can use [[some:namespaces]] by using a colon in the pagename.
+</literallayout>
         <para>For details about namespaces see <ulink url="doku&gt;namespaces">doku&gt;namespaces</ulink>.</para>
         <para>Linking to a specific section is possible, too. Just add the section name behind a hash character as known from HTML. This links to <ulink url="syntax#internal">this Section</ulink>.</para>
-        <para> This links to <ulink url="syntax#internal">this Section</ulink>.</para>
+        <literallayout>  This links to [[syntax#internal|this Section]].
+</literallayout>
         <para>Notes:</para>
         <itemizedlist>
           <listitem>
@@ -57,12 +69,15 @@
       <section>
         <title> Interwiki</title>
         <para>DokuWiki supports <ulink url="doku&gt;Interwiki">doku&gt;Interwiki</ulink> links. These are quick links to other Wikis. For example this is a link to Wikipedia's page about Wikis: <ulink url="wp&gt;Wiki">wp&gt;Wiki</ulink>.</para>
-        <para> DokuWiki supports <ulink url="doku&gt;Interwiki">doku&gt;Interwiki</ulink> links. These are quick links to other Wikis. For example this is a link to Wikipedia's page about Wikis: <ulink url="wp&gt;Wiki">wp&gt;Wiki</ulink>.</para>
+        <literallayout>  DokuWiki supports [[doku&gt;Interwiki]] links. These are quick links to other Wikis.
+  For example this is a link to Wikipedia's page about Wikis: [[wp&gt;Wiki]].
+</literallayout>
       </section>
       <section>
         <title> Windows Shares</title>
         <para>Windows shares like <ulink url="\\server\share">this</ulink> are recognized, too. Please note that these only make sense in a homogeneous user group like a corporate <ulink url="wp&gt;Intranet">wp&gt;Intranet</ulink>.</para>
-        <para> Windows Shares like <ulink url="\\server\share">this</ulink> are recognized, too.</para>
+        <literallayout>  Windows Shares like [[\\server\share|this]] are recognized, too.
+</literallayout>
         <para>Notes:</para>
         <itemizedlist>
           <listitem>
@@ -79,7 +94,8 @@
       <section>
         <title> Image Links</title>
         <para>You can also use an image to link to another internal or external page by combining the syntax for links and <ulink url="#images_and_other_files">images</ulink> (see below) like this:</para>
-        <para> <ulink url="http://www.php.net"><mediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png"/></imageobject></mediaobject></ulink></para>
+        <literallayout>  [[http://www.php.net|{{wiki:dokuwiki-128.png}}]]
+</literallayout>
         <para>
           <ulink url="http://www.php.net">
             <mediaobject>
@@ -96,7 +112,8 @@
     <section>
       <title> Footnotes</title>
       <para>You can add footnotes <footnote>This is a footnote</footnote> by using double parentheses.</para>
-      <para> You can add footnotes <footnote>This is a footnote</footnote> by using double parentheses.</para>
+      <literallayout>  You can add footnotes ((This is a footnote)) by using double parentheses.
+</literallayout>
     </section>
     <section>
       <title> Sectioning</title>
@@ -107,15 +124,10 @@
           <title> Headline Level 4</title>
           <section>
             <title> Headline Level 5</title>
-          </section>
-        </section>
-      </section>
-      <section>
-        <title> Headline Level 3</title>
-        <section>
-          <title> Headline Level 4</title>
-          <section>
-            <title> Headline Level 5</title>
+            <literallayout>  ==== Headline Level 3 ====
+  === Headline Level 4 ===
+  == Headline Level 5 ==
+</literallayout>
             <para>By using four or more dashes, you can make a horizontal line:</para>
             <para>----</para>
           </section>
@@ -129,7 +141,11 @@
       <para>Resize to given width: <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png" width="50"/></imageobject></inlinemediaobject></para>
       <para>Resize to given width and height: <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png" width="200" depth="50"/></imageobject></inlinemediaobject></para>
       <para>Resized external image: <inlinemediaobject><imageobject><imagedata fileref="http://de3.php.net/images/php.gif" width="200" depth="50"/></imageobject></inlinemediaobject></para>
-      <para> Real size: <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png"/></imageobject></inlinemediaobject> Resize to given width: <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png" width="50"/></imageobject></inlinemediaobject> Resize to given width and height: <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png" width="200" depth="50"/></imageobject></inlinemediaobject> Resized external image: <inlinemediaobject><imageobject><imagedata fileref="http://de3.php.net/images/php.gif" width="200" depth="50"/></imageobject></inlinemediaobject></para>
+      <literallayout>  Real size:                        {{wiki:dokuwiki-128.png}}
+  Resize to given width:            {{wiki:dokuwiki-128.png?50}}
+  Resize to given width and height: {{wiki:dokuwiki-128.png?200x50}}
+  Resized external image:           {{http://de3.php.net/images/php.gif?200x50}}
+</literallayout>
       <para>By using left or right whitespaces you can choose the alignment.</para>
       <para>
         <inlinemediaobject>
@@ -152,7 +168,10 @@
           </imageobject>
         </inlinemediaobject>
       </para>
-      <para> <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png" align="right"/></imageobject></inlinemediaobject> <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png" align="left"/></imageobject></inlinemediaobject> <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png" align="center"/></imageobject></inlinemediaobject></para>
+      <literallayout>  {{ wiki:dokuwiki-128.png}}
+  {{wiki:dokuwiki-128.png }}
+  {{ wiki:dokuwiki-128.png }}
+</literallayout>
       <para>Of course, you can add a title (displayed as a tooltip by most browsers), too.</para>
       <para>
         <inlinemediaobject>
@@ -162,7 +181,8 @@
           <textobject>This is the caption</textobject>
         </inlinemediaobject>
       </para>
-      <para> <inlinemediaobject><imageobject><imagedata fileref="wiki:dokuwiki-128.png" align="center"/></imageobject><textobject>This is the caption</textobject></inlinemediaobject></para>
+      <literallayout>  {{ wiki:dokuwiki-128.png |This is the caption}}
+</literallayout>
       <para>If you specify a filename (external or internal) that is not an image (<literal>gif, jpeg, png</literal>), then it will be displayed as a link instead.</para>
       <para>For linking an image to another page see <ulink url="#Image Links">#Image Links</ulink> above.</para>
     </section>
@@ -292,12 +312,18 @@
     <section>
       <title> Quoting</title>
       <para>Some times you want to mark some text to show it's a reply or comment. You can use the following syntax:</para>
-      <para> I think we should do it</para>
-      <para> &gt; No we shouldn't</para>
-      <para> &gt;&gt; Well, I say we should</para>
-      <para> &gt; Really?</para>
-      <para> &gt;&gt; Yes!</para>
-      <para> &gt;&gt;&gt; Then lets do it!</para>
+      <literallayout>  I think we should do it
+</literallayout>
+      <literallayout>  &gt; No we shouldn't
+</literallayout>
+      <literallayout>  &gt;&gt; Well, I say we should
+</literallayout>
+      <literallayout>  &gt; Really?
+</literallayout>
+      <literallayout>  &gt;&gt; Yes!
+</literallayout>
+      <literallayout>  &gt;&gt;&gt; Then lets do it!
+</literallayout>
       <para>I think we should do it</para>
       <blockquote>No we shouldn't</blockquote>
       <blockquote>Well, I say we should</blockquote>
@@ -334,7 +360,11 @@
         </tbody>
       </table>
       <para>Table rows have to start and end with a <literal>|</literal> for normal rows or a <literal>^</literal> for headers.</para>
-      <para> ^ Heading 1 ^ Heading 2 ^ Heading 3 ^ | Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3 | | Row 2 Col 1 | some colspan (note the double pipe) || | Row 3 Col 1 | Row 2 Col 2 | Row 2 Col 3 |</para>
+      <literallayout>  ^ Heading 1      ^ Heading 2       ^ Heading 3          ^
+  | Row 1 Col 1    | Row 1 Col 2     | Row 1 Col 3        |
+  | Row 2 Col 1    | some colspan (note the double pipe) ||
+  | Row 3 Col 1    | Row 2 Col 2     | Row 2 Col 3        |
+</literallayout>
       <para>To connect cells horizontally, just make the next cell completely empty as shown above. Be sure to have always the same amount of cell separators!</para>
       <para>Vertical tableheaders are possible, too.</para>
       <table>
@@ -362,7 +392,11 @@
         </thead>
       </table>
       <para>As you can see, it's the cell separator before a cell which decides about the formatting:</para>
-      <para> | ^ Heading 1 ^ Heading 2 ^ ^ Heading 3 | Row 1 Col 2 | Row 1 Col 3 | ^ Heading 4 | no colspan this time | | ^ Heading 5 | Row 2 Col 2 | Row 2 Col 3 |</para>
+      <literallayout>  |              ^ Heading 1            ^ Heading 2          ^
+  ^ Heading 3    | Row 1 Col 2          | Row 1 Col 3        |
+  ^ Heading 4    | no colspan this time |                    |
+  ^ Heading 5    | Row 2 Col 2          | Row 2 Col 3        |
+</literallayout>
       <para>Note: Vertical spans (rowspan) are not possible.</para>
       <para>You can align the table contents, too. Just add at least two whitespaces at the opposite end of your text: Add two spaces on the left to align right, two spaces on the right to align left and two spaces at least at both ends for centered text.</para>
       <table>
@@ -390,7 +424,11 @@
         </tbody>
       </table>
       <para>This is how it looks in the source:</para>
-      <para> ^ Table with alignment ^^^ | right| center |left | |left | right| center | | xxxxxxxxxxxx | xxxxxxxxxxxx | xxxxxxxxxxxx |</para>
+      <literallayout>  ^           Table with alignment           ^^^
+  |         right|    center    |left          |
+  |left          |         right|    center    |
+  | xxxxxxxxxxxx | xxxxxxxxxxxx | xxxxxxxxxxxx |
+</literallayout>
     </section>
     <section>
       <title> Non-parsed Blocks</title>
@@ -457,9 +495,9 @@ class HelloWorldApp {
       <para>
         <emphasis role="strong">Example:</emphasis>
       </para>
-      <para> {{<ulink url="rss&gt;http://slashdot.org/index.rss 5 author date 1h }}&#10;&#10;{{rss&gt;http://slashdot.org/index.rss 5 author date 1h }}&#10;&#10;&#10;===== Embedding HTML and PHP =====&#10;&#10;You can embed raw HTML or PHP code into your documents by using the ''html'' or ''php'' tags like this:&#10;&lt;code&gt;&#10;&lt;html&gt;&#10;This is some &lt;span style=&quot;color:red;font-size:150%;&quot;&gt;inline HTML&lt;/span&gt;&#10;&lt;/html&gt;&#10;&lt;HTML&gt;&#10;&lt;p style=&quot;border:2px dashed red;&quot;&gt;And this is some block HTML&lt;/p&gt;&#10;&lt;/HTML&gt;&#10;&lt;/code&gt;&#10;&#10;&lt;html&gt;&#10;This is some &lt;span style=&quot;color:red;font-size:150%;&quot;&gt;inline HTML&lt;/span&gt;&#10;&lt;/html&gt;&#10;&lt;HTML&gt;&#10;&lt;p style=&quot;border:2px dashed red;&quot;&gt;And this is some block HTML&lt;/p&gt;&#10;&lt;/HTML&gt;&#10;&#10;&lt;code&gt;&#10;&lt;php&gt;&#10;echo 'A logo generated by PHP:';&#10;echo '&lt;img src=&quot;' . $_SERVER['PHP_SELF'">rss&gt;http://slashdot.org/index.rss 5 author date 1h }}
-
-{{rss&gt;http://slashdot.org/index.rss 5 author date 1h }}
+      <literallayout>  {{rss&gt;http://slashdot.org/index.rss 5 author date 1h }}
+</literallayout>
+      <para>{{<ulink url="rss&gt;http://slashdot.org/index.rss 5 author date 1h }}&#10;&#10;&#10;===== Embedding HTML and PHP =====&#10;&#10;You can embed raw HTML or PHP code into your documents by using the ''html'' or ''php'' tags like this:&#10;&lt;code&gt;&#10;&lt;html&gt;&#10;This is some &lt;span style=&quot;color:red;font-size:150%;&quot;&gt;inline HTML&lt;/span&gt;&#10;&lt;/html&gt;&#10;&lt;HTML&gt;&#10;&lt;p style=&quot;border:2px dashed red;&quot;&gt;And this is some block HTML&lt;/p&gt;&#10;&lt;/HTML&gt;&#10;&lt;/code&gt;&#10;&#10;&lt;html&gt;&#10;This is some &lt;span style=&quot;color:red;font-size:150%;&quot;&gt;inline HTML&lt;/span&gt;&#10;&lt;/html&gt;&#10;&lt;HTML&gt;&#10;&lt;p style=&quot;border:2px dashed red;&quot;&gt;And this is some block HTML&lt;/p&gt;&#10;&lt;/HTML&gt;&#10;&#10;&lt;code&gt;&#10;&lt;php&gt;&#10;echo 'A logo generated by PHP:';&#10;echo '&lt;img src=&quot;' . $_SERVER['PHP_SELF'">rss&gt;http://slashdot.org/index.rss 5 author date 1h }}
 
 
 ===== Embedding HTML and PHP =====

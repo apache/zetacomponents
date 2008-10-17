@@ -342,7 +342,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      */
     protected function visitLiteralBlock( DOMNode $root, ezcDocumentWikiNode $node )
     {
-        $literal = $this->document->createElement( 'literallayout', $node->token->content );
+        $literal = $this->document->createElement( 'literallayout', htmlspecialchars( $node->token->content ) );
         $root->appendChild( $literal );
     }
 
@@ -355,7 +355,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      */
     protected function visitLiteral( DOMNode $root, ezcDocumentWikiNode $node )
     {
-        $literal = $this->document->createElement( 'literal', $node->token->content );
+        $literal = $this->document->createElement( 'literal', htmlspecialchars( $node->token->content ) );
         $root->appendChild( $literal );
     }
 

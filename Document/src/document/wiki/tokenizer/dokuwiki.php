@@ -68,6 +68,9 @@ class ezcDocumentWikiDokuwikiTokenizer extends ezcDocumentWikiTokenizer
                 'class' => 'ezcDocumentWikiLiteralBlockToken',
                 'match' => '(\\A(?P<match>\\n<(code|file)>\\n(?P<value>.+)\\n</\\2>)\\n)SUsi' ),
             array(
+                'class' => 'ezcDocumentWikiLiteralBlockToken',
+                'match' => '(\\A(?P<match>\\n(?P<value>(' . self::WHITESPACE_CHARS . '+).*\n(?:\\3.*\n)*)))S' ),
+            array(
                 'class' => 'ezcDocumentWikiTextLineToken',
                 'match' => '(\\A(?P<match>\\n<nowiki>\\n(?P<value>.+)\\n</nowiki>)\\n)SUsi' ),
             array(
