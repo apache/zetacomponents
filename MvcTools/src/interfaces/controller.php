@@ -38,16 +38,43 @@ abstract class ezcMvcController
     /**
      * Creates a new controller object and sets all the request variables as class variables.
      *
+     * @throws ezcMvcControllerException if the action method is empty
+     * @param string        $action
      * @param ezcMvcRequest $request
      */
     public function __construct( $action, ezcMvcRequest $request )
+    {
+        if ( ezcBase::inDevMode() && ( !is_string( $action ) || strlen( $action ) == 0 ) )
+        {
+            throw new ezcMvcControllerException( "The '" . get_class( $this ) . "' controller requires an action." );
+        }
+        $this->action = $action;
+        $this->setRequestVariables( $request );
+    }
+
+    /**
+     * Loops over all the variables in the request, and sets them as object properties.
+     *
+     * @param ezcMvcRequest $request
+     */
+    protected function setRequestVariables( ezcMvcRequest $request )
     {
         foreach ( $request->variables as $key => $value )
         {
             $this->$key = $value;
         }
         $this->request = $request;
-        $this->action = $action;
+    }
+
+    /**
+     * Creates a method name to call from an action name.
+     *
+     * @return string
+     */
+    protected function createActionMethodName()
+    {
+        $actionMethod = 'do' . preg_replace( '@[^A-Za-z]@', '', preg_replace( '@[A-Za-z]+@e', 'ucfirst( "\\0" )', $this->action ) );
+        return $actionMethod;
     }
 
     /**
@@ -58,7 +85,7 @@ abstract class ezcMvcController
      */
     public function createResult()
     {
-        $actionMethod = 'do' . preg_replace( '@\W@', '', preg_replace( '@\w+@e', 'ucfirst( "\\0" )', $this->action ) );
+        $actionMethod = $this->createActionMethodName();
 
         if ( method_exists( $this, $actionMethod ) )
         {

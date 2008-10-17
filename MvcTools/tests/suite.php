@@ -14,6 +14,7 @@
 require 'routes/regexp.php';
 require 'routes/rails.php';
 require 'router.php';
+require 'controller.php';
 require 'views/php.php';
 require 'views/json.php';
 require 'view.php';
@@ -39,6 +40,7 @@ class ezcMvcToolsSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcMvcToolsRegexpRouteTest::suite() );
         $this->addTest( ezcMvcToolsRailsRouteTest::suite() );
         $this->addTest( ezcMvcToolsRouterTest::suite() );
+        $this->addTest( ezcMvcToolsControllerTest::suite() );
         $this->addTest( ezcMvcToolsViewTest::suite() );
         $this->addTest( ezcMvcToolsPhpViewTest::suite() );
         $this->addTest( ezcMvcToolsJsonViewTest::suite() );

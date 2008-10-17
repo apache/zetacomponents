@@ -7,6 +7,10 @@
 - Fixed a bug where path elements where not urldecoded().
 - Added support for installation prefixes to the router, to the request parsers
   to aid installation outside of the top-directory of a virtual host.
+- Refactored ezcMvcController to allow easier overloading by inherited classes.
+- Fixed a bug in action method name generation in the controller.
+- Fixed issue #13772: Changed the controller to require an action method.
+
 
 1.0alpha1 - Monday 06 October 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
