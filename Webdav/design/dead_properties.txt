@@ -20,7 +20,7 @@ plugin, a new dead property is introduced which stores additional information
 about locks. The <ezclock> property is an XML document that has the following
 structure::
 
-	<ezclock>
+	<lockinfo>
 		<null />
 		<tokeninfo>
 			<token>opaquelocktoken:abc</token>
@@ -30,7 +30,7 @@ structure::
 			<token>opaquelocktoken:def</token>
 			<lastaccess>2008-10-12T15:19:21+00:00</lastaccess>
 		</tokeninfo>
-	</ezclock>
+	</lockinfo>
 
 If the <null> tag is set, the resource is a null lock resource. The
 <tokeninfo> element stores information about the base of the lock, if the lock
@@ -42,3 +42,7 @@ client performed an operation on any of the resources locked by the token.
 The <lockbase> element is used to identify the resource on which the lock was
 originally issued. The <lastaccess> element is used to purge locks that have
 not been accessed for a certain time period.
+
+
+=> Neuer Hook extract_dead_property um direkt an property objekt zu kommen
+=> analoger hook um property zu serialisieren
