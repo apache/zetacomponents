@@ -90,7 +90,7 @@ return array(
     'ezcWebdavLockIfHeaderListItem'                   => 'Webdav/plugins/lock/header/if_header_list_item.php',
     'ezcWebdavLockIfHeaderNoTagList'                  => 'Webdav/plugins/lock/header/if_header_no_tag_list.php',
     'ezcWebdavLockIfHeaderTaggedList'                 => 'Webdav/plugins/lock/header/if_header_tagged_list.php',
-    'ezcWebdavLockInfoProperty'                       => 'Webdav/plugins/lock/properties/dead_ezclock.php',
+    'ezcWebdavLockInfoProperty'                       => 'Webdav/plugins/lock/properties/lockinfo.php',
     'ezcWebdavLockLockRequestGenerator'               => 'Webdav/plugins/lock/request_generators/lock.php',
     'ezcWebdavLockPlugin'                             => 'Webdav/plugins/lock/main.php',
     'ezcWebdavLockPluginConfiguration'                => 'Webdav/plugins/lock/config.php',
