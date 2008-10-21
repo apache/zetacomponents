@@ -1043,7 +1043,7 @@ Character  Translation
 If the HTML characters in the expression block should not be escaped then the
 "raw" block should be used. The next example demonstrates a "raw" block::
 
-    {var $myBoldText = "<b>Hello world</b>}
+    {var $myBoldText = "<b>Hello world</b>"}
 
     {raw $myBoldText} 
 
