@@ -13,6 +13,8 @@
 - Fixed issue #13773: Added a check for the return type for controller actions,
   and throw an exception when it's neither an ezcMvcResult or
   ezcMvcInternalRedirectObject.
+- Fixed issue #13788: array_key_exists() function receives parameters in wrong
+  order.
 
 
 1.0alpha1 - Monday 06 October 2008

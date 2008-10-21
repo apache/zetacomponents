@@ -74,14 +74,28 @@ class ezcMvcJsonViewHandler implements ezcMvcViewHandler
         }
     }
 
+    /**
+     * Returns the value of the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @ignore
+     */
     public function __get( $name )
     {
         return $this->variables[$name];
     }
 
+    /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name
+     * @return bool
+     * @ignore
+     */
     public function __isset( $name )
     {
-        return array_key_exists( $this->variables, $name );
+        return array_key_exists( $name, $this->variables );
     }
 
     /**
