@@ -200,8 +200,6 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         $title = $this->document->createElement( 'title' );
         $root->appendChild( $title );
 
-        // @TODO: Add id for internal references.
-
         foreach ( $node->nodes as $child )
         {
             $this->visitNode( $title, $child );
