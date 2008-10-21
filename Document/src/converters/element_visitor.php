@@ -113,7 +113,7 @@ abstract class ezcDocumentDocbookElementVisitorConverter extends ezcDocumentConv
         {
             if ( $this->storage->contains( $child ) )
             {
-                echo "Dublicate node processing.\n";
+                $this->triggerError( E_WARNING, "Dublicate node processing '{$child->tagName}'." );
                 continue;
             }
             else
@@ -121,27 +121,44 @@ abstract class ezcDocumentDocbookElementVisitorConverter extends ezcDocumentConv
                 $this->storage->attach( $child );
             }
 
-            switch ( $child->nodeType )
-            {
-                case XML_ELEMENT_NODE:
-                    if ( isset( $this->visitorElementHandler[$this->defaultNamespace][$child->tagName] ) )
-                    {
-                        $root = $this->visitorElementHandler[$this->defaultNamespace][$child->tagName]->handle( $this, $child, $root );
-                    }
-                    else
-                    {
-                        // Trigger notive for unhandled elements
-                        $this->triggerError( E_NOTICE, "Unhandled element '{$child->tagName}'." );
+            $root = $this->visitNode( $child, $root );
+        }
 
-                        // Recurse into element childs anyways
-                        $this->visitChilds( $child, $root );
-                    }
-                    break;
+        return $root;
+    }
 
-                case XML_TEXT_NODE:
-                    $root = $this->visitText( $child, $root );
-                    break;
-            }
+    /**
+     * Visit a single document node
+     *
+     * Visit a single document node and look up the correct visitor and us it
+     * to handle the node.
+     *
+     * @param DOMNode $node 
+     * @param mixed $root 
+     * @return mixed
+     */
+    public function visitNode( DOMNode $node, $root )
+    {
+        switch ( $node->nodeType )
+        {
+            case XML_ELEMENT_NODE:
+                if ( isset( $this->visitorElementHandler[$this->defaultNamespace][$node->tagName] ) )
+                {
+                    $root = $this->visitorElementHandler[$this->defaultNamespace][$node->tagName]->handle( $this, $node, $root );
+                }
+                else
+                {
+                    // Trigger notice for unhandled elements
+                    $this->triggerError( E_NOTICE, "Unhandled element '{$node->tagName}'." );
+
+                    // Recurse into element nodes anyways
+                    $this->visitChilds( $node, $root );
+                }
+                break;
+
+            case XML_TEXT_NODE:
+                $root = $this->visitText( $node, $root );
+                break;
         }
 
         return $root;

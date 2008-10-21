@@ -15,7 +15,7 @@
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentConverterDocbookToRstTests extends ezcTestCase
+class ezcDocumentConverterDocbookToWikiTests extends ezcTestCase
 {
     protected static $testDocuments = null;
 
@@ -27,14 +27,14 @@ class ezcDocumentConverterDocbookToRstTests extends ezcTestCase
     public function testCreateDocumentFromDocbook()
     {
         $doc = new ezcDocumentDocbook();
-        $doc->loadFile( dirname( __FILE__ ) . '/files/docbook/rst/s_001_empty.xml' );
+        $doc->loadFile( dirname( __FILE__ ) . '/files/docbook/wiki/s_001_empty.xml' );
 
         $wiki = new ezcDocumentWiki();
         $wiki->createFromDocbook( $doc );
 
         $this->assertSame(
             $wiki->save(),
-            file_get_contents( dirname( __FILE__ ) . '/files/docbook/rst/s_001_empty.txt' )
+            file_get_contents( dirname( __FILE__ ) . '/files/docbook/wiki/s_001_empty.txt' )
         );
     }
 
@@ -43,7 +43,7 @@ class ezcDocumentConverterDocbookToRstTests extends ezcTestCase
         if ( self::$testDocuments === null )
         {
             // Get a list of all test files from the respektive folder
-            $testFiles = glob( dirname( __FILE__ ) . '/files/docbook/rst/s_*.xml' );
+            $testFiles = glob( dirname( __FILE__ ) . '/files/docbook/wiki/s_*.xml' );
 
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
@@ -72,11 +72,11 @@ class ezcDocumentConverterDocbookToRstTests extends ezcTestCase
         $doc = new ezcDocumentDocbook();
         $doc->loadFile( $from );
 
-        $converter = new ezcDocumentDocbookToRstConverter();
+        $converter = new ezcDocumentDocbookToWikiConverter();
         $created = $converter->convert( $doc );
 
         $this->assertTrue(
-            $created instanceof ezcDocumentRst
+            $created instanceof ezcDocumentWiki
         );
 
         // Store test file, to have something to compare on failure

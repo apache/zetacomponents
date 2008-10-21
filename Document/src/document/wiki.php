@@ -161,7 +161,8 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
-        // @TODO: Implement
+        $converter = new ezcDocumentDocbookToWikiConverter();
+        $this->contents = $converter->convert( $document )->save();
     }
 
     /**
