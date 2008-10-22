@@ -503,6 +503,11 @@ zone mechanism also allows you to use different view handlers for different
 parts of the layout. In our case we use a template for the "menu" and
 "page_layout" zones, but the plain PHP for the "content" zone.
 
+The helloNameView class is put in the 'lib/views/' directory as name.php:
+
+.. include:: ../../../docs/examples/applications/HelloMvc/lib/views/name.php
+   :literal:
+
 The templates themselves we place in the "templates/" directory. We keep them
 as simple as possible. First the "menu.ezt" template:
 
