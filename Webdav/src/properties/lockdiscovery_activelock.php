@@ -142,7 +142,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         $this->properties['lockType']  = ezcWebdavLockRequest::TYPE_READ;
         $this->properties['lockScope'] = ezcWebdavLockRequest::SCOPE_SHARED;
         $this->properties['depth']     = ezcWebdavRequest::DEPTH_INFINITY;
-        $this->properties['tokens']    = array();
+        $this->properties['tokens']    = new ArrayObject();
     }
 }
 

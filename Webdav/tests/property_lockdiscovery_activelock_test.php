@@ -19,7 +19,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
             'depth'     => ezcWebdavRequest::DEPTH_INFINITY,
             'owner'     => null,
             'timeout'   => null,
-            'tokens'    => array(),
+            'tokens'    => new ArrayObject(),
         );
         $this->workingValues = array(
             'lockType' => array(
@@ -46,8 +46,8 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
                 23,
             ),
             'tokens' => array(
-                array(),
-                array( 'foo', 'bar' ),
+                new ArrayObject(),
+                new ArrayObject( array( 'foo', 'bar' ) ),
             ),
         );
         $this->failingValues = array(
@@ -101,6 +101,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
                 'foobar',
                 true,
                 false,
+                array(),
                 new stdClass(),
             ),
         );

@@ -115,15 +115,17 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavSupportedLockProperty(
-                array(
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_EXCLUSIVE
-                    ),
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_SHARED
-                    ),
+                new ArrayObject(
+                    array(
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE
+                        ),
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_SHARED
+                        ),
+                    )
                 )
             )
         );
@@ -184,15 +186,17 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavSupportedLockProperty(
-                array(
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_EXCLUSIVE
-                    ),
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_SHARED
-                    ),
+                new ArrayObject(
+                    array(
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE
+                        ),
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_SHARED
+                        ),
+                    )
                 )
             )
         );
@@ -327,15 +331,17 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavSupportedLockProperty(
-                array(
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_EXCLUSIVE
-                    ),
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_SHARED
-                    ),
+                new ArrayObject(
+                    array(
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE
+                        ),
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_SHARED
+                        ),
+                    )
                 )
             )
         );
@@ -396,15 +402,17 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavSupportedLockProperty(
-                array(
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_EXCLUSIVE
-                    ),
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_SHARED
-                    ),
+                new ArrayObject(
+                    array(
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE
+                        ),
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_SHARED
+                        ),
+                    )
                 )
             )
         );
@@ -475,15 +483,17 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavSupportedLockProperty(
-                array(
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_EXCLUSIVE
-                    ),
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_SHARED
-                    ),
+                new ArrayObject(
+                    array(
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE
+                        ),
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_SHARED
+                        ),
+                    )
                 )
             )
         );
@@ -544,15 +554,17 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavSupportedLockProperty(
-                array(
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_EXCLUSIVE
-                    ),
-                    new ezcWebdavSupportedLockPropertyLockentry(
-                        ezcWebdavLockRequest::TYPE_WRITE,
-                        ezcWebdavLockRequest::SCOPE_SHARED
-                    ),
+                new ArrayObject(
+                    array(
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE
+                        ),
+                        new ezcWebdavSupportedLockPropertyLockentry(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_SHARED
+                        ),
+                    )
                 )
             )
         );

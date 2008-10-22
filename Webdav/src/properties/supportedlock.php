@@ -84,6 +84,18 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
     {
         return count( $this->properties['lockEntries'] ) === 0;
     }
+
+    /**
+     * Remove all contents from a property.
+     *
+     * Clear a property, so that it will be recognized as empty later.
+     * 
+     * @return void
+     */
+    public function clear()
+    {
+        $this->properties['lockEntries'] = new ArrayObject();
+    }
 }
 
 ?>

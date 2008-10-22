@@ -64,41 +64,16 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockRequestGenerator
      */
     public function notify( ezcWebdavPropFindResponse $response )
     {
-        $currentLockDiscoveryProp = null;
-
-        // Receive the current lockdiscovery property to update it
-        foreach ( $response->responses as $propStatRes )
-        {
-            if ( $propStatRes->status === ezcWebdavResponse::STATUS_200 &&
-                 $propStatRes->storage->contains( 'lockdiscovery' )
-               )
-            {
-                // Property found no further searching
-                // Clone current state to avoid consistency problems
-                $currentLockDiscoveryProp = clone $propStatRes->storage->get( 'lockdiscovery' );
-                break;
-            }
-            if ( $propStatRes->status === ezcWebdavResponse::STATUS_404 &&
-                 $propStatRes->storage->contains( 'lockdiscovery' )
-               )
-            {
-                // Property definitly not found, no further searching
-                break;
-            }
-        }
-
-        // If no lockdiscovery property has been found, yet, create a new one
-        if ( $currentLockDiscoveryProp === null )
-        {
-            $currentLockDiscoveryProp = new ezcWebdavLockDiscoveryProperty();
-        }
-        // Clone active lock to avoid consitency problems
-        $currentLockDiscoveryProp->activeLock->append( clone $this->activeLock );
+        $lockDiscoveryProp = new ezcWebdavLockDiscoveryProperty(
+            new ArrayObject(
+                array( clone $this->activeLock )
+            )
+        );
         
         // PropPatch request to update resource property
         $propPatch = new ezcWebdavPropPatchRequest( $response->node->path );
         $propPatch->updates->attach(
-            $currentLockDiscoveryProp,
+            $lockDiscoveryProp,
             ezcWebdavPropPatchRequest::SET
         );
 

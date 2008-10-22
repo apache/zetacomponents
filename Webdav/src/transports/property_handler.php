@@ -418,10 +418,10 @@ class ezcWebdavPropertyHandler
             }
             else
             {
-                // Plugin hook beforeSerializeDeadProperty
+                // Plugin hook serializeDeadProperty
                 $propertyElement = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
                     __CLASS__,
-                    'beforeSerializeDeadProperty',
+                    'serializeDeadProperty',
                     new ezcWebdavPluginParameters(
                         array(
                             'property' => $property,
