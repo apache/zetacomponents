@@ -423,7 +423,7 @@ language's greeting::
         private function selectGreeting()
         {
             $greetings = array( 'Hello', 'Hei', 'こんにちわ', 'доброе утро' );
-            return $greetings[mt_rand( 0, count( $greetings - 1 ) )];
+            return $greetings[mt_rand( 0, count( $greetings ) - 1 )];
         }
 
 The doGreet() method uses this method to select a greeting, and adds this to
