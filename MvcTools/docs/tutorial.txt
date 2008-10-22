@@ -334,6 +334,16 @@ implementation of the runResultFilters() method shows::
         $result->variables['installRoot'] = preg_replace( '@/index\.php$@', '', $_SERVER['SCRIPT_NAME'] );
     }
 
+We are not using the other two methods in this example, but they still have to
+be present because they're part of the interface::
+
+    function runRequestFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request )
+    {
+    }
+
+    function runResponseFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response )
+    {
+    }
 
 Creating The Router
 ```````````````````
