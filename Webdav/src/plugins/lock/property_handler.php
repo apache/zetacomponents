@@ -37,16 +37,22 @@ class ezcWebdavLockPropertyHandler
         {
             case 'lockdiscovery':
                 $property = new ezcWebdavLockDiscoveryProperty();
-                if ( $domElement->hasChildNodes() )
+                foreach ( $domElement->childNodes as $activeLockChild )
                 {
-                    $property->activeLock = $this->extractActiveLockContent( $domElement );
+                    if ( $activeLockChild->nodeType === XML_ELEMENT_NODE && $activeLockChild->localName === 'activelock' )
+                    {
+                        $property->activeLock->append( $this->extractActiveLockContent( $activeLockChild ) );
+                    }
                 }
                 break;
             case 'supportedlock':
                 $property = new ezcWebdavSupportedLockProperty();
-                if ( $domElement->hasChildNodes() )
-                {
-                    $property->links = $this->extractLockEntryContent( $domElement );
+                foreach ( $domElement->childNodes as $childNode )
+                {   
+                    if ( $childNode->nodeType === XML_ELEMENT_NODE && $childNode->localName === 'lockentry' )
+                    {
+                        $property->lockEntries->append( $this->extractLockEntryContent( $childNode ) );
+                    }
                 }
                 break;
         }
@@ -60,17 +66,16 @@ class ezcWebdavLockPropertyHandler
      * ezcWebdavLockDiscoveryPropertyActiveLock object to be used as the
      * content of ezcWebdavLockDiscoveryProperty.
      * 
-     * @param DOMElement $domElement 
+     * @param DOMElement $activeLockElement 
      * @return ezcWebdavLockDiscoveryPropertyActiveLock
      */
-    protected function extractActiveLockContent( DOMElement $domElement )
+    protected function extractActiveLockContent( DOMElement $activeLockElement )
     {
         $activeLock = new ezcWebdavLockDiscoveryPropertyActiveLock();
 
-        $activelockElement = $domElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'activelock' )->item( 0 );
-        for ( $i = 0; $i < $activelockElement->childNodes->length; ++$i )
+        foreach ( $activeLockElement->childNodes as $currentElement )
         {
-            if ( !( ( $currentElement = $activelockElement->childNodes->item( $i ) ) instanceof DOMElement ) )
+            if ( !( $currentElement instanceof DOMElement ) )
             {
                 // Skip non element children
                 continue;
@@ -78,25 +83,25 @@ class ezcWebdavLockPropertyHandler
             switch ( $currentElement->localName )
             {
                 case 'locktype':
-                    if ( $currentElement->hasChildren && $currentElement->firstChild->localName !== 'write' )
+                    if ( $currentElement->hasChildNodes() && $currentElement->firstChild->localName !== 'write' )
                     {
-                        $activelock->lockType = ezcWebdavLockRequest::TYPE_READ;
+                        $activeLock->lockType = ezcWebdavLockRequest::TYPE_READ;
                     }
                     else
                     {
-                        $activelock->lockType = ezcWebdavLockRequest::TYPE_WRITE;
+                        $activeLock->lockType = ezcWebdavLockRequest::TYPE_WRITE;
                     }
                     break;
                 case 'lockscope':
-                    if ( $currentElement->hasChildren )
+                    if ( $currentElement->hasChildNodes() )
                     {
                         switch ( $currentElement->firstChild->localName )
                         {
                             case 'exclusive':
-                                $activelock->lockScope = ezcWebdavLockRequest::SCOPE_EXCLUSIVE;
+                                $activeLock->lockScope = ezcWebdavLockRequest::SCOPE_EXCLUSIVE;
                                 break;
                             case 'shared':
-                                $activelock->lockScope = ezcWebdavLockRequest::SCOPE_SHARED;
+                                $activeLock->lockScope = ezcWebdavLockRequest::SCOPE_SHARED;
                                 break;
                         }
                     }
@@ -105,33 +110,39 @@ class ezcWebdavLockPropertyHandler
                     switch ( trim( $currentElement->nodeValue ) )
                     {
                         case '0':
-                            $activelock->depth = ezcWebdavRequest::DEPTH_ZERO;
+                            $activeLock->depth = ezcWebdavRequest::DEPTH_ZERO;
                             break;
                         case '1':
-                            $activelock->depth = ezcWebdavRequest::DEPTH_ONE;
+                            $activeLock->depth = ezcWebdavRequest::DEPTH_ONE;
                             break;
                         case 'infinity':
-                            $activelock->depth = ezcWebdavRequest::DEPTH_INFINITY;
+                            $activeLock->depth = ezcWebdavRequest::DEPTH_INFINITY;
                             break;
                     }
                     break;
                 case 'owner':
-                    // Ignore <href /> element by intention!
-                    $activelock->owner = $currentElement->textContent;
+                    // @TODO: Honor href element!
+                    $activeLock->owner = $currentElement->textContent;
                     break;
                 case 'timeout':
-                    // @todo Need to check for special values here!
-                    $activelock->timeout = new ezcWebdavDateTime( $currentElement->nodeValue );
+                    $timeoutVal = trim( $currentElement->nodeValue );
+                    if ( substr( $timeoutVal, 0, 7 ) === 'Second-' )
+                    {
+                        $activeLock->timeout = (int) substr( $timeoutVal, 7 );
+                    }
                     break;
                 case 'locktoken':
-                    for ( $i = 0; $i < $currentElement->childNodes->length; ++$i )
+                    foreach ( $currentElement->childNodes as $childNode )
                     {
-                        $activelock->tokens[] = trim( $currentElement->childNodes->item( $i )->textContent );
+                        if ( $childNode->nodeType === XML_ELEMENT_NODE && $childNode->localName === 'href' )
+                        {
+                            $activeLock->tokens->append( trim( $childNode->textContent ) );
+                        }
                     }
                     break;
             }
         }
-        return $activelock;
+        return $activeLock;
     }
     
     /**
@@ -146,19 +157,12 @@ class ezcWebdavLockPropertyHandler
      */
     protected function extractLockEntryContent( DOMElement $domElement )
     {
-        $lockEntries = array();
-
-        $lockEntryElements = $domElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'lockentry' );
-        for ( $i = 0; $i < $lockEntryElements->length; ++$i )
-        {
-            $lockEntries[] = new ezcWebdavSupportedLockPropertyLockentry(
-                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'locktype' )->item( 0 )->localname === 'write'
-                    ? ezcWebdavLockRequest::TYPE_WRITE : ezcWebdavLockRequest::TYPE_READ ),
-                ( $lockEntryElements->item( $i )->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'lockscope' )->item( 0 )->localname === 'shared'
-                    ? ezcWebdavLockRequest::SCOPE_SHARED : ezcWebdavLockRequest::SCOPE_EXCLUSIVE )
-            );
-        }
-        return $lockEntries;
+        return new ezcWebdavSupportedLockPropertyLockentry(
+            ( $domElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'locktype' )->item( 0 )->firstChild->localName === 'write'
+                ? ezcWebdavLockRequest::TYPE_WRITE : ezcWebdavLockRequest::TYPE_READ ),
+            ( $domElement->getElementsByTagNameNS( ezcWebdavXmlTool::XML_DEFAULT_NAMESPACE, 'lockscope' )->item( 0 )->firstChild->localName === 'shared'
+                ? ezcWebdavLockRequest::SCOPE_SHARED : ezcWebdavLockRequest::SCOPE_EXCLUSIVE )
+        );
     }
     
     /**
@@ -187,8 +191,8 @@ class ezcWebdavLockPropertyHandler
             case 'ezcWebdavSupportedLockProperty':
                 $elementName  = 'supportedlock';
                 $elementValue = (
-                    $property->lockEntry !== null
-                        ? $this->serializeLockEntryContent( $property->lockEntry, $parentElement->ownerDocument, $xmlTool )
+                    count( $property->lockEntries ) !== 0
+                        ? $this->serializeLockEntryContent( $property->lockEntries, $parentElement->ownerDocument, $xmlTool )
                         : null
                 );
                 break;
@@ -310,7 +314,7 @@ class ezcWebdavLockPropertyHandler
      * @param ezcWebdavXmlTool $xmlTool
      * @return array(DOMElement)
      */
-    protected function serializeLockEntryContent( array $lockEntries = null, DOMDocument $dom, ezcWebdavXmlTool $xmlTool )
+    protected function serializeLockEntryContent( ArrayObject $lockEntries = null, DOMDocument $dom, ezcWebdavXmlTool $xmlTool )
     {
         $lockEntryContentElements = array();
 
@@ -335,6 +339,199 @@ class ezcWebdavLockPropertyHandler
         }
 
         return $lockEntryContentElements;
+    }
+
+    /**
+     * Extracts a dead property from the given $element.
+     *
+     * Checks is the given $element encodes a dead property which can be parsed
+     * by this class. If this is the case, the corresponding property object is
+     * returned, otherwise null.
+     * 
+     * @param DOMElement $element 
+     * @param ezcWebdavXmlTool $xmlTool 
+     * @return ezcWebdavDeadProperty|null
+     */
+    public function extractDeadProperty( DOMElement $element, ezcWebdavXmlTool $xmlTool )
+    {
+        switch ( $element->localName )
+        {
+            case 'lockinfo':
+                return $this->extractLockInfoProperty( $element, $xmlTool );
+
+            // default:
+                // return null;
+        }
+    }
+
+    /**
+     * Extracts the <lockinfo> property from the given $element.
+     * 
+     * @param DOMElement $element 
+     * @param ezcWebdavXmlTool $xmlTool 
+     * @return ezcWebdavLockInfoProperty
+     */
+    protected function extractLockInfoProperty( DOMElement $element, ezcWebdavXmlTool $xmlTool )
+    {
+        $tokenInfos    = new ArrayObject();
+        $nullResource = false;
+
+        foreach ( $element->childNodes as $child )
+        {
+            if ( $child->nodeType !== XML_ELEMENT_NODE )
+            {
+                // skip non-tags
+                continue;
+            }
+
+            switch ( $child->localName )
+            {
+                case 'null':
+                    $nullResource = true;
+                    break;
+
+                case 'tokeninfo':
+                    $tokenInfo = $this->extractLockTokenInfo( $child, $xmlTool );
+                    $tokenInfos[$tokenInfo->token] = $tokenInfo;
+                    break;
+
+                // Ignore all other elements
+            }
+        }
+        return new ezcWebdavLockInfoProperty( $tokenInfos, $nullResource );
+    }
+
+    /**
+     * Extracts the <tokeninfo> from the given $element.
+     * 
+     * @param DOMElement $element 
+     * @param ezcWebdavXmlTool $xmlTool 
+     * @return ezcWebdavLockTokenInfo
+     */
+    protected function extractLockTokenInfo( DOMElement $element, ezcWebdavXmlTool $xmlTool )
+    {
+        $tokenInfo = new ezcWebdavLockTokenInfo();
+
+        foreach ( $element->childNodes as $child )
+        {
+            if ( $child->nodeType !== XML_ELEMENT_NODE )
+            {
+                // Skip non-tags
+                continue;
+            }
+
+            switch( $child->localName )
+            {
+                case 'token':
+                    $tokenInfo->token = $child->nodeValue;
+                    break;
+
+                case 'lockbase':
+                    $tokenInfo->lockBase = $child->nodeValue;
+                    break;
+
+                case 'lastaccess':
+                    $tokenInfo->lastAccess = new ezcWebdavDateTime(
+                        $child->nodeValue
+                    );
+                    break;
+
+                // Ignore all other tags
+            }
+        }
+
+        return $tokenInfo;
+    }
+
+    /**
+     * Serializes the given $property to a DOMElement.
+     *
+     * Checks if the given $property can be serialized to XML. If this is the
+     * case, a DOMElement representing the given $property is returned,
+     * otherwise null. The DOMElement must in addition be appended to the given
+     * $parent element (which most likely is a property storage element, but
+     * can also be different).
+     * 
+     * @param ezcWebdavDeadProperty $property 
+     * @param DOMElement $parent
+     * @param ezcWebdavXmlTool $xmlTool 
+     * @return DOMElement|null
+     */
+    public function serializeDeadProperty( ezcWebdavDeadProperty $property, DOMElement $parent, ezcWebdavXmlTool $xmlTool )
+    {
+        $element = null;
+        switch ( get_class( $property ) )
+        {
+            case 'ezcWebdavLockInfoProperty':
+                $element = $this->serializeLockInfoProperty( $property, $parent, $xmlTool );
+                break;
+
+            // default:
+                // break;
+        }
+
+        return $element;
+    }
+    
+    protected function serializeLockInfoProperty( ezcWebdavLockInfoProperty $property, DOMElement $parent, ezcWebdavXmlTool $xmlTool )
+    {
+        $domDocument = $parent->ownerDocument;
+
+        $lockInfoElement = $xmlTool->createDomElement(
+            $domDocument, 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE
+        );
+
+        if ( $property->null )
+        {
+            $lockInfoElement->appendChild(
+                $xmlTool->createDomElement(
+                    $domDocument, 'null', ezcWebdavLockPlugin::XML_NAMESPACE
+                )
+            );
+        }
+
+        foreach ( $property->tokenInfos as $tokenInfo )
+        {
+            // <tokenfinfo>
+            $tokenInfoElement = $lockInfoElement->appendChild(
+                $xmlTool->createDomElement(
+                    $domDocument, 'tokeninfo', ezcWebdavLockPlugin::XML_NAMESPACE
+                )
+            );
+            
+            // <token>$token</token>
+            $tokenInfoElement->appendChild(
+                $xmlTool->createDomElement(
+                    $domDocument, 'token', ezcWebdavLockPlugin::XML_NAMESPACE
+                )
+            )->appendChild(
+                new DOMText( $tokenInfo->token )
+            );
+
+            // Primary check for <tokenbase> (more often present?)
+            if ( $lockInfoElement->tokeninfo->lockBase !== null )
+            {
+                $tokenInfoElement->appendChild(
+                    $xmlTool->createDomElement(
+                        $domDocument, 'lockbase', ezcWebdavLockPlugin::XML_NAMESPACE
+                    )
+                )->appendChild(
+                    new DOMText( $tokenInfo->lockBase )
+                );
+            }
+            // If <tokenbase> is not set, <lastaccess> should be!
+            else if ( $lockInfoElement->tokeninfo->lastAccess !== null )
+            {
+                $tokenInfoElement->appendChild(
+                    $xmlTool->createDomElement(
+                        $domDocument, 'lastaccess', ezcWebdavLockPlugin::XML_NAMESPACE
+                    )
+                )->appendChild(
+                    new DOMText( $tokenInfo->lastAccess->format( 'c' ) )
+                );
+            }
+        }
+        return $lockInfoElement;
     }
 }
 

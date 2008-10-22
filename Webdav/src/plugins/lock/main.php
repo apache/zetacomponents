@@ -20,6 +20,16 @@
 class ezcWebdavLockPlugin
 {
     /**
+     * Namespace of the LOCK plugin. 
+     */
+    const PLUGIN_NAMESPACE = 'ezcWebdavLockPlugin';
+
+    /**
+     * XML namespace for properties.
+     */
+    const XML_NAMESPACE = 'http://ezcomponents.org/s/Webdav#lock';
+
+    /**
      * Properties
      * 
      * @var array(string=>mixed)
@@ -157,6 +167,48 @@ class ezcWebdavLockPlugin
         return $this->propertyHandler->serializeUnknownLiveProperty(
             $params['property'],
             $params['parentElement'],
+            $params['xmlTool']
+        );
+    }
+
+    /**
+     * Callback for the hook ezcWebdavPropertyHandler::extractDeadProperty().
+     *
+     * Parameters are:
+     * - DOMElement domElement
+     * - ezcWebdavXmlTool xmlTool
+     * 
+     * @param ezcWebdavPluginParameters $params 
+     * @return ezcWebdavDeadProperty|null
+     */
+    public function extractDeadProperty( ezcWebdavPluginParameters $params )
+    {
+        // Check namespace before bothering property handler
+        if ( $params['domElement']->namespaceURI !== self::XML_NAMESPACE )
+        {
+            return;
+        }
+
+        return $this->propertyHandler->extractDeadProperty(
+            $params['domElement'],
+            $params['xmlTool']
+        );
+    }
+
+    /**
+     * Callback for the hook ezcWebdavPropertyHandler::serializeDeadProperty().
+     *
+     * Parameters are:
+     * - ezcWebdavDeadProperty property
+     * - ezcWebdavXmlTool xmlTool
+     * 
+     * @param ezcWebdavPluginParameters $params 
+     * @return DOMElement|null
+     */
+    public function serializeDeadProperty( ezcWebdavPluginParameters $params )
+    {
+        return $this->propertyHandler->serializeDeadProperty(
+            $params['property'],
             $params['xmlTool']
         );
     }
@@ -431,6 +483,7 @@ class ezcWebdavLockPlugin
 
         $propFind->prop->attach( new ezcWebdavLockDiscoveryProperty() );
         $propFind->prop->attach( new ezcWebdavGetEtagProperty() );
+        $propFind->prop->attach( new ezcWebdavDeadProperty( 'http://ezcomponent.org/s/Webdav', 'ezclock' ) );
         $propFind->setHeader(
             'Depth',
             ( $depth = $request->getHeader( 'Depth' ) ) !== null ? $depth : ezcWebdavRequest::DEPTH_ONE

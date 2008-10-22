@@ -11,6 +11,12 @@ must reside in the namespace::
 
 	http://ezcomponents.org/s/Webdav
 
+If a plugin makes use of that namespace, it might add a fraction part to it,
+to avoid naming collisions inside the namespace. For example, the lock plugin
+uses::
+
+	http://ezcomponents.org/s/Webdav#lock
+
 ===========
 Lock plugin
 ===========

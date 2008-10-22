@@ -22,10 +22,6 @@
  */
 class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
 {
-    /**
-     * Namespace of the LOCK plugin. 
-     */
-    const NAMESPACE_NAME = 'ezcWebdavLockPlugin';
 
     /**
      * Main object of the lock plugin. 
@@ -120,7 +116,7 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
      */
     public function getNamespace()
     {
-        return self::NAMESPACE_NAME;
+        return ezcWebdavLockPlugin::PLUGIN_NAMESPACE;
     }
 
     /**

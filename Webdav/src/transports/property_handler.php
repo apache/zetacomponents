@@ -215,9 +215,9 @@ class ezcWebdavPropertyHandler
     private function dispatchExtractDeadProperty ( DOMElement $element )
     {
         // Plugin hook beforeExtractDeadProperty
-        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+        $property = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
             __CLASS__,
-            'beforeExtractDeadProperty',
+            'extractDeadProperty',
             new ezcWebdavPluginParameters(
                 array(
                     'domElement' => $element,
@@ -226,20 +226,12 @@ class ezcWebdavPropertyHandler
             )
         );
 
-        $property = $this->extractDeadProperty( $element );
+        // No plugin wanted to parse the property, parse default
+        if ( $property === null )
+        {
+            $property = $this->extractDeadProperty( $element );
+        }
 
-        // Plugin hook afterExtractDeadProperty
-        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
-            __CLASS__,
-            'afterExtractDeadProperty',
-            new ezcWebdavPluginParameters(
-                array(
-                    'property' => $property,
-                    'xmlTool'  => $this->getXmlTool(),
-                )
-            )
-        );
-        
         return $property;
     }
 
@@ -427,7 +419,7 @@ class ezcWebdavPropertyHandler
             else
             {
                 // Plugin hook beforeSerializeDeadProperty
-                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
+                $propertyElement = ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
                     __CLASS__,
                     'beforeSerializeDeadProperty',
                     new ezcWebdavPluginParameters(
@@ -437,20 +429,12 @@ class ezcWebdavPropertyHandler
                         )
                     )
                 );
-                
-                $propertyElement = $this->serializeDeadProperty( $property, $parentElement );
 
-                // Plugin hook afterSerializeDeadProperty
-                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
-                    __CLASS__,
-                    'afterSerializeDeadProperty',
-                    new ezcWebdavPluginParameters(
-                        array(
-                            'domElement' => $propertyElement,
-                            'xmlTool'    => $this->getXmlTool(),
-                        )
-                    )
-                );
+                // No plugin wanted to serialize the propery
+                if ( $propertyElement === null )
+                {
+                    $propertyElement = $this->serializeDeadProperty( $property, $parentElement );
+                }
             }
             if ( $propertyElement instanceof DOMNode )
             {

@@ -8,7 +8,7 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  *
- * @property ArrayObject(ezcWebdavLockTokenInfo) $tokenInfo
+ * @property ArrayObject(ezcWebdavLockTokenInfo) $tokenInfos
  *           Contains information about the lock tokens applied to a resource.
  * @property bool $null 
  *           Whether the resource is a lock-null resource.
@@ -26,11 +26,11 @@ class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
     const NAME = 'lockinfo';
 
 
-    public function __construct( ArrayObject $tokenInfo = null, $null = false )
+    public function __construct( ArrayObject $tokenInfos = null, $null = false )
     {
         parent::__construct( self::NAMESPACE, self::NAME );
 
-        $this->tokenInfo = ( $tokenInfo === null ? new ArrayObject() : $tokenInfo );
+        $this->tokenInfos = ( $tokenInfos === null ? new ArrayObject() : $tokenInfos );
         $this->null      = $null;
     }
 
@@ -43,7 +43,7 @@ class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
      */
     public function hasNoContent()
     {
-        return ( count( $this->properties['tokenInfo'] ) === 0 
+        return ( count( $this->properties['tokenInfos'] ) === 0 
             && $this->properties['null'] === false
         );
     }
@@ -57,7 +57,7 @@ class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
      */
     public function clear()
     {
-        $this->tokenInfo = new ArrayObject();
+        $this->tokenInfos = new ArrayObject();
         $this->null      = false;
     }
 
@@ -89,7 +89,7 @@ class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
                 }
                 break;
 
-            case 'tokenInfo':
+            case 'tokenInfos':
                 if ( !is_object( $propertyValue ) || !( $propertyValue instanceof ArrayObject ) )
                 {
                     return $this->hasError(

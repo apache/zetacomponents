@@ -28,14 +28,14 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
      * The $lockEntry parameter must be an array of {@link
      * ezcWebdavSupportedLockPropertyLockentry} instances.
      * 
-     * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockEntry
+     * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockEntries
      * @return void
      */
-    public function __construct( array $lockEntry = null )
+    public function __construct( ArrayObject $lockEntries = null )
     {
         parent::__construct( 'supportedlock' );
 
-        $this->lockEntry = $lockEntry;
+        $this->lockEntries = ( $lockEntries === null ? new ArrayObject() : $lockEntries );
     }
 
     /**
@@ -59,10 +59,10 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
     {
         switch ( $propertyName )
         {
-            case 'lockEntry':
-                if ( !is_array( $propertyValue ) && $propertyValue !== null )
+            case 'lockEntries':
+                if ( !is_object( $propertyValue ) || !( $propertyValue instanceof ArrayObject ) )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'array(ezcWebdavSupportedLockPropertyLockentry)' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ArrayObject(ezcWebdavSupportedLockPropertyLockentry)' );
                 }
 
                 $this->properties[$propertyName] = $propertyValue;
@@ -82,7 +82,7 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
      */
     public function hasNoContent()
     {
-        return $this->properties['lockEntry'] === null;
+        return count( $this->properties['lockEntries'] ) === 0;
     }
 }
 

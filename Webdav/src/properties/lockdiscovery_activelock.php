@@ -49,18 +49,18 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * @param array(string) $tokens
      * @return void
      */
-    public function __construct( $lockType  = ezcWebdavLockRequest::TYPE_READ,
-                                 $lockScope = ezcWebdavLockRequest::SCOPE_SHARED,
-                                 $depth     = ezcWebdavRequest::DEPTH_INFINITY,
-                                 $owner     = null,
-                                 $timeout   = null,
-                                 $tokens    = array() )
+    public function __construct( $lockType           = ezcWebdavLockRequest::TYPE_READ,
+                                 $lockScope          = ezcWebdavLockRequest::SCOPE_SHARED,
+                                 $depth              = ezcWebdavRequest::DEPTH_INFINITY,
+                                 $owner              = null,
+                                 $timeout            = null,
+                                 ArrayObject $tokens = null )
     {
         parent::__construct( $lockType, $lockScope );
         $this->depth   = $depth;
         $this->owner   = $owner;
         $this->timeout = $timeout;
-        $this->tokens  = $tokens;
+        $this->tokens  = ( $tokens === null ? new ArrayObject() : $tokens );
 
         $this->name    = 'activelock';
     }
@@ -105,9 +105,9 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                 }
                 break;
             case 'tokens':
-                if ( !is_array( $propertyValue ) )
+                if ( !is_object( $propertyValue ) || !( $propertyValue instanceof ArrayObject ) )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'array(string)' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ArrayObject(string)' );
                 }
                 break;
             default:
