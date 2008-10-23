@@ -136,12 +136,10 @@ class ezcWebdavLockPropertyHandler
                     break;
                 case 'locktoken':
                     // @TODO: This may only be 1, no ArrayObject needed!
-                    $activeLock->tokens->append(
-                        new ezcWebdavPotentialUriContent(
-                            trim( $currentElement->textContent ),
-                            // Is lock token represented by an URI?
-                            ( $currentElement->hasChildNodes() && $currentElement->firstChild->localName === 'href' )
-                        )
+                    $activeLock->token = new ezcWebdavPotentialUriContent(
+                        trim( $currentElement->textContent ),
+                        // Is lock token represented by an URI?
+                        ( $currentElement->hasChildNodes() && $currentElement->firstChild->localName === 'href' )
                     );
                     break;
             }
@@ -302,21 +300,18 @@ class ezcWebdavLockPropertyHandler
                 $xmlTool->createDomElement( $dom, 'timeout' )
             )->nodeValue = "Second-{$activeLock->timeout}";
 
-            foreach ( $activeLock->tokens as $token )
+            $lockTokenElement = $activeLockElement->appendChild(
+                $xmlTool->createDomElement( $dom, 'locktoken' )
+            );
+            
+            if ( $activeLock->token->isUri )
             {
-                $lockTokenElement = $activeLockElement->appendChild(
-                    $xmlTool->createDomElement( $dom, 'locktoken' )
+                $lockTokenElement = $lockTokenElement->appendChild(
+                    $xmlTool->createDomElement( $dom, 'href' )
                 );
-                
-                if ( $token->isUri )
-                {
-                    $lockTokenElement = $lockTokenElement->appendChild(
-                        $xmlTool->createDomElement( $dom, 'href' )
-                    );
-                }
-
-                $lockTokenElement->nodeValue = $token->content;
             }
+
+            $lockTokenElement->nodeValue = $activeLock->token->content;
 
             $activeLockElements[] = $activeLockElement;
         }

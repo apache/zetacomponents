@@ -18,7 +18,7 @@
  *           Owner of this lock (free form string). Null if not provided.
  * @property ezcWebdavDateTime|null $timeout
  *           Timeout date or null for inifinite. Null if not provided.
- * @property array(string) $tokens
+ * @property array(string) $token
  *           Tokens submitted in <locktocken> (URIs). Null if not provided.
  *           These are originally covered in additional <href> elements, which
  *           is left out here.
@@ -38,7 +38,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * $depth value indicates the depth of collection locks and the free-form
      * $owner string can be used to specify an identifier for the user owning
      * the lock. The $timeout object indicates the time when the lock will be
-     * removed and the $tokens array contains all lock tokens that affect this
+     * removed and the $token array contains all lock token that affect this
      * lock.
      *
      * @param int           $lockType  Lock type (constant ezcWebdavLockRequest::TYPE_*).
@@ -46,7 +46,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * @param int           $depth     Lock depth (constant ezcWebdavRequest::DEPTH_*).
      * @param string        $owner
      * @param ezcWebdavDateTime      $timeout
-     * @param array(string) $tokens
+     * @param array(string) $token
      * @return void
      */
     public function __construct( $lockType                           = ezcWebdavLockRequest::TYPE_READ,
@@ -54,13 +54,13 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                                  $depth                              = ezcWebdavRequest::DEPTH_INFINITY,
                                  ezcWebdavPotentialUriContent $owner = null,
                                  $timeout                            = null,
-                                 ArrayObject $tokens                 = null )
+                                 ezcWebdavPotentialUriContent $token = null )
     {
         parent::__construct( $lockType, $lockScope );
         $this->depth   = $depth;
         $this->owner   = ( $owner === null ? new ezcWebdavPotentialUriContent() : $owner );
         $this->timeout = $timeout;
-        $this->tokens  = ( $tokens === null ? new ArrayObject() : $tokens );
+        $this->token  = ( $token === null ? new ezcWebdavPotentialUriContent() : $token );
 
         $this->name    = 'activelock';
     }
@@ -104,10 +104,10 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                     return $this->hasError( $propertyName, $propertyValue, 'int > 0' );
                 }
                 break;
-            case 'tokens':
-                if ( !is_object( $propertyValue ) || !( $propertyValue instanceof ArrayObject ) )
+            case 'token':
+                if ( !is_object( $propertyValue ) || !( $propertyValue instanceof ezcWebdavPotentialUriContent ) )
                 {
-                    return $this->hasError( $propertyName, $propertyValue, 'ArrayObject(ezcWebdavPotentialUriContent)' );
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavPotentialUriContent' );
                 }
                 break;
             default:
@@ -143,7 +143,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         $this->properties['lockScope'] = ezcWebdavLockRequest::SCOPE_SHARED;
         $this->properties['depth']     = ezcWebdavRequest::DEPTH_INFINITY;
         $this->properties['owner']     = new ezcWebdavPotentialUriContent();
-        $this->properties['tokens']    = new ArrayObject();
+        $this->properties['token']     = new ezcWebdavPotentialUriContent();
     }
 }
 

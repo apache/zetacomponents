@@ -34,11 +34,7 @@ $filledLockDiscoveryProperty = new ezcWebdavLockDiscoveryProperty(
                 ezcWebdavRequest::DEPTH_ZERO,
                 new ezcWebdavPotentialUriContent( 'Jane Smith' ),
                 600,
-                new ArrayObject(
-                    array(
-                        new ezcWebdavPotentialUriContent( 'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76', true )
-                    )
-                )
+                new ezcWebdavPotentialUriContent( 'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76', true )
             ),
         )
     )
