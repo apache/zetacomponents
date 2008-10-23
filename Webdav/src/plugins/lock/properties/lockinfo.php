@@ -16,11 +16,6 @@
 class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
 {
     /**
-     * Property namespace.
-     */
-    const NAMESPACE = 'http://ezcomponents.org/s/Webdav';
-
-    /**
      * Name of the property. 
      */
     const NAME = 'lockinfo';
@@ -28,7 +23,7 @@ class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
 
     public function __construct( ArrayObject $tokenInfos = null, $null = false )
     {
-        parent::__construct( self::NAMESPACE, self::NAME );
+        parent::__construct( ezcWebdavLockPlugin::XML_NAMESPACE, self::NAME );
 
         $this->tokenInfos = ( $tokenInfos === null ? new ArrayObject() : $tokenInfos );
         $this->null      = $null;
