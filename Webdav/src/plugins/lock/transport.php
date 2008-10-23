@@ -193,8 +193,11 @@ class ezcWebdavLockTransport
                 ? ezcWebdavLockRequest::TYPE_READ
                 : ezcWebdavLockRequest::TYPE_WRITE ),
             ( $ownerElements->length > 0 
-                ? $ownerElements->item( 0 )->textContent
-                : null )
+                ? new ezcWebdavPotentialUriContent(
+                    $ownerElements->item( 0 )->textContent,
+                    ( $ownerElements->item( 0 )->hasChildNodes() && $ownerElements->item( 0 )->firstChild->localName === 'href' )
+                  )
+                : new ezcWebdavPotentialUriContent() )
         );
 
         $request->setHeader( 'Timeout', $this->headerHandler->parseTimeoutHeader() );

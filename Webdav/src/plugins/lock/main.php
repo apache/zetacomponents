@@ -436,7 +436,8 @@ class ezcWebdavLockPlugin
             $request->getHeader( 'Depth' ),
             $request->lockInfo->owner,
             $this->getTimeoutValue( $request->getHeader( 'Timeout' ) ),
-            array( $lockToken )
+            // Generated lock tokens conform to the opaquelocktoken URI scheme
+            new ezcWebdavPotentialUriContent( $lockToken, true )
         );
     }
 

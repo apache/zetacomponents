@@ -38,10 +38,10 @@ class ezcWebdavRequestLockInfoContent extends ezcWebdavInfrastructureBase
      * 
      * @param int $lockScope 
      * @param int $lockType 
-     * @param string $owner 
+     * @param ezcWebdavPotentialUriContent $owner 
      * @return void
      */
-    public function __construct( $lockScope, $lockType, $owner = null )
+    public function __construct( $lockScope, $lockType, ezcWebdavPotentialUriContent $owner = null )
     {
         $this->properties['lockScope'] = null;
         $this->properties['lockType']  = null;
@@ -49,7 +49,7 @@ class ezcWebdavRequestLockInfoContent extends ezcWebdavInfrastructureBase
 
         $this->lockScope = $lockScope;
         $this->lockType  = $lockType;
-        $this->owner     = $owner;
+        $this->owner     = ( $owner === null ? new ezcWebdavPotentialUriContent() : $owner );
     }
 
     /**
@@ -93,12 +93,12 @@ class ezcWebdavRequestLockInfoContent extends ezcWebdavInfrastructureBase
                 }
                 break;
             case 'owner':
-                if ( !is_string( $propertyValue ) && $propertyValue !== null )
+                if ( !is_object( $propertyValue ) || !( $propertyValue instanceof ezcWebdavPotentialUriContent ) )
                 {
                     throw new ezcBaseValueException(
                         $propertyName,
                         $propertyValue,
-                        'string or null'
+                        'ezcWebdavPotentialUriContent'
                     );
                 }
                 break;

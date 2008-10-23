@@ -39,9 +39,20 @@ class ezcWebdavLockRequestTest extends ezcWebdavRequestTestCase
         );
         $this->workingValues = array(
             'lockInfo' => array(
-                new ezcWebdavRequestLockInfoContent( ezcWebdavLockRequest::SCOPE_EXCLUSIVE, ezcWebdavLockRequest::TYPE_WRITE ),
-                new ezcWebdavRequestLockInfoContent( ezcWebdavLockRequest::SCOPE_SHARED, ezcWebdavLockRequest::TYPE_WRITE, 'Foo Bar' ),
-                new ezcWebdavRequestLockInfoContent( ezcWebdavLockRequest::SCOPE_SHARED, ezcWebdavLockRequest::TYPE_WRITE, 'http://example.com/foo/bar' ),
+                new ezcWebdavRequestLockInfoContent(
+                    ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
+                    ezcWebdavLockRequest::TYPE_WRITE
+                ),
+                new ezcWebdavRequestLockInfoContent(
+                    ezcWebdavLockRequest::SCOPE_SHARED,
+                    ezcWebdavLockRequest::TYPE_WRITE,
+                    new ezcWebdavPotentialUriContent( 'Foo Bar' )
+                ),
+                new ezcWebdavRequestLockInfoContent(
+                    ezcWebdavLockRequest::SCOPE_SHARED,
+                    ezcWebdavLockRequest::TYPE_WRITE,
+                    new ezcWebdavPotentialUriContent( 'http://example.com/foo/bar', true )
+                ),
                 null,
             ),
         );
