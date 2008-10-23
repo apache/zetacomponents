@@ -121,8 +121,11 @@ class ezcWebdavLockPropertyHandler
                     }
                     break;
                 case 'owner':
-                    // @TODO: Honor href element!
-                    $activeLock->owner = $currentElement->textContent;
+                    $activeLock->owner = new ezcWebdavPotentialUriContent(
+                        trim( $currentElement->textContent ),
+                        // Owner indicated by an URI?
+                        ( $currentElement->hasChildNodes() && $currentElement->childNodes->item( 0 )->localName === 'href' )
+                    );
                     break;
                 case 'timeout':
                     $timeoutVal = trim( $currentElement->nodeValue );
@@ -132,13 +135,14 @@ class ezcWebdavLockPropertyHandler
                     }
                     break;
                 case 'locktoken':
-                    foreach ( $currentElement->childNodes as $childNode )
-                    {
-                        if ( $childNode->nodeType === XML_ELEMENT_NODE && $childNode->localName === 'href' )
-                        {
-                            $activeLock->tokens->append( trim( $childNode->textContent ) );
-                        }
-                    }
+                    // @TODO: This may only be 1, no ArrayObject needed!
+                    $activeLock->tokens->append(
+                        new ezcWebdavPotentialUriContent(
+                            trim( $currentElement->textContent ),
+                            // Is lock token represented by an URI?
+                            ( $currentElement->hasChildNodes() && $currentElement->firstChild->localName === 'href' )
+                        )
+                    );
                     break;
             }
         }
@@ -279,12 +283,19 @@ class ezcWebdavLockPropertyHandler
 
             if ( $activeLock->owner !== null )
             {
-                $activeLockElement->appendChild(
+                $ownerElement = $activeLockElement->appendChild(
                     $xmlTool->createDomElement( $dom, 'owner' )
-                )->appendChild(
-                // @TODO: Is the owner element really always an URI?
-                    $xmlTool->createDomElement( $dom, 'href' )
-                )->nodeValue = $activeLock->owner;
+                );
+
+                // If owner is represented by an URI, wrap it in <href>
+                if ( $activeLock->owner->isUri )
+                {
+                    $ownerElement = $ownerElement->appendChild(
+                        $xmlTool->createDomElement( $dom, 'href' )
+                    );
+                }
+                
+                $ownerElement->nodeValue = $activeLock->owner->content;
             }
 
             $activeLockElement->appendChild(
@@ -293,11 +304,18 @@ class ezcWebdavLockPropertyHandler
 
             foreach ( $activeLock->tokens as $token )
             {
-                $activeLockElement->appendChild(
+                $lockTokenElement = $activeLockElement->appendChild(
                     $xmlTool->createDomElement( $dom, 'locktoken' )
-                )->appendChild(
-                    $xmlTool->createDomElement( $dom, 'href' )
-                )->nodeValue = $token;
+                );
+                
+                if ( $token->isUri )
+                {
+                    $lockTokenElement = $lockTokenElement->appendChild(
+                        $xmlTool->createDomElement( $dom, 'href' )
+                    );
+                }
+
+                $lockTokenElement->nodeValue = $token->content;
             }
 
             $activeLockElements[] = $activeLockElement;

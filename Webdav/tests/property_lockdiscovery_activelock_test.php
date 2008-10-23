@@ -17,7 +17,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
             'lockType'  => ezcWebdavLockRequest::TYPE_READ,
             'lockScope' => ezcWebdavLockRequest::SCOPE_SHARED,
             'depth'     => ezcWebdavRequest::DEPTH_INFINITY,
-            'owner'     => null,
+            'owner'     => new ezcWebdavPotentialUriContent(),
             'timeout'   => null,
             'tokens'    => new ArrayObject(),
         );
@@ -36,9 +36,9 @@ class ezcWebdavLockDiscoveryPropertyActiveLockTest extends ezcWebdavWebdavProper
                 ezcWebdavRequest::DEPTH_INFINITY,
             ),
             'owner' => array(
-                null,
-                '',
-                'Foo Bar',
+                new ezcWebdavPotentialUriContent( '' ),
+                new ezcWebdavPotentialUriContent( 'Foo Bar' ),
+                new ezcWebdavPotentialUriContent( 'http://example.com', true ),
             ),
             'timeout' => array(
                 null,

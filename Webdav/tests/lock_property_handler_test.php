@@ -97,7 +97,7 @@ class ezcWebdavLockPropertyHandlerTest extends ezcWebdavTestCase
         }
         
         // @TODO: This does not validate the XML needs to be refactored!
-        $this->assertEquals(
+        $this->assertDomTreeEquals(
             $expectedElement,
             $resultElement
         );
