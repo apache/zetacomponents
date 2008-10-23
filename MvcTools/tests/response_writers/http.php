@@ -103,7 +103,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         $response->cookies[] = new ezcMvcResultCookie(
             'speed', 'v=9.8*(m/s^2)', null, '', '', false, true );
         $response->cookies[] = new ezcMvcResultCookie( 'warp', 'G=(8*pi/c^4)GT' );
-        $response->cookies[3]->expire = new DateTime( 'Dec 12, 2078 UTC' );
+        $response->cookies[3]->expire = new DateTime( 'Dec 12, 2034 UTC' );
         $response->cookies[3]->secure = true;
         
         list( $headers, $body ) = self::doTest( $response );
@@ -115,7 +115,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
             "Set-Cookie: simple=one",
             "Set-Cookie: complex=e%3Dmc%5E2; expires=Sat, 30-Aug-2008 00:00:00 GMT; path=/test; domain=ez.no; secure; httponly",
             "Set-Cookie: speed=v%3D9.8%2A%28m%2Fs%5E2%29; httponly",
-            "Set-Cookie: warp=G%3D%288%2Api%2Fc%5E4%29GT; expires=Mon, 12-Dec-2078 00:00:00 GMT; secure",
+            "Set-Cookie: warp=G%3D%288%2Api%2Fc%5E4%29GT; expires=Tue, 12-Dec-2034 00:00:00 GMT; secure",
         );
 
         self::assertSame( $expectedHeaders, $headers );
