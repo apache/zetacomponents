@@ -1,0 +1,153 @@
+default namespace = "http://ez.no/namespaces/ezpublish3"
+namespace image   = "http://ez.no/namespaces/ezpublish3/image"
+namespace xhtml   = "http://ez.no/namespaces/ezpublish3/xhtml"
+namespace custom  = "http://ez.no/namespaces/ezpublish3/custom"
+
+grammar {
+	start = element section { sectionContent* }
+
+	sectionContent =
+		# From documentation
+		element h { headerContent } |
+		element p { paragraphContent } |
+		# From ezxml schema
+		element section { sectionContent+ } |
+		element paragraph { paragraphContent } |
+		element header { headerContent }
+	
+	headerContent =
+			# From documentation
+			attribute custom_parameter { string }?,
+			attribute anchor { string }?,
+			# From ezxml schema
+			attribute anchor_name { string }?,
+			attribute level { string }?,
+			attribute class { string }?,
+			text
+	
+	paragraphContent =
+		# From documentation
+		attribute custom_parameter { string }?,
+		# From ezxml schema
+		attribute class { string }?,
+		(	inlineContent |
+			element line { inlineContent } |
+			element embed { embedAttributes } |
+			element ol { listContent } |
+			element ul { listContent } |
+			element custom {
+				# From documentation
+				attribute custom_parameter { string },
+				# From ezxml schema
+				attribute name { string },
+				text?
+			} |
+			element literal {
+				# From ezxml schema
+				attribute class { string }?,
+				text
+			} |
+			table
+		)+
+	
+	listContent =
+		attribute custom_parameter { string }?,
+		attribute class { string }?,
+		element li {
+			attribute custom_parameter { string }?,
+			attribute class { string }?,
+			(	
+				# From documentation
+				element p { paragraphContent }+ |
+				# From ezxml schema
+				element paragraph { paragraphContent }+ |
+				text
+			)
+		}+
+	
+	table =
+		element table {
+			attribute class { string }?,
+			attribute width { string }?,
+			attribute border { string }?,
+			element tr {
+				attribute class { string }?,
+				(	element td { tableContent }+ |
+					element th { tableContent }+
+				)
+			}+
+		}
+
+	tableContent =
+		attribute class { string }?,
+		attribute xhtml:width { string }?,
+		attribute xhtml:colspan { string }?,
+		attribute xhtml:rowspan { string }?,
+		(	sectionContent+ |
+			table+
+		)
+	
+	inlineContent =
+		(	
+			# From documentation
+			element b { inlineElementContent } |
+			element bold { inlineElementContent } |
+			element i { inlineElementContent } |
+			element em { inlineElementContent } |
+			element a { linkContent } |
+			# From ezxml schema
+			text |
+			element embed { embedAttributes } |
+			element embed-inline { embedAttributes } |
+			element strong { inlineElementContent } |
+			element emphasize { inlineElementContent } |
+			element link { linkContent } |
+			element anchor {
+				attribute custom_parameter { string }?,
+				attribute name { string }?,
+				inlineContent
+			}
+		)*
+
+	inlineElementContent =
+		# From documentation
+		attribute custom_parameter { string }?,
+		# From ezxml schema
+		attribute class { string }?,
+		inlineContent
+	
+	embedAttributes =
+		# From documentation
+		attribute custom_parameter { string }?,
+		attribute id { string }?,
+		attribute href { string }?,
+		# From ezxml schema
+		attribute object_id { string }?,
+		attribute node_id { string }?,
+		attribute show_path { string }?,
+		attribute size { string }?,
+		attribute align { string }?,
+		attribute view { string }?,
+		attribute xhtml:id { string }?,
+		attribute class { string }?,
+		attribute target { string }?
+	
+	linkContent =
+		# From documentation
+		attribute custom_parameter { string }?,
+		attribute href { string }?,
+		attribute title { string }?,
+		# From ezxml schema
+		attribute class { string }?,
+		attribute xhtml:id { string }?,
+		attribute target { string }?,
+		attribute xhtml:title { string }?,
+		attribute object_id { string }?,
+		attribute node_id { string }?,
+		attribute show_path { string }?,
+		attribute anchor_name { string }?,
+		attribute url_id { string }?,
+		attribute id { string }?,
+		attribute view { string }?,
+		inlineContent
+}

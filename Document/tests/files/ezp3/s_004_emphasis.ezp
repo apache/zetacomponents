@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<section xmlns="http://ez.no/namespaces/ezpublish3"
+         xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+         xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+         xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+	<paragraph>
+		Some <i>emphasised</i> text. May also use <em>&lt;em&gt;</em> as
+		markup, or <emphasize>&lt;emphasized&gt;</emphasize>.
+	</paragraph>
+	<paragraph>
+		Class <i class="foo">are not preserved</i> in docbook, neither are <i
+		custom_parameter="blubb">custom parameters.</i>.
+	</paragraph>
+</section>
