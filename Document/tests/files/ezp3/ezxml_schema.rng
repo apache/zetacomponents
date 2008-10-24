@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar ns="http://ez.no/namespaces/ezpublish3" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="">
+<grammar ns="http://ez.no/namespaces/ezpublish3" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="">
   <start>
     <element name="section">
       <zeroOrMore>
@@ -18,24 +18,27 @@
         <ref name="paragraphContent"/>
       </element>
       <element name="header">
-        <optional>
-          <attribute name="anchor_name">
-            <data type="string"/>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="level">
-            <data type="string"/>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="class">
-            <data type="string"/>
-          </attribute>
-        </optional>
-        <text/>
+        <ref name="headerContent"/>
       </element>
     </choice>
+  </define>
+  <define name="headerContent">
+    <optional>
+      <attribute name="anchor_name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="level">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="class">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <text/>
   </define>
   <define name="paragraphContent">
     <optional>
@@ -49,13 +52,9 @@
         <element name="line">
           <ref name="inlineContent"/>
         </element>
-        <element name="link">
-          <ref name="inlineContent"/>
-        </element>
         <element name="embed">
           <ref name="embedAttributes"/>
         </element>
-        <ref name="table"/>
         <element name="ol">
           <ref name="listContent"/>
         </element>
@@ -74,6 +73,9 @@
             </attribute>
           </optional>
           <text/>
+        </element>
+        <element name="table">
+          <ref name="tableContent"/>
         </element>
       </choice>
     </oneOrMore>
@@ -99,47 +101,45 @@
       </element>
     </oneOrMore>
   </define>
-  <define name="table">
-    <element name="table">
-      <optional>
-        <attribute name="class">
-          <data type="string"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="width">
-          <data type="string"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="border">
-          <data type="string"/>
-        </attribute>
-      </optional>
-      <oneOrMore>
-        <element name="tr">
-          <optional>
-            <attribute name="class">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <choice>
-            <oneOrMore>
-              <element name="td">
-                <ref name="tableContent"/>
-              </element>
-            </oneOrMore>
-            <oneOrMore>
-              <element name="th">
-                <ref name="tableContent"/>
-              </element>
-            </oneOrMore>
-          </choice>
-        </element>
-      </oneOrMore>
-    </element>
-  </define>
   <define name="tableContent">
+    <optional>
+      <attribute name="class">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="width">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="border">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <oneOrMore>
+      <element name="tr">
+        <optional>
+          <attribute name="class">
+            <data type="string"/>
+          </attribute>
+        </optional>
+        <choice>
+          <oneOrMore>
+            <element name="td">
+              <ref name="tableCellContent"/>
+            </element>
+          </oneOrMore>
+          <oneOrMore>
+            <element name="th">
+              <ref name="tableCellContent"/>
+            </element>
+          </oneOrMore>
+        </choice>
+      </element>
+    </oneOrMore>
+  </define>
+  <define name="tableCellContent">
     <optional>
       <attribute name="class">
         <data type="string"/>
@@ -160,14 +160,14 @@
         <data type="string"/>
       </attribute>
     </optional>
-    <choice>
-      <oneOrMore>
+    <zeroOrMore>
+      <choice>
         <ref name="sectionContent"/>
-      </oneOrMore>
-      <oneOrMore>
-        <ref name="table"/>
-      </oneOrMore>
-    </choice>
+        <element name="table">
+          <ref name="tableContent"/>
+        </element>
+      </choice>
+    </zeroOrMore>
   </define>
   <define name="inlineContent">
     <zeroOrMore>
@@ -180,78 +180,13 @@
           <ref name="embedAttributes"/>
         </element>
         <element name="strong">
-          <optional>
-            <attribute name="class">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <ref name="inlineContent"/>
+          <ref name="inlineElementContent"/>
         </element>
         <element name="emphasize">
-          <optional>
-            <attribute name="class">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <ref name="inlineContent"/>
+          <ref name="inlineElementContent"/>
         </element>
         <element name="link">
-          <optional>
-            <attribute name="class">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="xhtml:id">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="target">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="xhtml:title">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="object_id">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="node_id">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="show_path">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="anchor_name">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="url_id">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="id">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <optional>
-            <attribute name="view">
-              <data type="string"/>
-            </attribute>
-          </optional>
-          <ref name="inlineContent"/>
+          <ref name="linkContent"/>
         </element>
         <element name="anchor">
           <optional>
@@ -264,7 +199,20 @@
       </choice>
     </zeroOrMore>
   </define>
+  <define name="inlineElementContent">
+    <optional>
+      <attribute name="class">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <ref name="inlineContent"/>
+  </define>
   <define name="embedAttributes">
+    <optional>
+      <attribute name="id">
+        <data type="string"/>
+      </attribute>
+    </optional>
     <optional>
       <attribute name="object_id">
         <data type="string"/>
@@ -310,5 +258,63 @@
         <data type="string"/>
       </attribute>
     </optional>
+  </define>
+  <define name="linkContent">
+    <optional>
+      <attribute name="class">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="xhtml:id">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="target">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="xhtml:title">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="object_id">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="node_id">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="show_path">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="anchor_name">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="url_id">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="id">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="view">
+        <data type="string"/>
+      </attribute>
+    </optional>
+    <ref name="inlineContent"/>
   </define>
 </grammar>
