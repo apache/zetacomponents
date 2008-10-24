@@ -376,7 +376,7 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
      * // the filters can also be added to the group with the constructor
      * </code>
      *
-     * @throws ezcAuthenticationException
+     * @throws ezcAuthenticationGroupException
      *         if the multipleCredentials option is enabled and a credentials
      *         object was not specified
      * @param ezcAuthenticationFilter $filter The authentication filter to add
@@ -390,7 +390,7 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
         {
             if ( $credentials === null )
             {
-                throw new ezcAuthenticationException( 'A credentials object must be specified for each filter when the multipleCredentials option is enabled.' );
+                throw new ezcAuthenticationGroupException( 'A credentials object must be specified for each filter when the multipleCredentials option is enabled.' );
             }
 
             $this->filters[] = array( $filter, $credentials );

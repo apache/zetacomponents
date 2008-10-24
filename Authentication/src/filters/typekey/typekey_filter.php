@@ -413,8 +413,10 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter implements 
      *   array( 'p' => p_val, 'g' => g_val, 'q' => q_val, 'pub_key' => pub_key_val )
      * </code>
      *
-     * @throws ezcAuthenticationTypekeyException
+     * @throws ezcAuthenticationTypekeyPublicKeysMissingException
      *         if the keys from the TypeKey public keys file could not be fetched
+     * @throws ezcAuthenticationTypekeyPublicKeysInvalidException
+     *         if the keys fetched from the TypeKey public keys file are invalid
      * @param string $file The public keys file or URL
      * @return array(string=>string)
      */
@@ -423,7 +425,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter implements 
         $data = @file_get_contents( $file );
         if ( empty( $data ) )
         {
-            throw new ezcAuthenticationTypekeyException( "Could not fetch public keys from '{$file}'." );
+            throw new ezcAuthenticationTypekeyPublicKeysMissingException( "Could not fetch public keys from '{$file}'." );
         }
         $lines = explode( ' ', trim( $data ) );
         foreach ( $lines as $line )
@@ -431,7 +433,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter implements 
             $val = explode( '=', $line );
             if ( count( $val ) < 2 )
             {
-                throw new ezcAuthenticationTypekeyException( "The data retrieved from '{$file}' is invalid." );
+                throw new ezcAuthenticationTypekeyPublicKeysInvalidException( "The data retrieved from '{$file}' is invalid." );
             }
             $keys[$val[0]] = $val[1];
         }

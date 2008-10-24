@@ -330,6 +330,9 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
     /**
      * Runs the filter and returns a status code when finished.
      *
+     * @throws ezcAuthenticationOpenidModeNotSupportedException
+     *         if trying to authenticate with an unsupported OpenID mode
+     *
      * @param ezcAuthenticationIdCredentials $credentials Authentication credentials
      * @return int
      */
@@ -557,7 +560,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                 return self::STATUS_CANCELLED;
 
             default:
-                throw new ezcAuthenticationOpenidException( "OpenID request not supported: 'openid_mode = {$mode}'." );
+                throw new ezcAuthenticationOpenidModeNotSupportedException( $mode );
         }
         return self::STATUS_SIGNATURE_INCORRECT;
     }
@@ -720,7 +723,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      *      );
      * </code>
      *
-     * @throws ezcAuthenticationOpenidException
+     * @throws ezcAuthenticationOpenidRedirectException
      *         if redirection could not be performed
      * @param string $provider The OpenID provider (discovered in HTML or Yadis)
      * @param array(string=>string) $params OpenID parameters for checkid_setup
@@ -742,7 +745,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         }
 
         // Normally the user should not see the following error because he was redirected
-        throw new ezcAuthenticationOpenidException( "Could not redirect to '{$redirect}'. Most probably your browser does not support redirection or JavaScript." );
+        throw new ezcAuthenticationOpenidRedirectException( $redirect );
     }
 
     /**
