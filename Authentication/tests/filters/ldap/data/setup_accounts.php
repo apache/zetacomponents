@@ -93,7 +93,7 @@ class Ldap
         $ldaprecord['objectclass'][0] = "account";
         $ldaprecord['objectclass'][1] = "simpleSecurityObject";
         $ldaprecord['objectclass'][2] = "top";
-        $ldaprecord['userPassword'] = $password;
+        $ldaprecord['userPassword'][0] = $password;
         $r = ldap_add( $connection, "uid={$user},{$dc}", $ldaprecord );
     }
 
