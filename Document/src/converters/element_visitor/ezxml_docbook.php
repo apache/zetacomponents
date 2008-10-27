@@ -53,7 +53,12 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
         // Initlize common element handlers
         $this->visitorElementHandler = array(
             'ezxml' => array(
-                'section'           => $mapper = new ezcDocumentEzXmlToDocbookMappingHandler(),
+                'section'          => $mapper = new ezcDocumentEzXmlToDocbookMappingHandler(),
+                'header'           => new ezcDocumentEzXmlToDocbookHeaderHandler(),
+                'paragraph'        => $mapper,
+                'strong'           => $emphasis = new ezcDocumentEzXmlToDocbookEmphasisHandler(),
+                'emphasize'        => $emphasis,
+                'link'             => new ezcDocumentEzXmlToDocbookLinkHandler(),
             )
         );
     }
