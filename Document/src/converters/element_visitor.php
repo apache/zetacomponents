@@ -19,7 +19,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentDocbookElementVisitorConverter extends ezcDocumentConverter
+abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
 {
     /**
      * Element handlers
@@ -46,6 +46,12 @@ abstract class ezcDocumentDocbookElementVisitorConverter extends ezcDocumentConv
      */
     protected $defaultNamespace = 'docbook';
 
+    /**
+     * Opject storage to check for reprocessing of DOMNodes, which may cause
+     * error which are hard to debug.
+     * 
+     * @var SplObjectStorage
+     */
     protected $storage;
 
     /**

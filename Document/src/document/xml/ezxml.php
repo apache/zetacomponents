@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentEzp3Xml class
+ * File containing the ezcDocumentEzXml class
  *
  * @package Document
  * @version //autogen//
@@ -14,19 +14,19 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentEzp3Xml extends ezcDocumentXmlBase implements ezcDocumentValidation
+class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidation
 {
     /**
      * Construct document xml base.
      * 
      * @ignore
-     * @param ezcDocumentEzp3XmlOptions $options
+     * @param ezcDocumentEzXmlOptions $options
      * @return void
      */
-    public function __construct( ezcDocumentEzp3XmlOptions $options = null )
+    public function __construct( ezcDocumentEzXmlOptions $options = null )
     {
         parent::__construct( $options === null ?
-            new ezcDocumentEzp3XmlOptions() :
+            new ezcDocumentEzXmlOptions() :
             $options );
     }
 

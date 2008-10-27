@@ -22,7 +22,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToHtmlConverter extends ezcDocumentDocbookElementVisitorConverter
+class ezcDocumentDocbookToHtmlConverter extends ezcDocumentElementVisitorConverter
 {
     /**
      * Reference to the HTML header section

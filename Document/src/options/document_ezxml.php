@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentEzp3Xml class
+ * File containing the options class for the ezcDocumentEzXml class
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentEzp3Xml class
+ * Class containing the basic options for the ezcDocumentEzXml class
  *
  * @property bool $indentXml
  *           Indent XML on output
@@ -20,7 +20,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentEzp3XmlOptions extends ezcDocumentXmlOptions
+class ezcDocumentEzXmlOptions extends ezcDocumentXmlOptions
 {
     /**
      * Constructs an object with the specified values.
@@ -34,7 +34,7 @@ class ezcDocumentEzp3XmlOptions extends ezcDocumentXmlOptions
     public function __construct( array $options = array() )
     {
         $this->indentXml     = false;
-        $this->relaxNgSchema = dirname( __FILE__ ) . '/../document/xml/ezp3/schema/ezxml_schema.rng';
+        $this->relaxNgSchema = dirname( __FILE__ ) . '/../document/xml/ezxml/schema/ezxml_schema.rng';
 
         parent::__construct( $options );
     }

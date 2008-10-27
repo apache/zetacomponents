@@ -22,7 +22,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToRstConverter extends ezcDocumentDocbookElementVisitorConverter
+class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverter
 {
     /**
      * Aggregated links

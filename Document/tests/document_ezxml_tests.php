@@ -17,7 +17,7 @@ require_once 'rst_dummy_directives.php';
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentEzp3Tests extends ezcTestCase
+class ezcDocumentEzXmlTests extends ezcTestCase
 {
     protected static $rstTestDocuments = null;
     protected static $metadataTestDocuments = null;
@@ -31,18 +31,18 @@ class ezcDocumentEzp3Tests extends ezcTestCase
 
     public function testValidateValidDocument()
     {
-        $doc = new ezcDocumentEzp3Xml();
+        $doc = new ezcDocumentEzXml();
 
         $this->assertSame(
-            $doc->validateFile( dirname( __FILE__ ) . '/files/ezp3/s_001_header.ezp' ),
+            $doc->validateFile( dirname( __FILE__ ) . '/files/ezxml/s_001_header.ezp' ),
             true
         );
     }
 
     public function testValidateInvalidDocument()
     {
-        $invalid = dirname( __FILE__ ) . '/files/ezp3/e_000_invalid.ezp';
-        $doc = new ezcDocumentEzp3Xml();
+        $invalid = dirname( __FILE__ ) . '/files/ezxml/e_000_invalid.ezp';
+        $doc = new ezcDocumentEzXml();
 
         $this->assertEquals(
             count( $errors = $doc->validateFile( $invalid ) ),
@@ -56,12 +56,12 @@ class ezcDocumentEzp3Tests extends ezcTestCase
     }
 
 /*
-    public static function getEzp3TestDocuments()
+    public static function getEzXmlTestDocuments()
     {
         if ( self::$tableTestDocuments === null )
         {
             // Get a list of all test files from the respektive folder
-            $testFiles = glob( dirname( __FILE__ ) . '/files/ezp3/s_*.ezp' );
+            $testFiles = glob( dirname( __FILE__ ) . '/files/ezxml/s_*.ezp' );
 
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
@@ -79,7 +79,7 @@ class ezcDocumentEzp3Tests extends ezcTestCase
 */
 
     /**
-     * @dataProvider getEzp3TestDocuments
+     * @dataProvider getEzXmlTestDocuments
      */
     /*
     public function testParseRstFile( $from, $to )

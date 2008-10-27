@@ -16,7 +16,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToWikiConverter extends ezcDocumentDocbookElementVisitorConverter
+class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConverter
 {
     /**
      * Current indentation document.
