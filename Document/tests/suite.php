@@ -39,8 +39,6 @@ require 'document_wiki_visitor_docbook_tests.php';
 require 'document_xhtml_docbook_tests.php';
 require 'document_xhtml_validation_tests.php';
 
-require 'converter_options_ezp3_ezp4_test.php';
-require 'converter_ezp3_ezp4_test.php';
 require 'converter_docbook_html_test.php';
 require 'converter_docbook_html_xsl_test.php';
 require 'converter_docbook_rst_test.php';
@@ -80,8 +78,6 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentXhtmlDocbookTests::suite() );
         $this->addTest( ezcDocumentXhtmlValidationTests::suite() );
 
-        $this->addTest( ezcDocumentConverterOptionsEzp3ToEzp4Tests::suite() );
-        $this->addTest( ezcDocumentConverterEzp3ToEzp4Tests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToHtmlTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToRstTests::suite() );
