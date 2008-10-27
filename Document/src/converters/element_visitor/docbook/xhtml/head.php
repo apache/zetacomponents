@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File containing the ezcDocumentDocbookElementVisitorConverter class
+ * File containing the ezcDocumentElementVisitorConverter class
  *
  * @package Document
  * @version //autogen//
@@ -59,12 +59,12 @@ class ezcDocumentDocbookToHtmlHeadHandler extends ezcDocumentDocbookToHtmlBaseHa
      * Handle / transform a given node, and return the result of the
      * conversion.
      * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param ezcDocumentElementVisitorConverter $converter 
      * @param DOMElement $node 
      * @param mixed $root 
      * @return mixed
      */
-    public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
+    public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $headerMapping = $converter->options->dublinCoreMetadata ? $this->dcHeaderMapping : $this->headerMapping;
         $head = $this->getHead( $root );

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File containing the ezcDocumentDocbookElementVisitorConverter class
+ * File containing the ezcDocumentElementVisitorConverter class
  *
  * @package Document
  * @version //autogen//
@@ -27,11 +27,11 @@ class ezcDocumentDocbookToWikiMediaObjectHandler extends ezcDocumentDocbookToWik
      * node in the Docbook document. Returns an array with named keys
      * containing the directive parameters.
      * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param ezcDocumentElementVisitorConverter $converter 
      * @param DOMElement $node 
      * @return array
      */
-    protected function getImageParameters( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node )
+    protected function getImageParameters( ezcDocumentElementVisitorConverter $converter, DOMElement $node )
     {
         $resource = $node->getElementsBytagName( 'imagedata' )->item( 0 );
         $options = array(
@@ -81,12 +81,12 @@ class ezcDocumentDocbookToWikiMediaObjectHandler extends ezcDocumentDocbookToWik
      * Handle / transform a given node, and return the result of the
      * conversion.
      * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param ezcDocumentElementVisitorConverter $converter 
      * @param DOMElement $node 
      * @param mixed $root 
      * @return mixed
      */
-    public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
+    public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $image = $this->getImageParameters( $converter, $node );
 

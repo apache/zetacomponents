@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File containing the ezcDocumentDocbookElementVisitorConverter class
+ * File containing the ezcDocumentElementVisitorConverter class
  *
  * @package Document
  * @version //autogen//
@@ -37,12 +37,12 @@ class ezcDocumentDocbookToWikiSectionHandler extends ezcDocumentDocbookToWikiBas
      * Handle / transform a given node, and return the result of the
      * conversion.
      * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param ezcDocumentElementVisitorConverter $converter 
      * @param DOMElement $node 
      * @param mixed $root 
      * @return mixed
      */
-    public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
+    public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         // Reset indenteation level, ever we reach a new section
         ezcDocumentDocbookToWikiConverter::$indentation = 0;

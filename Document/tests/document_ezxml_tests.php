@@ -19,10 +19,7 @@ require_once 'rst_dummy_directives.php';
  */
 class ezcDocumentEzXmlTests extends ezcTestCase
 {
-    protected static $rstTestDocuments = null;
-    protected static $metadataTestDocuments = null;
-    protected static $badTestDocuments = null;
-    protected static $tableTestDocuments = null;
+    protected static $testDocuments = null;
 
     public static function suite()
     {
@@ -55,10 +52,9 @@ class ezcDocumentEzXmlTests extends ezcTestCase
         );
     }
 
-/*
     public static function getEzXmlTestDocuments()
     {
-        if ( self::$tableTestDocuments === null )
+        if ( self::$testDocuments === null )
         {
             // Get a list of all test files from the respektive folder
             $testFiles = glob( dirname( __FILE__ ) . '/files/ezxml/s_*.ezp' );
@@ -66,37 +62,35 @@ class ezcDocumentEzXmlTests extends ezcTestCase
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
             {
-                self::$tableTestDocuments[] = array(
+                self::$testDocuments[] = array(
                     $file,
-                    substr( $file, 0, -4 ) . 'xml'
+                    substr( $file, 0, -3 ) . 'xml'
                 );
             }
         }
 
-        return self::$tableTestDocuments;
-        return array_slice( self::$tableTestDocuments, 6, 1 );
+        return self::$testDocuments;
+        return array_slice( self::$testDocuments, 6, 1 );
     }
-*/
 
     /**
      * @dataProvider getEzXmlTestDocuments
      */
-    /*
-    public function testParseRstFile( $from, $to )
+    public function testConvertToDocbook( $from, $to )
     {
         if ( !is_file( $to ) )
         {
             $this->markTestSkipped( "Comparision file '$to' not yet defined." );
         }
 
-        $document = new ezcDocumentXhtml();
+        $document = new ezcDocumentEzXml();
         $document->loadFile( $from );
 
         $docbook = $document->getAsDocbook();
         $xml = $docbook->save();
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'xhtml_rst_' ) . '/';
+        $tempDir = $this->createTempDir( 'ezxml_docbook_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         // We need a proper XSD first, the current one does not accept legal
@@ -112,7 +106,6 @@ class ezcDocumentEzXmlTests extends ezcTestCase
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
     }
-// */
 }
 
 ?>

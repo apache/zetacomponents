@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File containing the ezcDocumentDocbookElementVisitorConverter class
+ * File containing the ezcDocumentElementVisitorConverter class
  *
  * @package Document
  * @version //autogen//
@@ -27,11 +27,11 @@ class ezcDocumentDocbookToRstMediaObjectHandler extends ezcDocumentDocbookToRstB
      * media object node in the Docbook document. Returns an array with
      * named keys containing the directive parameters.
      * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param ezcDocumentElementVisitorConverter $converter 
      * @param DOMElement $node 
      * @return array
      */
-    protected function getDirectiveParameters( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node )
+    protected function getDirectiveParameters( ezcDocumentElementVisitorConverter $converter, DOMElement $node )
     {
         // Get image resource
         $resource = $node->getElementsBytagName( 'imagedata' )->item( 0 );
@@ -90,12 +90,12 @@ class ezcDocumentDocbookToRstMediaObjectHandler extends ezcDocumentDocbookToRstB
      * Handle / transform a given node, and return the result of the
      * conversion.
      * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param ezcDocumentElementVisitorConverter $converter 
      * @param DOMElement $node 
      * @param mixed $root 
      * @return mixed
      */
-    public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
+    public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $directive = $this->getDirectiveParameters( $converter, $node );
         $root .= $this->renderDirective(

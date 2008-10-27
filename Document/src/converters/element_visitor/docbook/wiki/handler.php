@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File containing the ezcDocumentDocbookElementVisitorConverter class
+ * File containing the ezcDocumentElementVisitorConverter class
  *
  * @package Document
  * @version //autogen//
@@ -19,7 +19,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentDocbookToWikiBaseHandler extends ezcDocumentDocbookElementVisitorHandler
+abstract class ezcDocumentDocbookToWikiBaseHandler extends ezcDocumentElementVisitorHandler
 {
     /**
      * Render a directive

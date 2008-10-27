@@ -16,7 +16,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentDocbookElementVisitorHandler
+abstract class ezcDocumentElementVisitorHandler
 {
     /**
      * Handle a node
@@ -29,7 +29,7 @@ abstract class ezcDocumentDocbookElementVisitorHandler
      * @param mixed $root 
      * @return mixed
      */
-    abstract public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root );
+    abstract public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root );
 }
 
 ?>

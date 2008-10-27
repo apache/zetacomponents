@@ -46,46 +46,8 @@ class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidati
      */
     public function getAsDocbook()
     {
-        // @TODO: Implement
-    }
-
-    /**
-     * Create document from input string
-     * 
-     * Create a document of the current type handler class and parse it into a
-     * usable internal structure.
-     *
-     * @param string $string 
-     * @return void
-     */
-    public function loadString( $string )
-    {
-        // Use internal error handling to handle XML errors manually.
-        $oldXmlErrorHandling = libxml_use_internal_errors( true );
-        libxml_clear_errors();
-
-        // Load XML document
-        $this->document = new DOMDocument();
-        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentXhtmlDomElement' );
-
-        // Use the loadHtml method here, as it for example convers tag names
-        // and attribute names to lower case, and handles some more errors
-        // common in HTML documents.
-        $this->document->loadHtml( $string );
-
-        $errors = ( $this->options->failOnError ?
-            libxml_get_errors() :
-            null );
-
-        libxml_clear_errors();
-        libxml_use_internal_errors( $oldXmlErrorHandling );
-
-        // If there are errors and the error handling is activated throw an
-        // exception with the occured errors.
-        if ( $errors )
-        {
-            throw new ezcDocumentErrnousXmlException( $errors );
-        }
+        $converter = new ezcDocumentEzXmlToDocbookConverter();
+        return $converter->convert( $this );
     }
 
     /**

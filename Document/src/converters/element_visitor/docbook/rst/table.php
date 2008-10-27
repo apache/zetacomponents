@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File containing the ezcDocumentDocbookElementVisitorConverter class
+ * File containing the ezcDocumentElementVisitorConverter class
  *
  * @package Document
  * @version //autogen//
@@ -42,11 +42,11 @@ class ezcDocumentDocbookToRstTableHandler extends ezcDocumentDocbookToRstBaseHan
      * the wordwrap option in the converter class) by the amount of columns
      * found in the given table. This might be far from optimal.
      * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param ezcDocumentElementVisitorConverter $converter 
      * @param DOMElement $table 
      * @return array
      */
-    protected function estimateColumnWidths( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $table )
+    protected function estimateColumnWidths( ezcDocumentElementVisitorConverter $converter, DOMElement $table )
     {
         // Get some row from the table
         $row = $table->getElementsByTagName( 'row' )->item( 0 );
@@ -89,12 +89,12 @@ class ezcDocumentDocbookToRstTableHandler extends ezcDocumentDocbookToRstBaseHan
      * Handle / transform a given node, and return the result of the
      * conversion.
      * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
+     * @param ezcDocumentElementVisitorConverter $converter 
      * @param DOMElement $node 
      * @param mixed $root 
      * @return mixed
      */
-    public function handle( ezcDocumentDocbookElementVisitorConverter $converter, DOMElement $node, $root )
+    public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $columns  = $this->estimateColumnWidths( $converter, $node );
         $rows     = $node->getElementsByTagName( 'row' );

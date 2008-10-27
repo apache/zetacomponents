@@ -19,7 +19,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentDocbookToHtmlMappingHandler extends ezcDocumentDocbookToHtmlBaseHandler
+class ezcDocumentEzXmlToDocbookMappingHandler extends ezcDocumentElementVisitorHandler
 {
     /**
      * Mapping of element names.
@@ -30,18 +30,7 @@ class ezcDocumentDocbookToHtmlMappingHandler extends ezcDocumentDocbookToHtmlBas
      * @var array
      */
     protected $mapping = array(
-        'article'      => 'body',
-        'book'         => 'body',
-        'literal'      => 'code',
-        'itemizedlist' => 'ul',
-        'orderedlist'  => 'ol',
-        'listitem'     => 'li',
-        'beginpage'    => 'hr',
-        'variablelist' => 'dl',
-        'table'        => 'table',
-        'tbody'        => 'tbody',
-        'thead'        => 'thead',
-        'row'          => 'tr',
+        'section'      => 'section',
     );
 
     /**
