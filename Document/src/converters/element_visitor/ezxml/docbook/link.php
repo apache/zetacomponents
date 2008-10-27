@@ -17,7 +17,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentEzXmlToDocbookLinkHandler extends ezcDocumentEzXmlToDocbookBaseHandler
+class ezcDocumentEzXmlToDocbookLinkHandler extends ezcDocumentElementVisitorHandler
 {
     /**
      * Handle a node
@@ -37,6 +37,40 @@ class ezcDocumentEzXmlToDocbookLinkHandler extends ezcDocumentEzXmlToDocbookBase
             // This is an internal reference
             $link = $root->ownerDocument->createElement( 'link' );
             $link->setAttribute( 'linked', $node->getAttribute( 'anchor_name' ) );
+            $root->appendChild( $link );
+        }
+        else
+        {
+            switch ( true )
+            {
+                case $node->hasAttribute( 'url_id' ):
+                    $method = 'fetchUrlById';
+                    $value  = $node->getAttribute( 'url_id' );
+                    break;
+
+                case $node->hasAttribute( 'node_id' ):
+                    $method = 'fetchUrlByNodeId';
+                    $value  = $node->getAttribute( 'node_id' );
+                    break;
+
+                case $node->hasAttribute( 'object_id' ):
+                    $method = 'fetchUrlByObjectId';
+                    $value  = $node->getAttribute( 'object_id' );
+                    break;
+
+                default:
+                    throw new Exception( '@TODO: Unkown link type.' );
+            }
+
+            $link = $root->ownerDocument->createElement( 'ulink' );
+            $link->setAttribute(
+                'url',
+                $converter->options->linkProvider->$method(
+                    $value,
+                    $node->hasAttribute( 'view' ) ? $node->getAttribute( 'view' ) : null,
+                    $node->hasAttribute( 'show_path' ) ? $node->getAttribute( 'show_path' ) : null
+                )
+            );
             $root->appendChild( $link );
         }
 

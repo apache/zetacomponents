@@ -12,6 +12,10 @@
 /**
  * Class containing the basic options for the ezcDocumentEzp3Xml class
  *
+ * @property ezcDocumentEzXmlLinkProvider $linkProvider
+ *           Object fetching the URL for link and node or object IDs, used for
+ *           references inside of eZXml document.
+ *
  * @package Document
  * @version //autogen//
  */
@@ -28,6 +32,8 @@ class ezcDocumentEzXmlToDocbookConverterOptions extends ezcDocumentConverterOpti
      */
     public function __construct( array $options = array() )
     {
+        $this->linkProvider = new ezcDocumentEzXmlDummyLinkProvider();
+
         parent::__construct( $options );
     }
 
@@ -46,6 +52,16 @@ class ezcDocumentEzXmlToDocbookConverterOptions extends ezcDocumentConverterOpti
     {
         switch ( $name )
         {
+            case 'linkProvider':
+                if ( !is_object( $value ) ||
+                     ( !$value instanceof ezcDocumentEzXmlLinkProvider ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentEzXmlLinkProvider' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
             default:
                 parent::__set( $name, $value );
         }
