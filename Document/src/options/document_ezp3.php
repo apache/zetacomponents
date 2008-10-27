@@ -13,6 +13,9 @@
  *
  * @property bool $indentXml
  *           Indent XML on output
+ * @property string $relaxNgSchema
+ *           Relax NG schema which is used to validate the eZ Publish 3
+ *           documents.
  *
  * @package Document
  * @version //autogen//
@@ -30,9 +33,8 @@ class ezcDocumentEzp3XmlOptions extends ezcDocumentXmlOptions
      */
     public function __construct( array $options = array() )
     {
-        /* More to come ...
-        $this->indentXml    = false;
-        */
+        $this->indentXml     = false;
+        $this->relaxNgSchema = dirname( __FILE__ ) . '/../document/xml/ezp3/schema/ezxml_schema.rng';
 
         parent::__construct( $options );
     }
@@ -52,7 +54,6 @@ class ezcDocumentEzp3XmlOptions extends ezcDocumentXmlOptions
     {
         switch ( $name )
         {
-        /* More to come ...
             case 'indentXml':
                 if ( !is_bool( $value ) )
                 {
@@ -61,7 +62,10 @@ class ezcDocumentEzp3XmlOptions extends ezcDocumentXmlOptions
 
                 $this->properties[$name] = (bool) $value;
                 break;
-        */
+
+            case 'relaxNgSchema':
+                $this->properties[$name] = (string) $value;
+                break;
 
             default:
                 parent::__set( $name, $value );
