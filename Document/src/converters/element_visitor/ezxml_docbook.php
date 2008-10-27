@@ -59,6 +59,9 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
                 'strong'           => $emphasis = new ezcDocumentEzXmlToDocbookEmphasisHandler(),
                 'emphasize'        => $emphasis,
                 'link'             => new ezcDocumentEzXmlToDocbookLinkHandler(),
+                'ol'               => $list = new ezcDocumentEzXmlToDocbookListHandler(),
+                'ul'               => $list,
+                'li'               => $mapper,
             )
         );
     }

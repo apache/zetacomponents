@@ -146,6 +146,7 @@ return array(
     'ezcDocumentEzXmlToDocbookIgnoreHandler'              => 'Document/converters/element_visitor/ezxml/docbook/ignore.php',
     'ezcDocumentEzXmlToDocbookInternalLinkHandler'        => 'Document/converters/element_visitor/ezxml/docbook/internal_link.php',
     'ezcDocumentEzXmlToDocbookLinkHandler'                => 'Document/converters/element_visitor/ezxml/docbook/link.php',
+    'ezcDocumentEzXmlToDocbookListHandler'                => 'Document/converters/element_visitor/ezxml/docbook/list.php',
     'ezcDocumentEzXmlToDocbookLiteralLayoutHandler'       => 'Document/converters/element_visitor/ezxml/docbook/literal_layout.php',
     'ezcDocumentEzXmlToDocbookMappingHandler'             => 'Document/converters/element_visitor/ezxml/docbook/mapper.php',
     'ezcDocumentEzXmlToDocbookMediaObjectHandler'         => 'Document/converters/element_visitor/ezxml/docbook/mediaobject.php',
