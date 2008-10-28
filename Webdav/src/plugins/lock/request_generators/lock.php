@@ -29,7 +29,7 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockRequestGenerator
      * 
      * @var ezcWebdavLockRequest
      */
-    protected $issueingRequest;
+    protected $issuingRequest;
 
     /**
      * Active lock information part of lock response.
@@ -49,7 +49,7 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockRequestGenerator
         ezcWebdavLockDiscoveryPropertyActiveLock $activeLock
     )
     {
-        $this->issueingRequest = $request;
+        $this->issuingRequest = $request;
         $this->activeLock      = $activeLock;
     }
 
@@ -64,16 +64,35 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockRequestGenerator
      */
     public function notify( ezcWebdavPropFindResponse $response )
     {
+        $propPatch = new ezcWebdavPropPatchRequest( $response->node->path );
+
+        // Overwrite properties, since only 1 lock is allowed at a time (currently)!
+
         $lockDiscoveryProp = new ezcWebdavLockDiscoveryProperty(
             new ArrayObject(
                 array( clone $this->activeLock )
             )
         );
         
-        // PropPatch request to update resource property
-        $propPatch = new ezcWebdavPropPatchRequest( $response->node->path );
         $propPatch->updates->attach(
             $lockDiscoveryProp,
+            ezcWebdavPropPatchRequest::SET
+        );
+
+        $lockInfoProperty = new ezcWebdavLockInfoProperty(
+            new ArrayObject(
+                new ezcWebdavLockTokenInfo(
+                    $this->activeLock->token,
+                    // Set $lockBase, if this resource is not the base
+                    ( $this->issuingRequest->requestUri !== $response->node->path ? $requests->requestUri : null ),
+                    // Set $lastAccess for the lock base (used for lock timeouts)
+                    ( $this->issuingRequest->requestUri === $response->node->path ? new DateTime() : null )
+                )
+            )
+        );
+
+        $propPatch->updates->attach(
+            $lockInfoProperty,
             ezcWebdavPropPatchRequest::SET
         );
 

@@ -283,6 +283,7 @@ class ezcWebdavTransport
                 throw $e;
             }
             $this->handleResponse( $this->handleException( $e ) );
+            throw $e;
         }
     }
 
