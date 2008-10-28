@@ -138,6 +138,7 @@ return array(
     'ezcDocumentEzXmlToDocbookConverterOptions'          => 'Document/options/converter_ezxml_docbook.php',
     'ezcDocumentEzXmlToDocbookEmphasisHandler'           => 'Document/converters/element_visitor/ezxml/docbook/emphasis.php',
     'ezcDocumentEzXmlToDocbookHeaderHandler'             => 'Document/converters/element_visitor/ezxml/docbook/header.php',
+    'ezcDocumentEzXmlToDocbookLineHandler'               => 'Document/converters/element_visitor/ezxml/docbook/line.php',
     'ezcDocumentEzXmlToDocbookLinkHandler'               => 'Document/converters/element_visitor/ezxml/docbook/link.php',
     'ezcDocumentEzXmlToDocbookListHandler'               => 'Document/converters/element_visitor/ezxml/docbook/list.php',
     'ezcDocumentEzXmlToDocbookLiteralHandler'            => 'Document/converters/element_visitor/ezxml/docbook/literal.php',

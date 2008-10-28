@@ -64,6 +64,7 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
                 'ul'               => $list,
                 'li'               => $mapper,
                 'literal'          => new ezcDocumentEzXmlToDocbookLiteralHandler(),
+                'line'             => new ezcDocumentEzXmlToDocbookLineHandler(),
             )
         );
     }

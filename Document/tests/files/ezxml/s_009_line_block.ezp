@@ -8,5 +8,7 @@
         Some text with an
         <line>Inline</line>
         <line>line block.</line>
+	More text
+	<line>Another line block</line>
     </paragraph>
 </section>
