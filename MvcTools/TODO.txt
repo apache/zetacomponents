@@ -2,5 +2,3 @@
   dirname - similarly to what the Template component does.
 - Figure out a way how to configure the view handlers (PHP and Template) with
   a standard directory name - similarly to what the Template component does.
-- Support reverse route generation: create an URL from an argument. This
-  feature should be available from the router interface.
