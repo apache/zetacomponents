@@ -15,7 +15,8 @@
   ezcMvcInternalRedirectObject.
 - Fixed issue #13788: array_key_exists() function receives parameters in wrong
   order.
-
+- Fixed issue #013845: Structs method __set_state() not tested.
+- Fixed typoes in structs to pass the tests.
 
 1.0alpha1 - Monday 06 October 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
