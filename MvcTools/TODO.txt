@@ -1,4 +1,2 @@
-- Figure out a way how to configure the PHP View Handler with a standard
-  dirname - similarly to what the Template component does.
 - Figure out a way how to configure the view handlers (PHP and Template) with
   a standard directory name - similarly to what the Template component does.
