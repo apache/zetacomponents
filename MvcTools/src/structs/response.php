@@ -102,7 +102,7 @@ class ezcMvcResponse extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcResult( $array['status'], $array['date'], 
+        return new ezcMvcResponse( $array['status'], $array['date'], 
             $array['generator'], $array['cache'], $array['cookies'], 
             $array['content'], $array['body'] );
     }

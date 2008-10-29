@@ -103,8 +103,8 @@ class ezcMvcResultCookie extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcResultCache( $array['name'], $array['value'], 
-            $array['expire'], $array['domain'], $array['path'], 
+        return new ezcMvcResultCookie( $array['name'], $array['value'], 
+            $array['expire'], $array['path'], $array['domain'], 
             $array['secure'], $array['httpOnly'] );
     }
 }
