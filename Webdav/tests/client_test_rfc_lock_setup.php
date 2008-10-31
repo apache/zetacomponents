@@ -21,6 +21,9 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             case '003_lock_3':
                 $customPathFactory = self::getSetup3( $test );
                 break;
+            case '004_lockdiscovery':
+                $customPathFactory = self::getSetup4( $test );
+                break;
             default:
                 throw new RuntimeException( "Could not find setup for test set '$testSetName'." );
         }
@@ -91,6 +94,40 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                 'webdav' => array(
                     'secret' => ''
                 ),
+            )
+        );
+    }
+
+    protected static function getSetup4( ezcWebdavClientTest $test )
+    {
+        $test->backend = new ezcWebdavMemoryBackend();
+
+        $test->backend->addContents(
+            array(
+                'container' => array(
+                ),
+            )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavLockDiscoveryProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockDiscoveryPropertyActiveLock(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
+                            ezcWebdavRequest::DEPTH_ZERO,
+                            new ezcWebdavPotentialUriContent(
+                                'Jane Smith'
+                            ),
+                            40,
+                            new ezcWebdavPotentialUriContent(
+                                'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76',
+                                true
+                            )
+                        ),
+                    )
+                )
             )
         );
     }

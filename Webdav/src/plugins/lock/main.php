@@ -145,7 +145,7 @@ class ezcWebdavLockPlugin
      */
     public function extractUnknownLiveProperty( ezcWebdavPluginParameters $params )
     {
-        return $this->propertyHandler->extractUnknownLiveProperty(
+        return $this->propertyHandler->extractLiveProperty(
             $params['domElement'],
             $params['xmlTool']
         );
