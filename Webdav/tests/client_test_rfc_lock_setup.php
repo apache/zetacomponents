@@ -1,6 +1,7 @@
 <?php
 
 require_once 'client_test_setup.php';
+require_once 'classes/client_test_lock_auth.php';
 
 class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
 {
@@ -17,6 +18,9 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             case '002_lock_2':
                 $customPathFactory = self::getSetup2( $test );
                 break;
+            case '003_lock_3':
+                $customPathFactory = self::getSetup3( $test );
+                break;
             default:
                 throw new RuntimeException( "Could not find setup for test set '$testSetName'." );
         }
@@ -31,6 +35,8 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                 )
             )
         );
+
+        $test->server->auth = new ezcWebdavClientTestRfcLockAuth();
     }
 
     protected static function getSetup1( ezcWebdavClientTest $test )
@@ -72,6 +78,19 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                         ),
                     )
                 )
+            )
+        );
+    }
+
+    protected static function getSetup3( ezcWebdavClientTest $test )
+    {
+        $test->backend = new ezcWebdavMemoryBackend();
+
+        $test->backend->addContents(
+            array(
+                'webdav' => array(
+                    'secret' => ''
+                ),
             )
         );
     }

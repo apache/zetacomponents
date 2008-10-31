@@ -2,7 +2,7 @@
 
 return array (
   'Content-Type' => 'text/xml; charset="utf-8"',
-  'Content-Length' => 1234,
+  'Server' => 'eZComponents/dev/ezcWebdavTransportMock',
 );
 
 ?>

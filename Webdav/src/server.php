@@ -312,7 +312,7 @@ class ezcWebdavServer
         // Authenticate user
         if ( $creds instanceof ezcWebdavBasicAuth && !$this->properties['auth']->authenticateBasic( $creds ) )
         {
-            $res = $this->createUnauthorizedResponse( $req->requestUri, 'Authentication failed.' );
+            $res = $this->createUnauthenticatedResponse( $req->requestUri, 'Authentication failed.' );
         }
         if ( $creds instanceof ezcWebdavDigestAuth
              && ( !( $this->properties['auth'] instanceof ezcWebdavDigestAuthenticator )
@@ -320,7 +320,7 @@ class ezcWebdavServer
                 )
            )
         {
-            $res = $this->createUnauthorizedResponse( $req->requestUri, 'Authentication failed.' );
+            $res = $this->createUnauthenticatedResponse( $req->requestUri, 'Authentication failed.' );
         }
 
         return $res;
@@ -363,7 +363,7 @@ class ezcWebdavServer
     }
 
     /**
-     * Creates an ezcWebdavErrorResponse to indicate unauthorized access.
+     * Creates an ezcWebdavErrorResponse to indicate the need for authentication.
      *
      * Creates a {@link ezcWebdavErrorResponse} object with status code {@link
      * ezcWebdavResponse::STATUS_401} and a corresponding WWW-Authenticate
@@ -377,7 +377,7 @@ class ezcWebdavServer
      *
      * @access private
      */
-    public function createUnauthorizedResponse( $uri, $desc )
+    public function createUnauthenticatedResponse( $uri, $desc )
     {
         $res = new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_401, $uri, $desc );
         $wwwAuthHeader = array(
@@ -393,6 +393,25 @@ class ezcWebdavServer
         $res->setHeader( 'WWW-Authenticate', $wwwAuthHeader );
 
         return $res;
+    }
+
+    /**
+     * Creates an ezcWebdavErrorResponse to indicate unauthorized access.
+     *
+     * Creates a {@link ezcWebdavErrorResponse} object with status code {@link
+     * ezcWebdavResponse::STATUS_403}. The $uri and $desc parameters are used
+     * to create the error response.
+     *
+     * @param string $uri
+     * @param string $desc 
+     * 
+     * @return ezcWebdavErrorResponse
+     *
+     * @access private
+     */
+    public function createUnauthorizedResponse( $uri, $desc )
+    {
+        return new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_403, $uri, $desc );
     }
 
     /**

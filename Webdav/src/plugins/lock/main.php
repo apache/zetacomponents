@@ -164,7 +164,7 @@ class ezcWebdavLockPlugin
      */
     public function serializeUnknownLiveProperty( ezcWebdavPluginParameters $params )
     {
-        return $this->propertyHandler->serializeUnknownLiveProperty(
+        return $this->propertyHandler->serializeLiveProperty(
             $params['property'],
             $params['parentElement'],
             $params['xmlTool']
@@ -531,7 +531,9 @@ class ezcWebdavLockPlugin
             return $propFindMultistatusRes;
         }
 
-        $violations = array();
+        $violations       = array();
+        $mainLockProperty = null;
+
         foreach ( $propFindMultistatusRes->responses as $propFindRes )
         {
             // Check authorization of the affected node
@@ -542,7 +544,10 @@ class ezcWebdavLockPlugin
                  ) 
             )
             {
-                $violations[] = $srv->createUnauthorizedResponse( $propFindRes->path, 'Authorization failed' );
+                $violations[] = $srv->createUnauthorizedResponse(
+                    $propFindRes->node->path,
+                    'Authorization failed'
+                );
                 // No need for further checks on this path
                 continue;
             }
@@ -557,10 +562,35 @@ class ezcWebdavLockPlugin
             {
                 $generator->notify( $propFindRes );
             }
+
+            // Store main lock property for use in MultiStatus
+            if ( $propFindRes->node->path === $request->requestUri )
+            {
+                foreach ( $propFindRes->responses as $propStatRes )
+                {
+                    if ( $propStatRes->storage->contains( 'lockdiscovery' ) )
+                    {
+                        $mainLockNode     = $propFindRes->node;
+                        $mainLockProperty = $propStatRes->storage->get( 'lockdiscovery' );
+                        break;
+                    }
+                }
+            }
         }
 
         if ( $violations !== array() )
         {
+            // RFC requires the <lockdiscovery> property to be included
+            $propStatRes = new ezcWebdavPropStatResponse(
+                new ezcWebdavBasicPropertyStorage(),
+                ezcWebdavResponse::STATUS_424
+            );
+            $propStatRes->storage->attach( $mainLockProperty );
+            $violations[] = new ezcWebdavPropFindResponse(
+                $mainLockNode,
+                $propStatRes
+            );
+
             return new ezcWebdavMultistatusResponse( $violations );
         }
         // return null;
