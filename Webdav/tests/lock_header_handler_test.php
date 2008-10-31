@@ -107,7 +107,7 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
     public function provideIfHeaderData()
     {
         return array(
-            // Set 1 - Not tagged
+            // Not tagged
             array( 
                 '(<locktoken:a-write-lock-token> [W/"A weak ETag"]) (["strong ETag"]) (["another strong ETag"])',
                 new ezcWebdavLockIfHeaderNoTagList(
@@ -127,7 +127,23 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                     )
                 ),
             ),
-            // Set 2 - Not tagged, negated some
+            // Not tagged, mutiple lock tokens, from RFC
+            array(
+                '(<opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4>)  (<opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77>)',
+                new ezcWebdavLockIfHeaderNoTagList(
+                    array(
+                        new ezcWebdavLockIfHeaderListItem(
+                            array( 'opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4' ),
+                            array()
+                        ),
+                        new ezcWebdavLockIfHeaderListItem(
+                            array( 'opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77' ),
+                            array()
+                        ),
+                    )
+                ),
+            ),
+            // Not tagged, negated some
             array( 
                 '(Not <locktoken:a-write-lock-token> [W/"A weak ETag"]) (["strong ETag"]) (Not ["another strong ETag"])',
                 new ezcWebdavLockIfHeaderNoTagList(
@@ -149,7 +165,7 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                     )
                 ),
             ),
-            // Set 3 - Tagged
+            // Tagged
             array( 
                 '<http://example.com/resource1> (<locktoken:a-write-lock-token> [W/"A weak ETag"]) (["strong ETag"]) <http://example.com/random> (["another strong ETag"])',
                 new ezcWebdavLockIfHeaderTaggedList(
@@ -173,7 +189,7 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                     )
                 ),
             ),
-            // Set 4 - Tagged, negated some
+            // Tagged, negated some
             array( 
                 '<http://example.com/resource1> (<locktoken:a-write-lock-token> [W/"A weak ETag"]) (Not ["strong ETag"]) <http://example.com/random> (Not ["another strong ETag"])',
                 new ezcWebdavLockIfHeaderTaggedList(

@@ -283,7 +283,6 @@ class ezcWebdavLockHeaderHandler
         {
             $token .= $content[$i++];
         }
-        ++$i;
 
         return $token;
     }
