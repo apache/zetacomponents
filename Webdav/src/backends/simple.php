@@ -236,7 +236,10 @@ abstract class ezcWebdavSimpleBackend
         // Check authorization
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $source ) )
         {
-            return $this->createUnauthorizedResponse( $source );
+            return $this->createUnauthorizedResponse(
+                $source,
+                $request->getHeader( 'Authorization' )
+            );
         }
 
         // Check if resource is available
@@ -303,7 +306,10 @@ abstract class ezcWebdavSimpleBackend
         // Check authorization
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $source ) )
         {
-            return $this->createUnauthorizedResponse( $source );
+            return $this->createUnauthorizedResponse(
+                $source,
+                $request->getHeader( 'Authorization' )
+            );
         }
 
         // Check if resource is available
@@ -629,7 +635,10 @@ abstract class ezcWebdavSimpleBackend
                 // Check authorization
                 if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $nodePath ) )
                 {
-                    $responses[] = $this->createUnauthorizedResponse( $nodePath );
+                    $responses[] = $this->createUnauthorizedResponse(
+                        $nodePath,
+                        $request->getHeader( 'Authorization' )
+                    );
                     $unauthorizedPaths[] = $nodePath;
                     // Skip further processing of node
                     continue;
@@ -673,7 +682,10 @@ abstract class ezcWebdavSimpleBackend
         {
             // Globally issue a 401, if the user does not have access to the
             // requested resource itself.
-            return $this->createUnauthorizedResponse( $source );
+            return $this->createUnauthorizedResponse(
+                $source,
+                $request->getHeader( 'Authorization' )
+            );
             // Multistatus with 403 will be issued for nested resources in the
             // specific methods.
         }
@@ -742,7 +754,10 @@ abstract class ezcWebdavSimpleBackend
         // avoid leaking information
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $source, ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
-            return $this->createUnauthorizedResponse( $source );
+            return $this->createUnauthorizedResponse(
+                $source,
+                $request->getHeader( 'Authorization' )
+            );
         }
 
         // Check if resource is available
@@ -888,7 +903,10 @@ abstract class ezcWebdavSimpleBackend
         // avoid leaking information
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $source, ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
-            return $this->createUnauthorizedResponse( $source );
+            return $this->createUnauthorizedResponse(
+                $source,
+                $request->getHeader( 'Authorization' )
+            );
         }
 
         // Check if parent node exists and throw a 409 otherwise
@@ -1037,11 +1055,17 @@ abstract class ezcWebdavSimpleBackend
         // avoid leaking information 
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $source ) )
         {
-            return $this->createUnauthorizedResponse( $source );
+            return $this->createUnauthorizedResponse(
+                $source,
+                $request->getHeader( 'Authorization' )
+            );
         }
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $dest, ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
-            return $this->createUnauthorizedResponse( $dest );
+            return $this->createUnauthorizedResponse(
+                $dest,
+                $request->getHeader( 'Authorization' )
+            );
         }
 
         // Check if resource is available
@@ -1214,7 +1238,10 @@ abstract class ezcWebdavSimpleBackend
         }
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $dest, ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
-            return $this->createUnauthorizedResponse( $dest );
+            return $this->createUnauthorizedResponse(
+                $dest,
+                $request->getHeader( 'Authorization' )
+            );
         }
 
         // Check if resource is available
@@ -1366,7 +1393,10 @@ abstract class ezcWebdavSimpleBackend
         // avoid leaking information
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $collection, ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
-            return $this->createUnauthorizedResponse( $collection );
+            return $this->createUnauthorizedResponse(
+                $collection,
+                $request->getHeader( 'Authorization' )
+            );
         }
 
         // If resource already exists, the collection cannot be created and a
@@ -1431,7 +1461,10 @@ abstract class ezcWebdavSimpleBackend
         // Check authorization
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $request->requestUri ) )
         {
-            return $this->createUnauthorizedResponse( $request->requestUri );
+            return $this->createUnauthorizedResponse(
+                $request->requestUri,
+                $request->getHeader( 'Authorization' )
+            );
         }
         
         return parent::options( $request );
@@ -1682,7 +1715,10 @@ abstract class ezcWebdavSimpleBackend
         // Check auth for collections and resources equally
         if ( !ezcWebdavServer::getInstance()->isAuthorized( $request, $path, $access ) )
         {
-            $result['errors'][] = $this->createUnauthorizedResponse( $path );
+            $result['errors'][] = $this->createUnauthorizedResponse(
+                $path,
+                $request->getHeader( 'Authorization' )
+            );
         }
         else
         {
@@ -1718,24 +1754,31 @@ abstract class ezcWebdavSimpleBackend
      *
      * This method returns an instance of {@link ezcWebdavErrorResponse} with a
      * corresponding status code, indicating that the request to $path was not
-     * authorized.
+     * authorized. In case the user did not provide authentication at all, the
+     * status code 401 (Unauthorized) is used to give the possibility of
+     * authenticating. Otherwise 403 (Forbidden) is used, since the
+     * authenticated user simply does not have access.
      * 
      * @param string $path 
+     * @param ezcWebdavAuthBasic|ezcWebdavAúthDigest $authHeader
      * @return ezcWebdavErrorResponse
-     *
-     * @todo Mark protected as soon as API is final.
      */
-    private function createUnauthorizedResponse( $path )
+    private function createUnauthorizedResponse( $path, $authHeader = null )
     {
-        return ezcWebdavServer::getInstance()->createUnauthorizedResponse( $path, 'Authorization failed.' );
-        /*
-         * Solution with 403 instead of 401
-        return new ezcWebdavErrorResponse(
-            ezcWebdavResponse::STATUS_403,
+        // Check for anonymous auth
+        if ( $authHeader === null || $authHeader->username === '' )
+        {
+            return ezcWebdavServer::getInstance()->createUnauthenticatedResponse(
+                $path,
+                'Authorization failed.'
+            );
+        }
+
+        // Authenticated user does not have access
+        return ezcWebdavServer::getInstance()->createUnauthorizedResponse(
             $path,
-            'Unauthorized.'
+            'Authorization failed.'
         );
-        */
     }
 }
 
