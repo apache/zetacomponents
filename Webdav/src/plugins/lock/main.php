@@ -690,6 +690,105 @@ class ezcWebdavLockPlugin
     }
 
     /**
+     * Creates a lock-null resource.
+     *
+     * In case a LOCK request is issued on a resource, that does not exists, a
+     * so-called lock-null resource is created. This resource must support some
+     * of the WebDAV requests, but not all. In case an MKCOL or PUT request is
+     * issued to such a resource, it is switched to be a real resource. In case
+     * the lock is released, all null-lock resources in it are removed.
+     * 
+     * @param ezcWebdavLockRequest $request 
+     * @return ezcWebdavResponse
+     */
+    protected function createLockNullResource( ezcWebdavLockRequest $request )
+    {
+        $backend = ezcWebdavServer::getInstance()->backend;
+
+        // Check parent directory for locks and other violations
+
+        $headReq = new ezcWebdavHeadRequest(
+            dirname( $request->requestUri )
+        );
+        // Usually not present in HEAD requests, but needed for violation checks
+        $headReq->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
+        $headReq->setHeader( 'If', $request->getHeader( 'If' ) );
+        $headReq->validateHeaders();
+
+        $checkRes = $this->checkViolations( $headReq, $reqGen );
+
+        if ( $checkRes !== null )
+        {
+            return $checkRes;
+        }
+
+        // Create lock null resource
+
+        $putReq = new ezcWebdavPutRequest(
+            $request->requestUri,
+            ''
+        );
+
+        $putRes = $backend->put( $putReq );
+
+        if ( !( $putRes instanceof ezcWebdavPutResponse ) )
+        {
+            return $this->createLockFailureResponse(
+                array( $putRes ),
+                new ezcWebdavResource( $request->requestUri )
+            );
+        }
+
+        // Patch necessary properties
+        
+        $lockToken         = $this->generateLockToken( $request );
+        $lockDiscoveryProp = new ezcWebdavLockDiscoveryProperty(
+            new ArrayObject(
+                array(
+                    $this->generateActiveLock( $request, $lockToken )
+                )
+            )
+        );
+
+        $propPatchReq = new ezcWebdavPropPatchRequest( $request->requestUri );
+        $propPatchReq->storage->attach(
+            $lockDiscoveryProp,
+            ezcWebdavPropPatchRequest::SET
+        );
+        $propPatchReq->storage->attach(
+            new ezcWebdavLockInfoProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockTokenInfo(
+                            $lockToken,
+                            null,
+                            new DateTime()
+                        ),
+                    )
+                ),
+                // Null resource!
+                true
+            )
+        );
+
+        $propPatchReq->validateHeaders();
+        $propPatchRes = $backend->propPatch( $propPatchReq );
+
+        if ( !( $propPatchRes instanceof ezcWebdavPropPatchResponse ) )
+        {
+            return $this->createLockFailureResponse(
+                array( $propPatchRes ),
+                new ezcWebdavResource( $request->requestUri )
+            );
+        }
+        
+        return new ezcWebdavLockResponse(
+            $lockDiscoveryProp,
+            $lockToken
+        );
+    }
+
+    /**
      * Checks the given $request for If header and general lock violations.
      *
      * This method performs a PROPFIND request on the backend and retrieves the
@@ -798,93 +897,6 @@ class ezcWebdavLockPlugin
              );
         }
         // return null;
-    }
-
-    protected function createLockNullResource( ezcWebdavLockRequest $request )
-    {
-        $backend = ezcWebdavServer::getInstance()->backend;
-
-        // Check parent directory for locks and other violations
-
-        $headReq = new ezcWebdavHeadRequest(
-            dirname( $request->requestUri )
-        );
-        // Usually not present in HEAD requests, but needed for violation checks
-        $headReq->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
-        $headReq->setHeader( 'If', $request->getHeader( 'If' ) );
-        $headReq->validateHeaders();
-
-        $checkRes = $this->checkViolations( $headReq, $reqGen );
-
-        if ( $checkRes !== null )
-        {
-            return $checkRes;
-        }
-
-        // Create lock null resource
-
-        $putReq = new ezcWebdavPutRequest(
-            $request->requestUri,
-            ''
-        );
-
-        $putRes = $backend->put( $putReq );
-
-        if ( !( $putRes instanceof ezcWebdavPutResponse ) )
-        {
-            return $this->createLockFailureResponse(
-                array( $putRes ),
-                new ezcWebdavResource( $request->requestUri )
-            );
-        }
-
-        // Patch necessary properties
-        
-        $lockToken         = $this->generateLockToken( $request );
-        $lockDiscoveryProp = new ezcWebdavLockDiscoveryProperty(
-            new ArrayObject(
-                array(
-                    $this->generateActiveLock( $request, $lockToken )
-                )
-            )
-        );
-
-        $propPatchReq = new ezcWebdavPropPatchRequest( $request->requestUri );
-        $propPatchReq->storage->attach(
-            $lockDiscoveryProp,
-            ezcWebdavPropPatchRequest::SET
-        );
-        $propPatchReq->storage->attach(
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            $lockToken,
-                            null,
-                            new DateTime()
-                        ),
-                    )
-                ),
-                // Null resource!
-                true
-            )
-        );
-
-        $propPatchReq->validateHeaders();
-        $propPatchRes = $backend->propPatch( $propPatchReq );
-
-        if ( !( $propPatchRes instanceof ezcWebdavPropPatchResponse ) )
-        {
-            return $this->createLockFailureResponse(
-                array( $propPatchRes ),
-                new ezcWebdavResource( $request->requestUri )
-            );
-        }
-        
-        return new ezcWebdavLockResponse(
-            $lockDiscoveryProp,
-            $lockToken
-        );
     }
 
     /**
