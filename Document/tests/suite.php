@@ -45,6 +45,7 @@ require 'converter_docbook_html_test.php';
 require 'converter_docbook_html_xsl_test.php';
 require 'converter_docbook_rst_test.php';
 require 'converter_docbook_wiki_test.php';
+require 'converter_docbook_ezxml_test.php';
 
 class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 {
@@ -86,6 +87,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToRstTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToWikiTests::suite() );
+        $this->addTest( ezcDocumentConverterDocbookToEzXmlTests::suite() );
     }
 }
 

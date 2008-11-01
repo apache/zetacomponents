@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<section xmlns="http://ez.no/namespaces/ezpublish3" xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
+  <section>
+    <header>Line blocks</header>
+    <paragraph>
+      <line>Lend&#xA0;us&#xA0;a&#xA0;couple&#xA0;of&#xA0;bob&#xA0;till&#xA0;Thursday.</line>
+      <line>I'm&#xA0;absolutely&#xA0;skint.</line>
+      <line>But&#xA0;I'm&#xA0;expecting&#xA0;a&#xA0;postal&#xA0;order&#xA0;and&#xA0;I&#xA0;can&#xA0;pay&#xA0;you&#xA0;back</line>
+      <line>as&#xA0;soon&#xA0;as&#xA0;it&#xA0;comes.</line>
+      <line>Love,&#xA0;Ewan.</line>
+      <line></line>
+    </paragraph>
+    <paragraph>Another one:</paragraph>
+    <paragraph>
+      <line>This&#xA0;is&#xA0;a&#xA0;line&#xA0;block.&#xA0;&#xA0;It&#xA0;ends&#xA0;with&#xA0;a&#xA0;blank&#xA0;line.</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;New&#xA0;lines&#xA0;begin&#xA0;with&#xA0;a&#xA0;vertical&#xA0;bar&#xA0;("|").</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;Line&#xA0;breaks&#xA0;and&#xA0;initial&#xA0;indent&#xA0;are&#xA0;significant,&#xA0;and&#xA0;preserved.</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;Continuation&#xA0;lines&#xA0;are&#xA0;also&#xA0;possible.&#xA0;&#xA0;A&#xA0;long&#xA0;line&#xA0;that&#xA0;is&#xA0;intended</line>
+      <line>to&#xA0;wrap&#xA0;should&#xA0;begin&#xA0;with&#xA0;a&#xA0;space&#xA0;in&#xA0;place&#xA0;of&#xA0;the&#xA0;vertical&#xA0;bar.</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;The&#xA0;left&#xA0;edge&#xA0;of&#xA0;a&#xA0;continuation&#xA0;line&#xA0;need&#xA0;not&#xA0;be&#xA0;aligned&#xA0;with</line>
+      <line>the&#xA0;left&#xA0;edge&#xA0;of&#xA0;the&#xA0;text&#xA0;above&#xA0;it.</line>
+      <line></line>
+    </paragraph>
+    <paragraph>
+      <line>This&#xA0;is&#xA0;a&#xA0;second&#xA0;line&#xA0;block.</line>
+      <line>Blank&#xA0;lines&#xA0;are&#xA0;permitted&#xA0;internally,&#xA0;but&#xA0;they&#xA0;must&#xA0;begin&#xA0;with&#xA0;a&#xA0;"|".</line>
+      <line></line>
+    </paragraph>
+    <paragraph>Take it away, Eric the Orchestra Leader!</paragraph>
+    <paragraph>
+      <line>A&#xA0;one,&#xA0;two,&#xA0;a&#xA0;one&#xA0;two&#xA0;three&#xA0;four</line>
+      <line>Half&#xA0;a&#xA0;bee,&#xA0;philosophically,</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;must,&#xA0;*ipso&#xA0;facto*,&#xA0;half&#xA0;not&#xA0;be.</line>
+      <line>But&#xA0;half&#xA0;the&#xA0;bee&#xA0;has&#xA0;got&#xA0;to&#xA0;be,</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;*vis&#xA0;a&#xA0;vis*&#xA0;its&#xA0;entity.</line>
+      <line>D'you&#xA0;see?</line>
+      <line>But&#xA0;can&#xA0;a&#xA0;bee&#xA0;be&#xA0;said&#xA0;to&#xA0;be</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;or&#xA0;not&#xA0;to&#xA0;be&#xA0;an&#xA0;entire&#xA0;bee,</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;when&#xA0;half&#xA0;the&#xA0;bee&#xA0;is&#xA0;not&#xA0;a&#xA0;bee,</line>
+      <line>&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;due&#xA0;to&#xA0;some&#xA0;ancient&#xA0;injury?</line>
+      <line>Singing...</line>
+      <line></line>
+    </paragraph>
+    <paragraph>The end.</paragraph>
+  </section>
+</section>
