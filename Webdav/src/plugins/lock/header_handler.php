@@ -73,6 +73,24 @@ class ezcWebdavLockHeaderHandler
     }
 
     /**
+     * Parses the Lock-Token header.
+     *
+     * Trims the < and > from a given lock token in the Lock-Token header.
+     * 
+     * @return string|null
+     */
+    public function parseLockTokenHeader()
+    {
+        if ( !isset( $_SERVER['HTTP_LOCK_TOKEN'] ) )
+        {
+            return null;
+        }
+
+        // Strip < and >
+        return substr( trim( $_SERVER['HTTP_LOCK_TOKEN'] ), 1, -1 );
+    }
+
+    /**
      * Parses tagged If header content.
      *
      * This method parses content of an If header that is tagged. The content has the format:

@@ -88,7 +88,15 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected function runTestSet( $testSetName )
     {
-        call_user_func( array( $this->setupClass, 'performSetup' ), $this, $testSetName );
+        try
+        {
+            call_user_func( array( $this->setupClass, 'performSetup' ), $this, $testSetName );
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped( 'Backend setup failed.' );
+            return;
+        }
 
         $requestObject = null;
 

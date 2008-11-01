@@ -137,6 +137,7 @@ return array(
     'ezcWebdavStringDisplayInformation'               => 'Webdav/structs/display_information_string.php',
     'ezcWebdavSupportedLockProperty'                  => 'Webdav/properties/supportedlock.php',
     'ezcWebdavUnlockRequest'                          => 'Webdav/requests/unlock.php',
+    'ezcWebdavUnlockResponse'                         => 'Webdav/responses/unlock.php',
     'ezcWebdavXmlDisplayInformation'                  => 'Webdav/structs/display_information_xml.php',
     'ezcWebdavXmlTool'                                => 'Webdav/tools/xml.php',
 );

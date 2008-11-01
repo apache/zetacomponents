@@ -40,9 +40,13 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockRequestGenerator
 
     /**
      * Creates a new request generator.
+     *
+     * The $request is the LOCK requst object, which was sent by the client.
+     * The $activeLock part will be attached to the <lockdiscovery> property of
+     * every affected resource.
      * 
      * @param ezcWebdavLockRequest $request 
-     * @param string $lockToken 
+     * @param string $lockToken
      */
     public function __construct(
         ezcWebdavLockRequest $request,
@@ -50,7 +54,7 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockRequestGenerator
     )
     {
         $this->issuingRequest = $request;
-        $this->activeLock      = $activeLock;
+        $this->activeLock     = $activeLock;
     }
 
     /**

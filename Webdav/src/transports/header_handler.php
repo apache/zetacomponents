@@ -51,9 +51,6 @@ class ezcWebdavHeaderHandler
         'If-None-Match'        => array(
             'HTTP_IF_NONE_MATCH'
         ),
-        'Lock-Token'     => array(
-            'HTTP_LOCK_TOKEN',
-        ),
         'Overwrite'      => array(
             'HTTP_OVERWRITE',
         ),

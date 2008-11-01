@@ -43,7 +43,8 @@ class ezcWebdavLockTransport
      * @array(string=>string)
      */
     protected static $processingMap = array(
-        'ezcWebdavLockResponse' => 'processLockResponse',
+        'ezcWebdavLockResponse'   => 'processLockResponse',
+        'ezcWebdavUnlockResponse' => 'processUnlockResponse',
     );
 
 
@@ -223,10 +224,9 @@ class ezcWebdavLockTransport
     {
         $request = new ezcWebdavUnlockRequest( $path );
 
-        $request->setHeaders(
-            ezcWebdavServer::getInstance()->headerHandler->parseHeaders(
-                array( 'Lock-Token' )
-            )
+        $request->setHeader(
+            'Lock-Token',
+            $this->headerHandler->parseLockTokenHeader()
         );
 
         return $request;
@@ -261,6 +261,21 @@ class ezcWebdavLockTransport
             $response,
             $dom
         );
+    }
+
+    /**
+     * Processes a unlock response into a korresponding display information struct.
+     *
+     * The struct ist the processed by {@link
+     * ezcWebdavTransport::flattenResponse()} and send by {@link
+     * ezcWebdavTransport::sendResponse()}.
+     * 
+     * @param ezcWebdavUnlockResponse $response 
+     * @return ezcWebdavEmptyDisplayInformation
+     */
+    protected function processUnlockResponse( ezcWebdavUnlockResponse $response )
+    {
+        return new ezcWebdavEmptyDisplayInformation( $response );
     }
 }
 
