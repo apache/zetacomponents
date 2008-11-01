@@ -458,12 +458,10 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
                 array(
                     'Depth',
                     'Content-Type',
-                    'Lock-Token',
                 ),
                 array(
                     'Depth'        => ezcWebdavRequest::DEPTH_ONE,
                     'Content-Type' => 'text/plain; charset=utf-8',
-                    'Lock-Token'   => 'abc'
                 ),
             ),
             // Set 4
@@ -477,12 +475,10 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
                 array(
                     'Depth',
                     'Content-Type',
-                    'Lock-Token',
                 ),
                 array(
                     'Depth'        => ezcWebdavRequest::DEPTH_ONE,
                     'Content-Type' => 'text/plain; charset=utf-8',
-                    'Lock-Token'   => 'abc',
                     'If-Match'     => array( 'foo', 'bar', 'baz' ),
                 ),
             ),
@@ -498,12 +494,10 @@ class ezcWebdavHeaderHandlerTest extends ezcWebdavTestCase
                 array(
                     'Depth',
                     'Content-Type',
-                    'Lock-Token',
                 ),
                 array(
                     'Depth'        => ezcWebdavRequest::DEPTH_ONE,
                     'Content-Type' => 'text/plain; charset=utf-8',
-                    'Lock-Token'   => 'abc',
                 ),
             ),
             // Set 6
