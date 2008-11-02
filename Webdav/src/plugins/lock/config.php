@@ -22,7 +22,6 @@
  */
 class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
 {
-
     /**
      * Main object of the lock plugin. 
      * 
