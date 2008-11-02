@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavLockPropertyCollector class.
+ * File containing the ezcWebdavLockPathCollector class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -8,17 +8,17 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Collects properties found during lock checking.
+ * Collects paths found during lock checking.
  *
- * This lock check observer class collects the properties found (status 200)
- * during lock violation checks.
+ * This lock check observer class collects the paths found during lock
+ * violation checks.
  * 
  * @package Webdav
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavLockPropertyCollector implements ezcWebdavLockCheckObserver
+class ezcWebdavLockPathCollector implements ezcWebdavLockCheckObserver
 {
     /**
      * Collected properties.
