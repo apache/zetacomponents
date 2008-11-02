@@ -346,7 +346,7 @@ class ezcWebdavServer
      * @todo Mark protected as soon as API is final.
      * @access private
      */
-    public function isAuthorized( $authHeader, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
+    public function isAuthorized( $path, ezcWebdavAuth $authHeader = null, $access = ezcWebdavAuthorizer::ACCESS_READ )
     {
         $auth = $this->auth;
 

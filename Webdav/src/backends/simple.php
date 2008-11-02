@@ -234,7 +234,7 @@ abstract class ezcWebdavSimpleBackend
         $source = $request->requestUri;
 
         // Check authorization
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $source ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $source, $request->getHeader( 'Authorization' ) ) )
         {
             return $this->createUnauthorizedResponse(
                 $source,
@@ -304,7 +304,7 @@ abstract class ezcWebdavSimpleBackend
         $source = $request->requestUri;
 
         // Check authorization
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $source ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $source, $request->getHeader( 'Authorization' ) ) )
         {
             return $this->createUnauthorizedResponse(
                 $source,
@@ -453,7 +453,7 @@ abstract class ezcWebdavSimpleBackend
                 }
 
                 // Check authorization
-                if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $nodePath ) )
+                if ( !ezcWebdavServer::getInstance()->isAuthorized( $nodePath, $request->getHeader( 'Authorization' ) ) )
                 {
                     $authorized          = false;
                     $unauthorizedPaths[] = $nodePath;
@@ -548,7 +548,7 @@ abstract class ezcWebdavSimpleBackend
                 }
 
                 // Check authorization
-                if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $nodePath ) )
+                if ( !ezcWebdavServer::getInstance()->isAuthorized( $nodePath, $request->getHeader( 'Authorization' ) ) )
                 {
                     $unauthorizedPaths[] = $nodePath;
                     // Silently exclude unauthorized properties.
@@ -633,7 +633,7 @@ abstract class ezcWebdavSimpleBackend
                 $nodePath = $node->path;
 
                 // Check authorization
-                if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $nodePath ) )
+                if ( !ezcWebdavServer::getInstance()->isAuthorized( $nodePath, $request->getHeader( 'Authorization' ) ) )
                 {
                     $responses[] = $this->createUnauthorizedResponse(
                         $nodePath,
@@ -678,7 +678,7 @@ abstract class ezcWebdavSimpleBackend
     {
         $source = $request->requestUri;
 
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $source ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $source, $request->getHeader( 'Authorization' ) ) )
         {
             // Globally issue a 401, if the user does not have access to the
             // requested resource itself.
@@ -752,7 +752,7 @@ abstract class ezcWebdavSimpleBackend
         // Check authorization
         // Need to do this before checking of node existence is checked, to
         // avoid leaking information
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $source, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $source, $request->getHeader( 'Authorization' ), ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
             return $this->createUnauthorizedResponse(
                 $source,
@@ -901,7 +901,7 @@ abstract class ezcWebdavSimpleBackend
         // Check authorization
         // Need to do this before checking of node existence is checked, to
         // avoid leaking information
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $source, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $source, $request->getHeader( 'Authorization' ), ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
             return $this->createUnauthorizedResponse(
                 $source,
@@ -1053,14 +1053,14 @@ abstract class ezcWebdavSimpleBackend
         // Check authorization
         // Need to do this before checking of node existence is checked, to
         // avoid leaking information 
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $source ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $source, $request->getHeader( 'Authorization' ) ) )
         {
             return $this->createUnauthorizedResponse(
                 $source,
                 $request->getHeader( 'Authorization' )
             );
         }
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $dest, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $dest, $request->getHeader( 'Authorization' ), ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
             return $this->createUnauthorizedResponse(
                 $dest,
@@ -1236,7 +1236,7 @@ abstract class ezcWebdavSimpleBackend
             // Source permission denied
             return $authState['errors'][0];
         }
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $dest, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $dest, $request->getHeader( 'Authorization' ), ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
             return $this->createUnauthorizedResponse(
                 $dest,
@@ -1391,7 +1391,7 @@ abstract class ezcWebdavSimpleBackend
         // Check authorization
         // Need to do this before checking of node existence is checked, to
         // avoid leaking information
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $collection, ezcWebdavAuthorizer::ACCESS_WRITE ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $collection, $request->getHeader( 'Authorization' ), ezcWebdavAuthorizer::ACCESS_WRITE ) )
         {
             return $this->createUnauthorizedResponse(
                 $collection,
@@ -1459,7 +1459,7 @@ abstract class ezcWebdavSimpleBackend
     public function options( ezcWebdavOptionsRequest $request )
     {
         // Check authorization
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $request->requestUri ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->requestUri, $request->getHeader( 'Authorization' ) ) )
         {
             return $this->createUnauthorizedResponse(
                 $request->requestUri,
@@ -1713,7 +1713,7 @@ abstract class ezcWebdavSimpleBackend
         );
 
         // Check auth for collections and resources equally
-        if ( !ezcWebdavServer::getInstance()->isAuthorized( $request->getHeader( 'Authorization' ), $path, $access ) )
+        if ( !ezcWebdavServer::getInstance()->isAuthorized( $path, $request->getHeader( 'Authorization' ), $access ) )
         {
             $result['errors'][] = $this->createUnauthorizedResponse(
                 $path,
