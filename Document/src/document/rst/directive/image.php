@@ -70,7 +70,31 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
      */
     protected function toXhtmlObject( DOMDocument $document, DOMElement $root )
     {
-        // @TODO: Implement.
+        $image = $document->createElement( 'object' );
+        $image->setAttribute( 'data', $file = trim( $this->node->parameters ) );
+        $root->appendChild( $image );
+
+        // Handle optional settings on images
+        $settings = array(
+            'alt'    => 'title',
+            'width'  => 'width',
+            'height' => 'height',
+            'align'  => 'class',
+        );
+
+        foreach ( $settings as $option => $attribute )
+        {
+            if ( isset( $this->node->options[$option] ) )
+            {
+                $image->setAttribute( $attribute, htmlspecialchars( trim( $this->node->options[$option] ) ) );
+            }
+        }
+
+        // Also set contained text to alternative text, if provided.
+        if ( isset( $this->node->options['alt'] ) )
+        {
+            $image->appendChild( new DOMText( $this->node->options['alt'] ) );
+        }
     }
 
     /**
