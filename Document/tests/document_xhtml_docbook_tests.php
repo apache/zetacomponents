@@ -29,6 +29,28 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    public function testCreateFromDocbook()
+    {
+        $from = dirname( __FILE__ ) . '/files/docbook/xhtml/s_001_empty.xml';
+        $to   = dirname( __FILE__ ) . '/files/docbook/xhtml/s_001_empty.html';
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( $from );
+
+        $document = new ezcDocumentXhtml();
+        $document->createFromDocbook( $docbook );
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'docbook_xhtml_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml = $document->save() );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+    }
+
     public static function getRstTestDocuments()
     {
         if ( self::$rstTestDocuments === null )

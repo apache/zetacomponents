@@ -226,7 +226,9 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
-        // @TODO: Implement
+        $converter = new ezcDocumentDocbookToHtmlConverter();
+        $doc = $converter->convert( $document );
+        $this->document = $doc->getDomDocument();
     }
 
     /**

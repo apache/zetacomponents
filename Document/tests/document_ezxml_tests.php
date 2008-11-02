@@ -72,6 +72,28 @@ class ezcDocumentEzXmlTests extends ezcTestCase
         }
     }
 
+    public function testCreateFromDocbook()
+    {
+        $from = dirname( __FILE__ ) . '/files/docbook/ezxml/s_001_empty.xml';
+        $to   = dirname( __FILE__ ) . '/files/docbook/ezxml/s_001_empty.ezp';
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( $from );
+
+        $document = new ezcDocumentEzXml();
+        $document->createFromDocbook( $docbook );
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'docbook_ezxml_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml = $document->save() );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+    }
+
     public static function getEzXmlTestDocuments()
     {
         if ( self::$testDocuments === null )
