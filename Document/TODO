@@ -1,8 +1,9 @@
 TODO
 ====
 
-- Write ReST files back from docbook
-- eZ Publish formats needs checking
-  - stuff by Kirill, needs testcase.
-- Evaluate different wiki syntaxes, pick multiple, but still in a generic parser.
+- Option class error checking
+- Test public API for all format conversions (esp. eZXml, Html)
+- Handle embeds and objects properly in eZXml
+- Find or create a proper schema for docbook documents, or just the subset we
+  are using.
 
