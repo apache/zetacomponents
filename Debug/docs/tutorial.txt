@@ -18,7 +18,7 @@ EventLog component. However, there is one major distinction: messages written
 with the EventLog component are intended to be written to a storage element
 (such as a log file or database). Messages written with the Debug component are
 usually directly formatted and displayed. Note that the Debug::log() method has
-a slightly different signature than the EventLog::log() method. 
+a slightly different signature than the EventLog::log() method.
 
 Timing information is captured by starting and stopping timers using the public
 methods from ezcDebug. The timing information is stored in a structure with raw
@@ -46,14 +46,14 @@ ezcDebugOptions
 ezcDebugOutputFormatter
   ezcDebugOutputFormatter provides an interface for the debug output
   format. New implementations can format the raw log messages and timing
-  information to any output format. 
+  information to any output format.
 
 ezcDebugHtmlFormatter
   ezcDebugHtmlFormatter is an implementation of the ezcDebugOutputFormatter
   interface. This formatter reads the raw log and timing information and
   returns it as an HTML string. This string can be output directly
-  to an HTML page. 
-  
+  to an HTML page.
+
 See the API documentation for more information.
 
 
@@ -64,27 +64,27 @@ Writing a log message to file
 -----------------------------
 
 The following script writes a message to the Debug component. At the end of the
-script, the log message is formatted and printed. 
+script, the log message is formatted and printed.
 
 .. include:: tutorial_log_message.php
    :literal:
 
 Writing log messages is almost the same as writing them to the EventLog
 component. As a matter of fact, the EventLog component is internally used by
-Debug. 
+Debug.
 
 Further information about writing log messages can be found in the EventLog
-component. 
+component.
 
 Timers
 ------
 
 The timers from ezcDebug can be used for two purposes:
 
-- Timers measure the time between two points in the program. 
+- Timers measure the time between two points in the program.
 - Accumulators get the current time after a certain point (for example after
   starting the script).
- 
+
 Both methods are executed with ezcDebug::startTimer(), ezcDebug::stopTimer()
 and ezcDebug::switchTimer(). The next script demonstrates the usage of these
 methods:
@@ -111,7 +111,7 @@ Recursive timers
 
 You can also time repeating code blocks. For example, you can measure the time a
 PHP statement takes in a loop. The Debug timer will calculate the average time
-of the repeating statement and display it in the debug summary. See the next 
+of the repeating statement and display it in the debug summary. See the next
 example:
 
 .. include:: tutorial_recursive_timers.php
@@ -165,7 +165,7 @@ $stackTraceMaxDepth
 2) Local stack trace switch
 ```````````````````````````
 
-If stack traces are not desired with every lock message, it is also possible to
+If stack traces are not desired with every log message, it is also possible to
 activate them when the log message is issued:
 
 .. include:: tutorial_local_stacktrace.php
@@ -176,5 +176,5 @@ activate them when the log message is issued:
    Local Variables:
    mode: rst
    fill-column: 79
-   End: 
+   End:
    vim: et syn=rst tw=79
