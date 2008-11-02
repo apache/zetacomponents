@@ -1460,13 +1460,20 @@ class ezcDocumentRstParser extends ezcDocumentParser
     {
         // This pattern matches upper and lowercase roman numbers up 4999,
         // normal integers to any limit and alphabetic chracters.
-        $enumeratedListPattern = '(^(?:m{0,4}d?c{0,3}l?x{0,3}v{0,3}i{0,3}v?x?l?c?d?m?|M{0,4}D?C{0,3}L?X{0,3}V{0,3}I{0,3}V?X?L?C?D?M?|[1-9]+[0-9]*|[a-z]|[A-Z])$)';
+        $enumeratedListPattern = '(^(?:(m{0,4}d?c{0,3}l?x{0,3}v{0,3}i{0,3}v?x?l?c?d?m?)|(M{0,4}D?C{0,3}L?X{0,3}V{0,3}I{0,3}V?X?L?C?D?M?)|([1-9]+[0-9]*)|([a-z])|([A-Z]))$)';
+        $matchOrderType = array(
+            1 => ezcDocumentRstEnumeratedListNode::LOWER_ROMAN,
+            2 => ezcDocumentRstEnumeratedListNode::UPPER_ROMAN,
+            3 => ezcDocumentRstEnumeratedListNode::NUMERIC,
+            4 => ezcDocumentRstEnumeratedListNode::LOWERCASE,
+            5 => ezcDocumentRstEnumeratedListNode::UPPERCASE,
+        );
 
         // Create enumerated list from list items surrounded by parantheses
         if ( ( $tokens[0]->content === '(' ) &&
              isset( $tokens[1] ) &&
              ( ( ( $tokens[1]->type === ezcDocumentRstToken::TEXT_LINE ) &&
-                 ( preg_match( $enumeratedListPattern, $tokens[1]->content ) ) ) ||
+                 ( preg_match( $enumeratedListPattern, $tokens[1]->content, $match ) ) ) ||
                ( ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                  ( $tokens[1]->content === '#' ) ) ) &&
              isset( $tokens[2] ) &&
@@ -1479,13 +1486,21 @@ class ezcDocumentRstParser extends ezcDocumentParser
             /* DEBUG
             echo "   -> Found full framed enumeration list item.\n";
             // /DEBUG */
+            foreach ( $matchOrderType as $number => $type )
+            {
+                if ( !empty( $match[$number] ) )
+                {
+                    return $type;
+                }
+            }
+
             return true;
         }
 
         // Create enumerated list from list items followed by a parantheses or
         // a dot
         if ( ( ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) &&
-                 ( preg_match( $enumeratedListPattern, $tokens[0]->content ) ) ) ||
+                 ( preg_match( $enumeratedListPattern, $tokens[0]->content, $match ) ) ) ||
                ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                  ( $tokens[0]->content === '#' ) ) ) &&
              isset( $tokens[1] ) &&
@@ -1499,6 +1514,14 @@ class ezcDocumentRstParser extends ezcDocumentParser
             /* DEBUG
             echo "   -> Found half framed enumeration list item.\n";
             // /DEBUG */
+            foreach ( $matchOrderType as $number => $type )
+            {
+                if ( !empty( $match[$number] ) )
+                {
+                    return $type;
+                }
+            }
+
             return true;
         }
 
@@ -1531,10 +1554,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return false;
         }
 
-        if ( !$this->isEnumeratedList( array_merge( 
+        if ( !( $listType = $this->isEnumeratedList( array_merge( 
                 array( $token ),
                 $tokens
-             ) ) )
+             ) ) ) )
         {
             return false;
         }
@@ -1578,6 +1601,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $node = new ezcDocumentRstEnumeratedListNode( $text );
         $node->text        = $content . $text->content . $char->content . $whitespace->content;
         $node->indentation = $this->indentation;
+        $node->listType    = $listType;
         return $node;
     }
 

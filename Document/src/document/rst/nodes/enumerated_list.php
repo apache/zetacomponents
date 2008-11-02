@@ -20,15 +20,15 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstBlockNode
 {
     /**
      * Enumerated list type, should be one of the following:
-     *  - 0: Numeric
-     *  - 1: Uppercase
-     *  - 2: Lowercase
-     *  - 3: Uppercase roman
-     *  - 4: Lowercase roman
+     *  - 1: Numeric
+     *  - 2: Uppercase
+     *  - 3: Lowercase
+     *  - 4: Uppercase roman
+     *  - 5: Lowercase roman
      * 
      * @var int
      */
-    public $type;
+    public $listType = 0;
 
     /**
      * Storage for complete textual representation of the enunmeration list
@@ -63,6 +63,31 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstBlockNode
     }
 
     /**
+     * Numeric enumeration list type
+     */
+    const NUMERIC = 1;
+
+    /**
+     * Uppercase alphanumeric enumeration list type
+     */
+    const UPPERCASE = 2;
+
+    /**
+     * Lowercase alphanumeric enumeration list type
+     */
+    const LOWERCASE = 3;
+
+    /**
+     * Uppercase roman enumeration list type
+     */
+    const UPPER_ROMAN = 4;
+
+    /**
+     * Lowercase roman enumeration list type
+     */
+    const LOWER_ROMAN = 5;
+
+    /**
      * Set state after var_export
      * 
      * @param array $properties 
@@ -79,6 +104,7 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstBlockNode
         $node->nodes       = $properties['nodes'];
         $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
         $node->text        = isset( $properties['text'] ) ? $properties['text'] : '';
+        $node->listType    = isset( $properties['listType'] ) ? $properties['listType'] : false;
         return $node;
     }
 }

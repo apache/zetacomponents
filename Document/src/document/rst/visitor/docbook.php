@@ -452,28 +452,18 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
     {
         $list = $this->document->createElement( 'orderedlist' );
 
+        $enumerationTypeMapping = array(
+            ezcDocumentRstEnumeratedListNode::NUMERIC     => 'arabic',
+            ezcDocumentRstEnumeratedListNode::LOWER_ROMAN => 'lowerroman',
+            ezcDocumentRstEnumeratedListNode::UPPER_ROMAN => 'upperroman',
+            ezcDocumentRstEnumeratedListNode::LOWERCASE   => 'loweralpha',
+            ezcDocumentRstEnumeratedListNode::UPPERCASE   => 'upperalpha',
+        );
+
         // Detect enumeration type
-        switch ( true )
+        if ( isset( $enumerationTypeMapping[$node->nodes[0]->listType] ) )
         {
-            case is_numeric( $node->token->content ):
-                $list->setAttribute( 'numeration', 'arabic' );
-                break;
-
-            case preg_match( '(^m{0,4}d?c{0,3}l?x{0,3}v{0,3}i{0,3}v?x?l?c?d?m?$)', $node->token->content ):
-                $list->setAttribute( 'numeration', 'lowerroman' );
-                break;
-
-            case preg_match( '(^M{0,4}D?C{0,3}L?X{0,3}V{0,3}I{0,3}V?X?L?C?D?M?$)', $node->token->content ):
-                $list->setAttribute( 'numeration', 'upperroman' );
-                break;
-
-            case preg_match( '(^[a-z]$)', $node->token->content ):
-                $list->setAttribute( 'numeration', 'loweralpha' );
-                break;
-
-            case preg_match( '(^[A-Z]$)', $node->token->content ):
-                $list->setAttribute( 'numeration', 'upperalpha' );
-                break;
+            $list->setAttribute( 'numeration', $enumerationTypeMapping[$node->nodes[0]->listType] );
         }
 
         $root->appendChild( $list );

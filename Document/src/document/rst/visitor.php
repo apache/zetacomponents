@@ -290,7 +290,7 @@ abstract class ezcDocumentRstVisitor
      * @param ezcDocumentRstToken $lastItem 
      * @return bool
      */
-    protected function compareListType( ezcDocumentRstNode $item, ezcDocumentRstToken $lastItem )
+    protected function compareListType( ezcDocumentRstNode $item, ezcDocumentRstNode $lastItem )
     {
         // Those always belong to each other... .oO( ♡ )
         if ( $item instanceof ezcDocumentRstDefinitionListNode )
@@ -301,12 +301,16 @@ abstract class ezcDocumentRstVisitor
         // For bullet lists, just compare the tokens
         if ( $item instanceof ezcDocumentRstBulletListNode )
         {
-            return ( $item->token->content === $lastItem->content );
+            return ( $item->token->content === $lastItem->token->content );
         }
 
         // For enumerated lists, we need to check if the current value is a
         // valid successor of the prior value.
-        // @TODO: Implement.
+        if ( $item instanceof ezcDocumentRstEnumeratedListNode )
+        {
+            return ( $item->listType === $lastItem->listType );
+        }
+
         return true;
     }
 
@@ -343,14 +347,14 @@ abstract class ezcDocumentRstVisitor
                     $listType = $listTypeMapping[$class];
                     $list = new $listType( $child->token );
                     $list->nodes[] = $child;
-                    $children[] = $list;
+                    $children[]    = $list;
                 }
                 else
                 {
                     // Append to current list
                     $list->nodes[] = $child;
                 }
-                $lastItem = $child->token;
+                $lastItem = $child;
             }
             else
             {

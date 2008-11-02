@@ -135,11 +135,12 @@ return ezcDocumentRstDocumentNode::__set_state(array(
           array (
             0 => 
             ezcDocumentRstEnumeratedListNode::__set_state(array(
-               'type' => 21,
+               'listType' => 3,
                'text' => '1. ',
                'indentation' => 3,
                'line' => 8,
                'position' => 1,
+               'type' => 21,
                'nodes' => 
               array (
                 0 => 

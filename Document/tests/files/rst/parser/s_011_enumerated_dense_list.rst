@@ -110,11 +110,12 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         1 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'type' => 21,
+           'listType' => 3,
            'text' => '1) ',
            'indentation' => 3,
            'line' => 6,
            'position' => 1,
+           'type' => 21,
            'nodes' => 
           array (
             0 => 
@@ -157,11 +158,12 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             1 => 
             ezcDocumentRstEnumeratedListNode::__set_state(array(
-               'type' => 21,
+               'listType' => 2,
                'text' => 'a) ',
                'indentation' => 6,
                'line' => 7,
                'position' => 4,
+               'type' => 21,
                'nodes' => 
               array (
                 0 => 
@@ -226,11 +228,12 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         2 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'type' => 21,
+           'listType' => 3,
            'text' => '2) ',
            'indentation' => 3,
            'line' => 8,
            'position' => 1,
+           'type' => 21,
            'nodes' => 
           array (
             0 => 
@@ -284,21 +287,23 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         3 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'type' => 21,
+           'listType' => 3,
            'text' => '3)
 ',
            'indentation' => 3,
            'line' => 9,
            'position' => 1,
+           'type' => 21,
            'nodes' => 
           array (
             0 => 
             ezcDocumentRstEnumeratedListNode::__set_state(array(
-               'type' => 21,
+               'listType' => 2,
                'text' => 'a) ',
                'indentation' => 6,
                'line' => 10,
                'position' => 4,
+               'type' => 21,
                'nodes' => 
               array (
                 0 => 
@@ -352,11 +357,12 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             1 => 
             ezcDocumentRstEnumeratedListNode::__set_state(array(
-               'type' => 21,
+               'listType' => 2,
                'text' => 'b) ',
                'indentation' => 6,
                'line' => 11,
                'position' => 4,
+               'type' => 21,
                'nodes' => 
               array (
                 0 => 

@@ -23,6 +23,8 @@
           <listitem>
             <para>Item 1b.</para>
           </listitem>
+        </orderedlist>
+        <orderedlist numeration="lowerroman">
           <listitem>
             <orderedlist numeration="loweralpha">
               <listitem>
