@@ -4,20 +4,14 @@ TODO
 Prio 1
 ------
 
-- PROPFIND, COPY, MOVE and DELETE requests can perform recursive operations in
-  the backend. How can we handle these?
-- The current authentication implementation does only offer Basic auth, while
-  Digest auth is highly recommendet. How can we add this properly to the
-  ezcWebdavAuth interface?
 - In certain cases (e.g. eZ Publish integration) the lock plugin must offer a
   public API to its locks. How should we handle this?
+- The lock plugin does not lock/unlock the backend, yet.
+- Lock purging must be done using an API (shell script).
+- Update plugin registry to only have 1 before and 1 after request. Fits!
 
 Prio 2
 ------
-
-- URL encoding, UTF-8 and other charsets?
-
-  - Tested on Linux. Tests for Windows still needed.
 
 - Windows' case-insensitivity with filenames must be checked!
   
@@ -34,12 +28,6 @@ Prio 3
 
 - Client initial request to deeper URLs for IE?
 
-
-- Some DAV clients request locks exactly after the time they requested the lock
-  to last. If the request now takes too much time, it may result in an error,
-  since the lock is already gone.
-
-  - We should add a certain amount of time before purging.
 
 Inline todos
 ============

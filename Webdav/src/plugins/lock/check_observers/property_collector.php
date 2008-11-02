@@ -68,7 +68,7 @@ class ezcWebdavLockCheckPropertyCollector implements ezcWebdavLockCheckObserver
      * Returns collected properties for $path.
      * 
      * @param string $path 
-     * @return ezcWebdavBasicPropertyStorare
+     * @return ezcWebdavBasicPropertyStorage
      */
     public function getProperties( $path )
     {
@@ -76,7 +76,7 @@ class ezcWebdavLockCheckPropertyCollector implements ezcWebdavLockCheckObserver
         {
             return $this->properties[$path];
         }
-        return new ezcWebdavBasicPropertyStorare();
+        return new ezcWebdavBasicPropertyStorage();
     }
 }
 

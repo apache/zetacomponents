@@ -231,6 +231,31 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
     }
 
     /**
+     * Sends the generated requests and performs the lock refresh.
+     *
+     * Returns an error response, if an error occurs.
+     * 
+     * @return ezcWebdavErrorResponse|null
+     */
+    public function sendRequests()
+    {
+        $backend = ezcWebdavServer::getInstance()->backend;
+        
+        $reqs = $this->getRequests();
+
+        foreach ( $reqs as $propPatch )
+        {
+            $propPatch->validateHeaders();
+            $res = $backend->propPatch( $propPatch );
+            if ( !( $res instanceof ezcWebdavPropPatchResponse ) )
+            {
+                return $res;
+            }
+        }
+        // return null;
+    }
+
+    /**
      * Fetches a lock base at a given $path.
      *
      * This method fetches a lock base, in case we need to refresh a lock, of
@@ -289,6 +314,10 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
                     ezcWebdavPropPatchRequest::SET
                 );
             }
+            $propPatch->setHeader(
+                'Authorization',
+                $this->request->getHeader( 'Authorization' )
+            );
             $requests[] = $propPatch;
         }
         return $requests;

@@ -24,11 +24,9 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             case '004_lockdiscovery':
                 $customPathFactory = self::getSetup4( $test );
                 break;
-            /*
             case '005_move_collection_locked':
                 $customPathFactory = self::getSetup5( $test );
                 break;
-            */
 
             case '009_unlock':
                 $customPathFactory = self::getSetup9( $test );
@@ -147,10 +145,11 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
 
         $test->backend->addContents(
             array(
+                'othercontainer' => array(
+                    'C2' => array(),
+                ),
                 'container' => array(
                 ),
-                'othercontainer' => array(
-                )
             )
         );
         $test->backend->setProperty(
@@ -167,9 +166,94 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                             ),
                             40,
                             new ezcWebdavPotentialUriContent(
-                                'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76',
+                                'opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4',
                                 true
                             )
+                        ),
+                    )
+                )
+            )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavLockInfoProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockTokenInfo(
+                            'opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4',
+                            null,
+                            new DateTime()
+                        ),
+                    )
+                )
+            )
+        );
+        $test->backend->setProperty(
+            '/othercontainer',
+            new ezcWebdavLockDiscoveryProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockDiscoveryPropertyActiveLock(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
+                            ezcWebdavRequest::DEPTH_ZERO,
+                            new ezcWebdavPotentialUriContent(
+                                'Jane Smith'
+                            ),
+                            40,
+                            new ezcWebdavPotentialUriContent(
+                                'opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77',
+                                true
+                            )
+                        ),
+                    )
+                )
+            )
+        );
+        $test->backend->setProperty(
+            '/othercontainer',
+            new ezcWebdavLockInfoProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockTokenInfo(
+                            'opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77',
+                            null,
+                            new DateTime()
+                        ),
+                    )
+                )
+            )
+        );
+        $test->backend->setProperty(
+            '/othercontainer/C2',
+            new ezcWebdavLockDiscoveryProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockDiscoveryPropertyActiveLock(
+                            ezcWebdavLockRequest::TYPE_WRITE,
+                            ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
+                            ezcWebdavRequest::DEPTH_INFINITY,
+                            new ezcWebdavPotentialUriContent(
+                                'Someone else'
+                            ),
+                            40,
+                            new ezcWebdavPotentialUriContent(
+                                'some lock token'
+                            )
+                        ),
+                    )
+                )
+            )
+        );
+        $test->backend->setProperty(
+            '/othercontainer/C2',
+            new ezcWebdavLockInfoProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockTokenInfo(
+                            'some lock token',
+                            null,
+                            new DateTime()
                         ),
                     )
                 )
