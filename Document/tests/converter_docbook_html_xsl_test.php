@@ -61,6 +61,33 @@ class ezcDocumentConverterDocbookToHtmlXsltTests extends ezcTestCase
         { /* Expected */ }
     }
 
+    public function testConversionFailure()
+    {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'xsl' ) )
+        {
+            $this->markTestSkipped( 'You need XSLT support for this test.' );
+        }
+
+        try
+        {
+            $doc = new ezcDocumentDocbook();
+            $doc->loadFile( dirname( __FILE__ ) . '/files/docbook/xhtml_xslt/s_001_empty.xml' );
+
+            $converter = new ezcDocumentDocbookToHtmlXsltConverter();
+            $converter->options->failOnError = true;
+            $converter->convert( $doc );
+
+            $this->fail( 'Expected ezcDocumentErrnousXmlException.' );
+        }
+        catch ( ezcDocumentErrnousXmlException $e )
+        {
+            $this->assertTrue( 
+                count( $e->getXmlErrors() ) > 0,
+                'Expected some conversion errors / notices.'
+            );
+        }
+    }
+
     /**
      * @dataProvider getTestDocuments
      */

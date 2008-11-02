@@ -19,6 +19,9 @@
  *           given as array, with the structure array( 'namespace' => array(
  *           'option' => 'value' ) ), where namespace may also be an empty
  *           string.
+ * @property boolean $failOnError
+ *           Boolean indicator if the conversion should be aborted, when errors
+ *           occurs with an exception, or if the errors just should be ignored.
  *
  * @package Document
  * @version //autogen//
@@ -45,6 +48,8 @@ class ezcDocumentXsltConverterOptions extends ezcDocumentConverterOptions
         {
             $this->parameters = array();
         }
+
+        $this->properties['failOnError'] = false;
 
         parent::__construct( $options );
     }
@@ -76,6 +81,15 @@ class ezcDocumentXsltConverterOptions extends ezcDocumentConverterOptions
 
                 $this->properties[$name] = $value;
                 break;
+
+            case 'failOnError':
+                if ( !is_bool( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'boolean' );
+                }
+
+                $this->properties[$name] = (bool) $value;
+                break; 
 
             default:
                 parent::__set( $name, $value );

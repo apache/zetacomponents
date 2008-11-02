@@ -82,8 +82,19 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
         // Transform input document
         $dom = $this->xsltProcessor->transformToDoc( $doc->getDomDocument() );
 
-        // @TODO: Handle the ocured errors somehow.
+        $errors = ( $this->options->failOnError ?
+            libxml_get_errors() :
+            null );
+
+        libxml_clear_errors();
         libxml_use_internal_errors( $oldErrorHandling );
+
+        // If there are errors and the error handling is activated throw an
+        // exception with the occured errors.
+        if ( $errors )
+        {
+            throw new ezcDocumentErrnousXmlException( $errors );
+        }
 
         // Reset parameters, so they are not automatically applied to the next
         // traansformation.
