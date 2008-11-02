@@ -37,11 +37,6 @@ class ezcDocumentEzXmlToDocbookListHandler extends ezcDocumentElementVisitorHand
         $element = $root->ownerDocument->createElement( $node->tagName === 'ul' ? 'itemizedlist' : 'orderedlist' );
         $root->parentNode->appendChild( $element );
 
-        if ( $node->hasAttribute( 'anchor_name' ) )
-        {
-            $element->setAttribute( 'id', $node->getAttribute( 'anchor_name' ) );
-        }
-
         // If there are any siblings, put them into a new paragraph node,
         // "below" the list node.
         if ( $node->nextSibling )
