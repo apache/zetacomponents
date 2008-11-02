@@ -72,7 +72,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
       array (
         0 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'listType' => 3,
+           'listType' => 1,
            'text' => '1.  ',
            'indentation' => 4,
            'line' => 4,
@@ -131,7 +131,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         1 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'listType' => 3,
+           'listType' => 1,
            'text' => '2.  ',
            'indentation' => 4,
            'line' => 6,
@@ -190,7 +190,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         2 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'listType' => 3,
+           'listType' => 1,
            'text' => '3.  ',
            'indentation' => 4,
            'line' => 9,
@@ -363,7 +363,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         )),
         3 => 
         ezcDocumentRstEnumeratedListNode::__set_state(array(
-           'listType' => 3,
+           'listType' => 1,
            'text' => '4. ',
            'indentation' => 3,
            'line' => 15,
