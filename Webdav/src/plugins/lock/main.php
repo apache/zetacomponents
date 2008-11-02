@@ -850,25 +850,6 @@ class ezcWebdavLockPlugin
         $ifHeader    = $request->getHeader( 'If' );
         $authHeader  = $request->getHeader( 'Authorization' );
 
-        // Check for lock null resource
-
-        if ( $this->isLockNullResource(
-                new ezcWebdavLockCheckInfo(
-                    $destination,
-                    ezcWebdavRequest::DEPTH_ZERO,
-                    $ifHeader,
-                    $authHeader,
-                    ezcWebdavAuthorizer::ACCESS_READ
-                )
-             )
-           )
-        {
-            return new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_405,
-                'Cannot move to a null resource'
-            );
-        }
-
         // Check violations and collect info for response handling
 
         $sourcePathCollector = new ezcWebdavLockCheckPathCollector();
@@ -881,7 +862,7 @@ class ezcWebdavLockPlugin
         $multiObserver->attach( $destinationPropertyCollector );
         $multiObserver->attach( $destinationLockRefresher );
 
-        $violation = $this->checkViolations(
+        $violations = $this->checkViolations(
             array(
                 // Source
                 new ezcWebdavLockCheckInfo(
@@ -890,7 +871,8 @@ class ezcWebdavLockPlugin
                     $ifHeader,
                     $authHeader,
                     ezcWebdavAuthorizer::ACCESS_WRITE,
-                    $sourcePathCollector
+                    $sourcePathCollector,
+                    false // No lock-null allowed
                 ),
                 // Destination (maybe overwritten, maybe not, but we must not
                 // care)
@@ -899,7 +881,9 @@ class ezcWebdavLockPlugin
                     ezcWebdavRequest::DEPTH_INFINITY,
                     $ifHeader,
                     $authHeader,
-                    ezcWebdavAuthorizer::ACCESS_WRITE
+                    ezcWebdavAuthorizer::ACCESS_WRITE,
+                    null,
+                    false // No lock-null allowed
                 ),
                 // Destination parent dir
                 // We also get the lock property from here and refresh the
@@ -910,16 +894,17 @@ class ezcWebdavLockPlugin
                     $ifHeader,
                     $authHeader,
                     ezcWebdavAuthorizer::ACCESS_WRITE,
-                    $multiObserver
+                    $multiObserver,
+                    false // No lock-null allowed
                 ),
             ),
             // Return on first violation
             true
         );
 
-        if ( $violation !== null )
+        if ( $violations !== null )
         {
-            return $violation;
+            return new ezcWebdavMultistatusResponse( $violations );
         }
 
         // Perform lock refresh (most occur no matter if request succeeds)
@@ -1095,26 +1080,28 @@ class ezcWebdavLockPlugin
                         'Authorization failed.'
                     );
 
+
+                    $violations[] = $unauthorizedRes;
+
                     // Return instead of collect violations
                     if ( $returnOnViolation )
                     {
-                        return $unauthorizedRes;
+                        return $violations;
                     }
 
-                    $violations[] = $unauthorizedRes;
                     // No need for further checks on this path, if authorization failed
                     continue;
                 }
 
                 if ( ( $res = $this->checkEtagsAndLocks( $propFindRes, $checkInfo ) ) !== null )
                 {
+                    $violations[] = $res;
+
                     // Return instead of collect violations
                     if ( $returnOnViolation )
                     {
-                        return $res;
+                        return $violations;
                     }
-
-                    $violations[] = $res;
                 }
 
                 // Notify request generator on affected ressource
@@ -1313,10 +1300,21 @@ class ezcWebdavLockPlugin
             // 200 OK status response, everything else is uninteressting
             if ( $propStatRes->status === ezcWebdavResponse::STATUS_200 )
             {
-                $storage = $propStatRes->storage;
-                $lockDiscoveryProp = ( $storage->contains( 'lockdiscovery' ) ? $storage->get( 'lockdiscovery' ) : null );
-                $getEtagProp = ( $storage->contains( 'getetag' ) ? $storage->get( 'getetag' ) : null );
+                $storage           = $propStatRes->storage;
+                $lockDiscoveryProp = $storage->get( 'lockdiscovery' );
+                $getEtagProp       = $storage->get( 'getetag' );
+                $lockInfoProp      = $storage->get( 'lockinfo', self::XML_NAMESPACE );
             }
+        }
+
+        if ( $lockInfoProp !== null && $lockInfoProp->null && !$checkInfo->lockNullMayOccur )
+        {
+            // Found a lock null resource while must not occur
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_405,
+                $path,
+                'Operation not possible on lock-null resource.'
+            );
         }
 
         // Extract If header items relevant for the given $request
@@ -1329,12 +1327,10 @@ class ezcWebdavLockPlugin
             if ( $lockDiscoveryProp !== null && count( $lockDiscoveryProp->acquireLock ) > 0 )
             {
                 // Found lock, operation not permitted
-                return new ezcWebdavMultistatusResponse(
-                    new ezcWebdavErrorResponse(
-                        ezcWebdavResponse::STATUS_423,
-                        $path,
-                        "Resource locked exclusively by '{$activeLock->owner}'."
-                    )
+                return new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_423,
+                    $path,
+                    "Resource locked exclusively by '{$activeLock->owner}'."
                 );
             }
 
@@ -1392,22 +1388,18 @@ class ezcWebdavLockPlugin
 
         if ( !$lockVerified )
         {
-            return new ezcWebdavMultistatusResponse(
-                new ezcWebdavErrorResponse(
-                    ezcWebdavResponse::STATUS_423,
-                    $path
-                )
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_423,
+                $path
             );
         }
 
         if ( !$etagVerified )
         {
-            return new ezcWebdavMultistatusResponse(
-                new ezcWebdavErrorResponse(
-                    ezcWebdavResponse::STATUS_409,
-                    $path,
-                    'ETag validation failed.'
-                )
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_409,
+                $path,
+                'ETag validation failed.'
             );
         }
 

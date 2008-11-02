@@ -64,6 +64,13 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
     public $requestGenerator;
 
     /**
+     * If a lock-null resource may occur while checking. 
+     * 
+     * @var bool
+     */
+    public $lockNullMayOccur;
+
+    /**
      * Creates a new lock info struct.
      *
      * @param string $path
@@ -74,12 +81,13 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
      * @param ezcWebdavLockCheckObserver $requestGenerator
      */
     public function __construct(
-        $path                                           = '',
-        $depth                                          = ezcWebdavRequest::DEPTH_INFINITY,
-        $ifHeader                                       = null,
-        $authHeader                                     = null,
-        $access                                         = ezcWebdavAuthorizer::ACCESS_WRITE,
-        ezcWebdavLockCheckObserver $requestGenerator = null
+        $path                                        = '',
+        $depth                                       = ezcWebdavRequest::DEPTH_INFINITY,
+        $ifHeader                                    = null,
+        $authHeader                                  = null,
+        $access                                      = ezcWebdavAuthorizer::ACCESS_WRITE,
+        ezcWebdavLockCheckObserver $requestGenerator = null,
+        $lockNullMayOccur                            = true
     )
     {
         $this->path             = $path;
@@ -88,6 +96,7 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
         $this->authHeader       = $authHeader;
         $this->access           = $access;
         $this->requestGenerator = $requestGenerator;
+        $this->lockNullMayOccur = $lockNullMayOccur;
     }
 }
 
