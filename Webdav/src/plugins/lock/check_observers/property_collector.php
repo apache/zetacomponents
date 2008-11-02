@@ -47,16 +47,6 @@ class ezcWebdavLockPropertyCollector implements ezcWebdavLockLockRequestGenerato
     }
 
     /**
-     * Returns an empty array, since this generator only collects properties.
-     * 
-     * @return array
-     */
-    public function getRequests()
-    {
-        return array();
-    }
-
-    /**
      * Returns collected properties for $path.
      * 
      * @param string $path 

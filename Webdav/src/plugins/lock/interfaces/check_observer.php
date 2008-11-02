@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interface that needs to be implemented by request generators for the lock plugin.
+ * Interface that needs to be implemented by observers to lock checks.
  *
  * @package Webdav
  * @version //autogen//
@@ -11,22 +11,14 @@
 interface ezcWebdavLockCheckObserver
 {
     /**
-     * Notify the generator about a response.
+     * Notify about a response.
      *
-     * Notifies the request generator that a request should be generated w.r.t.
-     * the given $response.
+     * Notifies the observer that a the given $response was checked.
      * 
      * @param ezcWebdavPropFindResponse $propFind 
      * @return void
      */
     public function notify( ezcWebdavPropFindResponse $response );
-
-    /**
-     * Returns all collected requests generated in the processor. 
-     * 
-     * @return array(ezcWebdavRequest)
-     */
-    public function getRequests();
 }
 
 ?>
