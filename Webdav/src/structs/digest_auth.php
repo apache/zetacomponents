@@ -19,7 +19,7 @@
  * @author  
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavDigestAuth extends ezcBaseStruct
+class ezcWebdavDigestAuth extends ezcWebdavAuth
 {
     /**
      * The method of the current request. 

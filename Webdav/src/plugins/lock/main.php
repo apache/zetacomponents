@@ -259,7 +259,7 @@ class ezcWebdavLockPlugin
 
     //
     //
-    // Request handling
+    // LOCK request handling
     //
     //
 
@@ -333,8 +333,8 @@ class ezcWebdavLockPlugin
         // Check permission
 
         if ( !$srv->isAuthorized(
-                $request,
                 $request->requestUri,
+                $request->getHeader( 'Authorization' ),
                 ezcWebdavAuthorizer::ACCESS_WRITE
              ) )
         {
@@ -599,7 +599,18 @@ class ezcWebdavLockPlugin
         );
 
         // Check violations and collect PROPPATCH requests
-        $res = $this->checkViolations( $request, $requestGenerator );
+        $res = $this->checkViolations(
+            array(
+                new ezcWebdavLockCheckInfo(
+                    $request->requestUri,
+                    $request->getHeader( 'Depth' ),
+                    $request->getHeader( 'If' ),
+                    $request->getHeader( 'Authorization' ),
+                    ezcWebdavAuthorizer::ACCESS_WRITE,
+                    $requestGenerator
+                ),
+            )
+        );
 
         if ( $res !== null )
         {
@@ -666,7 +677,18 @@ class ezcWebdavLockPlugin
             $request
         );
 
-        $res = $this->checkViolations( $request, $reqGen );
+        $res = $this->checkViolations(
+            array(
+                new ezcWebdavLockCheckInfo(
+                    $request->requestUri,
+                    $request->getHeader( 'Depth' ),
+                    $request->getHeader( 'If' ),
+                    $request->getHeader( 'Authorization' ),
+                    ezcWebdavAuthorizer::ACCESS_WRITE,
+                    $reqGen
+                ),
+            )
+        );
         
         if ( $res !== null )
         {
@@ -707,15 +729,17 @@ class ezcWebdavLockPlugin
 
         // Check parent directory for locks and other violations
 
-        $headReq = new ezcWebdavHeadRequest(
-            dirname( $request->requestUri )
+        $checkRes = $this->checkViolations(
+            array(
+                new ezcWebdavLockCheckInfo(
+                    dirname( $request->requestUri ),
+                    ezcWebdavRequest::DEPTH_ZERO,
+                    $request->getHeader( 'If' ),
+                    $request->getHeader( 'Authorization' ),
+                    ezcWebdavAuthorizer::ACCESS_WRITE
+                ),
+            )
         );
-        // Usually not present in HEAD requests, but needed for violation checks
-        $headReq->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
-        $headReq->setHeader( 'If', $request->getHeader( 'If' ) );
-        $headReq->validateHeaders();
-
-        $checkRes = $this->checkViolations( $headReq, $reqGen );
 
         if ( $checkRes !== null )
         {
@@ -810,79 +834,83 @@ class ezcWebdavLockPlugin
      * returns null, all checks passed and you can savely execute the desired
      * requests.
      * 
-     * @param ezcWebdavRequest $request 
+     * @param array(ezcWebdavLockCheckInfo) $checkInfos
      * @param ezcWebdavLockRequestGenerator $generator 
      * @return ezcWebdavMultistatusResponse|ezcWebdavErrorResponse|null
      */
-    protected function checkViolations( ezcWebdavRequest $request, ezcWebdavLockRequestGenerator $generator = null )
+    protected function checkViolations( array $checkInfos )
     {
         $srv = ezcWebdavServer::getInstance();
 
-        $propFind       = new ezcWebdavPropFindRequest( $request->requestUri );
-        $propFind->prop = new ezcWebdavBasicPropertyStorage();
-
-        $propFind->prop->attach( new ezcWebdavLockDiscoveryProperty() );
-        $propFind->prop->attach( new ezcWebdavGetEtagProperty() );
-        $propFind->prop->attach( new ezcWebdavLockInfoProperty() );
-
-        $propFind->setHeader(
-            'Depth',
-            ( $depth = $request->getHeader( 'Depth' ) ) !== null ? $depth : ezcWebdavRequest::DEPTH_ONE
-        );
-
-        $propFind->validateHeaders();
-
-        $propFindMultistatusRes = $srv->backend->performRequest( $propFind );
-
-        if ( !( $propFindMultistatusRes instanceof ezcWebdavMultistatusResponse ) )
+        // Might contain multiple check infos, if multiple paths are affected
+        foreach ( $checkInfos as $checkInfo )
         {
-            // Bubble up error from backend
-            return $propFindMultistatusRes;
-        }
 
-        $violations       = array();
-        $mainLockProperty = null;
+            $propFind       = new ezcWebdavPropFindRequest( $checkInfo->path );
+            $propFind->prop = new ezcWebdavBasicPropertyStorage();
 
-        foreach ( $propFindMultistatusRes->responses as $propFindRes )
-        {
-            // Check authorization of the affected node
-            if ( !$srv->isAuthorized(
-                    $request,
-                    $propFindRes->node->path,
-                    // @TODO: This should be configurable by a method parameter
-                    ezcWebdavAuthorizer::ACCESS_WRITE
-                 ) 
-            )
+            $propFind->prop->attach( new ezcWebdavLockDiscoveryProperty() );
+            $propFind->prop->attach( new ezcWebdavGetEtagProperty() );
+            $propFind->prop->attach( new ezcWebdavLockInfoProperty() );
+
+            $propFind->setHeader(
+                'Depth',
+                ( $checkInfo->depth !== null ? $checkInfo->depth : ezcWebdavRequest::DEPTH_ONE )
+            );
+
+            $propFind->validateHeaders();
+
+            $propFindMultistatusRes = $srv->backend->performRequest( $propFind );
+
+            if ( !( $propFindMultistatusRes instanceof ezcWebdavMultistatusResponse ) )
             {
-                $violations[] = $srv->createUnauthorizedResponse(
-                    $propFindRes->node->path,
-                    'Authorization failed.'
-                );
-                // No need for further checks on this path, if authorization failed
-                continue;
+                // Bubble up error from backend
+                return $propFindMultistatusRes;
             }
 
-            if ( ( $res = $this->checkEtagsAndLocks( $propFindRes, $request ) ) !== null )
-            {
-                $violations[] = $res;
-            }
+            $violations       = array();
+            $mainLockProperty = null;
 
-            // Notify request generator on affected ressource
-            if ( $generator !== null )
+            foreach ( $propFindMultistatusRes->responses as $propFindRes )
             {
-                $generator->notify( $propFindRes );
-            }
-
-            // Store main lock property for use in MultiStatus
-            if ( $propFindRes->node->path === $request->requestUri )
-            {
-                foreach ( $propFindRes->responses as $propStatRes )
+                // Check authorization of the affected node
+                if ( !$srv->isAuthorized(
+                        $propFindRes->node->path,
+                        $checkInfo->authHeader,
+                        $checkInfo->access
+                     ) 
+                )
                 {
-                    if ( $propStatRes->storage->contains( 'lockdiscovery' ) )
+                    $violations[] = $srv->createUnauthorizedResponse(
+                        $propFindRes->node->path,
+                        'Authorization failed.'
+                    );
+                    // No need for further checks on this path, if authorization failed
+                    continue;
+                }
+
+                if ( ( $res = $this->checkEtagsAndLocks( $propFindRes, $checkInfo ) ) !== null )
+                {
+                    $violations[] = $res;
+                }
+
+                // Notify request generator on affected ressource
+                if ( $checkInfo->requestGenerator !== null )
+                {
+                    $checkInfo->requestGenerator->notify( $propFindRes );
+                }
+
+                // Store main lock property for use in MultiStatus
+                if ( $propFindRes->node->path === $checkInfo->path )
+                {
+                    foreach ( $propFindRes->responses as $propStatRes )
                     {
-                        $mainLockNode     = $propFindRes->node;
-                        $mainLockProperty = $propStatRes->storage->get( 'lockdiscovery' );
-                        break;
+                        if ( $propStatRes->storage->contains( 'lockdiscovery' ) )
+                        {
+                            $mainLockNode     = $propFindRes->node;
+                            $mainLockProperty = $propStatRes->storage->get( 'lockdiscovery' );
+                            break;
+                        }
                     }
                 }
             }
@@ -930,6 +958,18 @@ class ezcWebdavLockPlugin
                 $propStat
             )
         );
+    }
+
+    //
+    //
+    // LOCK request handling
+    //
+    //
+
+    public function receivedMoveRequest( ezcWebdavMoveRequest $request )
+    {
+        $request->setHeader( 'If', $this->headerHandler->parseIfHeader() );
+
     }
 
     //
@@ -1027,10 +1067,10 @@ class ezcWebdavLockPlugin
      * the ETag assigned to a resource affected by the $req.
      * 
      * @param ezcWebdavPropertyStorage $propertyStorage 
-     * @param ezcWebdavRequest $request
+     * @param ezcWebdavLockCheckInfo $checkInfo
      * @return void
      */
-    protected function checkEtagsAndLocks( ezcWebdavPropFindResponse $propFindRes, ezcWebdavRequest $request )
+    protected function checkEtagsAndLocks( ezcWebdavPropFindResponse $propFindRes, ezcWebdavLockCheckInfo $checkInfo )
     {
         $path = $propFindRes->node->path;
 
@@ -1049,8 +1089,8 @@ class ezcWebdavLockPlugin
         }
 
         // Extract If header items relevant for the given $request
-        if ( ( $ifHeader = $request->getHeader( 'If' ) ) === null ||
-             ( $ifHeaderItems = $ifHeader[$path] ) === array()
+        if ( $checkInfo->ifHeader === null ||
+             ( $ifHeaderItems = $checkInfo->ifHeader[$path] ) === array()
         )
         {
             // No If header items for this path, just check if item is not

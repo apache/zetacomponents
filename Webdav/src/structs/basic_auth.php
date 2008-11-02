@@ -19,7 +19,7 @@
  * @author  
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavBasicAuth extends ezcBaseStruct
+class ezcWebdavBasicAuth extends ezcWebdavAuth
 {
     /**
      * Plain text user name.
