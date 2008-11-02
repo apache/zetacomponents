@@ -167,7 +167,6 @@ return array(
     'ezcDocumentEzXmlToDocbookTableCellHandler'          => 'Document/converters/element_visitor/ezxml/docbook/table_cell.php',
     'ezcDocumentEzXmlToDocbookTableHandler'              => 'Document/converters/element_visitor/ezxml/docbook/table.php',
     'ezcDocumentEzXmlToDocbookTableRowHandler'           => 'Document/converters/element_visitor/ezxml/docbook/table_row.php',
-    'ezcDocumentManager'                                 => 'Document/document_manager.php',
     'ezcDocumentParserOptions'                           => 'Document/options/document_parser.php',
     'ezcDocumentRst'                                     => 'Document/document/rst.php',
     'ezcDocumentRstAnonymousLinkNode'                    => 'Document/document/rst/nodes/link_anonymous.php',

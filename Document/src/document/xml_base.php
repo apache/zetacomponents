@@ -120,40 +120,6 @@ abstract class ezcDocumentXmlBase extends ezcDocument implements ezcDocumentVali
     {
         return $this->document->saveXml();
     }
-
-    /**
-     * Validate the input file
-     *
-     * Validate the input file against the specification of the current
-     * document format.
-     *
-     * Returns true, if the validation succeded, and an array with
-     * ezcDocumentValidationError objects otherwise.
-     * 
-     * @param string $file
-     * @return mixed
-     */
-    public function validateFile( $file )
-    {
-        // @TODO: Implement
-    }
-
-    /**
-     * Validate the input string
-     *
-     * Validate the input string against the specification of the current
-     * document format.
-     *
-     * Returns true, if the validation succeded, and an array with
-     * ezcDocumentValidationError objects otherwise.
-     * 
-     * @param string $string
-     * @return mixed
-     */
-    public function validateString( $string )
-    {
-        // @TODO: Implement
-    }
 }
 
 ?>

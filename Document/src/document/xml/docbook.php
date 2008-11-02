@@ -80,6 +80,44 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
     {
         return $this->document->saveXml();
     }
+
+    /**
+     * Validate the input file
+     *
+     * Validate the input file against the specification of the current
+     * document format.
+     *
+     * Returns true, if the validation succeded, and an array with
+     * ezcDocumentValidationError objects otherwise.
+     * 
+     * @param string $file
+     * @return mixed
+     */
+    public function validateFile( $file )
+    {
+        // @TODO: We need a working docbook schema, which we can embed, until
+        // then we just can't really validate docbook files.
+        return false;
+    }
+
+    /**
+     * Validate the input string
+     *
+     * Validate the input string against the specification of the current
+     * document format.
+     *
+     * Returns true, if the validation succeded, and an array with
+     * ezcDocumentValidationError objects otherwise.
+     * 
+     * @param string $string
+     * @return mixed
+     */
+    public function validateString( $string )
+    {
+        // @TODO: We need a working docbook schema, which we can embed, until
+        // then we just can't really validate docbook files.
+        return false;
+    }
 }
 
 ?>
