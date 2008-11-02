@@ -18,28 +18,14 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavLockPathCollector implements ezcWebdavLockCheckObserver
+class ezcWebdavLockCheckPathCollector implements ezcWebdavLockCheckObserver
 {
     /**
-     * Collected properties.
+     * Collected paths.
      *
-     * Properties collected.
-     *
-     * Structure:
-     *
-     * <code>
-     * <?php
-     *  array(
-     *      '<path>' => ezcWebdavBasicPropertyStorage(),
-     *      '<otherpath>' => ezcWebdavBasicPropertyStorage(),
-     *      // ...
-     *  );
-     * ?>
-     * </code>
-     * 
-     * @var array(string=> ezcWebdavBasicPropertyStorare)
+     * @var array(string)
      */
-    protected $properties = array();
+    protected $paths = array();
 
     /**
      * Collects properties from the given $response.
@@ -53,15 +39,7 @@ class ezcWebdavLockPathCollector implements ezcWebdavLockCheckObserver
      */
     public function notify( ezcWebdavPropFindResponse $response )
     {
-        $path = $response->node->getPath();
-        
-        foreach ( $response->responses as $propStatResponse )
-        {
-            if ( $propStatResponse->status === ezcWebdavRequest::STATUS_200 )
-            {
-                $this->properties[$path] = $propStatResponse->storage;
-            }
-        }
+        $this->paths[] = $response->node->path;
     }
 
     /**
@@ -70,13 +48,9 @@ class ezcWebdavLockPathCollector implements ezcWebdavLockCheckObserver
      * @param string $path 
      * @return ezcWebdavBasicPropertyStorare
      */
-    public function getProperties( $path )
+    public function getPaths()
     {
-        if ( isset( $this->properties[$path] ) )
-        {
-            return $this->properties[$path];
-        }
-        return new ezcWebdavBasicPropertyStorare();
+        return $this->paths();
     }
 }
 

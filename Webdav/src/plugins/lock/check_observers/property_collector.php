@@ -18,7 +18,7 @@
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-class ezcWebdavLockPropertyCollector implements ezcWebdavLockCheckObserver
+class ezcWebdavLockCheckPropertyCollector implements ezcWebdavLockCheckObserver
 {
     /**
      * Collected properties.
@@ -53,7 +53,7 @@ class ezcWebdavLockPropertyCollector implements ezcWebdavLockCheckObserver
      */
     public function notify( ezcWebdavPropFindResponse $response )
     {
-        $path = $response->node->getPath();
+        $path = $response->node->path;
         
         foreach ( $response->responses as $propStatResponse )
         {

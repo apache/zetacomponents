@@ -1,5 +1,20 @@
 <?php
-
+/**
+ * File containing the ezcWebdavLockRefreshRequestGenerator class.
+ *
+ * @package Webdav
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Check observer that generates PROPPATCH requests to refresh locks.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
 {
     /**
@@ -61,6 +76,20 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
      */
     protected $timeout;
 
+    /**
+     * Creates a new observer for lock refreshs.
+     *
+     * This observer collects the base for all affected locks of a request and
+     * creates PROPPATCH requests to update the affected locks.
+     *
+     * The PROPPATCH requests can be obtained after collecting, using the
+     * {@link getRequests()} or can be send using the {@link sendRequests()}
+     * method.
+     * 
+     * @param ezcWebdavRequest $request 
+     * @param int $timeout 
+     * @return void
+     */
     public function __construct( ezcWebdavRequest $request, $timeout = null )
     {
         $this->request  = $request;
@@ -68,6 +97,12 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
         $this->timeout  = $timeout;
     }
 
+    /**
+     * Notify the request generator about a checked resource. 
+     * 
+     * @param ezcWebdavPropFindResponse $response 
+     * @return void
+     */
     public function notify( ezcWebdavPropFindResponse $response )
     {
         $path = $response->node->path;
