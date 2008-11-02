@@ -90,7 +90,6 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
 
             // Tables with only one column are most probably also used only for
             // layout. We remove them, too.
-            // @TODO: Make this configurable.
             if ( $xpath->query( './/*[local-name() = "tr"]', $table )->length >= $cellCount )
             {
                 $table->parentNode->removeChild( $table );
