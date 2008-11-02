@@ -1456,6 +1456,15 @@ abstract class ezcWebdavSimpleBackend
         );
     }
 
+    /**
+     * Handles the OPTIONS request.
+     *
+     * Applies authorization checking to the OPTIONS request and returns the
+     * parent response.
+     * 
+     * @param ezcWebdavOptionsRequest $request 
+     * @return ezcWebdavOptionsResponse
+     */
     public function options( ezcWebdavOptionsRequest $request )
     {
         // Check authorization
