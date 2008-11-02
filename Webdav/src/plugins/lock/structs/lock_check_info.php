@@ -59,7 +59,7 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
     /**
      * Request generator to notify for this $path. 
      * 
-     * @var ezcWebdavLockRequestGenerator
+     * @var ezcWebdavLockCheckObserver
      */
     public $requestGenerator;
 
@@ -71,7 +71,7 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
      * @param ezcWebdavAuthBasic|ezcWebdavAuthDigest|null $ifHeader
      * @param ezcWebdavAuthBasic|ezcWebdavAuthDigest|null $authHeader
      * @param int $access
-     * @param ezcWebdavLockRequestGenerator $requestGenerator
+     * @param ezcWebdavLockCheckObserver $requestGenerator
      */
     public function __construct(
         $path                                           = '',
@@ -79,7 +79,7 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
         $ifHeader                                       = null,
         $authHeader                                     = null,
         $access                                         = ezcWebdavAuthorizer::ACCESS_WRITE,
-        ezcWebdavLockRequestGenerator $requestGenerator = null
+        ezcWebdavLockCheckObserver $requestGenerator = null
     )
     {
         $this->path             = $path;

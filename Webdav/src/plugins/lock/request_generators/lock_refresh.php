@@ -1,6 +1,6 @@
 <?php
 
-class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockRequestGenerator
+class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
 {
     /**
      * Lock bases that have not been found, yet.

@@ -47,7 +47,7 @@ return array(
     'ezcWebdavDisplayInformation'                     => 'Webdav/structs/display_information.php',
     'ezcWebdavLockBackend'                            => 'Webdav/plugins/lock/interfaces/lock_backend.php',
     'ezcWebdavLockIfHeaderList'                       => 'Webdav/plugins/lock/interfaces/if_header_list.php',
-    'ezcWebdavLockRequestGenerator'                   => 'Webdav/plugins/lock/interfaces/request_generator.php',
+    'ezcWebdavLockCheckObserver'                   => 'Webdav/plugins/lock/interfaces/request_generator.php',
     'ezcWebdavPathFactory'                            => 'Webdav/interfaces/path_factory.php',
     'ezcWebdavPluginConfiguration'                    => 'Webdav/plugin_configuration.php',
     'ezcWebdavPropFindResponse'                       => 'Webdav/responses/propfind.php',
