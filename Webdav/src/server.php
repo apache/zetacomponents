@@ -338,7 +338,7 @@ class ezcWebdavServer
      * It returns true, if authorization is not enabled or succeeded. False is
      * returned otherwise.
      * 
-     * @param ezcWebdavRequest $request 
+     * @param ezcWebdavAuthBasic|ezcWebdavAuthDigest|null $authHeader 
      * @param string $path 
      * @param int $access
      * @return bool
@@ -346,7 +346,7 @@ class ezcWebdavServer
      * @todo Mark protected as soon as API is final.
      * @access private
      */
-    public function isAuthorized( $request, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
+    public function isAuthorized( $authHeader, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
     {
         $auth = $this->auth;
 
@@ -356,8 +356,7 @@ class ezcWebdavServer
             return true;
         }
 
-        $authHeader = $request->getHeader( 'Authorization' );
-        $authUser   = ( $authHeader !== null ? $authHeader->username : '' );
+        $authUser = ( $authHeader !== null ? $authHeader->username : '' );
         
         return $auth->authorize( $authUser, $path, $access );
     }
