@@ -52,6 +52,26 @@ class ezcDocumentEzXmlTests extends ezcTestCase
         );
     }
 
+    public function testUnhandledLinkType()
+    {
+        $invalid = dirname( __FILE__ ) . '/files/ezxml/e_001_unhandled_link.ezp';
+        $document = new ezcDocumentEzXml();
+        $document->loadFile( $invalid );
+
+        try
+        {
+            $docbook = $document->getAsDocbook();
+            $this->fail( 'Expected ezcDocumentConversionException.' );
+        }
+        catch ( ezcDocumentConversionException $e )
+        {
+            $this->assertSame(
+                $e->getMessage(),
+                'Conversion error: Warning: \'Unhandled link type.\' in line 0 at position 0.'
+            );
+        }
+    }
+
     public static function getEzXmlTestDocuments()
     {
         if ( self::$testDocuments === null )

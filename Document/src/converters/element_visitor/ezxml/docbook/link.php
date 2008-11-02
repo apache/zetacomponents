@@ -59,7 +59,8 @@ class ezcDocumentEzXmlToDocbookLinkHandler extends ezcDocumentElementVisitorHand
                     break;
 
                 default:
-                    throw new Exception( '@TODO: Unkown link type.' );
+                    $converter->triggerError( E_WARNING, 'Unhandled link type.' );
+                    return $root;
             }
 
             $link = $root->ownerDocument->createElement( 'ulink' );
