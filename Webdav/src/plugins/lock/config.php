@@ -129,6 +129,23 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
      */
     public function init()
     {
+        $srv = ezcWebdavServer::getInstance();
+
+        if ( !( $srv->backend instanceof ezcWebdavLockBackend ) )
+        {
+            throw new ezcWebdavPluginPreconditionFailedException(
+                $this->getNamespace(),
+                'Backend does not implement ezcWebdavLockBackend.'
+            );
+        }
+        if ( !is_object( $srv->auth ) || !( $srv->auth instanceof ezcWebdavLockAuthorizer ) )
+        {
+            throw new ezcWebdavPluginPreconditionFailedException(
+                $this->getNamespace(),
+                'No authorizer available or authorizer does not implement ezcWebdavLockAuthorizer.'
+            );
+        }
+        // @TODO: Check if more sanity checks must be tested?
     }
 }
 
