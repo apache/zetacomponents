@@ -51,11 +51,13 @@
  *  $feed = new ezcFeed();
  *  </code>
  *
- *  - by parsing an existing XML file or URI. The feed type of the resulting
+ *  - by parsing an existing XML file or URL. The feed type of the resulting
  *    ezcFeed object will be autodetected. Example:
  *
  *  <code>
- *  $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
+ *  $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' ); // URL
+ *  $feed = ezcFeed::parse( 'http://username:password@www.example.com/rss2.xml' ); // URL with HTTP authentication
+ *  $feed = ezcFeed::parse( '/tmp/rss2.xml' ); // local file
  *  </code>
  *
  *  - by parsing an XML document stored in a string variable. The feed type of
@@ -820,9 +822,23 @@ class ezcFeed
      * Parses the XML document in the $uri and returns an ezcFeed object with
      * the type autodetected from the XML document.
      *
-     * Example of parsing an XML document stored in an URI:
+     * Example of parsing an XML document stored at an URL:
      * <code>
      * $feed = ezcFeed::parse( 'http://www.example.com/rss2.xml' );
+     * </code>
+     *
+     * Example of parsing an XML document protected with HTTP authentication:
+     * <code>
+     * $feed = ezcFeed::parse( 'http://username:password@www.example.com/rss2.xml' );
+     * </code>
+     *
+     * If trying to parse an XML document protected with HTTP authentication
+     * without providing a valid username and password, the exception
+     * {@link ezcFeedParseErrorException} will be thrown.
+     *
+     * Example of parsing an XML document stored in a local file:
+     * <code>
+     * $feed = ezcFeed::parse( '/tmp/feed.xml' );
      * </code>
      *
      * @throws ezcBaseFileNotFoundException

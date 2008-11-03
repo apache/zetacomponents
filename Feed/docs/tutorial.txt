@@ -753,8 +753,20 @@ If the XML feed is stored in a file or URL, use the static method **parse()**
 from ezcFeed to parse the feed and create an ezcFeed object out of it::
 
     <?php
-    $feed = ezcFeed::parse( 'http://ezcomponents.org/feed/news.xml' );
+    $feed = ezcFeed::parse( 'http://ezcomponents.org/feed/news.xml' ); // URL
+    $feed = ezcFeed::parse( '/tmp/news.xml' ); // local file
     ?>
+
+If the XML feed is protected with HTTP authentication (username and password
+required in order to access it), provide the username and password in the URL::
+
+    <?php
+    $feed = ezcFeed::parse( 'http://username:password@ezcomponents.org/feed/news.xml' );
+    ?>
+
+If trying to parse an XML document protected with HTTP authentication without
+providing a valid username and password, an ezcFeedParseErrorException will be
+thrown.
 
 If the XML feed is stored in a string variable, use the static method
 **parseContent()** from ezcFeed to parse the feed and create an ezcFeed object
@@ -900,7 +912,19 @@ from ezcFeed to parse the feed and create an ezcFeed object out of it::
 
     <?php
     $feed = ezcFeed::parse( 'http://rcplanes.example.com/feed/podcast.xml' );
+    $feed = ezcFeed::parse( '/tmp/podcast.xml' ); // local file
     ?>
+
+If the XML feed is protected with HTTP authentication (username and password
+required in order to access it), provide the username and password in the URL::
+
+    <?php
+    $feed = ezcFeed::parse( 'http://username:password@rcplanes.example.com/feed/podcast.xml' );
+    ?>
+
+If trying to parse an XML document protected with HTTP authentication without
+providing a valid username and password, an ezcFeedParseErrorException will be
+thrown.
 
 If the XML feed is stored in a string variable, use the static method
 **parseContent()** from ezcFeed to parse the feed and create an ezcFeed object

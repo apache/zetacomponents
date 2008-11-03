@@ -408,5 +408,13 @@ class ezcFeedTest extends ezcFeedTestCase
             $this->assertEquals( "The module 'Content' is not defined yet.", $e->getMessage() );
         }
     }
+
+    public function testParseFeedWithAuthentication()
+    {
+        $this->markTestIncomplete( 'Accessing feeds with http authentication works. We will add a sensible test for this later, when we will have a test system with an anonymous account for feeds.' );
+
+        $feed = ezcFeed::parse( 'http://username:password@example.com/' );
+        $this->assertEquals( "Feed title", $feed->title );
+    }
 }
 ?>
