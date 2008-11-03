@@ -81,6 +81,10 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
      */
     protected function acquireLock( ezcWebdavLockRequest $request )
     {
+        $auth = ezcWebdavServer::getInstance()->auth;
+
+        $authHeader = $request->getHeader( 'Authorization' );
+
         // Active lock part to be used in PROPPATCH requests and LOCK response
         $lockToken  = $this->tools->generateLockToken( $request );
         $activeLock = $this->tools->generateActiveLock(
@@ -101,7 +105,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
                     $request->requestUri,
                     $request->getHeader( 'Depth' ),
                     $request->getHeader( 'If' ),
-                    $request->getHeader( 'Authorization' ),
+                    $authHeader,
                     ezcWebdavAuthorizer::ACCESS_WRITE,
                     $requestGenerator
                 ),
@@ -119,6 +123,9 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             // Other violations -> return error response
             return $res;
         }
+
+        // Assign lock to user
+        $auth->assignLock( $authHeader->username, $lockToken );
         
         $affectedLockDiscovery = null;
 

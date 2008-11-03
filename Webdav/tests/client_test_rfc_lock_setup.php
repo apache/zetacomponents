@@ -7,9 +7,20 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
 {
     public static function performSetup( ezcWebdavClientTest $test, $testSetName )
     {
-        $pathFactory  = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
+        $test->server = self::getServer(
+            new ezcWebdavBasicPathFactory( 'http://www.foo.bar' )
+        );
+        $test->server->pluginRegistry->registerPlugin(
+            new ezcWebdavLockPluginConfiguration(
+                new ezcWebdavLockPluginOptions(
+                    array( 'lockTimeout' => 604800 )
+                )
+            )
+        );
+        $test->server->auth = new ezcWebdavClientTestRfcLockAuth();
 
         $testSetName = basename( $testSetName );
+
         switch( $testSetName )
         {
             case '001_lock_1':
@@ -42,19 +53,6 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             default:
                 throw new RuntimeException( "Could not find setup for test set '$testSetName'." );
         }
-
-        $test->server = self::getServer(
-            ( $customPathFactory === null ? $pathFactory : $customPathFactory )
-        );
-        $test->server->pluginRegistry->registerPlugin(
-            new ezcWebdavLockPluginConfiguration(
-                new ezcWebdavLockPluginOptions(
-                    array( 'lockTimeout' => 604800 )
-                )
-            )
-        );
-
-        $test->server->auth = new ezcWebdavClientTestRfcLockAuth();
     }
 
     protected static function getSetup1( ezcWebdavClientTest $test )
@@ -75,6 +73,11 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
     protected static function getSetup2( ezcWebdavClientTest $test )
     {
         self::getSetup1( $test );
+        $test->server->auth->tokenAssignement = array(
+            '' => array(
+                'opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4' => true,
+            ),
+        );
         $test->backend->setProperty(
             '/workspace/webdav/proposal.doc',
             new ezcWebdavLockDiscoveryProperty(
@@ -164,6 +167,12 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
     protected static function getSetup5( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend();
+        $test->server->auth->tokenAssignement = array(
+            '' => array(
+                'opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4' => true,
+                'opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77' => true,
+            ),
+        );
 
         $test->backend->addContents(
             array(
@@ -286,6 +295,11 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
     protected static function getSetup9( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend();
+        $test->server->auth->tokenAssignement = array(
+            '' => array(
+                'opaquelocktoken:a515cfa4-5da4-22e1-f5b5-00a0451e6bf7' => true,
+            ),
+        );
 
         $test->backend->addContents(
             array(

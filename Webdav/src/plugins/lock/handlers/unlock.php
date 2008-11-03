@@ -58,6 +58,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         $srv = ezcWebdavServer::getInstance();
 
         $token = $request->getHeader( 'Lock-Token' );
+        $authHeader = $request->getHeader( 'Authorization' );
 
         if ( $token === null )
         {
@@ -70,9 +71,11 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
 
         if ( !$srv->isAuthorized(
                 $request->requestUri,
-                $request->getHeader( 'Authorization' ),
+                $authHeader,
                 ezcWebdavAuthorizer::ACCESS_WRITE
-             ) )
+             )
+             || !$srv->auth->ownsLock( $authHeader->username, $token )
+           )
         {
             return $srv->createUnauthorizedResponse(
                 $request->requestUri,
@@ -181,6 +184,8 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
                 $request
             );
         }
+
+        $srv->auth->releaseLock( $authHeader->username, $token );
 
         // If lock depth is 0, we issue 1 propfind too much here
         // @TODO: Analyse if clients usually lock 0 or infinity

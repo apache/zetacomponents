@@ -327,6 +327,8 @@ class ezcWebdavLockTools
      */
     public function checkEtagsAndLocks( ezcWebdavPropFindResponse $propFindRes, ezcWebdavLockCheckInfo $checkInfo )
     {
+        $auth = ezcWebdavServer::getInstance()->auth;
+
         $path = $propFindRes->node->path;
 
         // Extract interesting responses
@@ -401,6 +403,12 @@ class ezcWebdavLockTools
                 if ( !in_array( $itemLockToken, $lockTokens ) )
                 {
                     // Lock token condition failed, check next condition set
+                    $lockVerified = false;
+                    continue 2;
+                }
+                if ( !$auth->ownsLock( $checkInfo->authHeader->username, $itemLockToken ) )
+                {
+                    // Lock token does not belong to the user
                     $lockVerified = false;
                     continue 2;
                 }

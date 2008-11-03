@@ -1,7 +1,11 @@
 <?php
 
-class ezcWebdavClientTestRfcLockAuth extends ezcWebdavDigestAuthenticatorBase implements ezcWebdavAuthorizer
+class ezcWebdavClientTestRfcLockAuth 
+    extends ezcWebdavDigestAuthenticatorBase
+    implements ezcWebdavAuthorizer, ezcWebdavLockAuthorizer
 {
+    public $tokenAssignement = array();
+
     public function authenticateBasic( ezcWebdavBasicAuth $auth )
     {
         return ( $auth->username === 'ejw' || $auth->username === '' );
@@ -19,6 +23,28 @@ class ezcWebdavClientTestRfcLockAuth extends ezcWebdavDigestAuthenticatorBase im
             return false;
         }
         return true;
+    }
+
+    public function assignLock( $user, $lockToken )
+    {
+        if ( !isset( $this->tokenAssignement[$user] ) )
+        {
+            $this->tokenAssignement[$user] = array();
+        }
+        $this->tokenAssignement[$user][$lockToken] = true;
+    }
+
+    public function ownsLock( $user, $lockToken )
+    {
+        return (
+            isset( $this->tokenAssignement[$user] )
+            && isset( $this->tokenAssignement[$user][$lockToken] )
+        );
+    }
+
+    public function releaseLock( $user, $lockToken )
+    {
+        unset( $this->tokenAssignement[$user][$lockToken] );
     }
 }
 
