@@ -30,6 +30,9 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             case '006_propfind_allprop':
                 $customPathFactory = self::getSetup6( $test );
                 break;
+            case '007_propfind_propname':
+                $customPathFactory = self::getSetup6( $test );
+                break;
 
             case '009_unlock':
                 $customPathFactory = self::getSetup9( $test );
