@@ -27,6 +27,9 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             case '005_move_collection_locked':
                 $customPathFactory = self::getSetup5( $test );
                 break;
+            case '006_propfind_allprop':
+                $customPathFactory = self::getSetup6( $test );
+                break;
 
             case '009_unlock':
                 $customPathFactory = self::getSetup9( $test );
@@ -132,6 +135,20 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                                 'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76',
                                 true
                             )
+                        ),
+                    )
+                )
+            )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavLockInfoProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockTokenInfo(
+                            'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76',
+                            null,
+                            new DateTime()
                         ),
                     )
                 )
@@ -335,6 +352,215 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                     )
                 )
             )
+        );
+    }
+
+    protected static function getSetup6( ezcWebdavClientTest $test )
+    {
+        $test->backend = new ezcWebdavMemoryBackend( false );
+
+        $test->backend->addContents(
+            array(
+                'container' => array(
+                    'front.html' => '',
+                    'R2'         => '',
+                    'resource3'  => '',
+                ),
+            )
+        );
+
+        // Properties for /container
+
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavCreationDateProperty(
+                new ezcWebdavDateTime( '1997-12-01T17:42:21-0800' )
+            )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavDisplayNameProperty( 'Example collection' )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavGetContentTypeProperty( 'httpd/unix-directory' )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavGetEtagProperty( 'e81e84d5197f72cd038aa2a768d15247' )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavGetLastModifiedProperty(
+                new ezcWebdavDateTime( 'Mon, 15 Aug 2005 15:13:00 +0000' )
+            )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavGetContentLengthProperty( '4096' )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavResourceTypeProperty()
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavDeadProperty(
+                'http://www.foo.bar/boxschema/',
+                'bigbox',
+                <<<EOT
+<R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
+  <R:BoxType>Box type A</R:BoxType>
+</R:bigbox>
+EOT
+            )
+        );
+        $test->backend->setProperty(
+            '/container',
+            new ezcWebdavDeadProperty(
+                'http://www.foo.bar/boxschema/',
+                'author',
+                <<<EOT
+<R:author xmlns:R="http://www.foo.bar/boxschema/">
+  <R:Name>Hadrian</R:Name>
+</R:author>
+EOT
+            )
+        );
+
+        // Properties for /container/front.html
+
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavCreationDateProperty(
+                new ezcWebdavDateTime( '1997-12-01T18:27:21-0800' )
+            )
+        );
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavDisplayNameProperty( 'Example HTML resource' )
+        );
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavGetContentTypeProperty( 'text/html' )
+        );
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavGetEtagProperty( 'zzyzx' )
+        );
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavGetLastModifiedProperty(
+                new ezcWebdavDateTime( 'Mon, 12 Jan 1998 09:25:56 +0000' )
+            )
+        );
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavGetContentLengthProperty( '4525' )
+        );
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavResourceTypeProperty()
+        );
+        $test->backend->setProperty(
+            '/container/front.html',
+            new ezcWebdavDeadProperty(
+                'http://www.foo.bar/boxschema/',
+                'bigbox',
+                <<<EOT
+<R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
+  <R:BoxType>Box type B</R:BoxType>
+</R:bigbox>
+EOT
+            )
+        );
+
+        // Properties for /container/R2
+
+        $test->backend->setProperty(
+            '/container/R2',
+            new ezcWebdavCreationDateProperty(
+                new ezcWebdavDateTime( '2003-05-27T11:27:00+0000' )
+            )
+        );
+        $test->backend->setProperty(
+            '/container/R2',
+            new ezcWebdavDisplayNameProperty( 'R2' )
+        );
+        $test->backend->setProperty(
+            '/container/R2',
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $test->backend->setProperty(
+            '/container/R2',
+            new ezcWebdavGetContentTypeProperty( 'httpd/unix-directory' )
+        );
+        $test->backend->setProperty(
+            '/container/R2',
+            new ezcWebdavGetEtagProperty( '08f842b302fbfbfde8049178085e6972' )
+        );
+        $test->backend->setProperty(
+            '/container/R2',
+            new ezcWebdavGetLastModifiedProperty(
+                new ezcWebdavDateTime( 'Mon, 15 Aug 2005 15:13:00 +0000' )
+            )
+        );
+        $test->backend->setProperty(
+            '/container/R2',
+            new ezcWebdavGetContentLengthProperty( '4096' )
+        );
+        $test->backend->setProperty(
+            '/container/R2',
+            new ezcWebdavResourceTypeProperty(
+                ezcWebdavResourceTypeProperty::TYPE_COLLECTION
+            )
+        );
+
+        // Properties for /container/resource3
+
+        $test->backend->setProperty(
+            '/container/resource3',
+            new ezcWebdavCreationDateProperty(
+                new ezcWebdavDateTime( '2003-05-27T11:27:00' )
+            )
+        );
+        $test->backend->setProperty(
+            '/container/resource3',
+            new ezcWebdavDisplayNameProperty( 'resource3' )
+        );
+        $test->backend->setProperty(
+            '/container/resource3',
+            new ezcWebdavGetContentLanguageProperty( array( 'en' ) )
+        );
+        $test->backend->setProperty(
+            '/container/resource3',
+            new ezcWebdavGetContentTypeProperty( 'application/octet-stream' )
+        );
+        $test->backend->setProperty(
+            '/container/resource3',
+            new ezcWebdavGetEtagProperty( 'a952a3dcd83383fc7dbacee5f21106cb' )
+        );
+        $test->backend->setProperty(
+            '/container/resource3',
+            new ezcWebdavGetLastModifiedProperty(
+                new ezcWebdavDateTime( 'Mon, 15 Aug 2005 15:13:00 +0000' )
+            )
+        );
+        $test->backend->setProperty(
+            '/container/resource3',
+            new ezcWebdavGetContentLengthProperty( '0' )
+        );
+        $test->backend->setProperty(
+            '/container/resource3',
+            new ezcWebdavResourceTypeProperty()
         );
     }
 }

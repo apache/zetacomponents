@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavLockUnlockRequestResponseHandler class.
+ * File containing the ezcWebdavLockMoveRequestResponseHandler class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -10,7 +10,7 @@
  * @access private
  */
 /**
- * Handler class for the UNLOCK request.
+ * Handler class for the MOVE request.
  * 
  * @package Webdav
  * @version //autogen//
@@ -22,11 +22,31 @@
 class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestResponseHandler
 {
     /**
-     * Information to be transferred between request and response handling. 
+     * Properties of the destination parent.
+     *
+     * These properties need to be set on the successfully moved the source to
+     * the destination. The properties still need to be manipulated in {@link
+     * generatedResponse()}
      * 
-     * @var array
+     * @var ezcWebdavBasicPropertyStorage
      */
-    protected $handlingInfo;
+    protected $lockProperties;
+
+    /**
+     * The original request.
+     * 
+     * @var ezcWebdavMoveRequest
+     */
+    protected $request;
+
+    /**
+     * Pathes moved to the destination.
+     *
+     * Used to determine all paths that need lock updates.
+     * 
+     * @var array(string)
+     */
+    protected $sourcePaths;
 
     /**
      * Handles MOVE requests.
@@ -122,10 +142,10 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
             );
         }
 
-        $this->handlingInfo['props'] = $destParentProps;
+        $this->lockProperties = $destParentProps;
 
-        $this->handlingInfo['request']   = $request;
-        $this->handlingInfo['destPaths'] = $sourcePathCollector->getPaths();
+        $this->request   = $request;
+        $this->sourcePaths = $sourcePathCollector->getPaths();
 
         // Backend now handles the request
         // return null;
@@ -148,18 +168,18 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         // Backend successfully performed request, update with LOCK from parent
 
-        $request = $this->handlingInfo['request'];
+        $request = $this->request;
         $source  = $request->requestUri;
         $dest    = $request->getHeader( 'Destination' );
-        $paths   = $this->handlingInfo['destPaths'];
+        $paths   = $this->sourcePaths;
 
-        $lockDiscovery = $this->handlingInfo['props']->get( 'lockdiscovery' );
+        $lockDiscovery = $this->lockProperties->get( 'lockdiscovery' );
         if ( $lockDiscovery === null )
         {
             // Nothing to do
             return;
         }
-        $lockInfo = $this->handlingInfo['props']->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
+        $lockInfo = $this->lockProperties->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
         if ( $lockInfo === null )
         {
             throw new ezcWebdavInconsistencyException(

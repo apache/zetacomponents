@@ -46,9 +46,10 @@ class ezcWebdavLockPlugin
      * @array(string=>string)
      */
     protected static $requestHandlingMap = array(
-        'ezcWebdavLockRequest'   => 'ezcWebdavLockLockRequestResponseHandler',
-        'ezcWebdavUnlockRequest' => 'ezcWebdavLockUnlockRequestResponseHandler',
-        'ezcWebdavMoveRequest'   => 'ezcWebdavLockMoveRequestResponseHandler',
+        'ezcWebdavLockRequest'     => 'ezcWebdavLockLockRequestResponseHandler',
+        'ezcWebdavUnlockRequest'   => 'ezcWebdavLockUnlockRequestResponseHandler',
+        'ezcWebdavMoveRequest'     => 'ezcWebdavLockMoveRequestResponseHandler',
+        'ezcWebdavPropFindRequest' => 'ezcWebdavLockPropFindRequestResponseHandler',
     );
 
     /**

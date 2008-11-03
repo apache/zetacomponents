@@ -7,8 +7,17 @@ Prio 1
 - In certain cases (e.g. eZ Publish integration) the lock plugin must offer a
   public API to its locks. How should we handle this?
 - The lock plugin does not lock/unlock the backend, yet.
+  
+  - We most probably don't need to lock it (if we can leave out lock refreshing there) for:
+    
+	- GET (just need to replace a GET on lock-null with 404, if )
+	- PROPFIND (need to remove/add some properties, but if that results in a
+	  race condition, that should not really hurt)
+	- OPTIONS
+
 - Lock purging must be done using an API (shell script).
 - Update plugin registry to only have 1 before and 1 after request. Fits!
+- Did we check for lock null while unlocking (remove!)?
 
 Prio 2
 ------

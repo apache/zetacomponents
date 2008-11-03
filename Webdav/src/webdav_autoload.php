@@ -104,6 +104,7 @@ return array(
     'ezcWebdavLockPlugin'                             => 'Webdav/plugins/lock/main.php',
     'ezcWebdavLockPluginConfiguration'                => 'Webdav/plugins/lock/config.php',
     'ezcWebdavLockPluginOptions'                      => 'Webdav/plugins/lock/options.php',
+    'ezcWebdavLockPropFindRequestResponseHandler'     => 'Webdav/plugins/lock/handlers/propfind.php',
     'ezcWebdavLockPropertyHandler'                    => 'Webdav/plugins/lock/property_handler.php',
     'ezcWebdavLockRefreshRequestGenerator'            => 'Webdav/plugins/lock/check_observers/lock_refresh.php',
     'ezcWebdavLockRequest'                            => 'Webdav/requests/lock.php',
