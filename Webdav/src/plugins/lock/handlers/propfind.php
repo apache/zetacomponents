@@ -132,6 +132,11 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
                 }
                 $status200Storage->attach( $supportedLock );
             }
+            if ( $status404Storage !== null && $status404Storage->contains( 'supportedlock' ) )
+            {
+                // Remove anyway, since it is in 200 storage
+                $status404Storage->detach( 'supportedlock' );
+            }
 
             $lockInfoProp = null;
 

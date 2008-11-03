@@ -607,6 +607,24 @@ class ezcWebdavPropertyStorageTest extends ezcTestCase
             ++$nr;
         }
     }
+
+    public function testIteratorDetachedAll()
+    {
+        $storage = new ezcWebdavBasicPropertyStorage();
+
+        $storage->attach( new ezcWebdavLockDiscoveryProperty() );
+        $storage->attach( new ezcWebdavDeadProperty( 'http://example.com/some/property', 'some', 'foobar' ) );
+
+        $storage->detach( 'lockdiscovery' );
+        $storage->detach( 'some', 'http://example.com/some/property' );
+
+        foreach ( $storage as $property )
+        {
+            $this->fail( "Property {$property->namespace} -- {$property->name} not detached!" );
+        }
+
+        // All right, if no error occurs
+    }
 }
 
 ?>

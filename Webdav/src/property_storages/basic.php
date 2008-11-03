@@ -320,19 +320,7 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      */
     public function next()
     {
-        do 
-        {
-            if ( !isset( $this->propertyOrder[++$this->propertyOrderPosition] ) )
-            {
-                // We reached the end.
-                return false;
-            }
-
-            list( $namespace, $name ) = $this->propertyOrder[$this->propertyOrderPosition];
-        } // Skip detached properties
-        while ( !isset( $this->properties[$namespace][$name] ) );
-
-        return $this->properties[$namespace][$name];
+        ++$this->propertyOrderPosition;
     }
 
     /**
@@ -358,7 +346,26 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      */
     public function valid()
     {
-        return ( $this->propertyOrderPosition < $this->propertyOrderNextId );
+        do
+        {
+            if ( !isset( $this->propertyOrder[$this->propertyOrderPosition] ) )
+            {
+                // We reached the end.
+                return false;
+            }
+
+            list( $namespace, $name ) = $this->propertyOrder[$this->propertyOrderPosition];
+
+            if ( isset( $this->properties[$namespace][$name] ) )
+            {
+                // Found next valid property
+                return true;
+            }
+            ++$this->propertyOrderPosition;
+        }
+        while ( !isset( $this->properties[$namespace][$name] ) );
+
+        return true;
     }
 }
 

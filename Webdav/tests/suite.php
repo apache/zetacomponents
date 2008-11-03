@@ -70,6 +70,7 @@ require_once 'plugin_configuration_test.php';
 require_once 'plugin_registry_test.php';
 
 require_once 'client_test_rfc.php';
+require_once 'client_test_rfc_lock.php';
 require_once 'client_test_litmus.php';
 require_once 'client_test_cadaver.php';
 require_once 'client_test_nautilus.php';
@@ -166,6 +167,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavLockPropertyHandlerTest::suite() );
 
         $this->addTest( ezcWebdavClientRfcTest::suite() );
+        $this->addTest( ezcWebdavClientRfcLockTest::suite() );
         $this->addTest( ezcWebdavClientLitmusTest::suite() );
         $this->addTest( ezcWebdavClientCadaverTest::suite() );
         $this->addTest( ezcWebdavClientNautilusTest::suite() );

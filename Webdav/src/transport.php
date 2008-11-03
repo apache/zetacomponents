@@ -1121,9 +1121,12 @@ class ezcWebdavTransport
 
         foreach ( $response->responses as $propStat )
         {
-            $responseElement->appendChild(
-                $dom->importNode( $this->processPropStatResponse( $propStat )->body->documentElement, true )
-            );
+            if ( count( $propStat->storage ) > 0 )
+            {
+                $responseElement->appendChild(
+                    $dom->importNode( $this->processPropStatResponse( $propStat )->body->documentElement, true )
+                );
+            }
         }
         return new ezcWebdavXmlDisplayInformation( $response, $dom );
     }

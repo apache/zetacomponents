@@ -433,6 +433,10 @@ class ezcWebdavPropertyHandler
                 // No plugin wanted to serialize the propery
                 if ( $propertyElement === null )
                 {
+                    if ( $property === false )
+                    {
+                        var_dump( $storage );
+                    }
                     $propertyElement = $this->serializeDeadProperty( $property, $parentElement );
                 }
             }
