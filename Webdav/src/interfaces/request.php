@@ -61,6 +61,7 @@ abstract class ezcWebdavRequest
     public function __construct( $requestUri )
     {
         $this->properties['requestUri'] = $requestUri;
+        $this->setHeader( 'Authorization', new ezcWebdavAnonymousAuth() );
     }
 
     /**

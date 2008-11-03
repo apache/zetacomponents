@@ -22,13 +22,6 @@
 class ezcWebdavBasicAuth extends ezcWebdavAuth
 {
     /**
-     * Plain text user name.
-     * 
-     * @var string
-     */
-    public $username;
-
-    /**
      * Plain text password. 
      * 
      * @var string
@@ -43,7 +36,7 @@ class ezcWebdavBasicAuth extends ezcWebdavAuth
      */
     public function __construct( $username = '', $password = '' )
     {
-        $this->username = $username;
+        parent::__construct( $username );
         $this->password = $password;
     }
 }

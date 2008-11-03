@@ -236,7 +236,7 @@ class ezcWebdavHeaderHandler
                 }
                 
                 // In case of an unknown auth method.
-                return new ezcWebdavBasicAuth();
+                return new ezcWebdavAnonymousAuth();
         }
     }
 
@@ -252,7 +252,7 @@ class ezcWebdavHeaderHandler
      */
     protected function parseBasicAuthorizationHeader( $value )
     {
-        $res = new ezcWebdavBasicAuth();
+        $res = new ezcWebdavAnonymousAuth();
         $credentials = explode(
             ':',
             base64_decode( $value ),
@@ -261,8 +261,7 @@ class ezcWebdavHeaderHandler
         if ( count( $credentials ) > 1 )
         {
             // Credentials parsed successfully.
-            $res->username = $credentials[0];
-            $res->password = $credentials[1];
+            $res = new ezcWebdavBasicAuth( $credentials[0], $credentials[1] );
         }
         return $res;
     }
@@ -280,7 +279,7 @@ class ezcWebdavHeaderHandler
     protected function parseDigestAuthorizationHeader( $value )
     {
         // Default, if header cannot be parsed
-        $res = new ezcWebdavBasicAuth( '', '' );
+        $res = new ezcWebdavAnonymousAuth();
 
         // Minimum 6 values, otherwise incorrect
         if ( preg_match_all( '((\w+)=(?:"([^"]+)"|([A-Za-z0-9]+)))', $value, $matches, PREG_SET_ORDER ) > 5 )

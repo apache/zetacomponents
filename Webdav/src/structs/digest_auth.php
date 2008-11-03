@@ -29,13 +29,6 @@ class ezcWebdavDigestAuth extends ezcWebdavAuth
     public $requestMethod;
 
     /**
-     * Plain text user name.
-     * 
-     * @var string
-     */
-    public $username;
-
-    /**
      * The authentication realm used. 
      * 
      * @var string
@@ -131,8 +124,9 @@ class ezcWebdavDigestAuth extends ezcWebdavAuth
         $opaque = null
     )
     {
+        parent::__construct( $username );
+
         $this->requestMethod       = $requestMethod;
-        $this->username            = $username;
         $this->realm               = $realm;
         $this->nonce               = $nonce;
         $this->uri                 = $uri;

@@ -17,6 +17,22 @@
  */
 abstract class ezcWebdavAuth extends ezcBaseStruct
 {
+    /**
+     * Username. 
+     * 
+     * @var string
+     */
+    public $username = '';
+
+    /**
+     * Creates a new credential struct.
+     * 
+     * @param string $username 
+     */
+    public function __construct( $username = '' )
+    {
+        $this->username = $username;
+    }
 }
 
 ?>
