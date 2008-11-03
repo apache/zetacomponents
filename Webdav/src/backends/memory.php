@@ -42,6 +42,7 @@
 class ezcWebdavMemoryBackend
     extends
         ezcWebdavSimpleBackend
+    implements ezcWebdavLockBackend
 {
     /**
      * Options of the memory backend
