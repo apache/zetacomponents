@@ -81,6 +81,7 @@ abstract class ezcMvcController
      * Runs the controller to process the query and return variables usable
      * to render the view. 
      * 
+     * @throws ezcMvcActionNotFoundException if the action method could not be found
      * @return ezcMvcResult|ezcMvcInternalRedirect
      */
     public function createResult()

@@ -11,6 +11,7 @@
 
 return array(
     'ezcMvcToolsException'              => 'MvcTools/exceptions/exception.php',
+    'ezcMvcActionNotFoundException'     => 'MvcTools/exceptions/action_not_found.php',
     'ezcMvcControllerException'         => 'MvcTools/exceptions/controller.php',
     'ezcMvcFilterHasNoOptionsException' => 'MvcTools/exceptions/filter_has_no_options.php',
     'ezcMvcInfiniteLoopException'       => 'MvcTools/exceptions/infinite_loop.php',

@@ -24,6 +24,10 @@ class testController extends ezcMvcController
     }
 }
 
+class testActionController extends ezcMvcController
+{
+}
+
 class testRegexpRoute extends ezcMvcRegexpRoute
 {
     function getPattern()
@@ -49,6 +53,7 @@ class testSimpleRouter extends ezcMvcRouter
         $routes[] = new testRegexpRoute( '@^entry/list$@', 'testController', 'sample', array( 'method' => 'list' ) );
         $routes[] = new testRegexpRoute( '@^entry/get/(?P<id>[0-9]+)$@', 'testController', 'sample', array( 'method' => 'show' ) );
         $routes[] = new testRegexpRoute( '@^entry/(?P<id>[0-9]+)$@', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes[] = new testRegexpRoute( '@^test/no-action$@', 'testActionController', 'nonExistingMethod' );
 
         return $routes;
     }

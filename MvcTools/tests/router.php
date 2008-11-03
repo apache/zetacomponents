@@ -44,6 +44,25 @@ class ezcMvcToolsRouterTest extends ezcTestCase
         self::assertEquals( array( 'method' => 'show', 'id' => 89 ), $controller->getVars() );
     }
 
+    public function testInvalidAction()
+    {
+        $request = new ezcMvcRequest;
+        $request->uri = 'test/no-action';
+        $router = new testSimpleRouter( $request );
+        $routeInfo = $router->getRoutingInformation();
+        $controllerClass = $routeInfo->controllerClass;
+        $controller = new $controllerClass( $routeInfo->action, $request );
+        try
+        {
+            $controller->createResult();
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcMvcActionNotFoundException $e )
+        {
+            self::assertEquals( "The action 'nonExistingMethod' does not exist.", $e->getMessage() );
+        }
+    }
+
     public function testNoRoutes()
     {
         $request = new ezcMvcRequest;

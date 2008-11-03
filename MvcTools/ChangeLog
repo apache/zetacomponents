@@ -17,6 +17,8 @@
   order.
 - Fixed issue #013845: Structs method __set_state() not tested.
 - Fixed typoes in structs to pass the tests.
+- Fixed issue #13853: Added the missing exception
+  ezcMvcActionNotFoundException.
 
 1.0alpha1 - Monday 06 October 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
