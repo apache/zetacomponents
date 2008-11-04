@@ -60,16 +60,19 @@ class ezcWebdavFlaggedPropertyStorage extends ezcWebdavBasicPropertyStorage
      */
     public function attach( ezcWebdavProperty $property, $flag = 0 )
     {
+        $namespace = $property->namespace;
+        $name      = $property->name;
+
         // Update list of ordered properties
-        if ( !isset( $this->properties[$property->namespace] ) ||
-             !isset( $this->properties[$property->namespace][$property->name] ) )
+        if ( !isset( $this->properties[$namespace] ) ||
+             !isset( $this->properties[$namespace][$name] ) )
         {
-            $this->propertyOrder[$this->propertyOrderNextId++] = array( $property->namespace, $property->name );
+            $this->propertyOrder[$this->propertyOrderNextId++] = array( $namespace, $name );
         }
 
         // Add property
-        $this->properties[$property->namespace][$property->name] = $property;
-        $this->flags[$property->namespace][$property->name] = $flag;
+        $this->properties[$namespace][$name] = $property;
+        $this->flags[$namespace][$name] = $flag;
     }
     
     /**
