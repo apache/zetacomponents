@@ -73,16 +73,6 @@ class ezcWebdavLockIfHeaderTaggedList extends ezcWebdavLockIfHeaderList
      */
     public function offsetGet( $offset )
     {
-        if ( !is_string( $offset ) || strlen( $offset ) < 1 )
-        {
-            throw new ezcBaseValueException(
-                'offset',
-                $offset,
-                'string, length > 0',
-                'Offset must be a valid path.'
-            );
-        }
-
         if ( $this->offsetExists( $offset ) )
         {
             return $this->items[$offset];
