@@ -103,6 +103,7 @@ return array(
     'ezcWebdavLockLockRequestResponseHandler'         => 'Webdav/plugins/lock/handlers/lock.php',
     'ezcWebdavLockMoveRequestResponseHandler'         => 'Webdav/plugins/lock/handlers/move.php',
     'ezcWebdavLockMultipleCheckObserver'              => 'Webdav/plugins/lock/check_observers/multiple.php',
+    'ezcWebdavLockOptionsRequestResponseHandler'      => 'Webdav/plugins/lock/handlers/options.php',
     'ezcWebdavLockPlugin'                             => 'Webdav/plugins/lock/main.php',
     'ezcWebdavLockPluginConfiguration'                => 'Webdav/plugins/lock/config.php',
     'ezcWebdavLockPluginOptions'                      => 'Webdav/plugins/lock/options.php',
