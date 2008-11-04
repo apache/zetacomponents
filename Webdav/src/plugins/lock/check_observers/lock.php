@@ -68,6 +68,9 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
      */
     public function notify( ezcWebdavPropFindResponse $response )
     {
+        $originalRequestUri = $this->issuingRequest->requestUri;
+        $path               = $response->node->path;
+
         $propPatch = new ezcWebdavPropPatchRequest( $response->node->path );
 
         // Overwrite properties, since only 1 lock is allowed at a time (currently)!
@@ -85,12 +88,14 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
 
         $lockInfoProperty = new ezcWebdavLockInfoProperty(
             new ArrayObject(
-                new ezcWebdavLockTokenInfo(
-                    $this->activeLock->token,
-                    // Set $lockBase, if this resource is not the base
-                    ( $this->issuingRequest->requestUri !== $response->node->path ? $requests->requestUri : null ),
-                    // Set $lastAccess for the lock base (used for lock timeouts)
-                    ( $this->issuingRequest->requestUri === $response->node->path ? new DateTime() : null )
+                array(
+                    new ezcWebdavLockTokenInfo(
+                        (string) $this->activeLock->token,
+                        // Set $lockBase, if this resource is not the base
+                        ( $originalRequestUri !== $path ? $originalRequestUri : null ),
+                        // Set $lastAccess for the lock base (used for lock timeouts)
+                        ( $originalRequestUri === $path ? new DateTime() : null )
+                    )
                 )
             )
         );
