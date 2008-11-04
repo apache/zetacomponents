@@ -1,10 +1,10 @@
 <?php
 
-class ezcWebdavLockPluginClientTestAssertions001
+class ezcWebdavLockPluginClientTestAssertions003
 {
     public function assertLockDiscoveryPropertyCorrect( ezcWebdavMemoryBackend $backend )
     {
-        $prop = $backend->getProperty( '/collection/resource.html', 'lockdiscovery' );
+        $prop = $backend->getProperty( '/collection/newresource.xml', 'lockdiscovery' );
         PHPUnit_Framework_Assert::assertNotNull(
             $prop,
             'Lock discovery property not set.'
@@ -31,7 +31,7 @@ class ezcWebdavLockPluginClientTestAssertions001
 
     public function assertLockInfoPropertyCorrect( ezcWebdavMemoryBackend $backend )
     {
-        $prop = $backend->getProperty( '/collection/resource.html', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
+        $prop = $backend->getProperty( '/collection/newresource.xml', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
         PHPUnit_Framework_Assert::assertNotNull(
             $prop,
             'Lock info property not set.'
@@ -39,11 +39,11 @@ class ezcWebdavLockPluginClientTestAssertions001
         PHPUnit_Framework_Assert::assertType(
             'ezcWebdavLockInfoProperty',
             $prop,
-            'Lock info property has incorrect type.'
+            'Lock discovery property has incorrect type.'
         );
-        PHPUnit_Framework_Assert::assertFalse(
+        PHPUnit_Framework_Assert::assertTrue(
             $prop->null,
-            'Real resource defined as null.'
+            'Null resource not defined as such.'
         );
         PHPUnit_Framework_Assert::assertEquals(
             1,
@@ -79,6 +79,6 @@ class ezcWebdavLockPluginClientTestAssertions001
     }
 }
 
-return new ezcWebdavLockPluginClientTestAssertions001();
+return new ezcWebdavLockPluginClientTestAssertions003();
 
 ?>

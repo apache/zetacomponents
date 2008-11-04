@@ -1,6 +1,6 @@
 <?php
 
-class ezcWebdavLockPluginClientTestAssertions001
+class ezcWebdavLockPluginClientTestAssertions005
 {
     public function assertLockDiscoveryPropertyCorrect( ezcWebdavMemoryBackend $backend )
     {
@@ -79,6 +79,6 @@ class ezcWebdavLockPluginClientTestAssertions001
     }
 }
 
-return new ezcWebdavLockPluginClientTestAssertions001();
+return new ezcWebdavLockPluginClientTestAssertions005();
 
 ?>
