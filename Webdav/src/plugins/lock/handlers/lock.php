@@ -246,6 +246,10 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             $request->requestUri,
             ''
         );
+        $putReq->setHeader( 'Content-Length', '0' );
+        $putReq->setHeader( 'Authorization', $request->getHeader( 'Authorization' ) );
+        $putReq->setHeader( 'If', $request->getHeader( 'If' ) );
+        $putReq->validateHeaders();
 
         $putRes = $backend->put( $putReq );
 
@@ -269,11 +273,11 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
         );
 
         $propPatchReq = new ezcWebdavPropPatchRequest( $request->requestUri );
-        $propPatchReq->storage->attach(
+        $propPatchReq->updates->attach(
             $lockDiscoveryProp,
             ezcWebdavPropPatchRequest::SET
         );
-        $propPatchReq->storage->attach(
+        $propPatchReq->updates->attach(
             new ezcWebdavLockInfoProperty(
                 new ArrayObject(
                     array(
@@ -286,10 +290,13 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
                 ),
                 // Null resource!
                 true
-            )
+            ),
+            ezcWebdavPropPatchRequest::SET
         );
-
+        $propPatchReq->setHeader( 'Authorization', $request->getHeader( 'Authorization' ) );
+        $propPatchReq->setHeader( 'If', $request->getHeader( 'If' ) );
         $propPatchReq->validateHeaders();
+
         $propPatchRes = $backend->propPatch( $propPatchReq );
 
         if ( !( $propPatchRes instanceof ezcWebdavPropPatchResponse ) )
