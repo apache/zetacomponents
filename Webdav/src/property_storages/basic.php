@@ -80,15 +80,18 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
      */
     public function attach( ezcWebdavProperty $property )
     {
+        $namespace = $property->namespace;
+        $name      = $property->name;
+
         // Update list of ordered properties
-        if ( !isset( $this->properties[$property->namespace] ) ||
-             !isset( $this->properties[$property->namespace][$property->name] ) )
+        if ( !isset( $this->properties[$namespace] ) ||
+             !isset( $this->properties[$namespace][$name] ) )
         {
-            $this->propertyOrder[$this->propertyOrderNextId++] = array( $property->namespace, $property->name );
+            $this->propertyOrder[$this->propertyOrderNextId++] = array( $namespace, $name );
         }
 
         // Add property
-        $this->properties[$property->namespace][$property->name] = $property;
+        $this->properties[$namespace][$name] = $property;
     }
     
     /**
