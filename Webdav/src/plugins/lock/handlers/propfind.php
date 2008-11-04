@@ -149,7 +149,10 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
                 // Sanely remove 404
                 $status404Storage->detach( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
             }
-            if ( $status200Storage->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE ) )
+
+            if ( $status200Storage !== null
+                 && $status200Storage->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
+               )
             {
                 $lockInfoProp = $status200Storage->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
 
