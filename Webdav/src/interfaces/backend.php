@@ -242,11 +242,7 @@ abstract class ezcWebdavBackend
      */
     public function options( ezcWebdavOptionsRequest $request )
     {
-        $response = new ezcWebdavOptionsResponse(
-            ( $this instanceof ezcWebdavBackendLock) ?
-                '1, 2' :
-                '1'
-        );
+        $response = new ezcWebdavOptionsResponse( '1' );
 
         // Always allowed
         $allowed = 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, ';
