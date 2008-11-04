@@ -1,7 +1,8 @@
 <?php
 
-class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcWebdavAuthorizer
+class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcWebdavAuthorizer, ezcWebdavLockAuthorizer
 {
+    public $tokenAssignement = array();
 
     public $permissions = array(
         'a' => array(
@@ -50,6 +51,28 @@ class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcW
         preg_match( '(^/([^/]+)(/|$))', $path, $matches );
         $basedir = ( isset( $matches[1] ) ? $matches[1] : '' );
         return ( !isset( $this->permissions[$basedir] ) || ( isset( $this->permissions[$basedir][$user] ) && $this->permissions[$basedir][$user] >= $access ) );
+    }
+
+    public function assignLock( $user, $lockToken )
+    {
+        if ( !isset( $this->tokenAssignement[$user] ) )
+        {
+            $this->tokenAssignement[$user] = array();
+        }
+        $this->tokenAssignement[$user][$lockToken] = true;
+    }
+
+    public function ownsLock( $user, $lockToken )
+    {
+        return (
+            isset( $this->tokenAssignement[$user] )
+            && isset( $this->tokenAssignement[$user][$lockToken] )
+        );
+    }
+
+    public function releaseLock( $user, $lockToken )
+    {
+        unset( $this->tokenAssignement[$user][$lockToken] );
     }
 }
 
