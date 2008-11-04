@@ -50,6 +50,7 @@ class ezcWebdavLockPlugin
         'ezcWebdavUnlockRequest'   => 'ezcWebdavLockUnlockRequestResponseHandler',
         'ezcWebdavMoveRequest'     => 'ezcWebdavLockMoveRequestResponseHandler',
         'ezcWebdavPropFindRequest' => 'ezcWebdavLockPropFindRequestResponseHandler',
+        'ezcWebdavOptionsRequest'  => 'ezcWebdavLockOptionsRequestResponseHandler',
     );
 
     /**
