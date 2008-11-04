@@ -215,6 +215,23 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                     )
                 ),
             ),
+            array(
+                '<http://webdav/collection/newdir/> (<opaquelocktoken:e0491761-ef66-9c09-94be-b43d185e2ad3>) <http://webdav/collection/subdir/> (<opaquelocktoken:2e5dba96-db89-da63-e87e-f9688848a315>)',
+                new ezcWebdavLockIfHeaderTaggedList(
+                    array(
+                        '/collection/newdir' => array(
+                            new ezcWebdavLockIfHeaderListItem(
+                                array( 'opaquelocktoken:e0491761-ef66-9c09-94be-b43d185e2ad3' )
+                            ),
+                        ),
+                        '/collection/subdir' => array(
+                            new ezcWebdavLockIfHeaderListItem(
+                                array( 'opaquelocktoken:2e5dba96-db89-da63-e87e-f9688848a315' )
+                            ),
+                        ),
+                    )
+                ),
+            ),
         );
     }
 }
