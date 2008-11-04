@@ -19,25 +19,14 @@ class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
         );
         $test->server->auth = new ezcWebdavClientTestRfcLockAuth();
 
-        $backendBeforeFile = "{$testSetName}_backend_before.php";
+        $backendFile = "{$testSetName}_backend.php";
 
-        if ( !file_exists( $backendBeforeFile ) )
+        if ( !file_exists( $backendFile ) )
         {
-            throw new RuntimeException( "Backend before file '$backendBeforeFile' not found." );
+            throw new RuntimeException( "Backend file '$backendFile' not found." );
         }
 
-        $test->backend = include $backendBeforeFile;
-
-        /*
-        $backendAfterFile = "{$testSetName}_backend_after.php";
-
-        if ( !file_exists( $backendAfterFile ) )
-        {
-            throw new RuntimeException( "Backend after file '$backendAfterFile' not found." );
-        }
-
-        $test->backendAfter = include $backendAfterFile;
-        */
+        $test->backend = include $backendFile;
 
         $tokenFile = "{$testSetName}_tokens.php";
 

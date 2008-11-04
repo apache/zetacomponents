@@ -65,6 +65,8 @@ function assertLockInfoPropertyNowhereElse( ezcWebdavMemoryBackend $backend )
 return array(
     'assertLockDiscoveryPropertyCorrect',
     'assertLockInfoPropertyCorrect',
+    'assertLockDiscoveryPropertyNowhereElse',
+    'assertLockInfoPropertyNowhereElse',
 );
 
 ?>

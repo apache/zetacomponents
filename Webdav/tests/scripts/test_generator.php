@@ -195,6 +195,20 @@ class ezcWebdavClientTestGenerator
      * @var bool
      */
     protected $storeBackends;
+
+    /**
+     * Current test number.
+     * 
+     * @var int
+     */
+    protected $testNo;
+
+    /**
+     * If xdebug traces should be generated.
+     * 
+     * @var bool
+     */
+    public $xdebugTrace = false;
     
     /**
      * Creates a new test generator.
@@ -207,8 +221,9 @@ class ezcWebdavClientTestGenerator
      * @param string $baseUri Base URI, if server is not in doc root.
      * @return void
      */
-    public function __construct( $baseUri = '', $storeBackends = false, $ie = false, $testCaseNoDigits = 3 )
+    public function __construct( $baseUri = '', $storeBackends = false, $ie = false, $testCaseNoDigits = 3, $lockPlugin = false )
     {
+        /*
         $this->lock = TMP_DIR . '/test_generator.lock';
 
         // Lock for exclusive access
@@ -218,7 +233,7 @@ class ezcWebdavClientTestGenerator
         }
         fwrite( $fp, microtime() );
         fclose( $fp );
-
+        */
 
         $this->storeBackends = $storeBackends;
         $this->testCaseNoDigits = $testCaseNoDigits;
@@ -235,22 +250,27 @@ class ezcWebdavClientTestGenerator
         try
         {
             $pathFactory = new ezcWebdavBasicPathFactory( 'http://' . $_SERVER['HTTP_HOST'] . $baseUri );
-            $this->initServer( $pathFactory, $ie );
+            $this->initServer( $pathFactory, $ie, $lockPlugin );
         }
         catch ( Exception $e )
         {
             $this->exceptions[] = $e;
         }
+
+        $this->server->auth->tokenAssignement = ( file_exists( $this->tokenFile = TMP_DIR . '/tokens.ser' )
+            ? unserialize( file_get_contents( $this->tokenFile ) )
+            : array()
+        );
         
         // Get current test number and store it for next request
-        $testNo = ( file_exists( ( $testNoFile = TMP_DIR . '/testno.txt' ) )
-            ? (int) file_get_contents( $testNoFile )
+        $this->testNo = ( file_exists( ( $this->testNoFile = TMP_DIR . '/testno.txt' ) )
+            ? (int) file_get_contents( $this->testNoFile )
             : 1
         );
         // The captured data will be stored here.
         $this->logFileBase = sprintf( "%s/%0{$this->testCaseNoDigits}s_%s",
             LOG_DIR,
-            $testNo,
+            $this->testNo,
             strtr(
                 $_SERVER['REQUEST_METHOD'],
                 array(
@@ -261,7 +281,7 @@ class ezcWebdavClientTestGenerator
                 )
             )
         );
-        file_put_contents( $testNoFile, ++$testNo );
+        file_put_contents( $this->testNoFile, ++$this->testNo );
     }
 
     /**
@@ -273,6 +293,17 @@ class ezcWebdavClientTestGenerator
     {
         $GLOBALS['EZC_WEBDAV_ERROR']  = array();
         set_error_handler( array( $this, 'handleErrors' ) );
+
+        if ( $this->xdebugTrace )
+        {
+            $traceFile = sprintf(
+                "traces/%0{$this->testCaseNoDigits}s_%s",
+                $this->testNo,
+                $_SERVER['REQUEST_METHOD']
+            );
+            xdebug_start_trace( $traceFile );
+        }
+
         try
         {
             $this->server->handle( $this->backend );
@@ -281,6 +312,12 @@ class ezcWebdavClientTestGenerator
         {
             $this->exceptions[] = $e;
         }
+        
+        if ( $this->xdebugTrace )
+        {
+            xdebug_stop_trace();
+        }
+
         restore_error_handler();
     }
 
@@ -358,6 +395,9 @@ class ezcWebdavClientTestGenerator
                 $serBackend
             );
         }
+
+        $serTokens = serialize( $this->server->auth->tokenAssignement );
+        file_put_contents( $this->tokenFile, $serTokens );
     }
 
     /**
@@ -367,7 +407,7 @@ class ezcWebdavClientTestGenerator
      */
     public function finish()
     {
-        unlink( $this->lock );
+        // unlink( $this->lock );
     }
 
     /**
@@ -426,7 +466,7 @@ class ezcWebdavClientTestGenerator
      * @param ezcWebdavPathFactory $pathFactory 
      * @return void
      */
-    protected function initServer( ezcWebdavPathFactory $pathFactory, $ie )
+    protected function initServer( ezcWebdavPathFactory $pathFactory, $ie, $lockPlugin )
     {
         $this->server = ezcWebdavServer::getInstance();
         
@@ -444,6 +484,13 @@ class ezcWebdavClientTestGenerator
         }
 
         $this->server->auth = ( $ie ? new ezcWebdavTestAuthIe() : new ezcWebdavTestAuth() );
+
+        if ( $lockPlugin )
+        {
+            $this->server->pluginRegistry->registerPlugin(
+                new ezcWebdavLockPluginConfiguration()
+            );
+        }
     }
 }
 
