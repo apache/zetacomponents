@@ -28,11 +28,15 @@ class ezcWebdavClientLockPluginTest extends ezcWebdavClientTest
 
         if ( file_exists( $assertionFile ) )
         {
-            $assertions = include $assertionFile;
+            $assertionObject = include $assertionFile;
+            $assertionReflection = new ReflectionObject( $assertionObject );
 
-            foreach ( $assertions as $assertion )
+            foreach ( $assertionReflection->getMethods() as $assertionMethod )
             {
-                $assertion( $this->backend );
+                $assertionMethod->invoke(
+                    $assertionObject,
+                    $this->backend
+                );
             }
         }
     }
