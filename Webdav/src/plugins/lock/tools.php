@@ -282,7 +282,9 @@ class ezcWebdavLockTools
             $request->lockInfo->lockScope,
             $request->getHeader( 'Depth' ),
             $request->lockInfo->owner,
-            $this->getTimeoutValue( $request->getHeader( 'Timeout' ) ),
+            $this->getTimeoutValue(
+                ( $timeouts = $request->getHeader( 'Timeout' ) ) === null ? array() : $timeouts
+            ),
             // Generated lock tokens conform to the opaquelocktoken URI scheme
             new ezcWebdavPotentialUriContent( $lockToken, true )
         );
@@ -356,20 +358,39 @@ class ezcWebdavLockTools
             );
         }
 
+        $ifHeaderItems = ( $checkInfo->ifHeader !== null ? $checkInfo->ifHeader[$path] : null );
+        // @TODO This might only work properly with single locks!
+        if ( $ifHeaderItems === array() && $lockInfoProp !== null )
+        {
+            // Try lock bases
+            foreach ( $lockInfoProp->tokenInfos as $tokenInfo )
+            {
+                if ( $tokenInfo->lockBase !== null
+                     && $auth->ownsLock( $checkInfo->authHeader->username, $tokenInfo->token )
+                )
+                {
+                    $ifHeaderItems = $checkInfo->ifHeader[$tokenInfo->lockBase];
+                }
+                if ( $ifHeaderItems !== array() )
+                {
+                    // Found condition set!
+                    break;
+                }
+            }
+        }
+
         // Extract If header items relevant for the given $request
-        if ( $checkInfo->ifHeader === null ||
-             ( $ifHeaderItems = $checkInfo->ifHeader[$path] ) === array()
-        )
+        if ( $checkInfo->ifHeader === null || $ifHeaderItems === null || $ifHeaderItems === array() )
         {
             // No If header items for this path, just check if item is not
             // locked exclusively
-            if ( $lockDiscoveryProp !== null && count( $lockDiscoveryProp->acquireLock ) > 0 )
+            if ( $lockDiscoveryProp !== null && count( $lockDiscoveryProp->activeLock ) > 0 )
             {
                 // Found lock, operation not permitted
                 return new ezcWebdavErrorResponse(
                     ezcWebdavResponse::STATUS_423,
                     $path,
-                    "Resource locked exclusively by '{$activeLock->owner}'."
+                    "Resource locked exclusively by '{$lockDiscoveryProp->activeLock[0]->owner}'."
                 );
             }
 
