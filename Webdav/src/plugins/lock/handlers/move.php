@@ -89,17 +89,6 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
                     $sourcePathCollector,
                     false // No lock-null allowed
                 ),
-                // Destination (maybe overwritten, maybe not, but we must not
-                // care)
-                new ezcWebdavLockCheckInfo(
-                    $destination,
-                    ezcWebdavRequest::DEPTH_INFINITY,
-                    $ifHeader,
-                    $authHeader,
-                    ezcWebdavAuthorizer::ACCESS_WRITE,
-                    null,
-                    false // No lock-null allowed
-                ),
                 // Destination parent dir
                 // We also get the lock property from here and refresh the
                 // locks on it
@@ -120,6 +109,32 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
         if ( $violations !== null )
         {
             return new ezcWebdavMultistatusResponse( $violations );
+        }
+
+        $destinationViolation = $this->tools->checkViolations(
+            array(
+                // Destination (maybe overwritten, maybe not, but we must not
+                // care)
+                new ezcWebdavLockCheckInfo(
+                    $destination,
+                    ezcWebdavRequest::DEPTH_INFINITY,
+                    $ifHeader,
+                    $authHeader,
+                    ezcWebdavAuthorizer::ACCESS_WRITE,
+                    null,
+                    false // No lock-null allowed
+                ),
+            ),
+            // Return on first violation
+            true
+        );
+
+        if ( $destinationViolation !== null
+             && ( !is_object( $destinationViolation ) || $destinationViolation->status !== ezcWebdavResponse::STATUS_404 )
+        )
+        {
+            // Destination might be there but not violated, or might not be there
+            return $destinationViolation;
         }
 
         // Perform lock refresh (most occur no matter if request succeeds)
