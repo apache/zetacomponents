@@ -223,7 +223,10 @@ class ezcWebdavLockTransport
     protected function parseUnlockRequest( $path, $body )
     {
         $request = new ezcWebdavUnlockRequest( $path );
-
+        
+        $request->setHeaders(
+            ezcWebdavServer::getInstance()->headerHandler->parseHeaders()
+        );
         $request->setHeader(
             'Lock-Token',
             $this->headerHandler->parseLockTokenHeader()

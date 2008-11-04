@@ -6,14 +6,22 @@ class ezcWebdavClientTestRfcLockAuth
 {
     public $tokenAssignement = array();
 
+    public $credentials = array(
+        'ejw' => '',
+        ''    => '',
+    );
+
     public function authenticateBasic( ezcWebdavBasicAuth $auth )
     {
-        return ( $auth->username === 'ejw' || $auth->username === '' );
+        return (
+            isset( $this->credentials[$auth->username] )
+            && $this->credentials[$auth->username] === $auth->password
+        );
     }
 
     public function authenticateDigest( ezcWebdavDigestAuth $auth )
     {
-        return ( $auth->username === 'ejw' );
+        return ( isset( $this->credentials[$auth->username] ) );
     }
 
     public function authorize( $user, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )

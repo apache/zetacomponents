@@ -26,7 +26,7 @@ class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
         parent::__construct( ezcWebdavLockPlugin::XML_NAMESPACE, self::NAME );
 
         $this->tokenInfos = ( $tokenInfos === null ? new ArrayObject() : $tokenInfos );
-        $this->null      = $null;
+        $this->null       = $null;
     }
 
     /**

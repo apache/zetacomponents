@@ -185,11 +185,20 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
             );
         }
 
-        $srv->auth->releaseLock( $authHeader->username, $token );
-
         // If lock depth is 0, we issue 1 propfind too much here
         // @TODO: Analyse if clients usually lock 0 or infinity
-        return $this->performUnlock( $request->requestUri, $token, $affectedActiveLock->depth );
+        $res = $this->performUnlock(
+            $request->requestUri,
+            $token,
+            $affectedActiveLock->depth,
+            $authHeader
+        );
+
+        if ( $res instanceof ezcWebdavUnlockResponse )
+        {
+            $srv->auth->releaseLock( $authHeader->username, $token );
+        }
+        return $res;
     }
 
     /**
@@ -205,7 +214,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
      * @param int $depth 
      * @return ezcWebdavResponse
      */
-    protected function performUnlock( $path, $token, $depth )
+    protected function performUnlock( $path, $token, $depth, ezcWebdavAuth $authHeader )
     {
         $backend = ezcWebdavServer::getInstance()->backend;
 
@@ -216,6 +225,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         $propFindReq->prop->attach( new ezcWebdavLockInfoProperty() );
         $propFindReq->prop->attach( new ezcWebdavLockDiscoveryProperty() );
         $propFindReq->setHeader( 'Depth', $depth );
+        $propFindReq->setHeader( 'Authorization', $authHeader );
         $propFindReq->validateHeaders();
 
         $propFindMultistatusRes = $backend->propFind( $propFindReq );
@@ -242,11 +252,22 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
                             {
                                 // Not a null resource
 
-                                unset( $lockInfoProp->tokenInfos[$id] );
-                                $changeProps->attach(
-                                    $lockInfoProp,
-                                    ezcWebdavPropPatchRequest::SET
-                                );
+                                $lockInfoProp->tokenInfos->offsetUnset( $id );
+                                if ( count( $lockInfoProp->tokenInfos ) === 0 )
+                                {
+                                    $changeProps->attach(
+                                        $lockInfoProp,
+                                        ezcWebdavPropPatchRequest::REMOVE
+                                    );
+                                }
+                                else
+                                {
+                                    // Should not occur now, only with shared locks!
+                                    $changeProps->attach(
+                                        $lockInfoProp,
+                                        ezcWebdavPropPatchRequest::SET
+                                    );
+                                }
 
                                 break;
                             }
@@ -275,9 +296,10 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
                         $lockDiscoveryProp = $propStatRes->storage->get( 'lockdiscovery' );
                         foreach ( $lockDiscoveryProp->activeLock as $id => $activeLock )
                         {
-                            if ( $activeLock->token === $token )
+                            if ( $activeLock->token == $token )
                             {
-                                unset( $lockDiscoveryProp->activeLock[$id] );
+                                $lockDiscoveryProp->activeLock->offsetUnset( $id );
+
                                 $changeProps->attach(
                                     $lockDiscoveryProp,
                                     ezcWebdavPropPatchRequest::SET

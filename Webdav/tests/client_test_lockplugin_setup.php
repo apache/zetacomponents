@@ -18,6 +18,7 @@ class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
             )
         );
         $test->server->auth = new ezcWebdavClientTestRfcLockAuth();
+        $test->server->auth->credentials['foo'] = 'bar';
 
         $backendFile = "{$testSetName}_backend.php";
 

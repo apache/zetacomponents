@@ -8,7 +8,7 @@ return array (
   'HTTP_TIMEOUT' => 'Infinite, Second-4100000000',
   'CONTENT_TYPE' => 'text/xml; charset="utf-8"',
   // foo : bar
-  'HTTP_AUTH' => 'Basic Zm9vOmJhcg==',
+  'HTTP_AUTHORIZATION' => 'Basic Zm9vOmJhcg==',
 );
 
 ?>
