@@ -246,6 +246,8 @@ class ezcWebdavLockPlugin
     public function receivedRequest( ezcWebdavPluginParameters $params )
     {
         $request  = $params['request'];
+
+        // Set headers parsed by the lock plugin only.
         $request->setHeader(
             'If',
             $this->headerHandler->parseIfHeader( $request )

@@ -314,10 +314,8 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
                     ezcWebdavPropPatchRequest::SET
                 );
             }
-            $propPatch->setHeader(
-                'Authorization',
-                $this->request->getHeader( 'Authorization' )
-            );
+            ezcWebdavLockTools::cloneRequestHeaders( $this->request, $propPatch );
+
             $requests[] = $propPatch;
         }
         return $requests;

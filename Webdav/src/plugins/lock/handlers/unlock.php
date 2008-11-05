@@ -95,6 +95,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         $propFindReq->prop->attach(
             new ezcWebdavLockInfoProperty()
         );
+        ezcWebdavLockTools::cloneRequestHeaders( $request, $propFindReq );
         $propFindReq->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
         $propFindReq->validateHeaders();
 
@@ -174,14 +175,13 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         if ( $affectedTokenInfo->lockBase !== null )
         {
             // Requested resource is not the lock base, recurse
-            $request = new ezcWebdavUnlockRequest( $affectedTokenInfo->lockBase );
-            $request->setHeader( 'Lock-Token', $token );
-            $request->validateHeaders();
+            $newRequest = new ezcWebdavUnlockRequest( $affectedTokenInfo->lockBase );
+            ezcWebdavLockTools::cloneRequestHeaders( $request, $newRequest, array( 'If', 'Lock-Token' ) );
+            $newRequest->validateHeaders();
 
-            // Recursion
-            // @TODO Should be protected against infinity
+            // @TODO Should be protected against infinite recursion
             return $this->receivedRequest(
-                $request
+                $newRequest
             );
         }
 

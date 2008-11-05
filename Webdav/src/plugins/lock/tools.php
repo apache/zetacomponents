@@ -32,6 +32,15 @@ class ezcWebdavLockTools
     public $options;
 
     /**
+     * Default headers to clone in {@link cloneRequestHeaders()}.
+     * 
+     * @var array(string)
+     */
+    protected static $defaultCloneHeaders = array(
+        'Authorization',
+    );
+
+    /**
      * Creates a new tool instances.
      * 
      * @param ezcWebdavLockPluginOptions $options 
@@ -39,6 +48,42 @@ class ezcWebdavLockTools
     public function __construct( ezcWebdavLockPluginOptions $options )
     {
         $this->options = $options;
+    }
+
+    /**
+     * Clones headers in $from to headers in $to.
+     *
+     * Clones all headers with names given in $heades from the request $from to
+     * the request in $to. In case $defaultHeaders is set to true, the headers
+     * mentioned in {@link $defaultCloneHeaders} are cloned in addition.
+     *
+     * Note, that this method does not call {@link
+     * ezcWebdavRequest::validateHeaders()}, since headers in $to might still
+     * be incomplete. You need to call this method manually, before sending $to
+     * to the backend or accessing its headers for reading.
+     * 
+     * @param ezcWebdavRequest $from 
+     * @param ezcWebdavRequest $to 
+     * @param array $headers 
+     * @param bool $defaultHeaders 
+     */
+    public static function cloneRequestHeaders(
+        ezcWebdavRequest $from,
+        ezcWebdavRequest $to,
+        $headers = array(),
+        $defaultHeaders = true
+    )
+    {
+        if ( $defaultHeaders )
+        {
+            $headers = array_merge( self::$defaultCloneHeaders, $headers );
+            $headers = array_unique( $headers );
+        }
+
+        foreach( $headers as $headerName )
+        {
+            $to->setHeader( $headerName, $from->getHeader( $headerName ) );
+        }
     }
 
     /**
