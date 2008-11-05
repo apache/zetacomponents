@@ -718,8 +718,10 @@ class ezcWebdavMemoryBackend
      * 
      * @param string $path 
      * @return bool
+     *
+     * @access protected
      */
-    protected function nodeExists( $path )
+    public function nodeExists( $path )
     {
         return isset( $this->content[$path] );
     }
@@ -731,8 +733,10 @@ class ezcWebdavMemoryBackend
      * 
      * @param string $path 
      * @return bool
+     *
+     * @access protected
      */
-    protected function isCollection( $path )
+    public function isCollection( $path )
     {
         return $this->nodeExists( $path ) && is_array( $this->content[$path] );
     }
