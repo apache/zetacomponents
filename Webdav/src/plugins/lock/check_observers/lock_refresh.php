@@ -303,13 +303,13 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
         foreach ( $this->lockBaseProperties as $path => $lockInfoProperty )
         {
             $propPatch = new ezcWebdavPropPatchRequest( $path );
-            $propPatch->storage->attach(
+            $propPatch->updates->attach(
                 $lockInfoProperty,
                 ezcWebdavPropPatchRequest::SET
             );
             if ( isset( $this->lockDiscoveryProperties[$path] ) )
             {
-                $propPatch->storage->attach(
+                $propPatch->updates->attach(
                     $this->lockDiscoveryProperties[$path],
                     ezcWebdavPropPatchRequest::SET
                 );

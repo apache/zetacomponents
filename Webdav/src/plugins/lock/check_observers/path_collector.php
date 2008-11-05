@@ -50,7 +50,7 @@ class ezcWebdavLockCheckPathCollector implements ezcWebdavLockCheckObserver
      */
     public function getPaths()
     {
-        return $this->paths();
+        return $this->paths;
     }
 }
 

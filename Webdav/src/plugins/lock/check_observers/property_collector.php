@@ -57,7 +57,7 @@ class ezcWebdavLockCheckPropertyCollector implements ezcWebdavLockCheckObserver
         
         foreach ( $response->responses as $propStatResponse )
         {
-            if ( $propStatResponse->status === ezcWebdavRequest::STATUS_200 )
+            if ( $propStatResponse->status === ezcWebdavResponse::STATUS_200 )
             {
                 $this->properties[$path] = $propStatResponse->storage;
             }

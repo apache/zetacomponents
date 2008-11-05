@@ -69,13 +69,18 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         $sourcePathCollector = new ezcWebdavLockCheckPathCollector();
 
-        $destinationPropertyCollector = new ezcWebdavLockCheckPropertyCollector();
-        $destinationLockRefresher = new ezcWebdavLockRefreshRequestGenerator(
-            $request
-        );
         $multiObserver = new ezcWebdavLockMultipleCheckObserver();
+
+        $destinationPropertyCollector = new ezcWebdavLockCheckPropertyCollector();
         $multiObserver->attach( $destinationPropertyCollector );
-        $multiObserver->attach( $destinationLockRefresher );
+
+        if ( $ifHeader !== null )
+        {
+            $destinationLockRefresher = new ezcWebdavLockRefreshRequestGenerator(
+                $request
+            );
+            $multiObserver->attach( $destinationLockRefresher );
+        }
 
         $violations = $this->tools->checkViolations(
             array(
@@ -108,7 +113,7 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         if ( $violations !== null )
         {
-            return new ezcWebdavMultistatusResponse( $violations );
+            return new ezcWebdavMultiStatusResponse( $violations );
         }
 
         $destinationViolation = $this->tools->checkViolations(
@@ -134,11 +139,14 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
         )
         {
             // Destination might be there but not violated, or might not be there
-            return $destinationViolation;
+            return new ezcWebdavMultiStatusResponse( $destinationViolation );
         }
 
         // Perform lock refresh (most occur no matter if request succeeds)
-        $destinationLockRefresher->sendRequests();
+        if ( isset( $destinationLockRefresher ) )
+        {
+            $destinationLockRefresher->sendRequests();
+        }
 
         // Store infos for use on correct moving
 
@@ -183,23 +191,30 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         // Backend successfully performed request, update with LOCK from parent
 
-        $request = $this->request;
-        $source  = $request->requestUri;
-        $dest    = $request->getHeader( 'Destination' );
-        $paths   = $this->sourcePaths;
+        $request    = $this->request;
+        $source     = $request->requestUri;
+        $dest       = $request->getHeader( 'Destination' );
+        $destParent = dirname( $dest );
+        $paths      = $this->sourcePaths;
 
         $lockDiscovery = $this->lockProperties->get( 'lockdiscovery' );
         if ( $lockDiscovery === null )
         {
-            // Nothing to do
-            return;
+            // Set an empty lock discovery to remove existing locks
+            // @TODO: Affected lock must be properly removed here if we once
+            // introduce shared locks.
+            $lockDiscovery = new ezcWebdavLockDiscoveryProperty();
         }
         $lockInfo = $this->lockProperties->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
         if ( $lockInfo === null )
         {
-            throw new ezcWebdavInconsistencyException(
-                'Found <lockdiscovery> property but no <lockinfo> property.'
-            );
+            if ( count( $lockDiscovery->activeLock ) !== 0 )
+            {
+                throw new ezcWebdavInconsistencyException(
+                    'Found <lockdiscovery> property but no <lockinfo> property.'
+                );
+            }
+            $lockInfo = new ezcWebdavLockInfoProperty();
         }
 
         // Update lock info to subsequent paths
@@ -215,12 +230,19 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
         foreach ( $paths as $path )
         {
             $newPath   = str_replace( $source, $dest, $path );
-            $propPatch = new ezcWebdavPropPatchRequest( $newPath );
-            $propPatch->storage->attach( $lockDiscovery );
-            $propPatch->storage->attach( $lockInfo );
-            $propPatch->setHeader( 'Authorization', $request->getHeader( 'Authorization' ) );
+            $propPatchReq = new ezcWebdavPropPatchRequest( $newPath );
+            $propPatchReq->updates->attach( $lockDiscovery, ezcWebdavPropPatchRequest::SET );
+            $propPatchReq->updates->attach(
+                $lockInfo,
+                ( count( $lockInfo->tokenInfos ) !== 0 ? ezcWebdavPropPatchRequest::SET : ezcWebdavPropPatchRequest::REMOVE )
+            );
+            ezcWebdavLockTools::cloneRequestHeaders(
+                $request,
+                $propPatchReq
+            );
+            $propPatchReq->validateHeaders();
 
-            $propPatchRes = $backend->propPatch( $propPatch );
+            $propPatchRes = $backend->propPatch( $propPatchReq );
 
             if ( !( $propPatchRes instanceof ezcWebdavPropPatchResponse ) )
             {

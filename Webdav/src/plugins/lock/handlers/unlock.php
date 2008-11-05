@@ -66,7 +66,6 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
             return new ezcWebdavErrorResponse( ezcWebdavResponse::STATUS_412 );
         }
 
-
         // Check permission
 
         if ( !$srv->isAuthorized(
