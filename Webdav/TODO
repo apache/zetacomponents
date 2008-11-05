@@ -14,6 +14,8 @@ TODO
 	- OPTIONS
 
 - Update plugin registry to only have 1 before and 1 after request. Should last!
+- Check all files/classes for correct @access tags (almost all of the lock
+  plugin must have @access private).
 
 1.1beta1
 --------
