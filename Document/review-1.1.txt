@@ -1,0 +1,21 @@
+Review Alexandru 05-11-2008
+---------------------------
+
+[ ] Wrong headers in some files ("File containing the XXX class", "Base class...").
+
+[ ] Wrong package names (Table, PageBreak, etc) (see issue #13829).
+
+[ ] rst2xhtml conversion does not work for all ezc tutorials (some
+    elements are not supported, like replace).
+
+[ ] Linux-style path separator used in some files.
+
+[ ] Some functions which return bool are documented with '@return void'.
+
+- Some typos in the code and comments:
+
+[ ] /src/exceptions/errnous_xml.php
+    Errnous -> Erroneous
+
+[ ] /src/document/xml/xhtml/filter/element/base.php
+    boolena -> bool
