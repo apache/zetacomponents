@@ -6,14 +6,16 @@ TODO
 
 - The lock plugin does not lock/unlock the backend, yet.
   
-  - We most probably don't need to lock it (if we can leave out lock refreshing there) for:
+  - We most probably don't need to lock it (if we can leave out lock refreshing
+	there) for:
     
-	- GET (just need to replace a GET on lock-null with 404, if )
+	- GET (just need to replace a GET on lock-null with 404, if)
 	- PROPFIND (need to remove/add some properties, but if that results in a
 	  race condition, that should not really hurt)
 	- OPTIONS
 
-- Update plugin registry to only have 1 before and 1 after request. Should last!
+- Update plugin registry to only have 1 before and 1 after request. Should
+  last!
 - Check all files/classes for correct @access tags (almost all of the lock
   plugin must have @access private).
 
