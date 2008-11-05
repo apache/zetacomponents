@@ -127,6 +127,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         // Optionally overwrite $_SERVER
         $_SERVER = $request['server'];
 
+        // ini_set( 'xdebug.collect_return', 1 );
         xdebug_start_trace( './traces/' . basename( $testSetName ) );
         $this->server->handle( $this->backend );
         xdebug_stop_trace();

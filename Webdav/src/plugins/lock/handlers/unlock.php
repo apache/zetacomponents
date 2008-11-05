@@ -169,7 +169,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         if ( $affectedTokenInfo === null || $affectedActiveLock === null )
         {
             // Lock not present (purged)! Finish successfully.
-            return new ezcWebdavResponse( ezcWebdavResponse::STATUS_204 );
+            return new ezcWebdavUnlockResponse( ezcWebdavResponse::STATUS_204 );
         }
 
         if ( $affectedTokenInfo->lockBase !== null )
@@ -269,22 +269,22 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
                                     );
                                 }
 
-                                break;
-                            }
-
-                            if ( $lockInfoProp->null === true && count( $lockInfoProp->tokenInfos ) === 0 )
-                            {
-                                // Null lock resource, delete when no more locks are active
-
-                                $deleteReq = new ezcWebdavDeleteRequest( $propFindRes->node->path );
-                                $deleteReq->validateHeaders();
-                                $deleteRes = $backend->delete( $deleteReq );
-                                if ( !( $deleteRes instanceof ezcWebdavDeleteResponse ) )
+                                if ( $lockInfoProp->null && count( $lockInfoProp->tokenInfos ) === 0 )
                                 {
-                                    return $deleteRes;
+                                    // Null lock resource, delete when no more locks are active
+
+                                    $deleteReq = new ezcWebdavDeleteRequest( $propFindRes->node->path );
+                                    $deleteReq->validateHeaders();
+                                    $deleteRes = $backend->delete( $deleteReq );
+                                    if ( !( $deleteRes instanceof ezcWebdavDeleteResponse ) )
+                                    {
+                                        return $deleteRes;
+                                    }
+                                    // Skip over further property assignements and PROPPATCH
+                                    continue 3;
                                 }
-                                // Skip over further property assignements and PROPPATCH
-                                continue 2;
+
+                                break;
                             }
                         }
                     }
