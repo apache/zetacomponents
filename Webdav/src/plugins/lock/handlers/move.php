@@ -171,7 +171,7 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
         $this->sourcePaths = $sourcePathCollector->getPaths();
 
         // Backend now handles the request
-        // return null;
+        return null;
     }
 
     /**
@@ -252,7 +252,7 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
             }
         }
        
-        // return null;
+        return null;
     }
 }
 

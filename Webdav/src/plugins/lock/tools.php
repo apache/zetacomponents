@@ -216,7 +216,7 @@ class ezcWebdavLockTools
                 $mainLockProperty
              );
         }
-        // return null;
+        return null;
     }
 
     /**

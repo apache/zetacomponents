@@ -93,7 +93,7 @@ class ezcWebdavLockTransport
             $req->validateHeaders();
             return $req;
         }
-        // return null;
+        return null;
     }
 
     /**
@@ -109,7 +109,7 @@ class ezcWebdavLockTransport
             $method = self::$processingMap[$responseClass];
             return $this->$method( $response );
         }
-        // return null;
+        return null;
     }
 
     /**

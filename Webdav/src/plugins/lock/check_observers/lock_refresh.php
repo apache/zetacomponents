@@ -252,7 +252,7 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
                 return $res;
             }
         }
-        // return null;
+        return null;
     }
 
     /**

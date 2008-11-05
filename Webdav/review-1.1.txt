@@ -22,10 +22,9 @@ classes on multiple lines is that they are not displayed in the Class Tree
 
 [ ] Some files have different class name in header ("File containing the XXX class).
 
-[ ] "return null;" is commented-out in some files.
-
+[x] "return null;" is commented-out in some files.
 
 - Some typos in the code and comments:
 
-[ ] /src/server.php
+[x] /src/server.php
     Nounce -> Nonce

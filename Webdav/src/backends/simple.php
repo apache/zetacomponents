@@ -1576,7 +1576,7 @@ abstract class ezcWebdavSimpleBackend
         {
             return $res;
         }
-        // return null;
+        return null;
     }
 
     /**
@@ -1602,7 +1602,7 @@ abstract class ezcWebdavSimpleBackend
                 );
             }
         }
-        // return null;
+        return null;
     }
 
     /**
@@ -1628,7 +1628,7 @@ abstract class ezcWebdavSimpleBackend
                 );
             }
         }
-        // return null;
+        return null;
     }
 
     /**

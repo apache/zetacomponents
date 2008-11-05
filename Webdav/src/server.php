@@ -383,7 +383,7 @@ class ezcWebdavServer
         if ( $this->properties['auth'] instanceof ezcWebdavDigestAuthenticator )
         {
             $wwwAuthHeader['digest'] = 'Digest realm="' .$this->options->realm . '"'
-                . ', nonce="' . $this->getNounce() . '"'
+                . ', nonce="' . $this->getNonce() . '"'
                 . ', algorithm="MD5"';
             // @todo Do we want an opaque value here, too?
         }
@@ -416,7 +416,7 @@ class ezcWebdavServer
      * 
      * @return string
      */
-    private function getNounce()
+    private function getNonce()
     {
         // This should be random enough that it cannot be guessed easily
         return md5(

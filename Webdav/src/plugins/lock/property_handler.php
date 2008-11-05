@@ -373,7 +373,7 @@ class ezcWebdavLockPropertyHandler
                 return $this->extractLockInfoProperty( $element, $xmlTool );
 
             // default:
-                // return null;
+                return null;
         }
     }
 
