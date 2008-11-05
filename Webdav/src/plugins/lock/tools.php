@@ -451,7 +451,7 @@ class ezcWebdavLockTools
         {
             foreach ( $lockDiscoveryProp->activeLock as $activeLock )
             {
-                $lockTokens[] = $activeLock->token;
+                $lockTokens[] = $activeLock->token->__toString();
             }
         }
 
@@ -466,13 +466,16 @@ class ezcWebdavLockTools
             // Check lock tokens first
             foreach ( $item->lockTokens as $itemLockToken )
             {
-                if ( !in_array( $itemLockToken, $lockTokens ) )
+                // For not-locked resources, lock checks are skipped
+                if ( !in_array( $itemLockToken, $lockTokens ) && $lockTokens !== array() )
                 {
                     // Lock token condition failed, check next condition set
                     $lockVerified = false;
                     continue 2;
                 }
-                if ( !$auth->ownsLock( $checkInfo->authHeader->username, $itemLockToken ) )
+                if ( $lockTokens !== array()
+                     && !$auth->ownsLock( $checkInfo->authHeader->username, $itemLockToken )
+                )
                 {
                     // Lock token does not belong to the user
                     $lockVerified = false;
