@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:ezc00000="http://ezcomponents.org/s/Webdav#lock">
+    <D:href>http://example.com/collection/</D:href>
+    <D:propstat xmlns:ezc00000="http://ezcomponents.org/s/Webdav#lock">
+      <D:prop>
+        <ezc00000:lockinfo xmlns:ezc00000="http://ezcomponents.org/s/Webdav#lock"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:ezc="http://ezcomponents.org/s/Webdav#lock">
+    <D:href>http://example.com/collection/resource.html</D:href>
+    <D:propstat xmlns:ezc="http://ezcomponents.org/s/Webdav#lock">
+      <D:prop>
+        <ezc:lockinfo xmlns:ezc="http://ezcomponents.org/s/Webdav#lock"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>

@@ -86,6 +86,15 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
         );
         $supportedLockEmpty = $request->propName;
 
+        $needsLockDiscoveryProp = (
+            $request->allProp
+            || $request->propName
+            || ( is_object( $requestProp )
+                 && $requestProp->contains( 'lockdiscovery' )
+            )
+        );
+        $lockDiscoveryEmpty = $request->propName;
+
         // Cleanup and enhance all PROPSTAT responses
 
         foreach ( $response->responses as $propFindRes )
@@ -106,8 +115,9 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
                 }
             }
 
-            // Add <supportedlock> if necessary
-            if ( $status200Storage === null && $needsSupportedLockProp )
+            if ( $status200Storage === null
+                 && ( $needsSupportedLockProp || $needsLockDiscoveryProp )
+            )
             {
                 // Create new response, since no 200 was found
                 $status200Storage       = new ezcWebdavBasicPropertyStorage();
@@ -117,13 +127,15 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
                 );
                 $propFindRes->responses = $propStats;
             }
+
+            // Add <supportedlock> if necessary
             if ( $needsSupportedLockProp )
             {
                 $supportedLock = new ezcWebdavSupportedLockProperty();
                 if ( !$supportedLockEmpty )
                 {
                     // @TODO: Make tool method.
-                    $supportedLock->lockEntries->append(
+                    $supportedLock->lockEntries->attach(
                         new ezcWebdavSupportedLockPropertyLockentry(
                             ezcWebdavLockRequest::TYPE_WRITE,
                             ezcWebdavLockRequest::SCOPE_EXCLUSIVE
@@ -132,10 +144,20 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
                 }
                 $status200Storage->attach( $supportedLock );
             }
-            if ( $status404Storage !== null && $status404Storage->contains( 'supportedlock' ) )
+
+            // Add <lockdiscovery> is necessary
+            if ( $needsLockDiscoveryProp && !$status200Storage->contains( 'lockdiscovery' ) )
             {
-                // Remove anyway, since it is in 200 storage
+                $lockDiscovery = new ezcWebdavLockDiscoveryProperty();
+                $status200Storage->attach( $lockDiscovery );
+            }
+
+            if ( $status404Storage !== null )
+            {
+                // Remove properties from 404 storage since they are now in
+                // 200, if requested
                 $status404Storage->detach( 'supportedlock' );
+                $status404Storage->detach( 'lockdiscovery' );
             }
 
             $lockInfoProp = null;
