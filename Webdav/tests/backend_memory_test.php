@@ -658,6 +658,12 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
             0,
             20
         );
+
+        $this->assertNotSame(
+            $backend->getAllProperties( '/foo' ),
+            $backend->getAllProperties( '/dest' ),
+            'Properties not cloned on copy.'
+        );
     }
 
     public function testResourceCopyError()

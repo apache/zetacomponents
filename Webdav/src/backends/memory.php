@@ -541,7 +541,7 @@ class ezcWebdavMemoryBackend
             }
 
             // Copy properties
-            $this->props[$toPath] = $this->props[$fromPath];
+            $this->props[$toPath] = clone $this->props[$fromPath];
 
             // Update modification date
             // $this->props[$toPath]['getlastmodified'] = time();
