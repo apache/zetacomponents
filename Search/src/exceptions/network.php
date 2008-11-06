@@ -20,7 +20,7 @@ class ezcSearchNetworkException extends ezcSearchException
     /**
      * Constructs an ezcSearchNetworkException
      *
-     * @param string $field
+     * @param string $message
      */
     public function __construct( $message )
     {
