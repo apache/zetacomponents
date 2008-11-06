@@ -29,6 +29,8 @@ TODO
 
 - Lock purging must be done using an API (shell script).
 
+- Try to refactor checkViolations() and checkEtagsAndLocks().
+
 1.2
 ---
 

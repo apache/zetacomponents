@@ -48,6 +48,7 @@ class ezcWebdavLockPlugin
     protected static $requestHandlingMap = array(
         'ezcWebdavLockRequest'     => 'ezcWebdavLockLockRequestResponseHandler',
         'ezcWebdavUnlockRequest'   => 'ezcWebdavLockUnlockRequestResponseHandler',
+        'ezcWebdavCopyRequest'     => 'ezcWebdavLockCopyRequestResponseHandler',
         'ezcWebdavMoveRequest'     => 'ezcWebdavLockMoveRequestResponseHandler',
         'ezcWebdavPropFindRequest' => 'ezcWebdavLockPropFindRequestResponseHandler',
         'ezcWebdavOptionsRequest'  => 'ezcWebdavLockOptionsRequestResponseHandler',

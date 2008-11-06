@@ -5,4 +5,13 @@
     <D:status>HTTP/1.1 423 Locked</D:status>
     <D:responsedescription>Resource locked exclusively by 'http://example.com/some/user'.</D:responsedescription>
   </D:response>
+  <D:response>
+    <D:href>http://example.com/collection/resource.html</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:lockdiscovery/>
+      </D:prop>
+      <D:status>HTTP/1.1 424 Failed Dependency</D:status>
+    </D:propstat>
+  </D:response>
 </D:multistatus>

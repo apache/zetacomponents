@@ -19,93 +19,32 @@
  *
  * @access private
  */
-class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestResponseHandler
+class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockCopyRequestResponseHandler
 {
     /**
-     * Properties of the destination parent.
+     * Returns all pathes in the move source.
      *
-     * These properties need to be set on the successfully moved the source to
-     * the destination. The properties still need to be manipulated in {@link
-     * generatedResponse()}
+     * This method performs the necessary checks on the source to move. It
+     * returns all paths that are to be moved. In case of any violation of the
+     * checks, the method must hold and return an instance of
+     * ezcWebdavErrorResponse instead of the desired paths.
      * 
-     * @var ezcWebdavBasicPropertyStorage
+     * @return array(string)|ezcWebdavErrorResponse
      */
-    protected $lockProperties;
-
-    /**
-     * The original request.
-     * 
-     * @var ezcWebdavMoveRequest
-     */
-    protected $request;
-
-    /**
-     * Pathes moved to the destination.
-     *
-     * Used to determine all paths that need lock updates.
-     * 
-     * @var array(string)
-     */
-    protected $sourcePaths;
-
-    /**
-     * Handles MOVE requests.
-     *
-     * @param ezcWebdavUnlockRequest $request 
-     * @return ezcWebdavResponse
-     */
-    public function receivedRequest( ezcWebdavRequest $request )
+    protected function getSourcePaths()
     {
-        $backend = ezcWebdavServer::getInstance()->backend;
-
-        $this->handlingInfo = array();
-
-        $destination = $request->getHeader( 'Destination' );
-        $destParent  = dirname( $destination );
-        $ifHeader    = $request->getHeader( 'If' );
-        $authHeader  = $request->getHeader( 'Authorization' );
-
-        // Check violations and collect info for response handling
-
         $sourcePathCollector = new ezcWebdavLockCheckPathCollector();
 
-        $multiObserver = new ezcWebdavLockMultipleCheckObserver();
-
-        $destinationPropertyCollector = new ezcWebdavLockCheckPropertyCollector();
-        $multiObserver->attach( $destinationPropertyCollector );
-
-        if ( $ifHeader !== null )
-        {
-            $destinationLockRefresher = new ezcWebdavLockRefreshRequestGenerator(
-                $request
-            );
-            $multiObserver->attach( $destinationLockRefresher );
-        }
-
         $violations = $this->tools->checkViolations(
-            array(
-                // Source
-                new ezcWebdavLockCheckInfo(
-                    $request->requestUri,
-                    ezcWebdavRequest::DEPTH_INFINITY,
-                    $ifHeader,
-                    $authHeader,
-                    ezcWebdavAuthorizer::ACCESS_WRITE,
-                    $sourcePathCollector,
-                    false // No lock-null allowed
-                ),
-                // Destination parent dir
-                // We also get the lock property from here and refresh the
-                // locks on it
-                new ezcWebdavLockCheckInfo(
-                    $destParent,
-                    ezcWebdavRequest::DEPTH_ZERO,
-                    $ifHeader,
-                    $authHeader,
-                    ezcWebdavAuthorizer::ACCESS_WRITE,
-                    $multiObserver,
-                    false // No lock-null allowed
-                ),
+            // Source
+            new ezcWebdavLockCheckInfo(
+                $this->request->requestUri,
+                ezcWebdavRequest::DEPTH_INFINITY,
+                $this->request->getHeader( 'If' ),
+                $this->request->getHeader( 'Authorization' ),
+                ezcWebdavAuthorizer::ACCESS_WRITE,
+                $sourcePathCollector,
+                false // No lock-null allowed
             ),
             // Return on first violation
             true
@@ -113,65 +52,10 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         if ( $violations !== null )
         {
-            return new ezcWebdavMultiStatusResponse( $violations );
+            // ezcWebdavMultiStatusResponse
+            return $violations;
         }
-
-        $destinationViolation = $this->tools->checkViolations(
-            array(
-                // Destination (maybe overwritten, maybe not, but we must not
-                // care)
-                new ezcWebdavLockCheckInfo(
-                    $destination,
-                    ezcWebdavRequest::DEPTH_INFINITY,
-                    $ifHeader,
-                    $authHeader,
-                    ezcWebdavAuthorizer::ACCESS_WRITE,
-                    null,
-                    false // No lock-null allowed
-                ),
-            ),
-            // Return on first violation
-            true
-        );
-
-        if ( $destinationViolation !== null
-             && ( !is_object( $destinationViolation ) || $destinationViolation->status !== ezcWebdavResponse::STATUS_404 )
-        )
-        {
-            // Destination might be there but not violated, or might not be there
-            return new ezcWebdavMultiStatusResponse( $destinationViolation );
-        }
-
-        // Perform lock refresh (most occur no matter if request succeeds)
-        if ( isset( $destinationLockRefresher ) )
-        {
-            $destinationLockRefresher->sendRequests();
-        }
-
-        // Store infos for use on correct moving
-
-        
-        $destParentProps = $destinationPropertyCollector->getProperties(
-                $destParent
-        );
-
-        // Consistency check
-        if ( $destParentProps->contains( 'lockdiscovery' )
-             ^ $destParentProps->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
-           )
-        {
-            throw new ezcWebdavInconsistencyException(
-                "Resource '{$request->requestUri}' has inconsisten lock properties."
-            );
-        }
-
-        $this->lockProperties = $destParentProps;
-
-        $this->request   = $request;
-        $this->sourcePaths = $sourcePathCollector->getPaths();
-
-        // Backend now handles the request
-        return null;
+        return $sourcePathCollector->getPaths();
     }
 
     /**

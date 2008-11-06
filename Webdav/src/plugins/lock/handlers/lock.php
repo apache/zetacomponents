@@ -100,27 +100,28 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         // Check violations and collect PROPPATCH requests
         $res = $this->tools->checkViolations(
-            array(
-                new ezcWebdavLockCheckInfo(
-                    $request->requestUri,
-                    $request->getHeader( 'Depth' ),
-                    $request->getHeader( 'If' ),
-                    $authHeader,
-                    ezcWebdavAuthorizer::ACCESS_WRITE,
-                    $requestGenerator
-                ),
+            new ezcWebdavLockCheckInfo(
+                $request->requestUri,
+                $request->getHeader( 'Depth' ),
+                $request->getHeader( 'If' ),
+                $authHeader,
+                ezcWebdavAuthorizer::ACCESS_WRITE,
+                $requestGenerator
             )
         );
 
         if ( $res !== null )
         {
-            // 404 -> need to create lock-null resource
-            if ( $res instanceof ezcWebdavErrorResponse && $res->status === ezcWebdavResponse::STATUS_404 )
+            // ezcWebdavMultistatusResponse, 1st 404 -> need to create
+            // lock-null resource
+            if ( $res->responses[0] instanceof ezcWebdavErrorResponse
+                 && $res->responses[0]->status === ezcWebdavResponse::STATUS_404
+            )
             {
                 return $this->createLockNullResource( $request );
             }
 
-            // Other violations -> return error response
+            // Other violations -> return multistatus
             return $res;
         }
 
@@ -180,15 +181,13 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
         );
 
         $res = $this->tools->checkViolations(
-            array(
-                new ezcWebdavLockCheckInfo(
-                    $request->requestUri,
-                    $request->getHeader( 'Depth' ),
-                    $request->getHeader( 'If' ),
-                    $request->getHeader( 'Authorization' ),
-                    ezcWebdavAuthorizer::ACCESS_WRITE,
-                    $reqGen
-                ),
+            new ezcWebdavLockCheckInfo(
+                $request->requestUri,
+                $request->getHeader( 'Depth' ),
+                $request->getHeader( 'If' ),
+                $request->getHeader( 'Authorization' ),
+                ezcWebdavAuthorizer::ACCESS_WRITE,
+                $reqGen
             )
         );
         
@@ -223,14 +222,12 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
         // Check parent directory for locks and other violations
 
         $checkRes = $this->tools->checkViolations(
-            array(
-                new ezcWebdavLockCheckInfo(
-                    dirname( $request->requestUri ),
-                    ezcWebdavRequest::DEPTH_ZERO,
-                    $request->getHeader( 'If' ),
-                    $request->getHeader( 'Authorization' ),
-                    ezcWebdavAuthorizer::ACCESS_WRITE
-                ),
+            new ezcWebdavLockCheckInfo(
+                dirname( $request->requestUri ),
+                ezcWebdavRequest::DEPTH_ZERO,
+                $request->getHeader( 'If' ),
+                $request->getHeader( 'Authorization' ),
+                ezcWebdavAuthorizer::ACCESS_WRITE
             )
         );
 
@@ -291,7 +288,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             ),
             ezcWebdavPropPatchRequest::SET
         );
-        ezcWebdavLockTools::cloneRequestHeaders( $request, $propPatchReq, array( 'If' ) );
+        ezcWebdavLockTools::cloneRequestHeaders( $request, $propPatchReq );
         $propPatchReq->validateHeaders();
 
         $propPatchRes = $backend->propPatch( $propPatchReq );
