@@ -93,6 +93,7 @@ return array(
     'ezcWebdavLockCheckInfo'                          => 'Webdav/plugins/lock/structs/lock_check_info.php',
     'ezcWebdavLockCheckPathCollector'                 => 'Webdav/plugins/lock/check_observers/path_collector.php',
     'ezcWebdavLockCheckPropertyCollector'             => 'Webdav/plugins/lock/check_observers/property_collector.php',
+    'ezcWebdavLockDeleteRequestResponseHandler'       => 'Webdav/plugins/lock/handlers/delete.php',
     'ezcWebdavLockDiscoveryProperty'                  => 'Webdav/plugins/lock/properties/lockdiscovery.php',
     'ezcWebdavLockDiscoveryPropertyActiveLock'        => 'Webdav/plugins/lock/properties/lockdiscovery_activelock.php',
     'ezcWebdavLockHeaderHandler'                      => 'Webdav/plugins/lock/header_handler.php',
