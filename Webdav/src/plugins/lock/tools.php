@@ -129,6 +129,7 @@ class ezcWebdavLockTools
             'Depth',
             ( $checkInfo->depth !== null ? $checkInfo->depth : ezcWebdavRequest::DEPTH_ONE )
         );
+        $propFind->setHeader( 'Authorization', $checkInfo->authHeader );
 
         $propFind->validateHeaders();
 
@@ -275,6 +276,7 @@ class ezcWebdavLockTools
 
         $propFindReq->prop = new ezcWebdavBasicPropertyStorage();
         $propFindReq->prop->attach( new ezcWebdavLockInfoProperty() );
+        $propFindReq->prop->attach( new ezcWebdavLockDiscoveryProperty() );
 
         $propFindMultistatusRes =
             ezcWebdavServer::getInstance()->backend->propFind( $propFindReq );
@@ -283,9 +285,16 @@ class ezcWebdavLockTools
         {
             return $propFindMultistatusRes;
         }
+
+        $propFindRes = $propFindMultistatusRes->responses[0];
+        if ( $checkInfo->requestGenerator !== null )
+        {
+            $checkInfo->requestGenerator->notify(
+                $propFindRes
+            );
+        }
         
-        // 1st: 1 prop find, 2nd: 1 prop stat
-        $lockInfoProp = $propFindMultistatusRes->responses[0]->responses[0]->storage->get(
+        $lockInfoProp = $propFindRes->responses[0]->storage->get(
             'lockinfo',
             ezcWebdavLockPlugin::XML_NAMESPACE
         );

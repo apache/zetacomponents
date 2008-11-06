@@ -46,15 +46,16 @@ class ezcWebdavLockPlugin
      * @array(string=>string)
      */
     protected static $requestHandlingMap = array(
-        'ezcWebdavLockRequest'     => 'ezcWebdavLockLockRequestResponseHandler',
-        'ezcWebdavUnlockRequest'   => 'ezcWebdavLockUnlockRequestResponseHandler',
-        'ezcWebdavCopyRequest'     => 'ezcWebdavLockCopyRequestResponseHandler',
-        'ezcWebdavDeleteRequest'   => 'ezcWebdavLockDeleteRequestResponseHandler',
-        'ezcWebdavGetRequest'      => 'ezcWebdavLockGetRequestResponseHandler',
-        'ezcWebdavHeadRequest'     => 'ezcWebdavLockHeadRequestResponseHandler',
-        'ezcWebdavMoveRequest'     => 'ezcWebdavLockMoveRequestResponseHandler',
-        'ezcWebdavOptionsRequest'  => 'ezcWebdavLockOptionsRequestResponseHandler',
-        'ezcWebdavPropFindRequest' => 'ezcWebdavLockPropFindRequestResponseHandler',
+        'ezcWebdavLockRequest'           => 'ezcWebdavLockLockRequestResponseHandler',
+        'ezcWebdavUnlockRequest'         => 'ezcWebdavLockUnlockRequestResponseHandler',
+        'ezcWebdavCopyRequest'           => 'ezcWebdavLockCopyRequestResponseHandler',
+        'ezcWebdavDeleteRequest'         => 'ezcWebdavLockDeleteRequestResponseHandler',
+        'ezcWebdavGetRequest'            => 'ezcWebdavLockGetRequestResponseHandler',
+        'ezcWebdavHeadRequest'           => 'ezcWebdavLockHeadRequestResponseHandler',
+        'ezcWebdavMoveRequest'           => 'ezcWebdavLockMoveRequestResponseHandler',
+        'ezcWebdavMakeCollectionRequest' => 'ezcWebdavLockMakeCollectionRequestResponseHandler',
+        'ezcWebdavOptionsRequest'        => 'ezcWebdavLockOptionsRequestResponseHandler',
+        'ezcWebdavPropFindRequest'       => 'ezcWebdavLockPropFindRequestResponseHandler',
     );
 
     /**
@@ -323,6 +324,7 @@ class ezcWebdavLockPlugin
                 {
                     ezcWebdavServer::getInstance()->backend->unlock();
                 }
+                throw $e;
             }
 
             if ( $this->handler->needsBackendLock )

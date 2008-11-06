@@ -11,6 +11,7 @@ TODO
 - Backend locks currently bail out, if locking fails. They should remove the
   timedout lock instead!
 - Replace all occurances of DateTime() with ezcWebdavDateTime() (for serializability).
+- Rename $requestGenerator to $checkObserver in lock check info.
 
 1.1beta1
 --------
