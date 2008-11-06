@@ -216,7 +216,16 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
                 ezcWebdavPropPatchRequest::SET
             );
             // Don't care about the result, it's to late here anyway
-            ezcWebdavServer::getInstance()->backend->propPatch( $propPatchReq );
+            $propPatchRes = ezcWebdavServer::getInstance()->backend->propPatch(
+                $propPatchReq
+            );
+
+            if ( !( $propPatchRes instanceof ezcWebdavPropPatchResponse ) )
+            {
+                throw new ezcWebdavInconsistencyException(
+                    'Could not patch lock properties on newly created resource/collection.'
+                );
+            }
         }
     }
 }
