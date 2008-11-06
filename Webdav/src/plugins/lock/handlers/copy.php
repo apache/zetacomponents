@@ -181,8 +181,9 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
     protected function getSourcePaths()
     {
         $propFindReq = new ezcWebdavPropFindRequest( $this->request->requestUri );
-        $propFindReq->storage->attach( new ezcWebdavLockInfoProperty() );
-        $propFindReq->storage->attach( new ezcWebdavLockDiscoveryProperty() );
+        $propFindReq->prop = new ezcWebdavBasicPropertyStorage();
+        $propFindReq->prop->attach( new ezcWebdavLockInfoProperty() );
+        $propFindReq->prop->attach( new ezcWebdavLockDiscoveryProperty() );
         ezcWebdavLockTools::cloneRequestHeaders(
             $this->request,
             $propFindReq,
@@ -190,7 +191,7 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
         );
         $propFindReq->validateHeaders();
 
-        $propFindMultiStatusRes = ezcWebavServer::getInstance()->backend->propFind(
+        $propFindMultiStatusRes = ezcWebdavServer::getInstance()->backend->propFind(
             $propFindReq
         );
 
@@ -250,24 +251,26 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
         $destParent = dirname( $dest );
         $paths      = $this->sourcePaths;
 
-        $lockDiscovery = $this->lockProperties->get( 'lockdiscovery' );
-        if ( $lockDiscovery === null )
+        // Empty lock discovery to remove existing locks on destination,
+        // if destination parent was not locked
+        $lockDiscovery = ( $this->lockProperties->contains( 'lockdiscovery' )
+            ? clone $this->lockProperties->get( 'lockdiscovery' )
+            : new ezcWebdavLockDiscoveryProperty()
+        );
+
+        // Empty lock info (will be used for removal), if destination parent
+        // was not locked
+        $lockInfo =  ( $this->lockProperties->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
+            ? clone $this->lockProperties->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
+            : new ezcWebdavLockInfoProperty()
+        );
+
+        // Sanity check
+        if ( count( $lockDiscovery->activeLock ) !== count( $lockInfo->tokenInfos ) )
         {
-            // Set an empty lock discovery to remove existing locks
-            // @TODO: Affected lock must be properly removed here if we once
-            // introduce shared locks.
-            $lockDiscovery = new ezcWebdavLockDiscoveryProperty();
-        }
-        $lockInfo = $this->lockProperties->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-        if ( $lockInfo === null )
-        {
-            if ( count( $lockDiscovery->activeLock ) !== 0 )
-            {
-                throw new ezcWebdavInconsistencyException(
-                    'Found <lockdiscovery> property but no <lockinfo> property.'
-                );
-            }
-            $lockInfo = new ezcWebdavLockInfoProperty();
+            throw new ezcWebdavInconsistencyException(
+                'Lock discovery and lock info properties out of sync.'
+            );
         }
 
         // Update lock info to subsequent paths
@@ -282,12 +285,17 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         foreach ( $paths as $path )
         {
-            $newPath   = str_replace( $source, $dest, $path );
+            $newPath      = str_replace( $source, $dest, $path );
             $propPatchReq = new ezcWebdavPropPatchRequest( $newPath );
+            // Lock discovery is a live property, may not be removed
             $propPatchReq->updates->attach( $lockDiscovery, ezcWebdavPropPatchRequest::SET );
+            // Lock info is dead
             $propPatchReq->updates->attach(
                 $lockInfo,
-                ( count( $lockInfo->tokenInfos ) !== 0 ? ezcWebdavPropPatchRequest::SET : ezcWebdavPropPatchRequest::REMOVE )
+                ( count( $lockInfo->tokenInfos ) !== 0
+                    ? ezcWebdavPropPatchRequest::SET
+                    : ezcWebdavPropPatchRequest::REMOVE
+                )
             );
             ezcWebdavLockTools::cloneRequestHeaders(
                 $request,
