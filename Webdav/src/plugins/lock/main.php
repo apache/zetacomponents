@@ -51,6 +51,7 @@ class ezcWebdavLockPlugin
         'ezcWebdavCopyRequest'     => 'ezcWebdavLockCopyRequestResponseHandler',
         'ezcWebdavDeleteRequest'   => 'ezcWebdavLockDeleteRequestResponseHandler',
         'ezcWebdavGetRequest'      => 'ezcWebdavLockGetRequestResponseHandler',
+        'ezcWebdavHeadRequest'     => 'ezcWebdavLockHeadRequestResponseHandler',
         'ezcWebdavMoveRequest'     => 'ezcWebdavLockMoveRequestResponseHandler',
         'ezcWebdavOptionsRequest'  => 'ezcWebdavLockOptionsRequestResponseHandler',
         'ezcWebdavPropFindRequest' => 'ezcWebdavLockPropFindRequestResponseHandler',

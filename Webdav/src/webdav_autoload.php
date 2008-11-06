@@ -50,6 +50,7 @@ return array(
     'ezcWebdavLockBackend'                            => 'Webdav/plugins/lock/interfaces/lock_backend.php',
     'ezcWebdavLockCheckObserver'                      => 'Webdav/plugins/lock/interfaces/check_observer.php',
     'ezcWebdavLockCopyRequestResponseHandler'         => 'Webdav/plugins/lock/handlers/copy.php',
+    'ezcWebdavLockHeadRequestResponseHandler'         => 'Webdav/plugins/lock/handlers/head.php',
     'ezcWebdavLockIfHeaderList'                       => 'Webdav/plugins/lock/interfaces/if_header_list.php',
     'ezcWebdavPathFactory'                            => 'Webdav/interfaces/path_factory.php',
     'ezcWebdavPluginConfiguration'                    => 'Webdav/plugin_configuration.php',
