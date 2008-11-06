@@ -21,14 +21,14 @@ class ezcMvcExternalRedirect extends ezcMvcResult
      *
      * @var string
      */
-    public $realm;
+    public $location;
 
     /**
      * Constructs an ezcMvcExternalRedirect object to re-direct to $location
      *
      * @param string $location
      */
-	public function __construct( $location )
+	public function __construct( $location = '/' )
 	{
 		$this->location = $location;
 	}

@@ -24,6 +24,7 @@ require 'response_filters/gzip.php';
 require 'response_filters/gzdeflate.php';
 require 'response_filters/recode.php';
 require 'dispatchers/configurable.php';
+require 'structs/external_redirect.php';
 require 'structs/filter_definition.php';
 require 'structs/internal_redirect.php';
 require 'structs/request_accept.php';
@@ -77,6 +78,7 @@ class ezcMvcToolsSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcMvcResultCookieTest::suite() );
         $this->addTest( ezcMvcResultTest::suite() );
         $this->addTest( ezcMvcRoutingInformationTest::suite() );
+        $this->addTest( ezcMvcExternalRedirectTest::suite() );
     }
 
     public static function suite()
