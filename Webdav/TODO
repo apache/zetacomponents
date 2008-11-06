@@ -8,6 +8,8 @@ TODO
   last!
 - Check all files/classes for correct @access tags (almost all of the lock
   plugin must have @access private).
+- Backend locks currently bail out, if locking fails. They should remove the
+  timedout lock instead!
 
 1.1beta1
 --------

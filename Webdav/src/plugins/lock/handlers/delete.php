@@ -29,6 +29,16 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
      */
     public function receivedRequest( ezcWebdavRequest $request )
     {
+        $ifHeader = $request->getHeader( 'If' );
+
+        $targetLockRefresher = null;
+        if ( $ifHeader !== null )
+        {
+            $targetLockRefresher = new ezcWebdavLockRefreshRequestGenerator(
+                $request
+            );
+        }
+
         $violations = $this->tools->checkViolations(
             new ezcWebdavLockCheckInfo(
                 $request->requestUri,
@@ -36,11 +46,17 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
                 $request->getHeader( 'If' ),
                 $request->getHeader( 'Authorization' ),
                 ezcWebdavAuthorizer::ACCESS_WRITE,
-                null
+                $targetLockRefresher
                 // @TODO: We allow deleting null resources. Correct?
             ),
             true
         );
+
+        // Lock refresh must occur no matter if the request succeeds
+        if ( $targetLockRefresher !== null )
+        {
+            $targetLockRefresher->sendRequests();
+        }
 
         if ( $violations !== null )
         {

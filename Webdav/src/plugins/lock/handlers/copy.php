@@ -99,6 +99,12 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
             true
         );
 
+        // Perform lock refresh (must occur no matter if request succeeds)
+        if ( $destinationLockRefresher !== null )
+        {
+            $destinationLockRefresher->sendRequests();
+        }
+
         if ( $violations !== null )
         {
             // ezcWebdavMultistatusResponse
@@ -130,12 +136,6 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
         {
             // ezcWebdavMultistatusResponse
             return $violations;
-        }
-
-        // Perform lock refresh (must occur no matter if request succeeds)
-        if ( isset( $destinationLockRefresher ) )
-        {
-            $destinationLockRefresher->sendRequests();
         }
 
         // Store infos for use on correct moving
