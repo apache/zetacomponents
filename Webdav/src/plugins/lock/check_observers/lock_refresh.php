@@ -203,7 +203,7 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
      */
     public function getRequests()
     {
-        foreach ( $this->notFoundLockBases as $lockBase )
+        foreach ( $this->notFoundLockBases as $lockBase => $dummy )
         {
             $this->fetchLockBase( $lockBase );
         }
@@ -272,7 +272,8 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
     protected function fetchLockBase( $path )
     {
         $propFind = new ezcWebdavPropFindRequest( $path );
-        $propFind->storage->attach( new ezcWebdavLockInfoProperty() );
+        $propFind->prop = new ezcWebdavBasicPropertyStorage();
+        $propFind->prop->attach( new ezcWebdavLockInfoProperty() );
         $propFind->validateHeaders();
 
         $response = ezcWebdavServer::getInstance()->backend->propFind(

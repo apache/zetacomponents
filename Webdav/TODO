@@ -12,6 +12,7 @@ TODO
   timedout lock instead!
 - Replace all occurances of DateTime() with ezcWebdavDateTime() (for serializability).
 - Rename $requestGenerator to $checkObserver in lock check info.
+- Check for correct error on shared/read lock request.
 
 1.1beta1
 --------

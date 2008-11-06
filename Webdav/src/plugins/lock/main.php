@@ -56,6 +56,7 @@ class ezcWebdavLockPlugin
         'ezcWebdavMakeCollectionRequest' => 'ezcWebdavLockMakeCollectionRequestResponseHandler',
         'ezcWebdavOptionsRequest'        => 'ezcWebdavLockOptionsRequestResponseHandler',
         'ezcWebdavPropFindRequest'       => 'ezcWebdavLockPropFindRequestResponseHandler',
+        'ezcWebdavPropPatchRequest'      => 'ezcWebdavLockPropPatchRequestResponseHandler',
         'ezcWebdavPutRequest'            => 'ezcWebdavLockPutRequestResponseHandler',
     );
 
