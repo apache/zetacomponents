@@ -265,12 +265,6 @@ abstract class ezcWebdavBackend
             $allowed .= 'PUT, ';
         }
 
-        // Check if locking is allowed
-        if ( $this instanceof ezcWebdavBackendLock )
-        {
-            $allowed .= 'LOCK, UNLOCK, ';
-        }
-
         $response->setHeader( 'Allow', substr( $allowed, 0, -2 ) );
 
         return $response;
