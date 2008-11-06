@@ -16,20 +16,6 @@
 class ezcMvcResult extends ezcBaseStruct
 {
     /**
-     * Status code used to signal that everything was in order.
-     *
-     * @var int
-     */
-    const STATUS_OK = 0;
-
-    /**
-     * Status code used to indicate that an external redirect is required.
-     *
-     * @var int
-     */
-    const STATUS_REDIRECT = 301;
-
-    /**
      * Result status
      *
      * @var int
