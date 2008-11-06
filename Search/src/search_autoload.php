@@ -18,6 +18,7 @@ return array(
     'ezcSearchDoesNotProvideDefinitionException' => 'Search/exceptions/does_not_provide_definition.php',
     'ezcSearchFieldNotDefinedException'          => 'Search/exceptions/field_not_defined.php',
     'ezcSearchIncompleteStateException'          => 'Search/exceptions/incomplete_state.php',
+    'ezcSearchNetworkException'                  => 'Search/exceptions/network.php',
     'ezcSearchQueryVariableParameterException'   => 'Search/exceptions/query_variable_parameter.php',
     'ezcSearchTransactionException'              => 'Search/exceptions/transaction.php',
     'ezcSearchQuery'                             => 'Search/interfaces/query.php',
@@ -34,6 +35,7 @@ return array(
     'ezcSearchQuerySolr'                         => 'Search/abstraction/implementations/solr.php',
     'ezcSearchQueryToken'                        => 'Search/structs/query_token.php',
     'ezcSearchQueryTools'                        => 'Search/abstraction/query_tools.php',
+    'ezcSearchQueryZendLucene'                   => 'Search/abstraction/implementations/zend_lucene.php',
     'ezcSearchResult'                            => 'Search/structs/search_result.php',
     'ezcSearchResultDocument'                    => 'Search/structs/search_result_document.php',
     'ezcSearchRstXmlExtractor'                   => 'Search/extractors/rstxml.php',
@@ -42,5 +44,6 @@ return array(
     'ezcSearchSimpleImage'                       => 'Search/extractors/helpers/image.php',
     'ezcSearchSolrHandler'                       => 'Search/handlers/solr.php',
     'ezcSearchXmlManager'                        => 'Search/managers/xml_manager.php',
+    'ezcSearchZendLuceneHandler'                 => 'Search/handlers/zend_lucene.php',
 );
 ?>
