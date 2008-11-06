@@ -22,6 +22,16 @@
 class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestResponseHandler
 {
     /**
+     * If this handler requires the backend to get locked. 
+     *
+     * Even if the backend changes while the response is processed, this does
+     * not really matter.
+     * 
+     * @var bool
+     */
+    public $needsBackendLock = false;
+
+    /**
      * The original request. 
      * 
      * @var ezcWebdavPropFindRequest

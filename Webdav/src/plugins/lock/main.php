@@ -249,30 +249,52 @@ class ezcWebdavLockPlugin
     {
         $request  = $params['request'];
 
-        // Set headers parsed by the lock plugin only.
-        $request->setHeader(
-            'If',
-            $this->headerHandler->parseIfHeader( $request )
-        );
-        $request->setHeader(
-            'Timeout',
-            $this->headerHandler->parseTimeoutHeader( $request )
-        );
-        $request->setHeader(
-            'Lock-Token',
-            $this->headerHandler->parseLockTokenHeader( $request )
-        );
-
-        $request->validateHeaders();
-
         $requestClass = get_class( $request );
         if ( isset( ezcWebdavLockPlugin::$requestHandlingMap[$requestClass] ) )
         {
+            // Set headers parsed by the lock plugin only.
+            $request->setHeader(
+                'If',
+                $this->headerHandler->parseIfHeader( $request )
+            );
+            $request->setHeader(
+                'Timeout',
+                $this->headerHandler->parseTimeoutHeader( $request )
+            );
+            $request->setHeader(
+                'Lock-Token',
+                $this->headerHandler->parseLockTokenHeader( $request )
+            );
+            $request->validateHeaders();
+
             $handlerClass = ezcWebdavLockPlugin::$requestHandlingMap[$requestClass];
             $this->handler = new $handlerClass(
                 new ezcWebdavLockTools( $this->options )
             );
-            return $this->handler->receivedRequest( $request );
+
+            if ( $this->handler->needsBackendLock )
+            {
+                ezcWebdavServer::getInstance()->backend->lock(
+                    $this->options->backendLockWaitTime,
+                    $this->options->backendLockTimeout
+                );
+            }
+
+            $res = null;
+            try
+            {
+                $res = $this->handler->receivedRequest( $request );
+            }
+            catch ( Exception $e )
+            {
+                if ( $this->handler->needsBackendLock )
+                {
+                    ezcWebdavServer::getInstance()->backend->unlock();
+                }
+                throw $e;
+            }
+
+            return $res;
         }
         // return null
     }
@@ -287,9 +309,26 @@ class ezcWebdavLockPlugin
     {
         if ( isset( $this->handler ) )
         {
-             return $this->handler->generatedResponse( $params['response'] );
+            $res = null;
+
+            try
+            {
+                $res = $this->handler->generatedResponse( $params['response'] );
+            }
+            catch ( Exception $e )
+            {
+                if ( $this->handler->needsBackendLock )
+                {
+                    ezcWebdavServer::getInstance()->backend->unlock();
+                }
+            }
+
+            if ( $this->handler->needsBackendLock )
+            {
+                ezcWebdavServer::getInstance()->backend->unlock();
+            }
+            return $res;
         }
-        // return null
     }
 
     //

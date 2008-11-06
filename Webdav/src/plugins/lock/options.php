@@ -30,7 +30,9 @@ class ezcWebdavLockPluginOptions extends ezcBaseOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->properties['lockTimeout'] = 900;
+        $this->properties['lockTimeout']         = 900;
+        $this->properties['backendLockTimeout']  = 10000000;
+        $this->properties['backendLockWaitTime'] = 10000;
         parent::__construct( $options );
     }
 
@@ -54,6 +56,18 @@ class ezcWebdavLockPluginOptions extends ezcBaseOptions
         switch ( $propertyName )
         {
             case 'lockTimeout':
+                if ( !is_int( $propertyValue ) || $propertyValue < 1 )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int > 0' );
+                }
+                break;
+            case 'backendLockTimeout':
+                if ( !is_int( $propertyValue ) || $propertyValue < 1 )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int > 0' );
+                }
+                break;
+            case 'backendLockWaitTime':
                 if ( !is_int( $propertyValue ) || $propertyValue < 1 )
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'int > 0' );

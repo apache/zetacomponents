@@ -148,6 +148,7 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend
         {
             if ( microtime( true ) - $lockStart > $timeout )
             {
+                // @TODO: Should free the broken lock instead of bailing out
                 throw new ezcWebdavLockTimeoutException();
             }
             // This is untestable.

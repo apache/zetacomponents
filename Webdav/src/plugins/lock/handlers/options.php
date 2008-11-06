@@ -22,6 +22,13 @@
 class ezcWebdavLockOptionsRequestResponseHandler extends ezcWebdavLockRequestResponseHandler
 {
     /**
+     * If this handler requires the backend to get locked. 
+     * 
+     * @var bool
+     */
+    public $needsBackendLock = false;
+
+    /**
      * Handles OPTIONS requests.
      *
      * @param ezcWebdavUnlockRequest $request 
