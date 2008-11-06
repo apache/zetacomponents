@@ -63,13 +63,22 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $this->host = $host;
         $this->port = $port;
         $this->location = $location;
-        $this->connection = @stream_socket_client( "tcp://{$host}:{$port}" );
         $this->inTransaction = 0;
+        $this->connect();
+    }
+
+    /**
+     * Connects to Solr
+     *
+     * @throws ezcSearchCanNotConnectException if a connection can not be established.
+     */
+    protected function connect()
+    {
+        $this->connection = @stream_socket_client( "tcp://{$this->host}:{$this->port}" );
         if ( !$this->connection )
         {
-            throw new ezcSearchCanNotConnectException( 'solr', "http://{$host}:{$port}{$location}" );
+            throw new ezcSearchCanNotConnectException( 'solr', "http://{$this->host}:{$this->port}{$this->location}" );
         }
-
     }
 
     /**
@@ -155,7 +164,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $queryPart = '/?'. http_build_query( $queryString );
         }
         $cmd =  "GET {$this->location}/{$type}{$queryPart} HTTP/1.1\n";
-        $cmd .= "Host {$this->host}:{$this->port}\n";
+        $cmd .= "Host: {$this->host}:{$this->port}\n";
         $cmd .= "User-Agent: eZ Components Search\n";
         $cmd .= "\n";
 
@@ -223,6 +232,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      */
     public function sendRawPostCommand( $type, $queryString, $data )
     {
+        $reConnect = false;
         $queryPart = '';
         if ( count( $queryString ) )
         {
@@ -248,6 +258,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             {
                 $expectedLength = $m[1];
             }
+            if ( preg_match( '@Connection: close@', $line ) )
+            {
+                $reConnect = true;
+            }
         }
 
         // read http content
@@ -258,6 +272,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $line = $this->getLine( $expectedLength );
             $size += strlen( $line );
             $data .= $line;
+        }
+
+        // reconnect if necessary
+        if ( $reConnect )
+        {
+            fclose( $this->connection );
+            $this->connect();
         }
         return $data;
     }

@@ -2,7 +2,9 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13891: ezcSearchNetworkException is used, but does not exist.
-- Fixed issue with sending incorrect HTTP POST index requests to Solr.
+- Fixed issue with sending incorrect HTTP requests to Solr.
+- Fixed issue with regards to respecting HTTP Connection: close headers when
+  talking to Solr.
 
 
 1.0 - Monday 16 June 2008
