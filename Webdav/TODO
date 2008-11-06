@@ -10,6 +10,7 @@ TODO
   plugin must have @access private).
 - Backend locks currently bail out, if locking fails. They should remove the
   timedout lock instead!
+- Replace all occurances of DateTime() with ezcWebdavDateTime() (for serializability).
 
 1.1beta1
 --------

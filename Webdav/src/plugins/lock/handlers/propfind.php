@@ -46,7 +46,7 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
     protected $hadLockInfo = false;
 
     /**
-     * Handles MOVE requests.
+     * Handles PROPFIND requests.
      *
      * @param ezcWebdavUnlockRequest $request 
      * @return ezcWebdavResponse
@@ -72,7 +72,7 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
     }
 
     /**
-     * Handles responses to the MOVE request.
+     * Handles responses to the PROPFIND request.
      * 
      * @param ezcWebdavResponse $response 
      * @return ezcWebdavResponse|null

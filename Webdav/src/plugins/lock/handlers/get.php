@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavLockDeleteRequestResponseHandler class.
+ * File containing the ezcWebdavLockGetRequestResponseHandler class.
  *
  * @package Webdav
  * @version //autogentag//
@@ -10,7 +10,7 @@
  * @access private
  */
 /**
- * Handler class for the DELETE request.
+ * Handler class for the GET request.
  * 
  * @package Webdav
  * @version //autogen//
@@ -19,12 +19,22 @@
  *
  * @access private
  */
-class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResponseHandler
+class ezcWebdavLockGetRequestResponseHandler extends ezcWebdavLockRequestResponseHandler
 {
     /**
-     * Handles DELETE requests.
+     * If this handler requires the backend to get locked. 
      *
-     * @param ezcWebdavDeleteRequest $request 
+     * Even if the backend changes while the response is processed, this does
+     * not really matter.
+     * 
+     * @var bool
+     */
+    public $needsBackendLock = false;
+
+    /**
+     * Handles GET requests.
+     *
+     * @param ezcWebdavUnlockRequest $request 
      * @return ezcWebdavResponse
      */
     public function receivedRequest( ezcWebdavRequest $request )
@@ -39,15 +49,15 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
             );
         }
 
-        $violations = $this->tools->checkViolations(
+        $isLockNull = $this->tools->isLockNullResource(
             new ezcWebdavLockCheckInfo(
                 $request->requestUri,
                 ezcWebdavRequest::DEPTH_INFINITY,
                 $request->getHeader( 'If' ),
                 $request->getHeader( 'Authorization' ),
-                ezcWebdavAuthorizer::ACCESS_WRITE,
-                $targetLockRefresher
-                // @TODO: We allow deleting null resources. Correct?
+                ezcWebdavAuthorizer::ACCESS_READ,
+                $targetLockRefresher,
+                false
             ),
             true
         );
@@ -58,14 +68,22 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
             $targetLockRefresher->sendRequests();
         }
 
-        if ( $violations !== null )
+        if ( $isLockNull )
         {
-            return $violations;
+            return new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_404,
+                $request->requestUri,
+                'Resource is a lock null resource.'
+            );
         }
+        return null;
     }
 
     /**
-     * Handles responses to the DELTE request.
+     * Handles responses to the GET request.
+     *
+     * Unused, since the GET request only has preconditions that need to be
+     * fulfilled.
      * 
      * @param ezcWebdavResponse $response 
      * @return ezcWebdavResponse|null

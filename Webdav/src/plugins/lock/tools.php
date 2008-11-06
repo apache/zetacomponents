@@ -259,26 +259,38 @@ class ezcWebdavLockTools
      * Checks if a resource is a lock-null resource.
      *
      * Checks if the resource described by $checkInfo is a lock-null resource.
+     * Returns an error response on failure.
      * 
      * @param ezcWebdavLockCheckInfo $checkInfo 
-     * @return bool
+     * @return bool|ezcWebdavErrorResponse
      */
     public function isLockNullResource( ezcWebdavLockCheckInfo $checkInfo )
     {
-        $propertyCollector = new ezcWebdavLockCheckPropertyCollector();
-        $checkRes = $this->checkViolations( $checkInfo );
+        $propFindReq = new ezcWebdavPropFindRequest(
+            $checkInfo->path
+        );
+        $propFindReq->setHeader( 'Authorization', $checkInfo->authHeader );
+        $propFindReq->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
+        $propFindReq->validateHeaders();
 
-        if ( $checkRes instanceof ezcWebdavMultistatusResponse )
+        $propFindReq->prop = new ezcWebdavBasicPropertyStorage();
+        $propFindReq->prop->attach( new ezcWebdavLockInfoProperty() );
+
+        $propFindMultistatusRes =
+            ezcWebdavServer::getInstance()->backend->propFind( $propFindReq );
+
+        if ( !( $propFindMultistatusRes instanceof ezcWebdavMultistatusResponse ) )
         {
-            $propertyStorage = $propertyCollector->getProperties(
-                $checkInfo->path
-            );
-            return (
-                $propertyStorage->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
-                && $propertyStorage->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )->null
-            );
+            return $propFindMultistatusRes;
         }
-        return false;
+        
+        // 1st: 1 prop find, 2nd: 1 prop stat
+        $lockInfoProp = $propFindMultistatusRes->responses[0]->responses[0]->storage->get(
+            'lockinfo',
+            ezcWebdavLockPlugin::XML_NAMESPACE
+        );
+
+        return ( $lockInfoProp !== null && $lockInfoProp->null );
     }
 
     /**

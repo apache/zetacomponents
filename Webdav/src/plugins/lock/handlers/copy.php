@@ -10,7 +10,7 @@
  * @access private
  */
 /**
- * Handler class for the MOVE request.
+ * Handler class for the COPY request.
  * 
  * @package Webdav
  * @version //autogen//
@@ -49,9 +49,9 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
     protected $sourcePaths;
 
     /**
-     * Handles MOVE requests.
+     * Handles COPY requests.
      *
-     * @param ezcWebdavUnlockRequest $request 
+     * @param ezcWebdavMoveRequest $request 
      * @return ezcWebdavResponse
      */
     public function receivedRequest( ezcWebdavRequest $request )
@@ -168,8 +168,7 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
     }
 
     /**
-     * Returns all pathes in the move source.
-     *
+     * Returns all pathes in the copy source.
      *
      * This method performs the necessary checks on the source to copy. It
      * returns all paths that are to be moved. In case of any violation of the
@@ -229,9 +228,9 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
     }
 
     /**
-     * Handles responses to the MOVE request.
+     * Handles responses to the COPY request.
      * 
-     * @param ezcWebdavResponse $response 
+     * @param ezcWebdavCopyResponse $response 
      * @return ezcWebdavResponse|null
      */
     public function generatedResponse( ezcWebdavResponse $response )
