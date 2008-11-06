@@ -230,7 +230,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         }
         $length = strlen( $data );
         $cmd =  "Post {$this->location}/{$type}{$queryPart} HTTP/1.1\n";
-        $cmd .= "Host {$this->host}:{$this->port}\n";
+        $cmd .= "Host: {$this->host}:{$this->port}\n";
         $cmd .= "User-Agent: eZ Components Search\n";
         $cmd .= "Content-Type: text/xml\n";
         $cmd .= "Content-Length: $length\n";
