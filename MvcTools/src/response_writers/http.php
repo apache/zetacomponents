@@ -187,7 +187,7 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
 
         if ( $content->language )
         {
-            $this->headers['Content-Language'] = 'en-GB';
+            $this->headers['Content-Language'] = $content->language;
         }
         if ( $content->type || $content->charset )
         {

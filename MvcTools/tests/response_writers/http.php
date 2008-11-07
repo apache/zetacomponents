@@ -189,6 +189,26 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         self::assertSame( "Ze body.", $body );
     }
 
+    public static function testContentLanguage2()
+    {
+        $response = new ezcMvcResponse;
+        $response->body = "Ze body.";
+        $response->content = new ezcMvcResultContent;
+        $response->content->language = 'en-US';
+        
+        list( $headers, $body ) = self::doTest( $response );
+
+        $expectedHeaders = array(
+            "X-Powered-By: eZ Components MvcTools",
+            "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
+            "Content-Language: en-US",
+            'Content-Length: 8',
+        );
+
+        self::assertSame( $expectedHeaders, $headers );
+        self::assertSame( "Ze body.", $body );
+    }
+
     public static function testContentTypeCharset1()
     {
         $response = new ezcMvcResponse;
