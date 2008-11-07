@@ -104,15 +104,22 @@ when dealing with more then two columns.
 .. include:: tutorial/tutorial_multiple.php
    :literal:
 
-In this example all columns from the table are selected using the \*,but the
+In this example all columns from the table are selected using the \*, but the
 array starting in line 21 defines which columns are used for keys and values.
 There are two array keys, which are constants defined in ezcGraph, referencing
 the name of the column to use.
+
+PDO by default lowercases all column names, see `PDO::setAttribute()`__ for
+details. If the column names you pass to the dataset definition array are not
+lowercase, you either need to change the PDO::ATTR_CASE attribute of your PDO
+connection instance, or lowercase the names passed to the definition array.
+Otherwise this will throw ezcGraphDatabaseMissingColumnException exceptions.
 
 Starting at line 28 we change the renderer and enhance the output a bit. This
 is described in more detail in the `3D renderer section`__ in the graph 
 tutorial.
 
+__ http://php.net/manual/en/pdo.setattribute.php
 __ introduction_Graph.html#id2
 
 .. image:: img/tutorial_multiple.svg.png
