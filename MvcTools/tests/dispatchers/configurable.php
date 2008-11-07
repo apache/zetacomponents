@@ -117,6 +117,15 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
         }
     }
 
+    function testControllerActionException()
+    {
+        $config = new simpleConfiguration();
+        $config->route = 'ExceptionInAction';
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        $dispatcher->run();
+        self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'fatal' => 'Very fatal',[CR])", $config->store );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( __CLASS__ );

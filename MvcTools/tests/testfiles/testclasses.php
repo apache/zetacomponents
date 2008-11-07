@@ -13,6 +13,10 @@ class testController extends ezcMvcController
         if ( $this->action == 'no-return' )
         {
         }
+        else if ( $this->action == 'exception' )
+        {
+            throw new Exception( "Oh la la" );
+        }
         else
         {
             return new ezcMvcResult;

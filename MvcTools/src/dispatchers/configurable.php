@@ -104,7 +104,17 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             $controller = $this->createController( $routingInformation, $request );
 
             // run the controller
-            $result = $controller->createResult();
+            try
+            {
+                $result = $controller->createResult();
+            }
+            catch ( Exception $e )
+            {
+                $request = $this->configuration->createFatalRedirectRequest( $request, new ezcMvcResult, $e );
+                $continue = true;
+                $redirects++;
+                continue;
+            }
 
             if ( $result instanceof ezcMvcInternalRedirect )
             {
