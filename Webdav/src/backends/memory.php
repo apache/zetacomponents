@@ -126,12 +126,17 @@ class ezcWebdavMemoryBackend
         // exists, which we need to silence using the @
         while ( ( $fp = @fopen( $lockFile, 'x' ) ) === false )
         {
+            // This is untestable.
             if ( microtime( true ) - $lockStart > $timeout )
             {
-                throw new ezcWebdavLockTimeoutException();
+                // Release timed out lock
+                unlink( $lockFile );
+                $lockStart = microtime( true );
             }
-            // This is untestable.
-            usleep( $waitTime );
+            else
+            {
+                usleep( $waitTime );
+            }
         }
 
         // Store random bit in file ... the microtime for example - might prove
@@ -149,7 +154,9 @@ class ezcWebdavMemoryBackend
      */
     public function unlock()
     {
-        unlink( $this->options->lockFile );
+        // Silence since lock maybe released if request processing takes too
+        // long
+        @unlink( $this->options->lockFile );
     }
 
     /**
@@ -246,7 +253,7 @@ class ezcWebdavMemoryBackend
 
             // Define default ETag
             $propertyStorage->attach(
-                new ezcWebdavGetEtagProperty( md5( $name ) )
+                new ezcWebdavGetEtagProperty( $this->getETag( $name ) )
             );
 
             // Define default modification time
@@ -278,6 +285,20 @@ class ezcWebdavMemoryBackend
         }
 
         return $propertyStorage;
+    }
+
+    /**
+     * Overwrites ETag generation from simple backend.
+     *
+     * Generates an ETag based on $path and the content of $path (if available
+     * and not a collection).
+     * 
+     * @param string $path 
+     * @return string
+     */
+    protected function getETag( $path )
+    {
+        return ( md5( $path ) );
     }
 
     /**

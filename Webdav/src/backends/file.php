@@ -123,9 +123,6 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend
      * @param int $waitTime 
      * @param int $timeout 
      * @return void
-     *
-     * @throws ezcWebdavLockTimeoutException
-     *         if no lock could be acquired for $timeout microseconds.
      */
     public function lock( $waitTime, $timeout )
     {
@@ -146,13 +143,17 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend
         // exists, which we need to silence using the @
         while ( ( $fp = @fopen( $lockFileName, 'x' ) ) === false )
         {
+            // This is untestable.
             if ( microtime( true ) - $lockStart > $timeout )
             {
-                // @TODO: Should free the broken lock instead of bailing out
-                throw new ezcWebdavLockTimeoutException();
+                // Release timed out lock
+                unlink( $lockFileName );
+                $lockStart = microtime( true );
             }
-            // This is untestable.
-            usleep( $waitTime );
+            else
+            {
+                usleep( $waitTime );
+            }
         }
 
         // Store random bit in file ... the microtime for example - might prove
