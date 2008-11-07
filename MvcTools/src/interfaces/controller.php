@@ -71,9 +71,9 @@ abstract class ezcMvcController
      *
      * @return string
      */
-    protected function createActionMethodName()
+    public static function createActionMethodName( $action )
     {
-        $actionMethod = 'do' . preg_replace( '@[^A-Za-z]@', '', preg_replace( '@[A-Za-z]+@e', 'ucfirst( "\\0" )', $this->action ) );
+        $actionMethod = 'do' . preg_replace( '@[^A-Za-z]@', '', preg_replace( '@[A-Za-z]+@e', 'ucfirst( "\\0" )', $action ) );
         return $actionMethod;
     }
 
@@ -86,7 +86,7 @@ abstract class ezcMvcController
      */
     public function createResult()
     {
-        $actionMethod = $this->createActionMethodName();
+        $actionMethod = $this->createActionMethodName( $this->action );
 
         if ( method_exists( $this, $actionMethod ) )
         {

@@ -3,7 +3,7 @@ class testControllerController extends ezcMvcController
 {
     public function testCreateActionMethod()
     {
-        return $this->createActionMethodName();
+        return $this->createActionMethodName( $this->action );
     }
 }
 ?>

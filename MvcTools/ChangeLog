@@ -7,6 +7,8 @@
 - Fixed a bug where path elements where not urldecoded().
 - Added support for installation prefixes to the router, to the request parsers
   to aid installation outside of the top-directory of a virtual host.
+- Added the ezcMvcCatchAllRoute to allow fall back routes to a controller and
+  an action with a pre-formatted name.
 - Refactored ezcMvcController to allow easier overloading by inherited classes.
 - Fixed a bug in action method name generation in the controller.
 - Fixed a bug where the Content-Language header could not be set to anything

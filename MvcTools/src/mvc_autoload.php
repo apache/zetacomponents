@@ -27,6 +27,7 @@ return array(
     'ezcMvcResult'                      => 'MvcTools/structs/result.php',
     'ezcMvcRoute'                       => 'MvcTools/interfaces/route.php',
     'ezcMvcViewHandler'                 => 'MvcTools/interfaces/view_handler.php',
+    'ezcMvcCatchAllRoute'               => 'MvcTools/routes/catchall.php',
     'ezcMvcConfigurableDispatcher'      => 'MvcTools/dispatchers/configurable.php',
     'ezcMvcController'                  => 'MvcTools/interfaces/controller.php',
     'ezcMvcDispatcherConfiguration'     => 'MvcTools/interfaces/dispatcher_configuration.php',
