@@ -4,6 +4,10 @@
 - Implemented feature #13322: Possibility to reference a stylesheet for use
   with xhtml output of reST documents
 - Fixed issue #13727: Autoenumerated enumerated lists parsed as paragraphs.
+- Implemented feature #13084: Write RST format
+- Implemented feature #13083: Read and write XHTML format
+- Implemented feature #12340: Add support for wiki markup
+- Implemented feature #12339: Add support for eZXml markup
 
 1.0.2 - Monday 04 August 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
