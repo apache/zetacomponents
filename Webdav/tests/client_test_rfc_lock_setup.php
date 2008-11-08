@@ -101,6 +101,20 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                 )
             )
         );
+        $test->backend->setProperty(
+            '/workspace/webdav/proposal.doc',
+            new ezcWebdavLockInfoProperty(
+                new ArrayObject(
+                    array(
+                        new ezcWebdavLockTokenInfo(
+                            'opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4',
+                            null,
+                            new DateTime()
+                        ),
+                    )
+                )
+            )
+        );
     }
 
     protected static function getSetup3( ezcWebdavClientTest $test )
