@@ -13,7 +13,7 @@ return array(
     array(
         'status' => 'HTTP/1.1 201 Created',
         'headers' => array(
-            'ETag'           => '6ff6aeaff8b5373cc3fb9799c409f350',
+            'ETag'           => 'faa2d7660c5937353a5a954b9780da8a',
             'Server'         => 'eZComponents/dev/ezcWebdavTransportTestMock',
             'Content-Length' => '0',
         ),

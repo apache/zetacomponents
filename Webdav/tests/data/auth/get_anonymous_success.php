@@ -11,7 +11,7 @@ return array(
     array(
         'status' => 'HTTP/1.1 200 OK',
         'headers' => array(
-            'ETag'         => '1f553d7c19eea5d2b0ed986c9eb63f3e',
+            'ETag'         => '68ac210a7de0bf83cc80b339c67dbf4c',
             'Server'       => 'eZComponents/dev/ezcWebdavTransportTestMock',
             'Content-Type' => 'application/octet-stream; charset="utf-8"',
         ),

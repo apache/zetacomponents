@@ -12,7 +12,7 @@ return array(
     array(
         'status' => 'HTTP/1.1 200 OK',
         'headers' => array(
-            'ETag'           => 'bb1b562b998c7ac02f579de380d5f22a',
+            'ETag'           => '1b83dcfcbfa0cfe05fa0831197dc0cf8',
             'Server'         => 'eZComponents/dev/ezcWebdavTransportTestMock',
             'Content-Type'   => 'application/octet-stream; charset="utf-8"',
             'Content-Length' => '0',
