@@ -346,7 +346,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 '/foo', $backend->initializeProperties( '/foo' )
             )
         );
-        $expectedResponse->setHeader( 'ETag', 'e9b6f4541c34489fe74a994915ed9518' );
+        $expectedResponse->setHeader( 'ETag', '1effb2475fcfba4f9e8b8a1dbc8f3caf' );
 
         $this->assertEquals(
             $expectedResponse,
@@ -382,7 +382,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 '/bar', $backend->initializeProperties( '/bar', true )
             )
         );
-        $expectedResponse->setHeader( 'ETag', '31c538d234b12421c5cd7e5e97e34ab2' );
+        $expectedResponse->setHeader( 'ETag', '6a764eebfa109a9ef76c113f3f608c6b' );
 
         $this->assertEquals(
             $expectedResponse,
@@ -444,7 +444,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 '/foo', $backend->initializeProperties( '/foo' ), 'bar'
             )
         );
-        $expectedResponse->setHeader( 'ETag', 'e9b6f4541c34489fe74a994915ed9518' );
+        $expectedResponse->setHeader( 'ETag', '1effb2475fcfba4f9e8b8a1dbc8f3caf' );
 
         $this->assertEquals(
             $expectedResponse,
@@ -537,7 +537,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 'bar'
             )
         );
-        $expectedResponse->setHeader( 'ETag', 'e9b6f4541c34489fe74a994915ed9518' );
+        $expectedResponse->setHeader( 'ETag', '1effb2475fcfba4f9e8b8a1dbc8f3caf' );
 
         $this->assertEquals(
             $expectedResponse,
@@ -583,7 +583,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 )
             )
         );
-        $expectedResponse->setHeader( 'ETag', '31c538d234b12421c5cd7e5e97e34ab2' );
+        $expectedResponse->setHeader( 'ETag', '6a764eebfa109a9ef76c113f3f608c6b' );
 
         $this->assertEquals(
             $expectedResponse,
@@ -624,7 +624,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
                 'Willst du an \'was Rundes denken, denk\' an einen Plastikball. Willst du \'was gesundes schenken, schenke einen Plastikball. Plastikball, Plastikball, ...'
             )
         );
-        $expectedResponse->setHeader( 'ETag', '4cea4bd577814d08ea2a8dd8c2f68748' );
+        $expectedResponse->setHeader( 'ETag', '1c4cc7ffb86ee1feec13f05fb667e806' );
 
         $this->assertEquals(
             $expectedResponse,
@@ -1716,7 +1716,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $expectedResponse = new ezcWebdavPutResponse(
             '/bar/foo'
         );
-        $expectedResponse->setHeader( 'ETag', '93ac3897d0a4147674e1fa586e8e4bbe' );
+        $expectedResponse->setHeader( 'ETag', 'e5bb98b3adcbc2496f67c8917c44191f' );
 
         $this->assertEquals(
             $expectedResponse,
@@ -1770,7 +1770,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $expectedResponse = new ezcWebdavPutResponse(
             '/foo'
         );
-        $expectedResponse->setHeader( 'ETag', 'e9b6f4541c34489fe74a994915ed9518' );
+        $expectedResponse->setHeader( 'ETag', '1effb2475fcfba4f9e8b8a1dbc8f3caf' );
 
         $this->assertEquals(
             $expectedResponse,
