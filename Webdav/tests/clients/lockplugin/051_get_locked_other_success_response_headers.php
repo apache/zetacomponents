@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'ETag' => 'f1889e4dd16bef066cafaebad2c2c81d',
+  'ETag' => 'f8fc7a3a8f8050e3f305dac66365e3ef',
   'Server' => 'eZComponents/dev/ezcWebdavTransportMock',
   'Content-Type' => 'application/octet-stream; charset="utf-8"',
 );
