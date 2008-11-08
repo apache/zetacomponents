@@ -86,14 +86,14 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavPropertyHandler' => array(
-                    'beforeExtractLiveProperty' => array(
+                'ezcWebdavTransport' => array(
+                    'beforeParseRequest' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
                             array(  $cfg, 'testCallback' ),
                         ),
                     ),
-                    'afterExtractLiveProperty' => array(
+                    'afterProcessResponse' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackAfterTest' ),
                             array( $cfg, 'testCallback' ),
@@ -218,14 +218,14 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavPropertyHandler' => array(
-                    'beforeExtractLiveProperty' => array(
+                'ezcWebdavTransport' => array(
+                    'beforeParseRequest' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
                             array(  $cfg, 'testCallback' ),
                         ),
                     ),
-                    'afterExtractLiveProperty' => array(
+                    'afterProcessResponse' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackAfterTest' ),
                             array( $cfg, 'testCallback' ),
@@ -249,10 +249,10 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
         
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavPropertyHandler' => array(
-                    'beforeExtractLiveProperty' => array(
+                'ezcWebdavTransport' => array(
+                    'beforeParseRequest' => array(
                     ),
-                    'afterExtractLiveProperty' => array(
+                    'afterProcessResponse' => array(
                     ),
                 ),
             ),
@@ -317,14 +317,14 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavPropertyHandler' => array(
-                    'beforeExtractLiveProperty' => array(
+                'ezcWebdavTransport' => array(
+                    'beforeParseRequest' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
                             array(  $cfg, 'testCallback' ),
                         ),
                     ),
-                    'afterExtractLiveProperty' => array(
+                    'afterProcessResponse' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackAfterTest' ),
                             array( $cfg, 'testCallback' ),
@@ -409,14 +409,14 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavPropertyHandler' => array(
-                    'beforeExtractLiveProperty' => array(
+                'ezcWebdavTransport' => array(
+                    'beforeParseRequest' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
                             array(  $cfg, 'testCallback' ),
                         ),
                     ),
-                    'afterExtractLiveProperty' => array(
+                    'afterProcessResponse' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackAfterTest' ),
                             array( $cfg, 'testCallback' ),
@@ -497,14 +497,14 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
 
         $this->assertAttributeEquals(
              array(
-                'ezcWebdavPropertyHandler' => array(
-                    'beforeExtractLiveProperty' => array(
+                'ezcWebdavTransport' => array(
+                    'beforeParseRequest' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
                             array(  $cfg, 'testCallback' ),
                         ),
                     ),
-                    'afterExtractLiveProperty' => array(
+                    'afterProcessResponse' => array(
                         'foonamespace' => array(
                             array( 'ezcWebdavPluginRegistryTest', 'callbackAfterTest' ),
                             array( $cfg, 'testCallback' ),
@@ -517,7 +517,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
             'Property $assignedHooks not set correctly after registration.'
         );
 
-        $reg->announceHook( 'ezcWebdavPropertyHandler', 'beforeExtractLiveProperty', ( $beforeParams = new ezcWebdavPluginParameters() ) );
+        $reg->announceHook( 'ezcWebdavTransport', 'beforeParseRequest', ( $beforeParams = new ezcWebdavPluginParameters() ) );
 
         $this->assertSame(
             $beforeParams,
@@ -536,7 +536,7 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
             'Number of called callbackes invalid.'
         );
 
-        $reg->announceHook( 'ezcWebdavPropertyHandler', 'afterExtractLiveProperty', ( $afterParams = new ezcWebdavPluginParameters() ) );
+        $reg->announceHook( 'ezcWebdavTransport', 'afterProcessResponse', ( $afterParams = new ezcWebdavPluginParameters() ) );
 
         $this->assertSame(
             $beforeParams,
@@ -569,61 +569,13 @@ class ezcWebdavPluginRegistryTest extends ezcWebdavTestCase
         $this->assertAttributeEquals(
             array (
                 'ezcWebdavTransport' => array (
-                    'beforeParseCopyRequest'              => true,
-                    'afterParseCopyRequest'               => true,
-                    'beforeParseDeleteRequest'            => true,
-                    'afterParseDeleteRequest'             => true,
-                    'beforeParseGetRequest'               => true,
-                    'afterParseGetRequest'                => true,
-                    'beforeParseHeadRequest'              => true,
-                    'afterParseHeadRequest'               => true,
-                    'beforeParseMakeCollectionRequest'    => true,
-                    'afterParseMakeCollectionRequest'     => true,
-                    'beforeParseMoveRequest'              => true,
-                    'afterParseMoveRequest'               => true,
-                    'beforeParseOptionsRequest'           => true,
-                    'afterParseOptionsRequest'            => true,
-                    'beforeParsePropFindRequest'          => true,
-                    'afterParsePropFindRequest'           => true,
-                    'beforeParsePropPatchRequest'         => true,
-                    'afterParsePropPatchRequest'          => true,
-                    'beforeParsePutRequest'               => true,
-                    'afterParsePutRequest'                => true,
-                    'beforeProcessCopyResponse'           => true,
-                    'afterProcessCopyResponse'            => true,
-                    'beforeProcessDeleteResponse'         => true,
-                    'afterProcessDeleteResponse'          => true,
-                    'beforeProcessErrorResponse'          => true,
-                    'afterProcessErrorResponse'           => true,
-                    'beforeProcessGetCollectionResponse'  => true,
-                    'afterProcessGetCollectionResponse'   => true,
-                    'beforeProcessGetResourceResponse'    => true,
-                    'afterProcessGetResourceResponse'     => true,
-                    'beforeProcessHeadResponse'           => true,
-                    'afterProcessHeadResponse'            => true,
-                    'beforeProcessMakeCollectionResponse' => true,
-                    'afterProcessMakeCollectionResponse'  => true,
-                    'beforeProcessMoveResponse'           => true,
-                    'afterProcessMoveResponse'            => true,
-                    'beforeProcessMultiStatusResponse'    => true,
-                    'afterProcessMultiStatusResponse'     => true,
-                    'beforeProcessOptionsResponse'        => true,
-                    'afterProcessOptionsResponse'         => true,
-                    'beforeProcessPropFindResponse'       => true,
-                    'afterProcessPropFindResponse'        => true,
-                    'beforeProcessPropPatchResponse'      => true,
-                    'afterProcessPropPatchResponse'       => true,
-                    'beforeProcessPutResponse'            => true,
-                    'afterProcessPutResponse'             => true,
-                    'parseUnknownRequest'                 => true,
-                    'processUnknownResponse'              => true,
+                    'beforeParseRequest'     => true,
+                    'afterProcessResponse'   => true,
+                    'parseUnknownRequest'    => true,
+                    'processUnknownResponse' => true,
                 ),
                 'ezcWebdavPropertyHandler' => array(
-                    'beforeExtractLiveProperty'    => true,
-                    'afterExtractLiveProperty'     => true,
                     'extractDeadProperty'          => true,
-                    'beforeSerializeLiveProperty'  => true,
-                    'afterSerializeLiveProperty'   => true,
                     'serializeDeadProperty'        => true,
                     'extractUnknownLiveProperty'   => true,
                     'serializeUnknownLiveProperty' => true,

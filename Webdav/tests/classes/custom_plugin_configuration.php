@@ -31,12 +31,12 @@ class fooCustomWebdavPluginConfiguration extends ezcWebdavPluginConfiguration
     public function getHooks()
     {
         return ( isset( $this->hooks ) ? $this->hooks : array(
-            'ezcWebdavPropertyHandler' => array(
-                'beforeExtractLiveProperty' => array(
+            'ezcWebdavTransport' => array(
+                'beforeParseRequest' => array(
                     array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
                     array(  $this, 'testCallback' ),
                 ),
-                'afterExtractLiveProperty' => array(
+                'afterProcessResponse' => array(
                     array( 'ezcWebdavPluginRegistryTest', 'callbackAfterTest' ),
                     array( $this, 'testCallback' )
                 ),

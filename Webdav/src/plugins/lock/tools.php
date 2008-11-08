@@ -333,8 +333,10 @@ class ezcWebdavLockTools
         catch ( ezcWebdavLockAccessDeniedException $e )
         {
             return $this->createLockViolation(
-                ezcWebdavResponse::STATUS_403,
-                $path,
+                new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_403,
+                    $path
+                ),
                 $propFindRes->node,
                 null
             );
@@ -414,7 +416,7 @@ class ezcWebdavLockTools
                         $path
                     ),
                     $propFindRes->node,
-                    $data['activeLock']
+                    $data['lockdiscovery']
                 );
             }
         }

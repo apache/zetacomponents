@@ -37,12 +37,12 @@ class ezcWebdavPluginConfigurationTest extends ezcWebdavTestCase
         $cfg = new fooCustomWebdavPluginConfiguration();
         $this->assertEquals(
             array(
-                'ezcWebdavPropertyHandler' => array(
-                    'beforeExtractLiveProperty' => array(
+                'ezcWebdavTransport' => array(
+                    'beforeParseRequest' => array(
                         array( 'ezcWebdavPluginRegistryTest', 'callbackBeforeTest' ),
                         array(  $cfg, 'testCallback' ),
                     ),
-                    'afterExtractLiveProperty' => array(
+                    'afterProcessResponse' => array(
                         array( 'ezcWebdavPluginRegistryTest', 'callbackAfterTest' ),
                         array( $cfg, 'testCallback' )
                     ),

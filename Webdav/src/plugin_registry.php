@@ -93,39 +93,20 @@ class ezcWebdavPluginRegistry
     public function __construct()
     {
         // Transport layer hooks
+        $this->createHook( 'ezcWebdavTransport', 'beforeParseRequest' );
+        $this->createHook( 'ezcWebdavTransport', 'afterProcessResponse' );
 
-        // Extract parsing methods
-        foreach ( ezcWebdavTransport::$parsingMap as $httpMethod => $method )
-        {
-            $this->createHook( 'ezcWebdavTransport', $method, 'before' );
-            $this->createHook( 'ezcWebdavTransport', $method, 'after' );
-        }
-        // Extract handling methods
-        foreach ( ezcWebdavTransport::$handlingMap as $class => $method )
-        {
-            $this->createHook( 'ezcWebdavTransport', $method, 'before' );
-            $this->createHook( 'ezcWebdavTransport', $method, 'after' );
-        }
-        // Add additional Transport layer hooks
         $this->createHook( 'ezcWebdavTransport', 'parseUnknownRequest' );
         $this->createHook( 'ezcWebdavTransport', 'processUnknownResponse' );
 
         // Property related hooks
-        $this->createHook( 'ezcWebdavPropertyHandler', 'extractLiveProperty', 'before' );
-        $this->createHook( 'ezcWebdavPropertyHandler', 'extractLiveProperty', 'after' );
-
         $this->createHook( 'ezcWebdavPropertyHandler', 'extractDeadProperty' );
-        
-        $this->createHook( 'ezcWebdavPropertyHandler', 'serializeLiveProperty', 'before' );
-        $this->createHook( 'ezcWebdavPropertyHandler', 'serializeLiveProperty', 'after' );
-        
         $this->createHook( 'ezcWebdavPropertyHandler', 'serializeDeadProperty' );
 
         $this->createHook( 'ezcWebdavPropertyHandler', 'extractUnknownLiveProperty' );
         $this->createHook( 'ezcWebdavPropertyHandler', 'serializeUnknownLiveProperty' );
 
         // Server layer hooks
-
         $this->createHook( 'ezcWebdavServer', 'receivedRequest' );
         $this->createHook( 'ezcWebdavServer', 'generatedResponse' );
     }
@@ -138,14 +119,13 @@ class ezcWebdavPluginRegistry
      * specificies the name of the affected method of this class or a "pseudo
      * method name", if no such is available.
      * 
-     * @param mixed $class 
-     * @param mixed $method 
-     * @param mixed $prefix 
+     * @param string $class 
+     * @param string $hook 
      * @return void
      */
-    private function createHook( $class, $method, $prefix = null )
+    private function createHook( $class, $hook )
     {
-        $this->hooks[$class][( $prefix !== null ? $prefix . ucfirst( $method )  : $method )] = true;
+        $this->hooks[$class][$hook] = true;
     }
 
     /**
