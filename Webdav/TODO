@@ -4,16 +4,10 @@ TODO
 1.1alpha1
 ----------
 
-- Update plugin registry to only have 1 before and 1 after request. Should
-  last!
 - Check all files/classes for correct @access tags (almost all of the lock
   plugin must have @access private).
-- Backend locks currently bail out, if locking fails. They should remove the
-  timedout lock instead!
 - Replace all occurances of DateTime() with ezcWebdavDateTime() (for serializability).
-- Rename $requestGenerator to $checkObserver in lock check info.
 - Check for correct error on shared/read lock request.
-- Remove lock timeout exception.
 
 1.1beta1
 --------

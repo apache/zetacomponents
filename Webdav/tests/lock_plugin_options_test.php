@@ -30,17 +30,29 @@ class ezcWebdavLockPluginOptionsTest extends ezcWebdavTestCase
         $opt = new ezcWebdavLockPluginOptions();
 
         $this->assertAttributeEquals(
-            array( 'lockTimeout' => 900 ),
+            array(
+                'lockTimeout'         => 900,
+                'backendLockTimeout'  => 10000000,
+                'backendLockWaitTime' => 10000,
+            ),
             'properties',
             $opt
         );
 
         $opt = new ezcWebdavLockPluginOptions(
-            array( 'lockTimeout' => 123 )
+            array(
+                'lockTimeout'         => 123,
+                'backendLockTimeout'  => 123456,
+                'backendLockWaitTime' => 1234,
+            )
         );
 
         $this->assertAttributeEquals(
-            array( 'lockTimeout' => 123 ),
+            array(
+                'lockTimeout'         => 123,
+                'backendLockTimeout'  => 123456,
+                'backendLockWaitTime' => 1234,
+            ),
             'properties',
             $opt
         );
@@ -55,6 +67,16 @@ class ezcWebdavLockPluginOptionsTest extends ezcWebdavTestCase
             'lockTimeout',
             array( 1, 23, 42, 100000, 2147483647 )
         );
+        $this->assertSetProperty(
+            $opt,
+            'backendLockTimeout',
+            array( 1, 23, 42, 100000, 2147483647 )
+        );
+        $this->assertSetProperty(
+            $opt,
+            'backendLockWaitTime',
+            array( 1, 23, 42, 100000, 2147483647 )
+        );
     }
 
     public function testSetAccessFailure()
@@ -64,6 +86,16 @@ class ezcWebdavLockPluginOptionsTest extends ezcWebdavTestCase
         $this->assertSetPropertyFails(
             $opt,
             'lockTimeout',
+            array( 0, -42, true, false, 'foo', 23.42, array(), new stdClass() )
+        );
+        $this->assertSetPropertyFails(
+            $opt,
+            'backendLockTimeout',
+            array( 0, -42, true, false, 'foo', 23.42, array(), new stdClass() )
+        );
+        $this->assertSetPropertyFails(
+            $opt,
+            'backendLockWaitTime',
             array( 0, -42, true, false, 'foo', 23.42, array(), new stdClass() )
         );
     }
@@ -86,6 +118,12 @@ class ezcWebdavLockPluginOptionsTest extends ezcWebdavTestCase
 
         $this->assertTrue(
             isset( $opt->lockTimeout )
+        );
+        $this->assertTrue(
+            isset( $opt->backendLockTimeout )
+        );
+        $this->assertTrue(
+            isset( $opt->backendLockWaitTime )
         );
         $this->assertFalse(
             isset( $opt->foo )
