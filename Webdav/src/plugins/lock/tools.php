@@ -566,6 +566,31 @@ class ezcWebdavLockTools
                 "Properties 'lockinfo' and 'lockdiscovery' out of sync on '{$propFindRes->node->path}'."
             );
         }
+        return $this->postProcessCheckProperties( $data );
+    }
+
+    /**
+     * Manipulates properties for lock null resources.
+     *
+     * In case a lock null property is checked, the ETag of the resource must
+     * not be set. This method checks for lock null resources and manipulates
+     * the getetag property accordingly.
+     * 
+     * @param array $data 
+     * @return array
+     */
+    protected function postProcessCheckProperties( array $data )
+    {
+        if ( $data['lockinfo'] !== null && $data['getetag'] !== null )
+        {
+            // Check for lock null to set etag to ''
+            if ( $data['lockinfo']->null )
+            {
+                // Memory backend borked otherwise
+                $data['getetag'] = clone $data['getetag'];
+                $data['getetag']->etag = '';
+            }
+        }
         return $data;
     }
 

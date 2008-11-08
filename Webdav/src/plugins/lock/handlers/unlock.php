@@ -265,6 +265,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
                                     // Null lock resource, delete when no more locks are active
 
                                     $deleteReq = new ezcWebdavDeleteRequest( $propFindRes->node->path );
+                                    ezcWebdavLockTools::cloneRequestHeaders( $request, $deleteReq );
                                     $deleteReq->validateHeaders();
                                     $deleteRes = $backend->delete( $deleteReq );
                                     if ( !( $deleteRes instanceof ezcWebdavDeleteResponse ) )

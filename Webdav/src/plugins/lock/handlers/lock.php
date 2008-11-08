@@ -284,6 +284,12 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             return $this->createLockError( $propPatchRes );
         }
         
+        // Assign lock to user
+        ezcWebdavServer::getInstance()->auth->assignLock(
+            $request->getHeader( 'Authorization' )->username,
+            $lockToken
+        );
+        
         return new ezcWebdavLockResponse(
             $lockDiscoveryProp,
             ezcWebdavResponse::STATUS_201,
