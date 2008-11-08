@@ -353,15 +353,21 @@ class ezcWebdavLockTools
             );
         }
 
-        $ifItems = $this->getIfHeaderItems( $path, $checkInfo->ifHeader );
-
-        // No If header item, not condition
-        if ( $ifItems === array() )
+        // No If header to check against
+        if ( $checkInfo->ifHeader === null )
         {
-            return $this->checkLockedBySomeoneElse(
+            if ( count( $data['lockdiscovery']->activeLock ) === 0 )
+            {
+                // No lock, no condition, no checks. ;)
+                return null;
+            }
+            return $this->createLockViolation(
+                new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_423,
+                    $path
+                ),
                 $propFindRes->node,
-                $data,
-                $checkInfo->authHeader
+                $data['lockdiscovery']
             );
         }
 
@@ -370,59 +376,76 @@ class ezcWebdavLockTools
             $checkInfo->authHeader
         );
         $activeEtag = ( $data['getetag'] !== null ? $data['getetag']->etag : '' );
-       
-        $lockWasVerified = false;
-        $etagWasVerified = false;
 
-        // Check all possible item series
-        foreach ( $ifItems as $ifItem )
+        // Check if any of the active locks belongs to the user.
+        if ( count( $data['lockdiscovery']->activeLock ) > 0 && count( $activeLockTokens ) === 0 )
         {
-            if ( $this->checkLock( $ifItem, $activeLockTokens )
-                 && $this->checkEtag( $ifItem, $activeEtag ) )
+            return $this->createLockViolation(
+                new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_423,
+                    $path
+                ),
+                $propFindRes->node,
+                $data['lockdiscovery']
+            );
+        }
+
+        // Perform If header validation, must be matched no matter if locked.
+        $ifItems = $checkInfo->ifHeader[$path];
+        if ( $ifItems !== array() )
+        {
+            $conditionVerified = false;
+            // If header has conditions for the resource verify at least 1
+            // condition set.
+            foreach ( $ifItems as $ifItem )
             {
-                // All fine :)
-                return null;
+                if ( $this->checkLock( $ifItem, $activeLockTokens )
+                     && $this->checkEtag( $ifItem, $activeEtag ) )
+                {
+                    $conditionVerified = true;
+                    break;
+                }
             }
+            if ( !$conditionVerified )
+            {
+                return $this->createLockViolation(
+                    new ezcWebdavErrorResponse(
+                        ezcWebdavResponse::STATUS_412,
+                        $path
+                    ),
+                    $propFindRes->node,
+                    $data['activeLock']
+                );
+            }
+        }
+
+        if ( count( $data['lockdiscovery']->activeLock ) === 0 )
+        {
+            // Not locked, no more checks
+            return  null;
+        }
+        
+        // Verify that at least 1 active lock token was submitted in the If
+        // header
+        $intersect = array_intersect(
+            $activeLockTokens,
+            $checkInfo->ifHeader->getLockTokens()
+        );
+        if ( count( $intersect ) !== 0 )
+        {
+            // Condition successfully verified
+            return null;
         }
 
         // If header not verified
         return $this->createLockViolation(
             new ezcWebdavErrorResponse(
-                ezcWebdavResponse::STATUS_412,
+                ezcWebdavResponse::STATUS_423,
                 $path
             ),
             $propFindRes->node,
             $data['lockdiscovery']
         );
-    }
-
-    /**
-     * Returns a corresponding set of If header items for $path.
-     *
-     * Checks the given $ifHeader recursively, for conditions to apply to
-     * $path. If no condition is found, an empty array is returned.
-     * 
-     * @param string $path 
-     * @param ezcWebdavLockIfHeaderList $ifHeader 
-     * @return array(ezcWebdavLockIfHeaderListItem)
-     */
-    protected function getIfHeaderItems( $path, ezcWebdavLockIfHeaderList $ifHeader = null )
-    {
-        if ( $ifHeader === null )
-        {
-            return array();
-        }
-
-        while ( $path !== '/' )
-        {
-            $ifHeaderItems = $ifHeader[$path];
-            if ( $ifHeaderItems !== array() )
-            {
-                return $ifHeaderItems;
-            }
-            $path = dirname( $path );
-        }
-        return array();
     }
 
     /**
@@ -440,17 +463,15 @@ class ezcWebdavLockTools
         ezcWebdavAuth $authHeader
     )
     {
+        $auth             = ezcWebdavServer::getInstance()->auth;
         $activeLockTokens = array();
-        if ( $lockDiscovery !== null )
+
+        foreach ( $lockDiscovery->activeLock as $activeLock )
         {
-            $auth = ezcWebdavServer::getInstance()->auth;
-            foreach ( $lockDiscovery->activeLock as $activeLock )
+            $token = (string) $activeLock->token;
+            if ( $auth->ownsLock( $authHeader->username, $token ) )
             {
-                $token = (string) $activeLock->token;
-                if ( $auth->ownsLock( $authHeader->username, $token ) )
-                {
-                    $activeLockTokens[] = $token;
-                }
+                $activeLockTokens[] = $token;
             }
         }
         return $activeLockTokens;
@@ -467,7 +488,7 @@ class ezcWebdavLockTools
     {
         foreach ( $ifItem->lockTokens as $lockToken )
         {
-            if ( !( $ifItem->negated ^ in_array( $lockToken, $activeLockTokens ) ) )
+            if ( !( $lockToken->negated ^ in_array( (string) $lockToken, $activeLockTokens ) ) )
             {
                 return false;
             }
@@ -486,39 +507,12 @@ class ezcWebdavLockTools
     {
         foreach ( $ifItem->eTags as $etag )
         {
-            if ( !( $ifItem->negated ^ $activeEtag === $etag ) )
+            if ( !( $etag->negated ^ $activeEtag === (string) $etag ) )
             {
                 return false;
             }
         }
         return true;
-    }
-
-    /**
-     * Checks if the resource is locked by someone else.
-     *
-     * Returns null or error response.
-     * 
-     * @param string $path 
-     * @param array(string=>ezcWebdavProperty) $data 
-     * @param ezcWebdavAuth $authHeader 
-     * @return null|ezcWebdavErrorResponse
-     */
-    protected function checkLockedBySomeoneElse( $node, array $data, ezcWebdavAuth $authHeader )
-    {
-        if ( $data['lockdiscovery'] !== null && count( $data['lockdiscovery']->activeLock ) > 0 )
-        {
-            return $this->createLockViolation(
-                new ezcWebdavErrorResponse(
-                    ezcWebdavResponse::STATUS_423,
-                    $node->path
-                ),
-                $node,
-                $data['lockdiscovery']
-            );
-        }
-        // Not locked
-        return null;
     }
 
     /**
@@ -542,12 +536,14 @@ class ezcWebdavLockTools
                     $data['getetag']       = $propStatRes->storage->get(
                         'getetag'
                     );
-                    $data['lockdiscovery'] = $propStatRes->storage->get(
-                        'lockdiscovery'
-                    );
                     $data['lockinfo']      = $propStatRes->storage->get(
                         'lockinfo',
                         ezcWebdavLockPlugin::XML_NAMESPACE
+                    );
+                    // Ensure that lockdiscovery is there
+                    $data['lockdiscovery'] = ( $propStatRes->storage->contains( 'lockdiscovery' )
+                        ? $propStatRes->storage->get( 'lockdiscovery' )
+                        : new ezcWebdavLockDiscoveryProperty()
                     );
                     break;
 
@@ -559,8 +555,7 @@ class ezcWebdavLockTools
             }
         }
 
-        if ( ( $data['lockdiscovery'] === null || count( $data['lockdiscovery']->activeLock ) === 0 )
-             ^ $data['lockinfo'] === null )
+        if ( count( $data['lockdiscovery']->activeLock ) === 0 ^ $data['lockinfo'] === null )
         {
             throw new ezcWebdavInconsistencyException(
                 "Properties 'lockinfo' and 'lockdiscovery' out of sync on '{$propFindRes->node->path}'."
