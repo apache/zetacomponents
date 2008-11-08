@@ -201,14 +201,7 @@ class ezcWebdavClientTestGenerator
      * 
      * @var int
      */
-    protected $testNo;
-
-    /**
-     * If xdebug traces should be generated.
-     * 
-     * @var bool
-     */
-    public $xdebugTrace = false;
+    public $testNo;
     
     /**
      * Creates a new test generator.
@@ -294,16 +287,6 @@ class ezcWebdavClientTestGenerator
         $GLOBALS['EZC_WEBDAV_ERROR']  = array();
         set_error_handler( array( $this, 'handleErrors' ) );
 
-        if ( $this->xdebugTrace )
-        {
-            $traceFile = sprintf(
-                "traces/%0{$this->testCaseNoDigits}s_%s",
-                $this->testNo,
-                $_SERVER['REQUEST_METHOD']
-            );
-            xdebug_start_trace( $traceFile );
-        }
-
         try
         {
             $this->server->handle( $this->backend );
@@ -311,11 +294,6 @@ class ezcWebdavClientTestGenerator
         catch ( Exception $e )
         {
             $this->exceptions[] = $e;
-        }
-        
-        if ( $this->xdebugTrace )
-        {
-            xdebug_stop_trace();
         }
 
         restore_error_handler();

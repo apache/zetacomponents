@@ -145,6 +145,17 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         $this->properties['owner']     = new ezcWebdavPotentialUriContent();
         $this->properties['token']     = new ezcWebdavPotentialUriContent();
     }
+
+    /**
+     * Clones deep.
+     * 
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->properties['owner'] = clone $this->properties['owner'];
+        $this->properties['token'] = clone $this->properties['token'];
+    }
 }
 
 

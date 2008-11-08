@@ -74,7 +74,7 @@ $backendBefore->setProperty(
 );
 
 $backendBefore->setProperty(
-    '/collection',
+    '/collection/resource.html',
     new ezcWebdavLockInfoProperty(
         new ArrayObject(
             array(

@@ -321,23 +321,29 @@ class ezcWebdavLockHeaderHandler
      */
     protected function parseEtag( $content, $len, &$i )
     {
-        $token = '';
+        $etag = '';
 
-        while ( $i < $len && $content[$i] !== '"' )
+        while ( $i < $len && $content[$i] !== ']' )
         {
-            // skip
+            switch ( $content[$i] )
+            {
+                case '/':
+                    // ETag marked as weak, ignore parts before
+                    $etag = '';
+                    break;
+
+                case '"':
+                    // Etag wrapped in "", ignore
+                    break;
+
+                default:
+                    $etag .= $content[$i];
+                    break;
+            }
             ++$i;
         }
-        ++$i;
 
-        while ( $i < $len && $content[$i] !== '"' )
-        {
-            // ETag
-            $token .= $content[$i++];
-        }
-        ++$i;
-
-        return $token;
+        return $etag;
     }
 }
 

@@ -111,6 +111,21 @@ class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
         }
         $this->properties[$propertyName] = $propertyValue;
     }
+
+    /**
+     * Clones deep.
+     * 
+     * @return void
+     */
+    public function __clone()
+    {
+        $tokenInfos                     = $this->properties['tokenInfos'];
+        $this->properties['tokenInfos'] = new ArrayObject();
+        foreach ( $tokenInfos as $tokenInfo )
+        {
+            $this->properties['tokenInfos'][] = clone $tokenInfo;
+        }
+    }
 }
 
 ?>

@@ -35,7 +35,7 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockCopyRequestRe
     {
         $sourcePathCollector = new ezcWebdavLockCheckPathCollector();
 
-        $violations = $this->tools->checkViolations(
+        $violation = $this->tools->checkViolations(
             // Source
             new ezcWebdavLockCheckInfo(
                 $this->request->requestUri,
@@ -50,10 +50,10 @@ class ezcWebdavLockMoveRequestResponseHandler extends ezcWebdavLockCopyRequestRe
             true
         );
 
-        if ( $violations !== null )
+        if ( $violation !== null )
         {
-            // ezcWebdavMultiStatusResponse
-            return $violations;
+            // ezcWebdavErrorResponse
+            return $violation;
         }
         return $sourcePathCollector->getPaths();
     }

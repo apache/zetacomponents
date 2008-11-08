@@ -165,6 +165,18 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                     )
                 ),
             ),
+            // Not tagged, lock token and etag, from Litmus
+            array( 
+                '(<opaquelocktoken:43e241e1-df33-d3ee-bbfc-c613148efeb0> [fdf78d927cbf3fac5929db44c91d5783])',
+                new ezcWebdavLockIfHeaderNoTagList(
+                    array(
+                        new ezcWebdavLockIfHeaderListItem(
+                            array( 'opaquelocktoken:43e241e1-df33-d3ee-bbfc-c613148efeb0' ),
+                            array( 'fdf78d927cbf3fac5929db44c91d5783' )
+                        ),
+                    )
+                ),
+            ),
             // Tagged
             array( 
                 '<http://example.com/resource1> (<locktoken:a-write-lock-token> [W/"A weak ETag"]) (["strong ETag"]) <http://example.com/random> (["another strong ETag"])',

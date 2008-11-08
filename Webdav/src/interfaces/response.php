@@ -20,7 +20,7 @@
  * @version //autogentag//
  * @package Webdav
  */
-abstract class ezcWebdavResponse
+abstract class ezcWebdavResponse extends ezcWebdavInfrastructureBase
 {
     const STATUS_100            = 100;
     const STATUS_101            = 101;

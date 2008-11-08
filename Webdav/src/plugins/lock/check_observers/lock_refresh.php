@@ -119,7 +119,6 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
         {
             if ( $propStatResponse->status === ezcWebdavResponse::STATUS_200 )
             {
-               
                 // Update last access time for all affected lock tokens
 
                 if ( $propStatResponse->storage->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE ) )
@@ -129,7 +128,9 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
                         ezcWebdavLockPlugin::XML_NAMESPACE
                     );
 
-                    foreach ( $lockInfoProp->tokenInfos as $tokenInfo )
+                    $newLockInfoProp = clone $lockInfoProp;
+
+                    foreach ( $newLockInfoProp->tokenInfos as $tokenInfo )
                     {
                         // Skip locks that should not be refreshed
                         if ( !in_array( $tokenInfo->token, $affectedTokens ) )
@@ -152,7 +153,7 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
                             if ( !isset( $this->lockBaseProperties[$path] ) )
                             {
                                 // Store for update
-                                $this->lockBaseProperties[$path] = $lockInfoProp;
+                                $this->lockBaseProperties[$path] = $newLockInfoProp;
                             }
                             // Found the lockbase now
                             unset( $this->notFoundLockBases[$path] );
@@ -172,7 +173,8 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
 
                     if ( $this->timeout !== null )
                     {
-                        $updated = false;
+                        $updated           = false;
+                        $lockDiscoveryProp = clone $lockDiscoveryProp;
                         foreach ( $lockDiscoveryProp->activeLock as $activeLock )
                         {
                             if ( !in_array( (string) $activeLock->token, $affectedTokens ) )
@@ -274,6 +276,7 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
         $propFind = new ezcWebdavPropFindRequest( $path );
         $propFind->prop = new ezcWebdavBasicPropertyStorage();
         $propFind->prop->attach( new ezcWebdavLockInfoProperty() );
+        ezcWebdavLockTools::cloneRequestHeaders( $this->request, $propFind );
         $propFind->validateHeaders();
 
         $response = ezcWebdavServer::getInstance()->backend->propFind(

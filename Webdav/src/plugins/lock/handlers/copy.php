@@ -82,7 +82,7 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
             $multiObserver->attach( $destinationLockRefresher );
         }
 
-        $violations = $this->tools->checkViolations(
+        $violation = $this->tools->checkViolations(
             // Destination parent dir
             // We also get the lock property from here and refresh the
             // locks on it
@@ -105,15 +105,15 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
             $destinationLockRefresher->sendRequests();
         }
 
-        if ( $violations !== null )
+        if ( $violation !== null )
         {
-            // ezcWebdavMultistatusResponse
-            return $violations;
+            // ezcWebdavErrorResponse
+            return $violation;
         }
 
         // Check destination itself, if it exsists
 
-        $violations = $this->tools->checkViolations(
+        $violation = $this->tools->checkViolations(
             // Destination (maybe overwritten, maybe not, but we must not
             // care)
             new ezcWebdavLockCheckInfo(
@@ -130,12 +130,10 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
         );
 
         // Destination might be there but not violated, or might not be there
-        if ( $violations !== null
-             &&  $violations->responses[0]->status !== ezcWebdavResponse::STATUS_404
-           )
+        if ( $violation !== null && $violation->status !== ezcWebdavResponse::STATUS_404 )
         {
-            // ezcWebdavMultistatusResponse
-            return $violations;
+            // ezcWebdavErrorResponse
+            return $violation;
         }
 
         // Store infos for use on correct moving
@@ -145,7 +143,7 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
         );
 
         // Consistency check
-        if ( $destParentProps->contains( 'lockdiscovery' )
+        if ( ( $destParentProps->contains( 'lockdiscovery' ) && count( $destParentProps->get( 'lockdiscovery' )->activeLock ) > 0 )
              ^ $destParentProps->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
            )
         {

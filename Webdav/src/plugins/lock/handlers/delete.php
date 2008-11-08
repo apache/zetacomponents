@@ -39,7 +39,7 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
             );
         }
 
-        $violations = $this->tools->checkViolations(
+        $violation = $this->tools->checkViolations(
             new ezcWebdavLockCheckInfo(
                 $request->requestUri,
                 ezcWebdavRequest::DEPTH_INFINITY,
@@ -58,9 +58,10 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
             $targetLockRefresher->sendRequests();
         }
 
-        if ( $violations !== null )
+        if ( $violation !== null )
         {
-            return $violations;
+            // ezcWebdavErrorResponse
+            return $violation;
         }
     }
 

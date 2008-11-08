@@ -39,7 +39,7 @@ class ezcWebdavLockPropPatchRequestResponseHandler extends ezcWebdavLockRequestR
             );
         }
 
-        $violations = $this->tools->checkViolations(
+        $violation = $this->tools->checkViolations(
             new ezcWebdavLockCheckInfo(
                 $request->requestUri,
                 ezcWebdavRequest::DEPTH_ZERO,
@@ -52,9 +52,10 @@ class ezcWebdavLockPropPatchRequestResponseHandler extends ezcWebdavLockRequestR
             true
         );
 
-        if ( $violations !== null )
+        if ( $violation !== null )
         {
-            return $violations;
+            // ezcWebdavErrorResponse
+            return $violation;
         }
 
         // Lock refresh must occur no matter if the request succeeds

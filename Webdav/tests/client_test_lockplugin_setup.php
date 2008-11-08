@@ -13,7 +13,10 @@ class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
         $test->server->pluginRegistry->registerPlugin(
             new ezcWebdavLockPluginConfiguration(
                 new ezcWebdavLockPluginOptions(
-                    array( 'lockTimeout' => 604800 )
+                    array(
+                        'lockTimeout'        => 604800,
+                        'backendLockTimeout' => 2000000,
+                    )
                 )
             )
         );

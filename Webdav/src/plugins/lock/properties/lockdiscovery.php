@@ -100,6 +100,21 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
     {
         $this->activeLock = new ArrayObject();
     }
+
+    /**
+     * Clones deep.
+     * 
+     * @return void
+     */
+    public function __clone()
+    {
+        $activeLocks                    = $this->properties['activeLock'];
+        $this->properties['activeLock'] = new ArrayObject();
+        foreach ( $activeLocks as $activeLock )
+        {
+            $this->properties['activeLock'][] = clone $activeLock;
+        }
+    }
 }
 
 ?>

@@ -29,11 +29,18 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
     protected $request;
     
     /**
-     * Lock properties to be updated after processing. 
+     * Lock property to be updated after processing. 
      * 
-     * @var ezcWebdavBasicPropertyStorage
+     * @var ezcWebdavLockDiscoveryProperty
      */
-    protected $lockProperties;
+    protected $lockDiscoveryProp;
+
+    /**
+     * Lock property to be updated after processing. 
+     * 
+     * @var ezcWebdavLockInfoProperty
+     */
+    protected $lockInfoProp;
 
     /**
      * Handles GET requests.
@@ -65,7 +72,7 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
         $propertyCollector = new ezcWebdavLockCheckPropertyCollector();
         $observer->attach( $propertyCollector );
 
-        $violations = $this->tools->checkViolations(
+        $violation = $this->tools->checkViolations(
             new ezcWebdavLockCheckInfo(
                 $target,
                 ezcWebdavRequest::DEPTH_ZERO,
@@ -78,18 +85,18 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
         );
 
         $targetExists = true;
-        if ( $violations !== null )
+        if ( $violation !== null )
         {
-            if ( $violations->responses[0]->status !== ezcWebdavResponse::STATUS_404 )
+            if ( $violation->status !== ezcWebdavResponse::STATUS_404 )
             {
                 // Desired collection exists and conditions are violated
-                return $violations;
+                return $violation;
             }
-            if ( $violations->responses[0]->status === ezcWebdavResponse::STATUS_404 )
+            if ( $violation->status === ezcWebdavResponse::STATUS_404 )
             {
                 $targetExists = false;
                 // Desired collection does not exist, check parent
-                $violations = $this->tools->checkViolations(
+                $violation = $this->tools->checkViolations(
                     new ezcWebdavLockCheckInfo(
                         $parent,
                         ezcWebdavRequest::DEPTH_ZERO,
@@ -100,9 +107,9 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
                     ),
                     true
                 );
-                if ( $violations !== null )
+                if ( $violation !== null )
                 {
-                    return $violations;
+                    return $violation;
                 }
             }
         }
@@ -116,9 +123,8 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
         // Delete lock null before performing the request
         if ( $targetExists )
         {
-            $targetProps          = $propertyCollector->getProperties( $target );
-            $this->lockProperties = clone $targetProps;
-            $lockInfoProp         = $targetProps->get(
+            $targetProps  = $propertyCollector->getProperties( $target );
+            $lockInfoProp = $targetProps->get(
                 'lockinfo',
                 ezcWebdavLockPlugin::XML_NAMESPACE
             );
@@ -137,32 +143,49 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
                         'Lock null resource could not be deleted, but check did not cause violations.'
                     );
                 }
-
-                // Update property
-                $lockInfoProp->null = false;
+            }
+            // Clone and update properties
+            if ( $lockInfoProp !== null )
+            {
+                $this->lockInfoProp       = clone $lockInfoProp;
+                $this->lockInfoProp->null = false;
+                $this->lockDiscoveryProp  = clone $targetProps->get( 'lockdiscovery' );
             }
         }
 
-        if ( !isset( $this->lockProperties ) )
+        if ( !$targetExists )
         {
+            // Target does not exist or is not locked
             $lockProperties    = $propertyCollector->getProperties( $parent );
             $lockDiscoveryProp = $lockProperties->get( 'lockdiscovery' );
 
             // Only need to set lock from parent, if this one is locked with depth greater 0.
-            // @TODO: This must be changed if we once support more lock types.
-            if ( $lockDiscoveryProp !== null
+            // @TODO: This must be changed if we once support shared locks.
+            if ( $lockDiscoveryProp !== null && count( $lockDiscoveryProp->activeLock ) > 0
                  && $lockDiscoveryProp->activeLock[0]->depth !== ezcWebdavRequest::DEPTH_ZERO
             )
             {
-                $this->lockProperties = clone $lockProperties;
-                $lockInfoProp = $this->lockProperties->get(
+                $lockInfoProp = $lockProperties->get(
                     'lockinfo',
                     ezcWebdavLockPlugin::XML_NAMESPACE
                 );
-                if ( $lockInfoProp !== null && $lockInfoProp->tokenInfos[0]->lockBase === null )
+                // Sanity check
+                if ( $lockInfoProp === null )
                 {
-                    $lockInfoProp->tokenInfos[0]->lockBase   = $parent;
-                    $lockInfoProp->tokenInfos[0]->lastAccess = null;
+                    throw new ezcWebdavInconsistencyException(
+                        "Properties lock discovery and lock info out of sync on '$parent'."
+                    );
+                }
+                $this->lockDiscoveryProp = clone $lockDiscoveryProp;
+                $this->lockInfoProp      = clone $lockInfoProp;
+                // If $parent is a lock base, indicate it for the new child
+                foreach ( $this->lockInfoProp->tokenInfos as $tokenInfo )
+                {
+                    if ( $tokenInfo->lockBase === null )
+                    {
+                        $tokenInfo->lockBase   = $parent;
+                        $tokenInfo->lastAccess = null;
+                    }
                 }
             }
         }
@@ -197,7 +220,7 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
      */
     protected function updateLockProperties()
     {
-        if ( $this->lockProperties !== null )
+        if ( $this->lockDiscoveryProp !== null )
         {
             $propPatchReq = new ezcWebdavPropPatchRequest(
                 $this->request->requestUri
@@ -208,11 +231,11 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
             );
             $propPatchReq->validateHeaders();
             $propPatchReq->updates->attach(
-                $this->lockProperties->get( 'lockdiscovery' ),
+                $this->lockDiscoveryProp,
                 ezcWebdavPropPatchRequest::SET
             );
             $propPatchReq->updates->attach(
-                $this->lockProperties->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE ),
+                $this->lockInfoProp,
                 ezcWebdavPropPatchRequest::SET
             );
             // Don't care about the result, it's to late here anyway

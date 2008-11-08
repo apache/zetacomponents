@@ -179,10 +179,9 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         // If lock depth is 0, we issue 1 propfind too much here
         // @TODO: Analyse if clients usually lock 0 or infinity
         $res = $this->performUnlock(
-            $request->requestUri,
+            $request,
             $token,
-            $affectedActiveLock->depth,
-            $authHeader
+            $affectedActiveLock->depth
         );
 
         if ( $res instanceof ezcWebdavUnlockResponse )
@@ -205,8 +204,9 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
      * @param int $depth 
      * @return ezcWebdavResponse
      */
-    protected function performUnlock( $path, $token, $depth, ezcWebdavAuth $authHeader )
+    protected function performUnlock( ezcWebdavUnlockRequest $request, $token, $depth )
     {
+        $path    = $request->requestUri;
         $backend = ezcWebdavServer::getInstance()->backend;
 
         // Find alle resources affected by the unlock, including affected properties
@@ -215,8 +215,8 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         $propFindReq->prop = new ezcWebdavBasicPropertyStorage();
         $propFindReq->prop->attach( new ezcWebdavLockInfoProperty() );
         $propFindReq->prop->attach( new ezcWebdavLockDiscoveryProperty() );
+        ezcWebdavLockTools::cloneRequestHeaders( $request, $propFindReq );
         $propFindReq->setHeader( 'Depth', $depth );
-        $propFindReq->setHeader( 'Authorization', $authHeader );
         $propFindReq->validateHeaders();
 
         $propFindMultistatusRes = $backend->propFind( $propFindReq );
@@ -311,6 +311,10 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
                     $propFindRes->node->path
                 );
                 $propPatchReq->updates = $changeProps;
+                ezcWebdavLockTools::cloneRequestHeaders(
+                    $request,
+                    $propPatchReq
+                );
                 $propPatchReq->validateHeaders();
 
                 $propPatchRes = $backend->propPatch( $propPatchReq );

@@ -13,6 +13,7 @@ TODO
 - Replace all occurances of DateTime() with ezcWebdavDateTime() (for serializability).
 - Rename $requestGenerator to $checkObserver in lock check info.
 - Check for correct error on shared/read lock request.
+- Remove lock timeout exception.
 
 1.1beta1
 --------
@@ -25,9 +26,30 @@ TODO
 - Lock purging must be done using an API (shell script).
 
 - Try to refactor checkViolations() and checkEtagsAndLocks().
+- Correct problem with null NS in properties (check for error 100 on creation).
 
 1.2
 ---
+
+- Shared locks:
+
+  - Find TODOs where shared locks are mentioned
+  - During lock:
+
+    - Check for existing locks and violation between shared/exclusive
+	- Don't overwrite existing active locks
+  
+  - During unlock:
+    
+	- Don't overwrite existing active locks
+
+  - On copy/move
+
+    - Must only the moving lock be set or all?
+
+  - On change
+    
+	- Only 1 active lock must apply in a shared lock
 
 - In certain cases (e.g. eZ Publish integration) the lock plugin must offer a
   public API to its locks. This API must carefully be designed and implemented.

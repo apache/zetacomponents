@@ -145,7 +145,7 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
                 if ( !$supportedLockEmpty )
                 {
                     // @TODO: Make tool method.
-                    $supportedLock->lockEntries->attach(
+                    $supportedLock->lockEntries->append(
                         new ezcWebdavSupportedLockPropertyLockentry(
                             ezcWebdavLockRequest::TYPE_WRITE,
                             ezcWebdavLockRequest::SCOPE_EXCLUSIVE

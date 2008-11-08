@@ -104,17 +104,13 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         if ( $res !== null )
         {
-            // ezcWebdavMultistatusResponse, 1st 404 -> need to create
-            // lock-null resource
-            if ( $res->responses[0] instanceof ezcWebdavErrorResponse
-                 && $res->responses[0]->status === ezcWebdavResponse::STATUS_404
-            )
+            if ( $res->status === ezcWebdavResponse::STATUS_404 )
             {
                 return $this->createLockNullResource( $request );
             }
 
             // Other violations -> return multistatus
-            return $res;
+            return $this->createLockError( $res );
         }
 
         // Assign lock to user
@@ -172,7 +168,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             $request
         );
 
-        $res = $this->tools->checkViolations(
+        $violation = $this->tools->checkViolations(
             new ezcWebdavLockCheckInfo(
                 $request->requestUri,
                 $request->getHeader( 'Depth' ),
@@ -183,9 +179,9 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             )
         );
         
-        if ( $res !== null )
+        if ( $violation !== null )
         {
-            return $res;
+            return $this->createLockError( $violation );
         }
 
         $reqGen->sendRequests();
@@ -213,7 +209,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         // Check parent directory for locks and other violations
 
-        $checkRes = $this->tools->checkViolations(
+        $violation = $this->tools->checkViolations(
             new ezcWebdavLockCheckInfo(
                 dirname( $request->requestUri ),
                 ezcWebdavRequest::DEPTH_ZERO,
@@ -223,9 +219,9 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             )
         );
 
-        if ( $checkRes !== null )
+        if ( $violation !== null )
         {
-            return $checkRes;
+            return $this->createLockError( $violation );
         }
 
         // Create lock null resource
@@ -242,10 +238,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         if ( !( $putRes instanceof ezcWebdavPutResponse ) )
         {
-            return $this->tools->createLockFailureResponse(
-                array( $putRes ),
-                new ezcWebdavResource( $request->requestUri )
-            );
+            return $this->createLockError( $putRes );
         }
 
         // Patch necessary properties
@@ -287,15 +280,48 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         if ( !( $propPatchRes instanceof ezcWebdavPropPatchResponse ) )
         {
-            return $this->tools->createLockFailureResponse(
-                array( $propPatchRes ),
-                new ezcWebdavResource( $request->requestUri )
-            );
+            return $this->createLockError( $propPatchRes );
         }
         
         return new ezcWebdavLockResponse(
             $lockDiscoveryProp,
             $lockToken
+        );
+    }
+
+    /**
+     * Creates an error response for the LOCK method.
+     * 
+     * @param ezcWebdavErrorResponse $response 
+     * @return void
+     */
+    protected function createLockError( ezcWebdavErrorResponse $response )
+    {
+        $lockDiscoveryProp = $response->getPluginData(
+            ezcWebdavLockPlugin::PLUGIN_NAMESPACE,
+            'lockdiscovery'
+        );
+        $node = $response->getPluginData(
+            ezcWebdavLockPlugin::PLUGIN_NAMESPACE,
+            'node'
+        );
+
+        $storage = new ezcWebdavBasicPropertyStorage();
+        $storage->attach(
+            $lockDiscoveryProp !== null ? $lockDiscoveryProp : new ezcWebdavLockDiscoveryProperty()
+        );
+
+        $propStat = new ezcWebdavPropStatResponse(
+            $storage,
+            ezcWebdavResponse::STATUS_409
+        );
+
+        return new ezcWebdavMultiStatusResponse(
+            $response,
+            new ezcWebdavPropFindResponse(
+                ( $node !== null ? $node : new ezcWebdavResource( $response->requestUri ) ),
+                $propStat
+            )
         );
     }
 }
