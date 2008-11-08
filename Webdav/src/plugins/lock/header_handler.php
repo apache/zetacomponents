@@ -130,7 +130,7 @@ class ezcWebdavLockHeaderHandler
 
                 case '(':
                     ++$i;
-                    $items[] = $this->parseEtagLockTokenList( $content, $len, $i );
+                    $items[] = $this->parseConditionList( $content, $len, $i );
                     break;
                     
                 case ' ':
@@ -205,7 +205,7 @@ class ezcWebdavLockHeaderHandler
             {
                 case '(':
                     ++$i;
-                    $items[] = $this->parseEtagLockTokenList( $content, $len, $i );
+                    $items[] = $this->parseConditionList( $content, $len, $i );
                     break;
                 case ' ':
                 case "\t":
@@ -237,18 +237,12 @@ class ezcWebdavLockHeaderHandler
      * @throws ezcWebdavInvalidHeaderException
      *         if any unexpected character occurs while parsing.
      */
-    protected function parseEtagLockTokenList( $content, $len, &$i )
+    protected function parseConditionList( $content, $len, &$i )
     {
         $lockTokens = array();
         $eTags      = array();
-        $negated    = false;
 
-        // Check for negation
-        if ( strtolower( substr( $content, $i, 3 ) ) === 'not' )
-        {
-            $negated = true;
-            $i += 3;
-        }
+        $negated = false;
 
         // Walk complete list and scan tokens/etags
         while ( $i < $len && $content[$i] !== ')' )
@@ -257,12 +251,35 @@ class ezcWebdavLockHeaderHandler
             {
                 case '<':
                     ++$i;
-                    $lockTokens[] = $this->parseLockToken( $content, $len, $i );
+                    $lockToken = $this->parseLockToken( $content, $len, $i );
+                    if ( $negated )
+                    {
+                        $lockToken->negated = true;
+                    }
+                    $lockTokens[] = $lockToken;
+                    $negated = false;
                     break;
+
                 case '[':
                     ++$i;
-                    $eTags[] = $this->parseEtag( $content, $len, $i );
+                    $eTag = $this->parseEtag( $content, $len, $i );
+                    if ( $negated )
+                    {
+                        $eTag->negated = true;
+                    }
+                    $eTags[] = $eTag;
+                    $negated = false;
                     break;
+
+                case 'N':
+                case 'n':
+                    if ( strtolower( substr( $content, $i, 3 ) ) === 'not' )
+                    {
+                        $negated = true;
+                    }
+                    $i += 3;
+                    break;
+
                 case ' ':
                 case "\t":
                 case "\n":
@@ -302,7 +319,7 @@ class ezcWebdavLockHeaderHandler
             $token .= $content[$i++];
         }
 
-        return $token;
+        return new ezcWebdavLockIfHeaderCondition( $token );
     }
 
     /**
@@ -343,7 +360,7 @@ class ezcWebdavLockHeaderHandler
             ++$i;
         }
 
-        return $etag;
+        return new ezcWebdavLockIfHeaderCondition( $etag );
     }
 }
 

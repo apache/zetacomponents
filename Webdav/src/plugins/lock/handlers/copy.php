@@ -107,7 +107,14 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
 
         if ( $violation !== null )
         {
-            // ezcWebdavErrorResponse
+            if ( $violation->status === ezcWebdavResponse::STATUS_404 )
+            {
+                // Destination parent not found
+                return new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_409,
+                    $response->requestUri
+                );
+            }
             return $violation;
         }
 

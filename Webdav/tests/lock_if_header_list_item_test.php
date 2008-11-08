@@ -37,13 +37,16 @@ class ezcWebdavLockIfHeaderListItemTest extends ezcWebdavTestCase
             array(),
             $item->eTags
         );
-        $this->assertFalse(
-            $item->negated
-        );
 
-        $tokens = array( 'some lock token', 'another lock token' );
-        $eTags  = array( 'tag 1', 'tag 2' );
-        $item   = new ezcWebdavLockIfHeaderListItem( $tokens, $eTags, true );
+        $tokens = array(
+            new ezcWebdavLockIfHeaderCondition( 'some lock token' ),
+            new ezcWebdavLockIfHeaderCondition( 'another lock token', true )
+        );
+        $eTags  = array(
+            new ezcWebdavLockIfHeaderCondition( 'tag 1', true ),
+            new ezcWebdavLockIfHeaderCondition( 'tag 2' )
+        );
+        $item   = new ezcWebdavLockIfHeaderListItem( $tokens, $eTags );
 
         $this->assertEquals(
             $tokens,
@@ -52,9 +55,6 @@ class ezcWebdavLockIfHeaderListItemTest extends ezcWebdavTestCase
         $this->assertEquals(
             $eTags,
             $item->eTags
-        );
-        $this->assertTrue(
-            $item->negated
         );
     }
 
@@ -78,13 +78,6 @@ class ezcWebdavLockIfHeaderListItemTest extends ezcWebdavTestCase
 
         try
         {
-            $item->negated = true;
-            $this->fail( 'Exception not thrown on set access to property $negated.' );
-        }
-        catch ( ezcBasePropertyPermissionException $e ) {}
-
-        try
-        {
             $item->foo = 23;
             $this->fail( 'Exception not thrown on set access to property $foo.' );
         }
@@ -101,7 +94,7 @@ class ezcWebdavLockIfHeaderListItemTest extends ezcWebdavTestCase
         $this->assertTrue(
             isset( $item->eTags )
         );
-        $this->assertTrue(
+        $this->assertFalse(
             isset( $item->negated )
         );
         $this->assertFalse(

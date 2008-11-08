@@ -117,6 +117,25 @@ class ezcWebdavLockIfHeaderNoTagList extends ezcWebdavLockIfHeaderList
     {
         throw new RuntimeException( 'Operation not allowed!' );
     }
+
+    /**
+     * Returns all lock tokens submitted in the header.
+     * 
+     * @return array(string)
+     *
+     * @TODO This should be cached as long as the list is not changed.
+     */
+    public function getLockTokens()
+    {
+        $tokens = array();
+        foreach ( $this->items as $item )
+        {
+            $tokens = array_merge( $tokens, $item->lockTokens );
+        }
+        return array_unique(
+            array_map( 'strval', $tokens )
+        );
+    }
 }
 
 ?>

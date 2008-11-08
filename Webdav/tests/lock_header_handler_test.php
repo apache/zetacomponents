@@ -113,16 +113,16 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                 new ezcWebdavLockIfHeaderNoTagList(
                     array(
                         new ezcWebdavLockIfHeaderListItem(
-                            array( 'locktoken:a-write-lock-token' ),
-                            array( 'A weak ETag' )
+                            array( new ezcWebdavLockIfHeaderCondition( 'locktoken:a-write-lock-token' ) ),
+                            array( new ezcWebdavLockIfHeaderCondition( 'A weak ETag' ) )
                         ),
                         new ezcWebdavLockIfHeaderListItem(
                             array(),
-                            array( 'strong ETag' )
+                            array( new ezcWebdavLockIfHeaderCondition( 'strong ETag' ) )
                         ),
                         new ezcWebdavLockIfHeaderListItem(
                             array(),
-                            array( 'another strong ETag' )
+                            array( new ezcWebdavLockIfHeaderCondition( 'another strong ETag' ) )
                         ),
                     )
                 ),
@@ -133,11 +133,11 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                 new ezcWebdavLockIfHeaderNoTagList(
                     array(
                         new ezcWebdavLockIfHeaderListItem(
-                            array( 'opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4' ),
+                            array( new ezcWebdavLockIfHeaderCondition( 'opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4' ) ),
                             array()
                         ),
                         new ezcWebdavLockIfHeaderListItem(
-                            array( 'opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77' ),
+                            array( new ezcWebdavLockIfHeaderCondition( 'opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77' ) ),
                             array()
                         ),
                     )
@@ -149,18 +149,16 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                 new ezcWebdavLockIfHeaderNoTagList(
                     array(
                         new ezcWebdavLockIfHeaderListItem(
-                            array( 'locktoken:a-write-lock-token' ),
-                            array( 'A weak ETag' ),
-                            true
+                            array( new ezcWebdavLockIfHeaderCondition( 'locktoken:a-write-lock-token', true ) ),
+                            array( new ezcWebdavLockIfHeaderCondition( 'A weak ETag' ) )
                         ),
                         new ezcWebdavLockIfHeaderListItem(
                             array(),
-                            array( 'strong ETag' )
+                            array( new ezcWebdavLockIfHeaderCondition( 'strong ETag' ) )
                         ),
                         new ezcWebdavLockIfHeaderListItem(
                             array(),
-                            array( 'another strong ETag' ),
-                            true
+                            array( new ezcWebdavLockIfHeaderCondition( 'another strong ETag', true ) )
                         ),
                     )
                 ),
@@ -171,8 +169,8 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                 new ezcWebdavLockIfHeaderNoTagList(
                     array(
                         new ezcWebdavLockIfHeaderListItem(
-                            array( 'opaquelocktoken:43e241e1-df33-d3ee-bbfc-c613148efeb0' ),
-                            array( 'fdf78d927cbf3fac5929db44c91d5783' )
+                            array( new ezcWebdavLockIfHeaderCondition( 'opaquelocktoken:43e241e1-df33-d3ee-bbfc-c613148efeb0' ) ),
+                            array( new ezcWebdavLockIfHeaderCondition( 'fdf78d927cbf3fac5929db44c91d5783' ) )
                         ),
                     )
                 ),
@@ -184,18 +182,18 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                     array(
                         '/resource1' => array(
                             new ezcWebdavLockIfHeaderListItem(
-                                array( 'locktoken:a-write-lock-token' ),
-                                array( 'A weak ETag' )
+                                array( new ezcWebdavLockIfHeaderCondition( 'locktoken:a-write-lock-token' ) ),
+                                array( new ezcWebdavLockIfHeaderCondition( 'A weak ETag' ) )
                             ),
                             new ezcWebdavLockIfHeaderListItem(
                                 array(),
-                                array( 'strong ETag' )
+                                array( new ezcWebdavLockIfHeaderCondition( 'strong ETag' ) )
                             ),
                         ),
                         '/random' => array(
                             new ezcWebdavLockIfHeaderListItem(
                                 array(),
-                                array( 'another strong ETag' )
+                                array( new ezcWebdavLockIfHeaderCondition( 'another strong ETag' ) )
                             ),
                         ),
                     )
@@ -208,20 +206,19 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                     array(
                         '/resource1' => array(
                             new ezcWebdavLockIfHeaderListItem(
-                                array( 'locktoken:a-write-lock-token' ),
-                                array( 'A weak ETag' )
+                                array( new ezcWebdavLockIfHeaderCondition( 'locktoken:a-write-lock-token' ) ),
+                                array( new ezcWebdavLockIfHeaderCondition( 'A weak ETag' ) )
                             ),
                             new ezcWebdavLockIfHeaderListItem(
                                 array(),
-                                array( 'strong ETag' ),
+                                array( new ezcWebdavLockIfHeaderCondition( 'strong ETag', true ) ),
                                 true
                             ),
                         ),
                         '/random' => array(
                             new ezcWebdavLockIfHeaderListItem(
                                 array(),
-                                array( 'another strong ETag' ),
-                                true
+                                array( new ezcWebdavLockIfHeaderCondition( 'another strong ETag', true ) )
                             ),
                         ),
                     )
@@ -233,12 +230,12 @@ class ezcWebdavLockHeaderHandlerTest extends ezcWebdavTestCase
                     array(
                         '/collection/newdir' => array(
                             new ezcWebdavLockIfHeaderListItem(
-                                array( 'opaquelocktoken:e0491761-ef66-9c09-94be-b43d185e2ad3' )
+                                array( new ezcWebdavLockIfHeaderCondition( 'opaquelocktoken:e0491761-ef66-9c09-94be-b43d185e2ad3' ) )
                             ),
                         ),
                         '/collection/subdir' => array(
                             new ezcWebdavLockIfHeaderListItem(
-                                array( 'opaquelocktoken:2e5dba96-db89-da63-e87e-f9688848a315' )
+                                array( new ezcWebdavLockIfHeaderCondition( 'opaquelocktoken:2e5dba96-db89-da63-e87e-f9688848a315' ) )
                             ),
                         ),
                     )

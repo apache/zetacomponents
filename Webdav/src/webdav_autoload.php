@@ -100,6 +100,7 @@ return array(
     'ezcWebdavLockDiscoveryPropertyActiveLock'          => 'Webdav/plugins/lock/properties/lockdiscovery_activelock.php',
     'ezcWebdavLockGetRequestResponseHandler'            => 'Webdav/plugins/lock/handlers/get.php',
     'ezcWebdavLockHeaderHandler'                        => 'Webdav/plugins/lock/header_handler.php',
+    'ezcWebdavLockIfHeaderCondition'                    => 'Webdav/plugins/lock/header/if_header_condition.php',
     'ezcWebdavLockIfHeaderListItem'                     => 'Webdav/plugins/lock/header/if_header_list_item.php',
     'ezcWebdavLockIfHeaderNoTagList'                    => 'Webdav/plugins/lock/header/if_header_no_tag_list.php',
     'ezcWebdavLockIfHeaderTaggedList'                   => 'Webdav/plugins/lock/header/if_header_tagged_list.php',

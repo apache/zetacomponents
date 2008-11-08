@@ -466,7 +466,13 @@ class ezcWebdavClientTestGenerator
         if ( $lockPlugin )
         {
             $this->server->pluginRegistry->registerPlugin(
-                new ezcWebdavLockPluginConfiguration()
+                new ezcWebdavLockPluginConfiguration(
+                    new ezcWebdavLockPluginOptions(
+                        array(
+                            'backendLockTimeout' => 2000000,
+                        )
+                    )
+                )
             );
         }
     }

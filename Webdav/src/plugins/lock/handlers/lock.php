@@ -331,7 +331,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             ezcWebdavResponse::STATUS_409
         );
 
-        return new ezcWebdavMultiStatusResponse(
+        return new ezcWebdavMultistatusResponse(
             $response,
             new ezcWebdavPropFindResponse(
                 ( $node !== null ? $node : new ezcWebdavResource( $response->requestUri ) ),

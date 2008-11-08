@@ -17,6 +17,12 @@
  */
 abstract class ezcWebdavLockIfHeaderList implements ArrayAccess
 {
+    /**
+     * Returns all lock tokens submitted in the header.
+     * 
+     * @return array(string)
+     */
+    abstract public function getLockTokens();
 }
 
 ?>

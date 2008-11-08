@@ -145,6 +145,56 @@ class ezcWebdavLockIfHeaderNoTagListTest extends ezcWebdavTestCase
             $list
         );
     }
+
+    public function testGetLockTokens()
+    {
+        $item1 = new ezcWebdavLockIfHeaderListItem(
+            array(
+                new ezcWebdavLockIfHeaderCondition( 'lock-token-1' ),
+                new ezcWebdavLockIfHeaderCondition( 'lock-token-2', true ),
+                new ezcWebdavLockIfHeaderCondition( 'lock-token-3' ),
+            ),
+            array(
+                new ezcWebdavLockIfHeaderCondition( 'etag-1', true ),
+                new ezcWebdavLockIfHeaderCondition( 'etag-2', true ),
+                new ezcWebdavLockIfHeaderCondition( 'etag-3' ),
+            )
+        );
+        $item2 = new ezcWebdavLockIfHeaderListItem(
+            array(
+                new ezcWebdavLockIfHeaderCondition( 'lock-token-1' ),
+                new ezcWebdavLockIfHeaderCondition( 'lock-token-4' ),
+            ),
+            array(
+                new ezcWebdavLockIfHeaderCondition( 'etag-1' ),
+                new ezcWebdavLockIfHeaderCondition( 'etag-4', true ),
+                new ezcWebdavLockIfHeaderCondition( 'etag-5' ),
+            )
+        );
+        $item3 = new ezcWebdavLockIfHeaderListItem(
+            array(
+                new ezcWebdavLockIfHeaderCondition( 'lock-token-5', true ),
+                new ezcWebdavLockIfHeaderCondition( 'lock-token-6', true ),
+            ),
+            array()
+        );
+
+        $list = new ezcWebdavLockIfHeaderNoTagList(
+            array( $item1, $item2, $item3 )
+        );
+
+        $this->assertEquals(
+            array(
+                0 => 'lock-token-1',
+                1 => 'lock-token-2',
+                2 => 'lock-token-3',
+                4 => 'lock-token-4',
+                5 => 'lock-token-5',
+                6 => 'lock-token-6',
+            ),
+            $list->getLockTokens()
+        );
+    }
 }
 
 ?>

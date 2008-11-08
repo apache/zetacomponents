@@ -39,13 +39,6 @@ class ezcWebdavLockIfHeaderListItem
     protected $eTags;
 
     /**
-     * If this item is negated.
-     * 
-     * @var bool
-     */
-    protected $negated;
-
-    /**
      * Creates a new list item that occurs in an If header list.
      *
      * An item may consist of an arbitrary number of $lockTokens and $eTags and
@@ -53,15 +46,13 @@ class ezcWebdavLockIfHeaderListItem
      * affected by the current request may fit into the conditions defined by
      * $lockTokens and $eTags.
      * 
-     * @param array(string) $lockTokens 
-     * @param array(string) $eTags 
-     * @param bool $negated 
+     * @param array(ezcWebdavIfHeaderCondition) $lockTokens 
+     * @param array(ezcWebdavIfHeaderCondition) $eTags 
      */
-    public function __construct( array $lockTokens = array(), array $eTags = array(), $negated = false )
+    public function __construct( array $lockTokens = array(), array $eTags = array() )
     {
         $this->lockTokens = $lockTokens;
         $this->eTags      = $eTags;
-        $this->negated    = $negated;
     }
     
     /**
@@ -133,7 +124,6 @@ class ezcWebdavLockIfHeaderListItem
         {
             case 'lockTokens':
             case 'eTags':
-            case 'negated':
                 return true;
         }
         return false;
