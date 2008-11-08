@@ -28,6 +28,7 @@
             </D:locktype>
           </D:lockentry>
         </D:supportedlock>
+        <D:lockdiscovery/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -57,6 +58,7 @@
             </D:locktype>
           </D:lockentry>
         </D:supportedlock>
+        <D:lockdiscovery/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -85,6 +87,7 @@
             </D:locktype>
           </D:lockentry>
         </D:supportedlock>
+        <D:lockdiscovery/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -111,6 +114,7 @@
             </D:locktype>
           </D:lockentry>
         </D:supportedlock>
+        <D:lockdiscovery/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>

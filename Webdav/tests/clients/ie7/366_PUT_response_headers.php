@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'ETag' => 'b8e303a342312f125ec30415606dfe14',
+  'ETag' => '6ab54292c4fd62ed2638186661d868e9',
   'Server' => 'lighttpd/1.4.19/eZComponents/dev/ezcWebdavMicrosoftCompatibleTransportMock',
   'Content-Length' => 0,
   'MS-Author-Via' => 'DAV',

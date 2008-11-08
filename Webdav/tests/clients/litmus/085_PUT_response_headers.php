@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'ETag' => '8ce4d74a73b7d413f3f92709f1755a69',
+  'ETag' => 'b2eb0ba6c9cc8132d04d069b48a2a778',
   'Server' => 'lighttpd/1.4.19/eZComponents/dev/ezcWebdavTransportMock',
   'Content-Length' => 0,
 );

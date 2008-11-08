@@ -15,6 +15,7 @@
         <ezc00000:bigbox xmlns:ezc00000="http://www.foo.bar/boxschema/"/>
         <ezc00000:author xmlns:ezc00000="http://www.foo.bar/boxschema/"/>
         <D:supportedlock/>
+        <D:lockdiscovery/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -33,6 +34,7 @@
         <D:resourcetype/>
         <ezc00000:bigbox xmlns:ezc00000="http://www.foo.bar/boxschema/"/>
         <D:supportedlock/>
+        <D:lockdiscovery/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -50,6 +52,7 @@
         <D:getcontentlength/>
         <D:resourcetype/>
         <D:supportedlock/>
+        <D:lockdiscovery/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -67,6 +70,7 @@
         <D:getcontentlength/>
         <D:resourcetype/>
         <D:supportedlock/>
+        <D:lockdiscovery/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>

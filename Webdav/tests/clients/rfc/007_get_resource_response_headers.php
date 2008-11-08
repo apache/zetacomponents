@@ -1,8 +1,7 @@
 <?php
 
 return array (
-  'Content-Type' => 'text/html; charset="utf-8"',
-  'ETag' => '9e2ecb8f873ad6b6d098b9ed9e47ccf1',
+  'ETag' => '5ed4bd36ad87f04d473460f7ea1a9223',
   'Server' => 'eZComponents/dev/ezcWebdavTransportMock',
   'Content-Type' => 'text/html; charset="utf-8"',
 );
