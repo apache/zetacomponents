@@ -1,0 +1,37 @@
+<?php
+/**
+ * File containing the ezcWebdavLockAccessDeniedException class.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Exception thrown if access was denied during lock violation checks.
+ *
+ * This exception is thrown while extracting the properties needed to check
+ * lock violations. It is not bubbled up the server, but handled in {@link
+ * ezcWebdavLockTools::checkViolations()}.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ */
+class ezcWebdavLockAccessDeniedException extends ezcWebdavException
+{
+    /**
+     * Creates a new lock access denied exception.
+     *
+     * Access was denied to $node, while checking lock conditions.
+     * 
+     * @param ezcWebdavResource|ezcWebdavCollection $node 
+     */
+    public function __construct( $node )
+    {
+        parent::__construct(
+            "Access denied to '{$node->path}'."
+        );
+    }
+}
+
+?>

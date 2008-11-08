@@ -140,6 +140,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
         return new ezcWebdavLockResponse(
             // Only 1 active lock per resource, so a new response works here
             new ezcWebdavLockDiscoveryProperty( new ArrayObject( array( $activeLock ) ) ),
+            ezcWebdavResponse::STATUS_200,
             $lockToken
         );
     }
@@ -285,6 +286,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
         
         return new ezcWebdavLockResponse(
             $lockDiscoveryProp,
+            ezcWebdavResponse::STATUS_201,
             $lockToken
         );
     }
@@ -297,6 +299,13 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
      */
     protected function createLockError( ezcWebdavErrorResponse $response )
     {
+        // RFC 4918 does no more require 207 here
+        if ( $response->status === ezcWebdavResponse::STATUS_423 )
+        {
+            return $response;
+        }
+
+        // RFC 2518 requires 207 including PROPSTAT for affected property
         $lockDiscoveryProp = $response->getPluginData(
             ezcWebdavLockPlugin::PLUGIN_NAMESPACE,
             'lockdiscovery'

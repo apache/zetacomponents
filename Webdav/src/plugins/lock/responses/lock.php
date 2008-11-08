@@ -34,9 +34,13 @@ class ezcWebdavLockResponse extends ezcWebdavResponse
      * @param ezcWebdavLockDiscoveryProperty $lockDiscovery 
      * @param string $lockToken
      */
-    public function __construct( ezcWebdavLockDiscoveryProperty $lockDiscovery, $lockToken = null )
+    public function __construct(
+        ezcWebdavLockDiscoveryProperty $lockDiscovery,
+        $status = ezcWebdavResponse::STATUS_200,
+        $lockToken = null
+    )
     {
-        parent::__construct( ezcWebdavResponse::STATUS_200 );
+        parent::__construct( $status );
         $this->lockDiscovery = $lockDiscovery;
         
         if ( $lockToken !== null )

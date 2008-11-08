@@ -325,7 +325,20 @@ class ezcWebdavLockTools
         // @TODO: This only works for exclusive locks
 
         $path = $propFindRes->node->path;
-        $data = $this->extractCheckProperties( $propFindRes );
+
+        try
+        {
+            $data = $this->extractCheckProperties( $propFindRes );
+        }
+        catch ( ezcWebdavLockAccessDeniedException $e )
+        {
+            return $this->createLockViolation(
+                ezcWebdavResponse::STATUS_403,
+                $path,
+                $propFindRes->node,
+                null
+            );
+        }
 
         // Check for lock null
         if ( !$checkInfo->lockNullMayOccur && $data['lockinfo'] !== null && $data['lockinfo']->null )
@@ -523,11 +536,26 @@ class ezcWebdavLockTools
         );
         foreach ( $propFindRes->responses as $propStatRes )
         {
-            if ( $propStatRes->status === ezcWebdavResponse::STATUS_200 )
+            switch ( $propStatRes->status )
             {
-                $data['getetag'] = $propStatRes->storage->get( 'getetag' );
-                $data['lockdiscovery'] = $propStatRes->storage->get( 'lockdiscovery' );
-                $data['lockinfo'] = $propStatRes->storage->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
+                case ezcWebdavResponse::STATUS_200:
+                    $data['getetag']       = $propStatRes->storage->get(
+                        'getetag'
+                    );
+                    $data['lockdiscovery'] = $propStatRes->storage->get(
+                        'lockdiscovery'
+                    );
+                    $data['lockinfo']      = $propStatRes->storage->get(
+                        'lockinfo',
+                        ezcWebdavLockPlugin::XML_NAMESPACE
+                    );
+                    break;
+
+                case ezcWebdavResponse::STATUS_403:
+                    // Access denied
+                    throw new ezcWebdavLockAccessDeniedException(
+                        $propFindRes->node
+                    );
             }
         }
 
