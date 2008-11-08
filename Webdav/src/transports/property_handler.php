@@ -152,18 +152,6 @@ class ezcWebdavPropertyHandler
      */
     private function dispatchExtractLiveProperty ( DOMElement $element )
     {
-        // Plugin hook beforeExtractLiveProperty
-        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
-            __CLASS__,
-            'beforeExtractLiveProperty',
-            new ezcWebdavPluginParameters(
-                array(
-                    'domElement'  => $element,
-                    'xmlTool'     => $this->getXmlTool(),
-                )
-            )
-        );
-
         $property = $this->extractLiveProperty( $element );
 
         // First, let a plugin try
@@ -187,18 +175,6 @@ class ezcWebdavPropertyHandler
             // Second, parse dead property instead
             $property = $this->dispatchExtractDeadProperty( $element );
         }
-
-        // Plugin hook afterExtractLiveProperty
-        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
-            __CLASS__,
-            'afterExtractLiveProperty',
-            new ezcWebdavPluginParameters(
-                array(
-                    'property' => $property,
-                    'xmlTool'  => $this->getXmlTool(),
-                )
-            )
-        );
         
         return $property;
     }
@@ -373,18 +349,6 @@ class ezcWebdavPropertyHandler
         {
             if ( $property instanceof ezcWebdavLiveProperty )
             {
-                // Plugin hook beforeSerializeLiveProperty
-                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
-                    __CLASS__,
-                    'beforeSerializeLiveProperty',
-                    new ezcWebdavPluginParameters(
-                        array(
-                            'property' => $property,
-                            'xmlTool'  => $this->getXmlTool(),
-                        )
-                    )
-                );
-
                 $propertyElement = $this->serializeLiveProperty( $property, $parentElement );
 
                 // Attempt plugins to parse an unknown live property
@@ -403,18 +367,6 @@ class ezcWebdavPropertyHandler
                         )
                     );
                 }
-                
-                // Plugin hook afterSerializeLiveProperty
-                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
-                    __CLASS__,
-                    'afterSerializeLiveProperty',
-                    new ezcWebdavPluginParameters(
-                        array(
-                            'domElement' => $propertyElement,
-                            'xmlTool'    => $this->getXmlTool(),
-                        )
-                    )
-                );
             }
             else
             {

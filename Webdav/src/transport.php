@@ -178,10 +178,10 @@ class ezcWebdavTransport
         {
             try
             {
-                // Plugin hook beforeParse*Request
+                // Plugin hook beforeParseRequest
                 ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
                     __CLASS__,
-                    'before' . ucfirst( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ),
+                    'beforeParseRequest',
                     new ezcWebdavPluginParameters(
                         array(
                             'path' => &$path,
@@ -189,17 +189,8 @@ class ezcWebdavTransport
                         )
                     )
                 );
+
                 $request = call_user_func( array( $this, self::$parsingMap[$_SERVER['REQUEST_METHOD']] ), $path, $body );
-                // Plugin hook afterParse*Request
-                ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
-                    __CLASS__,
-                    'after' . ucfirst( self::$parsingMap[$_SERVER['REQUEST_METHOD']] ),
-                    new ezcWebdavPluginParameters(
-                        array(
-                            'request' => $request,
-                        )
-                    )
-                );
             }
             catch ( Exception $e )
             {
@@ -440,21 +431,12 @@ class ezcWebdavTransport
             }
         }
         
-        // Plugin hook beforeProcess*Response
-        ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
-            __CLASS__,
-            'before' . ucfirst( self::$handlingMap[( $responseClass = get_class( $response ) )] ),
-            new ezcWebdavPluginParameters(
-                array(
-                    'response'  => $response,
-                )
-            )
-        );
         $result = call_user_func( array( $this, self::$handlingMap[( $responseClass = get_class( $response ) )] ), $response );
-        // Plugin hook afterProcess*Response
+
+        // Plugin hook afterProcessResponse
         ezcWebdavServer::getInstance()->pluginRegistry->announceHook(
             __CLASS__,
-            'after' . ucfirst( self::$handlingMap[( $responseClass = get_class( $response ) )] ),
+            'afterProcessResponse',
             new ezcWebdavPluginParameters(
                 array(
                     'result'  => $result,
