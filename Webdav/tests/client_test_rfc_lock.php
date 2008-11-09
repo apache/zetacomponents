@@ -12,7 +12,7 @@ class ezcWebdavClientRfcLockTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestRfcLockSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/unsupported_rfc';
+        $this->dataDir    = dirname( __FILE__ ) . '/clients/rfc_lock';
     }
 
     public static function suite()
