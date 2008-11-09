@@ -309,6 +309,7 @@ class ezcWebdavTransport
         switch ( true )
         {
             case ( $e instanceof ezcWebdavBadRequestException ):
+            case ( $e instanceof ezcWebdavInvalidRequestBodyException ):
                 $code = ezcWebdavResponse::STATUS_400;
                 break;
 
@@ -662,11 +663,15 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false )
+        try
+        {
+            $dom = ezcWebdavServer::getInstance()->xmlTool->createDom( $body );
+        }
+        catch ( ezcWebdavInvalidXmlException $e )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'COPY',
-                "Could not open XML as DOMDocument: '{$body}'."
+                $e->getMessage()
             );
         }
         
@@ -718,11 +723,15 @@ class ezcWebdavTransport
             return $request;
         }
 
-        if ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false )
+        try
+        {
+            $dom = ezcWebdavServer::getInstance()->xmlTool->createDom( $body );
+        }
+        catch ( ezcWebdavInvalidXmlException $e )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'MOVE',
-                "Could not open XML as DOMDocument: '{$body}'."
+                $e->getMessage()
             );
         }
         
@@ -894,12 +903,22 @@ class ezcWebdavTransport
             )
         );
 
-        if ( empty( $body ) ||
-             ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false ) )
+        if ( empty( $body ) )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPFIND',
                 "Could not open XML as DOMDocument: '{$body}'."
+            );
+        }
+        try
+        {
+             $dom = ezcWebdavServer::getInstance()->xmlTool->createDom( $body );
+        }
+        catch ( ezcWebdavInvalidXmlException $e )
+        {
+            throw new ezcWebdavInvalidRequestBodyException(
+                'PROPFIND',
+                $e->getMessage()
             );
         }
 
@@ -946,7 +965,7 @@ class ezcWebdavTransport
             default:
                 throw new ezcWebdavInvalidRequestBodyException(
                     'PROPFIND',
-                    "XML element <{$dom->documentElement->firstChild->tagName} /> is not a valid child element for <propfind />."
+                    "XML element <{$dom->documentElement->firstChild->nodeName} /> is not a valid child element for <propfind />."
                 );
         }
         return $request;
@@ -972,11 +991,15 @@ class ezcWebdavTransport
     {
         $request = new ezcWebdavPropPatchRequest( $path );
 
-        if ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false )
+        try
+        {
+            $dom = ezcWebdavServer::getInstance()->xmlTool->createDom( $body );
+        }
+        catch ( ezcWebdavInvalidXmlException $e )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'PROPPATCH',
-                "Could not open XML as DOMDocument: '{$body}'."
+                $e->getMessage()
             );
         }
 
@@ -1050,7 +1073,7 @@ class ezcWebdavTransport
      */
     protected function processMultiStatusResponse( ezcWebdavMultiStatusResponse $response )
     {
-        $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument();
+        $dom = ezcWebdavServer::getInstance()->xmlTool->createDom();
 
         $multistatusElement = $dom->appendChild(
             ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'multistatus' )
@@ -1091,7 +1114,7 @@ class ezcWebdavTransport
      */
     protected function processPropFindResponse( ezcWebdavPropFindResponse $response )
     {
-        $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument();
+        $dom = ezcWebdavServer::getInstance()->xmlTool->createDom();
 
         $responseElement = $dom->appendChild(
             ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'response' )
@@ -1225,7 +1248,7 @@ class ezcWebdavTransport
         $res = new ezcWebdavEmptyDisplayInformation( $response );
         if ( $xml === true )
         {
-            $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument();
+            $dom = ezcWebdavServer::getInstance()->xmlTool->createDom();
             $responseElement = $dom->appendChild(
                 ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'response' )
             );
@@ -1475,7 +1498,7 @@ class ezcWebdavTransport
      */
     protected function processPropStatResponse( ezcWebdavPropStatResponse $response )
     {
-        $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument();
+        $dom = ezcWebdavServer::getInstance()->xmlTool->createDom();
 
         $propstatElement = $dom->appendChild(
             ezcWebdavServer::getInstance()->xmlTool->createDomElement( $dom, 'propstat' )

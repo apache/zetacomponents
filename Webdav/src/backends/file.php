@@ -470,7 +470,11 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend
         $storage = new ezcWebdavBasicPropertyStorage();
 
         // Read document
-        if ( !$doc = $xml->createDomDocument( file_get_contents( $storagePath ) ) )
+        try
+        {
+             $doc = $xml->createDom( file_get_contents( $storagePath ) );
+        }
+        catch ( ezcWebdavInvalidXmlException $e )
         {
             throw new ezcWebdavFileBackendBrokenStorageException(
                 "Could not open XML as DOMDocument: '{$storage}'."

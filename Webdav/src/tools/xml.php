@@ -79,23 +79,67 @@ class ezcWebdavXmlTool
      *
      * @param sting $content 
      * @return DOMDocument|false
-     * @see LIBXML_NOWARNING, LIBXML_NSCLEAN, LIBXML_NOBLANKS
+     * @see LIBXML_NSCLEAN, LIBXML_NOBLANKS
+     *
+     * @apichange The behavior of this method will be changed to the behavior
+     *            of {@link createDom()} and createDom() will be dropped in the
+     *            next major release (2.0).
      */
     public function createDomDocument( $content = null )
     {
+        $dom = null;
+        try
+        {
+            $dom = $this->createDom( $content );
+        }
+        catch ( ezcWebdavInvalidXmlException $e )
+        {
+            $dom = false;
+        }
+        
+        return $dom;
+    }
+
+    /**
+     * Returns a DOMDocument from the given XML.
+     *
+     * Creates a new DOMDocument with the options set in the class constants
+     * and loads the optionally given $xml string with settings appropriate to
+     * work with it. Throws an exception if the loading fails.
+     *
+     * @param sting $content 
+     * @return DOMDocument
+     * @see LIBXML_NOWARNING, LIBXML_NSCLEAN, LIBXML_NOBLANKS
+     * 
+     * @throws ezcWebdavInvalidRequestBodyException
+     *         in case libxml produces an error with code other than 100 while
+     *         loading $content.
+     *
+     * @apichange This method will replace {@link createDomDocument()} in the
+     *            next major version (2.0) and will be renamed to
+     *            createDomDocument().
+     */
+    public function createDom( $content = null )
+    {
         // Make libxml not throw any warnings / notices.
+        libxml_clear_errors();
         $oldErrorLevel = libxml_use_internal_errors( true );
 
         $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
-        if ( $content !== null )
+        if ( $content !== null && trim( $content ) !== '' )
         {
-            if ( trim( $content ) === '' || !$dom->loadXML(
-                    $content,
-                    LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOBLANKS
-                 )
-            )
+            $dom->loadXML( $content, LIBXML_NSCLEAN | LIBXML_NOBLANKS );
+
+            // Check libxml errors
+            foreach ( libxml_get_errors() as $error )
             {
-                $dom = false;
+                // Code 100 = relative URI. DAV: is relative.
+                if ( $error->code !== 100 )
+                {
+                    throw new ezcWebdavInvalidXmlException(
+                        "Libxml error: {$error->code} '{$error->message}.'"
+                    );
+                }
             }
         }
         

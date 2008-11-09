@@ -21,6 +21,7 @@ return array(
     'ezcWebdavInvalidHookException'                     => 'Webdav/exceptions/invalid_hook.php',
     'ezcWebdavInvalidRequestBodyException'              => 'Webdav/exceptions/invalid_request_body.php',
     'ezcWebdavInvalidRequestMethodException'            => 'Webdav/exceptions/invalid_request_method.php',
+    'ezcWebdavInvalidXmlException'                      => 'Webdav/exceptions/invalid_xml.php',
     'ezcWebdavLockAccessDeniedException'                => 'Webdav/plugins/lock/exceptions/access_denied.php',
     'ezcWebdavMissingHeaderException'                   => 'Webdav/exceptions/missing_header.php',
     'ezcWebdavMissingServerVariableException'           => 'Webdav/exceptions/misssing_server_variable.php',

@@ -227,14 +227,9 @@ class ezcWebdavPropertyHandler
         $propDom    = new DOMDocument();
         $copiedNode = $propDom->importNode( $domElement, true );
         $propDom->appendChild( $copiedNode );
-
-        if ( trim( $domElement->namespaceURI ) === '' )
-        {
-            throw new ezcWebdavInvalidRequestBodyException( 'PROP*', 'Empty namespace URI.' );
-        }
         
         return new ezcWebdavDeadProperty(
-            $domElement->namespaceURI,
+            (string) $domElement->namespaceURI,
             $domElement->localName,
             $propDom->saveXML()
         );
@@ -444,7 +439,7 @@ class ezcWebdavPropertyHandler
      */
     protected function serializeDeadProperty( ezcWebdavDeadProperty $property, DOMElement $parentElement )
     {
-        if ( $property->content === null || ( $contentDom = $this->getXmlTool()->createDomDocument( $property->content ) ) === false )
+        if ( $property->content === null )
         {
             return $this->getXmlTool()->createDomElement(
                 $parentElement->ownerDocument,
@@ -453,6 +448,7 @@ class ezcWebdavPropertyHandler
             );
         }
 
+        $contentDom = $this->getXmlTool()->createDom( $property->content );
         return  $parentElement->ownerDocument->importNode( $contentDom->documentElement, true );
     }
 

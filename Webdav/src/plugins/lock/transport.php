@@ -141,11 +141,15 @@ class ezcWebdavLockTransport
             return $request;
         }
 
-        if ( ( $dom = ezcWebdavServer::getInstance()->xmlTool->createDomDocument( $body ) ) === false )
+        try
+        {
+            $dom = ezcWebdavServer::getInstance()->xmlTool->createDom( $body );
+        }
+        catch ( ezcWebdavInvalidXmlException $e )
         {
             throw new ezcWebdavInvalidRequestBodyException(
                 'LOCK',
-                "Could not open XML as DOMDocument: '{$body}'."
+                $e->getMessage()
             );
         }
         
@@ -248,7 +252,7 @@ class ezcWebdavLockTransport
     protected function processLockResponse( ezcWebdavLockResponse $response )
     {
         $xmlTool = ezcWebdavServer::getInstance()->xmlTool;
-        $dom     = $xmlTool->createDomDocument();
+        $dom     = $xmlTool->createDom();
 
         $propElement = $dom->appendChild(
             $xmlTool->createDomElement( $dom, 'prop' )
