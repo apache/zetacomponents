@@ -19,6 +19,19 @@ class ezcWebdavClientRfcLockTest extends ezcWebdavClientTest
     {
         return new ezcWebdavClientTestSuite( __CLASS__ );
     }
+
+    protected function adjustResponse( array &$realResponse, array &$expectedResponse )
+    {
+        if ( isset( $expectedResponse['headers']['Lock-Token'] ) && isset( $realResponse['headers']['Lock-Token'] ) )
+        {
+            $expectedResponse['body'] = preg_replace(
+                '(' . preg_quote( $expectedResponse['headers']['Lock-Token'] ) . ')',
+                $realResponse['headers']['Lock-Token'],
+                $expectedResponse['body']
+            );
+            $expectedResponse['headers']['Lock-Token'] = $realResponse['headers']['Lock-Token'];
+        }
+    }
 }
 
 ?>
