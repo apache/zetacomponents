@@ -70,13 +70,6 @@ class ezcWebdavLockPluginClientTestAssertions025
             count( $prop->activeLock ),
             'Active lock available on destination.'
         );
-
-        $prop = $backend->getProperty( '/other_collection/moved_resource.html', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNull(
-            $prop,
-            'Lock info property set on destination.'
-        );
     }
 }
 

@@ -34,22 +34,9 @@ $backendBefore->setProperty(
                     new ezcWebdavPotentialUriContent(
                         'opaquelocktoken:5678',
                         true
-                    )
-                ),
-            )
-        )
-    )
-);
-
-$backendBefore->setProperty(
-    '/other_collection',
-    new ezcWebdavLockInfoProperty(
-        new ArrayObject(
-            array(
-                new ezcWebdavLockTokenInfo(
-                    'opaquelocktoken:5678',
+                    ),
                     null,
-                    new DateTime()
+                    new ezcWebdavDateTime()
                 ),
             )
         )

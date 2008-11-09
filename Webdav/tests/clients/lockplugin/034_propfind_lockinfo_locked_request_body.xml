@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <D:propfind xmlns:D="DAV:">
   <D:prop>
-    <ezc:lockinfo xmlns:ezc="http://ezcomponents.org/s/Webdav#lock"/>
+    <ezclock:lockinfo xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock"/>
   </D:prop>
 </D:propfind>

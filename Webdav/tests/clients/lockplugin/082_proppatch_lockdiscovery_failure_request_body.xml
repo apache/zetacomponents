@@ -3,7 +3,7 @@
   <D:set>
        <D:prop>
             <D:lockdiscovery>
-              <D:activelock>
+              <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
                 <D:locktype>
                   <D:write/>
                 </D:locktype>
@@ -18,6 +18,7 @@
                 <D:locktoken>
                   <D:href>opaquelocktoken:9101</D:href>
                 </D:locktoken>
+                <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2008-11-09T22:14:18+00:00</ezclock:lastaccess>
               </D:activelock>
             </D:lockdiscovery>
        </D:prop>

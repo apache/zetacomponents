@@ -14,24 +14,11 @@ class ezcWebdavLockPluginClientTestAssertions023
             $prop,
             'Lock discovery property removed from source.'
         );
-        
-        $prop = $backend->getProperty( '/collection/resource.html', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNull(
-            $prop
-        );
     }
 
     public function assertDestinationParentStillCorrect( ezcWebdavMemoryBackend $backend )
     {
         $prop = $backend->getProperty( '/other_collection', 'lockdiscovery' );
-
-        PHPUnit_Framework_Assert::assertNull(
-            $prop,
-            'Lock discovery property set on destination parent.'
-        );
-
-        $prop = $backend->getProperty( '/other_collection', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
 
         PHPUnit_Framework_Assert::assertNull(
             $prop,
@@ -55,13 +42,6 @@ class ezcWebdavLockPluginClientTestAssertions023
             0,
             count( $prop->activeLock ),
             'Active lock available on destination.'
-        );
-
-        $prop = $backend->getProperty( '/other_collection/moved_resource.html', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNull(
-            $prop,
-            'Lock info property set on destination.'
         );
     }
 

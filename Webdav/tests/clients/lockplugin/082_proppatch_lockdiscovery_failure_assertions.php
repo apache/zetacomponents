@@ -26,17 +26,6 @@ class ezcWebdavLockPluginClientTestAssertions082
             'opaquelocktoken:1234',
             $prop->activeLock[0]->token->__toString()
         );
-        
-        $prop = $backend->getProperty( '/collection/resource.html', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNotNull(
-            $prop
-        );
-        PHPUnit_Framework_Assert::assertEquals(
-            1,
-            count( $prop->tokenInfos ),
-            'Target parent lock info gone.'
-        );
     }
 }
 

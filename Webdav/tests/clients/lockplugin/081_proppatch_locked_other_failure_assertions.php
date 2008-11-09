@@ -22,17 +22,6 @@ class ezcWebdavLockPluginClientTestAssertions081
             count( $prop->activeLock ),
             'Target parent active lock gone.'
         );
-        
-        $prop = $backend->getProperty( '/collection/resource.html', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNotNull(
-            $prop
-        );
-        PHPUnit_Framework_Assert::assertEquals(
-            1,
-            count( $prop->tokenInfos ),
-            'Target parent lock info gone.'
-        );
     }
 
     public function assertTargetPropertyNotSet( ezcWebdavMemoryBackend $backend )

@@ -29,49 +29,9 @@ class ezcWebdavLockPluginClientTestAssertions003
         );
     }
 
-    public function assertLockInfoPropertyCorrect( ezcWebdavMemoryBackend $backend )
-    {
-        $prop = $backend->getProperty( '/collection/newresource.xml', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-        PHPUnit_Framework_Assert::assertNotNull(
-            $prop,
-            'Lock info property not set.'
-        );
-        PHPUnit_Framework_Assert::assertType(
-            'ezcWebdavLockInfoProperty',
-            $prop,
-            'Lock discovery property has incorrect type.'
-        );
-        PHPUnit_Framework_Assert::assertTrue(
-            $prop->null,
-            'Null resource not defined as such.'
-        );
-        PHPUnit_Framework_Assert::assertEquals(
-            1,
-            count( $prop->tokenInfos ),
-            'Number of tokenInfo elements incorrect.'
-        );
-        PHPUnit_Framework_Assert::assertNull(
-            $prop->tokenInfos[0]->lockBase,
-            'Lock base set, although lock is root.'
-        );
-        PHPUnit_Framework_Assert::assertNotNull(
-            $prop->tokenInfos[0]->lastAccess,
-            'Last access time not set, although lock is root.'
-        );
-    }
-
     public function assertLockDiscoveryPropertyNowhereElse( ezcWebdavMemoryBackend $backend )
     {
         $prop = $backend->getProperty( '/collection', 'lockdiscovery' );
-
-        PHPUnit_Framework_Assert::assertNull(
-            $prop
-        );
-    }
-
-    public function assertLockInfoPropertyNowhereElse( ezcWebdavMemoryBackend $backend )
-    {
-        $prop = $backend->getProperty( '/collection', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
 
         PHPUnit_Framework_Assert::assertNull(
             $prop

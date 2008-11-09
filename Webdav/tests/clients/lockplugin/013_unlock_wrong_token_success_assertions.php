@@ -2,7 +2,7 @@
 
 class ezcWebdavLockPluginClientTestAssertions013
 {
-    public function assertLockNullResourceRemoved( ezcWebdavMemoryBackend $backend )
+    public function assertLockNullResourceNotRemoved( ezcWebdavMemoryBackend $backend )
     {
         PHPUnit_Framework_Assert::assertTrue(
             $backend->nodeExists( '/collection/resource.html' ),
@@ -40,34 +40,6 @@ class ezcWebdavLockPluginClientTestAssertions013
             1,
             count( $prop->activeLock ),
             'Active lock element not present in null resource anymore.'
-        );
-    }
-
-    public function assertLockInfoPropertyStillCorrect( ezcWebdavMemoryBackend $backend )
-    {
-        $prop = $backend->getProperty( '/collection', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNull(
-            $prop
-        );
-
-        $prop = $backend->getProperty( '/collection/resource.html', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNotNull(
-            $prop
-        );
-        PHPUnit_Framework_Assert::assertType(
-            'ezcWebdavLockInfoProperty',
-            $prop
-        );
-        PHPUnit_Framework_Assert::assertEquals(
-            1,
-            count( $prop->tokenInfos ),
-            'Number of token info elements incorrect.'
-        );
-        PHPUnit_Framework_Assert::assertTrue(
-            $prop->null,
-            'Lock null resource is not null anymore.'
         );
     }
 }

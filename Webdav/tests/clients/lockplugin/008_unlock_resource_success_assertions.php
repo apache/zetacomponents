@@ -23,21 +23,6 @@ class ezcWebdavLockPluginClientTestAssertions008
             'Active lock element not removed correctly.'
         );
     }
-
-    public function assertLockInfoPropertyNowhere( ezcWebdavMemoryBackend $backend )
-    {
-        $prop = $backend->getProperty( '/collection', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNull(
-            $prop
-        );
-
-        $prop = $backend->getProperty( '/collection/resource.html', 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-
-        PHPUnit_Framework_Assert::assertNull(
-            $prop
-        );
-    }
 }
 
 return new ezcWebdavLockPluginClientTestAssertions008();
