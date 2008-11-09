@@ -149,7 +149,7 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
                         else
                         {
                             // Update access time
-                            $tokenInfo->lastAccess = new DateTime();
+                            $tokenInfo->lastAccess = new ezcWebdavDateTime();
                             if ( !isset( $this->lockBaseProperties[$path] ) )
                             {
                                 // Store for update

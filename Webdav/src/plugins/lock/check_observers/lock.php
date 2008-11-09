@@ -94,7 +94,7 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
                         // Set $lockBase, if this resource is not the base
                         ( $originalRequestUri !== $path ? $originalRequestUri : null ),
                         // Set $lastAccess for the lock base (used for lock timeouts)
-                        ( $originalRequestUri === $path ? new DateTime() : null )
+                        ( $originalRequestUri === $path ? new ezcWebdavDateTime() : null )
                     )
                 )
             )

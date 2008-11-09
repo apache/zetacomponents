@@ -34,7 +34,7 @@ class ezcWebdavLockTokenInfo extends ezcBaseStruct
     /**
      * Last access time of the lock by a client.
      * 
-     * @var DateTime
+     * @var ezcWebdavDateTime
      */
     public $lastAccess;
 
@@ -43,7 +43,7 @@ class ezcWebdavLockTokenInfo extends ezcBaseStruct
      * 
      * @param string $token 
      * @param string $lockBase 
-     * @param DateTime $lastAccess 
+     * @param ezcWebdavDateTime $lastAccess 
      */
     public function __construct( $token = null, $lockBase = null, $lastAccess = null )
     {

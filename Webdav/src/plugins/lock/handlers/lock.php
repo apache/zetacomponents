@@ -265,7 +265,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
                         new ezcWebdavLockTokenInfo(
                             $lockToken,
                             null,
-                            new DateTime()
+                            new ezcWebdavDateTime()
                         ),
                     )
                 ),
