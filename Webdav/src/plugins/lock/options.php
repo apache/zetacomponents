@@ -9,7 +9,10 @@
  */
 
 /**
- * Property class for the Webdav lock plugin.
+ * Option class for the Webdav lock plugin.
+ *
+ * You can use an object of this class, to set options for the lock plugin in
+ * {@link ezcWebdavLockPluginConfiguration}.
  *
  * @package Webdav
  * @version //autogentag//

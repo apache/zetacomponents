@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavLockPluginRequestParser class.
+ * File containing the ezcWebdavLockTransport class.
  *
  * @package Webdav
  * @version //autogentag//

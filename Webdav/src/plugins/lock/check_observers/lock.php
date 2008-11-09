@@ -6,14 +6,16 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
  */
 /**
  * Request generator used to generate PROPPATCH requests to realize the LOCK.
  *
  * @package Webdav
  * @version //autogen//
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
  */
 class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
 {

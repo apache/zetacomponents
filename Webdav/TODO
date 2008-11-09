@@ -4,10 +4,6 @@ TODO
 1.1alpha1
 ----------
 
-- Check all files/classes for correct @access tags (almost all of the lock
-  plugin must have @access private).
-- Check for correct error on shared/read lock request.
-
 1.1beta1
 --------
 

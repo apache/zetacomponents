@@ -6,6 +6,7 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
  * @access private
  */
 /**
@@ -36,6 +37,7 @@
  * @property array(string) $prop
  *           Representing the <prop /> XML element. Can contain a list of
  *           property names.
+ *
  * @access private
  */
 class ezcWebdavLockRequest extends ezcWebdavRequest

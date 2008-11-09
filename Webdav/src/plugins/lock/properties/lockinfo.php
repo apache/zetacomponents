@@ -1,17 +1,25 @@
 <?php
-
 /**
- * Class representing the dead <lockinfo> property. 
- * 
+ * File containing the ezcWebdavLockInfoProperty class.
+ *
  * @package Webdav
- * @version //autogen//
+ * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  *
+ * @access private
+ */
+/**
+ * Class representing the dead <lockinfo> property. 
+ * 
  * @property ArrayObject(ezcWebdavLockTokenInfo) $tokenInfos
  *           Contains information about the lock tokens applied to a resource.
  * @property bool $null 
  *           Whether the resource is a lock-null resource.
+ * @package Webdav
+ * @version //autogen//
+ *
+ * @access private
  */
 class ezcWebdavLockInfoProperty extends ezcWebdavDeadProperty
 {

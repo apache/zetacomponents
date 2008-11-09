@@ -6,6 +6,8 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
  */
 /**
  * Struct containing information on lock checking for a request.
@@ -16,8 +18,8 @@
  * 
  * @package Webdav
  * @version //autogen//
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
  */
 class ezcWebdavLockCheckInfo extends ezcBaseStruct
 {

@@ -74,6 +74,7 @@ require_once 'client_test_rfc_lock.php';
 require_once 'client_test_litmus.php';
 require_once 'client_test_litmus_lock.php';
 require_once 'client_test_cadaver.php';
+require_once 'client_test_cadaver_lock.php';
 require_once 'client_test_nautilus.php';
 require_once 'client_test_nautilus_new.php';
 require_once 'client_test_konqueror.php';
@@ -172,6 +173,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavClientLitmusTest::suite() );
         $this->addTest( ezcWebdavClientLitmusLockTest::suite() );
         $this->addTest( ezcWebdavClientCadaverTest::suite() );
+        $this->addTest( ezcWebdavClientCadaverLockTest::suite() );
         $this->addTest( ezcWebdavClientNautilusTest::suite() );
         $this->addTest( ezcWebdavClientNautilusNewTest::suite() );
         $this->addTest( ezcWebdavClientKonquerorTest::suite() );

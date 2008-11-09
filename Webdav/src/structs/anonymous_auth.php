@@ -16,9 +16,6 @@
  * 
  * @package Webdav
  * @version //autogen//
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
- * @author  
- * @license http://ez.no/licenses/new_bsd New BSD License
  */
 class ezcWebdavAnonymousAuth extends ezcWebdavAuth
 {

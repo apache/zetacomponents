@@ -6,8 +6,6 @@
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- *
- * @access private
  */
 /**
  * Plugin configuration class for the LOCK plugin.
@@ -17,8 +15,6 @@
  * 
  * @package Webdav
  * @version //autogen//
- *
- * @access private
  */
 class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
 {

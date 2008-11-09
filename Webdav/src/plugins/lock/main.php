@@ -10,7 +10,10 @@
  * @access private
  */
 /**
- * ezcWebdavLockPlugin 
+ * Main class of the lock plugin.
+ *
+ * This class is responsible to dispatch all actions of the lock plugin and to
+ * instantiate all necessary objects.
  * 
  * @package Webdav
  * @version //autogen//

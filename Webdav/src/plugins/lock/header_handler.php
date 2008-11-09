@@ -1,5 +1,31 @@
 <?php
-
+/**
+ * File containing the ezcWebdavLockHeaderHandler class.
+ *
+ * @package Webdav
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
+ */
+/**
+ * Header handler for the lock plugin.
+ *
+ * An object of this class can be used to parse the following headers:
+ *
+ * <ul>
+ *  <li>Timeout - {@link parseTimeoutHeader()}</li>
+ *  <li>If - {@link parseIfHeader()}</li>
+ *  <li>Lock-Token - {@link parseLockTokenHeader()}</li>
+ * </ul>
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ *
+ * @access private
+ */
 class ezcWebdavLockHeaderHandler
 {
     /**
