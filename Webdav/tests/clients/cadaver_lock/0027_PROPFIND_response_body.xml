@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response>
+    <D:href>http://webdav/secure_collection/nullcollection</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:lockdiscovery>
+          <D:activelock>
+            <D:locktype>
+              <D:write/>
+            </D:locktype>
+            <D:lockscope>
+              <D:exclusive/>
+            </D:lockscope>
+            <D:depth>Infinity</D:depth>
+            <D:owner></D:owner>
+            <D:timeout>Second-900</D:timeout>
+            <D:locktoken>
+              <D:href>opaquelocktoken:6a01b2fc-832e-ebc1-0640-f672c063f13d</D:href>
+            </D:locktoken>
+          </D:activelock>
+        </D:lockdiscovery>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
