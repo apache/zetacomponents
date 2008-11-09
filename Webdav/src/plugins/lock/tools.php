@@ -121,7 +121,6 @@ class ezcWebdavLockTools
 
         $propFind->prop->attach( new ezcWebdavLockDiscoveryProperty() );
         $propFind->prop->attach( new ezcWebdavGetEtagProperty() );
-        $propFind->prop->attach( new ezcWebdavLockInfoProperty() );
 
         $propFind->setHeader(
             'Depth',
@@ -154,52 +153,6 @@ class ezcWebdavLockTools
         }
 
         return null;
-    }
-
-    /**
-     * Checks if a resource is a lock-null resource.
-     *
-     * Checks if the resource described by $checkInfo is a lock-null resource.
-     * Returns an error response on failure.
-     * 
-     * @param ezcWebdavLockCheckInfo $checkInfo 
-     * @return bool|ezcWebdavErrorResponse
-     */
-    public function isLockNullResource( ezcWebdavLockCheckInfo $checkInfo )
-    {
-        $propFindReq = new ezcWebdavPropFindRequest(
-            $checkInfo->path
-        );
-        $propFindReq->setHeader( 'Authorization', $checkInfo->authHeader );
-        $propFindReq->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
-        $propFindReq->validateHeaders();
-
-        $propFindReq->prop = new ezcWebdavBasicPropertyStorage();
-        $propFindReq->prop->attach( new ezcWebdavLockInfoProperty() );
-        $propFindReq->prop->attach( new ezcWebdavLockDiscoveryProperty() );
-
-        $propFindMultistatusRes =
-            ezcWebdavServer::getInstance()->backend->propFind( $propFindReq );
-
-        if ( !( $propFindMultistatusRes instanceof ezcWebdavMultistatusResponse ) )
-        {
-            return $propFindMultistatusRes;
-        }
-
-        $propFindRes = $propFindMultistatusRes->responses[0];
-        if ( $checkInfo->requestGenerator !== null )
-        {
-            $checkInfo->requestGenerator->notify(
-                $propFindRes
-            );
-        }
-        
-        $lockInfoProp = $propFindRes->responses[0]->storage->get(
-            'lockinfo',
-            ezcWebdavLockPlugin::XML_NAMESPACE
-        );
-
-        return ( $lockInfoProp !== null && $lockInfoProp->null );
     }
 
     /**
@@ -255,7 +208,9 @@ class ezcWebdavLockTools
                 ( $timeouts = $request->getHeader( 'Timeout' ) ) === null ? array() : $timeouts
             ),
             // Generated lock tokens conform to the opaquelocktoken URI scheme
-            new ezcWebdavPotentialUriContent( $lockToken, true )
+            new ezcWebdavPotentialUriContent( $lockToken, true ),
+            null,
+            new ezcWebdavDateTime()
         );
     }
 
@@ -340,25 +295,15 @@ class ezcWebdavLockTools
             );
         }
 
-        // Check for lock null
-        if ( !$checkInfo->lockNullMayOccur && $data['lockinfo'] !== null && $data['lockinfo']->null )
-        {
-            return $this->createLockViolation(
-                new ezcWebdavErrorResponse(
-                    ezcWebdavResponse::STATUS_405,
-                    $path
-                ),
-                $propFindRes->node,
-                $data['lockdiscovery']
-            );
-        }
-
         // No If header to check against
         if ( $checkInfo->ifHeader === null )
         {
-            if ( count( $data['lockdiscovery']->activeLock ) === 0 )
+            if ( count( $data['lockdiscovery']->activeLock ) === 0
+                 || ( $checkInfo->allowSharedLocks && $this->isSharedLock( $data['lockdiscovery'] ) )
+            )
             {
                 // No lock, no condition, no checks. ;)
+                // Shared lock in shared lock is allowed.
                 return null;
             }
             return $this->createLockViolation(
@@ -448,6 +393,11 @@ class ezcWebdavLockTools
         );
     }
 
+    protected function isSharedLock( ezcWebdavLockDiscoveryProperty $lockDiscovery )
+    {
+        return ( $lockDiscovery->activeLock[0]->lockScope ===  ezcWebdavLockRequest::SCOPE_SHARED );
+    }
+
     /**
      * Extracts active lock tokens from a lockdiscovery property.
      *
@@ -526,19 +476,14 @@ class ezcWebdavLockTools
         $data = array(
             'getetag'       => null,
             'lockdiscovery' => null,
-            'lockinfo'      => null,
         );
         foreach ( $propFindRes->responses as $propStatRes )
         {
             switch ( $propStatRes->status )
             {
                 case ezcWebdavResponse::STATUS_200:
-                    $data['getetag']       = $propStatRes->storage->get(
+                    $data['getetag'] = $propStatRes->storage->get(
                         'getetag'
-                    );
-                    $data['lockinfo']      = $propStatRes->storage->get(
-                        'lockinfo',
-                        ezcWebdavLockPlugin::XML_NAMESPACE
                     );
                     // Ensure that lockdiscovery is there
                     $data['lockdiscovery'] = ( $propStatRes->storage->contains( 'lockdiscovery' )
@@ -552,38 +497,6 @@ class ezcWebdavLockTools
                     throw new ezcWebdavLockAccessDeniedException(
                         $propFindRes->node
                     );
-            }
-        }
-
-        if ( count( $data['lockdiscovery']->activeLock ) === 0 ^ $data['lockinfo'] === null )
-        {
-            throw new ezcWebdavInconsistencyException(
-                "Properties 'lockinfo' and 'lockdiscovery' out of sync on '{$propFindRes->node->path}'."
-            );
-        }
-        return $this->postProcessCheckProperties( $data );
-    }
-
-    /**
-     * Manipulates properties for lock null resources.
-     *
-     * In case a lock null property is checked, the ETag of the resource must
-     * not be set. This method checks for lock null resources and manipulates
-     * the getetag property accordingly.
-     * 
-     * @param array $data 
-     * @return array
-     */
-    protected function postProcessCheckProperties( array $data )
-    {
-        if ( $data['lockinfo'] !== null && $data['getetag'] !== null )
-        {
-            // Check for lock null to set etag to ''
-            if ( $data['lockinfo']->null )
-            {
-                // Memory backend borked otherwise
-                $data['getetag'] = clone $data['getetag'];
-                $data['getetag']->etag = '';
             }
         }
         return $data;

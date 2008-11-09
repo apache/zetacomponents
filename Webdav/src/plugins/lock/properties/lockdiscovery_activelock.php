@@ -22,6 +22,12 @@
  *           Tokens submitted in <locktocken> (URIs). Null if not provided.
  *           These are originally covered in additional <href> elements, which
  *           is left out here.
+ * @property ezcWebdavDateTime $lastAccess
+ *           The last time this lock was accessed by a client. Only set, if
+ *           this is the property of a lock base.
+ * @property string $basePath
+ *           The base path of the lock. Only set, if this is a property on a
+ *           path that is no lock base.
  *
  * @version //autogentag//
  * @package Webdav
@@ -37,30 +43,44 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * The $lockType indicates the type of lock in the given $lockScope. The
      * $depth value indicates the depth of collection locks and the free-form
      * $owner string can be used to specify an identifier for the user owning
-     * the lock. The $timeout object indicates the time when the lock will be
-     * removed and the $token array contains all lock token that affect this
-     * lock.
+     * the lock. The $timeout indicates after which time when the lock will be
+     * removed, if it is inactive. The $token is the lock token representing
+     * this lock.
+     *
+     * The $lastAccess and $basePath properties are custom to the lock plugin
+     * and are not mentioned in the WebDAV RFC. They are represented in XML in
+     * a custom namespace. The $basePath is the base of the lock (where it was
+     * issued). The $lastAccess time object stores when a lock was last
+     * accessed. It is only set on the lock base (where $basePath is null).
      *
      * @param int           $lockType  Lock type (constant ezcWebdavLockRequest::TYPE_*).
      * @param int           $lockScope Lock scope (constant ezcWebdavLockRequest::SCOPE_*).
      * @param int           $depth     Lock depth (constant ezcWebdavRequest::DEPTH_*).
      * @param string        $owner
-     * @param ezcWebdavDateTime      $timeout
+     * @param int           $timeout
      * @param array(string) $token
+     * @param ezcWebdavDateTime $lastAccess
+     * @param string        $basePath
      * @return void
      */
-    public function __construct( $lockType                           = ezcWebdavLockRequest::TYPE_READ,
-                                 $lockScope                          = ezcWebdavLockRequest::SCOPE_SHARED,
-                                 $depth                              = ezcWebdavRequest::DEPTH_INFINITY,
-                                 ezcWebdavPotentialUriContent $owner = null,
-                                 $timeout                            = null,
-                                 ezcWebdavPotentialUriContent $token = null )
+    public function __construct(
+        $lockType                           = ezcWebdavLockRequest::TYPE_READ,
+        $lockScope                          = ezcWebdavLockRequest::SCOPE_SHARED,
+        $depth                              = ezcWebdavRequest::DEPTH_INFINITY,
+        ezcWebdavPotentialUriContent $owner = null,
+        $timeout                            = null,
+        ezcWebdavPotentialUriContent $token = null,
+        $basePath                           = null,
+        ezcWebdavDateTime $lastAccess       = null
+    )
     {
         parent::__construct( $lockType, $lockScope );
-        $this->depth   = $depth;
-        $this->owner   = ( $owner === null ? new ezcWebdavPotentialUriContent() : $owner );
-        $this->timeout = $timeout;
-        $this->token  = ( $token === null ? new ezcWebdavPotentialUriContent() : $token );
+        $this->depth      = $depth;
+        $this->owner      = ( $owner === null ? new ezcWebdavPotentialUriContent() : $owner );
+        $this->timeout    = $timeout;
+        $this->token      = ( $token === null ? new ezcWebdavPotentialUriContent() : $token );
+        $this->lastAccess = $lastAccess;
+        $this->basePath   = $basePath;
 
         $this->name    = 'activelock';
     }
@@ -108,6 +128,18 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                 if ( !is_object( $propertyValue ) || !( $propertyValue instanceof ezcWebdavPotentialUriContent ) )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavPotentialUriContent' );
+                }
+                break;
+            case 'lastAccess':
+                if ( ( !is_object( $propertyValue ) || !( $propertyValue instanceof ezcWebdavDateTime ) ) && $propertyValue !== null )
+                {
+                    return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime|null' );
+                }
+                break;
+            case 'basePath':
+                if ( !is_string( $propertyValue ) && $propertyValue !== null )
+                {
+                    return $this->hasError( $propertyName, $propertyValue, 'string|null' );
                 }
                 break;
             default:

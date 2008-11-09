@@ -105,7 +105,8 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
                 $request->getHeader( 'If' ),
                 $authHeader,
                 ezcWebdavAuthorizer::ACCESS_WRITE,
-                $requestGenerator
+                $requestGenerator,
+                ( $request->lockInfo->lockScope === ezcWebdavLockRequest::SCOPE_SHARED )
             )
         );
 
@@ -145,8 +146,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
         }
 
         return new ezcWebdavLockResponse(
-            // Only 1 active lock per resource, so a new response works here
-            new ezcWebdavLockDiscoveryProperty( new ArrayObject( array( $activeLock ) ) ),
+            $requestGenerator->getLockDiscoveryProperty( $request->requestUri ),
             ezcWebdavResponse::STATUS_200,
             $lockToken
         );
@@ -195,7 +195,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
         $reqGen->sendRequests();
 
         return new ezcWebdavLockResponse(
-            $reqGen->getMainLockDiscoveryProperty()
+            $reqGen->getLockDiscoveryProperty( $request->requestUri )
         );
     }
 
@@ -249,59 +249,16 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             return $this->createLockError( $putRes );
         }
 
-        // Patch necessary properties
-        
-        $lockToken         = $this->tools->generateLockToken( $request );
-        $lockDiscoveryProp = new ezcWebdavLockDiscoveryProperty(
-            new ArrayObject(
-                array(
-                    $this->tools->generateActiveLock( $request, $lockToken )
-                )
-            )
-        );
+        // Attention, recursion!
+        $res = $this->acquireLock( $request );
 
-        $propPatchReq = new ezcWebdavPropPatchRequest( $request->requestUri );
-        $propPatchReq->updates->attach(
-            $lockDiscoveryProp,
-            ezcWebdavPropPatchRequest::SET
-        );
-        $propPatchReq->updates->attach(
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            $lockToken,
-                            null,
-                            new ezcWebdavDateTime()
-                        ),
-                    )
-                ),
-                // Null resource!
-                true
-            ),
-            ezcWebdavPropPatchRequest::SET
-        );
-        ezcWebdavLockTools::cloneRequestHeaders( $request, $propPatchReq );
-        $propPatchReq->validateHeaders();
-
-        $propPatchRes = $backend->propPatch( $propPatchReq );
-
-        if ( !( $propPatchRes instanceof ezcWebdavPropPatchResponse ) )
+        if ( $res->status !== ezcWebdavResponse::STATUS_200 )
         {
-            return $this->createLockError( $propPatchRes );
+            return $res;
         }
-        
-        // Assign lock to user
-        ezcWebdavServer::getInstance()->auth->assignLock(
-            $request->getHeader( 'Authorization' )->username,
-            $lockToken
-        );
-        
-        return new ezcWebdavLockResponse(
-            $lockDiscoveryProp,
-            ezcWebdavResponse::STATUS_201,
-            $lockToken
-        );
+
+        $res->status = ezcWebdavResponse::STATUS_201;
+        return $res;
     }
 
     /**

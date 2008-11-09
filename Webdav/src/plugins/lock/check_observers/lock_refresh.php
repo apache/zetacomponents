@@ -37,18 +37,18 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
     protected $notFoundLockBases = array();
 
     /**
-     * All <lockinfo> properties of lock bases affected by the refresh.
-     * 
-     * @var array(string=>ezcWebdavLockInfoProperty)
-     */
-    protected $lockBaseProperties = array();
-
-    /**
      * Contains <lockdiscovery> properties that need to ba updates.
      * 
      * @var array(string=>ezcWebdavLockDiscoveryProperty)
      */
     protected $lockDiscoveryProperties = array();
+
+    /**
+     * All paths that require a property update. 
+     * 
+     * @var array(string=>bool)
+     */
+    protected $pathsToUpdate = array();
 
     /**
      * The If header containing the tokens to refresh. 
@@ -63,13 +63,6 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
      * @var ezcWebdavLockIfHeaderList
      */
     protected $request;
-
-    /**
-     * Lock discovery property of the originally requested path. 
-     * 
-     * @var ezcWebdavLockDiscoveryProperty
-     */
-    protected $mainLockDiscoveryProperty;
 
     /**
      * New timeout to set for the lock. 
@@ -94,9 +87,10 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
      */
     public function __construct( ezcWebdavRequest $request, $timeout = null )
     {
-        $this->request  = $request;
-        $this->ifHeader = $request->getHeader( 'If' );
-        $this->timeout  = $timeout;
+        $this->issuingRequest = $request;
+        $this->ifHeader       = $request->getHeader( 'If' );
+        $this->affectedTokens = ( $this->ifHeader === null ? array() : $this->ifHeader->getLockTokens() );
+        $this->timeout        = $timeout;
     }
 
     /**
@@ -107,96 +101,58 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
      */
     public function notify( ezcWebdavPropFindResponse $response )
     {
-        $path = $response->node->path;
+        $path              = $response->node->path;
+        $origLockDiscovery = $this->extractLockDiscovery( $response );
+        $lockDiscovery     = clone $origLockDiscovery;
 
-        // All lock tokens to affect
-        $affectedTokens = array();
-        foreach ( $this->ifHeader[$path] as $ifHeaderItem )
+        if ( $this->affectedTokens === array() || count( $lockDiscovery->activeLock ) === 0 )
         {
-            $affectedTokens += $ifHeaderItem->lockTokens;
+            // Nothing to do
+            return null;
         }
-        $affectedTokens = array_unique( $affectedTokens );
-
-        foreach ( $response->responses as $propStatResponse )
+        
+        $needsUpdate = false;
+        foreach ( $lockDiscovery->activeLock as $activeLock )
         {
-            if ( $propStatResponse->status === ezcWebdavResponse::STATUS_200 )
+            if ( !in_array( (string) $activeLock->token, $this->affectedTokens ) )
             {
-                // Update last access time for all affected lock tokens
+                // Lock must not be updated
+                continue;
+            }
 
-                if ( $propStatResponse->storage->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE ) )
+            // Check for lock base
+            if ( $activeLock->basePath === null )
+            {
+                $activeLock->lastAccess = new ezcWebdavDateTime();
+                unset( $this->notFoundLockBases[$path] );
+                $needsUpdate = true;
+            }
+            else
+            {
+                // Check if base for lock is already recorded
+                if ( !isset( $this->lockDiscoveryProperties[$activeLock->basePath] ) )
                 {
-                    $lockInfoProp = $propStatResponse->storage->get(
-                        'lockinfo',
-                        ezcWebdavLockPlugin::XML_NAMESPACE
-                    );
-
-                    $newLockInfoProp = clone $lockInfoProp;
-
-                    foreach ( $newLockInfoProp->tokenInfos as $tokenInfo )
-                    {
-                        // Skip locks that should not be refreshed
-                        if ( !in_array( $tokenInfo->token, $affectedTokens ) )
-                        {
-                            continue;
-                        }
-
-                        if ( $tokenInfo->lockBase !== null )
-                        {
-                            // If lock base for this token was not seen, yet, notify it for update
-                            if ( !isset( $this->lockBaseProperties[$tokenInfo->lockBase] ) )
-                            {
-                                $this->notFoundLockBases[$tokenInfo->lockBase] = true;
-                            }
-                        }
-                        else
-                        {
-                            // Update access time
-                            $tokenInfo->lastAccess = new ezcWebdavDateTime();
-                            if ( !isset( $this->lockBaseProperties[$path] ) )
-                            {
-                                // Store for update
-                                $this->lockBaseProperties[$path] = $newLockInfoProp;
-                            }
-                            // Found the lockbase now
-                            unset( $this->notFoundLockBases[$path] );
-                        }
-                    }
-                }
-
-                // Update timeout value, if desired. Store main <lockdiscovery> property.
-
-                if ( $propStatResponse->storage->contains( 'lockdiscovery' ) )
-                {
-                    $lockDiscoveryProp = $propStatResponse->storage->get( 'lockdiscovery' );
-                    if ( $path === $this->request->requestUri )
-                    {
-                        $this->mainLockDiscoveryProperty = $lockDiscoveryProp;
-                    }
-
-                    if ( $this->timeout !== null )
-                    {
-                        $updated           = false;
-                        $lockDiscoveryProp = clone $lockDiscoveryProp;
-                        foreach ( $lockDiscoveryProp->activeLock as $activeLock )
-                        {
-                            if ( !in_array( (string) $activeLock->token, $affectedTokens ) )
-                            {
-                                continue;
-                            }
-
-                            if ( $activeLock->timeout !== $this->timeout )
-                            {
-                                $activeLock->timeout = $this->timeout;
-                                $updated = true;
-                            }
-                        }
-                        if ( $updated )
-                        {
-                            $this->lockDiscoveryProperties[$path] = $lockDiscoveryProp;
-                        }
-                    }
+                    // No, it's not notify it for later fetching
+                    $this->notFoundLockBases[$activeLock->basePath] = true;
                 }
             }
+            
+            // Check for timeout update
+            if ( $this->timeout !== null && $this->timeout !== $activeLock->timeout )
+            {
+                $activeLock->timeout = $this->timeout;
+                $needsUpdate = true;
+            }
+        }
+
+        if ( $needsUpdate )
+        {
+            $this->lockDiscoveryProperties[$path] = $lockDiscovery;
+            $this->pathsToUpdate[$path]           = true;
+        }
+        else
+        {
+            $this->lockDiscoveryProperties[$path] = $origLockDiscovery;
         }
     }
 
@@ -223,15 +179,20 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
     }
 
     /**
-     * Receives the main <lockdiscovery> property.
+     * Receives the <lockdiscovery> property for $path.
      *
-     * Returs the desired <lockdiscovery> property.
+     * Returs the desired <lockdiscovery> property, if it was found and
+     * recorded, otherwise null.
      * 
-     * @return ezcWebdavLockDiscoveryProperty
+     * @return ezcWebdavLockDiscoveryProperty|null
      */
-    public function getMainLockDiscoveryProperty()
+    public function getLockDiscoveryProperty( $path )
     {
-        return $this->mainLockDiscoveryProperty;
+        if ( isset( $this->lockDiscoveryProperties[$path] ) )
+        {
+            return $this->lockDiscoveryProperties[$path];
+        }
+        return null;
     }
 
     /**
@@ -275,10 +236,12 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
      */
     protected function fetchLockBase( $path )
     {
-        $propFind = new ezcWebdavPropFindRequest( $path );
+        $propFind       = new ezcWebdavPropFindRequest( $path );
         $propFind->prop = new ezcWebdavBasicPropertyStorage();
-        $propFind->prop->attach( new ezcWebdavLockInfoProperty() );
-        ezcWebdavLockTools::cloneRequestHeaders( $this->request, $propFind );
+
+        $propFind->prop->attach( new ezcWebdavLockDiscoveryProperty() );
+
+        ezcWebdavLockTools::cloneRequestHeaders( $this->issuingRequest, $propFind );
         $propFind->validateHeaders();
 
         $response = ezcWebdavServer::getInstance()->backend->propFind(
@@ -306,25 +269,43 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
     protected function generateRequests()
     {
         $requests = array();
-        foreach ( $this->lockBaseProperties as $path => $lockInfoProperty )
+        foreach ( $this->pathsToUpdate as $path => $dummy )
         {
             $propPatch = new ezcWebdavPropPatchRequest( $path );
             $propPatch->updates->attach(
-                $lockInfoProperty,
+                $this->lockDiscoveryProperties[$path],
                 ezcWebdavPropPatchRequest::SET
             );
-            if ( isset( $this->lockDiscoveryProperties[$path] ) )
-            {
-                $propPatch->updates->attach(
-                    $this->lockDiscoveryProperties[$path],
-                    ezcWebdavPropPatchRequest::SET
-                );
-            }
-            ezcWebdavLockTools::cloneRequestHeaders( $this->request, $propPatch );
+            ezcWebdavLockTools::cloneRequestHeaders( $this->issuingRequest, $propPatch );
 
             $requests[] = $propPatch;
         }
         return $requests;
+    }
+
+    /**
+     * Extracts the current lock discovery property.
+     * 
+     * Extracts the current lock discovery property of the affected node from
+     * PROPFIND $response. If no lockdiscovery property could be found, a new
+     * one is returned.
+     * 
+     * @param ezcWebdavPropFindResponse $response 
+     * @return ezcWebdavLockDiscoveryProperty
+     */
+    protected function extractLockDiscovery( ezcWebdavPropFindResponse $response )
+    {
+        foreach ( $response->responses as $propStatRes )
+        {
+            if ( $propStatRes->status === ezcWebdavResponse::STATUS_200
+                 && $propStatRes->storage->contains( 'lockdiscovery' )
+            )
+            {
+                return $propStatRes->storage->get( 'lockdiscovery' );
+            }
+        }
+        // Not found
+        return new ezcWebdavLockDiscoveryProperty();
     }
 }
 

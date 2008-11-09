@@ -41,6 +41,13 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
     protected $activeLock;
 
     /**
+     * Lockdiscovery property of the resource the lock was issued to. 
+     * 
+     * @var ezcWebdavLockDiscoveryProperty
+     */
+    protected $mainLockDiscoveryProp;
+
+    /**
      * Creates a new request generator.
      *
      * The $request is the LOCK requst object, which was sent by the client.
@@ -75,35 +82,29 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
 
         $propPatch = new ezcWebdavPropPatchRequest( $response->node->path );
 
-        // Overwrite properties, since only 1 lock is allowed at a time (currently)!
+        $lockDiscovery = clone $this->extractLockDiscovery( $response );
+        $activeLock    = clone $this->activeLock;
 
-        $lockDiscoveryProp = new ezcWebdavLockDiscoveryProperty(
-            new ArrayObject(
-                array( clone $this->activeLock )
-            )
-        );
+        if ( $originalRequestUri === $path )
+        {
+            // Is lock base
+            $activeLock->basePath   = null;
+            $activeLock->lastAccess = new ezcWebdavDateTime();
+
+            // Store for later use
+            $this->mainLockDiscoveryProp = $lockDiscovery;
+        }
+        else
+        {
+            // Not the lock base
+            $activeLock->basePath   = $originalRequestUri;
+            $activeLock->lastAccess = null;
+        }
+
+        $lockDiscovery->activeLock->append( $activeLock );
         
         $propPatch->updates->attach(
-            $lockDiscoveryProp,
-            ezcWebdavPropPatchRequest::SET
-        );
-
-        $lockInfoProperty = new ezcWebdavLockInfoProperty(
-            new ArrayObject(
-                array(
-                    new ezcWebdavLockTokenInfo(
-                        (string) $this->activeLock->token,
-                        // Set $lockBase, if this resource is not the base
-                        ( $originalRequestUri !== $path ? $originalRequestUri : null ),
-                        // Set $lastAccess for the lock base (used for lock timeouts)
-                        ( $originalRequestUri === $path ? new ezcWebdavDateTime() : null )
-                    )
-                )
-            )
-        );
-
-        $propPatch->updates->attach(
-            $lockInfoProperty,
+            $lockDiscovery,
             ezcWebdavPropPatchRequest::SET
         );
 
@@ -113,11 +114,46 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
     /**
      * Returns all collected requests generated in the processor. 
      * 
-     * @return array(ezcWebdavRequest)
+     * @return array(ezcWebdavPropPatchRequest)
      */
     public function getRequests()
     {
         return $this->requests;
+    }
+
+    /**
+     * Returns the lock discovery property to the resource the request was issued to. 
+     * 
+     * @return ezcWebdavLockDiscoveryProperty
+     */
+    public function getLockDiscoveryProperty( $path )
+    {
+        return $this->mainLockDiscoveryProp;
+    }
+
+    /**
+     * Extracts the current lock discovery property.
+     * 
+     * Extracts the current lock discovery property of the affected node from
+     * PROPFIND $response. If no lockdiscovery property could be found, a new
+     * one is returned.
+     * 
+     * @param ezcWebdavPropFindResponse $response 
+     * @return ezcWebdavLockDiscoveryProperty
+     */
+    protected function extractLockDiscovery( ezcWebdavPropFindResponse $response )
+    {
+        foreach ( $response->responses as $propStatRes )
+        {
+            if ( $propStatRes->status === ezcWebdavResponse::STATUS_200
+                 && $propStatRes->storage->contains( 'lockdiscovery' )
+            )
+            {
+                return $propStatRes->storage->get( 'lockdiscovery' );
+            }
+        }
+        // Not found
+        return new ezcWebdavLockDiscoveryProperty();
     }
 }
 

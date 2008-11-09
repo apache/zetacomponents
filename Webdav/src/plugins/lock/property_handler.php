@@ -142,6 +142,26 @@ class ezcWebdavLockPropertyHandler
                         ( $currentElement->hasChildNodes() && $currentElement->firstChild->localName === 'href' )
                     );
                     break;
+
+                // Custom elements of the lock plugin
+                case 'basepath':
+                    if ( $currentElement->namespaceURI !== ezcWebdavLockPlugin::XML_NAMESPACE )
+                    {
+                        throw new ezcWebdavInvalidXmlException(
+                            'Namespace of basepath element is ' . $currentElement->namespaceURI . ', expected ' . ezcWebdavLockPlugin::XML_NAMESPACE
+                        );
+                    }
+                    $activeLock->basePath = $currentElement->textContent;
+                    break;
+                case 'lastaccess':
+                    if ( $currentElement->namespaceURI !== ezcWebdavLockPlugin::XML_NAMESPACE )
+                    {
+                        throw new ezcWebdavInvalidXmlException(
+                            'Namespace of lastaccess element is ' . $currentElement->namespaceURI . ', expected ' . ezcWebdavLockPlugin::XML_NAMESPACE
+                        );
+                    }
+                    $activeLock->lastAccess = new ezcWebdavDateTime( $currentElement->textContent );
+                    break;
             }
         }
         return $activeLock;
@@ -312,6 +332,22 @@ class ezcWebdavLockPropertyHandler
             }
 
             $lockTokenElement->nodeValue = $activeLock->token->content;
+
+            // Lock plugin custom elements
+
+            if ( $activeLock->basePath !== null )
+            {
+                $activeLockElement->appendChild(
+                    $xmlTool->createDomElement( $dom, 'basepath', ezcWebdavLockPlugin::XML_NAMESPACE )
+                )->nodeValue = $activeLock->basePath;
+            }
+
+            if ( $activeLock->lastAccess !== null )
+            {
+                $activeLockElement->appendChild(
+                    $xmlTool->createDomElement( $dom, 'lastaccess', ezcWebdavLockPlugin::XML_NAMESPACE )
+                )->nodeValue = $activeLock->lastAccess->format( 'c' );
+            }
 
             $activeLockElements[] = $activeLockElement;
         }

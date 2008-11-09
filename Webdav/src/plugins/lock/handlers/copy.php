@@ -66,19 +66,9 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
         // Check destination parent and collect the lock properties to
         // set after successfully moving
 
-        $multiObserver = new ezcWebdavLockMultipleCheckObserver();
-
-        $destinationPropertyCollector = new ezcWebdavLockCheckPropertyCollector();
-        $multiObserver->attach( $destinationPropertyCollector );
-
-        $destinationLockRefresher = null;
-        if ( $ifHeader !== null )
-        {
-            $destinationLockRefresher = new ezcWebdavLockRefreshRequestGenerator(
-                $request
-            );
-            $multiObserver->attach( $destinationLockRefresher );
-        }
+        $destinationLockRefresher = new ezcWebdavLockRefreshRequestGenerator(
+            $request
+        );
 
         $violation = $this->tools->checkViolations(
             // Destination parent dir
@@ -90,18 +80,12 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
                 $ifHeader,
                 $authHeader,
                 ezcWebdavAuthorizer::ACCESS_WRITE,
-                $multiObserver,
-                false // No lock-null allowed
+                $destinationLockRefresher
             ),
             // Return on first violation
             true
         );
 
-        // Perform lock refresh (must occur no matter if request succeeds)
-        if ( $destinationLockRefresher !== null )
-        {
-            $destinationLockRefresher->sendRequests();
-        }
 
         if ( $violation !== null )
         {
@@ -127,8 +111,7 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
                 $ifHeader,
                 $authHeader,
                 ezcWebdavAuthorizer::ACCESS_WRITE,
-                null,
-                false // No lock-null allowed @TODO: Really?
+                $destinationLockRefresher
             ),
             // Return on first violation
             true
@@ -141,22 +124,15 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
             return $violation;
         }
 
+        // Perform lock refresh (must occur no matter if request succeeds)
+        $destinationLockRefresher->sendRequests();
+
         // Store infos for use on correct moving
         
-        $destParentProps = $destinationPropertyCollector->getProperties(
-                $destParent
+        // @TODO: Do we always get the correct property here?
+        $this->lockDiscoveryProp = $destinationLockRefresher->getLockDiscoveryProperty(
+            $destParent
         );
-
-        // Consistency check
-        if ( ( $destParentProps->contains( 'lockdiscovery' ) && count( $destParentProps->get( 'lockdiscovery' )->activeLock ) > 0 )
-             ^ $destParentProps->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
-           )
-        {
-            throw new ezcWebdavInconsistencyException(
-                "Resource '{$request->requestUri}' has inconsisten lock properties."
-            );
-        }
-        $this->lockProperties = $destParentProps;
 
         $sourcePaths = $this->getSourcePaths();
         if ( is_object( $sourcePaths ) )
@@ -184,7 +160,6 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
     {
         $propFindReq = new ezcWebdavPropFindRequest( $this->request->requestUri );
         $propFindReq->prop = new ezcWebdavBasicPropertyStorage();
-        $propFindReq->prop->attach( new ezcWebdavLockInfoProperty() );
         $propFindReq->prop->attach( new ezcWebdavLockDiscoveryProperty() );
         ezcWebdavLockTools::cloneRequestHeaders(
             $this->request,
@@ -206,26 +181,6 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
         foreach ( $propFindMultiStatusRes->responses as $propFindRes )
         {
             $paths[] = $propFindRes->node->path;
-            foreach ( $propFindRes->responses as $propStatRes )
-            {
-                if ( $propStatRes->status === ezcWebdavResponse::STATUS_200
-                     && $propStatRes->storage->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
-                     && $propStatRes->storage->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )->null
-                )
-                {
-                    return $this->tools->createLockFailureResponse(
-                        array(
-                            ezcWebdavErrorResponse(
-                                ezcWebdavResponse::STATUS_405,
-                                $propFindRes->node->path,
-                                'Operation not posible on lock null resource.'
-                            ),
-                        ),
-                        $propFind->node,
-                        $propStatRes->storage->get( 'lockdiscovery' )
-                    );
-                }
-            }
         }
         return $paths;
     }
@@ -253,52 +208,33 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
         $destParent = dirname( $dest );
         $paths      = $this->sourcePaths;
 
-        // Empty lock discovery to remove existing locks on destination,
-        // if destination parent was not locked
-        $lockDiscovery = ( $this->lockProperties->contains( 'lockdiscovery' )
-            ? clone $this->lockProperties->get( 'lockdiscovery' )
+        $lockDiscovery = ( isset( $this->lockDiscoveryProp )
+            ? clone $this->lockDiscoveryProp
             : new ezcWebdavLockDiscoveryProperty()
         );
 
-        // Empty lock info (will be used for removal), if destination parent
-        // was not locked
-        $lockInfo =  ( $this->lockProperties->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
-            ? clone $this->lockProperties->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
-            : new ezcWebdavLockInfoProperty()
-        );
-
-        // Sanity check
-        if ( count( $lockDiscovery->activeLock ) !== count( $lockInfo->tokenInfos ) )
+        // Update active locks to reflect new resources
+        foreach ( $lockDiscovery->activeLock as $id => $activeLock )
         {
-            throw new ezcWebdavInconsistencyException(
-                'Lock discovery and lock info properties out of sync.'
-            );
-        }
-
-        // Update lock info to subsequent paths
-        foreach ( $lockInfo->tokenInfos as $tokenInfo )
-        {
-            if ( $tokenInfo->lockBase === null )
+            if ( $activeLock->depth !== ezcWebdavRequest::DEPTH_INFINITY )
             {
-                $tokenInfo->lockBase   = $destParent;
-                $tokenInfo->lastAccess = null;
+                unset( $lockDiscovery->activeLock[$id] );
+                continue;
+            }
+            if ( $activeLock->basePath === null )
+            {
+                $activeLock->basePath   = $destParent;
+                $activeLock->lastAccess = null;
             }
         }
 
+        // Perform lock updates
         foreach ( $paths as $path )
         {
             $newPath      = str_replace( $source, $dest, $path );
+
             $propPatchReq = new ezcWebdavPropPatchRequest( $newPath );
-            // Lock discovery is a live property, may not be removed
             $propPatchReq->updates->attach( $lockDiscovery, ezcWebdavPropPatchRequest::SET );
-            // Lock info is dead
-            $propPatchReq->updates->attach(
-                $lockInfo,
-                ( count( $lockInfo->tokenInfos ) !== 0
-                    ? ezcWebdavPropPatchRequest::SET
-                    : ezcWebdavPropPatchRequest::REMOVE
-                )
-            );
             ezcWebdavLockTools::cloneRequestHeaders(
                 $request,
                 $propPatchReq

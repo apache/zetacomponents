@@ -45,7 +45,6 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
                 $request->getHeader( 'Authorization' ),
                 ezcWebdavAuthorizer::ACCESS_WRITE,
                 $targetLockRefresher
-                // @TODO: We allow deleting null resources. Correct?
             ),
             true
         );

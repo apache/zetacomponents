@@ -53,12 +53,9 @@ class ezcWebdavLockPlugin
         'ezcWebdavUnlockRequest'         => 'ezcWebdavLockUnlockRequestResponseHandler',
         'ezcWebdavCopyRequest'           => 'ezcWebdavLockCopyRequestResponseHandler',
         'ezcWebdavDeleteRequest'         => 'ezcWebdavLockDeleteRequestResponseHandler',
-        'ezcWebdavGetRequest'            => 'ezcWebdavLockGetRequestResponseHandler',
-        'ezcWebdavHeadRequest'           => 'ezcWebdavLockHeadRequestResponseHandler',
         'ezcWebdavMoveRequest'           => 'ezcWebdavLockMoveRequestResponseHandler',
         'ezcWebdavMakeCollectionRequest' => 'ezcWebdavLockMakeCollectionRequestResponseHandler',
         'ezcWebdavOptionsRequest'        => 'ezcWebdavLockOptionsRequestResponseHandler',
-        'ezcWebdavPropFindRequest'       => 'ezcWebdavLockPropFindRequestResponseHandler',
         'ezcWebdavPropPatchRequest'      => 'ezcWebdavLockPropPatchRequestResponseHandler',
         'ezcWebdavPutRequest'            => 'ezcWebdavLockPutRequestResponseHandler',
     );

@@ -70,7 +70,8 @@ class ezcWebdavNamespaceRegistry implements ArrayAccess
      */
     public function __construct()
     {
-        $this['DAV:'] = 'D';
+        $this['DAV:']                             = 'D';
+        $this[ezcWebdavLockPlugin::XML_NAMESPACE] = 'ezclock';
     }
 
     /**

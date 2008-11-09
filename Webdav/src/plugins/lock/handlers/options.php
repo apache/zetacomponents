@@ -49,7 +49,7 @@ class ezcWebdavLockOptionsRequestResponseHandler extends ezcWebdavLockRequestRes
         {
             $response->setHeader(
                 'DAV',
-                ezcWebdavOptionsResponse::VERSION_ONE . ',' . ezcWebdavOptionsResponse::VERSION_TWO
+                ezcWebdavOptionsResponse::VERSION_ONE . ',' . ezcWebdavOptionsResponse::VERSION_TWO 
             );
             $allowHeader = $response->getHeader( 'Allow' ) . ', LOCK, UNLOCK';
             $response->setHeader( 'Allow', $allowHeader );

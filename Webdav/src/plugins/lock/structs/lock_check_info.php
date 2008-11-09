@@ -70,7 +70,7 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
      * 
      * @var bool
      */
-    public $lockNullMayOccur;
+    public $allowSharedLocks;
 
     /**
      * Creates a new lock info struct.
@@ -89,7 +89,7 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
         $authHeader                                  = null,
         $access                                      = ezcWebdavAuthorizer::ACCESS_WRITE,
         ezcWebdavLockCheckObserver $requestGenerator = null,
-        $lockNullMayOccur                            = true
+        $allowSharedLocks                            = false
     )
     {
         $this->path             = $path;
@@ -98,7 +98,7 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
         $this->authHeader       = $authHeader;
         $this->access           = $access;
         $this->requestGenerator = $requestGenerator;
-        $this->lockNullMayOccur = $lockNullMayOccur;
+        $this->allowSharedLocks = $allowSharedLocks;
     }
 }
 

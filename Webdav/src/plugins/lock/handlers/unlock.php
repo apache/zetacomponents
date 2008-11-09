@@ -81,9 +81,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         $propFindReq->prop->attach(
             new ezcWebdavLockDiscoveryProperty()
         );
-        $propFindReq->prop->attach(
-            new ezcWebdavLockInfoProperty()
-        );
+
         ezcWebdavLockTools::cloneRequestHeaders( $request, $propFindReq );
         $propFindReq->setHeader( 'Depth', ezcWebdavRequest::DEPTH_ZERO );
         $propFindReq->validateHeaders();
@@ -96,55 +94,26 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
         }
 
         $lockDiscoveryProp = null;
-        $lockInfoProp = null;
 
         foreach ( $propFindMultistatusRes->responses as $propFindRes )
         {
             foreach( $propFindRes->responses as $propStatRes )
             {
-                if ( $propStatRes->storage->contains( 'lockdiscovery' )
-                     && $lockDiscoveryProp === null )
+                if ( $propStatRes->storage->contains( 'lockdiscovery' ) )
                 {
-                    $lockDiscoveryProp = $propStatRes->storage->get( 'lockdiscovery' );
-                }
-                if ( $propStatRes->storage->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE )
-                     && $lockInfoProp === null )
-                {
-                    $lockInfoProp = $propStatRes->storage->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-                }
-                if ( $lockInfoProp !== null && $lockDiscoveryProp !== null )
-                {
-                    // Found both, finish
-                    break 2;
+                    $lockDiscoveryProp = clone $propStatRes->storage->get( 'lockdiscovery' );
                 }
             }
         }
 
-        if ( $lockDiscoveryProp === null && $lockInfoProp === null )
+        if ( $lockDiscoveryProp === null )
         {
             // Lock was not found (purged?)! Finish successfully.
             return new ezcWebdavResponse( ezcWebdavResponse::STATUS_204 );
         }
 
-        if ( $lockDiscoveryProp === null || $lockInfoProp === null )
-        {
-            // Inconsistency!
-            throw new ezcWebdavInconsistencyException(
-                "Properties <lockinfo> and <lockdiscovery> out of sync for path '{$request->requestUri}' with token '$token'."
-            );
-        }
-
-        $affectedTokenInfo = null;
-        foreach ( $lockInfoProp->tokenInfos as $tokenInfo )
-        {
-            if ( $tokenInfo->token == $token )
-            {
-                $affectedTokenInfo = $tokenInfo;
-            }
-        }
-
         $affectedActiveLock = null;
-        foreach ( $lockDiscoveryProp->activeLock as $activeLock )
+        foreach ( $lockDiscoveryProp->activeLock as $id => $activeLock )
         {
             // Note the ==, sinde $activeLock->token is an instance of
             // ezcWebdavPotentialUriContent
@@ -155,16 +124,16 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
             }
         }
 
-        if ( $affectedTokenInfo === null || $affectedActiveLock === null )
+        if (  $affectedActiveLock === null )
         {
             // Lock not present (purged)! Finish successfully.
             return new ezcWebdavUnlockResponse( ezcWebdavResponse::STATUS_204 );
         }
 
-        if ( $affectedTokenInfo->lockBase !== null )
+        if ( $affectedActiveLock->basePath !== null )
         {
             // Requested resource is not the lock base, recurse
-            $newRequest = new ezcWebdavUnlockRequest( $affectedTokenInfo->lockBase );
+            $newRequest = new ezcWebdavUnlockRequest( $affectedActiveLock->basePath );
             ezcWebdavLockTools::cloneRequestHeaders( $request, $newRequest, array( 'If', 'Lock-Token' ) );
             $newRequest->validateHeaders();
 
@@ -176,11 +145,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
 
         // If lock depth is 0, we issue 1 propfind too much here
         // @TODO: Analyse if clients usually lock 0 or infinity
-        $res = $this->performUnlock(
-            $request,
-            $token,
-            $affectedActiveLock->depth
-        );
+        $res = $this->performUnlock( $request, $token, $affectedActiveLock->depth );
 
         if ( $res instanceof ezcWebdavUnlockResponse )
         {
@@ -211,8 +176,8 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
 
         $propFindReq = new ezcWebdavPropFindRequest( $path );
         $propFindReq->prop = new ezcWebdavBasicPropertyStorage();
-        $propFindReq->prop->attach( new ezcWebdavLockInfoProperty() );
         $propFindReq->prop->attach( new ezcWebdavLockDiscoveryProperty() );
+
         ezcWebdavLockTools::cloneRequestHeaders( $request, $propFindReq );
         $propFindReq->setHeader( 'Depth', $depth );
         $propFindReq->validateHeaders();
@@ -230,60 +195,11 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
             {
                 if ( $propStatRes->status === ezcWebdavResponse::STATUS_200 )
                 {
-                    // Remove affected tokeninfo from lockinfo property
-
-                    if ( $propStatRes->storage->contains( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE ) )
-                    {
-                        $lockInfoProp = $propStatRes->storage->get( 'lockinfo', ezcWebdavLockPlugin::XML_NAMESPACE );
-                        foreach( $lockInfoProp->tokenInfos as $id => $tokenInfo )
-                        {
-                            if ( $tokenInfo->token === $token )
-                            {
-                                // Not a null resource
-
-                                $lockInfoProp->tokenInfos->offsetUnset( $id );
-                                if ( count( $lockInfoProp->tokenInfos ) === 0 )
-                                {
-                                    $changeProps->attach(
-                                        $lockInfoProp,
-                                        ezcWebdavPropPatchRequest::REMOVE
-                                    );
-                                }
-                                else
-                                {
-                                    // Should not occur now, only with shared locks!
-                                    $changeProps->attach(
-                                        $lockInfoProp,
-                                        ezcWebdavPropPatchRequest::SET
-                                    );
-                                }
-
-                                if ( $lockInfoProp->null && count( $lockInfoProp->tokenInfos ) === 0 )
-                                {
-                                    // Null lock resource, delete when no more locks are active
-
-                                    $deleteReq = new ezcWebdavDeleteRequest( $propFindRes->node->path );
-                                    ezcWebdavLockTools::cloneRequestHeaders( $request, $deleteReq );
-                                    $deleteReq->validateHeaders();
-                                    $deleteRes = $backend->delete( $deleteReq );
-                                    if ( !( $deleteRes instanceof ezcWebdavDeleteResponse ) )
-                                    {
-                                        return $deleteRes;
-                                    }
-                                    // Skip over further property assignements and PROPPATCH
-                                    continue 3;
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-                    
                     // Remove affected active lock part from lockdiscovery property
 
                     if ( $propStatRes->storage->contains( 'lockdiscovery' ) )
                     {
-                        $lockDiscoveryProp = $propStatRes->storage->get( 'lockdiscovery' );
+                        $lockDiscoveryProp = clone $propStatRes->storage->get( 'lockdiscovery' );
                         foreach ( $lockDiscoveryProp->activeLock as $id => $activeLock )
                         {
                             if ( $activeLock->token == $token )
@@ -301,15 +217,15 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
                 }
             }
 
-            // If changed properties have been assigned (in a normal case,
-            // both!), perform the PROPPATCH
+            // Perform the PROPPATCH
 
-            if ( count( $changeProps ) )
+            if ( count( $changeProps ) > 0 )
             {
                 $propPatchReq = new ezcWebdavPropPatchRequest(
                     $propFindRes->node->path
                 );
                 $propPatchReq->updates = $changeProps;
+
                 ezcWebdavLockTools::cloneRequestHeaders(
                     $request,
                     $propPatchReq
