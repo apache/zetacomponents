@@ -6,7 +6,6 @@ TODO
 
 - Check all files/classes for correct @access tags (almost all of the lock
   plugin must have @access private).
-- Replace all occurances of DateTime() with ezcWebdavDateTime() (for serializability).
 - Check for correct error on shared/read lock request.
 
 1.1beta1
