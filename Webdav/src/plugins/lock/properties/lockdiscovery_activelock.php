@@ -70,7 +70,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         ezcWebdavPotentialUriContent $owner = null,
         $timeout                            = null,
         ezcWebdavPotentialUriContent $token = null,
-        $baseUri                           = null,
+        $baseUri                            = null,
         ezcWebdavDateTime $lastAccess       = null
     )
     {
@@ -79,8 +79,8 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         $this->owner      = ( $owner === null ? new ezcWebdavPotentialUriContent() : $owner );
         $this->timeout    = $timeout;
         $this->token      = ( $token === null ? new ezcWebdavPotentialUriContent() : $token );
+        $this->baseUri    = $baseUri;
         $this->lastAccess = $lastAccess;
-        $this->baseUri   = $baseUri;
 
         $this->name    = 'activelock';
     }
