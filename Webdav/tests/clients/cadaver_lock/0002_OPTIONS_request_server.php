@@ -24,9 +24,9 @@ return array (
   'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.3',
   'HTTP_CONNECTION' => 'TE, Keep-Alive',
   'HTTP_TE' => 'trailers',
-  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="4f832674eb2b0d1de3267153ebd75919", uri="/secure_collection/", response="8aa953aaa742ad6733eed16854055605", algorithm="MD5"',
+  'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="434992dda224c544527d8c816b9f3036", uri="/secure_collection/", response="21d238b52ade4c0f687e9162a223dd20", algorithm="MD5"',
   'PHP_SELF' => '/index.php/secure_collection/',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="4f832674eb2b0d1de3267153ebd75919", uri="/secure_collection/", response="8aa953aaa742ad6733eed16854055605", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="434992dda224c544527d8c816b9f3036", uri="/secure_collection/", response="21d238b52ade4c0f687e9162a223dd20", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

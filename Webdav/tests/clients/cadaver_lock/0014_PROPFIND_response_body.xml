@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
-  <D:response>
-    <D:href>http://webdav/secure_collection/newdir/file.txt</D:href>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/lockdir/</D:href>
     <D:propstat>
       <D:prop>
-        <D:lockdiscovery>
-          <D:activelock>
-            <D:locktype>
-              <D:write/>
-            </D:locktype>
-            <D:lockscope>
-              <D:exclusive/>
-            </D:lockscope>
-            <D:depth>Infinity</D:depth>
-            <D:owner></D:owner>
-            <D:timeout>Second-900</D:timeout>
-            <D:locktoken>
-              <D:href>opaquelocktoken:e631ab8d-355f-e535-27fa-ddd167cd963f</D:href>
-            </D:locktoken>
-          </D:activelock>
-        </D:lockdiscovery>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/lockdir/file.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
     </D:propstat>
   </D:response>
 </D:multistatus>

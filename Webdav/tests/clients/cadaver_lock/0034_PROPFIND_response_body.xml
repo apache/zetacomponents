@@ -1,127 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/secure_collection/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/secure_collection/file.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
+  <D:response xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
     <D:href>http://webdav/secure_collection/subdir</D:href>
-    <D:propstat>
+    <D:propstat xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
       <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
+        <D:lockdiscovery xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
+          <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
+            <D:locktype>
+              <D:write/>
+            </D:locktype>
+            <D:lockscope>
+              <D:exclusive/>
+            </D:lockscope>
+            <D:depth>Infinity</D:depth>
+            <D:owner></D:owner>
+            <D:timeout>Second-900</D:timeout>
+            <D:locktoken>
+              <D:href>opaquelocktoken:bbb7303f-3503-04ee-12e8-9d37f42d1222</D:href>
+            </D:locktoken>
+            <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2008-11-09T23:23:55+01:00</ezclock:lastaccess>
+          </D:activelock>
+        </D:lockdiscovery>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/secure_collection/newdir</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/secure_collection/nullcollection</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/secure_collection/newlockdir</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
     </D:propstat>
   </D:response>
 </D:multistatus>
