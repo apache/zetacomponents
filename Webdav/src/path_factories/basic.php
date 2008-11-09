@@ -124,6 +124,12 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
             $requestPath = '/';
         }
 
+        // Attach fragment to avoid performing operations occasionally
+        if ( ( $frag = parse_url( $uri, PHP_URL_FRAGMENT ) ) !== null )
+        {
+            $requestPath .= "#$frag";
+        }
+
         return $requestPath;
     }
 
