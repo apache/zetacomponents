@@ -28,7 +28,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/movecoll',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/movecoll',
   'PHP_SELF' => '/secure_collection/litmus/movecoll',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="4f5c551ebcd74012d0a7581c88da0272", uri="/secure_collection/litmus/movecoll", response="890cc61d7bcfca0a66b8d06d253004f0", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="fa24be90773b643555294fb9d4593cc0", uri="/secure_collection/litmus/movecoll", response="c9adff20730457708272b7cd0f2d0086", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

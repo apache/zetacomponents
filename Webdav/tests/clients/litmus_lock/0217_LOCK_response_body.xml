@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:prop xmlns:D="DAV:">
+  <D:lockdiscovery>
+    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
+      <D:locktype>
+        <D:write/>
+      </D:locktype>
+      <D:lockscope>
+        <D:exclusive/>
+      </D:lockscope>
+      <D:depth>Infinity</D:depth>
+      <D:owner>litmus test suite</D:owner>
+      <D:timeout>Second-900</D:timeout>
+      <D:locktoken>
+        <D:href>opaquelocktoken:543d5818-e56e-8ef6-30e7-e9b48de465fe</D:href>
+      </D:locktoken>
+      <ezclock:baseuri xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">/secure_collection/litmus/lockcoll</ezclock:baseuri>
+    </D:activelock>
+  </D:lockdiscovery>
+</D:prop>

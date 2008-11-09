@@ -31,7 +31,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/ccsrc/',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/ccsrc/',
   'PHP_SELF' => '/secure_collection/litmus/ccsrc/',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="4f5c551ebcd74012d0a7581c88da0272", uri="/secure_collection/litmus/ccsrc/", response="2a5cca99c0f489d7d6578e5074a2d09b", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="fa24be90773b643555294fb9d4593cc0", uri="/secure_collection/litmus/ccsrc/", response="e93ed6cfb1d0df2af42540528d2c19d6", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

@@ -7,7 +7,7 @@ return array (
   'HTTP_USER_AGENT' => 'litmus/0.11 neon/0.26.3',
   'HTTP_CONNECTION' => 'TE',
   'HTTP_TE' => 'trailers',
-  'HTTP_LOCK_TOKEN' => '<opaquelocktoken:c26207a1-874a-02da-e1f4-5035a7de3fa8>',
+  'HTTP_LOCK_TOKEN' => '<opaquelocktoken:4ff9c6f1-8d62-f50d-a393-187844c0f0cc>',
   'HTTP_X_LITMUS' => 'locks: 21 (unlock)',
   'SERVER_SIGNATURE' => '<address>Apache Server at webdav Port 80</address>
 ',
@@ -29,7 +29,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/lockme',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/lockme',
   'PHP_SELF' => '/secure_collection/litmus/lockme',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="4596859c821da0a19a90e4cb78e799a6", uri="/secure_collection/litmus/lockme", response="8c57f3f8abd008a67404051d404ea206", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="2f1174ab4bd94693f3e746e24cec54d8", uri="/secure_collection/litmus/lockme", response="a83f49210477f27f9414ddd91b1026d6", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

@@ -31,7 +31,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/mvdest/',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/mvdest/',
   'PHP_SELF' => '/secure_collection/litmus/mvdest/',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="4f5c551ebcd74012d0a7581c88da0272", uri="/secure_collection/litmus/mvdest/", response="49d6ce6d7340747085fbd20b37a3f9ca", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="fa24be90773b643555294fb9d4593cc0", uri="/secure_collection/litmus/mvdest/", response="fc5a1a06efd0d00222375064cc5031b2", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

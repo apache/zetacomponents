@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:prop xmlns:D="DAV:">
+  <D:lockdiscovery>
+    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
+      <D:locktype>
+        <D:write/>
+      </D:locktype>
+      <D:lockscope>
+        <D:shared/>
+      </D:lockscope>
+      <D:depth>0</D:depth>
+      <D:owner>litmus test suite</D:owner>
+      <D:timeout>Second-900</D:timeout>
+      <D:locktoken>
+        <D:href>opaquelocktoken:73a6c1b0-c53b-94d1-8d41-bb095ecba3f8</D:href>
+      </D:locktoken>
+      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2008-11-09T23:08:15+01:00</ezclock:lastaccess>
+    </D:activelock>
+    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
+      <D:locktype>
+        <D:write/>
+      </D:locktype>
+      <D:lockscope>
+        <D:shared/>
+      </D:lockscope>
+      <D:depth>0</D:depth>
+      <D:owner>litmus: notowner_sharedlock</D:owner>
+      <D:timeout>Second-900</D:timeout>
+      <D:locktoken>
+        <D:href>opaquelocktoken:cb52782d-404f-724e-306d-3dc5165e6a39</D:href>
+      </D:locktoken>
+      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2008-11-09T23:08:15+01:00</ezclock:lastaccess>
+    </D:activelock>
+  </D:lockdiscovery>
+</D:prop>

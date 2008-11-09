@@ -74,6 +74,18 @@ class ezcWebdavClientLitmusLockTest extends ezcWebdavClientTest
                 $expectedResponse['body']
             );
         }
+
+        // Unify last access dates
+        $realResponse['body'] = preg_replace(
+            '([0-9]{4}-[0-9]{2}-[0-9]{2}[0-9T:+]+)',
+            '2008-11-09T22:14:18+00:00',
+            $realResponse['body']
+        );
+        $expectedResponse['body'] = preg_replace(
+            '([0-9]{4}-[0-9]{2}-[0-9]{2}[0-9T:+]+)',
+            '2008-11-09T22:14:18+00:00',
+            $expectedResponse['body']
+        );
     }
 }
 

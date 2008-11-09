@@ -28,7 +28,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/ccdest/foo.7',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/ccdest/foo.7',
   'PHP_SELF' => '/secure_collection/litmus/ccdest/foo.7',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="4f5c551ebcd74012d0a7581c88da0272", uri="/secure_collection/litmus/ccdest/foo.7", response="896b054db291c2742a48d626370dd358", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="fa24be90773b643555294fb9d4593cc0", uri="/secure_collection/litmus/ccdest/foo.7", response="e9ad2ea18a17061d2fbdf61412d1b748", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

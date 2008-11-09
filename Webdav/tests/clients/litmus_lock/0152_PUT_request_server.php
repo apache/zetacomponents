@@ -29,7 +29,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/notlocked',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/notlocked',
   'PHP_SELF' => '/secure_collection/litmus/notlocked',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="4596859c821da0a19a90e4cb78e799a6", uri="/secure_collection/litmus/notlocked", response="c080411c89b3e95e32df5ae08d3971d7", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="2f1174ab4bd94693f3e746e24cec54d8", uri="/secure_collection/litmus/notlocked", response="4b75b0e1159cc802fe1324777f368b32", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

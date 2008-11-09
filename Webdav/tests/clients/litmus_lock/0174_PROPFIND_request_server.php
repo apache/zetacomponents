@@ -31,7 +31,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/lockme-copydest',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/lockme-copydest',
   'PHP_SELF' => '/secure_collection/litmus/lockme-copydest',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1d1f7a93c50dd553f833935ca7a33865", uri="/secure_collection/litmus/lockme-copydest", response="c2db2bd6b502c4f51d783636b6aa1a5e", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="ec388cfe792da3aeadce245296a5a235", uri="/secure_collection/litmus/lockme-copydest", response="ba48160f66cf0f888f6bfffead57f69d", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

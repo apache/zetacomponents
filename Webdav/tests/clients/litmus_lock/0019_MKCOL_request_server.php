@@ -30,7 +30,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/mkcolbody',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/mkcolbody',
   'PHP_SELF' => '/secure_collection/litmus/mkcolbody',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="86fd1679de436b98e100c894dea57d7d", uri="/secure_collection/litmus/mkcolbody", response="d4e6bcc8e8bf0cfefb912a29dd9788f5", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="b649bcee7d702d6a0e3a0cba5bfba040", uri="/secure_collection/litmus/mkcolbody", response="8ab66c426fea3d424b4d01789c39ee6f", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 

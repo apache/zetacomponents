@@ -29,7 +29,7 @@ return array (
   'PATH_INFO' => '/secure_collection/litmus/ccsrc/foo.7',
   'PATH_TRANSLATED' => '/var/www/webdav/htdocs/index.php/secure_collection/litmus/ccsrc/foo.7',
   'PHP_SELF' => '/secure_collection/litmus/ccsrc/foo.7',
-  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="4f5c551ebcd74012d0a7581c88da0272", uri="/secure_collection/litmus/ccsrc/foo.7", response="2b0b6a1faf24876b4db8837fa46274c4", algorithm="MD5"',
+  'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="fa24be90773b643555294fb9d4593cc0", uri="/secure_collection/litmus/ccsrc/foo.7", response="173bbb5f088d9f88eb801c66b4b43cfa", algorithm="MD5"',
   'REQUEST_TIME' => 1220431173,
 );
 
