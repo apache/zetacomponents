@@ -115,11 +115,13 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestFileName, 'server' ) );
         $request['body']   = $this->getFileContent( $requestFileName, 'body' );
 
+        $this->adjustRequest( $request );
+
         // Settings
-        $response = array();
-        $response['headers'] = $this->getFileContent( $responseFileName, 'headers' );
-        $response['body']    = $this->getFileContent( $responseFileName, 'body' );
-        $response['status']  = trim( $this->getFileContent( $responseFileName, 'status' ) );
+        $expectedRespons = array();
+        $expectedResponse['headers'] = $this->getFileContent( $responseFileName, 'headers' );
+        $expectedResponse['body']    = $this->getFileContent( $responseFileName, 'body' );
+        $expectedResponse['status']  = trim( $this->getFileContent( $responseFileName, 'status' ) );
         
         // Optionally set a body.
         $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = ( $request['body'] !== false ? $request['body'] : '' );
@@ -127,14 +129,14 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         // Optionally overwrite $_SERVER
         $_SERVER = $request['server'];
 
-        ini_set( 'xdebug.collect_return', 1 );
-        xdebug_start_trace( './traces/' . basename( $testSetName ) );
+        // ini_set( 'xdebug.collect_return', 1 );
+        // xdebug_start_trace( './traces/' . basename( $testSetName ) );
         $this->server->handle( $this->backend );
-        xdebug_stop_trace();
+        // xdebug_stop_trace();
 
-        $responseBody    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
-        $responseHeaders = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
-        $responseStatus  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
+        $response['headers'] = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
+        $response['body']    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
+        $response['status']  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
 
         // Reset globals
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] );
@@ -159,21 +161,15 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         }
 
         // Unify server generated nounce
-        if ( isset( $response['headers']['WWW-Authenticate'] ) && isset( $response['headers']['WWW-Authenticate']['digest'] ) && isset( $responseHeaders['WWW-Authenticate']['digest'] ) )
+        if ( isset( $expectedResponse['headers']['WWW-Authenticate'] ) && isset( $expectedResponse['headers']['WWW-Authenticate']['digest'] ) && isset( $expectedResponse['headers']['WWW-Authenticate']['digest'] ) )
         {
-            preg_match( '(nonce="([a-zA-Z0-9]+)")', $responseHeaders['WWW-Authenticate']['digest'], $matches );
-            $response['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $response['headers']['WWW-Authenticate']['digest'] );
+            preg_match( '(nonce="([a-zA-Z0-9]+)")', $response['headers']['WWW-Authenticate']['digest'], $matches );
+            $expectedResponse['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $expectedResponse['headers']['WWW-Authenticate']['digest'] );
         }
 
-        // Unify server generated lock token
-        $response['body'] = preg_replace( '(opaquelocktoken:[^<]+)', 'opaquelocktoken:12345678-1234-1234-1234-123456789012', $response['body'] );
-        $responseBody = preg_replace( '(opaquelocktoken:[^<]+)', 'opaquelocktoken:12345678-1234-1234-1234-123456789012', $responseBody );
-        if ( isset( $response['headers']['Lock-Token'] ) )
-        {
-            $response['headers']['Lock-Token'] = preg_replace( '(opaquelocktoken:[^<]+)', 'opaquelocktoken:12345678-1234-1234-1234-123456789012', $response['headers']['Lock-Token'] );
-            $responseHeaders['Lock-Token'] = preg_replace( '(opaquelocktoken:[^<]+)', 'opaquelocktoken:12345678-1234-1234-1234-123456789012', $responseHeaders['Lock-Token'] );
-        }
+        $this->adjustResponse( $response, $expectedResponse );
 
+/*
         // Check for broken DateTime in PHP versions (timestamp time zone issue)
         // The test must have been run nonetheless, since client tests are continouse!
         if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
@@ -194,14 +190,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 unset( $responseHeaders['ETag'] );
             }
         }
-
+*/
         $this->assertEquals(
+            $expectedResponse,
             $response,
-            array(
-                'headers' => $responseHeaders,
-                'body' => $responseBody,
-                'status' => $responseStatus,
-            ),
             'Response sent by WebDAV server incorrect.'
         );
     }
@@ -228,6 +220,14 @@ abstract class ezcWebdavClientTest extends ezcTestCase
                 break;
         }
         return $fileContent;
+    }
+
+    protected function adjustRequest( array &$request )
+    {
+    }
+
+    protected function adjustResponse( array &$realResponse, array &$expectedResponse )
+    {
     }
 
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:prop xmlns:D="DAV:">
+  <D:lockdiscovery>
+    <D:activelock>
+      <D:locktype>
+        <D:write/>
+      </D:locktype>
+      <D:lockscope>
+        <D:shared/>
+      </D:lockscope>
+      <D:depth>0</D:depth>
+      <D:owner>litmus test suite</D:owner>
+      <D:timeout>Second-900</D:timeout>
+      <D:locktoken>
+        <D:href>opaquelocktoken:c7bf877f-9a06-7360-fe1d-f491aa765424</D:href>
+      </D:locktoken>
+    </D:activelock>
+  </D:lockdiscovery>
+</D:prop>

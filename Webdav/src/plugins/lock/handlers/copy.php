@@ -112,7 +112,7 @@ class ezcWebdavLockCopyRequestResponseHandler extends ezcWebdavLockRequestRespon
                 // Destination parent not found
                 return new ezcWebdavErrorResponse(
                     ezcWebdavResponse::STATUS_409,
-                    $response->requestUri
+                    $violation->requestUri
                 );
             }
             return $violation;

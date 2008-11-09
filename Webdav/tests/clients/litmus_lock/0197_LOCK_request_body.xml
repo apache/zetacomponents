@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lockinfo xmlns='DAV:'>
+ <lockscope><shared/></lockscope>
+<locktype><write/></locktype><owner>litmus: notowner_sharedlock</owner>
+</lockinfo>
