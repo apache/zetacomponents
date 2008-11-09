@@ -14,11 +14,11 @@ TODO
 
 - Lock purging must be done using an API (shell script).
 
-- Try to refactor checkViolations() and checkEtagsAndLocks().
-- Correct problem with null NS in properties (check for error 100 on creation).
 - The updated WebDAV RFC changes the behaviour of lock-null resources to be
   much more server friendly. We should update this behaviour and remove all the
   un-necessary checks.
+
+- Check all doc blocks of the lock plugin.
 
 1.2
 ---
