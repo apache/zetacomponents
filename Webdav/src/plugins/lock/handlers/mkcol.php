@@ -109,6 +109,11 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
                 );
                 if ( $violation !== null )
                 {
+                    if ( $violation->status === ezcWebdavResponse::STATUS_404 )
+                    {
+                        // The parent does not exist, not the target.
+                        $violation->status = ezcWebdavResponse::STATUS_409;
+                    }
                     return $violation;
                 }
             }
