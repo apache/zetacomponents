@@ -22,6 +22,13 @@
 class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestResponseHandler
 {
     /**
+     * Request object handled. 
+     * 
+     * @var ezcWebdavLockRequest
+     */
+    protected $request;
+
+    /**
      * Handles responses to the LOCK request.
      *
      * Unused since the LOCK request is completely handled by {@link
@@ -46,6 +53,8 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
     public function receivedRequest( ezcWebdavRequest $request )
     {
         // Authentication has already taken place here.
+
+        $this->request = $request;
         
         // New lock
         if ( $request->lockInfo !== null )
@@ -311,31 +320,11 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
             return $response;
         }
 
-        // RFC 2518 requires 207 including PROPSTAT for affected property
-        $lockDiscoveryProp = $response->getPluginData(
-            ezcWebdavLockPlugin::PLUGIN_NAMESPACE,
-            'lockdiscovery'
-        );
-        $node = $response->getPluginData(
-            ezcWebdavLockPlugin::PLUGIN_NAMESPACE,
-            'node'
-        );
-
-        $storage = new ezcWebdavBasicPropertyStorage();
-        $storage->attach(
-            $lockDiscoveryProp !== null ? $lockDiscoveryProp : new ezcWebdavLockDiscoveryProperty()
-        );
-
-        $propStat = new ezcWebdavPropStatResponse(
-            $storage,
-            ezcWebdavResponse::STATUS_409
-        );
-
         return new ezcWebdavMultistatusResponse(
             $response,
-            new ezcWebdavPropFindResponse(
-                ( $node !== null ? $node : new ezcWebdavResource( $response->requestUri ) ),
-                $propStat
+            new ezcWebdavErrorResponse(
+                ezcWebdavResponse::STATUS_424,
+                $this->request->requestUri
             )
         );
     }

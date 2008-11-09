@@ -1,11 +1,11 @@
 >>Request
 
 LOCK /workspace/webdav/proposal.doc HTTP/1.1
-Host: webdav.sb.aol.com
+Host: example.com
 Timeout: Infinite, Second-4100000000
 If: (<opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4>)
 Authorization: Digest username="ejw",
-   realm="ejw@webdav.sb.aol.com", nonce="...",
+   realm="ejw@example.com", nonce="...",
    uri="/workspace/webdav/proposal.doc",
    response="...", opaque="..."
 
@@ -24,7 +24,7 @@ Content-Length: xxxx
             <D:depth>Infinity</D:depth>
             <D:owner>
                  <D:href>
-                 http://www.ics.uci.edu/~ejw/contact.html
+                 http://example.com/~ejw/contact.html
                  </D:href>
             </D:owner>
             <D:timeout>Second-604800</D:timeout>

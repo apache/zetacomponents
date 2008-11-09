@@ -3,6 +3,6 @@
   <D:locktype><D:write/></D:locktype>
   <D:lockscope><D:exclusive/></D:lockscope>
   <D:owner>
-       <D:href>http://www.ics.uci.edu/~ejw/contact.html</D:href>
+       <D:href>http://example.com/~ejw/contact.html</D:href>
   </D:owner>
 </D:lockinfo>

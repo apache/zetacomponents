@@ -1,13 +1,13 @@
 >>Request
 
 LOCK /webdav/ HTTP/1.1
-Host: webdav.sb.aol.com
+Host: example.com
 Timeout: Infinite, Second-4100000000
 Depth: infinity
 Content-Type: text/xml; charset="utf-8"
 Content-Length: xxxx
 Authorization: Digest username="ejw",
-   realm="ejw@webdav.sb.aol.com", nonce="...",
+   realm="ejw@example.com", nonce="...",
    uri="/workspace/webdav/proposal.doc",
    response="...", opaque="..."
 
@@ -16,7 +16,7 @@ Authorization: Digest username="ejw",
   <D:locktype><D:write/></D:locktype>
   <D:lockscope><D:exclusive/></D:lockscope>
   <D:owner>
-       <D:href>http://www.ics.uci.edu/~ejw/contact.html</D:href>
+       <D:href>http://example.com/~ejw/contact.html</D:href>
   </D:owner>
 </D:lockinfo>
 
@@ -29,11 +29,11 @@ Content-Length: xxxx
 <?xml version="1.0" encoding="utf-8" ?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-       <D:href>http://webdav.sb.aol.com/webdav/secret</D:href>
+       <D:href>http://example.com/webdav/secret</D:href>
        <D:status>HTTP/1.1 403 Forbidden</D:status>
   </D:response>
   <D:response>
-       <D:href>http://webdav.sb.aol.com/webdav/</D:href>
+       <D:href>http://example.com/webdav/</D:href>
        <D:propstat>
             <D:prop><D:lockdiscovery/></D:prop>
             <D:status>HTTP/1.1 424 Failed Dependency</D:status>

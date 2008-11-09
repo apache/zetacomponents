@@ -10,7 +10,7 @@
       </D:lockscope>
       <D:depth>Infinity</D:depth>
       <D:owner>
-        <D:href>http://www.ics.uci.edu/~ejw/contact.html</D:href>
+        <D:href>http://example.com/~ejw/contact.html</D:href>
       </D:owner>
       <D:timeout>Second-40</D:timeout>
       <D:locktoken>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://www.foo.bar/container/</D:href>
+    <D:href>http://example.com/container/</D:href>
     <D:propstat>
       <D:prop>
         <D:supportedlock>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:R="http://www.foo.bar/boxschema/">
-    <D:href>http://www.foo.bar/container/</D:href>
-    <D:propstat xmlns:R="http://www.foo.bar/boxschema/">
+  <D:response xmlns:R="http://ns.example.com/boxschema/">
+    <D:href>http://example.com/container/</D:href>
+    <D:propstat xmlns:R="http://ns.example.com/boxschema/">
       <D:prop>
         <D:creationdate>1997-12-01T17:42:21-0800</D:creationdate>
         <D:displayname>Example collection</D:displayname>
@@ -12,10 +12,10 @@
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>4096</D:getcontentlength>
         <D:resourcetype/>
-        <R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
+        <R:bigbox xmlns:R="http://ns.example.com/boxschema/">
           <R:BoxType>Box type A</R:BoxType>
         </R:bigbox>
-        <R:author xmlns:R="http://www.foo.bar/boxschema/">
+        <R:author xmlns:R="http://ns.example.com/boxschema/">
           <R:Name>Hadrian</R:Name>
         </R:author>
         <D:supportedlock>
@@ -33,9 +33,9 @@
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
   </D:response>
-  <D:response xmlns:R="http://www.foo.bar/boxschema/">
-    <D:href>http://www.foo.bar/container/front.html</D:href>
-    <D:propstat xmlns:R="http://www.foo.bar/boxschema/">
+  <D:response xmlns:R="http://ns.example.com/boxschema/">
+    <D:href>http://example.com/container/front.html</D:href>
+    <D:propstat xmlns:R="http://ns.example.com/boxschema/">
       <D:prop>
         <D:creationdate>1997-12-01T18:27:21-0800</D:creationdate>
         <D:displayname>Example HTML resource</D:displayname>
@@ -45,7 +45,7 @@
         <D:getlastmodified>Mon, 12 Jan 1998 09:25:56 +0000</D:getlastmodified>
         <D:getcontentlength>4525</D:getcontentlength>
         <D:resourcetype/>
-        <R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
+        <R:bigbox xmlns:R="http://ns.example.com/boxschema/">
           <R:BoxType>Box type B</R:BoxType>
         </R:bigbox>
         <D:supportedlock>
@@ -64,7 +64,7 @@
     </D:propstat>
   </D:response>
   <D:response>
-    <D:href>http://www.foo.bar/container/R2</D:href>
+    <D:href>http://example.com/container/R2</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
@@ -93,7 +93,7 @@
     </D:propstat>
   </D:response>
   <D:response>
-    <D:href>http://www.foo.bar/container/resource3</D:href>
+    <D:href>http://example.com/container/resource3</D:href>
     <D:propstat>
       <D:prop>
         <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>

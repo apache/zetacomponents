@@ -8,7 +8,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
     public static function performSetup( ezcWebdavClientTest $test, $testSetName )
     {
         $test->server = self::getServer(
-            new ezcWebdavBasicPathFactory( 'http://www.foo.bar' )
+            new ezcWebdavBasicPathFactory( 'http://example.com' )
         );
         $test->server->pluginRegistry->registerPlugin(
             new ezcWebdavLockPluginConfiguration(
@@ -88,7 +88,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                             ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
                             ezcWebdavRequest::DEPTH_INFINITY,
                             new ezcWebdavPotentialUriContent(
-                                'http://www.ics.uci.edu/~ejw/contact.html',
+                                'http://example.com/~ejw/contact.html',
                                 true
                             ),
                             40,
@@ -333,7 +333,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                         ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
                         ezcWebdavRequest::DEPTH_INFINITY,
                         new ezcWebdavPotentialUriContent(
-                            'http://www.ics.uci.edu/~ejw/contact.html',
+                            'http://example.com/~ejw/contact.html',
                             true
                         ),
                         40,
@@ -443,10 +443,10 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         $test->backend->setProperty(
             '/container',
             new ezcWebdavDeadProperty(
-                'http://www.foo.bar/boxschema/',
+                'http://ns.example.com/boxschema/',
                 'bigbox',
                 <<<EOT
-<R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
+<R:bigbox xmlns:R="http://ns.example.com/boxschema/">
   <R:BoxType>Box type A</R:BoxType>
 </R:bigbox>
 EOT
@@ -455,10 +455,10 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavDeadProperty(
-                'http://www.foo.bar/boxschema/',
+                'http://ns.example.com/boxschema/',
                 'author',
                 <<<EOT
-<R:author xmlns:R="http://www.foo.bar/boxschema/">
+<R:author xmlns:R="http://ns.example.com/boxschema/">
   <R:Name>Hadrian</R:Name>
 </R:author>
 EOT
@@ -506,10 +506,10 @@ EOT
         $test->backend->setProperty(
             '/container/front.html',
             new ezcWebdavDeadProperty(
-                'http://www.foo.bar/boxschema/',
+                'http://ns.example.com/boxschema/',
                 'bigbox',
                 <<<EOT
-<R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
+<R:bigbox xmlns:R="http://ns.example.com/boxschema/">
   <R:BoxType>Box type B</R:BoxType>
 </R:bigbox>
 EOT
@@ -649,10 +649,10 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavDeadProperty(
-                'http://www.foo.bar/boxschema/',
+                'http://ns.example.com/boxschema/',
                 'bigbox',
                 <<<EOT
-<R:bigbox xmlns:R="http://www.foo.bar/boxschema/">
+<R:bigbox xmlns:R="http://ns.example.com/boxschema/">
   <R:BoxType>Box type A</R:BoxType>
 </R:bigbox>
 EOT
@@ -661,10 +661,10 @@ EOT
         $test->backend->setProperty(
             '/container',
             new ezcWebdavDeadProperty(
-                'http://www.foo.bar/boxschema/',
+                'http://ns.example.com/boxschema/',
                 'author',
                 <<<EOT
-<R:author xmlns:R="http://www.foo.bar/boxschema/">
+<R:author xmlns:R="http://ns.example.com/boxschema/">
   <R:Name>Hadrian</R:Name>
 </R:author>
 EOT
