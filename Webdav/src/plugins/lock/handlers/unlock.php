@@ -130,10 +130,10 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
             return new ezcWebdavUnlockResponse( ezcWebdavResponse::STATUS_204 );
         }
 
-        if ( $affectedActiveLock->basePath !== null )
+        if ( $affectedActiveLock->baseUri !== null )
         {
             // Requested resource is not the lock base, recurse
-            $newRequest = new ezcWebdavUnlockRequest( $affectedActiveLock->basePath );
+            $newRequest = new ezcWebdavUnlockRequest( $affectedActiveLock->baseUri );
             ezcWebdavLockTools::cloneRequestHeaders( $request, $newRequest, array( 'If', 'Lock-Token' ) );
             $newRequest->validateHeaders();
 

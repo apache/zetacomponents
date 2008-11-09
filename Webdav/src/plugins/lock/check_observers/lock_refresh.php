@@ -121,7 +121,7 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
             }
 
             // Check for lock base
-            if ( $activeLock->basePath === null )
+            if ( $activeLock->baseUri === null )
             {
                 $activeLock->lastAccess = new ezcWebdavDateTime();
                 unset( $this->notFoundLockBases[$path] );
@@ -130,10 +130,10 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
             else
             {
                 // Check if base for lock is already recorded
-                if ( !isset( $this->lockDiscoveryProperties[$activeLock->basePath] ) )
+                if ( !isset( $this->lockDiscoveryProperties[$activeLock->baseUri] ) )
                 {
                     // No, it's not notify it for later fetching
-                    $this->notFoundLockBases[$activeLock->basePath] = true;
+                    $this->notFoundLockBases[$activeLock->baseUri] = true;
                 }
             }
             

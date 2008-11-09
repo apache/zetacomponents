@@ -177,9 +177,9 @@ class ezcWebdavLockMakeCollectionRequestResponseHandler extends ezcWebdavLockReq
                 continue;
             }
 
-            if ( $activeLock->basePath === null )
+            if ( $activeLock->baseUri === null )
             {
-                $activeLock->basePath   = $destParent;
+                $activeLock->baseUri   = $destParent;
                 $activeLock->lastAccess = null;
             }
         }

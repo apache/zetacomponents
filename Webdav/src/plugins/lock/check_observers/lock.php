@@ -88,7 +88,7 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
         if ( $originalRequestUri === $path )
         {
             // Is lock base
-            $activeLock->basePath   = null;
+            $activeLock->baseUri   = null;
             $activeLock->lastAccess = new ezcWebdavDateTime();
 
             // Store for later use
@@ -97,7 +97,7 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
         else
         {
             // Not the lock base
-            $activeLock->basePath   = $originalRequestUri;
+            $activeLock->baseUri   = $originalRequestUri;
             $activeLock->lastAccess = null;
         }
 

@@ -144,14 +144,14 @@ class ezcWebdavLockPropertyHandler
                     break;
 
                 // Custom elements of the lock plugin
-                case 'basepath':
+                case 'baseuri':
                     if ( $currentElement->namespaceURI !== ezcWebdavLockPlugin::XML_NAMESPACE )
                     {
                         throw new ezcWebdavInvalidXmlException(
-                            'Namespace of basepath element is ' . $currentElement->namespaceURI . ', expected ' . ezcWebdavLockPlugin::XML_NAMESPACE
+                            'Namespace of baseuri element is ' . $currentElement->namespaceURI . ', expected ' . ezcWebdavLockPlugin::XML_NAMESPACE
                         );
                     }
-                    $activeLock->basePath = $currentElement->textContent;
+                    $activeLock->baseUri = $currentElement->textContent;
                     break;
                 case 'lastaccess':
                     if ( $currentElement->namespaceURI !== ezcWebdavLockPlugin::XML_NAMESPACE )
@@ -335,11 +335,11 @@ class ezcWebdavLockPropertyHandler
 
             // Lock plugin custom elements
 
-            if ( $activeLock->basePath !== null )
+            if ( $activeLock->baseUri !== null )
             {
                 $activeLockElement->appendChild(
-                    $xmlTool->createDomElement( $dom, 'basepath', ezcWebdavLockPlugin::XML_NAMESPACE )
-                )->nodeValue = $activeLock->basePath;
+                    $xmlTool->createDomElement( $dom, 'baseuri', ezcWebdavLockPlugin::XML_NAMESPACE )
+                )->nodeValue = $activeLock->baseUri;
             }
 
             if ( $activeLock->lastAccess !== null )

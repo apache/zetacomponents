@@ -25,7 +25,7 @@
  * @property ezcWebdavDateTime $lastAccess
  *           The last time this lock was accessed by a client. Only set, if
  *           this is the property of a lock base.
- * @property string $basePath
+ * @property string $baseUri
  *           The base path of the lock. Only set, if this is a property on a
  *           path that is no lock base.
  *
@@ -47,11 +47,11 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * removed, if it is inactive. The $token is the lock token representing
      * this lock.
      *
-     * The $lastAccess and $basePath properties are custom to the lock plugin
+     * The $lastAccess and $baseUri properties are custom to the lock plugin
      * and are not mentioned in the WebDAV RFC. They are represented in XML in
-     * a custom namespace. The $basePath is the base of the lock (where it was
+     * a custom namespace. The $baseUri is the base of the lock (where it was
      * issued). The $lastAccess time object stores when a lock was last
-     * accessed. It is only set on the lock base (where $basePath is null).
+     * accessed. It is only set on the lock base (where $baseUri is null).
      *
      * @param int           $lockType  Lock type (constant ezcWebdavLockRequest::TYPE_*).
      * @param int           $lockScope Lock scope (constant ezcWebdavLockRequest::SCOPE_*).
@@ -60,7 +60,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * @param int           $timeout
      * @param array(string) $token
      * @param ezcWebdavDateTime $lastAccess
-     * @param string        $basePath
+     * @param string        $baseUri
      * @return void
      */
     public function __construct(
@@ -70,7 +70,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         ezcWebdavPotentialUriContent $owner = null,
         $timeout                            = null,
         ezcWebdavPotentialUriContent $token = null,
-        $basePath                           = null,
+        $baseUri                           = null,
         ezcWebdavDateTime $lastAccess       = null
     )
     {
@@ -80,7 +80,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
         $this->timeout    = $timeout;
         $this->token      = ( $token === null ? new ezcWebdavPotentialUriContent() : $token );
         $this->lastAccess = $lastAccess;
-        $this->basePath   = $basePath;
+        $this->baseUri   = $baseUri;
 
         $this->name    = 'activelock';
     }
@@ -136,7 +136,7 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
                     return $this->hasError( $propertyName, $propertyValue, 'ezcWebdavDateTime|null' );
                 }
                 break;
-            case 'basePath':
+            case 'baseUri':
                 if ( !is_string( $propertyValue ) && $propertyValue !== null )
                 {
                     return $this->hasError( $propertyName, $propertyValue, 'string|null' );
