@@ -1,4 +1,4 @@
-1.5alpha1 - [RELEASEDATE]
+1.5alpha1 - Monday 10 November 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #13218: Add lazy initialization to PersistentObject
