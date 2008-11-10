@@ -10,6 +10,7 @@
   http://bugs.php.net/45552
 - Fixed issue #13595: majorStep overridden if min and max are both set
 
+
 1.3 - Monday 16 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

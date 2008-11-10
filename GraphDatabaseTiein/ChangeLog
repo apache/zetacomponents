@@ -1,7 +1,7 @@
-1.1 - [RELEASEDATE]
+1.0.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Documented #13877: PDO by default lowercases column names.
+- Documented issue #13877: PDO by default lowercases column names.
 
 
 1.0 - Monday 02 July 2007
