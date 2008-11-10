@@ -58,6 +58,18 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         }
     }
 
+    public function setUp()
+    {
+        $this->tmpDir = $this->createTempDir(
+            get_class( $this )
+        );
+    }
+
+    public function tearDown()
+    {
+        $this->removeTempDir();
+    }
+
     public function getTestSets()
     {
         return $this->testSets;
@@ -97,6 +109,8 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             $this->markTestSkipped( 'Backend setup failed.' );
             return;
         }
+
+        $this->backend->options->lockFile = $this->tmpDir . '/backend.lock';
 
         $requestObject = null;
 

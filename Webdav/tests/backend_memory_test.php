@@ -27,6 +27,16 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
 		return new PHPUnit_Framework_TestSuite( 'ezcWebdavMemoryBackendTest' );
 	}
 
+    public function setUp()
+    {
+        $this->tmp = $this->createTempDir( __CLASS__ );
+    }
+
+    public function tearDown()
+    {
+        $this->removeTempDir();
+    }
+
     public function testEmptyMemoryServerCreation()
     {
         $backend = new ezcWebdavMemoryBackend( false );
@@ -236,9 +246,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
     {
         $options = new ezcWebdavMemoryBackendOptions();
 
-        $tmp = $this->createTempDir( 'ezcWebdavMemoryBackendLock' );
-
-        $lockFile = $tmp . '/test.lock';
+        $lockFile = $this->tmp . '/test.lock';
 
         $this->assertSetProperty(
             $options,
@@ -249,7 +257,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
         $this->assertSetPropertyFails(
             $options,
             'lockFile',
-            array( '/foo/bar/baz/test.lock', $tmp . '/foo/test.lock' )
+            array( '/foo/bar/baz/test.lock', $this->tmp . '/foo/test.lock' )
         );
     }
 
@@ -3142,6 +3150,7 @@ class ezcWebdavMemoryBackendTest extends ezcWebdavTestCase
     public function testLock()
     {
         $backend = new ezcWebdavMemoryBackend();
+        $backend->options->lockFile = $this->tmp . 'backend.lock';
 
         $backend->lock( 1000, 200000 );
 

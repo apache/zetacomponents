@@ -55,9 +55,7 @@ class ezcWebdavMemoryBackendOptions extends ezcBaseOptions
     {
         $this->properties['failForRegexp']      = null;
         $this->properties['failingOperations']  = 0;
-
-        // Enforce property set check
-        $this->lockFile = dirname( __FILE__ ) . '/../../../run-tests-tmp/webdav_memory_backend.lock';
+        $this->properties['lockFile']           = null;
 
         parent::__construct( $options );
     }
