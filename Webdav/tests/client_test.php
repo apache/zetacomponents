@@ -9,7 +9,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
      *
      * Helpfull if new client tests should be appended to existing ones.
      */
-    const STORE_BACKEND = true;
+    const STORE_BACKEND = false;
 
     protected $setupClass;
 
