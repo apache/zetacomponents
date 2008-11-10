@@ -161,7 +161,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         }
 
         // Unify server generated nounce
-        if ( isset( $expectedResponse['headers']['WWW-Authenticate'] ) && isset( $expectedResponse['headers']['WWW-Authenticate']['digest'] ) && isset( $expectedResponse['headers']['WWW-Authenticate']['digest'] ) )
+        if ( isset( $expectedResponse['headers']['WWW-Authenticate'] ) && isset( $expectedResponse['headers']['WWW-Authenticate']['digest'] ) && isset( $response['headers']['WWW-Authenticate']['digest'] ) )
         {
             preg_match( '(nonce="([a-zA-Z0-9]+)")', $response['headers']['WWW-Authenticate']['digest'], $matches );
             $expectedResponse['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $expectedResponse['headers']['WWW-Authenticate']['digest'] );
@@ -169,28 +169,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         $this->adjustResponse( $response, $expectedResponse );
 
-/*
-        // Check for broken DateTime in PHP versions (timestamp time zone issue)
-        // The test must have been run nonetheless, since client tests are continouse!
-        if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )
-        {
-            if ( $request['server']['REQUEST_METHOD'] === 'PROPFIND' )
-            {
-                // PROPFIND responses contain dates in XML
-                $this->markTestSkipped( 'PHP DateTime broken in versions < 5.2.6' );
-                return;
-            }
-            if ( isset( $response['headers']['ETag'] ) )
-            {
-                // Assert that ETag has been generated
-                $this->assertTrue(
-                    isset( $responseHeaders['ETag'] )
-                );
-                unset( $response['headers']['ETag'] );
-                unset( $responseHeaders['ETag'] );
-            }
-        }
-*/
         $this->assertEquals(
             $expectedResponse,
             $response,
