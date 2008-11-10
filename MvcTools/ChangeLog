@@ -1,4 +1,4 @@
-1.0alpha2 - [RELEASEDATE]
+1.0alpha2 - Monday 10 November 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Split out controller creation in the ezcMvcConfigurableDispatcher into its
