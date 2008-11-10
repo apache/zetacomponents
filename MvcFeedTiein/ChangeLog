@@ -1,4 +1,4 @@
-1.0alpha2 - [RELEASEDATE]
+1.0alpha2 - Monday 10 November 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13788: array_key_exists() function receives parameters in wrong
