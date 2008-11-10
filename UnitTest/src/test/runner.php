@@ -20,7 +20,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  */
 class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 {
-    const SUITE_FILENAME = "tests/suite.php";
+    const SUITE_FILENAME = 'tests/suite.php';
 
     public static function main()
     {
@@ -48,7 +48,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
     {
         // Help option
         $help = new ezcConsoleOption( '', 'help', ezcConsoleInput::TYPE_NONE );
-        $help->shorthelp = "Show this help";
+        $help->shorthelp = 'Show this help';
         $consoleInput->registerOption( $help );
 
         // Release option
@@ -59,50 +59,45 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         // DSN option
         $dsn = new ezcConsoleOption( 'D', 'dsn', ezcConsoleInput::TYPE_STRING );
-        $dsn->shorthelp = "Use the database specified with a DSN: type://user:password@host/database.";
-        $dsn->longhelp   = "An example to connect with the local MySQL database is:\n";
-        $dsn->longhelp  .= "mysql://root@mypass@localhost/unittests";
+        $dsn->shorthelp = 'Use the database specified with a DSN: type://user:password@host/database.';
+        $dsn->longhelp   = 'An example to connect with the local MySQL database is:\n';
+        $dsn->longhelp  .= 'mysql://root@mypass@localhost/unittests';
         $consoleInput->registerOption( $dsn );
 
-        // Filter option
-        $filter = new ezcConsoleOption( '', 'filter', ezcConsoleInput::TYPE_STRING );
-        $filter->shorthelp = "Filter which tests to run.";
-        $consoleInput->registerOption( $filter );
-
-        // Verbose option
-        $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
-        $verbose->shorthelp = "Output more verbose information.";
-        $consoleInput->registerOption( $verbose );
-
-        // XML Configuration File option
-        $configuration = new ezcConsoleOption( '', 'configuration', ezcConsoleInput::TYPE_STRING );
-        $configuration->shorthelp = "Read configuration from XML file.";
-        $consoleInput->registerOption( $configuration );
-
-        // Logfile XML option
-        $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
-        $xml->shorthelp = "Log test execution in XML format to file.";
-        $consoleInput->registerOption( $xml );
-
-        // Code Coverage Report directory option
-        $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
-        $report->shorthelp = "Directory to store test reports and code coverage reports in.";
+        // Code Coverage HTML option
+        $report = new ezcConsoleOption( '', 'coverage-html', ezcConsoleInput::TYPE_STRING );
+        $report->shorthelp = 'Generate code coverage report in HTML format to directory.';
         $consoleInput->registerOption( $report );
 
         // Code Coverage XML option
         $coverage = new ezcConsoleOption( '', 'coverage-xml', ezcConsoleInput::TYPE_STRING );
-        $coverage->shorthelp = "Write code coverage information in XML format.";
+        $coverage->shorthelp = 'Write code coverage data in Clover XML format.';
         $consoleInput->registerOption( $coverage );
+
+        // Filter option
+        $filter = new ezcConsoleOption( '', 'filter', ezcConsoleInput::TYPE_STRING );
+        $filter->shorthelp = 'Filter which tests to run.';
+        $consoleInput->registerOption( $filter );
 
         // Project Mess Detector (PMD) XML option
         $pmd = new ezcConsoleOption( '', 'log-pmd', ezcConsoleInput::TYPE_STRING );
-        $pmd->shorthelp = "Write violations report in PMD XML format.";
+        $pmd->shorthelp = 'Write violations report in PMD XML format.';
         $consoleInput->registerOption( $pmd );
 
-        // Metrics XML option
-        $metrics = new ezcConsoleOption( '', 'log-metrics', ezcConsoleInput::TYPE_STRING );
-        $metrics->shorthelp = "Write metrics report in XML format.";
-        $consoleInput->registerOption( $metrics );
+        // Logfile XML option
+        $xml = new ezcConsoleOption( '', 'log-xml', ezcConsoleInput::TYPE_STRING );
+        $xml->shorthelp = 'Log test execution in XML format to file.';
+        $consoleInput->registerOption( $xml );
+
+        // XML Configuration File option
+        $configuration = new ezcConsoleOption( '', 'configuration', ezcConsoleInput::TYPE_STRING );
+        $configuration->shorthelp = 'Read configuration from XML file.';
+        $consoleInput->registerOption( $configuration );
+
+        // Verbose option
+        $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
+        $verbose->shorthelp = 'Output more verbose information.';
+        $consoleInput->registerOption( $verbose );
     }
 
     protected static function processConsoleArguments( $consoleInput )
@@ -135,7 +130,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         self::registerConsoleArguments( $consoleInput );
         self::processConsoleArguments( $consoleInput );
 
-        if ( $consoleInput->getOption( "help" )->value )
+        if ( $consoleInput->getOption( 'help' )->value )
         {
             self::displayHelp( $consoleInput );
             exit();
@@ -167,13 +162,12 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         // Set the release. Default is trunk. 
         $release = $consoleInput->getOption( 'release' )->value;
 
-        $filter    = $consoleInput->getOption( 'filter' )->value;
         $config    = $consoleInput->getOption( 'configuration' )->value;
-        $logfile   = $consoleInput->getOption( 'log-xml' )->value;
+        $reportDir = $consoleInput->getOption( 'coverage-html' )->value;
         $coverage  = $consoleInput->getOption( 'coverage-xml' )->value;
-        $metrics   = $consoleInput->getOption( 'log-metrics' )->value;
+        $filter    = $consoleInput->getOption( 'filter' )->value;
         $pmd       = $consoleInput->getOption( 'log-pmd' )->value;
-        $reportDir = $consoleInput->getOption( 'report-dir' )->value;
+        $logfile   = $consoleInput->getOption( 'log-xml' )->value;
 
         if ( $filter )
         {
@@ -195,11 +189,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             $params['coverageXML'] = $coverage;
         }
 
-        if ( $metrics )
-        {
-            $params['metricsXML'] = $metrics;
-        }
-
         if ( $pmd )
         {
             $params['pmdXML'] = $pmd;
@@ -210,7 +199,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             $params['reportDirectory'] = $reportDir;
         }
 
-        if ( $consoleInput->getOption( "verbose" )->value )
+        if ( $consoleInput->getOption( 'verbose' )->value )
         {
             $params['verbose'] = true;
         }
@@ -251,7 +240,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $directory = getcwd();
 
         $allSuites = new PHPUnit_Framework_TestSuite;
-        $allSuites->setName( "eZ Components" );
+        $allSuites->setName( 'eZ Components' );
 
         if ( sizeof( $packages ) == 0 )
         {
@@ -388,7 +377,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
      */
     protected function getReleases( $dir, $package )
     {
-        $dir .= "/" . $package;
+        $dir .= '/' . $package;
 
         $releases = array();
         if ( is_dir( $dir ) )
@@ -416,7 +405,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
      */
     protected function getTestSuite( $dir, $package, $release )
     {
-        $suitePath = implode( "/", array( $dir, '..', $release, $package, self::SUITE_FILENAME ) );
+        $suitePath = implode( '/', array( $dir, '..', $release, $package, self::SUITE_FILENAME ) );
 
         if ( file_exists( $suitePath ) )
         {
@@ -426,7 +415,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             {
                 $package = substr( $package, 0, strpos( $package, '/' ) );
             }
-            $className = "ezc". $package . "Suite";
+            $className = 'ezc'. $package . 'Suite';
 
             $s = call_user_func( array( $className, 'suite' ) );
 
