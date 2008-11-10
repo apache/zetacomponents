@@ -154,3 +154,4 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
         $this->prefix = split( '/', $prefix );
     }
 }
+?>
