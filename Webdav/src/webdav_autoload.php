@@ -14,6 +14,7 @@ return array(
     'ezcWebdavBadRequestException'                      => 'Webdav/exceptions/bad_request.php',
     'ezcWebdavBrokenBaseUriException'                   => 'Webdav/exceptions/broken_base_uri.php',
     'ezcWebdavBrokenRequestUriException'                => 'Webdav/exceptions/broken_request_uri.php',
+    'ezcWebdavFileBackendBrokenStorageException'        => 'Webdav/exceptions/broken_storage_exception.php',
     'ezcWebdavHeadersNotValidatedException'             => 'Webdav/exceptions/headers_not_validated.php',
     'ezcWebdavInconsistencyException'                   => 'Webdav/exceptions/inconsistency.php',
     'ezcWebdavInvalidCallbackException'                 => 'Webdav/exceptions/invalid_callback.php',
