@@ -9,6 +9,8 @@ require_once 'client_test.php';
 
 class ezcWebdavClientRfcLockTest extends ezcWebdavClientTest
 {
+    private static $tokenReplacements = array();
+
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestRfcLockSetup';
@@ -18,6 +20,29 @@ class ezcWebdavClientRfcLockTest extends ezcWebdavClientTest
     public static function suite()
     {
         return new ezcWebdavClientTestSuite( __CLASS__ );
+    }
+
+    protected function adjustRequest( array &$request )
+    {
+        foreach ( self::$tokenReplacements as $from => $to )
+        {
+            if ( isset( $request['server']['HTTP_IF'] ) )
+            {
+                $request['server']['HTTP_IF'] = preg_replace(
+                    '(' . preg_quote( $from ) . ')',
+                    $to,
+                    $request['server']['HTTP_IF']
+                );
+            }
+            if ( isset( $request['server']['HTTP_LOCK_TOKEN'] ) )
+            {
+                $request['server']['HTTP_LOCK_TOKEN'] = preg_replace(
+                    '(' . preg_quote( $from ) . ')',
+                    $to,
+                    $request['server']['HTTP_LOCK_TOKEN']
+                );
+            }
+        }
     }
 
     protected function adjustResponse( array &$realResponse, array &$expectedResponse )
@@ -31,6 +56,18 @@ class ezcWebdavClientRfcLockTest extends ezcWebdavClientTest
             );
             $expectedResponse['headers']['Lock-Token'] = $realResponse['headers']['Lock-Token'];
         }
+
+        // Unify last access dates
+        $realResponse['body'] = preg_replace(
+            '([0-9]{4}-[0-9]{2}-[0-9]{2}[0-9T:+]+)',
+            '2008-11-09T22:14:18+00:00',
+            $realResponse['body']
+        );
+        $expectedResponse['body'] = preg_replace(
+            '([0-9]{4}-[0-9]{2}-[0-9]{2}[0-9T:+]+)',
+            '2008-11-09T22:14:18+00:00',
+            $expectedResponse['body']
+        );
     }
 }
 

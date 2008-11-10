@@ -101,20 +101,6 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                 )
             )
         );
-        $test->backend->setProperty(
-            '/workspace/webdav/proposal.doc',
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            'opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4',
-                            null,
-                            new DateTime()
-                        ),
-                    )
-                )
-            )
-        );
     }
 
     protected static function getSetup3( ezcWebdavClientTest $test )
@@ -157,20 +143,6 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                                 'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76',
                                 true
                             )
-                        ),
-                    )
-                )
-            )
-        );
-        $test->backend->setProperty(
-            '/container',
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76',
-                            null,
-                            new DateTime()
                         ),
                     )
                 )
@@ -220,20 +192,6 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             )
         );
         $test->backend->setProperty(
-            '/container',
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            'opaquelocktoken:fe184f2e-6eec-41d0-c765-01adc56e6bb4',
-                            null,
-                            new DateTime()
-                        ),
-                    )
-                )
-            )
-        );
-        $test->backend->setProperty(
             '/othercontainer',
             new ezcWebdavLockDiscoveryProperty(
                 new ArrayObject(
@@ -256,20 +214,6 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
             )
         );
         $test->backend->setProperty(
-            '/othercontainer',
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            'opaquelocktoken:e454f3f3-acdc-452a-56c7-00a5c91e4b77',
-                            null,
-                            new DateTime()
-                        ),
-                    )
-                )
-            )
-        );
-        $test->backend->setProperty(
             '/othercontainer/C2',
             new ezcWebdavLockDiscoveryProperty(
                 new ArrayObject(
@@ -285,20 +229,6 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
                             new ezcWebdavPotentialUriContent(
                                 'some lock token'
                             )
-                        ),
-                    )
-                )
-            )
-        );
-        $test->backend->setProperty(
-            '/othercontainer/C2',
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            'some lock token',
-                            null,
-                            new DateTime()
                         ),
                     )
                 )
@@ -355,36 +285,6 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         $test->backend->setProperty(
             '/workspace/webdav',
             $lockDiscoveryProperty
-        );
-
-        $test->backend->setProperty(
-            '/workspace/webdav/info.doc',
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            'opaquelocktoken:a515cfa4-5da4-22e1-f5b5-00a0451e6bf7',
-                            '/workspace/webdav'
-                        ),
-                    )
-                ),
-                // Make this a null lock resource
-                true
-            )
-        );
-        $test->backend->setProperty(
-            '/workspace/webdav',
-            new ezcWebdavLockInfoProperty(
-                new ArrayObject(
-                    array(
-                        new ezcWebdavLockTokenInfo(
-                            'opaquelocktoken:a515cfa4-5da4-22e1-f5b5-00a0451e6bf7',
-                            null,
-                            new DateTime()
-                        ),
-                    )
-                )
-            )
         );
     }
 

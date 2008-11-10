@@ -14,6 +14,7 @@
  * 
  * @package Webdav
  * @version //autogen//
+ * @TODO Refactor code.
  *
  * @access private
  */
@@ -30,12 +31,20 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
     public $needsBackendLock = false;
 
     /**
+     * The received request. 
+     * 
+     * @var ezcWebdavPropFindRequest
+     */
+    protected $request;
+
+    /**
      * Dummy method, does not do anything. 
      * 
      * @param ezcWebdavRequest $request 
      */
     public function receivedRequest( ezcWebdavRequest $request )
     {
+        $this->request = $request;
         return null;
     }
 
@@ -72,21 +81,64 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
                 }
             }
 
-            if ( $status404Storage !== null && $status404Storage->contains( 'lockdiscovery' ) )
+            if ( $status404Storage !== null || $this->request->allProp || $this->request->propName )
             {
-                if ( $status200Storage === null )
+
+                if ( $this->request->allProp || $this->request->propName || $status404Storage->contains( 'lockdiscovery' )  )
                 {
-                    $status200Storage = new ezcWebdavBasicPropertyStorage();
-                    $responses        = $propFindRes->responses;
-                    $responses[]      = new ezcWebdavPropStatResponse(
-                        $status200Storage
+                    if ( $status200Storage === null )
+                    {
+                        $status200Storage = new ezcWebdavBasicPropertyStorage();
+                        $responses        = $propFindRes->responses;
+                        $responses[]      = new ezcWebdavPropStatResponse(
+                            $status200Storage
+                        );
+                        $propFindRes->responses = $responses;
+                    }
+                    $status200Storage->attach(
+                        new ezcWebdavLockDiscoveryProperty()
                     );
-                    $propFindRes->responses = $responses;
+                    if ( $status404Storage !== null )
+                    {
+                        $status404Storage->detach( 'lockdiscovery' );
+                    }
                 }
-                $status200Storage->attach(
-                    $status404Storage->get( 'lockdiscovery' )
-                );
-                $status404Storage->detach( 'lockdiscovery' );
+
+                if ( $this->request->allProp || $this->request->propName || $status404Storage->contains( 'supportedlock' ) )
+                {
+                    if ( $status200Storage === null )
+                    {
+                        $status200Storage = new ezcWebdavBasicPropertyStorage();
+                        $responses        = $propFindRes->responses;
+                        $responses[]      = new ezcWebdavPropStatResponse(
+                            $status200Storage
+                        );
+                        $propFindRes->responses = $responses;
+                    }
+                    $supportedLock = new ezcWebdavSupportedLockProperty(
+                        new ArrayObject(
+                            ( $this->request->propName ? array() :
+                                array(
+                                    new ezcWebdavSupportedLockPropertyLockentry(
+                                        ezcWebdavLockRequest::TYPE_WRITE,
+                                        ezcWebdavLockRequest::SCOPE_EXCLUSIVE
+                                    ),
+                                    new ezcWebdavSupportedLockPropertyLockentry(
+                                        ezcWebdavLockRequest::TYPE_WRITE,
+                                        ezcWebdavLockRequest::SCOPE_SHARED
+                                    ),
+                                )
+                            )
+                        )
+                    );
+                    $status200Storage->attach(
+                        $supportedLock
+                    );
+                    if ( $status404Storage !== null )
+                    {
+                        $status404Storage->detach( 'supportedlock' );
+                    }
+                }
             }
 
             if ( count( $status404Storage ) === 0 )
