@@ -134,12 +134,14 @@ class ezcWebdavXmlTool
             foreach ( libxml_get_errors() as $error )
             {
                 // Code 100 = relative URI. DAV: is relative.
-                if ( $error->code !== 100 )
+                // Older libxml versions don't recognize DAV: as a valid relative URI
+                if ( $error->code === 100 || ( LIBXML_VERSION < 20632 && $error->code === 99 ) )
                 {
-                    throw new ezcWebdavInvalidXmlException(
-                        "Libxml error: {$error->code} '{$error->message}.'"
-                    );
+                    continue;
                 }
+                throw new ezcWebdavInvalidXmlException(
+                    "Libxml error: {$error->code} '{$error->message}.'"
+                );
             }
         }
         
