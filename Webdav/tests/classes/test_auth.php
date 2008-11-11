@@ -32,9 +32,13 @@ class ezcWebdavTestAuth extends ezcWebdavDigestAuthenticatorBase implements ezcW
         'foo'    => 'bar',
         'some'   => 'thing',
         '23'     => '42',
-        ''       => '',
         'Mufasa' => 'Circle Of Life',
     );
+
+    public function authenticateAnonymous( ezcWebdavAnonymousAuth $data )
+    {
+        return true;
+    }
 
     public function authenticateBasic( ezcWebdavBasicAuth $data )
     {

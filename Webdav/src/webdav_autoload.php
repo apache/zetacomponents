@@ -62,6 +62,7 @@ return array(
     'ezcWebdavSupportedLockPropertyLockentry'           => 'Webdav/plugins/lock/properties/supportedlock_lockentry.php',
     'ezcWebdavTransport'                                => 'Webdav/transport.php',
     'ezcWebdavAnonymousAuth'                            => 'Webdav/structs/anonymous_auth.php',
+    'ezcWebdavAnonymousAuthenticator'                   => 'Webdav/interfaces/anonymous_authenticator.php',
     'ezcWebdavAutomaticPathFactory'                     => 'Webdav/path_factories/automatic.php',
     'ezcWebdavBasicAuth'                                => 'Webdav/structs/basic_auth.php',
     'ezcWebdavBasicPathFactory'                         => 'Webdav/path_factories/basic.php',

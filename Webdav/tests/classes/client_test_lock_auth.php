@@ -8,8 +8,12 @@ class ezcWebdavClientTestRfcLockAuth
 
     public $credentials = array(
         'ejw' => '',
-        ''    => '',
     );
+
+    public function authenticateAnonymous( ezcWebdavAnonymousAuth $auth )
+    {
+        return true;
+    }
 
     public function authenticateBasic( ezcWebdavBasicAuth $auth )
     {

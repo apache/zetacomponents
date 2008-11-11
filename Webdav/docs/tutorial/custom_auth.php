@@ -5,8 +5,12 @@ class myCustomAuth extends ezcWebdavDigestAuthenticatorBase
 {
     protected $credentials = array(
         'some' => 'thing',
-        ''     => '',
     );
+
+    public function authenticateAnonymous( ezcWebdavAnonymousAuth $data )
+    {
+        return true;
+    }
 
     public function authenticateBasic( ezcWebdavBasicAuth $data )
     {
@@ -23,7 +27,6 @@ class myCustomAuth extends ezcWebdavDigestAuthenticatorBase
     public function authenticateDigest( ezcWebdavDigestAuth $data )
     {
         $username = $data->username;
-        $password = $data->password;
 
         if ( !isset( $this->credentials[$username] ) )
         {

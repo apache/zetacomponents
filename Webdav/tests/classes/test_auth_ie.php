@@ -18,7 +18,6 @@ class ezcWebdavTestAuthIe extends ezcWebdavTestAuth
             'foo'    => 'bar',
             'some'   => 'thing',
             '23'     => '42',
-            ''       => '',
             'Mufasa' => 'Circle Of Life',
         );
     }

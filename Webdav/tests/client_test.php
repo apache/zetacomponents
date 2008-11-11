@@ -143,10 +143,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         // Optionally overwrite $_SERVER
         $_SERVER = $request['server'];
 
-        // ini_set( 'xdebug.collect_return', 1 );
-        // xdebug_start_trace( './traces/' . basename( $testSetName ) );
+        ini_set( 'xdebug.collect_return', 1 );
+        xdebug_start_trace( './traces/' . basename( $testSetName ) );
         $this->server->handle( $this->backend );
-        // xdebug_stop_trace();
+        xdebug_stop_trace();
 
         $response['headers'] = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
         $response['body']    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];

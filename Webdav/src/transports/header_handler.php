@@ -282,9 +282,10 @@ class ezcWebdavHeaderHandler
         $res = new ezcWebdavAnonymousAuth();
 
         // Minimum 6 values, otherwise incorrect
-        if ( preg_match_all( '((\w+)=(?:"([^"]+)"|([A-Za-z0-9]+)))', $value, $matches, PREG_SET_ORDER ) > 5 )
+        if ( preg_match_all( '((\w+)=(?:"([^"]*)"|([A-Za-z0-9]+)))', $value, $matches, PREG_SET_ORDER ) > 5 )
         {
-            $res = new ezcWebdavDigestAuth( $_SERVER['REQUEST_METHOD'] );
+            $oldRes = $res;
+            $res    = new ezcWebdavDigestAuth( $_SERVER['REQUEST_METHOD'] );
             foreach ( $matches as $matchSet )
             {
                 switch ( $matchSet[1] )
@@ -311,6 +312,11 @@ class ezcWebdavHeaderHandler
                     // default:
                     // ignore
                 }
+            }
+            // Check for anonymous auth
+            if ( $res->username === '' )
+            {
+                $res = $oldRes;
             }
         }
         return $res;

@@ -31,6 +31,16 @@ class ezcWebdavAuthenticatorTest extends ezcWebdavTestCase
 		return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    public function testAnonymousAuth()
+    {
+        $auth = new ezcWebdavTestAuth();
+        
+        $this->assertEquals(
+            true,
+            $auth->authenticateAnonymous( new ezcWebdavAnonymousAuth() )
+        );
+    }
+    
     /**
      * testBasicAuth 
      * 
@@ -75,7 +85,6 @@ class ezcWebdavAuthenticatorTest extends ezcWebdavTestCase
             array( new ezcWebdavBasicAuth( 'foo', 'bar' ), true ),
             array( new ezcWebdavBasicAuth( 'some', 'thing' ), true ),
             array( new ezcWebdavBasicAuth( '23', '42' ), true ),
-            array( new ezcWebdavBasicAuth( '', '' ), true ),
             array( new ezcWebdavBasicAuth( 'in', 'valid' ), false ),
         );
     }

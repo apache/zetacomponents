@@ -301,29 +301,48 @@ class ezcWebdavServer
      */
     private function authenticate( ezcWebdavRequest $req )
     {
-        $creds = $req->getHeader( 'Authorization' );
-        if ( $creds === null )
+        if ( $this->properties['auth'] === null )
         {
-            // Empty basic auth === anonymous
-            $creds = new ezcWebdavBasicAuth( '', '' );
+            // No authentication
+            return null;
         }
+
+        $creds = $req->getHeader( 'Authorization' );
 
         $res = null;
         // Authenticate user
-        if ( $creds instanceof ezcWebdavBasicAuth && !$this->properties['auth']->authenticateBasic( $creds ) )
+        
+        switch ( get_class( $creds ) )
         {
-            $res = $this->createUnauthenticatedResponse( $req->requestUri, 'Authentication failed.' );
-        }
-        if ( $creds instanceof ezcWebdavDigestAuth
-             && ( !( $this->properties['auth'] instanceof ezcWebdavDigestAuthenticator )
-                  || !$this->properties['auth']->authenticateDigest( $creds )
-                )
-           )
-        {
-            $res = $this->createUnauthenticatedResponse( $req->requestUri, 'Authentication failed.' );
+            case 'ezcWebdavAnonymousAuth':
+                if ( $this->properties['auth'] instanceof ezcWebdavAnonymousAuthenticator )
+                {
+                    $res = $this->properties['auth']->authenticateAnonymous( $creds );
+                }
+                break;
+            case 'ezcWebdavBasicAuth':
+                if ( $this->properties['auth'] instanceof ezcWebdavBasicAuthenticator )
+                {
+                    $res = $this->properties['auth']->authenticateBasic( $creds );
+                }
+                break;
+            case 'ezcWebdavDigestAuth':
+                if ( $this->properties['auth'] instanceof ezcWebdavDigestAuthenticator )
+                {
+                    $res = $this->properties['auth']->authenticateDigest( $creds );
+                }
+                break;
         }
 
-        return $res;
+        // $res is now null or bool, if not evaluates to true, authentication failed
+        if ( !$res )
+        {
+            return $this->createUnauthenticatedResponse(
+                $req->requestUri, 'Authentication failed.'
+            );
+        }
+
+        return null;
     }
 
     /**

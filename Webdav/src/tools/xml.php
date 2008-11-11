@@ -128,18 +128,8 @@ class ezcWebdavXmlTool
         $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
         if ( $content !== null && trim( $content ) !== '' )
         {
-            $res = $dom->loadXML( $content, LIBXML_NSCLEAN | LIBXML_NOBLANKS );
+            $dom->loadXML( $content, LIBXML_NSCLEAN | LIBXML_NOBLANKS );
 
-            if ( $res === false )
-            {
-                throw new ezcWebdavInvalidRequestBodyException(
-                    'Could not load XML document.'
-                );
-            }
-
-            /*
-             * These checks produce errors in some PHP versions.
-             * @TODO: Need to figure out how to successfully check for errors here.
             // Check libxml errors
             foreach ( libxml_get_errors() as $error )
             {
@@ -153,7 +143,6 @@ class ezcWebdavXmlTool
                     "Libxml error: {$error->code} '{$error->message}.'"
                 );
             }
-            */
         }
         
         // Reset old libxml error state

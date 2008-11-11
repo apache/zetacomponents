@@ -121,20 +121,27 @@ Since version 1.1, the Webdav component allows you to integrate your own
 authentication and authorization mechanisms into the server. To achieve this,
 you need to create a class which implements one of the following interfaces:
 
+- ezcWebdavAnonymousAuthenticator
 - ezcWebdavBasicAuthenticator
 - ezcWebdavDigestAuthenticator
 
-The first one only provides `HTTP Basic authentication`__ to clients, which
-might not be supported by some, the second interface makes the server provide
-Basic and `Digest authentication`__. To ease the implementation of Digest
-authentication, you can extend the abstract base class
-ezcWebdavDigestAuthenticatorBase
-
-If you also want to have fine graned authorization support, the class must in
-addition implement ezcWebdavAuthorizer.
+Each of the extends the one listed before it. The anonymous authenticator
+provides a method to authenticate the anonymous user (who not provided a
+username or password at all). The second authorizer provides `HTTP Basic
+authentication`__ to clients. This might not be supported by some clients and
+is generally considered less secure as Digest. The third interface makes the
+server provide Basic and `Digest authentication`__. To ease the implementation
+of Digest authentication, you can extend the abstract base class
+ezcWebdavDigestAuthenticatorBase.
 
 .. __: http://en.wikipedia.org/wiki/Basic_access_authentication
 .. __: http://en.wikipedia.org/wiki/Digest_access_authentication
+
+While these interfaces only authenticate a user for general use of WebDAV, they
+do not provide authorization support. That means, every authenticated user has
+full write access to all resources. If you also want to have fine graned
+authorization support, the class must in addition implement
+ezcWebdavAuthorizer.
 
 The following source shows an example implementation for Digest authentication
 with authorization support:
@@ -142,10 +149,14 @@ with authorization support:
 .. include:: tutorial/custom_auth.php
    :literal:
 
-The method authenticateBasic() is called by the server, when Basic
-authentication is provided by the client or if no authentication is provided at
-all. In the latter case, the $username and $password fields both contain empty
-strings.
+The method authenticateAnonymous() is called, if the user did not provide any
+credentials or the server was not able to parse the provided authentication
+header. You need to decide here, if you want to grant anonymous access to your
+WebDAV server, which is generally considered a bad idea (except if you restrict
+authorization properly).
+
+authenticateBasic() is called by the server, when Basic authentication is
+provided by the client.
 
 If the client provides Digest authentication, the method authenticateDigest()
 is called instead. The given ezcWebdavDigestAuth contains all necessary
@@ -163,7 +174,11 @@ access and the type of access, which might be of of::
 - ezcWebdavAuthorizer::ACCESS_WRITE
 
 For recursive operations the backend will call the authorize() method for each
-sub-sequent path, too, so you don't need to worry about this yourself.
+sub-sequent path, too, so you don't need to worry about this yourself. In
+addition it might happen that the backend (or a plugin) calls the method for a
+certain path multiple times during a request. It is therefore recommended that
+you cache the data internally in your authorization object to avoid multiple
+accesses to your permission storage.
 
 To activate authentication / authorization in the server you need to
 instantiate your class and assign the created object to the servers $auth
