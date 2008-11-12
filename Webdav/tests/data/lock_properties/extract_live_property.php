@@ -40,6 +40,77 @@ $filledLockDiscoveryProperty = new ezcWebdavLockDiscoveryProperty(
     )
 );
 
+$filledLockDiscoveryXmlLastAccess = <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<D:lockdiscovery xmlns:D='DAV:' xmlns:ezc="http://ezcomponents.org/s/Webdav#lock">
+     <D:activelock>
+          <D:locktype><D:write/></D:locktype>
+          <D:lockscope><D:exclusive/></D:lockscope>
+          <D:depth>0</D:depth>
+          <D:owner>Jane Smith</D:owner>
+          <D:timeout>Second-600</D:timeout>
+          <D:locktoken>
+               <D:href>
+opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76
+               </D:href>
+          </D:locktoken>
+          <ezc:lastaccess>2008-11-12T22:12:15+01:00</ezc:lastaccess>
+     </D:activelock>
+</D:lockdiscovery>
+EOT;
+
+$filledLockDiscoveryPropertyLastAccess = new ezcWebdavLockDiscoveryProperty(
+    new ArrayObject(
+        array(
+            new ezcWebdavLockDiscoveryPropertyActiveLock(
+                ezcWebdavLockRequest::TYPE_WRITE,
+                ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
+                ezcWebdavRequest::DEPTH_ZERO,
+                new ezcWebdavPotentialUriContent( 'Jane Smith' ),
+                600,
+                new ezcWebdavPotentialUriContent( 'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76', true ),
+                null,
+                new ezcWebdavDateTime( '2008-11-12T22:12:15+01:00' )
+            ),
+        )
+    )
+);
+
+$filledLockDiscoveryXmlBaseUri = <<<EOT
+<?xml version="1.0" encoding="utf-8" ?>
+<D:lockdiscovery xmlns:D='DAV:' xmlns:ezc="http://ezcomponents.org/s/Webdav#lock">
+     <D:activelock>
+          <D:locktype><D:write/></D:locktype>
+          <D:lockscope><D:exclusive/></D:lockscope>
+          <D:depth>0</D:depth>
+          <D:owner>Jane Smith</D:owner>
+          <D:timeout>Second-600</D:timeout>
+          <D:locktoken>
+               <D:href>
+opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76
+               </D:href>
+          </D:locktoken>
+          <ezc:baseuri>/some/path</ezc:baseuri>
+     </D:activelock>
+</D:lockdiscovery>
+EOT;
+
+$filledLockDiscoveryPropertyBaseUri = new ezcWebdavLockDiscoveryProperty(
+    new ArrayObject(
+        array(
+            new ezcWebdavLockDiscoveryPropertyActiveLock(
+                ezcWebdavLockRequest::TYPE_WRITE,
+                ezcWebdavLockRequest::SCOPE_EXCLUSIVE,
+                ezcWebdavRequest::DEPTH_ZERO,
+                new ezcWebdavPotentialUriContent( 'Jane Smith' ),
+                600,
+                new ezcWebdavPotentialUriContent( 'opaquelocktoken:f81de2ad-7f3d-a1b2-4f3c-00a0c91a9d76', true ),
+                '/some/path'
+            ),
+        )
+    )
+);
+
 $emptySupportedLockXml = <<<EOT
 <?xml version="1.0" encoding="utf-8" ?>
 <D:supportedlock xmlns:D="DAV:" />
@@ -76,56 +147,31 @@ $filledSupportedLockProperty = new ezcWebdavSupportedLockProperty(
     ) 
 );
 
-$emptyLockInfoProperty = new ezcWebdavLockInfoProperty();
-
-$emptyLockInfoXml = <<<EOT
-<?xml version="1.0" encoding="utf-8" ?>
-<ezc:lockinfo xmlns:D="DAV:" xmlns:ezc="http://ezcomponents.org/s/Webdav#lock" />
-EOT;
-
-$filledLockInfoProperty = new ezcWebdavLockInfoProperty();
-
-$filledLockInfoXml = <<<EOT
-<?xml version="1.0" encoding="utf-8" ?>
-<ezclock:lockinfo xmlns:D="DAV:" xmlns:ezc="http://ezcomponents.org/s/Webdav#lock" />
-    <ezclock:null />
-    <ezclock:tokeninfo>
-        <ezclock:token>opaquelocktoken:abc</ezclock:token>
-        <ezclock:lockbase>/path/to/lock/base</ezclock:lockbase>
-    </ezclock:tokeninfo>
-    <ezclock:tokeninfo>
-        <ezclock:token>opaquelocktoken:def</ezclock:token>
-        <ezclock:lastaccess>2008-10-12T15:19:21+00:00</ezclock:lastaccess>
-    </ezclocktokeninfo>
-</ezclock:lockinfo>
-EOT;
-
 return array(
     array(
         $emptyLockDiscoveryXml,
         $emptyLockDiscoveryProperty,
-        true, // Live property
     ),
     array(
         $filledLockDiscoveryXml,
         $filledLockDiscoveryProperty,
-        true, // Live property
+    ),
+    array(
+        $filledLockDiscoveryXmlLastAccess,
+        $filledLockDiscoveryPropertyLastAccess,
+    ),
+    array(
+        $filledLockDiscoveryXmlBaseUri,
+        $filledLockDiscoveryPropertyBaseUri,
     ),
     array(
         $emptySupportedLockXml,
         $emptySupportedLockProperty,
-        true, // Live property
     ),
     array(
         $filledSupportedLockXml,
         $filledSupportedLockProperty,
-        true, // Live property
-    ),
-    array(
-        $emptyLockInfoXml,
-        $emptyLockInfoProperty,
-        false, // Dead property
-    ),
+    )
 );
 
 ?>

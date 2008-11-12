@@ -46,20 +46,13 @@ class ezcWebdavLockPropertyHandlerTest extends ezcWebdavTestCase
      *
      * @dataProvider provideLivePropertyData
      */
-    public function testExtractProperty( $xml, $desiredResult, $live = true )
+    public function testExtractProperty( $xml, $desiredResult )
     {
         $xmlTool = new ezcWebdavXmlTool();
 
         $dom = $xmlTool->createDomDocument( $xml );
 
-        if ( $live )
-        {
-            $result = $this->propertyHandler->extractLiveProperty( $dom->documentElement, $xmlTool );
-        }
-        else
-        {
-            $result = $this->propertyHandler->extractDeadProperty( $dom->documentElement, $xmlTool );
-        }
+        $result = $this->propertyHandler->extractLiveProperty( $dom->documentElement, $xmlTool );
         
         $this->assertEquals(
             $desiredResult,
@@ -76,7 +69,7 @@ class ezcWebdavLockPropertyHandlerTest extends ezcWebdavTestCase
      *
      * @dataProvider provideLivePropertyData
      */
-    public function testSerializeProperty( $xml, $property, $live = true )
+    public function testSerializeProperty( $xml, $property )
     {
         $xmlTool = new ezcWebdavXmlTool();
 
@@ -87,14 +80,7 @@ class ezcWebdavLockPropertyHandlerTest extends ezcWebdavTestCase
             $xmlTool->createDomElement( $dummyDom, 'prop' )
         );
         
-        if ( $live )
-        {
-            $resultElement = $this->propertyHandler->serializeLiveProperty( $property, $dummyDomElement, $xmlTool );
-        }
-        else
-        {
-            $resultElement = $this->propertyHandler->serializeDeadProperty( $property, $dummyDomElement, $xmlTool );
-        }
+        $resultElement = $this->propertyHandler->serializeLiveProperty( $property, $dummyDomElement, $xmlTool );
         
         // @TODO: This does not validate the XML needs to be refactored!
         $this->assertDomTreeEquals(

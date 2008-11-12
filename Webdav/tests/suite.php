@@ -88,7 +88,7 @@ require_once 'lock_if_header_list_item_test.php';
 require_once 'lock_if_header_tagged_list_test.php';
 require_once 'lock_if_header_no_tag_list_test.php';
 require_once 'lock_header_handler_test.php';
-// require_once 'lock_property_handler_test.php';
+require_once 'lock_property_handler_test.php';
 
 /**
  * Test suite for the Webdav component.
@@ -166,7 +166,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavLockIfHeaderTaggedListTest::suite() );
         $this->addTest( ezcWebdavLockIfHeaderNoTagListTest::suite() );
         $this->addTest( ezcWebdavLockHeaderHandlerTest::suite() );
-        // $this->addTest( ezcWebdavLockPropertyHandlerTest::suite() );
+        $this->addTest( ezcWebdavLockPropertyHandlerTest::suite() );
 
         $this->addTest( ezcWebdavClientRfcTest::suite() );
         $this->addTest( ezcWebdavClientRfcLockTest::suite() );
