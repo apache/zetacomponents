@@ -72,6 +72,16 @@ class ezcWebdavLockPropPatchRequestResponseHandler extends ezcWebdavLockRequestR
                 )
             );
         }
+        if ( $request->updates->contains( 'lockinfo' ) )
+        {
+            return new ezcWebdavMultistatusResponse(
+                new ezcWebdavErrorResponse(
+                    ezcWebdavResponse::STATUS_409,
+                    $request->requestUri,
+                    "Property 'lockinfo' is readonly."
+                )
+            );
+        }
     }
 
     /**
