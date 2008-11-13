@@ -25,26 +25,6 @@ TODO
 1.2
 ---
 
-- Shared locks:
-
-  - Find TODOs where shared locks are mentioned
-  - During lock:
-
-    - Check for existing locks and violation between shared/exclusive
-	- Don't overwrite existing active locks
-  
-  - During unlock:
-    
-	- Don't overwrite existing active locks
-
-  - On copy/move
-
-    - Must only the moving lock be set or all?
-
-  - On change
-    
-	- Only 1 active lock must apply in a shared lock
-
 - In certain cases (e.g. eZ Publish integration) the lock plugin must offer a
   public API to its locks. This API must carefully be designed and implemented.
 
@@ -55,6 +35,11 @@ TODO
   currently don't support this at all, it seems, and some (Windows) clients
   seem to provide invalid dates. At least, an attendee described that he got
   1970-01-01 after uploading a file to mod_webdav.
+
+- The file backend could need some refactorings for performance:
+
+  - Do not load complete property storage from disc, if only self-handled live
+	properties (e.g. mtime) are requested.
 
 later
 -----

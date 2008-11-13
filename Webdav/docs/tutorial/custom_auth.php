@@ -9,7 +9,7 @@ class myCustomAuth extends ezcWebdavDigestAuthenticatorBase
 
     public function authenticateAnonymous( ezcWebdavAnonymousAuth $data )
     {
-        return true;
+        return false;
     }
 
     public function authenticateBasic( ezcWebdavBasicAuth $data )
