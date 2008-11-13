@@ -107,7 +107,7 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
     public function parseUriToPath( $uri )
     {
         $requestPath = parse_url( $uri, PHP_URL_PATH );
-        $serverBase = dirname(  $this->serverFile );
+        $serverBase = dirname( $this->serverFile );
 
         // Check for request path including index.php
         if ( strpos( $requestPath, $this->serverFile ) === 0 )
