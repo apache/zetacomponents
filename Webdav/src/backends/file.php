@@ -543,7 +543,8 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend
         // error in this case.
         if ( ( $property->namespace === 'DAV:' ) &&
              in_array( $property->name, $this->handledLiveProperties, true ) &&
-             ( $property->name !== 'getcontenttype' ) )
+             ( $property->name !== 'getcontenttype' ) &&
+             ( $property->name !== 'lockdiscovery' ) )
         {
             return false;
         }
