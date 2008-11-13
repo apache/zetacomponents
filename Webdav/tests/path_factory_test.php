@@ -220,5 +220,19 @@ class ezcWebdavBasicPathFactoryTest extends ezcWebdavTestCase
         }
         catch ( ezcWebdavBrokenBaseUriException $e ) {}
     }
+
+    public function testDispatchingWithBaseUriSlash()
+    {
+        $pathFactory = new ezcWebdavBasicPathFactory(
+            'http://example.com/some/dir/'
+        );
+
+        $this->assertEquals(
+            '/foo/bar',
+            $pathFactory->parseUriToPath(
+                'http://example.com/some/dir/foo/bar'
+            )
+        );
+    }
 }
 ?>

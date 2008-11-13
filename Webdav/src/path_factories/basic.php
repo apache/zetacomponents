@@ -62,6 +62,13 @@ class ezcWebdavBasicPathFactory implements ezcWebdavPathFactory
      */
     public function __construct( $baseUri = '' )
     {
+        // Fix potentially incorrect $baseUri, since we need the first '/' or
+        // the path.
+        if ( substr( $baseUri, -1, 1 ) === '/' )
+        {
+            $baseUri = substr( $baseUri, 0, -1 );
+        }
+
         if ( ( $this->baseUriParts = @parse_url( $baseUri ) ) === false )
         {
             throw new ezcWebdavBrokenBaseUriException( $baseUri );
