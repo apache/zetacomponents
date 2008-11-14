@@ -53,7 +53,7 @@ Solr
 ----
 
 Currently the only implemented handler is a handler that talks to Apache's
-Solr_. This handler can be accessed over TCP/IP as a web service. Solr is a
+Solr_. The handler accesses Solr over TCP/IP as a web service. Solr is a
 very capable search provider, with many features__.
 
 __ http://lucene.apache.org/solr/features.html
