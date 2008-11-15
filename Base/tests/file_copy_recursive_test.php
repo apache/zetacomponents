@@ -25,6 +25,8 @@ class ezcBaseFileCopyRecursiveTest extends ezcTestCase
         mkdir( $this->tempDir . '/dir4' );
         mkdir( $this->tempDir . '/dir5' );
         mkdir( $this->tempDir . '/dir6' );
+        mkdir( $this->tempDir . '/dir7' );
+        mkdir( $this->tempDir . '/dir7/0' );
         file_put_contents( $this->tempDir . '/dir1/file1.txt', 'test' );
         file_put_contents( $this->tempDir . '/dir1/file2.txt', 'test' );
         file_put_contents( $this->tempDir . '/dir1/.file3.txt', 'test' );
@@ -229,6 +231,21 @@ class ezcBaseFileCopyRecursiveTest extends ezcTestCase
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( __CLASS__ );
+    }
+
+    public function testRecursiveCopyDirCalled0()
+    {
+        ezcBaseFile::copyRecursive( 
+            $this->tempDir . '/dir7',
+            $this->tempDir . '/dest'
+        );
+
+        $this->assertEquals( 
+            count( ezcBaseFile::findRecursive( $this->tempDir . '/dir7' ) ),
+            count( ezcBaseFile::findRecursive( $this->tempDir . '/dest' ) ) 
+        );
+
+        $this->assertTrue( is_dir( $this->tempDir . '/dest/0' ) );
     }
 }
 ?>

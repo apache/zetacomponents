@@ -270,7 +270,7 @@ class ezcBaseFile
 
         // Recurse
         $dh = opendir( $source );
-        while( $file = readdir( $dh ) )
+        while ( ( $file = readdir( $dh ) ) !== false )
         {
             if ( ( $file === '.' ) ||
                 ( $file === '..' ) )
