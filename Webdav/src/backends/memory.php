@@ -798,6 +798,19 @@ class ezcWebdavMemoryBackend
 
         return $contents;
     }
+
+    /**
+     * Clones the memory backend deeply. 
+     * 
+     * @return void
+     */
+    public function __clone()
+    {
+        foreach ( $this->props as $path => $propStorage )
+        {
+            $this->props[$path] = clone $propStorage;
+        }
+    }
 }
 
 ?>

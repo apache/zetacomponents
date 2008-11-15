@@ -176,6 +176,22 @@ abstract class ezcWebdavProperty extends ezcWebdavInfrastructureBase
             }
         }
     }
+
+    /**
+     * Clones a property deeply.
+     * 
+     * @return void
+     */
+    public function __clone()
+    {
+        foreach ( $this->properties as $name => $val )
+        {
+            if ( is_object( $val ) )
+            {
+                $this->properties[$name] = clone $val;
+            }
+        }
+    }
 }
 
 ?>

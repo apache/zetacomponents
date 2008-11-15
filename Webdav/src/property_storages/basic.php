@@ -370,6 +370,22 @@ class ezcWebdavBasicPropertyStorage implements ezcWebdavPropertyStorage
 
         return true;
     }
+
+    /**
+     * Clones the property storage deeply.
+     * 
+     * @return void
+     */
+    public function __clone()
+    {
+        foreach ( $this->properties as $namespace => $props )
+        {
+            foreach ( $props as $name => $prop )
+            {
+                $this->properties[$namespace][$name] = clone $prop;
+            }
+        }
+    }
 }
 
 ?>
