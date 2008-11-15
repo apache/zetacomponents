@@ -1,5 +1,25 @@
 <?php
-
+/**
+ * File containing the ezcWebdavLockPurger class.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ *
+ * @access private
+ */
+/**
+ * Instances of this class are used to purge outdated locks.
+ *
+ * An instance of this class is used in {@link ezcWebdavLockAdministrator} to
+ * purge locks.
+ * 
+ * @package Webdav
+ * @version //autogen//
+ *
+ * @access private
+ */
 class ezcWebdavLockPurger
 {
     /**
