@@ -26,6 +26,13 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
     private $main;
 
     /**
+     * Properties. 
+     * 
+     * @var array(string=>mixed)
+     */
+    protected $properties = array();
+
+    /**
      * Creates a new lock plugin configuration.
      * 
      * @param ezcWebdavLockPluginOptions $options
@@ -37,7 +44,8 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
         {
             $options = new ezcWebdavLockPluginOptions();
         }
-        $this->main = new ezcWebdavLockPlugin( $options );
+        $this->properties['options'] = $options;
+        $this->main                  = new ezcWebdavLockPlugin( $options );
     }
 
     /**
@@ -142,6 +150,84 @@ class ezcWebdavLockPluginConfiguration extends ezcWebdavPluginConfiguration
             );
         }
         // @TODO: Check if more sanity checks must be tested?
+    }
+
+    /**
+     * Sets a property.
+     *
+     * This method is called when an property is to be set.
+     * 
+     * @param string $propertyName The name of the property to set.
+     * @param mixed $propertyValue The property value.
+     * @return void
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBaseValueException
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
+     */
+    public function __set( $propertyName, $propertyValue )
+    {
+        switch ( $propertyName )
+        {
+            case 'options':
+                if ( !( $propertyValue instanceof ezcWebdavLockPluginOptions ) )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'ezcWebdavLockPluginOptions'
+                    );
+                }
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+
+        $this->properties[$propertyName] = $propertyValue;
+    }
+
+    /**
+     * Property get access.
+     *
+     * Simply returns a given property.
+     * 
+     * @param string $propertyName The name of the property to get.
+     * @return mixed The property value.
+     *
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a write-only property.
+     */
+    public function __get( $propertyName )
+    {
+        if ( $this->__isset( $propertyName ) )
+        {
+            return $this->properties[$propertyName];
+        }
+        throw new ezcBasePropertyNotFoundException( $propertyName );
+    }
+
+    /**
+     * Returns if a property exists.
+     *
+     * Returns true if the property exists in the {@link $properties} array
+     * (even if it is null) and false otherwise. 
+     *
+     * @param string $propertyName Option name to check for.
+     * @return void
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        return array_key_exists( $propertyName, $this->properties );
     }
 }
 
