@@ -6,8 +6,6 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- *
- * @access private
  */
 /**
  * Storage class submitted to callbacks assigned to plugin hooks.
@@ -18,8 +16,6 @@
  * 
  * @package Webdav
  * @version //autogen//
- *
- * @access private
  */
 class ezcWebdavPluginParameters extends ArrayObject
 {
