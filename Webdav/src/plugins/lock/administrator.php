@@ -175,9 +175,3 @@ class ezcWebdavLockAdministrator
 }
 
 ?>
-/**
- *  
- */
-/**
- *  
- */
