@@ -293,6 +293,33 @@ browser. You should now see any exceptions, errors and warnings that might be
 generated. If you see a white page, everything seems correct. Now try with a
 WebDAV client.
 
+Purging locks
+-------------
+
+Whenever a clients successfully acquires a lock, a timeout value is assigned to
+it. If the client does not access the lock for that number of seconds, it might
+by considered orphan and can safely be removed. To achieve this removal of
+locks, the Webdav component provides an API for you, that you might use in a
+CRON__ job or a similar mechanism, to purge all outdated locks.
+
+.. include:: tutorial/lock_administrator.php
+   :literal:
+
+The setup for the lock administration should be identical to your web setup.
+Except, you might leave out the authentication instance, since it will be
+deactivated by the administrator object anyway. However, it does not hurt to
+have it in place.
+
+The ezcWebdavLockAdministrator object is instantiated given the backend it
+should work on. The call to ezcWebdavLockAdministrator->purgeLocks() optionally
+accepts a string parameter to indicate which paths should be searched for
+orphan locks. Omitting this parameter, as shown in the example, searches the
+complete backend.
+
+Note, that the process of purging locks will lock your backend completly, as
+the lock plugin does it during any request that needs to perform multiple
+requests.
+
 Writing a custom back-end
 =========================
 
