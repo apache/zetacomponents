@@ -29,6 +29,11 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
     const COMPRESS_THRESHOLD = 1000000;
 
     /**
+     * Maximum length of a cache key for Memcached. 
+     */
+    const MAX_KEY_LENGTH = 249;
+
+    /**
      * Holds an instance to a Memcache object.
      *
      * @var resource
@@ -94,7 +99,7 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
 
         $this->options = new ezcCacheStorageMemcacheOptions( $options );
 
-        $this->connectionIdentifier = $options['host'] . ':' . $options['port'];
+        $this->connectionIdentifier = $this->options->host . ':' . $this->options->port;
         if ( !isset( self::$connections[$this->connectionIdentifier] ) )
         {
             self::$connections[$this->connectionIdentifier]     = new Memcache();
@@ -147,6 +152,11 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
      */
     public function store( $key, $var, $expire = 0 )
     {
+        if ( strlen( $key ) > self::MAX_KEY_LENGTH )
+        {
+            throw new ezcCacheInvalidKeyException( $key, 'Length > ' . self::MAX_KEY_LENGTH . '.' );
+        }
+
         // protect our data by wrapping it in an object
         $data = new ezcCacheMemoryVarStruct( $key, $var, $expire );
         $compressed = ( $this->options->compressed === true ) ? MEMCACHE_COMPRESSED : false;
@@ -161,6 +171,11 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
      */
     public function fetch( $key )
     {
+        if ( strlen( $key ) > self::MAX_KEY_LENGTH )
+        {
+            throw new ezcCacheInvalidKeyException( $key, 'Length > ' . self::MAX_KEY_LENGTH . '.' );
+        }
+
         $data = $this->memcache->get( $key );
         return ( is_object( $data ) ) ? $data->var : false;
     }
@@ -178,6 +193,11 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
      */
     public function delete( $key, $timeout = 0 )
     {
+        if ( strlen( $key ) > self::MAX_KEY_LENGTH )
+        {
+            throw new ezcCacheInvalidKeyException( $key, 'Length > ' . self::MAX_KEY_LENGTH . '.' );
+        }
+
         return $this->memcache->delete( $key, $timeout );
     }
 
@@ -205,6 +225,11 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
      */
     public function acquireLock( $key, $waitTime, $maxTime )
     {
+        if ( strlen( $key ) > self::MAX_KEY_LENGTH )
+        {
+            throw new ezcCacheInvalidKeyException( $key, 'Length > ' . self::MAX_KEY_LENGTH . '.' );
+        }
+
         // add() does not replace and returns true on success. $maxTime is
         // obeyed by Memcache expiry.
         while ( $this->memcache->add( $key, $key, false, $maxTime ) === false )
@@ -222,6 +247,11 @@ class ezcCacheMemcacheBackend extends ezcCacheMemoryBackend
      */
     public function releaseLock( $key )
     {
+        if ( strlen( $key ) > self::MAX_KEY_LENGTH )
+        {
+            throw new ezcCacheInvalidKeyException( $key, 'Length > ' . self::MAX_KEY_LENGTH . '.' );
+        }
+
         $this->memcache->delete( $key );
     }
 

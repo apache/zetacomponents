@@ -14,6 +14,7 @@ return array(
     'ezcCacheApcException'                   => 'Cache/exceptions/apc_exception.php',
     'ezcCacheInvalidDataException'           => 'Cache/exceptions/invalid_data.php',
     'ezcCacheInvalidIdException'             => 'Cache/exceptions/invalid_id.php',
+    'ezcCacheInvalidKeyException'            => 'Cache/exceptions/invalid_key.php',
     'ezcCacheInvalidMetaDataException'       => 'Cache/exceptions/invalid_meta_data.php',
     'ezcCacheInvalidStorageClassException'   => 'Cache/exceptions/invalid_storage_class.php',
     'ezcCacheMemcacheException'              => 'Cache/exceptions/memcache_exception.php',

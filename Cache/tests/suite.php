@@ -19,6 +19,7 @@ require_once 'storage_apc_array_test.php';
 require_once 'storage_evalarray_test.php';
 require_once 'storage_plain_test.php';
 require_once 'storage_apc_plain_test.php';
+require_once 'backend_memcache_test.php';
 require_once 'storage_memcache_plain_test.php';
 require_once 'stack_test.php';
 require_once 'complex_stack_test.php';
@@ -56,6 +57,7 @@ class ezcCacheSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcCacheStorageApcPlainTest::suite() );
         $this->addTest( ezcCacheStorageFileApcArrayTest::suite() );
 
+        $this->addTest( ezcCacheMemcacheBackendTest::suite() );
         $this->addTest( ezcCacheStorageMemcachePlainTest::suite() );
 
         $this->addTest( ezcCacheManagerTest::suite() );
