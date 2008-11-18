@@ -8,7 +8,7 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="892.3786"
+   width="908.54242"
    height="696.46277"
    id="svg2"
    sodipodi:version="0.32"
@@ -47,7 +47,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.928"
-     inkscape:cx="500"
+     inkscape:cx="364.76293"
      inkscape:cy="351.78451"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -248,105 +248,102 @@
            sodipodi:role="line"
            id="tspan3654">authorization</tspan></text>
     </g>
+    <path
+       style="fill:#55527a;fill-opacity:0.49803922;stroke:#2e3436;stroke-width:0.71958327;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 71.952,583.44377 L 71.952,495.01083 L 371.5603,495.01083 L 671.1686,495.01083 L 671.1686,583.44377 L 671.1686,671.87669 L 371.5603,671.87669 L 71.952,671.87669 L 71.952,583.44377 z"
+       id="path3356" />
     <g
-       id="g3720">
+       id="g3503"
+       transform="translate(34,150)">
       <path
-         id="path3356"
-         d="M 71.952,583.44377 L 71.952,495.01083 L 371.5603,495.01083 L 671.1686,495.01083 L 671.1686,583.44377 L 671.1686,671.87669 L 371.5603,671.87669 L 71.952,671.87669 L 71.952,583.44377 z"
-         style="fill:#55527a;fill-opacity:0.49803922;stroke:#2e3436;stroke-width:0.71958327;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      <g
-         transform="translate(34,150)"
-         id="g3503">
-        <path
-           id="path3372"
-           d="M 51.502146,454.06203 L 51.502146,404.20996 L 141.35421,404.20996 L 231.20627,404.20996 L 231.20627,454.06203 L 231.20627,503.91409 L 141.35421,503.91409 L 51.502146,503.91409 L 51.502146,454.06203 z"
-           style="opacity:1;fill:#55527a;fill-opacity:0.49803922;stroke:#2e3436;stroke-width:0.29587123;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-        <text
-           xml:space="preserve"
-           style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-           x="141.48897"
-           y="449.87256"
-           id="text3386"><tspan
-             sodipodi:role="line"
-             id="tspan3388"
-             x="141.48897"
-             y="449.87256"
-             style="font-size:20px">RFC conform</tspan><tspan
-             sodipodi:role="line"
-             x="141.48897"
-             y="474.87256"
-             id="tspan3390"
-             style="font-size:20px">transport</tspan></text>
-      </g>
-      <g
-         transform="translate(34,150)"
-         id="g3509">
-        <path
-           style="opacity:1;fill:#55527a;fill-opacity:0.49803922;stroke:#2e3436;stroke-width:0.29587123;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           d="M 247.14124,455.19604 L 247.14124,405.34397 L 336.99331,405.34397 L 426.84537,405.34397 L 426.84537,455.19604 L 426.84537,505.0481 L 336.99331,505.0481 L 247.14124,505.0481 L 247.14124,455.19604 z"
-           id="path3378" />
-        <text
-           id="text3392"
-           y="435.71362"
-           x="336.97379"
-           style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-           xml:space="preserve"><tspan
-             style="font-size:20px"
-             y="435.71362"
-             x="336.97379"
-             id="tspan3394"
-             sodipodi:role="line">Microsoft</tspan><tspan
-             style="font-size:20px"
-             y="460.71362"
-             x="336.97379"
-             sodipodi:role="line"
-             id="tspan3404">compatible</tspan><tspan
-             style="font-size:20px"
-             id="tspan3396"
-             y="485.71362"
-             x="336.97379"
-             sodipodi:role="line">transport</tspan></text>
-      </g>
-      <g
-         transform="translate(34,150)"
-         id="g3516">
-        <path
-           id="path3380"
-           d="M 442.78035,454.06203 L 442.78035,404.20996 L 532.63242,404.20996 L 622.48448,404.20996 L 622.48448,454.06203 L 622.48448,503.91409 L 532.63242,503.91409 L 442.78035,503.91409 L 442.78035,454.06203 z"
-           style="opacity:1;fill:#55527a;fill-opacity:0.49803922;stroke:#2e3436;stroke-width:0.29587123;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-        <text
-           xml:space="preserve"
-           style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-           x="532.61285"
-           y="434.57959"
-           id="text3398"><tspan
-             sodipodi:role="line"
-             x="532.61285"
-             y="434.57959"
-             id="tspan3402"
-             style="font-size:20px">Nautilus</tspan><tspan
-             sodipodi:role="line"
-             x="532.61285"
-             y="459.57959"
-             style="font-size:20px"
-             id="tspan3408">compatible</tspan><tspan
-             sodipodi:role="line"
-             x="532.61285"
-             y="484.57959"
-             style="font-size:20px"
-             id="tspan3410">transport</tspan></text>
-      </g>
+         style="opacity:1;fill:#55527a;fill-opacity:0.49803922;stroke:#2e3436;stroke-width:0.29587123;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 51.502146,454.06203 L 51.502146,404.20996 L 141.35421,404.20996 L 231.20627,404.20996 L 231.20627,454.06203 L 231.20627,503.91409 L 141.35421,503.91409 L 51.502146,503.91409 L 51.502146,454.06203 z"
+         id="path3372" />
       <text
-         id="text3681"
-         y="528.14136"
-         x="84.349327"
-         style="font-size:24px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         id="text3386"
+         y="449.87256"
+         x="141.48897"
+         style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
          xml:space="preserve"><tspan
-           y="528.14136"
-           x="84.349327"
-           id="tspan3683"
-           sodipodi:role="line">Transport layer</tspan></text>
+           style="font-size:20px"
+           y="449.87256"
+           x="141.48897"
+           id="tspan3388"
+           sodipodi:role="line">RFC conform</tspan><tspan
+           style="font-size:20px"
+           id="tspan3390"
+           y="474.87256"
+           x="141.48897"
+           sodipodi:role="line">transport</tspan></text>
     </g>
+    <g
+       id="g3509"
+       transform="translate(34,150)">
+      <path
+         id="path3378"
+         d="M 247.14124,455.19604 L 247.14124,405.34397 L 336.99331,405.34397 L 426.84537,405.34397 L 426.84537,455.19604 L 426.84537,505.0481 L 336.99331,505.0481 L 247.14124,505.0481 L 247.14124,455.19604 z"
+         style="opacity:1;fill:#55527a;fill-opacity:0.49803922;stroke:#2e3436;stroke-width:0.29587123;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         xml:space="preserve"
+         style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         x="336.97379"
+         y="435.71362"
+         id="text3392"><tspan
+           sodipodi:role="line"
+           id="tspan3394"
+           x="336.97379"
+           y="435.71362"
+           style="font-size:20px">Microsoft</tspan><tspan
+           id="tspan3404"
+           sodipodi:role="line"
+           x="336.97379"
+           y="460.71362"
+           style="font-size:20px">compatible</tspan><tspan
+           sodipodi:role="line"
+           x="336.97379"
+           y="485.71362"
+           id="tspan3396"
+           style="font-size:20px">transport</tspan></text>
+    </g>
+    <g
+       id="g3516"
+       transform="translate(34,150)">
+      <path
+         style="opacity:1;fill:#55527a;fill-opacity:0.49803922;stroke:#2e3436;stroke-width:0.29587123;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 442.78035,454.06203 L 442.78035,404.20996 L 532.63242,404.20996 L 622.48448,404.20996 L 622.48448,454.06203 L 622.48448,503.91409 L 532.63242,503.91409 L 442.78035,503.91409 L 442.78035,454.06203 z"
+         id="path3380" />
+      <text
+         id="text3398"
+         y="434.57959"
+         x="532.61285"
+         style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           style="font-size:20px"
+           id="tspan3402"
+           y="434.57959"
+           x="532.61285"
+           sodipodi:role="line">Nautilus</tspan><tspan
+           id="tspan3408"
+           style="font-size:20px"
+           y="459.57959"
+           x="532.61285"
+           sodipodi:role="line">compatible</tspan><tspan
+           id="tspan3410"
+           style="font-size:20px"
+           y="484.57959"
+           x="532.61285"
+           sodipodi:role="line">transport</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="84.349327"
+       y="528.14136"
+       id="text3681"><tspan
+         sodipodi:role="line"
+         id="tspan3683"
+         x="84.349327"
+         y="528.14136">Transport layer</tspan></text>
     <g
        id="g3784">
       <rect
@@ -614,72 +611,77 @@
          style="fill:#7f7e9c;fill-opacity:1;stroke:none;stroke-width:1.08500004;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          sodipodi:type="star" />
     </g>
+    <rect
+       style="fill:#d3d7cf;fill-opacity:0.97395833;stroke:#2e3436;stroke-width:0.96554983;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3679"
+       width="216.28325"
+       height="512.61945"
+       x="763.33667"
+       y="496.32935"
+       inkscape:export-filename="/home/dotxp/dev/PHP/ezcomponents/docs/articles/Webdav/locking/img/rect3679.png"
+       inkscape:export-xdpi="59.960133"
+       inkscape:export-ydpi="59.960133" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="821.09479"
+       y="527.3924"
+       id="text3859"><tspan
+         sodipodi:role="line"
+         id="tspan3861"
+         x="821.09479"
+         y="527.3924">Plugins</tspan></text>
     <g
-       id="g3935">
-      <g
-         id="g3930">
-        <rect
-           style="opacity:1;fill:#d3d7cf;fill-opacity:0.97395833;stroke:#2e3436;stroke-width:0.92888772;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           id="rect3679"
-           width="200.15611"
-           height="512.65613"
-           x="763.31836"
-           y="496.311" />
-        <text
-           xml:space="preserve"
-           style="font-size:24px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-           x="821.09479"
-           y="527.3924"
-           id="text3859"><tspan
-             sodipodi:role="line"
-             id="tspan3861"
-             x="821.09479"
-             y="527.3924">Plugins</tspan></text>
-      </g>
-      <g
-         id="g3905">
-        <rect
-           style="opacity:1;fill:#7f7e9c;fill-opacity:1;stroke:none;stroke-width:1.08500004;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           id="rect3899"
-           width="165.94827"
-           height="105.60345"
-           x="780.4223"
-           y="549.56482" />
-        <text
-           xml:space="preserve"
-           style="font-size:20px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-           x="863.27435"
-           y="607.88409"
-           id="text3901"><tspan
-             sodipodi:role="line"
-             id="tspan3903"
-             x="863.27435"
-             y="607.88409">Lock Plugin</tspan></text>
-      </g>
-      <g
-         id="g3924">
-        <rect
-           y="689.56482"
-           x="779.42621"
-           height="105.60345"
-           width="165.94827"
-           id="rect3912"
-           style="fill:#7f7e9c;fill-opacity:1;stroke:none;stroke-width:1.08500004;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-        <text
-           id="text3914"
-           y="735.07648"
-           x="863.27435"
-           style="font-size:20px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-           xml:space="preserve"><tspan
-             y="735.07648"
-             x="863.27435"
-             id="tspan3916"
-             sodipodi:role="line">Your custom</tspan><tspan
-             id="tspan3918"
-             y="760.07648"
-             x="863.27435"
-             sodipodi:role="line">Plugin</tspan></text>
-      </g>
+       id="g2550"
+       transform="translate(1.0559921,-1.1062495)"
+       inkscape:export-filename="/home/dotxp/dev/PHP/ezcomponents/docs/articles/Webdav/locking/img/rect3679.png"
+       inkscape:export-xdpi="59.960133"
+       inkscape:export-ydpi="59.960133">
+      <rect
+         y="555.16827"
+         x="780.4223"
+         height="100"
+         width="180"
+         id="rect3899"
+         style="fill:#7f7e9c;fill-opacity:1;stroke:none;stroke-width:1.08500004;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         id="text3901"
+         y="610.68585"
+         x="870.30023"
+         style="font-size:20px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           y="610.68585"
+           x="870.30023"
+           id="tspan3903"
+           sodipodi:role="line">Lock plugin</tspan></text>
+    </g>
+    <g
+       id="g2569"
+       transform="translate(1.0559921,0)"
+       inkscape:export-filename="/home/dotxp/dev/PHP/ezcomponents/docs/articles/Webdav/locking/img/rect3679.png"
+       inkscape:export-xdpi="59.960133"
+       inkscape:export-ydpi="59.960133">
+      <rect
+         style="fill:#7f7e9c;fill-opacity:1;stroke:none;stroke-width:1.08500004;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect2557"
+         width="180"
+         height="100"
+         x="780.4223"
+         y="675.16827" />
+      <text
+         xml:space="preserve"
+         style="font-size:20px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         x="870.72992"
+         y="717.87823"
+         id="text2559"><tspan
+           sodipodi:role="line"
+           id="tspan2561"
+           x="873.91351"
+           y="717.87823">Your </tspan><tspan
+           sodipodi:role="line"
+           x="870.72992"
+           y="742.87823"
+           id="tspan2563">custom plugin</tspan></text>
     </g>
   </g>
 </svg>
