@@ -48,7 +48,16 @@ abstract class ezcGraphRenderer
 
     /**
      * Set renderers driver
-     * 
+     *
+     * This method is used internally to set the direver used inside the chart
+     * class in the renderer. If you want to change the driver used for your
+     * chart, you should do this using the chart driver property, like:
+     *
+     * <code>
+     *  $chart = new ezcGraphPieChart();
+     *  $chart->driver = new ezcGraphSvgDriver();
+     * </code>
+     *
      * @param ezcGraphDriver $driver Output driver
      * @return void
      */
