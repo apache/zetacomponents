@@ -82,6 +82,9 @@ to set it when loading it. The getState() method should always return the
 complete state of the object while the setState() method should set
 only one member at the time.
 
+The state arrays used by getState() and setState() must be indexed by the
+property names, as defined in the persistence mapping below. They do not act on
+the database columns names.
 
 The persistence mapping
 -----------------------
@@ -147,11 +150,14 @@ the class members. It is possible to use the same name in the class and the
 database for a field.
 
 The members must be inserted into the properties member, which is an
-associative array, using the name of the member as the key name.
-If you look at the API for ezcPersistentObjectDefinition,
-it also has a property named "columns" that is the same array as the
-"properties", except that it is mapped to the column names instead of the property
-names. This reverse mapping is set up by ezcPersistentCodeManager.
+associative array, using the name of the member as the key name. Note that this
+must not necessarily be the same name as the database column the property
+corresponds to. It is required that you use the property name here!
+
+If you look at the API for ezcPersistentObjectDefinition, it also has a
+property named "columns" that is the same array as the "properties", except
+that it is mapped to the column names instead of the property names. This
+reverse mapping is set up by ezcPersistentCodeManager automatically.
 
 Finally, we return the complete definition. Your definition will not work unless
 you return it to the manager.

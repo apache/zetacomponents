@@ -23,9 +23,11 @@ interface ezcPersistentObject
 {
     /**
      * Returns the current state of an object.
+     *
      * This method returns an array representing the current state of the
      * object. The array must contain a key for every attribute of the
-     * object, assigned to the value of the attribute.
+     * object, assigned to the value of the attribute. The key must be the name
+     * of the object property, not the database column name.
      * 
      * @return array(string=>mixed) The state of the object.
      */
@@ -33,8 +35,11 @@ interface ezcPersistentObject
 
     /**
      * Sets the state of the object.
+     *
      * This method sets the state of the object accoring to a given array,
-     * which must conform to the standards defined at {@link getState()}.
+     * which must conform to the standards defined at {@link getState()}. The
+     * $state array is indexed by object property names (not database column
+     * names) which have the desired property value assigned.
      * 
      * @param array $state The new state for the object.
      * @return void
