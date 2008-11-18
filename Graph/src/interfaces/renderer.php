@@ -72,7 +72,45 @@ abstract class ezcGraphRenderer
     /**
      * Return all chart element references
      * 
-     * @return array chart element references
+     * Returns element references for the data sets in the chart, so the
+     * created graphic may be enhanced later.
+     *
+     * The resulting array looks like:
+     * <code>
+     *  array (
+     *      legend_url => array (
+     *          $name => $url | null,
+     *          ...
+     *      ),
+     *      legend => array (
+     *          $name => $data,
+     *          ...
+     *      )
+     *      data => array (
+     *          $dataset => array (
+     *              $name => $data,
+     *              ...
+     *          ),
+     *          ...
+     *      )
+     *  )
+     * </code>
+     *
+     * The legend elements won't show up in the array, if there is no legend
+     * redered. The URLs are only available, if the url property has been set
+     * on the respective dataset.
+     *
+     * The data assigned to the legends and data elements is completely direver
+     * dependent. In the SVG and Flash driver there will jsut be some IDs,
+     * which allow you to reference the affected elements or element groups
+     * inside the flash or SVG file.
+     *
+     * For bitmap formats, like in the Cairo or GD driver, $data will be an
+     * array of ezcGraphCoordinate objects, which roughly describe the outline
+     * of the referenced element. For circles and alike the resolution of this
+     * outline can be configured in the respective driver.
+     *
+     * @return array
      */
     public function getElementReferences()
     {
