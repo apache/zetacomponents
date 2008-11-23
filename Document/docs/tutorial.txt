@@ -249,9 +249,9 @@ the current position in the XHTML DOM tree is also provided to the method.
 To create the XHTML we can now just create a new list node (<ul>) in the
 current DOMNode, set the new attribute, and recursively decorate all
 descendants using the general visitor dispatching method visitNode() for all
-children in the AST. For the AST childs being also rendered as children in the XML
-tree, we pass the just created DOMNode (<ul>) as the new root node to the
-visitNode() method.
+children in the AST. For the AST children being also rendered as children in
+the XML tree, we pass the just created DOMNode (<ul>) as the new root node to
+the visitNode() method.
 
 After defining such a class, you could use the custom visitor like shown
 above::
@@ -291,9 +291,9 @@ header underlines used, the bullet types or the line wrapping.
 Extending RST writing
 `````````````````````
 
-As said before, not all exiisting docbook elements might already be handled by
+As said before, not all existing docbook elements might already be handled by
 the converter. But its handler based mechanism makes it easy to extend or
-overwrite exisitng behaviour.
+overwrite existing behaviour.
 
 Similar to the example above we can convert the <address> docbook element back
 to the address RST directive.
@@ -305,7 +305,7 @@ The handler classes are assigned to XML elements in some namespace, "docbook"
 in this case. It is registered in line 18 for the element "address". The class
 itself has to extend from the ezcDocumentElementVisitorHandler class, which is
 in this case already extended by ezcDocumentDocbookToRstBaseHandler, which
-provides some convience methods for RST creation, like renderDirective() used
+provides some convenience methods for RST creation, like renderDirective() used
 in this example.
 
 The handler is called, whenever the element, it has been registered for, occurs
@@ -325,22 +325,94 @@ docbook XML back to::
            Some Lane 42
 
 Which ignores any special address sub elements for the simplicity of the
-example.
+example. For more examples on element handlers check the existing
+implementations.
 
 XHTML
 -----
 
-@TODO: Reading
+Converting XHTML or HTML to a document markup language is a non trivial task,
+because XHTML elements are often used for layout, ignoring the actual semantics
+of the element. Therefore the document component allows to stack a set of
+filters, which each performs a specific conversion task. The default filter
+stack may work fine, but you may want to also implement custom filters
+depending on the contents of the filtered website, or to cover additional
+sources of meta data information, like RDF, Microformats or similar.
 
-- @TODO: Howto
-- @TODO: Filter stack
-- @TODO: Existing filters
-- @TODO: Custom filter
+The available filters are:
 
-@TODO: Writing
+- ezcDocumentXhtmlElementFilter
 
-- @TODO: Styles
-- @TODO: Extending
+  This filter just maintains the common semantics of XHTML elements by
+  converting them to their docbook equivalents. It ignores common class names.
+  This filter is the most basic and you probably want to always add this one to
+  the filter stack.
+
+- ezcDocumentXhtmlXpathFilter
+
+  The XPath filter takes a XPath expression to locate the root of the document
+  contents. It makes no sense to use this one together with the content locator
+  filter. This is a more static, but also more precise way to tell the
+  converter where to find the actual contents.
+
+- ezcDocumentXhtmlMetadataFilter
+  
+  This filter extracts common meta data from the XHTML head, and converts it
+  into docbook section info elements.
+
+- ezcDocumentXhtmlTablesFilter
+
+  HTML tables are especially often used for layout markup. This filter takes a
+  threshold, and if the table text factor drops below this threshold the table
+  is ignored. The same is true for stacked tables.
+
+- ezcDocumentXhtmlContentLocatorFilter
+
+  The content locator filter tries to find the actual article in the markup of
+  a website, ignoring the surrounding layout markup. This seems to work well
+  for example for common news sites.
+
+By default just the element and meta data filters are used. So the conversion
+of a common website, like the `introduction article`__ from ezcomponents.org,
+results in a docbook document containing all lists for the navigation, etc..
+
+.. include:: tutorial/04_read_html.php
+   :literal:
+
+So let's additionally use the XPath filter to pass the location of the actual
+content to the conversion:
+
+.. include:: tutorial/05_read_html_filtered.php
+   :literal:
+
+With this additional filter, the contents are correctly found and converted
+properly.
+
+Writing XHTML
+`````````````
+
+Writing XHTML from docbook is very similar to the approach used for writing
+RST: It the same handler based mechanism, so you may want to check that chapter
+to learn how to extend it for unhandled docbook elements.
+
+.. include:: tutorial/06_write_html.php
+   :literal:
+
+As you can see, it happens the same way, as for other conversion from Docbook
+to any other format.
+
+HTML styles
+```````````
+
+By default inline CSS is embedded in all generated HTML, to create a more
+appealing default experience. This may of course be deactivated and you may
+also reference custom style sheets to be included in the generated HTML.
+
+.. include:: tutorial/07_write_html_styled.php
+   :literal:
+
+For this we again use the converted directly to be able to configure it as we
+like.
 
 eZ Xml
 ------
