@@ -363,6 +363,12 @@ class ezcBaseFile
             $os = ezcBaseFeatures::os();
         }
 
+        // Stream wrapper like phar can also be considered absolute paths
+        if ( preg_match( '(^[a-z]{3,}://)S', $path ) )
+        {
+            return true;
+        }
+
         switch ( $os )
         {
             case 'Windows':

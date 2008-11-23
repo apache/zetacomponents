@@ -216,6 +216,12 @@ class ezcBaseFileIsAbsoluteTest extends ezcTestCase
         self::assertEquals( false, ezcBaseFile::isAbsolutePath( 'etc//init.d//apache' ) );
     }
 
+    public static function testAbsoluteStreamWrapper()
+    {
+        self::assertEquals( true, ezcBaseFile::isAbsolutePath( 'phar://test.phar/foo' ) );
+        self::assertEquals( true, ezcBaseFile::isAbsolutePath( 'http://example.com/file' ) );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcBaseFileIsAbsoluteTest" );
