@@ -228,7 +228,7 @@ class ezcGraphFontOptions extends ezcBaseOptions
             case 'path':
                 if ( is_file( $propertyValue ) && is_readable( $propertyValue ) )
                 {
-                    $this->properties['path'] = realpath( $propertyValue );
+                    $this->properties['path'] = $propertyValue;
                     $parts = pathinfo( $this->properties['path'] );
                     switch ( strtolower( $parts['extension'] ) )
                     {

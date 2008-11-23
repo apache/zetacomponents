@@ -80,7 +80,6 @@ class ezcGraphSvgFont
      */
     protected function initializeFont( $fontPath )
     {
-        $fontPath = realpath( $fontPath );
         if ( isset( $this->fonts[$fontPath] ) )
         {
             return $fontPath;
