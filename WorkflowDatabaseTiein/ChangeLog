@@ -1,3 +1,6 @@
+- Fixed issue #13988: isSuspend() returns null value after load execution from
+  database.
+
 1.3alpha1 - Monday 10 November 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

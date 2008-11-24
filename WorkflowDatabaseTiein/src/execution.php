@@ -349,7 +349,11 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
             }
         }
 
-        $this->loaded = true;
+        $this->cancelled = false;
+        $this->ended     = false;
+        $this->loaded    = true;
+        $this->resumed   = false;
+        $this->suspended = true;
     }
 }
 ?>

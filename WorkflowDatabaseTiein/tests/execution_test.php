@@ -31,14 +31,24 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $execution->workflow = $this->workflow;
 
         $id = $execution->start();
+
         $this->assertNotNull( $id );
         $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertTrue( $execution->isSuspended() );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
+
+        $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertTrue( $execution->isSuspended() );
+
         $execution->resume( array( 'variable' => 'value' ) );
+
         $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertFalse( $execution->isSuspended() );
     }
@@ -52,14 +62,24 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $execution->workflow = $this->workflow;
 
         $id = $execution->start();
+
         $this->assertNotNull( $id );
         $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertTrue( $execution->isSuspended() );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
+
+        $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertTrue( $execution->isSuspended() );
+
         $execution->resume( array( 'variable' => 'value' ) );
+
         $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertFalse( $execution->isSuspended() );
 
@@ -68,14 +88,24 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $execution->workflow->reset();
 
         $id = $execution->start();
+
         $this->assertNotNull( $id );
         $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertTrue( $execution->isSuspended() );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
+
+        $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertTrue( $execution->isSuspended() );
+
         $execution->resume( array( 'variable' => 'value' ) );
+
         $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertFalse( $execution->isSuspended() );
     }
@@ -89,20 +119,38 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $execution->workflow = $this->workflow;
 
         $id = $execution->start();
+
         $this->assertNotNull( $id );
         $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertTrue( $execution->isSuspended() );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
-        $execution->resume( array( 'foo' => 'bar' ) );
+
         $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertTrue( $execution->isSuspended() );
+
+        $execution->resume( array( 'foo' => 'bar' ) );
+
+        $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertTrue( $execution->isSuspended() );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
+
+        $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertTrue( $execution->isSuspended() );
+
         $execution->resume( array( 'bar' => 'foo' ) );
+
         $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertFalse( $execution->isSuspended() );
     }
@@ -119,8 +167,10 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $execution->workflow = $this->workflow;
 
         $id = $execution->start();
+
         $this->assertNull( $id );
         $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertFalse( $execution->isSuspended() );
     }
@@ -137,14 +187,24 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $execution->workflow = $this->workflow;
 
         $id = $execution->start();
+
         $this->assertNotNull( $id );
         $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertTrue( $execution->isSuspended() );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db, $id );
+
+        $this->assertFalse( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
+        $this->assertFalse( $execution->isResumed() );
+        $this->assertTrue( $execution->isSuspended() );
+
         $execution->resume( array( 'variable' => 'value' ) );
+
         $this->assertTrue( $execution->hasEnded() );
+        $this->assertFalse( $execution->isCancelled() );
         $this->assertFalse( $execution->isResumed() );
         $this->assertFalse( $execution->isSuspended() );
     }
