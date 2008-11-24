@@ -430,15 +430,67 @@ eZ Xml
 Wiki markup
 -----------
 
-@TODO: Reading
+Wiki markup has no central standard, but is used as a term to describe some
+common subset with lots of different extensions. Most wiki markup languages
+only support a quite trivial markup with severe limitations on the recursion of
+markup blocks. For example no markup really tables containing lists, or
+especially not tables containing other tables.
 
-- @TODO: switching tokenizer
-- @TODO: Writing tokenizer
+The document component implements a generic parser to support multiple wiki
+markup languages. For each different markup syntax a tokenizer has to be
+implemented, which converts the implemented markup into a unified token stream,
+which can then be handled by the generic parser.
 
-@TODO: Writing
+The document component currently supports reading three wiki markup languages,
+but new ones are added easily by implementing another tokenizer. Supported are:
 
-- @TODO: Creole only
-- @TODO: Writing other markup dialects
+- Creole__, developed by a initiative with the intention to create a unified
+  wiki markup standard. This is the default wiki language, and currently the
+  only one which can be written.
+
+  Creole currently only supports a very limited set of markup__, all further
+  markup additions are still up to discussion.
+
+- Dokuwiki__ is a popular wiki system, for example used on `wiki.php.net`__
+  with a quite different syntax, and the most complete markup support, even
+  including something like footnotes.
+
+- Confluence__ is a common Java based wiki with an entirely different and most
+  uncommon syntax, which has mainly been implemented to prove the generic
+  nature of the parser.
+
+All markup languages are tested against all examples from the respective
+markup language documentation, there might still be cases where the parsers of
+the default implementation behaves slightly different from the implementation
+in the document component.
+
+Reading wiki markup
+```````````````````
+
+Reading wiki texts basically works like for any other markup language:
+
+.. include:: tutorial/03_00_read_wiki.php
+   :literal:
+
+As said, by default the Creoletokenizer is used. The same result can be
+produced with dokuwiki markup and switching the tokenizer:
+
+.. include:: tutorial/03_01_read_wiki_confluence.php
+   :literal:
+
+Writing wiki markup
+```````````````````
+
+Until now only writing of creole wiki markup is supported. Since creole does
+not support a lot of the markup available in docbook, not all documents might
+get converted properly. Because it does not even support explicit internal
+references, we cannot even simulate footnotes like in HTML.
+
+If you want to add support for such conversions, it works exactly like the
+docbook RST conversion and can be extended the same way.
+
+.. include:: tutorial/03_02_write_wiki.php
+   :literal:
 
 
 ..
