@@ -247,7 +247,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         // Fetch node information
         list( $parentId, $path ) = $this->fetchNodeInformation( $nodeId );
 
-        $parts = split( $this->properties['separationChar'], $path );
+        $parts = explode( $this->properties['separationChar'], $path );
         array_shift( $parts );
 
         foreach ( $parts as $pathNodeId )
@@ -449,7 +449,7 @@ class ezcTreeDbMaterializedPath extends ezcTreeDb
         // Fetch node information
         list( $dummyParentId, $path ) = $this->fetchNodeInformation( $childId );
 
-        $parts = split( $this->properties['separationChar'], $path );
+        $parts = explode( $this->properties['separationChar'], $path );
         array_shift( $parts );
 
         return in_array( $parentId, $parts ) && ( $childId !== $parentId );
