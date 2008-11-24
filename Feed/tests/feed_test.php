@@ -416,5 +416,32 @@ class ezcFeedTest extends ezcFeedTestCase
         $feed = ezcFeed::parse( 'http://username:password@example.com/' );
         $this->assertEquals( "Feed title", $feed->title );
     }
+
+    /**
+     * Test for issue #13963: ezcFeedEnclosureElement obsolete?
+     */
+    public function testAssignEnclosure()
+    {
+        $feed = new ezcFeed( 'rss2' );
+        $feed->title = 'Feed title';
+        $feed->description = 'Feed description';
+        $link = $feed->add( 'link' );
+        $link->href = 'http://example.com/';
+
+        $item = $feed->add( 'item' );
+        $item->title = 'Item title';
+        $item->description = 'Item description';
+        $link = $item->add( 'link' );
+        $link->href = 'http://example.com/item/';
+
+        // assign the enclosure directly. Before the fix it would fail with error
+        // as it tried to assign the property 'link' instead of 'url'
+        $item->enclosure = 'http://example.com/enclosure.mp3';
+
+        $xml = $feed->generate( 'rss2' );
+
+        // assert that the enclosure element is inside the generated XML feed
+        $this->assertEquals( true, strpos( $xml, '<enclosure url="http://example.com/enclosure.mp3"/>' ) !== false );
+    }
 }
 ?>

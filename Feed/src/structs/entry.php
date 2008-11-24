@@ -47,7 +47,7 @@
  *           ATOM-summary (required, single),
  *           RSS1-description (required, single),
  *           RSS2-description (required, single).
- * @property array(ezcFeedLinkElement) $enclosure
+ * @property array(ezcFeedEnclosureElement) $enclosure
  *           The enclosures of the entry. Equivalents:
  *           ATOM-link@rel="enclosure" (optional, multiple),
  *           RSS1-none,
@@ -144,7 +144,7 @@ class ezcFeedEntryElement extends ezcFeedElement
 
             case 'enclosure':
                 $element = $this->add( $name );
-                $element->link = $value;
+                $element->url = $value;
                 break;
 
             case 'source':
