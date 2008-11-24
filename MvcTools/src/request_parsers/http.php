@@ -62,6 +62,9 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
                 case 'PUT':
                     $req->protocol = 'http-put';
                     break;
+                case 'DELETE':
+                    $req->protocol = 'http-delete';
+                    break;
                 default:
                     $req->protocol = 'http-get';
             }
