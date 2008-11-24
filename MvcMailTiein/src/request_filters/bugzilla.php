@@ -29,7 +29,7 @@ class ezcMvcMailBugzillaRequestFilter implements ezcMvcRequestFilter
 
         $lastTag = ''; 
         $inHeader = true;
-        $lines = split( "\n", $request->body );
+        $lines = explode( "\n", $request->body );
         foreach ( $lines as $line )
         {
             $line = trim( $line );
