@@ -1266,7 +1266,7 @@ class ezcGraphRenderer2d
      * class.
      *
      * Additionally it can be specified if a major and minor grid are rendered 
-     * by defining a color for them. Teh axis label is used to add a caption 
+     * by defining a color for them. The axis label is used to add a caption 
      * for the axis.
      * 
      * @param ezcGraphBoundings $boundings Boundings of axis
