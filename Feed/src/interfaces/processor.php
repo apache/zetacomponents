@@ -217,7 +217,7 @@ abstract class ezcFeedProcessor
         $supportedModules = ezcFeed::getSupportedModules();
         if ( strpos( $tagName, ':' ) !== false )
         {
-            list( $prefix, $key ) = split( ':', $tagName );
+            list( $prefix, $key ) = explode( ':', $tagName );
             $moduleName = isset( $this->usedPrefixes[$prefix] ) ? $this->usedPrefixes[$prefix] : null;
             if ( isset( $supportedModules[$moduleName] ) )
             {
@@ -252,7 +252,7 @@ abstract class ezcFeedProcessor
                 if ( $moduleNamespace === $node->nodeValue )
                 {
                     // the nodeName looks like: xmlns:some_module
-                    list( $xmlns, $prefix ) = split( ':', $node->nodeName );
+                    list( $xmlns, $prefix ) = explode( ':', $node->nodeName );
 
                     // use the prefix from the XML source as a key in the array $usedPrefixes
                     // eg. array( 'some_prefix' => 'DublinCore' );
