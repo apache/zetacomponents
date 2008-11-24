@@ -47,7 +47,7 @@ class ezcTreeXmlWithDbStorageTest extends ezcTestCase
     {
         try
         {
-            foreach ( $this->tables as $table )
+            foreach ( array( 'materialized_path', 'nested_set', 'parent_child', 'dataFrom', 'dataTo' ) as $table )
             {
                 $this->dbh->exec( "DROP TABLE $table" );
             }
