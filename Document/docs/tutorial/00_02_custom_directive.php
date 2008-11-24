@@ -3,7 +3,7 @@
 require 'tutorial_autoload.php';
 
 // Load custom directive
-require 'address_directive.php';
+require '00_01_address_directive.php';
 
 $document = new ezcDocumentRst();
 $document->registerDirective( 'address', 'myAddressDirective' );
