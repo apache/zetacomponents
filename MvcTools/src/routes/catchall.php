@@ -60,7 +60,7 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
      */
     public function matches( ezcMvcRequest $request )
     {
-        $requestParts = split( '/', $request->uri );
+        $requestParts = explode( '/', $request->uri );
 
         if ( !$this->checkPrefixMatch( $requestParts ) ) 
         {
@@ -151,7 +151,7 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
      */
     public function prefix( $prefix )
     {
-        $this->prefix = split( '/', $prefix );
+        $this->prefix = explode( '/', $prefix );
     }
 }
 ?>
