@@ -102,8 +102,8 @@ class ezcMvcRailsRoute implements ezcMvcRoute
         $matches = array();
 
         // first we split the pattern and request ID per /
-        $patternParts = split( '/', $this->pattern );
-        $requestParts = split( '/', $request->uri );
+        $patternParts = explode( '/', $this->pattern );
+        $requestParts = explode( '/', $request->uri );
 
         // if the number of / is not the same, it can not match
         if ( count( $patternParts ) != count( $requestParts ) )
