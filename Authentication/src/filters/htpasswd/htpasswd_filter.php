@@ -202,7 +202,7 @@ class ezcAuthenticationHtpasswdFilter extends ezcAuthenticationFilter
         fclose( $fh );
         if ( $found )
         {
-            $parts = split( ':', $line );
+            $parts = explode( ':', $line );
             $hashFromFile = trim( $parts[1] );
             if ( substr( $hashFromFile, 0, 6 ) === '$apr1$' )
             {
