@@ -2,7 +2,12 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13918: Http Request Parser is missing DELETE.
-- Fixed issue #14003: split() is deprecated in PHP5.3.
+- Fixed issue #14003: split() is deprecated in PHP 5.3.
+- Implemented issue #13919: Added the runPreRoutingFilters() method to the
+  ezcMvcDispatcherConfiguration interface and ezcMvcDispatcherConfigurable
+  dispatcher, to be called after request generation, but before routing. This
+  change breaks BC as it adds a new method to the ezcMvcDispatcherConfiguration
+  interface.
 
 
 1.0alpha2 - Monday 10 November 2008

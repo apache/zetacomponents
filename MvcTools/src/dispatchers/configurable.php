@@ -73,6 +73,9 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             }
             $continue = false;
 
+            // run pre-routing filters
+            $this->configuration->runPreRoutingFilters( $request );
+
             // create the router from the configuration
             $router = $this->configuration->createRouter( $request );
 

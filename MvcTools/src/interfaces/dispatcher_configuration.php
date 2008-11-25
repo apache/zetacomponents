@@ -75,6 +75,17 @@ interface ezcMvcDispatcherConfiguration
     public function createFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $response );
 
     /**
+     * Runs all the pre-routing filters that are deemed necessary depending on
+     * information in $request.
+     *
+     * The pre-routing filters could modify the request data so that a
+     * different router can be chosen.
+     *
+     * @param ezcMvcRequest $request
+     */
+    public function runPreRoutingFilters( ezcMvcRequest $request );
+
+    /**
      * Runs all the request filters that are deemed necessary depending on
      * information in $routeInfo and $request.
      *

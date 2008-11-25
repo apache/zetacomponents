@@ -68,6 +68,15 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
         }
     }
 
+    function testPreRoutingFilter()
+    {
+        $config = new simpleConfiguration();
+        $config->preRoutingFilter = true;
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        $dispatcher->run();
+        self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'newVar' => 'yes, we did the pre-routing filter',[CR])", $config->store );
+    }
+
     function testInternalRedirectRequestFilter()
     {
         $config = new simpleConfiguration();
@@ -88,7 +97,7 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
         }
         catch ( PHPUnit_Framework_Error $e )
         {
-            self::assertRegExp( "/^Argument 1 passed to simpleConfiguration::createRouter\(\) must be an instance of ezcMvcRequest, null given, called in/", $e->getMessage() );
+            self::assertRegExp( "/^Argument 1 passed to simpleConfiguration::runPreRoutingFilters\(\) must be an instance of ezcMvcRequest, null given, called in/", $e->getMessage() );
         }
     }
 
@@ -124,6 +133,16 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
         $dispatcher = new ezcMvcConfigurableDispatcher( $config );
         $dispatcher->run();
         self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'fatal' => 'Very fatal',[CR])", $config->store );
+    }
+
+    // test for issue #13939
+    public function testNoReturnedVariables()
+    {
+        $config = new simpleConfiguration();
+        $config->controller = 'EmptyResultController';
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        $dispatcher->run();
+        self::assertEquals( "BODY: Name: name, Vars: array ([CR])", $config->store );
     }
 
     public static function suite()

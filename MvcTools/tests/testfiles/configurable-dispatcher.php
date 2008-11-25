@@ -6,6 +6,7 @@ class simpleConfiguration implements ezcMvcDispatcherConfiguration
     var $view  = null;
     var $requestParser = null;
     var $internalRedirectRequestFilter = false;
+    var $preRoutingFilter = false;
 
     function createRequestParser()
     {
@@ -28,6 +29,8 @@ class simpleConfiguration implements ezcMvcDispatcherConfiguration
                 return new testExceptionInActionRouter( $request );
             case 'EndlessIR':
                 return new testEndlessIRRouter( $request );
+            case 'EmptyResultController':
+                return new testEmptyResultControllerRouter( $request );
             default:
                 return new testRouter( $request );
         }
@@ -60,6 +63,14 @@ class simpleConfiguration implements ezcMvcDispatcherConfiguration
     function getResponse()
     {
         return $this->response;
+    }
+
+    public function runPreRoutingFilters( ezcMvcRequest $request )
+    {
+        if ( $this->preRoutingFilter === true )
+        {
+            $request->variables['newVar'] = 'yes, we did the pre-routing filter';
+        }
     }
 
     public function runRequestFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request )
@@ -143,6 +154,16 @@ class testEndlessIRRouter extends ezcMvcRouter
     }
 }
 
+class testEmptyResultControllerRouter extends ezcMvcRouter
+{
+    public function createRoutes()
+    {
+        return array(
+            new ezcMvcRegexpRoute( '@^/$@', 'testEmptyResultController', 'foo' ),
+        );
+    }
+}
+
 class testFaultyActionRouter extends ezcMvcRouter
 {
     public function createRoutes()
@@ -210,6 +231,18 @@ class testEndlessIRController extends ezcMvcController
         $req->variables['redirVar'] = 4;
 
         return new ezcMvcInternalRedirect( $req );
+    }
+    public function getVars()
+    {
+        return $this->variables;
+    }
+}
+
+class testEmptyResultController extends ezcMvcController
+{
+    public function createResult()
+    {
+        return new ezcMvcResult();
     }
     public function getVars()
     {

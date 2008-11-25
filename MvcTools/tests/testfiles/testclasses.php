@@ -19,7 +19,9 @@ class testController extends ezcMvcController
         }
         else
         {
-            return new ezcMvcResult;
+            $res = new ezcMvcResult;
+            $res->variables = $this->variables;
+            return $res;
         }
     }
     public function getVars()

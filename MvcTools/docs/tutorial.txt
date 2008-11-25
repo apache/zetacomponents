@@ -323,7 +323,7 @@ parameters (user agent, request time, etc). With this last method, we conclude
 the helloMvcConfiguration class. You can find the whole fine in SVN at
 http://svn.ez.no/svn/ezcomponents/docs/examples/applications/HelloMvc/lib/config.php
 
-There are three other methods defined in the interface. Those methods deal with
+There are four other methods defined in the interface. Those methods deal with
 running filters on request, result and response data. We will be using the
 runResultFilters() method to automatically add an "installRoot" variable to the
 variables that are available in the views. It's trivial to do so as the
@@ -334,8 +334,12 @@ implementation of the runResultFilters() method shows::
         $result->variables['installRoot'] = preg_replace( '@/index\.php$@', '', $_SERVER['SCRIPT_NAME'] );
     }
 
-We are not using the other two methods in this example, but they still have to
+We are not using the other three methods in this example, but they still have to
 be present because they're part of the interface::
+
+    function runPreRoutingFilters( ezcMvcRequest $request )
+    {
+    }
 
     function runRequestFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request )
     {
