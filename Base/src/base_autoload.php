@@ -18,6 +18,7 @@ return array(
     'ezcBaseFileIoException'                      => 'Base/exceptions/file_io.php',
     'ezcBaseFileNotFoundException'                => 'Base/exceptions/file_not_found.php',
     'ezcBaseFilePermissionException'              => 'Base/exceptions/file_permission.php',
+    'ezcBaseFunctionalityNotSupportedException'   => 'Base/exceptions/functionality_not_supported.php',
     'ezcBaseInitCallbackConfiguredException'      => 'Base/exceptions/init_callback_configured.php',
     'ezcBaseInitInvalidCallbackClassException'    => 'Base/exceptions/invalid_callback_class.php',
     'ezcBaseInvalidParentClassException'          => 'Base/exceptions/invalid_parent_class.php',
