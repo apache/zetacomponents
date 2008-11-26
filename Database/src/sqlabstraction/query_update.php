@@ -120,7 +120,7 @@ class ezcQueryUpdate extends ezcQuery
      *
      * Example:
      * <code>
-     * $q->update( 'MyTable' )->where( $q->eq( 'id', 1 ) );
+     * $q->update( 'MyTable' )->where( $q->expr->eq( 'id', 1 ) );
      * </code>
      *
      * @throws ezcQueryVariableParameterException if called with no parameters.
