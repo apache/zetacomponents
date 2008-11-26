@@ -21,10 +21,10 @@
  * @property ezcWebdavLockTransport $transport
  *           The transport class to parse the LOCK and UNLOCK requests and to
  *           process the corresponding responses.
- * @property ezcWebdavLockPropertyHandler
+ * @property ezcWebdavLockPropertyHandler $propertyHandler
  *           Property handler to handle parsing and serializing of lock related
  *           properties.
- * @property ezcWebdavLockHeaderHandler
+ * @property ezcWebdavLockHeaderHandler $headerHandler
  *           Header handler to parse lock related headers.
  *
  * @access private
