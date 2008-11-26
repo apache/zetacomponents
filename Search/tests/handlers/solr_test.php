@@ -18,7 +18,8 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( "ezcSearchHandlerSolrTest" );
+        stream_filter_register( 'ignoreWriteFilter', 'ezcTestIgnoreWriteStreamFilter' );
+        return new PHPUnit_Framework_TestSuite( "ezcSearchHandlerSolrTest" );
     }
 
     function setUp()
@@ -191,6 +192,27 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
 
         $r = $this->solr->search( 'solr', 'name_s' );
         self::assertEquals( 0, $r->response->numFound );
+    }
+
+    function testSolrHttpStatusCodeOk()
+    {
+        $this->solr = new testSolrFileWrapper( dirname( __FILE__ ) . '/../testfiles/solr-http-status.txt' );
+        $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<add><doc><field name="id">cfe5cc06-9b07-4e4b-930e-7e99f5202570</field><field name="name_s">solr</field></doc></add>' );
+    }
+
+    function testSolrHttpStatusCodeFail()
+    {
+        $this->solr = new testSolrFileWrapper( dirname( __FILE__ ) . '/../testfiles/solr-http-status-fail.txt' );
+        try
+        {
+            $r = $this->solr->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<add><doc><field name="id">cfe5cc06-9b07-4e4b-930e-7e99f5202570</field><field name="name_s">solr</field></doc></add>' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcSearchNetworkException $e )
+        {
+            self::assertEquals( 'A network issue occurred: The HTTP server reported: HTTP/1.1 500 Internal Server Error', $e->getMessage() );
+        }
+        fclose( $this->solr->connection );
     }
 }
 

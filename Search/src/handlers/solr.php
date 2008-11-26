@@ -158,6 +158,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      */
     public function sendRawGetCommand( $type, $queryString = array() )
     {
+        $statusCode = 0;
         $queryPart = '';
         if ( count( $queryString ) )
         {
@@ -176,6 +177,11 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         while ( $line != "\r\n" )
         {
             $line = $this->getLine();
+            if ( preg_match( '@HTTP[^ ]+ +([0-9]{3}) .*@', $line, $m ) )
+            {
+                $statusCode = $m[1];
+                $statusMessage = trim( $line );
+            }
             if ( preg_match( '@Content-Length: (\d+)@', $line, $m ) )
             {
                 $expectedLength = $m[1];
@@ -185,6 +191,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             {
                 $chunked = true;
             }
+        }
+
+        // check http status code
+        if ( $statusCode >= 400 )
+        {
+            // Something went wrong.
+            throw new ezcSearchNetworkException( "The HTTP server reported: $statusMessage" );
         }
 
         $data = '';
@@ -232,6 +245,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      */
     public function sendRawPostCommand( $type, $queryString, $data )
     {
+        $statusCode = 0;
         $reConnect = false;
         $queryPart = '';
         if ( count( $queryString ) )
@@ -254,6 +268,11 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         while ( $line != "\r\n" )
         {
             $line = $this->getLine();
+            if ( preg_match( '@HTTP[^ ]+ +([0-9]{3}) .*@', $line, $m ) )
+            {
+                $statusCode = $m[1];
+                $statusMessage = trim( $line );
+            }
             if ( preg_match( '@Content-Length: (\d+)@', $line, $m ) )
             {
                 $expectedLength = $m[1];
@@ -262,6 +281,13 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             {
                 $reConnect = true;
             }
+        }
+
+        // check http status code
+        if ( $statusCode >= 400 )
+        {
+            // Something went wrong.
+            throw new ezcSearchNetworkException( "The HTTP server reported: $statusMessage" );
         }
 
         // read http content

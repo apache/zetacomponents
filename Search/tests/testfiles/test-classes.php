@@ -126,4 +126,34 @@ class DataTypeTestMulti implements ezcSearchDefinitionProvider
         return $def;
     }
 }
+
+class testSolrFileWrapper extends ezcSearchSolrHandler
+{
+    function __construct( $fileName )
+    {
+        $this->host = 'localhost';
+        $this->port = '8983';
+        $this->location = $fileName;
+        $this->inTransaction = 0;
+        $this->connect();
+    }
+
+    function connect()
+    {
+        $this->connection = fopen( $this->location, 'r+' );
+        stream_filter_append( $this->connection, 'ignoreWriteFilter', STREAM_FILTER_WRITE );
+    }
+}
+
+class ezcTestIgnoreWriteStreamFilter
+{
+    function filter( $in, $out, &$consumed, $closing )
+    {
+        while ( $bucket = stream_bucket_make_writeable( $in ) )
+        {
+            $consumed += 0;
+        }
+        return PSFS_PASS_ON;
+    }
+}
 ?>
