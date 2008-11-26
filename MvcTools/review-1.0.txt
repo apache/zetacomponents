@@ -1,0 +1,53 @@
+Review of MvcTools-1.0-alpha at 26.11.08
+========================================
+
+:Author: kn
+
+.. warning::
+    Work in progress.
+
+API
+---
+
+- The abstract class ezcMvcRouter contains a methods, which I do not really
+  get:
+
+  - The static public method prefix() is not used ore referenced anywhere
+    else in that class
+
+- If createFatalRedirectRequest() is not implemented properly in
+  ezcMvcDispatcherConfiguration, the thrown error is not very intuitive::
+
+    Recoverable error: Argument 1 passed to
+    arbitDispatcherConfiguration::runPreRoutingFilters() must be an instance
+    of ezcMvcRequest, null given
+
+  Changing this would of course mean another check, but this should only
+  happen in errneous situations anyways...
+
+Documentation
+-------------
+
+- Didn't we agree to document parameters in teh method description and not
+  behind the parameter, like in MvcTools/src/interfaces/route.php +25?
+
+- The purpose behind ezcMvcRoute::prefix() is not obvious to me from the
+  documentation.
+
+  And I don't think the prefixing fixes all the issues, which occur regarding
+  prefixes of controller paths (application in subdirectory, running a PHAR,
+  using mod_rewrite, ..)
+
+- The documentation in ezcMvcHttpRequestParser is incomplete.
+
+Trivial, maybe irrelevant
+-------------------------
+
+ezcMvcConfigurableDispatcher
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Increase $redirects at begin of loop, reduces redundancy and makes it less
+  error proone if somebody extends / changes the code.
+
+- Even 25 should be save, make the maximum internal redirects configurable?
+
