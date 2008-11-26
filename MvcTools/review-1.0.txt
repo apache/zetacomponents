@@ -3,27 +3,34 @@ Review of MvcTools-1.0-alpha at 26.11.08
 
 :Author: kn
 
-.. warning::
-    Work in progress.
-
 API
 ---
 
 - The abstract class ezcMvcRouter contains a methods, which I do not really
-  get:
+  understand:
 
-  - The static public method prefix() is not used ore referenced anywhere
+  - The static public method prefix() is not used or referenced anywhere
     else in that class
 
-- If createFatalRedirectRequest() is not implemented properly in
-  ezcMvcDispatcherConfiguration, the thrown error is not very intuitive::
+- Make ezcMvcResult an interface or do not already implement any final
+  methods. If some properties are required, there should be an extensible
+  method for it. Otherwise this strongly limits the extensibility.
 
-    Recoverable error: Argument 1 passed to
-    arbitDispatcherConfiguration::runPreRoutingFilters() must be an instance
-    of ezcMvcRequest, null given
+  The $status property still seems not really important / used to me.
 
-  Changing this would of course mean another check, but this should only
-  happen in errneous situations anyways...
+- The interface ezcMvcViewHandler does not define the method createResponse()
+  called by the ezcMvcConfigurableDispatcher implementation, but other
+  methods, which indicate a template based usage, which may not be wanted in
+  case of, for example, XML creation. It should only enforce the
+  createResponse() method.
+
+- The ezcMvcResponse::$status variable needs better documentation, its purpose
+  is at least unclear to me. The check in
+  MvcTools/src/response_writers/http.php +61 probably should be changed to
+  is_object(), otherwise values like "null" cause PHP errors there.
+
+- Initialize status with 0, even when the constructor is not called - if this
+  property really is required.
 
 Documentation
 -------------
@@ -34,11 +41,20 @@ Documentation
 - The purpose behind ezcMvcRoute::prefix() is not obvious to me from the
   documentation.
 
-  And I don't think the prefixing fixes all the issues, which occur regarding
-  prefixes of controller paths (application in subdirectory, running a PHAR,
-  using mod_rewrite, ..)
+  And I don't think the prefixing could fix all the issues, which occur
+  regarding prefixes of controller paths (application in subdirectory, running
+  inside a PHAR, using mod_rewrite, ..)
+
+  I actually remove the prefix in the HttpParser (script name, subdir, ..) and
+  pass the basePath and the sanitized URI around. Using this inside the
+  templates should solve most issues.
 
 - The documentation in ezcMvcHttpRequestParser is incomplete.
+
+- The return value documentation of
+  arbitDispatcherConfiguration::runPreRoutingFilters() is wrong and should be:
+  @return ezcMvcRequest. Using the currently documented return value breaks
+  the main loop in ezcMvcConfigurableDispatcher.
 
 Trivial, maybe irrelevant
 -------------------------
@@ -47,7 +63,7 @@ ezcMvcConfigurableDispatcher
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Increase $redirects at begin of loop, reduces redundancy and makes it less
-  error proone if somebody extends / changes the code.
+  error prone if somebody extends / changes the code.
 
 - Even 25 should be save, make the maximum internal redirects configurable?
 
