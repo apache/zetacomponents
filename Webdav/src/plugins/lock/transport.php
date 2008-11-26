@@ -28,7 +28,7 @@ class ezcWebdavLockTransport
      * Maps request method names as provided by $_SERVER to methods of this
      * class.
      *
-     * @array(string=>string)
+     * @var array(string=>string)
      */
     protected static $parsingMap = array(
         'LOCK'   => 'parseLockRequest',
@@ -40,7 +40,7 @@ class ezcWebdavLockTransport
      *
      * Maps response classes to a method that handles objects of this class.
      *
-     * @array(string=>string)
+     * @var array(string=>string)
      */
     protected static $processingMap = array(
         'ezcWebdavLockResponse'   => 'processLockResponse',
