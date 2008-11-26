@@ -13,6 +13,7 @@
  * To activate (load) the plugin, the user must instantiate this class and
  * submit the instance to {@link ezcWebdavPluginRegistry::registerPlugin()}.
  * 
+ * @mainclass
  * @package Webdav
  * @version //autogen//
  */
