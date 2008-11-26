@@ -345,4 +345,56 @@ class testResponseWriter extends ezcMvcResponseWriter
         $this->config->store = "BODY: ". $this->response->body;
     }
 }
+
+class testWrongObjectsConfiguration implements ezcMvcDispatcherConfiguration
+{
+    public $fail = 'none';
+
+    function createRequestParser()
+    {
+        return $this->fail == 'request-parser' ? new stdClass() : new testRequestParser();
+    }
+
+    function createRouter( ezcMvcRequest $request )
+    {
+        if ( $this->fail === 'fatal' )
+        {
+            return new testExceptionInActionRouter( $request );
+        }
+        return $this->fail == 'router' ? new stdClass() : new testRouter( $request );
+    }
+
+    function createView( ezcMvcRoutingInformation $routingInfo, ezcMvcRequest $request, ezcMvcResult $result )
+    {
+        return $this->fail == 'view' ? new stdClass() : new testView( $request, $result );
+    }
+
+    function createResponseWriter( ezcMvcRoutingInformation $routingInfo, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response )
+    {
+        $rw = $this->fail == 'response-writer' ? new stdClass() : new testResponseWriter( $response );
+        $rw->config = $this;
+        return $rw;
+    }
+
+    function createFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $response )
+    {
+        return $this->fail == 'fatal' ? new stdClass() : new ezcMvcRequest();
+    }
+
+    function runPreRoutingFilters( ezcMvcRequest $request )
+    {
+    }
+
+    function runRequestFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request )
+    {
+    }
+
+    function runResultFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result )
+    {
+    }
+
+    function runResponseFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response )
+    {
+    }
+}
 ?>

@@ -60,6 +60,11 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
 
         // create the request parser
         $requestParser = $this->configuration->createRequestParser();
+        if ( ezcBase::inDevMode() && !$requestParser instanceof ezcMvcRequestParser )
+        {
+            throw new ezcBaseValueException( 'requestParser', $requestParser, 'instance of ezcMvcRequestParser' );
+        }
+
         // create the request
         $request = $requestParser->createRequest();
 
@@ -78,6 +83,10 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
 
             // create the router from the configuration
             $router = $this->configuration->createRouter( $request );
+            if ( ezcBase::inDevMode() && !$router instanceof ezcMvcRouter )
+            {
+                throw new ezcBaseValueException( 'router', $router, 'instance of ezcMvcRouter' );
+            }
 
             // router creates routing information
             try
@@ -114,6 +123,10 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             catch ( Exception $e )
             {
                 $request = $this->configuration->createFatalRedirectRequest( $request, new ezcMvcResult, $e );
+                if ( ezcBase::inDevMode() && !$request instanceof ezcMvcRequest )
+                {
+                    throw new ezcBaseValueException( 'request', $request, 'instance of ezcMvcRequest' );
+                }
                 $continue = true;
                 $redirects++;
                 continue;
@@ -142,6 +155,10 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             {
                 // want the view manager to use my filters
                 $viewHandler = $this->configuration->createView( $routingInformation, $request, $result );
+                if ( ezcBase::inDevMode() && !$viewHandler instanceof ezcMvcView )
+                {
+                    throw new ezcBaseValueException( 'view', $viewHandler, 'instance of ezcMvcView' );
+                }
 
                 // create the response
                 try
@@ -160,6 +177,11 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
 
             // create the response writer
             $responseWriter = $this->configuration->createResponseWriter( $routingInformation, $request, $result, $response );
+            if ( ezcBase::inDevMode() && !$responseWriter instanceof ezcMvcResponseWriter )
+            {
+                throw new ezcBaseValueException( 'responseWriter', $responseWriter, 'instance of ezcMvcResponseWriter' );
+            }
+
             // handle the response
             $responseWriter->handleResponse();
         }

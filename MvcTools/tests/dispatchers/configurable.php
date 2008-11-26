@@ -145,6 +145,59 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
         self::assertEquals( "BODY: Name: name, Vars: array ([CR])", $config->store );
     }
 
+    public function testAllIsWell()
+    {
+        $config = new testWrongObjectsConfiguration();
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        $dispatcher->run();
+    }
+
+    public function commonWrongTest( $type )
+    {
+        $config = new testWrongObjectsConfiguration();
+        $config->fail = $type;
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        try
+        {
+            $dispatcher->run();
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return $e->getMessage();
+        }
+    }
+
+    public function testWrongRequestParserClass()
+    {
+        $e = self::commonWrongTest( 'request-parser' );
+        self::assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'requestParser' is invalid. Allowed values are: instance of ezcMvcRequestParser.", $e );
+    }
+
+    public function testWrongRouterClass()
+    {
+        $e = self::commonWrongTest( 'router' );
+        self::assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'router' is invalid. Allowed values are: instance of ezcMvcRouter.", $e );
+    }
+
+    public function testWrongViewClass()
+    {
+        $e = self::commonWrongTest( 'view' );
+        self::assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'view' is invalid. Allowed values are: instance of ezcMvcView.", $e );
+    }
+
+    public function testWrongResponseWriter()
+    {
+        $e = self::commonWrongTest( 'response-writer' );
+        self::assertEquals( "The value 'O:8:\"stdClass\":1:{s:6:\"config\";O:29:\"testWrongObjectsConfiguration\":1:{s:4:\"fail\";s:15:\"response-writer\";}}' that you were trying to assign to setting 'responseWriter' is invalid. Allowed values are: instance of ezcMvcResponseWriter.", $e );
+    }
+
+    public function testWrongFatalRedirectClass()
+    {
+        $e = self::commonWrongTest( 'fatal' );
+        self::assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'request' is invalid. Allowed values are: instance of ezcMvcRequest.", $e );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( __CLASS__ );
