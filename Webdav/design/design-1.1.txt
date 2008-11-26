@@ -1108,6 +1108,7 @@ plugin, since the If-header must be parsed in one go. Since this can also
 contain entity tags, which do belong into the main component, it cannot be
 parsed exclusively in the lock plugin.
 
+===============
 Transport layer
 ===============
 
@@ -1175,7 +1176,7 @@ defined to be negated ($negated === true). The combination represented by such
 an object is a logical AND combination. 
 
 Code examples
--------------
+=============
 
 Some small code examples to illustrate the above class design will be shown
 here.
@@ -1219,6 +1220,7 @@ will result in all 3 variables containing the same values: All 3 list items
 will be contained, since the If header does not use tagging to specify which
 resources are affected by the conditions.
 
+============
 Server layer
 ============
 
@@ -1272,6 +1274,7 @@ tag conditions a second time.
    checking until the back end starts processing. This can lead to extremely
    strange results in high-load environments.
 
+==============
 Back end layer
 ==============
 
@@ -1314,6 +1317,7 @@ installed. In this case, the lock plugin will take over the complete check for
 the If headers conditions and remove the header from the request object
 afterwards.
 
+==============
 Infrastructure
 ==============
 
