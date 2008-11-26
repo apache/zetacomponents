@@ -1,0 +1,6 @@
+HTTP/1.1 500 Internal Server Error
+Content-Type: text/plain; charset=utf-8
+Content-Length: 498
+Server: Jetty(6.1.3)
+
+{"responseHeader":{"status":0,"QTime":0,"params":{"df":"","fl":"score id_s string_s html_t bool_b int_l float_d date_l ezcsearch_type_s score","start":"0","q":"ezcsearch_type_s:DataTypeTest AND date_l:1208961300","wt":"json","rows":"999999"}},"response":{"numFound":1,"start":0,"maxScore":11.19766,"docs":[{"id_s":["testId"],"date_l":[1208961300],"ezcsearch_type_s":["DataTypeTest"],"bool_b":[false],"html_t":["<b>test</b>"],"float_d":[0.0],"int_l":[913123],"string_s":["test"],"score":11.19766}]}}
