@@ -73,10 +73,10 @@
  * @see ezcWebdavRequest
  * @see ezcWebdavResponse
  * @see ezcWebdavProperty
+ * @link http://tools.ietf.org/html/rfc2518 RFC 2518
  *
  * @version //autogentag//
  * @package Webdav
- * @link http://tools.ietf.org/html/rfc2518 RFC 2518
  */
 class ezcWebdavTransport
 {
@@ -369,10 +369,11 @@ class ezcWebdavTransport
     /**
      * Returns the translated request path.
      *
-     * This method calls the configured path factory to  translate the
-     * submitted URI into a local path. It can be overwritten to perform client
+     * This method calls the configured path factory to translate the
+     * submitted $uri into a local path. It can be overwritten to perform client
      * specific path adjustments.
      *
+     * @param string $uri
      * @return string
      */
     protected function retrievePath( $uri )
@@ -765,7 +766,7 @@ class ezcWebdavTransport
      * necessary. This makes extending your extended transport easier.
      * 
      * @param DOMDocument $dom 
-     * @param ezcWebdavCopyRequest|ezcWebdavMoveRequest $request 
+     * @param ezcWebdavRequest $request ezcWebdavCopyRequest or ezcWebdavMoveRequest
      * @return ezcWebdavCopyRequest|ezcWebdavMoveRequest As submitted.
      */
     protected function parsePropertyBehaviourContent( DOMDocument $dom, ezcWebdavRequest $request )
@@ -1068,10 +1069,10 @@ class ezcWebdavTransport
      * changeds. You should overwrite this method, if your client has problems
      * specifically with the {@link ezcWebdavMultiStatusResponse} response.
      *
-     * @param ezcWebdavMultiStatusResponse $response 
+     * @param ezcWebdavMultistatusResponse $response 
      * @return ezcWebdavXmlDisplayInformation
      */
-    protected function processMultiStatusResponse( ezcWebdavMultiStatusResponse $response )
+    protected function processMultiStatusResponse( ezcWebdavMultistatusResponse $response )
     {
         $dom = ezcWebdavServer::getInstance()->xmlTool->createDom();
 

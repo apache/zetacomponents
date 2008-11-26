@@ -357,8 +357,8 @@ class ezcWebdavServer
      * It returns true, if authorization is not enabled or succeeded. False is
      * returned otherwise.
      * 
-     * @param ezcWebdavAuthBasic|ezcWebdavAuthDigest|null $credentials 
      * @param string $path 
+     * @param ezcWebdavAuth $credentials 
      * @param int $access
      * @return bool
      *

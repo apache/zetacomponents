@@ -18,6 +18,15 @@
  * @package Webdav
  * @version //autogen//
  *
+ * @property ezcWebdavLockTransport $transport
+ *           The transport class to parse the LOCK and UNLOCK requests and to
+ *           process the corresponding responses.
+ * @property ezcWebdavLockPropertyHandler
+ *           Property handler to handle parsing and serializing of lock related
+ *           properties.
+ * @property ezcWebdavLockHeaderHandler
+ *           Header handler to parse lock related headers.
+ *
  * @access private
  */
 class ezcWebdavLockPlugin
@@ -33,7 +42,7 @@ class ezcWebdavLockPlugin
     const XML_NAMESPACE = 'http://ezcomponents.org/s/Webdav#lock';
 
     /**
-     * Properties
+     * Properties.
      * 
      * @var array(string=>mixed)
      */
@@ -98,8 +107,11 @@ class ezcWebdavLockPlugin
 
     /**
      * Creates the objects needed for dispatching the hooks.
+     *
+     * Can optionally receive $options to influence the behavior of the lock
+     * plugin.
      * 
-     * @return void
+     * @param ezcWebdavLockPluginOptions $options
      */
     public function __construct( ezcWebdavLockPluginOptions $options )
     {

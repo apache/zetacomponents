@@ -11,6 +11,9 @@
  */
 /**
  * Handler class for the LOCK request.
+ *
+ * This class provides plugin callbacks for the LOCK request for {@link
+ * ezcWebdavLockPlugin}.
  * 
  * @package Webdav
  * @version //autogen//
@@ -20,7 +23,7 @@
 class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestResponseHandler
 {
     /**
-     * Request object handled. 
+     * Handled request object.
      * 
      * @var ezcWebdavLockRequest
      */
@@ -29,11 +32,11 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
     /**
      * Handles responses to the LOCK request.
      *
-     * Unused since the LOCK request is completely handled by {@link
-     * receivedRequest()}.
+     * Dummy method to satisfy interface. Does not perform any action, since
+     * the complete request is handled in {@link receivedRequest()}.
      *
-     * @param ezcWebdavLockResponse $response 
-     * @return ezcWebdavResponse|null
+     * @param ezcWebdavResponse $response ezcWebdavLockResponse
+     * @return null
      */
     public function generatedResponse( ezcWebdavResponse $response )
     {
@@ -43,10 +46,14 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
     /**
      * Handles LOCK requests (completely).
      *
-     * {@inheritdoc}
+     * Performs the LOCK request. First checks if any pre-conditions for the
+     * lock to acquire failed. In case a violation occurs, returns the
+     * corresponding {@link ezcWebdavErrorResponse}. If now errors occur, the
+     * lock is acquired using PROPPATCH requests to the backend and an {@link
+     * ezcWebdavLockResponse} is returned.
      *
-     * @param ezcWebdavLockRequest $request 
-     * @return void
+     * @param ezcWebdavRequest $request ezcWebdavLockRequest
+     * @return ezcWebdavResponse
      */
     public function receivedRequest( ezcWebdavRequest $request )
     {
@@ -265,7 +272,7 @@ class ezcWebdavLockLockRequestResponseHandler extends ezcWebdavLockRequestRespon
      * Creates an error response for the LOCK method.
      * 
      * @param ezcWebdavErrorResponse $response 
-     * @return void
+     * @return ezcWebdavMultistatusResponse
      */
     protected function createLockError( ezcWebdavErrorResponse $response )
     {

@@ -75,11 +75,14 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
     /**
      * Creates a new lock info struct.
      *
+     * Creates a new struct that indicates how lock conditions should be checked.
+     *
      * @param string $path
      * @param int $depth
-     * @param ezcWebdavAuthBasic|ezcWebdavAuthDigest|null $ifHeader
-     * @param ezcWebdavAuthBasic|ezcWebdavAuthDigest|null $authHeader
+     * @param ezcWebdavIfHeaderList $ifHeader
+     * @param ezcWebdavAuth $authHeader
      * @param int $access
+     * @param bool $allowSharedLocks
      * @param ezcWebdavLockCheckObserver $requestGenerator
      */
     public function __construct(

@@ -25,8 +25,9 @@ class ezcWebdavBrokenBaseUriException extends ezcWebdavException
 {
     /**
      * Initializes the exception with the given $uri and optional $msg.
-     * 
+     *
      * @param string $uri
+     * @param string $msg
      */
     public function __construct( $uri, $msg = null )
     {

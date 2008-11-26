@@ -12,6 +12,10 @@
 /**
  * Request generator used to generate PROPPATCH requests to realize the LOCK.
  *
+ * This lock check observer generates PROPPATCH request to acquire a lock on
+ * all checked resources. The generated requests can be obtained using the
+ * {@link getRequests()} method, after the lock check successfully passed.
+ *
  * @package Webdav
  * @version //autogen//
  *
@@ -55,7 +59,7 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
      * every affected resource.
      * 
      * @param ezcWebdavLockRequest $request 
-     * @param string $lockToken
+     * @param ezcWebdavLockDiscoveryPropertyActiveLock $activeLock
      */
     public function __construct(
         ezcWebdavLockRequest $request,
@@ -72,7 +76,7 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
      * Notifies the request generator that a request should be generated w.r.t.
      * the given $response.
      * 
-     * @param ezcWebdavPropFindResponse $propFind 
+     * @param ezcWebdavPropFindResponse $response 
      * @return void
      */
     public function notify( ezcWebdavPropFindResponse $response )
@@ -122,8 +126,12 @@ class ezcWebdavLockLockRequestGenerator implements ezcWebdavLockCheckObserver
     }
 
     /**
-     * Returns the lock discovery property to the resource the request was issued to. 
-     * 
+     * Returns the lock discovery property assigned to $path. 
+     *
+     * This method is used to retrieve the lock discovery property for $path,
+     * to include it into the LOCK response body.
+     *
+     * @param string $path
      * @return ezcWebdavLockDiscoveryProperty
      */
     public function getLockDiscoveryProperty( $path )

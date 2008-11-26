@@ -12,7 +12,7 @@
 /**
  * An object of this class represents the Webdav property <lockdiscovery>.
  *
- * @property array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
+ * @property ArrayObject(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
  *           Lock information according to <activelock> elements.
  *
  * @version //autogentag//
@@ -28,8 +28,7 @@ class ezcWebdavLockDiscoveryProperty extends ezcWebdavLiveProperty
      * The given array must contain instances of {@link
      * ezcWebdavLockDiscoveryPropertyActiveLock}.
      * 
-     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
-     * @return void
+     * @param ArrayObject(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLock
      */
     public function __construct( ArrayObject $activeLock = null )
     {

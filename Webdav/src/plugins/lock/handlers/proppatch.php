@@ -11,6 +11,9 @@
  */
 /**
  * Handler class for the PROPPATCH request.
+ *
+ * This class provides plugin callbacks for the PROPPATCH request for {@link
+ * ezcWebdavLockPlugin}.
  * 
  * @package Webdav
  * @version //autogen//
@@ -21,6 +24,12 @@ class ezcWebdavLockPropPatchRequestResponseHandler extends ezcWebdavLockRequestR
 {
     /**
      * Handles PROPPATCH requests.
+     *
+     * Performs all lock related checks necessary for the PROPPATCH request. In
+     * case a violation with locks is detected or any other pre-condition check
+     * fails, this method returns an instance of {@link ezcWebdavResponse}. If
+     * everything is correct, null is returned, so that the $request is handled
+     * by the backend.
      *
      * @param ezcWebdavPropPatchRequest $request 
      * @return ezcWebdavResponse
@@ -86,9 +95,12 @@ class ezcWebdavLockPropPatchRequestResponseHandler extends ezcWebdavLockRequestR
 
     /**
      * Handles responses to the PROPPATCH request.
+     *
+     * Dummy method to satisfy interface. Does nothing at all, since no checks
+     * are necessary.
      * 
      * @param ezcWebdavResponse $response 
-     * @return ezcWebdavResponse|null
+     * @return null
      */
     public function generatedResponse( ezcWebdavResponse $response )
     {

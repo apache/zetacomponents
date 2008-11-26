@@ -30,7 +30,11 @@ class ezcWebdavLockIfHeaderTaggedList extends ezcWebdavLockIfHeaderList
      * Creates a new tagged If header list.
      *
      * This list contains items of type {@link ezcWebdavLockIfHeaderListItem}
-     * assigned to resource pathes.
+     * assigned to resource pathes. The list of $items can be given during
+     * construction and might be manipulated later through the ArrayAccess
+     * interface.
+     *
+     * @param array $items
      */
     public function __construct( array $items = array() )
     {
@@ -145,10 +149,13 @@ class ezcWebdavLockIfHeaderTaggedList extends ezcWebdavLockIfHeaderList
 
     /**
      * Returns all lock tokens submitted in the header.
+     *
+     * This method returns a list of all lock tokens (without duplicates) that
+     * are present in the If header represented by this list.
      * 
      * @return array(string)
      *
-     * @TODO This should be cached as long as the list is not changed.
+     * @todo This should be cached as long as the list is not changed.
      */
     public function getLockTokens()
     {

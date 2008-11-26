@@ -11,6 +11,9 @@
  */
 /**
  * Handler class for the DELETE request.
+ *
+ * This class provides plugin callbacks for the DELETE request for {@link
+ * ezcWebdavLockPlugin}.
  * 
  * @package Webdav
  * @version //autogen//
@@ -22,8 +25,14 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
     /**
      * Handles DELETE requests.
      *
-     * @param ezcWebdavDeleteRequest $request 
-     * @return ezcWebdavResponse
+     * Performs all lock related checks necessary for the DELETE request. In case
+     * a violation with locks is detected or any other pre-condition check
+     * fails, this method returns an instance of {@link ezcWebdavResponse}. If
+     * everything is correct, null is returned, so that the $request is handled
+     * by the backend.
+     *
+     * @param ezcWebdavRequest $request ezcWebdavDeleteRequest
+     * @return ezcWebdavResponse|null
      */
     public function receivedRequest( ezcWebdavRequest $request )
     {
@@ -64,9 +73,12 @@ class ezcWebdavLockDeleteRequestResponseHandler extends ezcWebdavLockRequestResp
 
     /**
      * Handles responses to the DELTE request.
+     *
+     * Dummy method to satisfy interface. Nothing to do, if the DELETE request
+     * succeeded or failed.
      * 
      * @param ezcWebdavResponse $response 
-     * @return ezcWebdavResponse|null
+     * @return null
      */
     public function generatedResponse( ezcWebdavResponse $response )
     {

@@ -164,7 +164,7 @@ class ezcWebdavLockTools
      * @param ezcWebdavLockRequest $request 
      * @return string
      *
-     * @TODO Should we use sha1 instead of md5?
+     * @todo Should we use sha1 instead of md5?
      */
     public function generateLockToken( ezcWebdavLockRequest $request )
     {
@@ -248,10 +248,10 @@ class ezcWebdavLockTools
      * false). Otherwise the first response in the multi status is checked for
      * lock violation errors.
      * 
-     * @param ezcWebdavMultiStatusResponse $response 
+     * @param ezcWebdavMultistatusResponse $response 
      * @return bool
      */
-    public function isLockError( ezcWebdavMultiStatusResponse $response = null )
+    public function isLockError( ezcWebdavMultistatusResponse $response = null )
     {
         if ( $response === null )
         {
@@ -393,6 +393,16 @@ class ezcWebdavLockTools
         );
     }
 
+    /**
+     * Checks if a lock is a shared lock or exclusive.
+     *
+     * Checks the first active lock in the given $lockDiscovery property, if it
+     * is a shared lock. Returns true, for shared locks, false for exclusive
+     * ones.
+     * 
+     * @param ezcWebdavLockDiscoveryProperty $lockDiscovery 
+     * @return bool
+     */
     protected function isSharedLock( ezcWebdavLockDiscoveryProperty $lockDiscovery )
     {
         return ( $lockDiscovery->activeLock[0]->lockScope ===  ezcWebdavLockRequest::SCOPE_SHARED );
@@ -429,9 +439,12 @@ class ezcWebdavLockTools
 
     /**
      * Returns if the $ifItem validates agains $lockDiscovery.
+     *
+     * Checks if the the conditions defined in the given $ifItem comply to any
+     * of the $activeLockTokens.
      * 
      * @param ezcWebdavIfHeaderListItem $ifItem 
-     * @param ezcWebdavLockDiscoveryProperty $lockDiscovery 
+     * @param array $activeLockTokens
      * @return bool
      */
     protected function checkLock( ezcWebdavLockIfHeaderListItem $ifItem, array $activeLockTokens )
@@ -449,8 +462,11 @@ class ezcWebdavLockTools
     /**
      * Returns in the given $ifItem validates against the $getEtag.
      *
+     * Checks if the the conditions defined in the given $ifItem comply to the
+     * $activeEtag.
+     *
      * @param ezcWebdavIfHeaderListItem $ifItem 
-     * @param ezcWebdavGetEtagProperty $getEtag 
+     * @param string $activeEtag
      * @return bool
      */
     protected function checkEtag( ezcWebdavLockIfHeaderListItem $ifItem, $activeEtag )

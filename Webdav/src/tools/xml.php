@@ -79,7 +79,8 @@ class ezcWebdavXmlTool
      *
      * @param sting $content 
      * @return DOMDocument|false
-     * @see LIBXML_NSCLEAN, LIBXML_NOBLANKS
+     * @see LIBXML_NSCLEAN
+     * @see LIBXML_NOBLANKS
      *
      * @apichange The behavior of this method will be changed to the behavior
      *            of {@link createDom()} and createDom() will be dropped in the
@@ -109,7 +110,9 @@ class ezcWebdavXmlTool
      *
      * @param sting $content 
      * @return DOMDocument
-     * @see LIBXML_NOWARNING, LIBXML_NSCLEAN, LIBXML_NOBLANKS
+     * @see LIBXML_NOWARNING
+     * @see LIBXML_NSCLEAN
+     * @see LIBXML_NOBLANKS
      * 
      * @throws ezcWebdavInvalidRequestBodyException
      *         in case libxml produces an error with code other than 100 while

@@ -107,6 +107,24 @@ class ezcWebdavDigestAuth extends ezcWebdavAuth
      */
     public $opaque;
 
+    /**
+     * Creates a new credential struct for digest authentication.
+     *
+     * Receives the information stored in the digest authentication header. See
+     * attributes for further details.
+     *
+     * @param string $requestMethod
+     * @param string $username
+     * @param string $realm
+     * @param string $nonce
+     * @param string $uri
+     * @param string $response
+     * @param string $algorithm
+     * @param string $qualityOfProtection
+     * @param string $nonceCount
+     * @param string $clientNonce
+     * @param string $opaque
+     */
     public function __construct(
         $requestMethod = '',
         $username = '',

@@ -122,10 +122,13 @@ class ezcWebdavLockIfHeaderNoTagList extends ezcWebdavLockIfHeaderList
 
     /**
      * Returns all lock tokens submitted in the header.
+     *
+     * This method returns a list of all lock tokens (without duplicates) that
+     * are present in the If header represented by this list.
      * 
      * @return array(string)
      *
-     * @TODO This should be cached as long as the list is not changed.
+     * @todo This should be cached as long as the list is not changed.
      */
     public function getLockTokens()
     {

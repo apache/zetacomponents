@@ -19,6 +19,7 @@
  * @property ezcWebdavLockDiscoveryProperty $lockDiscovery
  *           Lock discovery property to the ressource targeted by the LOCK
  *           request, including the newly created or updated active lock part.
+ *
  * @version //autogentag//
  * @package Webdav
  *
@@ -35,6 +36,7 @@ class ezcWebdavLockResponse extends ezcWebdavResponse
      * locks, but must occur for new locks.
      * 
      * @param ezcWebdavLockDiscoveryProperty $lockDiscovery 
+     * @param int $status Constant ezcWebdavResponse::STATUS_*
      * @param string $lockToken
      */
     public function __construct(

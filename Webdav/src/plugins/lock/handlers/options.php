@@ -11,6 +11,9 @@
  */
 /**
  * Handler class for the OPTIONS request.
+ *
+ * This class provides plugin callbacks for the OPTIONS request for {@link
+ * ezcWebdavLockPlugin}.
  * 
  * @package Webdav
  * @version //autogen//
@@ -29,8 +32,11 @@ class ezcWebdavLockOptionsRequestResponseHandler extends ezcWebdavLockRequestRes
     /**
      * Handles OPTIONS requests.
      *
-     * @param ezcWebdavUnlockRequest $request 
-     * @return ezcWebdavResponse
+     * Dummy method to satisfy the interface. Only responses to the OPTIONS
+     * request must be handled, which happens in {@link generatedResponse()}.
+     *
+     * @param ezcWebdavRequest $request  ezcWebdavOptionsRequest
+     * @return null
      */
     public function receivedRequest( ezcWebdavRequest $request )
     {
@@ -39,7 +45,11 @@ class ezcWebdavLockOptionsRequestResponseHandler extends ezcWebdavLockRequestRes
 
     /**
      * Handles responses to the OPTIONS request.
-     * 
+     *
+     * This method enhances the generated response to indicate WebDAV
+     * compliance classes 1 and 2 and adds the methods LOCK and UNLOCK to the
+     * Allow header.
+     *
      * @param ezcWebdavResponse $response 
      * @return ezcWebdavResponse|null
      */

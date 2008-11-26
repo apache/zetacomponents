@@ -11,10 +11,13 @@
  */
 /**
  * Handler class for the PROPFIND request.
+ *
+ * This class provides plugin callbacks for the PROPFIND request for {@link
+ * ezcWebdavLockPlugin}.
  * 
  * @package Webdav
  * @version //autogen//
- * @TODO Refactor code.
+ * @todo Refactor code.
  *
  * @access private
  */
@@ -38,9 +41,12 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
     protected $request;
 
     /**
-     * Dummy method, does not do anything. 
+     * Handles PROPFIND requests.
+     *
+     * Stores the received $request for later use in {@link
+     * generatedResponse()}.
      * 
-     * @param ezcWebdavRequest $request 
+     * @param ezcWebdavRequest $request ezcWebdavPropFindRequest
      */
     public function receivedRequest( ezcWebdavRequest $request )
     {
@@ -50,9 +56,14 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
 
     /**
      * Handles responses to the PROPFIND request.
+     *
+     * Checks if lock related properties were requested in the $request. If
+     * this is the case, $responses will be manipulated accordingly: Requested
+     * properties which are not handled by the backend are added to the 200
+     * status storage and removed from the 404 status storage.
      * 
-     * @param ezcWebdavResponse $response 
-     * @return ezcWebdavResponse|null
+     * @param ezcWebdavResponse $response ezcWebdavMultistatusResponse
+     * @return null
      */
     public function generatedResponse( ezcWebdavResponse $response )
     {
@@ -153,7 +164,6 @@ class ezcWebdavLockPropFindRequestResponseHandler extends ezcWebdavLockRequestRe
                 }
                 $propFindRes->responses = $responses;
             }
-
         }
     }
 }

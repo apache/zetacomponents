@@ -53,15 +53,14 @@ class ezcWebdavLockDiscoveryPropertyActiveLock extends ezcWebdavSupportedLockPro
      * issued). The $lastAccess time object stores when a lock was last
      * accessed. It is only set on the lock base (where $baseUri is null).
      *
-     * @param int           $lockType  Lock type (constant ezcWebdavLockRequest::TYPE_*).
-     * @param int           $lockScope Lock scope (constant ezcWebdavLockRequest::SCOPE_*).
-     * @param int           $depth     Lock depth (constant ezcWebdavRequest::DEPTH_*).
-     * @param string        $owner
-     * @param int           $timeout
-     * @param array(string) $token
+     * @param int $lockType Constant ezcWebdavLockRequest::TYPE_*
+     * @param int $lockScope Constant ezcWebdavLockRequest::SCOPE_*
+     * @param int $depth Constant ezcWebdavRequest::DEPTH_*
+     * @param ezcWebdavPotentialUriContent $owner
+     * @param int $timeout
+     * @param ezcWebdavPotentialUriContent $token
+     * @param string $baseUri
      * @param ezcWebdavDateTime $lastAccess
-     * @param string        $baseUri
-     * @return void
      */
     public function __construct(
         $lockType                           = ezcWebdavLockRequest::TYPE_READ,

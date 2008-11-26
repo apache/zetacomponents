@@ -28,7 +28,7 @@ class ezcWebdavSupportedLockProperty extends ezcWebdavLiveProperty
      * The $lockEntry parameter must be an array of {@link
      * ezcWebdavSupportedLockPropertyLockentry} instances.
      * 
-     * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockEntries
+     * @param ArrayObject(ezcWebdavSupportedLockPropertyLockentry) $lockEntries
      * @return void
      */
     public function __construct( ArrayObject $lockEntries = null )

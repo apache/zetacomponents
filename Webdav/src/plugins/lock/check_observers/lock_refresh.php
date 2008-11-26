@@ -184,6 +184,7 @@ class ezcWebdavLockRefreshRequestGenerator implements ezcWebdavLockCheckObserver
      * Returs the desired <lockdiscovery> property, if it was found and
      * recorded, otherwise null.
      * 
+     * @param string $path
      * @return ezcWebdavLockDiscoveryProperty|null
      */
     public function getLockDiscoveryProperty( $path )

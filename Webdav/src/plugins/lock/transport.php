@@ -64,6 +64,9 @@ class ezcWebdavLockTransport
 
     /**
      * Creates a new lock transport.
+     *
+     * @param ezcWebdavLockHeaderHandler $headerHandler
+     * @param ezcWebdavLockPropertyHandler $propertyHandler
      */
     public function __construct( $headerHandler, $propertyHandler )
     {

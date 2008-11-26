@@ -31,8 +31,8 @@ interface ezcWebdavLockAuthorizer extends ezcWebdavAuthorizer
      *  <li>dashes (-)</li>
      * </ul>
      * 
-     * @param $user 
-     * @param $lockToken 
+     * @param string $user 
+     * @param string $lockToken 
      * @return void
      */
     public function assignLock( $user, $lockToken );
@@ -42,8 +42,8 @@ interface ezcWebdavLockAuthorizer extends ezcWebdavAuthorizer
      *
      * Returns true, if the $lockToken is owned by $user, false otherwise.
      * 
-     * @param $user 
-     * @param $lockToken 
+     * @param string $user 
+     * @param string $lockToken 
      * @return bool
      */
     public function ownsLock( $user, $lockToken );
@@ -52,11 +52,12 @@ interface ezcWebdavLockAuthorizer extends ezcWebdavAuthorizer
      * Removes the assignement of $lockToken from $user.
      *
      * After a $lockToken has been released from the $user, the {@link
-     * ownsLock()} method must return false for the given combination.
+     * ownsLock()} method must return false for the given combination. It might
+     * happen, that a lock is to be released, which already has been removed.
+     * This case must be ignored by the method.
      * 
-     * @param $user 
-     * @param $lockToken 
-     * @return void
+     * @param string $user 
+     * @param string $lockToken 
      */
     public function releaseLock( $user, $lockToken );
 }

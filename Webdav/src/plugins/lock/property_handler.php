@@ -11,6 +11,13 @@
  */
 /**
  * Property handler of the Lock plugin.
+ *
+ * This class is responsible of parsing and serializing the lock related properties:
+ *
+ * <ul>
+ *  <li>{@link ezcWebdavLockDiscoveryProperty}</li>
+ *  <li>{@link ezcWebdavSupportedLock}</li>
+ * </ul>
  * 
  * @package Webdav
  * @version //autogen//
@@ -169,6 +176,7 @@ class ezcWebdavLockPropertyHandler
     
     /**
      * Extracts the <lockentry /> XML elements.
+     *
      * This method extracts the <lockentry /> XML elements from the <supportedlock />
      * element and returns the corresponding
      * ezcWebdavSupportedLockPropertyLockentry object to be used as the content
@@ -189,6 +197,7 @@ class ezcWebdavLockPropertyHandler
     
     /**
      * Returns the XML representation of a live property.
+     *
      * Returns a DOMElement, representing the content of the given $property.
      * The newly created element is also appended as a child to the given
      * $parentElement.
@@ -254,7 +263,7 @@ class ezcWebdavLockPropertyHandler
      * The created DOMElement objects are returned as an error for further
      * processing.
      * 
-     * @param array(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLocks 
+     * @param ArrayObject(ezcWebdavLockDiscoveryPropertyActiveLock) $activeLocks 
      * @param DOMDocument $dom 
      * @param ezcWebdavXmlTool $xmlTool
      * @return array(DOMElement)
@@ -358,7 +367,7 @@ class ezcWebdavLockPropertyHandler
     /**
      * Serializes an array of ezcWebdavSupportedLockPropertyLockentry elements to XML.
      * 
-     * @param array(ezcWebdavSupportedLockPropertyLockentry) $lockEntries 
+     * @param ArrayObject(ezcWebdavSupportedLockPropertyLockentry) $lockEntries 
      * @param DOMDocument $dom To create the returned DOMElements.
      * @param ezcWebdavXmlTool $xmlTool
      * @return array(DOMElement)

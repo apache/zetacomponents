@@ -11,6 +11,9 @@
  */
 /**
  * Handler class for the UNLOCK request.
+ *
+ * This class provides plugin callbacks for the UNLOCK request for {@link
+ * ezcWebdavLockPlugin}.
  * 
  * @package Webdav
  * @version //autogen//
@@ -22,8 +25,8 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
     /**
      * Handles responses to the UNLOCk request.
      *
-     * Unused, since the UNLOCK request is completely handled by {@link
-     * receivedRequest()}.
+     * Dummy method to satisfy interface. Does not perform any action, since
+     * the complete request is handled in {@link receivedRequest()}.
      *
      * @param ezcWebdavResponse $response 
      * @return ezcWebdavResponse|null
@@ -40,7 +43,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
      * header of $request and releases the lock from all locked resources. In
      * case a lock null resource is beyond these, it will be deleted.
      * 
-     * @param ezcWebdavUnlockRequest $request 
+     * @param ezcWebdavRequest $request ezcWebdavUnlockRequest
      * @return ezcWebdavResponse
      */
     public function receivedRequest( ezcWebdavRequest $request )
@@ -162,7 +165,7 @@ class ezcWebdavLockUnlockRequestResponseHandler extends ezcWebdavLockRequestResp
      * get the neccessary properties updated to reflect the change. Lock null
      * resources in the lock are removed.
      * 
-     * @param string $path 
+     * @param ezcWebdavUnlockRequest $request
      * @param string $token 
      * @param int $depth 
      * @return ezcWebdavResponse
