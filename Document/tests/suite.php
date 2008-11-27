@@ -35,6 +35,7 @@ require 'document_wiki_dokuwiki_tokenizer_tests.php';
 require 'document_wiki_confluence_tokenizer_tests.php';
 require 'document_wiki_parser_tests.php';
 require 'document_wiki_visitor_docbook_tests.php';
+require 'document_wiki_tests.php';
 
 require 'document_xhtml_docbook_tests.php';
 require 'document_xhtml_validation_tests.php';
@@ -77,6 +78,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentWikiConfluenceTokenizerTests::suite() );
         $this->addTest( ezcDocumentWikiParserTests::suite() );
         $this->addTest( ezcDocumentWikiDocbookVisitorTests::suite() );
+        $this->addTest( ezcDocumentWikiTests::suite() );
 
         $this->addTest( ezcDocumentXhtmlDocbookTests::suite() );
         $this->addTest( ezcDocumentXhtmlValidationTests::suite() );

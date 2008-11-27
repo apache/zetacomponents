@@ -12,6 +12,8 @@ Review Alexandru 05-11-2008
 
 [ ] Linux-style path separator used in some files.
 
+	kn: PHP should handle this just fine.
+
 [ ] Some functions which return bool are documented with '@return void'.
 
 - Some typos in the code and comments:
@@ -29,7 +31,7 @@ Review Toby 2008-11-21
 
 [x] Wierd @apichange tag in Document/src/options/document_rst.php.
 
-[ ] I'd suggest to have a wrapper class for each Wiki format, to allow
+[x] I'd suggest to have a wrapper class for each Wiki format, to allow
     creation of Wiki documents in the same way as for other documents. For
 	example ezcDocumentWikiCreole to create a wiki document with the creole
 	tokenizer.

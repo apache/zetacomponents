@@ -9,7 +9,7 @@
  */
 
 /**
- * Document handler for RST text documents.
+ * Document handler for wiki text documents.
  * 
  * @package Document
  * @version //autogen//
