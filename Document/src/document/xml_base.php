@@ -61,7 +61,7 @@ abstract class ezcDocumentXmlBase extends ezcDocument implements ezcDocumentVali
         // exception with the occured errors.
         if ( $errors )
         {
-            throw new ezcDocumentErrnousXmlException( $errors );
+            throw new ezcDocumentErroneousXmlException( $errors );
         }
     }
 

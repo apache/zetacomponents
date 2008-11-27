@@ -136,7 +136,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         $this->removeTempDir();
     }
 
-    public static function getErrnousTestDocuments()
+    public static function getErroneousTestDocuments()
     {
 //        return array();
         return array(
@@ -148,9 +148,9 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
     }
 
     /**
-     * @dataProvider getErrnousTestDocuments
+     * @dataProvider getErroneousTestDocuments
      */
-    public function testParseErrnousRstFile( $file, $message )
+    public function testParseErroneousRstFile( $file, $message )
     {
         try
         {

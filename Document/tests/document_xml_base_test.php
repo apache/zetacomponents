@@ -50,7 +50,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
         );
     }
 
-    public function testLoadErrnousXmlDocument()
+    public function testLoadErroneousXmlDocument()
     {
         $doc = new ezcDocumentDocbook();
 
@@ -60,7 +60,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
                 dirname( __FILE__ ) . '/files/xhtml_sample_errnous.xml'
             );
         }
-        catch ( ezcDocumentErrnousXmlException $e )
+        catch ( ezcDocumentErroneousXmlException $e )
         {
             $errors = $e->getXmlErrors();
 
@@ -77,7 +77,7 @@ class ezcDocumentXmlBaseTests extends ezcTestCase
         );
     }
 
-    public function testLoadErrnousXmlDocumentSilent()
+    public function testLoadErroneousXmlDocumentSilent()
     {
         $doc = new ezcDocumentDocbook();
         $doc->options->failOnError = false;

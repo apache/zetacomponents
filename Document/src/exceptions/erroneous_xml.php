@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogentag//
  */
-class ezcDocumentErrnousXmlException extends ezcDocumentException
+class ezcDocumentErroneousXmlException extends ezcDocumentException
 {
     /**
      * Errors occured during parsing process

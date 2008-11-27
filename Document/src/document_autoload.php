@@ -12,7 +12,7 @@
 return array(
     'ezcDocumentException'                               => 'Document/exceptions/exception.php',
     'ezcDocumentConversionException'                     => 'Document/exceptions/conversion.php',
-    'ezcDocumentErrnousXmlException'                     => 'Document/exceptions/errnous_xml.php',
+    'ezcDocumentErroneousXmlException'                   => 'Document/exceptions/erroneous_xml.php',
     'ezcDocumentMissingVisitorException'                 => 'Document/exceptions/missing_visitor.php',
     'ezcDocumentParserException'                         => 'Document/exceptions/parser.php',
     'ezcDocumentRstMissingDirectiveHandlerException'     => 'Document/exceptions/missing_directive_handler.php',

@@ -122,7 +122,7 @@ class ezcDocumentRstParserTests extends ezcTestCase
         $this->removeTempDir();
     }
 
-    public static function getErrnousTestDocuments()
+    public static function getErroneousTestDocuments()
     {
 //        return array();
         return array(
@@ -142,9 +142,9 @@ class ezcDocumentRstParserTests extends ezcTestCase
     }
 
     /**
-     * @dataProvider getErrnousTestDocuments
+     * @dataProvider getErroneousTestDocuments
      */
-    public function testParseErrnousRstFile( $file, $message )
+    public function testParseErroneousRstFile( $file, $message )
     {
         $tokenizer  = new ezcDocumentRstTokenizer();
         $parser     = new ezcDocumentRstParser();

@@ -77,7 +77,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
         // exception with the occured errors.
         if ( $errors )
         {
-            throw new ezcDocumentErrnousXmlException( $errors );
+            throw new ezcDocumentErroneousXmlException( $errors );
         }
     }
 

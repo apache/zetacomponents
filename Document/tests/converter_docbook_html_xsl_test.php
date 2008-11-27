@@ -77,9 +77,9 @@ class ezcDocumentConverterDocbookToHtmlXsltTests extends ezcTestCase
             $converter->options->failOnError = true;
             $converter->convert( $doc );
 
-            $this->fail( 'Expected ezcDocumentErrnousXmlException.' );
+            $this->fail( 'Expected ezcDocumentErroneousXmlException.' );
         }
-        catch ( ezcDocumentErrnousXmlException $e )
+        catch ( ezcDocumentErroneousXmlException $e )
         {
             $this->assertTrue( 
                 count( $e->getXmlErrors() ) > 0,

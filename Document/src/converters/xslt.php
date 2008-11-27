@@ -93,7 +93,7 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
         // exception with the occured errors.
         if ( $errors )
         {
-            throw new ezcDocumentErrnousXmlException( $errors );
+            throw new ezcDocumentErroneousXmlException( $errors );
         }
 
         // Reset parameters, so they are not automatically applied to the next
