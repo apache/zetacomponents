@@ -443,7 +443,7 @@ class ezcWebdavLockTools
      * Checks if the the conditions defined in the given $ifItem comply to any
      * of the $activeLockTokens.
      * 
-     * @param ezcWebdavIfHeaderListItem $ifItem 
+     * @param ezcWebdavLockIfHeaderListItem $ifItem 
      * @param array $activeLockTokens
      * @return bool
      */
@@ -465,7 +465,7 @@ class ezcWebdavLockTools
      * Checks if the the conditions defined in the given $ifItem comply to the
      * $activeEtag.
      *
-     * @param ezcWebdavIfHeaderListItem $ifItem 
+     * @param ezcWebdavLockIfHeaderListItem $ifItem 
      * @param string $activeEtag
      * @return bool
      */

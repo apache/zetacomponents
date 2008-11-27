@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavIfHeaderCondition struct class.
+ * File containing the ezcWebdavLockIfHeaderCondition struct class.
  *
  * @package Webdav
  * @version //autogentag//

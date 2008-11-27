@@ -1,16 +1,6 @@
 TODO
 ====
 
-1.1beta1
---------
-
-- Other clients need to be tested against the lock plugin.
-
-  - Finder
-  - Which others support locks?
-
-- Check all doc blocks of the lock plugin.
-
 1.2
 ---
 

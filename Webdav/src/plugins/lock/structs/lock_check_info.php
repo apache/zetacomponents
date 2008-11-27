@@ -82,8 +82,8 @@ class ezcWebdavLockCheckInfo extends ezcBaseStruct
      * @param ezcWebdavIfHeaderList $ifHeader
      * @param ezcWebdavAuth $authHeader
      * @param int $access
-     * @param bool $allowSharedLocks
      * @param ezcWebdavLockCheckObserver $requestGenerator
+     * @param bool $allowSharedLocks
      */
     public function __construct(
         $path                                        = '',

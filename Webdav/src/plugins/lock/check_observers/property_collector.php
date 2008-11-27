@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavLockPropertyCollector class.
+ * File containing the ezcWebdavLockCheckPropertyCollector class.
  *
  * @package Webdav
  * @version //autogentag//

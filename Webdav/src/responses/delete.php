@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavDeleteResourceResponse class.
+ * File containing the ezcWebdavDeleteResponse class.
  *
  * @package Webdav
  * @version //autogentag//

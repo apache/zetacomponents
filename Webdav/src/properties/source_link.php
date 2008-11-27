@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavSourceProperty class.
+ * File containing the ezcWebdavSourcePropertyLink class.
  *
  * @package Webdav
  * @version //autogentag//

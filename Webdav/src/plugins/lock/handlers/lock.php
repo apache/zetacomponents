@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavLockRequestResponseHandler class.
+ * File containing the ezcWebdavLockLockRequestResponseHandler class.
  *
  * @package Webdav
  * @version //autogentag//

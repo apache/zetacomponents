@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavErrrorResponse class.
+ * File containing the ezcWebdavErrorResponse class.
  *
  * @package Webdav
  * @version //autogentag//

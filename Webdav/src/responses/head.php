@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavPutResourceResponse class.
+ * File containing the ezcWebdavHeadResponse class.
  *
  * @package Webdav
  * @version //autogentag//

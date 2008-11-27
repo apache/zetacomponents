@@ -22,7 +22,6 @@
  * 
  * @package Webdav
  * @version //autogen//
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
  *
  * @access private
  */

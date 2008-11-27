@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavMultiStatusResponse class.
+ * File containing the ezcWebdavMultistatusResponse class.
  *
  * @package Webdav
  * @version //autogentag//

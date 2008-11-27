@@ -20,7 +20,7 @@ classes on multiple lines is that they are not displayed in the Class Tree
 [x] In /src/backends/file.php the $depth constants are not used in
     copyRecursive() (-1 and 0 appear)
 
-[ ] Some files have different class name in header ("File containing the XXX class).
+[x] Some files have different class name in header ("File containing the XXX class).
 
 [x] "return null;" is commented-out in some files.
 

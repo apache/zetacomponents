@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcWebdavBasicAuthenticator interface.
+ * File containing the ezcWebdavAnonymousAuthenticator interface.
  *
  * @package Webdav
  * @version //autogentag//

@@ -1,6 +1,6 @@
 <?php
 /**
- * Base exception for the Webdav package.
+ * File containing the ezcWebdavException class.
  *
  * @package Webdav
  * @version //autogentag//
