@@ -39,10 +39,7 @@
  * @package Webdav
  * @access private
  */
-class ezcWebdavMemoryBackend
-    extends
-        ezcWebdavSimpleBackend
-    implements ezcWebdavLockBackend
+class ezcWebdavMemoryBackend extends ezcWebdavSimpleBackend implements ezcWebdavLockBackend
 {
     /**
      * Options of the memory backend

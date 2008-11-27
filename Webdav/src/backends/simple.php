@@ -24,13 +24,7 @@
  * @package Webdav
  * @mainclass
  */
-abstract class ezcWebdavSimpleBackend
-    extends
-        ezcWebdavBackend
-    implements
-        ezcWebdavBackendPut,
-        ezcWebdavBackendChange,
-        ezcWebdavBackendMakeCollection
+abstract class ezcWebdavSimpleBackend extends ezcWebdavBackend implements ezcWebdavBackendPut, ezcWebdavBackendChange, ezcWebdavBackendMakeCollection
 {
     /**
      * Create a new collection.

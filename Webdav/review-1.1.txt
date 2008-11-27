@@ -1,7 +1,7 @@
 Review Alexandru 05-11-2008
 ---------------------------
 
-[ ] ezcWebdavMemoryBackend, ezcWebdavSimpleBackend and maybe other classes have
+[x] ezcWebdavMemoryBackend, ezcWebdavSimpleBackend and maybe other classes have
 the extends and implements on many lines - I thought it was already discussed
 on IRC to have everything on one line. (from previous review.txt)
 
@@ -13,11 +13,11 @@ classes on multiple lines is that they are not displayed in the Class Tree
 (http://ezcomponents.org/docs/api/trunk/classtrees_Webdav.html).
 
 
-[ ] ChangeLog: [RELEASEDATE] not converted to real date on 1.1alpha1 release.
+[x] ChangeLog: [RELEASEDATE] not converted to real date on 1.1alpha1 release.
 
-[ ] In some files the @copyright and @license tags appear 2 times.
+[x] In some files the @copyright and @license tags appear 2 times.
 
-[ ] In /src/backends/file.php the $depth constants are not used in
+[x] In /src/backends/file.php the $depth constants are not used in
     copyRecursive() (-1 and 0 appear)
 
 [ ] Some files have different class name in header ("File containing the XXX class).

@@ -30,8 +30,7 @@
  * @package Webdav
  * @mainclass
  */
-class ezcWebdavFileBackend extends ezcWebdavSimpleBackend
-                           implements ezcWebdavLockBackend
+class ezcWebdavFileBackend extends ezcWebdavSimpleBackend implements ezcWebdavLockBackend
 {
     /**
      * Options.
@@ -799,7 +798,7 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend
             chmod( $destination, $this->options->fileMode );
         }
 
-        if ( ( $depth === 0 ) ||
+        if ( ( $depth === ezcWebdavRequest::DEPTH_ZERO ) ||
              ( !is_dir( $source ) ) )
         {
             // Do not recurse (any more)
