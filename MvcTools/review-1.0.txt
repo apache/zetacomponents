@@ -54,14 +54,17 @@ Documentation
 
 [X] The documentation in ezcMvcHttpRequestParser is incomplete.
 
-[-] The return value documentation of
-    arbitDispatcherConfiguration::runPreRoutingFilters() is wrong and should be:
-    @return ezcMvcRequest. Using the currently documented return value breaks
-    the main loop in ezcMvcConfigurableDispatcher.
+[ ] The return value documentation of
+	arbitDispatcherConfiguration::createFatalRedirectRequest() is wrong and
+	should be: @return ezcMvcRequest. Using the currently documented return
+	value breaks the main loop in ezcMvcConfigurableDispatcher.
 
     dr: There is no return value for
         ezcMvcDispatcherConfiguration::runPreRoutingFilters documented -- nor
         is it necessary.
+
+	kn: Fixed method name, it should have said:
+        arbitDispatcherConfiguration::createFatalRedirectRequest
 
 Trivial, maybe irrelevant
 -------------------------
