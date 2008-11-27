@@ -42,3 +42,6 @@ Review Toby 2008-11-21
 
 	  kn: As discussed: Changed to an error of level "Warning", which can
 	  easily be ignored.
+
+[ ] The docanalysis tool throws an exception because a class used in a type
+    hint does not exist.
