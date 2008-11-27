@@ -15,6 +15,7 @@ return array(
     'ezcMvcControllerException'         => 'MvcTools/exceptions/controller.php',
     'ezcMvcFilterHasNoOptionsException' => 'MvcTools/exceptions/filter_has_no_options.php',
     'ezcMvcInfiniteLoopException'       => 'MvcTools/exceptions/infinite_loop.php',
+    'ezcMvcInvalidConfiguration'        => 'MvcTools/exceptions/invalid_configuration.php',
     'ezcMvcInvalidEncodingException'    => 'MvcTools/exceptions/invalid_encoding.php',
     'ezcMvcNoRoutesException'           => 'MvcTools/exceptions/no_routes.php',
     'ezcMvcNoZonesException'            => 'MvcTools/exceptions/no_zones.php',

@@ -132,6 +132,16 @@ class testRouter extends ezcMvcRouter
     }
 }
 
+class testBrokenControllerRouter extends ezcMvcRouter
+{
+    public function createRoutes()
+    {
+        return array(
+            new ezcMvcRegexpRoute( '@^/$@', 'stdClass', 'foo' ),
+        );
+    }
+}
+
 class testIRControllerRouter extends ezcMvcRouter
 {
     public function createRoutes()
@@ -360,6 +370,10 @@ class testWrongObjectsConfiguration implements ezcMvcDispatcherConfiguration
         if ( $this->fail === 'fatal' )
         {
             return new testExceptionInActionRouter( $request );
+        }
+        if ( $this->fail === 'controller' )
+        {
+            return new testBrokenControllerRouter( $request );
         }
         return $this->fail == 'router' ? new stdClass() : new testRouter( $request );
     }

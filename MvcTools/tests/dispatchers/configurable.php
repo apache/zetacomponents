@@ -162,7 +162,7 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
             $dispatcher->run();
             self::fail( "Expected exception not thrown." );
         }
-        catch ( ezcBaseValueException $e )
+        catch ( ezcMvcInvalidConfiguration $e )
         {
             return $e->getMessage();
         }
@@ -171,31 +171,37 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
     public function testWrongRequestParserClass()
     {
         $e = self::commonWrongTest( 'request-parser' );
-        self::assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'requestParser' is invalid. Allowed values are: instance of ezcMvcRequestParser.", $e );
+        self::assertEquals( "The configuration returned an invalid object for 'requestParser', instance of ezcMvcRequestParser expected, but instance of class stdClass found.", $e );
     }
 
     public function testWrongRouterClass()
     {
         $e = self::commonWrongTest( 'router' );
-        self::assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'router' is invalid. Allowed values are: instance of ezcMvcRouter.", $e );
+        self::assertEquals( "The configuration returned an invalid object for 'router', instance of ezcMvcRouter expected, but instance of class stdClass found.", $e );
     }
 
     public function testWrongViewClass()
     {
         $e = self::commonWrongTest( 'view' );
-        self::assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'view' is invalid. Allowed values are: instance of ezcMvcView.", $e );
+        self::assertEquals( "The configuration returned an invalid object for 'view', instance of ezcMvcView expected, but instance of class stdClass found.", $e );
+    }
+
+    public function testWrongControllerClass()
+    {
+        $e = self::commonWrongTest( 'controller' );
+        self::assertEquals( "The configuration returned an invalid object for 'controller', instance of ezcMvcController expected, but instance of class stdClass found.", $e );
     }
 
     public function testWrongResponseWriter()
     {
         $e = self::commonWrongTest( 'response-writer' );
-        self::assertEquals( "The value 'O:8:\"stdClass\":1:{s:6:\"config\";O:29:\"testWrongObjectsConfiguration\":1:{s:4:\"fail\";s:15:\"response-writer\";}}' that you were trying to assign to setting 'responseWriter' is invalid. Allowed values are: instance of ezcMvcResponseWriter.", $e );
+        self::assertEquals( "The configuration returned an invalid object for 'responseWriter', instance of ezcMvcResponseWriter expected, but instance of class stdClass found.", $e );
     }
 
     public function testWrongFatalRedirectClass()
     {
         $e = self::commonWrongTest( 'fatal' );
-        self::assertEquals( "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'request' is invalid. Allowed values are: instance of ezcMvcRequest.", $e );
+        self::assertEquals( "The configuration returned an invalid object for 'request', instance of ezcMvcRequest expected, but instance of class stdClass found.", $e );
     }
 
     public static function suite()

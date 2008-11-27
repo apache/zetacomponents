@@ -11,6 +11,8 @@
 - Implemented issue #13921: The ezcMvcConfigurableDispatcher now throws
   exceptions if the configuration does not return objects of the expected
   class.
+- Implemented issue #13926: Split ezcMvcDispatcherConfigurable::run() into
+  smaller parts.
 
 
 1.0alpha2 - Monday 10 November 2008

@@ -50,43 +50,161 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
     }
 
     /**
-     * Runs through the request, by using the configuration to obtain correct
-     * handlers.
+     * Checks whether the number of redirects does not exceed the limit, and
+     * increases the $redirects count.
+     *
+     * @throws ezcMvcInfiniteLoopException when the number of redirects exceeds
+     *         the limit (25 by default).
+     */
+    protected function checkRedirectLimit( &$redirects )
+    {
+        $redirects++;
+        if ( $redirects >= 25 )
+        {
+            throw new ezcMvcInfiniteLoopException( $redirects );
+        }
+    }
+
+    /**
+     * Uses the configuration to fetch the request parser
+     *
+     * @throws ezcMvcInvalidConfiguration when the returned object is of the wrong class
+     *
+     * @return ezcMvcRequestParser
+     */
+    protected function getRequestParser()
+    {
+        // create the request parser
+        $requestParser = $this->configuration->createRequestParser();
+        if ( ezcBase::inDevMode() && !$requestParser instanceof ezcMvcRequestParser )
+        {
+            throw new ezcMvcInvalidConfiguration( 'requestParser', $requestParser, 'instance of ezcMvcRequestParser' );
+        }
+        return $requestParser;
+    }
+
+    /**
+     * Uses the configuration to fetch the router
+     *
+     * @throws ezcMvcInvalidConfiguration when the returned object is of the wrong class
+     *
+     * @param ezcMvcRequest $request
+     * @return ezcMvcRouter
+     */
+    protected function getRouter( ezcMvcRequest $request )
+    {
+        $router = $this->configuration->createRouter( $request );
+        if ( ezcBase::inDevMode() && !$router instanceof ezcMvcRouter )
+        {
+            throw new ezcMvcInvalidConfiguration( 'router', $router, 'instance of ezcMvcRouter' );
+        }
+        return $router;
+    }
+
+    /**
+     * Uses the router (through createController()) to fetch the controller
+     *
+     * @throws ezcMvcInvalidConfiguration when the returned object is of the wrong class
+     *
+     * @param ezcMvcRoutingInformation $routingInformation
+     * @param ezcMvcRequest            $request
+     * @return ezcMvcController
+     */
+    protected function getController( ezcMvcRoutingInformation $routingInformation, ezcMvcRequest $request )
+    {
+        $controller = $this->createController( $routingInformation, $request );
+        if ( ezcBase::inDevMode() && !$controller instanceof ezcMvcController )
+        {
+            throw new ezcMvcInvalidConfiguration( 'controller', $controller, 'instance of ezcMvcController' );
+        }
+        return $controller;
+    }
+
+    /**
+     * Uses the configuration to fetch the view handler
+     *
+     * @throws ezcMvcInvalidConfiguration when the returned object is of the wrong class
+     *
+     * @param ezcMvcRoutingInformation $routingInformation
+     * @param ezcMvcRequest            $request
+     * @param ezcMvcResult             $result
+     * @return ezcMvcView
+     */
+    protected function getViewHandler( ezcMvcRoutingInformation $routingInformation, ezcMvcRequest $request, ezcMvcResult $result )
+    {
+        $viewHandler = $this->configuration->createView( $routingInformation, $request, $result );
+        if ( ezcBase::inDevMode() && !$viewHandler instanceof ezcMvcView )
+        {
+            throw new ezcMvcInvalidConfiguration( 'view', $viewHandler, 'instance of ezcMvcView' );
+        }
+        return $viewHandler;
+    }
+
+    /**
+     * Uses the configuration to fetch a fatal redirect request object
+     *
+     * @throws ezcMvcInvalidConfiguration when the returned object is of the wrong class
+     *
+     * @param ezcMvcRequest $request
+     * @param ezcMvcResult  $result
+     * @param Exception     $e
+     * @return ezcMvcRequest
+     */
+    protected function getFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $e )
+    {
+        $request = $this->configuration->createFatalRedirectRequest( $request, new ezcMvcResult, $e );
+        if ( ezcBase::inDevMode() && !$request instanceof ezcMvcRequest )
+        {
+            throw new ezcMvcInvalidConfiguration( 'request', $request, 'instance of ezcMvcRequest' );
+        }
+        return $request;
+    }
+
+    /**
+     * Uses the configuration to fetch the response writer
+     *
+     * @throws ezcMvcInvalidConfiguration when the returned object is of the wrong class
+     *
+     * @param ezcMvcRoutingInformation $routingInformation
+     * @param ezcMvcRequest            $request
+     * @param ezcMvcResult             $result
+     * @param ezcMvcResponse           $response
+     * @return ezcMvcResponseWriter
+     */
+    protected function getResponseWriter( ezcMvcRoutingInformation $routingInformation, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response )
+    {
+        $responseWriter = $this->configuration->createResponseWriter( $routingInformation, $request, $result, $response );
+        if ( ezcBase::inDevMode() && !$responseWriter instanceof ezcMvcResponseWriter )
+        {
+            throw new ezcMvcInvalidConfiguration( 'responseWriter', $responseWriter, 'instance of ezcMvcResponseWriter' );
+        }
+        return $responseWriter;
+    }
+
+    /**
+     * Runs through the request, by using the configuration to obtain correct handlers.
      */
     public function run()
     {
         // initialize infinite loop counter
         $redirects = 0;
 
-        // create the request parser
-        $requestParser = $this->configuration->createRequestParser();
-        if ( ezcBase::inDevMode() && !$requestParser instanceof ezcMvcRequestParser )
-        {
-            throw new ezcBaseValueException( 'requestParser', $requestParser, 'instance of ezcMvcRequestParser' );
-        }
-
         // create the request
+        $requestParser = $this->getRequestParser();
         $request = $requestParser->createRequest();
 
         // start of the request loop
         do
         {
             // do the infinite loop check
-            if ( $redirects >= 25 )
-            {
-                throw new ezcMvcInfiniteLoopException( $redirects );
-            }
+            $this->checkRedirectLimit( $redirects );
             $continue = false;
 
             // run pre-routing filters
             $this->configuration->runPreRoutingFilters( $request );
 
             // create the router from the configuration
-            $router = $this->configuration->createRouter( $request );
-            if ( ezcBase::inDevMode() && !$router instanceof ezcMvcRouter )
-            {
-                throw new ezcBaseValueException( 'router', $router, 'instance of ezcMvcRouter' );
-            }
+            $router = $this->getRouter( $request );
 
             // router creates routing information
             try
@@ -95,9 +213,8 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             }
             catch ( ezcMvcRouteNotFoundException $e )
             {
-                $request = $this->configuration->createFatalRedirectRequest( $request, new ezcMvcResult, $e );
+                $request = $this->getFatalRedirectRequest( $request, new ezcMvcResult, $e );
                 $continue = true;
-                $redirects++;
                 continue;
             }
 
@@ -108,12 +225,11 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             {
                 $request = $filterResult->request;
                 $continue = true;
-                $redirects++;
                 continue;
             }
 
             // create the controller
-            $controller = $this->createController( $routingInformation, $request );
+            $controller = $this->getController( $routingInformation, $request );
 
             // run the controller
             try
@@ -122,13 +238,8 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             }
             catch ( Exception $e )
             {
-                $request = $this->configuration->createFatalRedirectRequest( $request, new ezcMvcResult, $e );
-                if ( ezcBase::inDevMode() && !$request instanceof ezcMvcRequest )
-                {
-                    throw new ezcBaseValueException( 'request', $request, 'instance of ezcMvcRequest' );
-                }
+                $request = $this->getFatalRedirectRequest( $request, new ezcMvcResult, $e );
                 $continue = true;
-                $redirects++;
                 continue;
             }
 
@@ -136,7 +247,6 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             {
                 $request = $result->request;
                 $continue = true;
-                $redirects++;
                 continue;
             }
             if ( !$result instanceof ezcMvcResult )
@@ -154,11 +264,7 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             else
             {
                 // want the view manager to use my filters
-                $viewHandler = $this->configuration->createView( $routingInformation, $request, $result );
-                if ( ezcBase::inDevMode() && !$viewHandler instanceof ezcMvcView )
-                {
-                    throw new ezcBaseValueException( 'view', $viewHandler, 'instance of ezcMvcView' );
-                }
+                $viewHandler = $this->getViewHandler( $routingInformation, $request, $result );
 
                 // create the response
                 try
@@ -167,20 +273,15 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
                 }
                 catch ( Exception $e )
                 {
-                    $request = $this->configuration->createFatalRedirectRequest( $request, $result, $e );
+                    $request = $this->getFatalRedirectRequest( $request, $result, $e );
                     $continue = true;
-                    $redirects++;
                     continue;
                 }
             }
             $this->configuration->runResponseFilters( $routingInformation, $request, $result, $response );
 
             // create the response writer
-            $responseWriter = $this->configuration->createResponseWriter( $routingInformation, $request, $result, $response );
-            if ( ezcBase::inDevMode() && !$responseWriter instanceof ezcMvcResponseWriter )
-            {
-                throw new ezcBaseValueException( 'responseWriter', $responseWriter, 'instance of ezcMvcResponseWriter' );
-            }
+            $responseWriter = $this->getResponseWriter( $routingInformation, $request, $result, $response );
 
             // handle the response
             $responseWriter->handleResponse();
