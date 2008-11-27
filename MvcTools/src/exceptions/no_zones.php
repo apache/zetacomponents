@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcMvcToolsNoZonesException class.
+ * File containing the ezcMvcNoZonesException class.
  *
  * @package MvcTools
  * @version //autogentag//

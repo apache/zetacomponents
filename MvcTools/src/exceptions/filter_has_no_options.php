@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcMvcToolsNoRoutesException class.
+ * File containing the ezcMvcFilterHasNoOptionsException class.
  *
  * @package MvcTools
  * @version //autogentag//

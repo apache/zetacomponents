@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcMvcToolsBuildQueryException class.
+ * File containing the ezcMvcRouteNotFoundException class.
  *
  * @package MvcTools
  * @version //autogentag//

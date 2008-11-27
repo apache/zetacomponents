@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcMvcToolsNoRoutesException class.
+ * File containing the ezcMvcInvalidEncodingException class.
  *
  * @package MvcTools
  * @version //autogentag//
