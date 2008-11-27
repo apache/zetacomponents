@@ -32,6 +32,9 @@ API
 [ ] Initialize status with 0, even when the constructor is not called - if this
     property really is required.
 
+	ts: Properties which may contain objects should have null as the default /
+	correct value, not an integer.
+
 Documentation
 -------------
 
