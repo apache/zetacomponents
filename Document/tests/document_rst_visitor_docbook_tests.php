@@ -142,7 +142,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         return array(
             array(
                 dirname( __FILE__ ) . '/files/rst/docbook/e_001_missing_directive.txt',
-                'No directive handler registered for directive \'missing_directive_dclaration\'.',
+                'Visitor error: Warning: \'No directive handler registered for directive \'missing_directive_dclaration\'.\' in line 7 at position 1.'
             ),
         );
     }

@@ -16,7 +16,6 @@
  * @property string $xhtmlVisitorOptions
  *           Options class conatining the options of the XHtml visitor.
  * 
- * @apichange@
  * @package Document
  * @version //autogen//
  */

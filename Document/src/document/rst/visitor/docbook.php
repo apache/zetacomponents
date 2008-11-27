@@ -620,7 +620,18 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      */
     protected function visitDirective( DOMNode $root, ezcDocumentRstNode $node )
     {
-        $handlerClass = $this->rst->getDirectiveHandler( $node->identifier );
+        try
+        {
+            $handlerClass = $this->rst->getDirectiveHandler( $node->identifier );
+        }
+        catch ( ezcDocumentRstMissingDirectiveHandlerException $e )
+        {
+            return $this->triggerError(
+                E_WARNING, $e->getMessage(),
+                null, $node->token->line, $node->token->position
+            );
+        }
+
         $directiveHandler = new $handlerClass( $this->ast, $this->path, $node );
         $directiveHandler->toDocbook( $this->document, $root );
     }
