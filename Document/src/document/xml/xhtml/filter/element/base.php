@@ -44,7 +44,7 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      * false otherwise.
      * 
      * @param DOMElement $element 
-     * @return boolena
+     * @return boolean
      */
     protected function isBlockLevelElement( DOMElement $element )
     {
