@@ -72,8 +72,8 @@ class ezcMvcResultCookie extends ezcBaseStruct
      * @param DateTime $expire
      * @param string $path
      * @param string $domain
-     * @param boolean $secure
-     * @param boolean $httpOnly
+     * @param bool $secure
+     * @param bool $httpOnly
      */
     public function __construct( $name = '', $value = '', 
         DateTime $expire = null, $path = '', $domain = '', $secure = false, 

@@ -9,6 +9,7 @@
 
 /**
  * Request parser that uses HTTP headers to populate an ezcMvcRequest object.
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass
@@ -90,7 +91,7 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
     /**
      * Takes a $cookie and uses PHP's setcookie() function to add cookies to the output stream.
      *
-     * @var ezcMvcResultCookie $cookie
+     * @param ezcMvcResultCookie $cookie
      */
     private function processCookie( ezcMvcResultCookie $cookie )
     {

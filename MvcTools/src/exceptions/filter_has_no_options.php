@@ -22,9 +22,9 @@ class ezcMvcFilterHasNoOptionsException extends ezcMvcToolsException
      *
      * @param string $filterClass
      */
-    public function __construct( $className )
+    public function __construct( $filterClass )
     {
-        parent::__construct( "The filter '$className' does not support options." );
+        parent::__construct( "The filter '$filterClass' does not support options." );
     }
 }
 ?>

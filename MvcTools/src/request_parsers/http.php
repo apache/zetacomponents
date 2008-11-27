@@ -9,6 +9,7 @@
 
 /**
  * Request parser that uses HTTP headers to populate an ezcMvcRequest object.
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass
@@ -34,6 +35,9 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
         return $this->request;
     }
 
+    /**
+     * Processes the basic HTTP auth variables is set
+     */
     protected function processAuthVars()
     {
         $req = $this->request;

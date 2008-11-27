@@ -94,7 +94,7 @@ class ezcMvcRailsRoute implements ezcMvcRoute
      * URI.
      *
      * @param ezcMvcRequest $request
-     * @param array(string) &$matches
+     * @param array(string) $matches
      * @return bool
      */
     protected function match( $request, &$matches )
@@ -140,8 +140,7 @@ class ezcMvcRailsRoute implements ezcMvcRoute
      * It's up to the developer to provide a meaningfull prefix. In this case,
      * it needs to be a pattern just like the normal pattern.
      * 
-     * @param mixed $prefix Prefix to add.
-     * @return void
+     * @param mixed $prefix
      */
     public function prefix( $prefix )
     {

@@ -33,7 +33,7 @@ abstract class ezcMvcRouter
     /**
      * Creates a new router object
      *
-     * @var ezcMvcRequest $request
+     * @param ezcMvcRequest $request
      */
     public function __construct( ezcMvcRequest $request )
     {
@@ -102,6 +102,8 @@ abstract class ezcMvcRouter
      *
      * @throws ezcMvcRegexpRouteException if the prefix can not be prepended to
      *         one or more of the patterns in the routes.
+     * @param mixed              $prefix
+     * @param array(ezcMvcRoute) $routes
      */
     static public function prefix( $prefix, $routes )
     {

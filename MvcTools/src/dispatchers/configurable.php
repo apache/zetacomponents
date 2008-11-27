@@ -55,6 +55,7 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
      *
      * @throws ezcMvcInfiniteLoopException when the number of redirects exceeds
      *         the limit (25 by default).
+     * @param int $redirects
      */
     protected function checkRedirectLimit( &$redirects )
     {

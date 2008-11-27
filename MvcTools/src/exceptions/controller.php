@@ -17,7 +17,9 @@
 class ezcMvcControllerException extends ezcMvcToolsException
 {
     /**
-     * Constructs an ezcMvcControllerException
+     * Constructs an ezcMvcControllerException with $message
+     *
+     * @param string $message
      */
     public function __construct( $message )
     {

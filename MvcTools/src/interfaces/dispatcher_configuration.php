@@ -40,6 +40,7 @@ interface ezcMvcDispatcherConfiguration
     /**
      * Creates the view handler that is able to process the result.
      *
+     * @param ezcMvcRoutingInformation $routeInfo
      * @param ezcMvcRequest $request
      * @param ezcMvcResult $result
      *
@@ -54,6 +55,7 @@ interface ezcMvcDispatcherConfiguration
      * This method should be able to pick different response writers, but the
      * response writer itself will only know about the $response.
      *
+     * @param ezcMvcRoutingInformation $routeInfo
      * @param ezcMvcRequest $request
      * @param ezcMvcResult $result
      * @param ezcMvcResponse $response
@@ -67,12 +69,12 @@ interface ezcMvcDispatcherConfiguration
      * wrong in the views.
      *
      * @param ezcMvcRequest $request
-     * @param ezcMvcResult $result
-     * @param ezcMvcResponse $response
+     * @param ezcMvcResult  $result
+     * @param Exception     $e
      *
      * @return ezcMvcInternalRedirect
      */
-    public function createFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $response );
+    public function createFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $e );
 
     /**
      * Runs all the pre-routing filters that are deemed necessary depending on
@@ -118,7 +120,7 @@ interface ezcMvcDispatcherConfiguration
      *
      * @param ezcMvcRoutingInformation $routeInfo
      * @param ezcMvcRequest $request
-     * @param ezcMvcResultt $result
+     * @param ezcMvcResult  $result
      * @param ezcMvcResponse $response
      */
     public function runResponseFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response );

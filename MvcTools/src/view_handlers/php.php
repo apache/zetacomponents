@@ -48,8 +48,8 @@ class ezcMvcPhpViewHandler implements ezcMvcViewHandler
      * Creates a new view handler, where $zoneName is the name of the block and
      * $templateLocation the location of a view template.
      *
-     * @var string $zoneName
-     * @var string $templateLocation
+     * @param string $zoneName
+     * @param string $templateLocation
      */
     public function __construct( $zoneName, $templateLocation = null )
     {
@@ -72,6 +72,11 @@ class ezcMvcPhpViewHandler implements ezcMvcViewHandler
     /**
      * Processes the template with the variables added by the send() method.
      * The result of this action should be retrievable through the getResult() method.
+     *
+     * The $last parameter is set if the view handler is the last one in the
+     * list of zones for a specific view.
+     *
+     * @param bool $last
      */
     public function process( $last )
     {

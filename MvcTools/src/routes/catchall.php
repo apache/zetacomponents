@@ -146,8 +146,7 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
     /**
      * Adds a prefix to the route.
      *
-     * @param string $prefix Prefix to add, for example: '/blog'
-     * @return void
+     * @param string $prefix
      */
     public function prefix( $prefix )
     {

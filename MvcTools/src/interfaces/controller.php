@@ -67,8 +67,9 @@ abstract class ezcMvcController
     }
 
     /**
-     * Creates a method name to call from an action name.
+     * Creates a method name to call from an $action name.
      *
+     * @param string $action
      * @return string
      */
     public static function createActionMethodName( $action )

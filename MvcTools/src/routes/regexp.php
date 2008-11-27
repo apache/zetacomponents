@@ -103,7 +103,7 @@ class ezcMvcRegexpRoute implements ezcMvcRoute
      * $request's URI.
      *
      * @param ezcMvcRequest $request
-     * @param array(string) &$matches
+     * @param array(string) $matches
      * @return bool
      */
     protected function pregMatch( $request, &$matches )
@@ -117,10 +117,9 @@ class ezcMvcRegexpRoute implements ezcMvcRoute
      * It's up to the developer to provide a meaningfull prefix. In this case,
      * it needs to be a regular expression just like the pattern.
      * 
-     * @param mixed $prefix Prefix to add.
+     * @param mixed $prefix
      * @throws ezcMvcRegexpRouteException if the prefix can not be prepended to
      *         the pattern.
-     * @return void
      */
     public function prefix( $prefix )
     {

@@ -99,10 +99,12 @@ abstract class ezcMvcRequestParser
         }
     }
 
+    /**
+     * Constructs a new request parser
+     */
     public function __construct()
     {
         $this->properties['prefix'] = '';
-
     }
 
     /**

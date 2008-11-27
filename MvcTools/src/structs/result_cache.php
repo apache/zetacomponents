@@ -16,7 +16,7 @@
 class ezcMvcResultCache extends ezcBaseStruct
 {
     /**
-     * 
+     * Vary headers for cache control
      *
      * @var string
      */
