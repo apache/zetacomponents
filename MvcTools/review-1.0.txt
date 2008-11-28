@@ -6,15 +6,22 @@ Review of MvcTools-1.0-alpha at 26.11.08
 API
 ---
 
-[ ] The abstract class ezcMvcRouter contains a methods, which I do not really
+[-] The abstract class ezcMvcRouter contains a methods, which I do not really
     understand:
 
   - The static public method prefix() is not used or referenced anywhere
     else in that class
 
-[ ] Make ezcMvcResult an interface or do not already implement any final
+    dr: It is supposed to be used in the user inherited router, so that you
+    can include the result of other routers immediately by applying a prefix
+    to the returned routes. This means you can reuse for example a "blog"
+    router class in your application, by prefixing all routes with "/blog".
+
+[-] Make ezcMvcResult an interface or do not already implement any final
     methods. If some properties are required, there should be an extensible
     method for it. Otherwise this strongly limits the extensibility.
+
+    dr: Can you explain to me how and why you would like to do this?
 
     The $status property still seems not really important / used to me.
 
