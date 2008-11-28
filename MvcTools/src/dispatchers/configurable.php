@@ -131,14 +131,14 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
      * @param ezcMvcResult             $result
      * @return ezcMvcView
      */
-    protected function getViewHandler( ezcMvcRoutingInformation $routingInformation, ezcMvcRequest $request, ezcMvcResult $result )
+    protected function getView( ezcMvcRoutingInformation $routingInformation, ezcMvcRequest $request, ezcMvcResult $result )
     {
-        $viewHandler = $this->configuration->createView( $routingInformation, $request, $result );
-        if ( ezcBase::inDevMode() && !$viewHandler instanceof ezcMvcView )
+        $view = $this->configuration->createView( $routingInformation, $request, $result );
+        if ( ezcBase::inDevMode() && !$view instanceof ezcMvcView )
         {
-            throw new ezcMvcInvalidConfiguration( 'view', $viewHandler, 'instance of ezcMvcView' );
+            throw new ezcMvcInvalidConfiguration( 'view', $view, 'instance of ezcMvcView' );
         }
-        return $viewHandler;
+        return $view;
     }
 
     /**
@@ -265,12 +265,12 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             else
             {
                 // want the view manager to use my filters
-                $viewHandler = $this->getViewHandler( $routingInformation, $request, $result );
+                $view = $this->getView( $routingInformation, $request, $result );
 
                 // create the response
                 try
                 {
-                    $response = $viewHandler->createResponse();
+                    $response = $view->createResponse();
                 }
                 catch ( Exception $e )
                 {

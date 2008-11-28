@@ -18,11 +18,12 @@ API
 
     The $status property still seems not really important / used to me.
 
-[ ] The interface ezcMvcViewHandler does not define the method createResponse()
-    called by the ezcMvcConfigurableDispatcher implementation, but other
-    methods, which indicate a template based usage, which may not be wanted in
-    case of, for example, XML creation. It should only enforce the
-    createResponse() method.
+[X] The DispatcherConfiguration is documented to return a view handler. The
+    configurableDispatcher calls the method createResponse() on the returned
+    view handler. But this method is not defined in the interface. Instead
+    there are other methods defined, I did not see called anywhere.
+
+    dr: The documentation was wrong, it should return an ezcMvcView object.
 
 [X] The ezcMvcResponse::$status variable needs better documentation, its purpose
     is at least unclear to me. The check in

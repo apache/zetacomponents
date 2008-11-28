@@ -44,7 +44,7 @@ interface ezcMvcDispatcherConfiguration
      * @param ezcMvcRequest $request
      * @param ezcMvcResult $result
      *
-     * @return ezcMvcViewHandler
+     * @return ezcMvcView
      */
     public function createView( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result );
 
