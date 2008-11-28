@@ -14,7 +14,7 @@
  * @package MvcTools
  * @version //autogentag//
  */
-class ezcMvcExternalRedirect extends ezcMvcResult
+class ezcMvcExternalRedirect extends ezcBaseStruct
 {
     /**
      * The location where to re-direct to.
@@ -28,9 +28,9 @@ class ezcMvcExternalRedirect extends ezcMvcResult
      *
      * @param string $location
      */
-	public function __construct( $location = '/' )
-	{
-		$this->location = $location;
-	}
+    public function __construct( $location = '/' )
+    {
+        $this->location = $location;
+    }
 }
 ?>

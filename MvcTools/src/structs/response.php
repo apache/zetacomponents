@@ -16,9 +16,11 @@
 class ezcMvcResponse extends ezcBaseStruct
 {
     /**
-     * Result status
+     * Result status, which contains additional information about the result, such
+     * as a location header (for external redirects), or a www-authenticate information
+     * struct.
      *
-     * @var int
+     * @var ezcBaseStruct
      */
     public $status;
 
@@ -67,7 +69,7 @@ class ezcMvcResponse extends ezcBaseStruct
     /**
      * Constructs a new ezcMvcResponse.
      *
-     * @param int $status
+     * @param ezcBaseStruct $status
      * @param DateTime $date
      * @param string $generator
      * @param ezcMvcResultCache $cache
@@ -75,7 +77,7 @@ class ezcMvcResponse extends ezcBaseStruct
      * @param ezcMvcResultContent $content
      * @param string $body
      */
-    public function __construct( $status = 0, $date = null, 
+    public function __construct( $status = null, $date = null, 
         $generator = '', $cache = null, $cookies = array(), $content = null, $body = '' )
     {
         $this->status = $status;

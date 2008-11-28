@@ -24,16 +24,16 @@ API
     case of, for example, XML creation. It should only enforce the
     createResponse() method.
 
-[ ] The ezcMvcResponse::$status variable needs better documentation, its purpose
+[X] The ezcMvcResponse::$status variable needs better documentation, its purpose
     is at least unclear to me. The check in
     MvcTools/src/response_writers/http.php +61 probably should be changed to
     is_object(), otherwise values like "null" cause PHP errors there.
 
-[ ] Initialize status with 0, even when the constructor is not called - if this
+[X] Initialize status with 0, even when the constructor is not called - if this
     property really is required.
 
-	ts: Properties which may contain objects should have null as the default /
-	correct value, not an integer.
+    ts: Properties which may contain objects should have null as the default /
+    correct value, not an integer.
 
 Documentation
 -------------
@@ -58,15 +58,15 @@ Documentation
 [X] The documentation in ezcMvcHttpRequestParser is incomplete.
 
 [ ] The return value documentation of
-	arbitDispatcherConfiguration::createFatalRedirectRequest() is wrong and
-	should be: @return ezcMvcRequest. Using the currently documented return
-	value breaks the main loop in ezcMvcConfigurableDispatcher.
+    arbitDispatcherConfiguration::createFatalRedirectRequest() is wrong and
+    should be: @return ezcMvcRequest. Using the currently documented return
+    value breaks the main loop in ezcMvcConfigurableDispatcher.
 
     dr: There is no return value for
         ezcMvcDispatcherConfiguration::runPreRoutingFilters documented -- nor
         is it necessary.
 
-	kn: Fixed method name, it should have said:
+    kn: Fixed method name, it should have said:
         arbitDispatcherConfiguration::createFatalRedirectRequest
 
 Trivial, maybe irrelevant
@@ -75,8 +75,12 @@ Trivial, maybe irrelevant
 ezcMvcConfigurableDispatcher
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-[ ] Increase $redirects at begin of loop, reduces redundancy and makes it less
+[X] Increase $redirects at begin of loop, reduces redundancy and makes it less
     error prone if somebody extends / changes the code.
 
-[ ] Even 25 should be save, make the maximum internal redirects configurable?
+    dr: already done
 
+[X] Even 25 should be save, make the maximum internal redirects configurable?
+
+    dr: I don't think this is important enough to warrant a whole option
+        class. We can do this when we get a feature request :)

@@ -14,7 +14,7 @@
  * @package MvcTools
  * @version //autogentag//
  */
-class ezcMvcResultUnauthorized extends ezcMvcResult
+class ezcMvcResultUnauthorized extends ezcBaseStruct
 {
     /**
      * The realm is the unique ID to identify a login area

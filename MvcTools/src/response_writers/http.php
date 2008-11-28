@@ -59,7 +59,7 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
             $this->processContentHeaders();
         }
 
-        if ( $this->response->status !== 0 )
+        if ( is_object( $this->response->status ) )
         {
             switch ( get_class( $this->response->status ) )
             {
