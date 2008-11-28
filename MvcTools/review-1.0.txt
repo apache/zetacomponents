@@ -58,7 +58,7 @@ Documentation
 
 [X] The documentation in ezcMvcHttpRequestParser is incomplete.
 
-[ ] The return value documentation of
+[X] The return value documentation of
     arbitDispatcherConfiguration::createFatalRedirectRequest() is wrong and
     should be: @return ezcMvcRequest. Using the currently documented return
     value breaks the main loop in ezcMvcConfigurableDispatcher.

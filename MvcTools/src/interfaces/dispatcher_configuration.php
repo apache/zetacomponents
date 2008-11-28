@@ -72,7 +72,7 @@ interface ezcMvcDispatcherConfiguration
      * @param ezcMvcResult  $result
      * @param Exception     $e
      *
-     * @return ezcMvcInternalRedirect
+     * @return ezcMvcRedirect
      */
     public function createFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $e );
 
