@@ -23,6 +23,12 @@ API
 
     dr: Can you explain to me how and why you would like to do this?
 
+	kn: I sometimes have validators (__set) in my result structs, which may
+	not be the ezc-way, but works fine for me. Additionally I sometimes
+	convert business models to their view model equivalents on __set. With a
+	final __set method I would be required to move this logic into my
+	controller, where it imho does not belong.
+
     The $status property still seems not really important / used to me.
 
 [X] The DispatcherConfiguration is documented to return a view handler. The
