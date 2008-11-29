@@ -9,6 +9,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . '/docbook_rst_address_element.php';
+
 /**
  * Test suite for class.
  * 
@@ -35,6 +37,22 @@ class ezcDocumentConverterDocbookToRstTests extends ezcTestCase
         $this->assertSame(
             $wiki->save(),
             file_get_contents( dirname( __FILE__ ) . '/files/docbook/rst/s_001_empty.txt' )
+        );
+    }
+
+    public function testCustomeElementHandler()
+    {
+        $doc = new ezcDocumentDocbook();
+        $doc->loadFile( dirname( __FILE__ ) . '/files/docbook/rst/h_001_address.xml' );
+
+        $converter = new ezcDocumentDocbookToRstConverter();
+        $converter->setElementHandler( 'docbook', 'address', new myAddressElementHandler() );
+
+        $wiki = $converter->convert( $doc );
+
+        $this->assertSame(
+            $wiki->save(),
+            file_get_contents( dirname( __FILE__ ) . '/files/docbook/rst/h_001_address.txt' )
         );
     }
 
