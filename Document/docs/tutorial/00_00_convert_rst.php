@@ -7,4 +7,4 @@ $document->loadFile( '../tutorial.txt' );
 
 $docbook = $document->getAsDocbook();
 echo $docbook->save();
-
+?>

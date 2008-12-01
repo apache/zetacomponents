@@ -26,4 +26,4 @@ $converter->options->linkProvider = new myLinkProvider();
 
 $docbook = $converter->convert( $document );
 echo $docbook->save();
-
+?>

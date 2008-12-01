@@ -8,4 +8,4 @@ $docbook->loadFile( 'docbook.xml' );
 $document = new ezcDocumentWiki();
 $document->createFromDocbook( $docbook );
 echo $document->save();
-
+?>

@@ -11,4 +11,4 @@ $document->loadString( '<?xml version="1.0"?>
 
 $docbook = $document->getAsDocbook();
 echo $docbook->save();
-
+?>

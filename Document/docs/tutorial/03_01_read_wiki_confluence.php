@@ -12,4 +12,4 @@ Just some exaple paragraph with a heading, some *emphasis* markup and a
 
 $docbook = $document->getAsDocbook();
 echo $docbook->save();
-
+?>
