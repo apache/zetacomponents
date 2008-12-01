@@ -1,4 +1,4 @@
-1.0.2 - [RELEASEDATE]
+1.0.2 - Monday 01 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13908: Search component's SolR handler should respect HTTP
