@@ -1,4 +1,4 @@
-1.3beta1 - [RELEASEDATE]
+1.3beta1 - Monday 01 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13988: isSuspend() returns null value after load execution from
