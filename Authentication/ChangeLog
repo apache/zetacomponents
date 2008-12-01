@@ -1,4 +1,4 @@
-1.2.3 - [RELEASEDATE]
+1.2.3 - Monday 01 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14003: split() is deprecated in PHP 5.3.
