@@ -2,7 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13963: error with setting directly the item property enclosure.
-- Fixed issue #14003: split() is deprecated in PHP5.3.
+- Fixed issue #14003: split() is deprecated in PHP 5.3.
 
 
 1.2alpha1 - Monday 10 November 2008

@@ -1,4 +1,4 @@
-1.2beta1 - [RELEASEDATE]
+1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14003: split() is deprecated in PHP 5.3.
