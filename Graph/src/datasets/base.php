@@ -30,7 +30,7 @@
  *
  * @version //autogentag//
  * @package Graph
- * @access private
+ * @mainclass
  */
 abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
 {
