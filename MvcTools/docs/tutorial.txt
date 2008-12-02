@@ -312,11 +312,18 @@ looks like::
                                          ezcMvcResult $result, 
                                          Exception $response )
     {
+        echo $response->getMessage();
+
         $req = clone $request;
         $req->uri = '/FATAL';
 
         return $req;
     }
+
+In this method, during development, it is probably wise to output the error
+message contained in the exception with something like we do with the echo
+statement. You would not want that in a production environment of course as you
+don't want your users to see your error messages like this raw.
 
 We're cloning the original request here to keep all the original request
 parameters (user agent, request time, etc). With this last method, we conclude
