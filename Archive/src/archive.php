@@ -32,6 +32,8 @@
  * Extra methods that operate on the current iterator are: {@link
  * extractCurrent()} and {@link appendToCurrent()}. Which can be used,
  * respectively, to extract the files and to append a new file to the archive.
+ * To append a directory to an archive you need to add a slash '/' at the end
+ * of the directory name.
  *
  * The following example will open an existing tar.gz file and will append each
  * file to a zip archive:

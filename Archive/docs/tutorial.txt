@@ -110,6 +110,18 @@ file1.txt and file2.txt:
 .. include:: tutorial_replacing.php
    :literal:
 
+Appending directories to an archive
+-----------------------------------
+
+You need to append a slash '/' to the end of the directory name that is added
+to an archive.
+
+The next example replaces all entries from an existing Zip archive with the
+'directory' folder and the 'file.txt' file:
+
+.. include:: tutorial_directories.php
+   :literal:
+
 More Information
 ================
 
