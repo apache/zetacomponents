@@ -526,6 +526,24 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         }
     }
 
+    public function testAppendEmptyDirectory()
+    {
+        $dir = $this->getTempDir();
+
+        $archive = $this->td->getArchive( "2_textfiles" );
+        $file = $this->td->getFileName( "2_textfiles" );
+
+        copy( "$dir/$file", "$dir/done_with_infozip.zip" );
+
+        $archive->next();
+
+        $path = "$dir/directory/";
+        mkdir( $path );
+        $archive->append( $path, '' );
+
+        $this->unzipAndTest( $dir, "done_with_infozip.zip", "$file" );
+    }
+
     public function testAppendAtEndOfArchive()
     {
         $dir = $this->getTempDir();
