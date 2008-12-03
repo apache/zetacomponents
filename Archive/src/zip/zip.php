@@ -470,6 +470,12 @@ class ezcArchiveZip extends ezcArchive implements Iterator
                 $fileData = $entry->getLink();
                 $this->localHeaders[ $cur ]->setCompression( 0, $this->localHeaders[$cur]->uncompressedSize ); // Compression is 0, for now.
             }
+            else if ( $entry->isDirectory() )
+            {
+                // Added for issue #13517: Not possible to add directories to an archive on Windows
+                $fileData = gzdeflate( '' ); // empty string for directories
+                $this->localHeaders[ $cur ]->setCompression( 8, strlen( $fileData ) );
+            }
             else
             {
                 // FIXME, File in memory, compression level always 8, add constants.

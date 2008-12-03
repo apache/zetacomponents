@@ -139,6 +139,12 @@ class ezcArchiveChecksums
         // Start out with all bits set high.
         $crc = 0xffffffff;
 
+        // Added for issue #13517: Not possible to add directories to an archive on Windows
+        if ( is_dir( $fileName ) )
+        {
+            return false;
+        }
+
         if ( ( $fp = fopen( $fileName ,'rb' ) ) === false )
         {
             return false;
