@@ -214,6 +214,22 @@ of its files and sub-directories.
 **Warning: Use this function with care, as it has the potential to erase
 everything that the current user has access to.**
 
+Overloading the callback
+````````````````````````
+
+The ezcBaseFile::findRecursive() method internally uses the
+ezcBaseFile::walkRecursive() method to do the actual recursing. The callback
+method ezcBaseFile::findRecursiveCallback() is then responsible for collecting
+the data. In case you want to do additional things, such as printing progress,
+you can either call walkRecursive() yourself with a callback function of your
+choice, or overload the ezcBaseFile class and provide a new
+findRecursiveCallback() method. The code below uses
+ezcBaseFile::walkRecursive() directly in order to display dots for when ever it
+finds a new directory::
+
+.. include:: tutorial_example_03.php
+   :literal:
+
 
 
 ..

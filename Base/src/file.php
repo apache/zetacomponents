@@ -40,27 +40,69 @@
 class ezcBaseFile
 {
     /**
-     * Finds files recursively on a file system
+     * This is the callback used by findRecursive to collect data.
      *
-     * With this method you can scan the file system for files. You can use
-     * $includeFilters to include only specific files, and $excludeFilters to
-     * exclude certain files from being returned. The function will always go
-     * into subdirectories even if the entry would not have passed the filters.
+     * This callback method works together with walkRecursive() and is called
+     * for every file/and or directory. The $context is a callback specific
+     * container in which data can be stored and shared between the different
+     * calls to the callback function. The walkRecursive() function also passes
+     * in the full absolute directory in $sourceDir, the filename in $fileName
+     * and file information (such as size, modes, types) as an array as
+     * returned by PHP's stat() in the $fileInfo parameter.
+     *
+     * @param ezcBaseFileFindContext $context
+     * @param string $sourceDir
+     * @param string $fileName
+     * @param array(stat) $fileInfo
+     */
+    static protected function findRecursiveCallback( ezcBaseFileFindContext $context, $sourceDir, $fileName, $fileInfo )
+    {
+        // ignore if we have a directory
+        if ( $fileInfo['mode'] & 0x4000 )
+        {
+            return;
+        }
+
+        // update the statistics
+        $context->elements[] = $sourceDir . DIRECTORY_SEPARATOR . $fileName;
+        $context->count++;
+        $context->size += $fileInfo['size'];
+    }
+
+    /**
+     * Walks files and directories recursively on a file system
+     *
+     * This method walks over a directory and calls a callback from every file
+     * and directory it finds. You can use $includeFilters to include only
+     * specific files, and $excludeFilters to exclude certain files from being
+     * returned. The function will always go into subdirectories even if the
+     * entry would not have passed the filters.
+     *
+     * The callback is passed in the $callback parameter, and the
+     * $callbackContext will be send to the callback function/method as
+     * parameter so that you can store data in there that persists with all the
+     * calls and recursive calls to this method. It's up to the callback method
+     * to do something useful with this. The callback function's parameters are
+     * in order:
+     *
+     * <ul>
+     * <li>ezcBaseFileFindContext $context</li>
+     * <li>string $sourceDir</li>
+     * <li>string $fileName</li>
+     * <li>array(stat) $fileInfo</li>
+     * </ul>
+     *
+     * See {@see findRecursiveCallback()} for an example of a callback function.
      *
      * Filters are regular expressions and are therefore required to have
      * starting and ending delimiters. The Perl Compatible syntax is used as
      * regular expression language.
      *
-     * If you pass an empty array to the $statistics argument, the function
-     * will in details about the number of files found into the 'count' array
-     * element, and the total filesize in the 'size' array element. Because this 
-     * argument is passed by reference, you *have* to pass a variable and you
-     * can not pass a constant value such as "array()".
-     *
      * @param string         $sourceDir
      * @param array(string)  $includeFilters
      * @param array(string)  $excludeFilters
-     * @param array()        $statistics
+     * @param callback       $callback
+     * @param mixed          $callbackContext
      *
      * @throws ezcBaseFileNotFoundException if the $sourceDir directory is not
      *         a directory or does not exist.
@@ -68,7 +110,7 @@ class ezcBaseFile
      *         not be opened for reading.
      * @return array
      */
-    static public function findRecursive( $sourceDir, array $includeFilters = array(), array $excludeFilters = array(), &$statistics = null )
+    static public function walkRecursive( $sourceDir, array $includeFilters = array(), array $excludeFilters = array(), $callback, &$callbackContext )
     {
         if ( !is_dir( $sourceDir ) )
         {
@@ -79,13 +121,6 @@ class ezcBaseFile
         if ( !$d )
         {
             throw new ezcBaseFilePermissionException( $sourceDir, ezcBaseFileException::READ );
-        }
-
-        // init statistics array
-        if ( !is_array( $statistics ) || !array_key_exists( 'size', $statistics ) || !array_key_exists( 'count', $statistics ) )
-        {
-            $statistics['size']  = 0;
-            $statistics['count'] = 0;
         }
 
         while ( ( $entry = $d->read() ) !== false )
@@ -108,7 +143,8 @@ class ezcBaseFile
                 // the exception if the top directory could not be read.
                 try
                 {
-                    $subList = self::findRecursive( $sourceDir . DIRECTORY_SEPARATOR . $entry, $includeFilters, $excludeFilters, $statistics );
+                    call_user_func( $callback, $callbackContext, $sourceDir, $entry, $fileInfo );
+                    $subList = self::walkRecursive( $sourceDir . DIRECTORY_SEPARATOR . $entry, $includeFilters, $excludeFilters, $callback, $callbackContext );
                     $elements = array_merge( $elements, $subList );
                 }
                 catch ( ezcBaseFilePermissionException $e )
@@ -140,17 +176,71 @@ class ezcBaseFile
                     }
                 }
 
+                // If everything's allright, call the callback and add the
+                // entry to the elements array
                 if ( $ok )
                 {
+                    call_user_func( $callback, $callbackContext, $sourceDir, $entry, $fileInfo );
                     $elements[] = $sourceDir . DIRECTORY_SEPARATOR . $entry;
-                    $statistics['count']++;
-                    $statistics['size'] += $fileInfo['size'];
                 }
             }
         }
         sort( $elements );
         return $elements;
     }
+
+    /**
+     * Finds files recursively on a file system
+     *
+     * With this method you can scan the file system for files. You can use
+     * $includeFilters to include only specific files, and $excludeFilters to
+     * exclude certain files from being returned. The function will always go
+     * into subdirectories even if the entry would not have passed the filters.
+     * It uses the {@see walkRecursive()} method to do the actually recursion.
+     *
+     * Filters are regular expressions and are therefore required to have
+     * starting and ending delimiters. The Perl Compatible syntax is used as
+     * regular expression language.
+     *
+     * If you pass an empty array to the $statistics argument, the function
+     * will in details about the number of files found into the 'count' array
+     * element, and the total filesize in the 'size' array element. Because this 
+     * argument is passed by reference, you *have* to pass a variable and you
+     * can not pass a constant value such as "array()".
+     *
+     * @param string         $sourceDir
+     * @param array(string)  $includeFilters
+     * @param array(string)  $excludeFilters
+     * @param array()        $statistics
+     *
+     * @throws ezcBaseFileNotFoundException if the $sourceDir directory is not
+     *         a directory or does not exist.
+     * @throws ezcBaseFilePermissionException if the $sourceDir directory could
+     *         not be opened for reading.
+     * @return array
+     */
+    static public function findRecursive( $sourceDir, array $includeFilters = array(), array $excludeFilters = array(), &$statistics = null )
+    {
+        // init statistics array
+        if ( !is_array( $statistics ) || !array_key_exists( 'size', $statistics ) || !array_key_exists( 'count', $statistics ) )
+        {
+            $statistics['size']  = 0;
+            $statistics['count'] = 0;
+        }
+
+        // create the context, and then start walking over the array
+        $context = new ezcBaseFileFindContext;
+        self::walkRecursive( $sourceDir, $includeFilters, $excludeFilters, array( 'ezcBaseFile', 'findRecursiveCallback' ), $context );
+
+        // collect the statistics
+        $statistics['size'] = $context->size;
+        $statistics['count'] = $context->count;
+
+        // return the found and pattern-matched files
+        sort( $context->elements );
+        return $context->elements;
+    }
+
 
     /**
      * Removes files and directories recursively from a file system

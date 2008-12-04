@@ -35,6 +35,7 @@ return array(
     'ezcBaseConfigurationInitializer'             => 'Base/interfaces/configuration_initializer.php',
     'ezcBaseFeatures'                             => 'Base/features.php',
     'ezcBaseFile'                                 => 'Base/file.php',
+    'ezcBaseFileFindContext'                      => 'Base/structs/file_find_context.php',
     'ezcBaseInit'                                 => 'Base/init.php',
     'ezcBasePersistable'                          => 'Base/interfaces/persistable.php',
     'ezcBaseRepositoryDirectory'                  => 'Base/structs/repository_directory.php',

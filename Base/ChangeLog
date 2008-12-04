@@ -1,3 +1,12 @@
+1.6RC1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented issue #12542: Refactored the ezcBaseFile::findRecursive() method
+  into the ezcBase::walkRecursive() method so that you can setup your own
+  callbacks to "do things". The findRecursive() method is now implemented
+  through this.
+
+
 1.6beta1 - Monday 01 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
