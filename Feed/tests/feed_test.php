@@ -122,6 +122,47 @@ class ezcFeedTest extends ezcFeedTestCase
         }
     }
 
+    /**
+     * Test for issue #14055: Parsing an empty string raises a warning.
+     *
+     * Parsing an empty file did not raise a warning before the fix for this
+     * issue, but was throwing the exception outright. Only ezcFeed::parseContent
+     * was modified by the fix.
+     */
+    public function testParseEmptyString()
+    {
+        $this->createTempDir( "ezcFeed_" );
+        $file = $this->getTempDir() . DIRECTORY_SEPARATOR . 'empty_feed.rss';
+        file_put_contents( $file, '' );
+
+        try
+        {
+            $feed = ezcFeed::parse( $file );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcFeedParseErrorException $e )
+        {
+            $this->assertEquals( "Parse error while parsing feed '" . realpath( $file ) . "': It is not a valid XML file.", $e->getMessage() );
+            $this->removeTempDir();
+        }
+    }
+
+    /**
+     * Test for issue #14055: Parsing an empty string raises a warning.
+     */
+    public function testParseContentEmptyString()
+    {
+        try
+        {
+            $feed = ezcFeed::parseContent( '' );
+            $this->fail( 'Expected exception was not thrown' );
+        }
+        catch ( ezcFeedParseErrorException $e )
+        {
+            $this->assertEquals( "Parse error while parsing feed: Content is empty.", $e->getMessage() );
+        }
+    }
+
     public function testParseRss2NoVersion()
     {
         try

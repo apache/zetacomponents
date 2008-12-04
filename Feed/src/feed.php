@@ -899,6 +899,11 @@ class ezcFeed
      */
     public static function parseContent( $content )
     {
+        if ( empty( $content ) )
+        {
+            throw new ezcFeedParseErrorException( null, "Content is empty" );
+        }
+
         $xml = new DOMDocument();
         $oldSetting = libxml_use_internal_errors( true );
         $retval = $xml->loadXML( $content );
