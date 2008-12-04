@@ -946,6 +946,8 @@ class ezcGraphRenderer2d
      * @param string $text Acutual value
      * @param int $size Size of highlight text
      * @param ezcGraphColor $markLines
+     * @param int $xOffset
+     * @param int $yOffset
      * @return void
      */
     public function drawDataHighlightText(
@@ -958,14 +960,16 @@ class ezcGraphRenderer2d
         ezcGraphFontOptions $font,
         $text,
         $size,
-        ezcGraphColor $markLines = null )
+        ezcGraphColor $markLines = null,
+        $xOffset = 0,
+        $yOffset = 0 )
     {
         $this->driver->options->font = $font;
         $width = $boundings->width / $dataCount;
         
         $dataPoint = new ezcGraphCoordinate(
-            $boundings->x0 + ( $boundings->width ) * $end->x,
-            $boundings->y0 + ( $boundings->height ) * $end->y
+            $boundings->x0 + ( $boundings->width ) * $end->x + $xOffset,
+            $boundings->y0 + ( $boundings->height ) * $end->y + $yOffset
         );
 
         if ( $end->y < $axisPosition )

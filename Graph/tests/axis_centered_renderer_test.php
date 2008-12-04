@@ -68,6 +68,41 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
         $chart->render( 500, 200 );
     }
 
+    public function testRenderAxisGridZeroAxisSpace()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+        $chart->yAxis->axisSpace = 0.001;
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawGridLine',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawGridLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 200., 20. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 200., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#888A85' ) )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 3 ) )
+            ->method( 'drawGridLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 500., 20. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 500., 180. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#888A85' ) )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
     public function testRenderAxisOuterGrid()
     {
         $chart = new ezcGraphLineChart();

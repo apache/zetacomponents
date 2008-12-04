@@ -395,7 +395,9 @@ class ezcGraphLineChart extends ezcGraphChart
                         $this->options->highlightFont,
                         ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
                         $this->options->highlightSize + $this->options->highlightFont->padding * 2,
-                        ( $this->options->highlightLines ? $data->color[$key] : null )
+                        ( $this->options->highlightLines ? $data->color[$key] : null ),
+                        ( $this->options->highlightXOffset ? $this->options->highlightXOffset : 0 ),
+                        ( $this->options->highlightYOffset ? $this->options->highlightYOffset : 0 )
                     );
                 }
     

@@ -882,6 +882,34 @@ class ezcGraphLineChartTest extends ezcGraphTestCase
         );
     }
 
+    public function testLineChartHighlightValueOffset()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->data['sample']->highlight = true;
+        $chart->data['sample']->highlightValue['Opera'] = 'Opera!';
+
+        $chart->options->highlightXOffset = 20;
+        $chart->options->highlightYOffset = -10;
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testLineChartHighlightFontPadding()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';

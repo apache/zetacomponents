@@ -75,6 +75,8 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
         $this->properties['highlightFont'] = new ezcGraphFontOptions();
         $this->properties['highlightFontCloned'] = false;
         $this->properties['highlightSize'] = 14;
+        $this->properties['highlightXOffset'] = 0;
+        $this->properties['highlightYOffset'] = 0;
         $this->properties['highlightLines'] = false;
         $this->properties['stackBars'] = false;
     
@@ -110,7 +112,14 @@ class ezcGraphLineChartOptions extends ezcGraphChartOptions
                 {
                     throw new ezcBaseValueException( $propertyName, $propertyValue, 'int >= 1' );
                 }
-
+                $this->properties[$propertyName] = (int) $propertyValue;
+                break;
+            case 'highlightXOffset':
+            case 'highlightYOffset':
+                if ( !is_numeric ( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'int' );
+                }
                 $this->properties[$propertyName] = (int) $propertyValue;
                 break;
             case 'fillLines':

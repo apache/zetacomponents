@@ -198,10 +198,10 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 break;
             case 'axisSpace':
                 if ( !is_numeric( $propertyValue ) ||
-                     ( $propertyValue < 0 ) ||
+                     ( $propertyValue <= 0 ) ||
                      ( $propertyValue > 1 ) )
                 {
-                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 <= float <= 1' );
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, '0 < float <= 1' );
                 }
 
                 $this->properties['axisSpace'] = (float) $propertyValue;

@@ -251,6 +251,8 @@ abstract class ezcGraphRenderer
      * @param string $text Acutual value
      * @param int $size Size of highlight text
      * @param ezcGraphColor $markLines
+     * @param int $xOffset
+     * @param int $yOffset
      * @return void
      */
     abstract public function drawDataHighlightText(
@@ -263,7 +265,9 @@ abstract class ezcGraphRenderer
         ezcGraphFontOptions $font,
         $text,
         $size,
-        ezcGraphColor $markLines = null
+        ezcGraphColor $markLines = null,
+        $xOffset = 0,
+        $yOffset = 0
     );
     
     /**
