@@ -81,7 +81,7 @@ example can be rewritten as follows:
 .. include:: tutorial_iterator.php
    :literal:
 
-Please by aware that by default archive files are opened in read/write mode. In
+Please be aware that by default archive files are opened in read/write mode. In
 order to prevent that, you can set an option to open the archive in read-only
 mode. This also prevents the modify and create timestamps of the file to be
 preserved. The following example shows that:
