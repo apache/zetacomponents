@@ -47,7 +47,7 @@ abstract class ezcDocumentRstVisitor
     /**
      * Counter of duplicate references for duplicate references.
      *
-     * @array
+     * @var array
      */
     protected $referenceCounter = array();
 

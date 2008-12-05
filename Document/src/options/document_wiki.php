@@ -15,7 +15,7 @@
  *           Tokenizer used to tokenize the inpout string before passign it to
  *           the parser.
  * 
- * @apichange@
+ * @apichange
  * @package Document
  * @version //autogen//
  */
