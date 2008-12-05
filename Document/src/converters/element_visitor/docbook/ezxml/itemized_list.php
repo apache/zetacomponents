@@ -12,7 +12,7 @@
 /**
  * Visit itemized lists
  *
- * Visit itemized lists as <ul> nodes and embed them into another paragraph,
+ * Visit itemized lists as 'ul' nodes and embed them into another paragraph,
  * which is enforced by eZXml.
  * 
  * @package Document

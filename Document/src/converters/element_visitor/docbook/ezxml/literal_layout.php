@@ -15,9 +15,9 @@
  * Literallayout elements are used for code blocks in docbook, where
  * normally some fixed width font is used, but also for poems or simliarly
  * formatted texts. In HTML those are represented by entirely different
- * structures. Code blocks will be transformed into <pre> elements, while
- * poem like texts will be handled by a <p> element, in which each line is
- * seperated by <br> elements.
+ * structures. Code blocks will be transformed into 'pre' elements, while
+ * poem like texts will be handled by a 'p' element, in which each line is
+ * seperated by 'br' elements.
  * 
  * @package Document
  * @version //autogen//

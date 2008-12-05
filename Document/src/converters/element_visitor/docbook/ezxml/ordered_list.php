@@ -10,9 +10,9 @@
  */
 
 /**
- * Visit ordered lists
+ * Visit ordered lists.
  *
- * Visit ordered lists as <ul> nodes and embed them into another paragraph,
+ * Visit ordered lists as 'ul' nodes and embed them into another paragraph,
  * which is enforced by eZXml.
  * 
  * @package Document
