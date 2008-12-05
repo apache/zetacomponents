@@ -1,14 +1,19 @@
 <?php
 /**
- * File containing the ezcConsoleQuestionDialogValidator class.
+ * File containing the ezcConsoleQuestionDialogValidator interface.
  *
  * @package ConsoleTools
- * @version //autogentag//
+ * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @filesource
  */
 
+/**
+ * Interface that every console question dialog validator class must implement.
+ *
+ * @package ConsoleTools
+ * @version //autogen//
+ */
 interface ezcConsoleQuestionDialogValidator extends ezcConsoleDialogValidator
 {
 
