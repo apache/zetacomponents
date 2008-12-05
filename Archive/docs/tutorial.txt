@@ -122,6 +122,25 @@ The next example replaces all entries from an existing Zip archive with the
 .. include:: tutorial_directories.php
    :literal:
 
+Appending a directory tree to an archive
+----------------------------------------
+
+Using the function ezcBase::walkRecursive() a directory tree can be added to
+an archive.
+
+The next example shows how to browse a directory tree and add all the files
+and directories inside to an archive::
+
+.. include:: tutorial_recursive.php
+   :literal:
+
+The **ArchiveContext** class will hold the archive object which is passed to
+the callback function *findRecursiveCallback*. The *appendRecursive* function
+sets up the context object (of class **ArchiveContext**) and calls the
+*findRecursiveCallback* function. In the *findRecursiveCallback* function the
+current file or directory is appended to the archive object inside the
+context.
+
 More Information
 ================
 
