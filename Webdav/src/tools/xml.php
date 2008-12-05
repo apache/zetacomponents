@@ -135,16 +135,15 @@ class ezcWebdavXmlTool
         {
             $res = $dom->loadXML( $content, LIBXML_NSCLEAN | LIBXML_NOBLANKS );
 
-            /*
             if ( $res === false )
             {
                 throw new ezcWebdavInvalidXmlException(
                     "Libxml error.'"
                 );
             }
-            */
 
             // Check libxml errors
+            /* Libxml error checks deactivated to to incorect errors in older libxml versions.
             foreach ( libxml_get_errors() as $error )
             {
                 // Code 100 = relative URI, DAV: is relative, do not bail out.
@@ -162,6 +161,7 @@ class ezcWebdavXmlTool
                     "Libxml error: {$error->code} '{$error->message}.'"
                 );
             }
+            */
         }
         
         // Reset old libxml error state

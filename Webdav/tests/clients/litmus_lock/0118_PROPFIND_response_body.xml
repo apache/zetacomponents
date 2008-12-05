@@ -1,2 +1,0 @@
-The HTTP request body received for HTTP method 'PROPFIND' was invalid. Reason: Invalid XML. Libxml error: 200 'xmlns:bar: Empty XML namespace is not allowed
-.'

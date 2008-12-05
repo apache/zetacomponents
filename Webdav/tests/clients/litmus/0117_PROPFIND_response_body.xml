@@ -1,2 +1,0 @@
-The HTTP request body received for HTTP method 'PROPFIND' was invalid. Reason: Invalid XML. Libxml error: 77 'Premature end of data in tag foo line 1
-.'
