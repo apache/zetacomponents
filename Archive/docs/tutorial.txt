@@ -129,7 +129,7 @@ Using the function ezcBase::walkRecursive() a directory tree can be added to
 an archive.
 
 The next example shows how to browse a directory tree and add all the files
-and directories inside to an archive::
+and directories inside to an archive:
 
 .. include:: tutorial_recursive.php
    :literal:
