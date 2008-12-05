@@ -55,7 +55,7 @@ class ezcWebdavLockPlugin
     /**
      * Maps request classes to handling methods.
      *
-     * @array(string=>string)
+     * @var array(string=>string)
      */
     protected static $requestHandlingMap = array(
         'ezcWebdavLockRequest'           => 'ezcWebdavLockLockRequestResponseHandler',
