@@ -7,6 +7,7 @@
  * @version //autogentag//
  * @filesource
  * @package Base
+ * @access private
  */
 $dir = dirname( __FILE__ );
 $dirParts = explode( DIRECTORY_SEPARATOR, $dir );
