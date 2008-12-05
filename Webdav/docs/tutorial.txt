@@ -168,11 +168,11 @@ the database. This avoids the risk of copying the plain text password data into
 PHPs memory scope.
 
 The auhtorize() method is called by the back end, for each path that is affected
-by a request. The back end provides the $username of the user that wishes to gain
-access and the type of access, which might be of of::
+by a request. The back end provides the $username of the user who wishes to gain
+access and the type of access, which might be one of:
 
- - ezcWebdavAuthorizer::ACCESS_READ
- - ezcWebdavAuthorizer::ACCESS_WRITE
+- ezcWebdavAuthorizer::ACCESS_READ
+- ezcWebdavAuthorizer::ACCESS_WRITE
 
 For recursive operations the back end will call the authorize() method for each
 sub-sequent path, too, so you don't need to worry about this yourself. In
@@ -356,7 +356,7 @@ Backends for locking
 
 If you want to use your custom back end with the lock plugin, it needs to
 implement some more interfaces. First of all, you need to implement all of the
-basic back end interfaces, as there are::
+basic back end interfaces:
 
 - ezcWebdavBackendPut
 - ezcWebdavBackendChange
