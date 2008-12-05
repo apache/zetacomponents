@@ -21,7 +21,7 @@
  *           still be disabled from the links that the visitor creates when
  *           $selectedNodeLink is set to true.
  * @property string $xmlId
- *           The ID that should be set on the top level <ul> tag.
+ *           The ID that should be set on the top level 'ul' XHTML tag.
  * @property array(string) $highlightNodeIds
  *           Which IDs should have the 'highlight' CSS class added.
  * @property array(string) $subtreeHighlightNodeIds
