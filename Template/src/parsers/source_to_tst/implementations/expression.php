@@ -653,14 +653,14 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
     }
 
     /**
-     *  Check whether the given operand can be the left hand side of the $operator.
-     *  For example: 4 = 5; is not allowed. But $a = 5 , and $a[0][0]->bla  is.
+     * Check whether the given operand can be the left hand side of the $operator.
+     * For example: 4 = 5; is not allowed. But $a = 5 , and $a[0][0]->bla  is.
      *
-     *  @param ezcTemplateTstNode $lhs
-     *  @param ezcTemplateTstNode $op
-     *  @param ezcTemplateCursor $cursor
-     *  @throws ezcTemplateParserException if the check fails.
-     *  @return void
+     * @param ezcTemplateTstNode $lhs
+     * @param ezcTemplateTstNode $op
+     * @param ezcTemplateCursor $cursor
+     * @throws ezcTemplateParserException if the check fails.
+     * @return void
      */
     private function checkForValidOperator( $lhs, $op, $cursor )
     {
@@ -703,12 +703,12 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
 
 
     /**
-     *  @param ezcTemplateTstNode $op
-     *  @param ezcTemplateTstNode $rhs
-     *  @param ezcTemplateCursor $cursor
+     * @param ezcTemplateTstNode $op
+     * @param ezcTemplateTstNode $rhs
+     * @param ezcTemplateCursor $cursor
      *
-     *  @throw ezcTemplateParserException if the check fails.
-     *  @return void
+     * @throws ezcTemplateParserException if the check fails.
+     * @return void
      */
     private function operatorRhsCheck( $op, $rhs, $cursor )
     {
