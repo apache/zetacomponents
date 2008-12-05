@@ -23,7 +23,7 @@
  *     provider discovered in step 2. After user enters his OpenID username and
  *     password at this page and accepts the originating site, the browser is
  *     redirected back to the originating site. The return URL can be changed
- *     with the OpenID option returnUrl (see {@link ezcAuthenticationOpenidOptions).
+ *     with the OpenID option returnUrl (see {@link ezcAuthenticationOpenidOptions}).
  *  5. OpenID check_authentication request. After the redirection from the provider
  *     to the originating site, the values provided by the provider must be checked
  *     in an extra request against the provider. The provider responds with is_valid
