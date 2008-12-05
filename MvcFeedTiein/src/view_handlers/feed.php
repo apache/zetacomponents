@@ -8,7 +8,7 @@
  */
 
 /**
- * The view handler that uses PHP files to render result objects.
+ * The view handler that uses XML feeds to render result objects.
  * 
  * @package MvcFeedTiein
  * @version //autogentag//
@@ -17,12 +17,17 @@
 class ezcMvcFeedViewHandler implements ezcMvcViewHandler
 {
     /**
-     * Contains the zone name
+     * Contains the zone name.
      *
      * @var string
      */
     protected $zoneName;
 
+    /**
+     * Contains the decorator.
+     *
+     * @var ezcMvcFeedDecorator
+     */
     protected $decorator;
 
     /**
@@ -46,6 +51,11 @@ class ezcMvcFeedViewHandler implements ezcMvcViewHandler
      */
     public $feed;
 
+    /**
+     * Contains the embedded feed type.
+     * 
+     * @var string
+     */
     protected $feedType;
 
     /**
@@ -53,8 +63,8 @@ class ezcMvcFeedViewHandler implements ezcMvcViewHandler
      * $decorator is the object implementing decorating methods for the feed
      * and feed items.
      *
-     * @var string $zoneName
-     * @var ezcMvcFeedDecorator $decorator
+     * @param string $zoneName
+     * @param ezcMvcFeedDecorator $decorator
      */
     public function __construct( $zoneName, $decorator = null, $feedType = 'rss2' )
     {
@@ -76,6 +86,14 @@ class ezcMvcFeedViewHandler implements ezcMvcViewHandler
         $this->variables[$name] = $value;
     }
 
+    /**
+     * Maps between variable names and feed element names and returns the
+     * variable name.
+     *
+     * @param string $var
+     * @param mixed &$elementValue
+     * @return string
+     */
     function map( $var, &$elementValue )
     {
         switch ( $var )
@@ -96,6 +114,8 @@ class ezcMvcFeedViewHandler implements ezcMvcViewHandler
     /**
      * Processes the template with the variables added by the send() method.
      * The result of this action should be retrievable through the getResult() method.
+     *
+     * @param mixed $last
      */
     public function process( $last )
     {
@@ -115,6 +135,7 @@ class ezcMvcFeedViewHandler implements ezcMvcViewHandler
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
+     * @return mixed
      * @ignore
      */
     public function __get( $name )
