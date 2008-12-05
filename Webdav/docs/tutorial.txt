@@ -285,7 +285,7 @@ ezcWebdavLockPluginOptions, which you can use to adjust some settings.
 For the back-end initialization you will need to adjust the path, too. The same
 rules as for the token.php file apply here:
 
-- make it readable and/or writable for the web server user
+- make it readable and writable for the web server user
 - put it outside your web root
 
 To test your setup properly, you should first access the URL using a web
