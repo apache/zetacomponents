@@ -1,12 +1,18 @@
 <?php
-
 /**
- * Interface for ezcConsoleDialog validator classes. 
- * 
+ * File containing the ezcConsoleDialogValidator interface.
+ *
  * @package ConsoleTools
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Interface that every console dialog validator class must implement.
+ *
+ * @package ConsoleTools
+ * @version //autogen//
  */
 interface ezcConsoleDialogValidator
 {
@@ -14,15 +20,17 @@ interface ezcConsoleDialogValidator
      * Perform no conversion on the result. 
      */
     const CONVERT_NONE  = 0;
+
     /**
      * Convert result to lower-case. 
      */
     const CONVERT_LOWER = 1;
+
     /**
      * Convert result to upper-case. 
      */
     const CONVERT_UPPER = 2;
-    
+
     /**
      * Returns if the given result is valid. 
      * 

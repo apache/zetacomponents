@@ -1,16 +1,23 @@
 <?php
-
 /**
- * Interface that every console dialog class must implement.
- * Console dialogs can either be used on their own or using the
- * {@link ezcConsoleDialogViewer} (recommended). In the dialog viewer, a dialog
- * is instanciated and displayed in a loop, until it receives a valid result
- * value.
- * 
+ * File containing the ezcConsoleDialog interface.
+ *
  * @package ConsoleTools
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Interface that every console dialog class must implement.
+ *
+ * Console dialogs can either be used on their own or using the
+ * {@link ezcConsoleDialogViewer} (recommended). In the dialog viewer, a dialog
+ * is instanciated and displayed in a loop, until it receives a valid result
+ * value.
+ *
+ * @package ConsoleTools
+ * @version //autogen//
  */
 interface ezcConsoleDialog
 {
