@@ -11,9 +11,9 @@ Introduction
 The Webdav component enables you to easily set up a WebDAV-enabled HTTP server.
 Users can then create and edit site content by uploading and downloading files
 to and from their desktop. The current implementation is compatible with `RFC
-2518`__ and realize most parts of the changes defined in `RFC 4918`. It also
-supports clients that do not conform to the standard and provides an interface
-to support these clients.
+2518`__ and realizes most parts of the changes defined in `RFC 4918`__. It
+also supports clients that do not conform to the standard and provides an
+interface to support these clients.
 
 __ http://tools.ietf.org/html/rfc2518
 __ http://tools.ietf.org/html/rfc4918
@@ -115,8 +115,8 @@ any data themselves. Therefore, if everything is working properly, you will get
 a blank page when viewing collections in your browser. However, you should
 still be able to download resources (or files) in the WebDAV share.
 
-Authentication / authorization
-==============================
+Authentication and authorization
+================================
 
 Since version 1.1, the Webdav component allows you to integrate your own
 authentication and authorization mechanisms into the server. To achieve this,
@@ -126,17 +126,17 @@ you need to create a class which implements one of the following interfaces:
 - ezcWebdavBasicAuthenticator
 - ezcWebdavDigestAuthenticator
 
-Each of the extends the one listed before it. The anonymous authenticator
-provides a method to authenticate the anonymous user (who not provided a
-user name or password at all). The second authorizer provides `HTTP Basic
-authentication`__ to clients. This might not be supported by some clients and
-is generally considered less secure as Digest. The third interface makes the
-server provide Basic and `Digest authentication`__. To ease the implementation
-of Digest authentication, you can extend the abstract base class
-ezcWebdavDigestAuthenticatorBase.
+Each of the class extends the one listed before it. The anonymous
+authenticator provides a method to authenticate the anonymous user (who did
+not provide a user name or password at all). The second authorizer provides
+`HTTP Basic authentication`__ to clients. This might not be supported by
+some clients and is generally considered less secure than Digest. The third
+interface makes the server provide Basic and `Digest authentication`__. To
+ease the implementation of Digest authentication, you can extend the
+abstract base class ezcWebdavDigestAuthenticatorBase.
 
-.. __: http://en.wikipedia.org/wiki/Basic_access_authentication
-.. __: http://en.wikipedia.org/wiki/Digest_access_authentication
+__ http://en.wikipedia.org/wiki/Basic_access_authentication
+__ http://en.wikipedia.org/wiki/Digest_access_authentication
 
 While these interfaces only authenticate a user for general use of WebDAV, they
 do not provide authorization support. That means, every authenticated user has
@@ -171,8 +171,8 @@ The auhtorize() method is called by the back end, for each path that is affected
 by a request. The back end provides the $username of the user that wishes to gain
 access and the type of access, which might be of of::
 
-- ezcWebdavAuthorizer::ACCESS_READ
-- ezcWebdavAuthorizer::ACCESS_WRITE
+ - ezcWebdavAuthorizer::ACCESS_READ
+ - ezcWebdavAuthorizer::ACCESS_WRITE
 
 For recursive operations the back end will call the authorize() method for each
 sub-sequent path, too, so you don't need to worry about this yourself. In
@@ -181,7 +181,7 @@ certain path multiple times during a request. It is therefore recommended that
 you cache the data internally in your authorization object to avoid multiple
 accesses to your permission storage.
 
-To activate authentication / authorization in the server you need to
+To activate authentication and authorization in the server you need to
 instantiate your class and assign the created object to the servers $auth
 property, like this:
 
@@ -223,7 +223,7 @@ Lock authorization
 
 To setup locking, you first need an authorization class, which implements the
 ezcWebdavLockAuthorizer interface. In this example, the class presented in
-`Authentication / authorization`_ is extended for that purpose.
+`Authentication and authorization`_ is extended for that purpose.
 
 .. include:: tutorial/custom_lock_auth.php
    :literal:
@@ -252,17 +252,17 @@ destructor, to persist lock assignments.
 
 The method ezcWebdavLockAuthorizer->assignLock() is called by the lock plugin
 to indicate that the user with name $user has achieved a new lock with the lock
-token $lockToken. You need to store this assignment, while making sure, that a
+token $lockToken. You need to store this assignment, while making sure that a
 user can have an arbitrary number of lock tokens assigned.
 
-Using ezcWebdavLockAuthorizer->ownsLock(), the lock plugin asks, if a certain
+Using ezcWebdavLockAuthorizer->ownsLock(), the lock plugin asks if a certain
 $user owns the given $lockToken. This is the authorization scheme itself. You
-need to make sure that this method only returns true, if the given $lockToken
+need to make sure that this method only returns true if the given $lockToken
 has been assigned to the $user before, using
 ezcWebdavLockAuthorizer->assignLock().
 
 In case the user performs an UNLOCK request, the plugin will call
-ezcWebdavLockAuthorizer->releaseLock(). You then need to remove the assignement
+ezcWebdavLockAuthorizer->releaseLock(). You then need to remove the assignment
 between $user and $lockToken from your storage.
 
 Setup
@@ -273,7 +273,7 @@ The following example shows a typical setup for a Webdav server with locking:
 .. include:: tutorial/lock_plugin_server.php
    :literal:
 
-In instance of your custom authentication/authorization class is assigned to
+An instance of your custom authentication/authorization class is assigned to
 the server. You will need to adjust the location of the token assignment file,
 if you want to get this example running. It must be writable by the user
 running your web server and should be located outside of your web root.
@@ -282,10 +282,10 @@ Lines 14-16 show how the lock plugin is activated. The
 ezcWebdavLockPluginConfiguration class receives optionally an instance of
 ezcWebdavLockPluginOptions, which you can use to adjust some settings.
 
-For the back end initialization you will need to adjust the path, too. The same
+For the back-end initialization you will need to adjust the path, too. The same
 rules as for the token.php file apply here:
 
-- make it read- / writable for the web server user
+- make it readable and/or writable for the web server user
 - put it outside your web root
 
 To test your setup properly, you should first access the URL using a web
@@ -298,9 +298,9 @@ Purging locks
 
 Whenever a clients successfully acquires a lock, a timeout value is assigned to
 it. If the client does not access the lock for that number of seconds, it might
-by considered orphan and can safely be removed. To achieve this removal of
+be considered orphan and can safely be removed. To achieve this removal of
 locks, the Webdav component provides an API for you, that you might use in a
-CRON__ job or a similar mechanism, to purge all outdated locks.
+CRON job or a similar mechanism, to purge all outdated locks.
 
 .. include:: tutorial/lock_administrator.php
    :literal:
@@ -310,27 +310,27 @@ Except, you might leave out the authentication instance, since it will be
 deactivated by the administrator object anyway. However, it does not hurt to
 have it in place.
 
-The ezcWebdavLockAdministrator object is instantiated given the backend it
+The ezcWebdavLockAdministrator object is instantiated given the back-end it
 should work on. The call to ezcWebdavLockAdministrator->purgeLocks() optionally
 accepts a string parameter to indicate which paths should be searched for
 orphan locks. Omitting this parameter, as shown in the example, searches the
-complete backend.
+complete back-end.
 
-Note, that the process of purging locks will lock your backend completly, as
+Note that the process of purging locks will lock your back-end completely, as
 the lock plugin does it during any request that needs to perform multiple
 requests.
 
 Writing a custom back-end
 =========================
 
-The most common way of extending a WebDAV server is to provide a custom back-end
+The most common way of extending WebDAV is to provide a custom back-end
 to your data. A back-end receives ezcWebdavRequest objects and generates
 ezcWebdavResponse objects, which are displayed in a way that the current
 client will understand.
 
 There are basically two ways for you to implement a custom back-end. You can
-implement all the request object handling yourself, by directly
-extending ezcWebdavBackend, or you can reuse the existing helper class
+implement all the request object handling yourself, by extending
+ezcWebdavBackend directly, or you can reuse the existing helper class
 ezcWebdavSimpleBackend.
 
 The simple back-end
@@ -347,49 +347,49 @@ a custom back-end you could use the file back-end or the memory back-end
 (which as mainly intended for testing) as an implementation guide.
 
 If you do not extend ezcWebdavSimpleBackend, be sure to implement authorization
-and to pay attention to the If-Match and If-None-Match headers. Both is already
-handled by ezcWebdavSimpleBackend, so you don't need to take care about that if
-you extend this class.
+and to pay attention to the *If-Match* and *If-None-Match* headers. Both are
+already handled by ezcWebdavSimpleBackend, so you don't need to take care about
+that if you extend this class.
 
 Backends for locking
 --------------------
 
 If you want to use your custom back end with the lock plugin, it needs to
 implement some more interfaces. First of all, you need to implement all of the
-basic back end interfaces, as there are:
+basic back end interfaces, as there are::
 
 - ezcWebdavBackendPut
 - ezcWebdavBackendChange
 - ezcWebdavBackendMakeCollection
 
 All of these are already implemented by ezcWebdavSimpleBackend. It is
-recommended that you use this one as the basis for your custom lock back end,
+recommended that you use this one as the basis for your custom lock back-end,
 since it already handles authorization for you and processes the HTTP headers
-If-Match and If-None-Match. You will need to handle both on your own, if you do
-not extend ezcWebdavSimpleBackend.
+*If-Match* and *If-None-Match*. You will need to handle both on your own, if
+you do not extend ezcWebdavSimpleBackend.
 
 No matter which way you choose, you need to implement ezcWebdavLockBackend.
 This interface requires you to implement 2 methods:
 
 public function lock( $waitTime, $timeout );
-  This method is used by the lock plugin, whenever it needs to communicate with
-  the back end to process a request. In this case, the lock plugin will lock the
-  back end as soon as it receives a request it must react on. It will the
-  process all necessary operations, make the back end process them and unlock
-  the back end, when it created a response. The $waitTime parameter defines how
-  long the back end should wait between attempts to achieve the lock. The
-  $timeout parameter defines after which time of trying to acquire a lock the
-  back end must release a pending lock and restart trying. These parameters are
-  defined through ezcWebdavLockPluginOptions.
+  This method is used by the lock plugin, whenever it needs to communicate
+  with the back-end to process a request. In this case, the lock plugin will
+  lock the back-end as soon as it receives a request it must react on. It will
+  the process all necessary operations, make the back-end process them and
+  unlock the back-end, when it created a response. The $waitTime parameter
+  defines how long the back-end should wait between attempts to achieve the
+  lock. The $timeout parameter defines after what time of trying to acquire a
+  lock the back-end must release a pending lock and restart trying. These
+  parameters are defined through ezcWebdavLockPluginOptions.
 
 public function unlock();
   The unlock() method is called when the lock plugin has finished all its
   operations. In case a fatal error occurs in the Webdav component or your
-  back end, a lock might not be released. For this case, the lock() method must
-  remove a pending lock after $timeout.
+  back-end, a lock might not be released. For this case, the lock() method
+  must remove a pending lock after $timeout.
 
 The ezcWebdavFileBackend, which is shipped with the Webdav component, supports
-all of the features named above.
+all of the features mentioned above.
 
 
 ..
