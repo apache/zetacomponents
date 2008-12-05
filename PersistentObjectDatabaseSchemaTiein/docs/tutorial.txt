@@ -20,7 +20,7 @@ Synopsis
 
 ::
 
-    $ PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -s <string> \
+    $ PersistentObjectDatabaseSchemaTiein/rungenerator.php -s <string> \
       -f <string> [-o] [-p <string>] [-h] [--] <string:def dir> \
       [<string:class dir>]
 
