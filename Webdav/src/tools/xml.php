@@ -125,36 +125,43 @@ class ezcWebdavXmlTool
     public function createDom( $content = null )
     {
         // Make libxml not throw any warnings / notices.
-        libxml_clear_errors();
         $oldErrorLevel = libxml_use_internal_errors( true );
 
+        libxml_clear_errors();
+
         $dom = new DOMDocument( self::XML_VERSION, self::XML_ENCODING );
+
         if ( $content !== null && trim( $content ) !== '' )
         {
             $res = $dom->loadXML( $content, LIBXML_NSCLEAN | LIBXML_NOBLANKS );
 
+            /*
             if ( $res === false )
             {
                 throw new ezcWebdavInvalidXmlException(
                     "Libxml error.'"
                 );
             }
+            */
 
-            /*
             // Check libxml errors
             foreach ( libxml_get_errors() as $error )
             {
-                // Code 100 = relative URI. DAV: is relative.
-                // Older libxml versions don't recognize DAV: as a valid relative URI
-                if ( $error->code === 100 || ( LIBXML_VERSION < 20632 && $error->code === 99 ) )
+                // Code 100 = relative URI, DAV: is relative, do not bail out.
+                if ( $error->code === 100 )
                 {
                     continue;
                 }
+                // Older libxml versions don't recognize DAV: as a valid relative URI
+                if ( $error->code === 99 && strpos( $error->message, 'DAV:' ) !== false )
+                {
+                    continue;
+                }
+
                 throw new ezcWebdavInvalidXmlException(
                     "Libxml error: {$error->code} '{$error->message}.'"
                 );
             }
-            */
         }
         
         // Reset old libxml error state
