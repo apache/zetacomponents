@@ -44,10 +44,10 @@ Extracting a Tar-archive
 
 The Tar format has more than one standard. The most common formats are:
 
-- Unix V7
-- Ustar
-- POSIX
 - Gnu
+- POSIX
+- Unix V7
+- Ustar (The default when creating a tar archive)
 
 The Archive component can extract from any of these formats. Appending entries
 to the archive is only available for the Unix V7 and Ustar formats. 
