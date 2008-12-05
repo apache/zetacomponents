@@ -167,16 +167,16 @@ digest calculation yourself, if you have the capability to e.g. do it right in
 the database. This avoids the risk of copying the plain text password data into
 PHPs memory scope.
 
-The auhtorize() method is called by the back end, for each path that is affected
-by a request. The back end provides the $username of the user who wishes to gain
+The auhtorize() method is called by the back-end, for each path that is affected
+by a request. The back-end provides the $username of the user who wishes to gain
 access and the type of access, which might be one of:
 
 - ezcWebdavAuthorizer::ACCESS_READ
 - ezcWebdavAuthorizer::ACCESS_WRITE
 
-For recursive operations the back end will call the authorize() method for each
+For recursive operations the back-end will call the authorize() method for each
 sub-sequent path, too, so you don't need to worry about this yourself. In
-addition it might happen that the back end (or a plugin) calls the method for a
+addition it might happen that the back-end (or a plugin) calls the method for a
 certain path multiple times during a request. It is therefore recommended that
 you cache the data internally in your authorization object to avoid multiple
 accesses to your permission storage.
@@ -202,16 +202,16 @@ Pre-conditions
 To make the lock plugin work in your environment, you need to fulfill the
 following pre-conditions:
 
-- The back end class needs to implement ezcWebdavLockBackend
+- The back-end class needs to implement ezcWebdavLockBackend
 - The authorization class needs to implement ezcWebdavLockAuthorizer
 
-The ezcWebdavLockBackend interface requires your back end to implement 2 new
-methods, that allow the lock plugin to gain an exclusive lock on the back end.
+The ezcWebdavLockBackend interface requires your back-end to implement 2 new
+methods, that allow the lock plugin to gain an exclusive lock on the back-end.
 This is necessary to ensure that the lock plugins operations are atomic. Note
-that you don't need to support the LOCK and UNLOCK requests in your back end.
+that you don't need to support the LOCK and UNLOCK requests in your back-end.
 Both are completely handled by the lock plugin, which communicates with the
-back end only by standard requests. For more information see `Writing a custom
-back-end`_. The file back end shipped with the Webdav component supports all
+back-end only by standard requests. For more information see `Writing a custom
+back-end`_. The file back-end shipped with the Webdav component supports all
 requirements.
 
 The ezcWebdavLockAuthorizer interface defines methods to let your authorization
@@ -354,9 +354,9 @@ that if you extend this class.
 Backends for locking
 --------------------
 
-If you want to use your custom back end with the lock plugin, it needs to
+If you want to use your custom back-end with the lock plugin, it needs to
 implement some more interfaces. First of all, you need to implement all of the
-basic back end interfaces:
+basic back-end interfaces:
 
 - ezcWebdavBackendPut
 - ezcWebdavBackendChange
