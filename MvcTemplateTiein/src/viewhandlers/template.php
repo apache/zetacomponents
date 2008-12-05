@@ -41,8 +41,8 @@ class ezcMvcTemplateViewHandler implements ezcMvcViewHandler
      * Creates a new view handler, where $zoneName is the name of the block and
      * $templateLocation the location of a view template.
      *
-     * @var string $zoneName
-     * @var string $templateLocation
+     * @param string $zoneName
+     * @param string $templateLocation
      */
     public function __construct( $zoneName, $templateLocation = null )
     {
@@ -67,6 +67,8 @@ class ezcMvcTemplateViewHandler implements ezcMvcViewHandler
     /**
      * Processes the template with the variables added by the send() method.
      * The result of this action should be retrievable through the getResult() method.
+     *
+     * @param mixed $last
      */
     public function process( $last )
     {
