@@ -466,6 +466,10 @@ handlers that will render the results from this action method. ::
 The whole controller file can be found in SVN as: 
 http://svn.ez.no/svn/ezcomponents/docs/examples/applications/HelloMvc/lib/controllers/hello.php
 
+It is also possible to return different results than the above normal type.
+You can do so by setting the $ret->status property to an instance of either
+ezcMvcExternalRedirect or ezcMvcResultUnauthorized.
+
 Creating the Views
 ``````````````````
 
