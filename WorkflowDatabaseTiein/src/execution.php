@@ -2,7 +2,6 @@
 /**
  * File containing the ezcWorkflowDatabaseExecution class.
  *
- * @category Workflow
  * @package WorkflowDatabaseTiein
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
