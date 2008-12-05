@@ -2,7 +2,6 @@
 /**
  * File containing the ezcWorkflowEventLogListener class.
  *
- * @category Workflow
  * @package WorkflowEventLogTiein
  * @version //autogen//
  * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
