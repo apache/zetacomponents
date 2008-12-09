@@ -16,6 +16,7 @@ return array(
     'ezcConsoleArgumentAlreadyRegisteredException'  => 'ConsoleTools/exceptions/argument_already_registered.php',
     'ezcConsoleArgumentMandatoryViolationException' => 'ConsoleTools/exceptions/argument_mandatory_violation.php',
     'ezcConsoleArgumentTypeViolationException'      => 'ConsoleTools/exceptions/argument_type_violation.php',
+    'ezcConsoleDialogAbortException'                => 'ConsoleTools/exceptions/dialog_abort.php',
     'ezcConsoleInvalidOptionNameException'          => 'ConsoleTools/exceptions/invalid_option_name.php',
     'ezcConsoleInvalidOutputTargetException'        => 'ConsoleTools/exceptions/invalid_output_target.php',
     'ezcConsoleNoPositionStoredException'           => 'ConsoleTools/exceptions/no_position_stored.php',

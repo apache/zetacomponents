@@ -51,10 +51,17 @@ class ezcConsoleDialogViewer
      * The returned line is fully trimmed.
      * 
      * @return string
+     * @throws ezcConsoleDialogAbortException
+     *         if the user closes STDIN using <CTRL>-D.
      */
     public static function readLine()
     {
-        return ( trim( fgets( STDIN ) ) );
+        $res = trim( fgets( STDIN ) );
+        if ( feof( STDIN ) )
+        {
+            throw new ezcConsoleDialogAbortException();
+        }
+        return $res;
     }
 }
 

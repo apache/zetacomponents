@@ -1,3 +1,10 @@
+1.5rc1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #14078: ezcConsoleDialog implementations now throw an
+  ezcConsoleDialogAbortException, if the user closes STDIN (<CTRL>-D).
+
+
 1.5beta1 - Monday 01 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

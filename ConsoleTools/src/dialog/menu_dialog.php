@@ -98,6 +98,8 @@ class ezcConsoleMenuDialog implements ezcConsoleDialog
      * if a valid result is available.
      * 
      * @return void
+     * @throws ezcConsoleDialogAbortException
+     *         if the user closes STDIN using <CTRL>-D.
      */
     public function display()
     {

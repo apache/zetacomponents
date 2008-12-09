@@ -242,6 +242,22 @@ class ezcConsoleQuestionDialogTest extends ezcConsoleDialogTest
         // $this->saveDialogResult( __METHOD__, $res );
         $this->assertEquals( $this->res, $res );
     }
+
+    public function testDialog5()
+    {
+        $this->runDialog( __METHOD__ );
+
+        $res[] = $this->readPipe( $this->pipes[1] );
+
+        fputs( $this->pipes[0], "foo\n" );
+        $res[] = $this->readPipe( $this->pipes[1] );
+        
+        fclose( $this->pipes[0] );
+        $res[] = $this->readPipe( $this->pipes[1] );
+        
+        // $this->saveDialogResult( __METHOD__, $res );
+        $this->assertEquals( $this->res, $res );
+    }
 }
 
 ?>
