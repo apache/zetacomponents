@@ -72,3 +72,4 @@ avahi:x:116:121:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
 libuuid:x:117:122::/var/lib/libuuid:/bin/sh
 '; ?>
 <?php $request = array(); ?>
+<?php $cookies = array(); ?>

@@ -37,4 +37,4 @@
 ); ?>
 <?php $body   = ''; ?>
 <?php $request = array( 'var1' => 42 ); ?>
-<?php $cookies = array(); ?>
+<?php $cookies = array( 'derick' => 'cookie', 'scott' => 'om nom nom' ); ?>

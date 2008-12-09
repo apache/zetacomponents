@@ -29,6 +29,7 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
         $this->processUserAgentHeaders();
         $this->processFiles();
         $this->processAuthVars();
+        $this->processCookies();
 
         $this->request->raw = &$_SERVER;
 
@@ -169,6 +170,18 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
             $file->tmpPath = $info['tmp_name'];
 
             $this->request->files[] = $file;
+        }
+    }
+
+    /**
+     * Process cookies
+     */
+    protected function processCookies()
+    {
+        foreach( $_COOKIE as $name => $value )
+        {
+            $cookie = new ezcMvcRequestCookie( $name, $value );
+            $this->request->cookies[] = $cookie;
         }
     }
 }

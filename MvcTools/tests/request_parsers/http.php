@@ -33,6 +33,7 @@ class ezcMvcToolsHttpRequestParserTest extends ezcTestRegressionTest
         $this->serverArray = $_SERVER;
         $this->filesArray  = $_FILES;
         $this->requestArray  = $_REQUEST;
+        $this->cookieArray  = $_COOKIE;
     }
 
     public function tearDown()
@@ -40,6 +41,7 @@ class ezcMvcToolsHttpRequestParserTest extends ezcTestRegressionTest
         $_SERVER = $this->serverArray;
         $_FILES  = $this->filesArray;
         $_REQUEST = $this->requestArray;
+        $_COOKIE = $this->cookieArray;
     }
 
     public function testRunRegression( $name )
@@ -48,6 +50,7 @@ class ezcMvcToolsHttpRequestParserTest extends ezcTestRegressionTest
         $_SERVER = $server;
         $_FILES  = $files;
         $_REQUEST = $request;
+        $_COOKIE = $cookies;
         $requestParser = new ezcMvcHttpRequestParser();
         $req = $requestParser->createRequest();
 

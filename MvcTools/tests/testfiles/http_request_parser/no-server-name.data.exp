@@ -83,4 +83,7 @@ ezcMvcRequest::__set_state(array(
     ),
     'argc' => 0,
   ),
+   'cookies' => 
+  array (
+  ),
 ))

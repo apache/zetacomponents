@@ -47,3 +47,4 @@
 ); ?>
 <?php $body   = ''; ?>
 <?php $request = array(); ?>
+<?php $cookies = array(); ?>

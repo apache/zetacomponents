@@ -69,6 +69,7 @@ class ezcMvcRequestTest extends ezcTestCase
         'agent' => 'debian',
         'authentication' => 'oop',
         'raw' => 'random',
+        'cookies' => 'foo',
         );
         $struct = ezcMvcRequest::__set_state( $state );
         $this->assertEquals( 'php', $struct->date, 'Property date does not have the expected value' );
@@ -84,6 +85,7 @@ class ezcMvcRequestTest extends ezcTestCase
         $this->assertEquals( 'debian', $struct->agent, 'Property agent does not have the expected value' );
         $this->assertEquals( 'oop', $struct->authentication, 'Property authentication does not have the expected value' );
         $this->assertEquals( 'random', $struct->raw, 'Property raw does not have the expected value' );
+        $this->assertEquals( 'foo', $struct->cookies, 'Property raw does not have the expected value' );
     }
 
     public static function suite()

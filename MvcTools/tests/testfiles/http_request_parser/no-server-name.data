@@ -38,3 +38,4 @@
 <?php $body   = 'avatar=tls_5204.jpg&update=Update+Avatar'; ?>
 <?php $request = array (
 ); ?>
+<?php $cookies = array(); ?>

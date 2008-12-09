@@ -1,8 +1,10 @@
 1.0RC1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #13920: Cookies are part of response, but not of request.
 - Fixed issue #14041: MVC tutorial improvement by clarifying the
   createFatalRedirectRequest dispatcher configuration method.
+
 
 1.0beta1 - Monday 01 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

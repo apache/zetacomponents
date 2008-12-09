@@ -128,6 +128,13 @@ class ezcMvcRequest extends ezcBaseStruct
     public $raw;
 
     /**
+     * Contains all the cookies to be set
+     *
+     * @var array(ezcMvcRequestCookie)
+     */
+    public $cookies;
+
+    /**
      * Constructs a new ezcMvcRequest.
      *
      * @param DateTime $date
@@ -143,11 +150,12 @@ class ezcMvcRequest extends ezcBaseStruct
      * @param ezcMvcRequestUserAgent $agent
      * @param ezcMvcRequestAuthentication $authentication
      * @param ezcMvcRawRequest $raw
+     * @param array(ezcMvcRequestCookie) $cookies
      */
     public function __construct( $date = null, $protocol = '', 
         $host = '', $uri = '', $requestId = '', $referrer = '', 
         $variables = array(), $body = '', $files = null, $accept = null, 
-        $agent = null, $authentication = null, $raw = null )
+        $agent = null, $authentication = null, $raw = null, $cookies = array() )
     {
         $this->date = $date;
         $this->protocol = $protocol;
@@ -162,6 +170,7 @@ class ezcMvcRequest extends ezcBaseStruct
         $this->agent = $agent;
         $this->authentication = $authentication;
         $this->raw = $raw;
+        $this->cookies = $cookies;
     }
 
     /**
@@ -183,7 +192,7 @@ class ezcMvcRequest extends ezcBaseStruct
             $array['host'], $array['uri'], $array['requestId'], 
             $array['referrer'], $array['variables'], $array['body'], 
             $array['files'], $array['accept'], $array['agent'], 
-            $array['authentication'], $array['raw'] );
+            $array['authentication'], $array['raw'], $array['cookies'] );
     }
 }
 ?>
