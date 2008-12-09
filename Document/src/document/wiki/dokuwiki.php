@@ -10,9 +10,49 @@
 
 /**
  * Document handler for Dokuwiki wiki text documents.
+ *
+ * Dokuwiki is a popular wiki system, for example used on wiki.php.net with a
+ * quite different syntax, and the most complete markup support, even including
+ * something like footnotes. The markup is documented at:
+ *
+ * http://www.dokuwiki.org/dokuwiki
+ *
+ * This document handler implements conversions for Crole wiki markup.
+ * The tokenizer, which differs for each wiki language, can be set
+ * directly, or you may use on of the other extended implementations for the
+ * specific sytaxes:
+ *
+ * - ezcDocumentConfluenceWiki
+ * - ezcDocumentCreoleWiki
+ * - ezcDocumentDokuwikiWiki
+ *
+ * Each wiki syntax has some sort of plugin mechanism, which allows you to
+ * handle the contents of a special formatted syntax element using custom
+ * classes or external applications. You can register a plugin for this, which
+ * then need to "parse" the element contents itself and may return random
+ * docbook markup.
+ *
+ * The basic conversion of a wiki document into a docbook document, using the
+ * default creole tokenizer, looks like:
+ *
+ * <code>
+ *  $document = new ezcDocumentDokuwikiWiki();
+ *  $document->loadString( '
+ *  = Example text =
+ *
+ *  Just some exaple paragraph with a heading, some **emphasis** markup and a
+ *  [[http://ezcomponents.org|link]].' );
+ *
+ *  $docbook = $document->getAsDocbook();
+ *  echo $docbook->save();
+ * </code>
+ *
+ * A converter for the conversion from docbook back to dokuwiki wiki markup
+ * has not yet been implemented.
  * 
  * @package Document
  * @version //autogen//
+ * @mainclass
  */
 class ezcDocumentDokuwikiWiki extends ezcDocumentWiki
 {
