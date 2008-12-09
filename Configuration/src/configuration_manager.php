@@ -162,6 +162,7 @@ class ezcConfigurationManager
         $this->readerClass = null;
         $this->location = null;
         $this->options = array();
+        $this->nameMap = array();
     }
 
     /**

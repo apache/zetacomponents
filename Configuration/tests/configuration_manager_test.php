@@ -39,6 +39,7 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $this->assertSame( 'ezcConfigurationIniReader', $this->readAttribute( $config, 'readerClass' ) );
         $this->assertSame( 'files', $this->readAttribute( $config, 'location' ) );
         $this->assertSame( array(), $this->readAttribute( $config, 'options' ) );
+        $this->assertSame( array(), $this->readAttribute( $config, 'nameMap' ) );
     }
 
     public function testReset()
@@ -50,6 +51,28 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $this->assertSame( null, $this->readAttribute( $config, 'readerClass' ) );
         $this->assertSame( null, $this->readAttribute( $config, 'location' ) );
         $this->assertSame( array(), $this->readAttribute( $config, 'options' ) );
+        $this->assertSame( array(), $this->readAttribute( $config, 'nameMap' ) );
+    }
+
+    // test for bug #14087
+    public function testReset2()
+    {
+        xdebug_break();
+        $config = ezcConfigurationManager::getInstance();
+        $this->assertSame( null, $this->readAttribute( $config, 'readerClass' ) );
+        $this->assertSame( null, $this->readAttribute( $config, 'location' ) );
+        $this->assertSame( array(), $this->readAttribute( $config, 'options' ) );
+        $this->assertSame( array(), $this->readAttribute( $config, 'nameMap' ) );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files/configs/a' );
+        $this->assertSame( 'foo', $config->getSetting( 'storage', 'server', 'type' ) );
+
+        $config->reset();
+        $this->assertSame( null, $this->readAttribute( $config, 'readerClass' ) );
+        $this->assertSame( null, $this->readAttribute( $config, 'location' ) );
+        $this->assertSame( array(), $this->readAttribute( $config, 'options' ) );
+        $this->assertSame( array(), $this->readAttribute( $config, 'nameMap' ) );
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files/configs/b' );
+        $this->assertSame( 'bar', $config->getSetting( 'storage', 'server', 'type' ) );
     }
 
     public function testInitClassWrongInterface()
