@@ -10,9 +10,70 @@
 
 /**
  * Document handler for RST text documents.
+ *
+ * RST (ReStructured Text) is a text based markup language developed inside the
+ * docutils project, with a rather complete description of the markup language:
+ *
+ * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
+ *
+ * The basic RST syntax can be extended with so called directives, which can
+ * contain user specific markup blocks handled by external applications or
+ * custom scripts. This class does not support all of the directives known from
+ * docutils yet, but you may register custom additional ones.
+ *
+ * RST can be converted forth and back between Docbook and RST. Additionally
+ * you may register cusom visitors for the abstract sysntax tree (AST) the RST
+ * parser creates, to directly convert the AST into other languages then
+ * Docbook. Two different visitors for XHTML are already implemented in the
+ * component:
+ *
+ * - ezcDocumentRstXhtmlVisitor
+ * - ezcDocumentRstXhtmlBodyVisitor
+ *
+ * A basic conversion from a RST document to a Docbook document looks like:
+ *
+ * <code>
+ *  $document = new ezcDocumentRst();
+ *  $document->loadFile( 'my_rst_doc.txt' );
+ *  $docbook = $document->getAsDocbook();
+ *  echo $docbook->save();
+ * </code>
+ *
+ * Additional directives, which are implemented by extending from the
+ * ezcDocumentRstDirective class, can be registerd before the conversion:
+ *
+ * <code>
+ *  $document = new ezcDocumentRst();
+ *  $document->registerDirective( 'address', 'myAddressDirective' );
+ *  $document->loadString( <<<EORST
+ *  Address example
+ *  ===============
+ *
+ *  .. address:: John Doe
+ *      :street: Some Lane 42
+ *  EORST
+ *  );
+ *
+ *  $docbook = $document->getAsDocbook();
+ *  echo $docbook->save();
+ * </code>
+ *
+ * This class can also read docbook documents (ezcDocumentDocbook) and convert
+ * it back to RST, which then works like:
+ *
+ * <code>
+ *  $docbook = new ezcDocumentDocbook();
+ *  $docbook->loadFile( 'docbook.xml' );
+ *
+ *  $rst = new ezcDocumentRst();
+ *  $rst->createFromDocbook( $docbook );
+ *
+ *  echo $rst->save();
+ * </code>
  * 
  * @package Document
  * @version //autogen//
+ * @mainclass
  */
 class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, ezcDocumentValidation
 {
