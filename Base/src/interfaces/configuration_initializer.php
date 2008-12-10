@@ -8,8 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * This class provides the interface that classes need to implement to act as an
- * callback initializer class to work with the delayed initialization mechanism.
+ * This class provides the interface that classes need to implement to act as
+ * an callback initializer class to work with the delayed initialization
+ * mechanism.
  *
  * @package Base
  * @version //autogen//
@@ -17,14 +18,15 @@
 interface ezcBaseConfigurationInitializer
 {
     /**
-     * Sets the options for the writer.
+     * Configures the given object, or returns the proper object depending on
+     * the given identifier.
      *
-     * The options will be used the next time the save() method is called. The
-     * $options array is an associative array with the options for the writer.
-     * It depends on the specific writer which options are allowed here.
+     * In case a string identifier was given, it should return the associated
+     * object, in case an object was given the method should return null.
      *
-     * @param array $options
+     * @param string|object $object
+     * @return mixed
      */
-    static public function configureObject( $options );
+    static public function configureObject( $object );
 }
 ?>

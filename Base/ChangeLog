@@ -5,6 +5,8 @@
   into the ezcBase::walkRecursive() method so that you can setup your own
   callbacks to "do things". The findRecursive() method is now implemented
   through this.
+- Fixed issue #14091: Incorrect documentation for
+  ezcBaseConfigurationInitializer.
 
 
 1.6beta1 - Monday 01 December 2008
