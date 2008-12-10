@@ -225,7 +225,7 @@ you can either call walkRecursive() yourself with a callback function of your
 choice, or overload the ezcBaseFile class and provide a new
 findRecursiveCallback() method. The code below uses
 ezcBaseFile::walkRecursive() directly in order to display dots for when ever it
-finds a new directory::
+finds a new directory:
 
 .. include:: tutorial_example_03.php
    :literal:
