@@ -238,6 +238,7 @@ class ezcWebdavClientTestGenerator
             ? unserialize( file_get_contents( $this->backendFile ) )
             : $this->getBackend()
         );
+        $this->backend->options->lockFile = TMP_DIR . '/backend.lock';
 
         // Basic path factory, use mod_rewrite!
         try
