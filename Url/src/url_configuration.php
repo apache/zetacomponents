@@ -12,6 +12,29 @@
 /**
  * ezcUrlConfiguration makes it possible to use a custom URL form in your application.
  *
+ * A URL is assumed to be of this form:
+ * scheme://host/basedir/script/ordered_parameters/unordered_parameters
+ *
+ * Example:
+ * http://example.com/mydir/index.php/groups/Games/Adventure/Adult/(game)/Larry/7
+ *
+ * Where:
+ * scheme = "http"
+ * host = "example.com"
+ * basedir = "mydir"
+ * script = "index.php"
+ * ordered parameters = "groups", "Games", "Adventure", "Adult"
+ * unordered parameters = array( "Larry", "7" )
+ *
+ * When creating a configuration with ordered parameters, those parameters are
+ * required to be present in the parsed URL, in the same number as the
+ * configuration states. Having a different number of ordered parameters in the
+ * parsed URL will lead to wrong values assigned to the unordered parameters (if
+ * any follow the ordered parameters).
+ *
+ * See the tutorial for a way to change configurations dynamically based on
+ * the ordered parameters.
+ *
  * Example of use:
  * <code>
  * // create an ezcUrlConfiguration object
@@ -236,6 +259,10 @@ class ezcUrlConfiguration
     /**
      * Adds an ordered parameter to the URL configuration.
      *
+     * Ordered parameters must be added before unordered parameters, and
+     * they must appear in the parsed URL in the same number and order
+     * as they are defined in the configuration.
+     *
      * @param string $name The name of the ordered parameter to add to the configuration
      */
     public function addOrderedParameter( $name )
@@ -288,6 +315,10 @@ class ezcUrlConfiguration
      * $url = new ezcUrl( 'http://www.example.com/(param1)/x/(param1)/y/z', $urlCfg );
      * $param1 = $url->getParam( 'param1' ); // will return array( array( "x" ), array( "y", "z" ) )
      * </code>
+     *
+     * Ordered parameters must be added before unordered parameters, and
+     * they must appear in the parsed URL in the same number and order
+     * as they are defined in the configuration.
      *
      * @param string $name The name of the unordered parameter to add to the configuration
      * @param int $type The type of the unordered parameter

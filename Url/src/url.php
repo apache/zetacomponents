@@ -27,6 +27,15 @@
  * ordered parameters = "groups", "Games", "Adventure", "Adult"
  * unordered parameters = array( "Larry", "7" )
  *
+ * When creating a configuration with ordered parameters, those parameters are
+ * required to be present in the parsed URL, in the same number as the
+ * configuration states. Having a different number of ordered parameters in the
+ * parsed URL will lead to wrong values assigned to the unordered parameters (if
+ * any follow the ordered parameters).
+ *
+ * See the tutorial for a way to change configurations dynamically based on
+ * the ordered parameters.
+ *
  * Example of use:
  * <code>
  * // create an ezcUrlConfiguration object
@@ -573,6 +582,9 @@ class ezcUrl
     /**
      * Returns the value of the specified parameter from the URL based on the
      * active URL configuration.
+     *
+     * Ordered parameters must appear before unordered parameters in the parsed
+     * URL, in the same number and order as they are defined in the configuration.
      *
      * Unordered parameter examples:
      * <code>
