@@ -82,6 +82,7 @@ require_once 'client_test_ie6.php';
 require_once 'client_test_ie6_auth.php';
 require_once 'client_test_ie7.php';
 require_once 'client_test_ie7_auth.php';
+require_once 'client_test_bitkinex.php';
 
 require_once 'lock_plugin_options_test.php';
 require_once 'lock_if_header_list_item_test.php';
@@ -183,6 +184,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavClientIE6AuthTest::suite() );
         $this->addTest( ezcWebdavClientIE7Test::suite() );
         $this->addTest( ezcWebdavClientIE7AuthTest::suite() );
+        $this->addTest( ezcWebdavClientBitKinexTest::suite() );
     }
 
     public static function suite()
