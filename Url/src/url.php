@@ -13,6 +13,20 @@
  * ezcUrl stores an URL both absolute and relative and contains methods to
  * retrieve the various parts of the URL and to manipulate them.
  *
+ * A URL is assumed to be of this form:
+ * scheme://host/basedir/script/ordered_parameters/unordered_parameters
+ *
+ * Example:
+ * http://example.com/mydir/index.php/groups/Games/Adventure/Adult/(game)/Larry/7
+ *
+ * Where:
+ * scheme = "http"
+ * host = "example.com"
+ * basedir = "mydir"
+ * script = "index.php"
+ * ordered parameters = "groups", "Games", "Adventure", "Adult"
+ * unordered parameters = array( "Larry", "7" )
+ *
  * Example of use:
  * <code>
  * // create an ezcUrlConfiguration object
