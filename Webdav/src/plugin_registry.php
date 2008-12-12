@@ -294,7 +294,7 @@ class ezcWebdavPluginRegistry
         if ( !isset( $this->hooks[$class][$hook] ) )
         {
             throw new RuntimeException(
-                "Internal error in Webdav component. Announced non-existent hook: $class->$hook."
+                "Internal error in Webdav component. Announced non-existent hook: {$class}->{$hook}."
             );
         }
 
