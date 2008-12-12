@@ -136,6 +136,16 @@ class ezcTreeVisitorTest extends ezcTestCase
         self::assertSame( $expected, (string) $visitor );
     }
 
+    public function testVisitor4()
+    {
+        $tree = ezcTreeMemory::create( new ezcTreeMemoryDataStore() );
+
+        $visitor = new ezcTreeVisitorPlainText( ezcTreeVisitorPlainText::SYMBOL_ASCII );
+        $tree->accept( $visitor );
+        $expected = "\n";
+        self::assertSame( $expected, (string) $visitor );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcTreeVisitorTest" );

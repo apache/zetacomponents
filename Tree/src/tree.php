@@ -233,7 +233,11 @@ abstract class ezcTree implements ezcTreeVisitable
     public function accept( ezcTreeVisitor $visitor )
     {
         $visitor->visit( $this );
-        $this->getRootNode()->accept( $visitor );
+        $root = $this->getRootNode();
+        if ( $root instanceof ezcTreeNode )
+        {
+            $root->accept( $visitor );
+        }
     }
 
     /**
