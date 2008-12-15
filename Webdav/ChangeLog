@@ -1,4 +1,4 @@
-1.1rc1 - [RELEASEDATE]
+1.1rc1 - Monday 15 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue 13251#: Tested Webdav component with BitKinex 3.0.2. Works fine,
