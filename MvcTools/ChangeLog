@@ -1,4 +1,4 @@
-1.0rc1 - [RELEASEDATE]
+1.0rc1 - Monday 15 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13920: Cookies are part of response, but not of request.
