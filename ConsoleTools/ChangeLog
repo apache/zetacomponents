@@ -1,4 +1,4 @@
-1.5rc1 - [RELEASEDATE]
+1.5rc1 - Monday 15 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14078: ezcConsoleDialog implementations now throw an
