@@ -1,4 +1,4 @@
-1.6rc1 - [RELEASEDATE]
+1.6rc1 - Monday 15 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #12542: Refactored the ezcBaseFile::findRecursive() method
