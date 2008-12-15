@@ -1,4 +1,4 @@
-1.1.2 - [RELEASEDATE]
+1.1.2 - Monday 15 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14124: A fatal error was thrown when a visitor was used on an
