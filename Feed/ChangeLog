@@ -1,4 +1,4 @@
-1.2rc1 - [RELEASEDATE]
+1.2rc1 - Monday 15 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14055: Parsing an empty string raises a warning.
