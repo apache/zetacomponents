@@ -19,7 +19,7 @@
  * The message formats that can be parsed are: 
  *
  * <pre>
- * [ source, category, error_type] Message
+ * [ source, category, error_type ] Message
  * </pre>
  *
  * <pre>
