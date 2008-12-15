@@ -1,4 +1,4 @@
-1.6RC1 - [RELEASEDATE]
+1.6rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #12542: Refactored the ezcBaseFile::findRecursive() method

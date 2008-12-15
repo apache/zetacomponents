@@ -1,4 +1,4 @@
-1.0RC1 - [RELEASEDATE]
+1.0rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #13920: Cookies are part of response, but not of request.

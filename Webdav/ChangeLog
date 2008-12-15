@@ -5,6 +5,7 @@
   except for locking, which seems to be broken in the client (same problems
   with Apache mod_dav).
 
+
 1.1beta1 - Monday 01 December 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
