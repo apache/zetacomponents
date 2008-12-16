@@ -520,6 +520,10 @@ structure and output an XML feed of the chosen type (``rss1``, ``rss2`` or
 ``atom``). An XML file will also be written in the same directory as the
 input file, with the name of the input file plus the ``.xml`` extension.
 
+Special characters need to be encoded already in the input text file (eg.
+if the title contains ``&``, it should appear as ``&amp;`` in the input
+text file).
+
 Example of usage (current directory is the **feed_creator** directory)::
 
   php feed_creator.php rss2 data/news.txt
