@@ -161,6 +161,13 @@
  * ?>
  * </code>
  *
+ * Note: Assigning values to feed elements should be done in a way that will not
+ * break the resulting XML document. In other words, encoding of special characters
+ * to HTML entities is not done by default, and the developer is responsible with
+ * calling htmlentities() himself when assigning values to feed elements. Example:
+ * if the feed title contains the "&" character, it is the responsability of the
+ * developer to encode it properly as "&amp;".
+ *
  * Example of creating a feed with a user-defined type:
  *
  * <code>
