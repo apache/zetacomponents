@@ -175,7 +175,7 @@ In the top level directory (HelloMvc) we place a config.php file, where we set
 the include path, add the class repository and configure the Template
 component. The file is otherwise really simple:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/config.php
+.. include:: HelloMvc/config.php
    :literal:
 
 In the "cache" directory, we create a subdirectory "compiled_templates" and
@@ -189,7 +189,7 @@ We create a file "index.php" in the "www" directory. This file contains the
 bootstrapping code that gets the application going. Again, the contents of this
 file are very simple:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/www/index.php
+.. include:: HelloMvc/www/index.php
    :literal:
 
 After the above steps, our directory structure now looks like::
@@ -373,7 +373,7 @@ with two implementations: ezcMvcRailsRoute and ezcMvcRegexpRoute. We'll be
 using the ezcMvcRailsRoute class as it is slightly easier to use. The router
 class' implementation is then really simple:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/lib/router.php
+.. include:: HelloMvc/lib/router.php
    :literal:
 
 Each route defines a pattern ('/' or '/:name') and links that to a controller
@@ -501,7 +501,7 @@ of each processed zone is added as a variable for use for subsequent zones.
 Because this becomes clearer with an example, we now show the helloRootView
 class that we put into the 'lib/views/' directory as root.php:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/lib/views/root.php
+.. include:: HelloMvc/lib/views/root.php
    :literal:
 
 Here we define the three zones in order. First, the view would process the
@@ -520,29 +520,29 @@ parts of the layout. In our case we use a template for the "menu" and
 
 The helloNameView class is put in the 'lib/views/' directory as name.php:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/lib/views/name.php
+.. include:: HelloMvc/lib/views/name.php
    :literal:
 
 The templates themselves we place in the "templates/" directory. We keep them
 as simple as possible. First the "menu.ezt" template:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/templates/menu.ezt
+.. include:: HelloMvc/templates/menu.ezt
    :literal:
 
 Secondly the "generic_greeting.php" PHP script:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/templates/generic_greeting.php
+.. include:: HelloMvc/templates/generic_greeting.php
    :literal:
 
 We'll also create the "personal_greeting.php" PHP script, that our other view
 (helloNameView) uses:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/templates/personal_greeting.php
+.. include:: HelloMvc/templates/personal_greeting.php
    :literal:
 
 And lastly the "layout.ezt" template:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/templates/layout.ezt
+.. include:: HelloMvc/templates/layout.ezt
    :literal:
 
 Please note that we're using the "{raw}" construct to include the already
@@ -560,7 +560,7 @@ requests to the index.php script. We do that by using mod_rewrite through a
 .htaccess file. We place this file in the "www/" directory, and fill it with
 the following text:
 
-.. include:: ../../../docs/examples/applications/HelloMvc/www/.htaccess
+.. include:: HelloMvc/www/.htaccess
    :literal:
 
 The full directory listing is now::
