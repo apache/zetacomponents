@@ -324,6 +324,23 @@ class ezcSearchBuildSearchQueryTest extends ezcTestCase
         self::assertSame( array( '( fieldOne_t:"Testing+more-less is (good):	not!" OR fieldTwo_t:"Testing+more-less is (good):	not!" )' ), $q->whereClauses );
     }
 
+    // test for issue #14159
+    public static function testWithColon1()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        $qb = new ezcSearchQueryBuilder();
+        $qb->parseSearchQuery( $q, '"http://blahblah"', array( 'fieldOne' ) );
+        self::assertSame( array( 'fieldOne_t:"http://blahblah"' ), $q->whereClauses );
+    }
+
+    public static function testWithColon2()
+    {
+        $q = self::setupQuery( 'DefinitionTwoFields' );
+        $qb = new ezcSearchQueryBuilder();
+        $qb->parseSearchQuery( $q, '"http://blahblah"', array( 'fieldOne', 'fieldTwo' ) );
+        self::assertSame( array( '( fieldOne_t:"http://blahblah" OR fieldTwo_t:"http://blahblah" )' ), $q->whereClauses );
+    }
+
     public static function setupQuery( $definition )
     {
         $h = new TestHandler;
