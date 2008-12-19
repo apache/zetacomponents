@@ -19,7 +19,7 @@ class ezcMvcExternalRedirectTest extends ezcTestCase
     public function testIsStruct()
     {
         $struct = new ezcMvcExternalRedirect();
-        $this->assertTrue( $struct instanceof ezcBaseStruct );
+        $this->assertTrue( $struct instanceof ezcMvcResultStatusObject );
     }
 
     public function testGetSet()

@@ -28,7 +28,7 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
      *
      * @var array(string=>string)
      */
-    protected $headers;
+    public $headers;
 
     /**
      * Creates a new ezcMvcHttpResponseWriter class to write $response
@@ -60,9 +60,9 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
         }
 
         // process the status headers through objects
-        if ( is_object( $this->response->status ) )
+        if ( $this->response->status instanceof ezcMvcResultStatusObject )
         {
-            $this->processStatusObject( $this->response->status );
+            $this->response->status->process( $this );
         }
 
         // automatically add content-length header
@@ -138,8 +138,6 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
     {
         $res = $this->response;
 
-        // do something with the status
-
         // generator
         $this->headers['X-Powered-By'] = $res->generator !== ''
             ? $res->generator
@@ -195,24 +193,6 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
         if ( $content->encoding )
         {
             $this->headers['Content-Encoding'] = $content->encoding;
-        }
-    }
-
-    /**
-     * Process the $status object to set headers
-     *
-     * @param object $stauts
-     */
-    protected function processStatusObject( $status )
-    {
-        switch ( get_class( $status ) )
-        {
-            case 'ezcMvcExternalRedirect':
-                $this->headers['Location'] = $status->location;
-                break;
-            case 'ezcMvcResultUnauthorized':
-                $this->headers['WWW-Authenticate'] = "Basic realm=\"{$status->realm}\"";
-                break;
         }
     }
 }

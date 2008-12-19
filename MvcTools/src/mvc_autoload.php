@@ -25,6 +25,7 @@ return array(
     'ezcMvcRequestParser'               => 'MvcTools/interfaces/request_parser.php',
     'ezcMvcResponseFilter'              => 'MvcTools/interfaces/response_filter.php',
     'ezcMvcResponseWriter'              => 'MvcTools/interfaces/response_writer.php',
+    'ezcMvcResultStatusObject'          => 'MvcTools/interfaces/result_status_object.php',
     'ezcMvcRoute'                       => 'MvcTools/interfaces/route.php',
     'ezcMvcViewHandler'                 => 'MvcTools/interfaces/view_handler.php',
     'ezcMvcCatchAllRoute'               => 'MvcTools/routes/catchall.php',

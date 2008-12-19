@@ -14,7 +14,7 @@
  * @package MvcTools
  * @version //autogentag//
  */
-class ezcMvcExternalRedirect extends ezcBaseStruct
+class ezcMvcExternalRedirect implements ezcMvcResultStatusObject
 {
     /**
      * The location where to re-direct to.
@@ -31,6 +31,19 @@ class ezcMvcExternalRedirect extends ezcBaseStruct
     public function __construct( $location = '/' )
     {
         $this->location = $location;
+    }
+
+    /**
+     * Uses the passed in $writer to set the proper location header.
+     *
+     * @param ezcMvcResponseWriter $writer
+     */
+    public function process( ezcMvcResponseWriter $writer )
+    {
+        if ( $writer instanceof ezcMvcHttpResponseWriter )
+        {
+            $writer->headers['Location'] = $this->location;
+        }
     }
 }
 ?>

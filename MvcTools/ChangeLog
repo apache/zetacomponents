@@ -1,8 +1,8 @@
 1.0 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Refactored HTTP response writer to make it easier to override status object
-  processing.
+- Refactored HTTP response writer to allow for user-defined status objects to
+  be used.
 
 
 1.0rc1 - Monday 15 December 2008

@@ -14,7 +14,7 @@
  * @package MvcTools
  * @version //autogentag//
  */
-class ezcMvcResultUnauthorized extends ezcBaseStruct
+class ezcMvcResultUnauthorized implements ezcMvcResultStatusObject
 {
     /**
      * The realm is the unique ID to identify a login area
@@ -31,6 +31,19 @@ class ezcMvcResultUnauthorized extends ezcBaseStruct
     public function __construct( $realm )
     {
         $this->realm = $realm;
+    }
+
+    /**
+     * Uses the passed in $writer to set the HTTP authentication header.
+     *
+     * @param ezcMvcResponseWriter $writer
+     */
+    public function process( ezcMvcResponseWriter $writer )
+    {
+        if ( $writer instanceof ezcMvcHttpResponseWriter )
+        {
+            $writer->headers['WWW-Authenticate'] = "Basic realm=\"{$this->realm}\"";
+        }
     }
 }
 ?>
