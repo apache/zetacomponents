@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentHtmlConversion class
+ * Document validation interface
  *
  * @package Document
  * @version //autogen//

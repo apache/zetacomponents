@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentDocbookToHtmlXsltConverter class
+ * File containing theXSLT based docbook to XHtml converter
  *
  * @package Document
  * @version //autogen//

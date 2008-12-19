@@ -1,6 +1,6 @@
 <?php
 /**
- * Base exception for the Document package.
+ * Erroneous XML exception
  *
  * @package Document
  * @version //autogentag//

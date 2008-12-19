@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentRstDirective class
+ * File containing the ezcDocumentRstIncludeDirective class
  *
  * @package Document
  * @version //autogen//

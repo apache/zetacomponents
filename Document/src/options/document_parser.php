@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocument class
+ * File containing the options class for the ezcDocument parser classes
  *
  * @package Document
  * @version //autogen//

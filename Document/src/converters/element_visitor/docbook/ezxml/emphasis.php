@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentElementVisitorConverter class
+ * File containing the emphasis handler
  *
  * @package Document
  * @version //autogen//

@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentElementVisitorConverter class
+ * File containing the non decorating recursing handler
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +9,8 @@
  */
 
 /**
- * Handler for elements, which are safe to ignore
+ * Handler for elements, which are safe to ignore, but into which contents
+ * should be recursed, so the childs are still converted.
  * 
  * @package Document
  * @version //autogen//

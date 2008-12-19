@@ -1,7 +1,6 @@
 <?php
 /**
- * File containing the options class for the
- * ezcDocumentDocbookToWikiXsltConverterOptions class
+ * File containing the options class for the docbook to wiki converter
  *
  * @package Document
  * @version //autogen//

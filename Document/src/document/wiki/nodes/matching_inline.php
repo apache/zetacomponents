@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiInlineNode struct
+ * File containing the ezcDocumentWikiMatchingInlineNode struct
  *
  * @package Document
  * @version //autogen//

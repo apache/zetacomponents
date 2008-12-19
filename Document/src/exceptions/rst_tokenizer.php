@@ -1,6 +1,6 @@
 <?php
 /**
- * Base exception for the Document package.
+ * RST tokenizer exception
  *
  * @package Document
  * @version //autogentag//

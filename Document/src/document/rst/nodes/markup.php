@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentRstParagraphNode struct
+ * File containing the abstract ezcDocumentRstMarkupNode struct
  *
  * @package Document
  * @version //autogen//

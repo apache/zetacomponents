@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentXsltConverter class
+ * File containing the abstract XSLT based converter base class
  *
  * @package Document
  * @version //autogen//

@@ -1,6 +1,6 @@
 <?php
 /**
- * Base exception for the Document package.
+ * RST missing directive handler exception
  *
  * @package Document
  * @version //autogentag//

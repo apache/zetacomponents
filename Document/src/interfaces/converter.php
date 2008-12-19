@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocument class
+ * File containing the abstract document converter base class
  *
  * @package Document
  * @version //autogen//

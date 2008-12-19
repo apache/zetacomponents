@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentElementVisitorConverter class
+ * File containing the literal block handler
  *
  * @package Document
  * @version //autogen//

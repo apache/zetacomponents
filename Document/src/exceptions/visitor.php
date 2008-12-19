@@ -1,6 +1,6 @@
 <?php
 /**
- * Base exception for the Document package.
+ * Document visitor exception
  *
  * @package Document
  * @version //autogentag//

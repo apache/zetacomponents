@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentXsltConverter class
+ * File containing the docbook to RST converter
  *
  * @package Document
  * @version //autogen//

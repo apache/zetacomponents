@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentElementVisitorConverter class
+ * File containing the table row ahndler
  *
  * @package Document
  * @version //autogen//

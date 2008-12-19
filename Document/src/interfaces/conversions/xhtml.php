@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentXhtmlConversion interface
+ * XHtml conversion interface
  *
  * @package Document
  * @version //autogen//

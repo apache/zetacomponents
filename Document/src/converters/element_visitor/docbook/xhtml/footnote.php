@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentElementVisitorConverter class
+ * File containing the footnote handler
  *
  * @package Document
  * @version //autogen//

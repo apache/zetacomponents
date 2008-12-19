@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentElementVisitorConverter class
+ * File containing the recursing handler ignoring the current node
  *
  * @package Document
  * @version //autogen//

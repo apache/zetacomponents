@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentRstXhtmlVisitor class
+ * File containing the ezcDocumentRstXhtmlBodyVisitor class
  *
  * @package Document
  * @version //autogen//

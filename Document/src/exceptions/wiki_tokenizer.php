@@ -1,6 +1,6 @@
 <?php
 /**
- * Base exception for the Document package.
+ * Wiki tokenizer exception
  *
  * @package Document
  * @version //autogentag//

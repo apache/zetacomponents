@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWiki class
+ * File containing the ezcDocumentDokuwikiWiki class
  *
  * @package Document
  * @version //autogen//

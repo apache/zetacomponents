@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentDocbookElementVisitorConverter class
+ * File containing the base class von visitor handler classes
  *
  * @package Document
  * @version //autogen//

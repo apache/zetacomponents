@@ -141,7 +141,6 @@ return array(
     'ezcDocumentDocbookToWikiConverterOptions'           => 'Document/options/converter_docbook_wiki.php',
     'ezcDocumentDocbookToWikiEmphasisHandler'            => 'Document/converters/element_visitor/docbook/wiki/emphasis.php',
     'ezcDocumentDocbookToWikiExternalLinkHandler'        => 'Document/converters/element_visitor/docbook/wiki/external_link.php',
-    'ezcDocumentDocbookToWikiFootnoteHandler'            => 'Document/converters/element_visitor/docbook/wiki/footnote.php',
     'ezcDocumentDocbookToWikiIgnoreHandler'              => 'Document/converters/element_visitor/docbook/wiki/ignore.php',
     'ezcDocumentDocbookToWikiInlineMediaObjectHandler'   => 'Document/converters/element_visitor/docbook/wiki/inlinemediaobject.php',
     'ezcDocumentDocbookToWikiInternalLinkHandler'        => 'Document/converters/element_visitor/docbook/wiki/internal_link.php',

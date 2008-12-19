@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentElementVisitorConverter class
+ * File containing the general node mapping handler
  *
  * @package Document
  * @version //autogen//

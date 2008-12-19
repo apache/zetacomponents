@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentXsltConverter class
+ * File containing the eZ Xml to docbook converter
  *
  * @package Document
  * @version //autogen//

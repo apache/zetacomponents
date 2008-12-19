@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the 'ezcDocumentWikiCreoleToken'izer
+ * File containing the ezcDocumentWikiCreoleTokenizer
  *
  * @package Document
  * @version //autogen//
