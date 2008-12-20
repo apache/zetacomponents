@@ -337,25 +337,25 @@
       <table>
         <thead>
           <row>
-            <cell> Heading 1 </cell>
-            <cell> Heading 2 </cell>
-            <cell> Heading 3 </cell>
+            <entry> Heading 1 </entry>
+            <entry> Heading 2 </entry>
+            <entry> Heading 3 </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <cell> Row 1 Col 1 </cell>
-            <cell> Row 1 Col 2 </cell>
-            <cell> Row 1 Col 3 </cell>
+            <entry> Row 1 Col 1 </entry>
+            <entry> Row 1 Col 2 </entry>
+            <entry> Row 1 Col 3 </entry>
           </row>
           <row>
-            <cell> Row 2 Col 1 </cell>
-            <cell> some colspan (note the double pipe) </cell>
+            <entry> Row 2 Col 1 </entry>
+            <entry> some colspan (note the double pipe) </entry>
           </row>
           <row>
-            <cell> Row 3 Col 1 </cell>
-            <cell> Row 2 Col 2 </cell>
-            <cell> Row 2 Col 3 </cell>
+            <entry> Row 3 Col 1 </entry>
+            <entry> Row 2 Col 2 </entry>
+            <entry> Row 2 Col 3 </entry>
           </row>
         </tbody>
       </table>
@@ -370,24 +370,24 @@
       <table>
         <thead>
           <row>
-            <cell> </cell>
-            <cell> Heading 1 </cell>
-            <cell> Heading 2 </cell>
+            <entry> </entry>
+            <entry> Heading 1 </entry>
+            <entry> Heading 2 </entry>
           </row>
           <row>
-            <cell> Heading 3 </cell>
-            <cell> Row 1 Col 2 </cell>
-            <cell> Row 1 Col 3 </cell>
+            <entry> Heading 3 </entry>
+            <entry> Row 1 Col 2 </entry>
+            <entry> Row 1 Col 3 </entry>
           </row>
           <row>
-            <cell> Heading 4 </cell>
-            <cell> no colspan this time </cell>
-            <cell> </cell>
+            <entry> Heading 4 </entry>
+            <entry> no colspan this time </entry>
+            <entry> </entry>
           </row>
           <row>
-            <cell> Heading 5 </cell>
-            <cell> Row 2 Col 2 </cell>
-            <cell> Row 2 Col 3 </cell>
+            <entry> Heading 5 </entry>
+            <entry> Row 2 Col 2 </entry>
+            <entry> Row 2 Col 3 </entry>
           </row>
         </thead>
       </table>
@@ -402,24 +402,24 @@
       <table>
         <thead>
           <row>
-            <cell> Table with alignment </cell>
+            <entry> Table with alignment </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <cell> right</cell>
-            <cell> center </cell>
-            <cell>left </cell>
+            <entry> right</entry>
+            <entry> center </entry>
+            <entry>left </entry>
           </row>
           <row>
-            <cell>left </cell>
-            <cell> right</cell>
-            <cell> center </cell>
+            <entry>left </entry>
+            <entry> right</entry>
+            <entry> center </entry>
           </row>
           <row>
-            <cell> xxxxxxxxxxxx </cell>
-            <cell> xxxxxxxxxxxx </cell>
-            <cell> xxxxxxxxxxxx </cell>
+            <entry> xxxxxxxxxxxx </entry>
+            <entry> xxxxxxxxxxxx </entry>
+            <entry> xxxxxxxxxxxx </entry>
           </row>
         </tbody>
       </table>
@@ -460,34 +460,34 @@ class HelloWorldApp {
       <table>
         <thead>
           <row>
-            <cell> Parameter </cell>
-            <cell> Description </cell>
+            <entry> Parameter </entry>
+            <entry> Description </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <cell> any number </cell>
-            <cell> will be used as maximum number items to show, defaults to 8 </cell>
+            <entry> any number </entry>
+            <entry> will be used as maximum number items to show, defaults to 8 </entry>
           </row>
           <row>
-            <cell> reverse </cell>
-            <cell> display the last items in the feed first </cell>
+            <entry> reverse </entry>
+            <entry> display the last items in the feed first </entry>
           </row>
           <row>
-            <cell> author </cell>
-            <cell> show item authors names </cell>
+            <entry> author </entry>
+            <entry> show item authors names </entry>
           </row>
           <row>
-            <cell> date </cell>
-            <cell> show item dates </cell>
+            <entry> date </entry>
+            <entry> show item dates </entry>
           </row>
           <row>
-            <cell> description</cell>
-            <cell> show the item description. If <ulink url="doku&gt;config:htmlok">HTML</ulink> is disabled all tags will be stripped </cell>
+            <entry> description</entry>
+            <entry> show the item description. If <ulink url="doku&gt;config:htmlok">HTML</ulink> is disabled all tags will be stripped </entry>
           </row>
           <row>
-            <cell> <emphasis>n</emphasis>[dhm] </cell>
-            <cell> refresh period, where d=days, h=hours, m=minutes. (e.g. 12h = 12 hours). </cell>
+            <entry> <emphasis>n</emphasis>[dhm] </entry>
+            <entry> refresh period, where d=days, h=hours, m=minutes. (e.g. 12h = 12 hours). </entry>
           </row>
         </tbody>
       </table>
@@ -549,12 +549,12 @@ Some syntax influences how DokuWiki renders a page without creating any output i
       <table>
         <tbody>
           <row>
-            <cell> ~~NOTOC~~ </cell>
-            <cell> If this macro is found on the page, no table of contents will be created </cell>
+            <entry> ~~NOTOC~~ </entry>
+            <entry> If this macro is found on the page, no table of contents will be created </entry>
           </row>
           <row>
-            <cell> ~~NOCACHE~~ </cell>
-            <cell> DokuWiki caches all output by default. Sometimes this might not be wanted (eg. when the &lt;php&gt; syntax above is used), adding this macro will force DokuWiki to rerender a page on every call </cell>
+            <entry> ~~NOCACHE~~ </entry>
+            <entry> DokuWiki caches all output by default. Sometimes this might not be wanted (eg. when the &lt;php&gt; syntax above is used), adding this macro will force DokuWiki to rerender a page on every call </entry>
           </row>
         </tbody>
       </table>

@@ -4,21 +4,21 @@
   <table>
     <thead>
       <row>
-        <cell>heading 1</cell>
-        <cell>heading 2</cell>
-        <cell>heading 3</cell>
+        <entry>heading 1</entry>
+        <entry>heading 2</entry>
+        <entry>heading 3</entry>
       </row>
     </thead>
     <tbody>
       <row>
-        <cell>col A1</cell>
-        <cell>col A2</cell>
-        <cell>col A3</cell>
+        <entry>col A1</entry>
+        <entry>col A2</entry>
+        <entry>col A3</entry>
       </row>
       <row>
-        <cell>col B1</cell>
-        <cell>col B2</cell>
-        <cell>col B3</cell>
+        <entry>col B1</entry>
+        <entry>col B2</entry>
+        <entry>col B3</entry>
       </row>
     </tbody>
   </table>

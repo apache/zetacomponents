@@ -4,25 +4,25 @@
   <table>
     <thead>
       <row>
-        <cell> Heading 1 </cell>
-        <cell> Heading 2 </cell>
-        <cell> Heading 3 </cell>
+        <entry> Heading 1 </entry>
+        <entry> Heading 2 </entry>
+        <entry> Heading 3 </entry>
       </row>
     </thead>
     <tbody>
       <row>
-        <cell> Row 1 Col 1 </cell>
-        <cell> Row 1 Col 2 </cell>
-        <cell> Row 1 Col 3 </cell>
+        <entry> Row 1 Col 1 </entry>
+        <entry> Row 1 Col 2 </entry>
+        <entry> Row 1 Col 3 </entry>
       </row>
       <row>
-        <cell> Row 2 Col 1 </cell>
-        <cell> some colspan (note the double pipe) </cell>
+        <entry> Row 2 Col 1 </entry>
+        <entry> some colspan (note the double pipe) </entry>
       </row>
       <row>
-        <cell> Row 3 Col 1 </cell>
-        <cell> Row 2 Col 2 </cell>
-        <cell> Row 2 Col 3 </cell>
+        <entry> Row 3 Col 1 </entry>
+        <entry> Row 2 Col 2 </entry>
+        <entry> Row 2 Col 3 </entry>
       </row>
     </tbody>
   </table>

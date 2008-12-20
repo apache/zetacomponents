@@ -4,19 +4,19 @@
   <table>
     <thead>
       <row>
-        <cell>Heading Col 1 </cell>
-        <cell>Heading Col 2 </cell>
+        <entry>Heading Col 1 </entry>
+        <entry>Heading Col 2 </entry>
       </row>
     </thead>
     <tbody>
       <row>
-        <cell>Cell 1.1 </cell>
-        <cell>Two lines
-in Cell 1.2 </cell>
+        <entry>Cell 1.1 </entry>
+        <entry>Two lines
+in Cell 1.2 </entry>
       </row>
       <row>
-        <cell>Cell 2.1 </cell>
-        <cell>Cell 2.2 </cell>
+        <entry>Cell 2.1 </entry>
+        <entry>Cell 2.2 </entry>
       </row>
     </tbody>
   </table>

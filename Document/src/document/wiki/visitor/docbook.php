@@ -64,7 +64,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiPageBreakNode'          => 'beginpage',
 
         'ezcDocumentWikiTableNode'              => 'table',
-        'ezcDocumentWikiTableCellNode'          => 'cell',
+        'ezcDocumentWikiTableCellNode'          => 'entry',
     );
 
     /**

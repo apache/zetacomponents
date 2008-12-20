@@ -4,24 +4,24 @@
   <table>
     <thead>
       <row>
-        <cell> Table with alignment </cell>
+        <entry> Table with alignment </entry>
       </row>
     </thead>
     <tbody>
       <row>
-        <cell> right</cell>
-        <cell> center </cell>
-        <cell>left </cell>
+        <entry> right</entry>
+        <entry> center </entry>
+        <entry>left </entry>
       </row>
       <row>
-        <cell>left </cell>
-        <cell> right</cell>
-        <cell> center </cell>
+        <entry>left </entry>
+        <entry> right</entry>
+        <entry> center </entry>
       </row>
       <row>
-        <cell> xxxxxxxxxxxx </cell>
-        <cell> xxxxxxxxxxxx </cell>
-        <cell> xxxxxxxxxxxx </cell>
+        <entry> xxxxxxxxxxxx </entry>
+        <entry> xxxxxxxxxxxx </entry>
+        <entry> xxxxxxxxxxxx </entry>
       </row>
     </tbody>
   </table>

@@ -148,23 +148,23 @@
       <table>
         <thead>
           <row>
-            <cell>header col1</cell>
-            <cell>header col2</cell>
+            <entry>header col1</entry>
+            <entry>header col2</entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <cell>col1</cell>
-            <cell>col2</cell>
+            <entry>col1</entry>
+            <entry>col2</entry>
           </row>
           <row>
-            <cell>you </cell>
-            <cell>can </cell>
+            <entry>you </entry>
+            <entry>can </entry>
           </row>
           <row>
-            <cell>also </cell>
-            <cell>align
- it. </cell>
+            <entry>also </entry>
+            <entry>align
+ it. </entry>
           </row>
         </tbody>
       </table>
@@ -179,18 +179,18 @@
       <table>
         <thead>
           <row>
-            <cell> Header title </cell>
-            <cell> Another header title </cell>
+            <entry> Header title </entry>
+            <entry> Another header title </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <cell> <literal> //not italic text// </literal> </cell>
-            <cell> <literal> **not bold text** </literal> </cell>
+            <entry> <literal> //not italic text// </literal> </entry>
+            <entry> <literal> **not bold text** </literal> </entry>
           </row>
           <row>
-            <cell> <emphasis>italic text</emphasis> </cell>
-            <cell> <emphasis role="strong"> bold text </emphasis> </cell>
+            <entry> <emphasis>italic text</emphasis> </entry>
+            <entry> <emphasis role="strong"> bold text </emphasis> </entry>
           </row>
         </tbody>
       </table>
