@@ -131,6 +131,10 @@ class ezcDocumentEzXmlTests extends ezcTestCase
         $docbook = $document->getAsDocbook();
         $xml = $docbook->save();
 
+        $this->assertTrue(
+            $docbook instanceof ezcDocumentDocbook
+        );
+
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'ezxml_docbook_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );

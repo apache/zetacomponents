@@ -1,6 +1,7 @@
 <?php
+
 /**
- * File containing the eZ Xml to docbook converter
+ * File containing the ezcDocumentXsltConverter class
  *
  * @package Document
  * @version //autogen//
@@ -101,13 +102,13 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
      * visiting process.
      *
      * @param mixed $content 
-     * @return ezcDocumentDocument
+     * @return ezcDocumentDocbook
      */
     protected function createDocument( $content )
     {
         $document = $content->ownerDocument;
 
-        $ezxml = new ezcDocumentEzXml();
+        $ezxml = new ezcDocumentDocbook();
         $ezxml->setDomDocument( $document );
         return $ezxml;
     }

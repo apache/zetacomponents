@@ -189,7 +189,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      * 
      * @param string $namespace 
      * @param string $element 
-     * @param ezcDocumentDocbookElementVisitorHandler $handler 
+     * @param ezcDocumentElementVisitorHandler $handler 
      * @return void
      */
     public function setElementHandler( $namespace, $element, ezcDocumentElementVisitorHandler $handler )

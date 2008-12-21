@@ -4,6 +4,8 @@
 - Fixed issue #14136: Errors in some file docblocks
 - Fixed issue #14185: Invalid docbook markup created for table cells in wiki
   visitor
+- Fixed issue #14188: ezcDocumentEzXml::getAsDocbook() returns an
+  ezcDocumentEzXml rather than ezcDocumentDocbook
 
 
 1.1rc1 - Monday 15 December 2008
