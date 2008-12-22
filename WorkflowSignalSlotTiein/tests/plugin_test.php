@@ -438,7 +438,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
     public function testSignalsForNonInteractiveSubWorkflow()
     {
         $this->setUpWorkflowWithSubWorkflow( 'StartEnd' );
-        $this->execution->definitionStorage = $this->definition;
+        $this->execution->definitionStorage = $this->xmlStorage;
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -461,7 +461,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
     public function testSignalsForInteractiveSubWorkflow()
     {
         $this->setUpWorkflowWithSubWorkflow( 'StartInputEnd' );
-        $this->execution->definitionStorage = $this->definition;
+        $this->execution->definitionStorage = $this->xmlStorage;
         $this->execution->workflow = $this->workflow;
         $this->execution->setInputVariableForSubWorkflow( 'variable', 'value' );
         $this->execution->start();
@@ -485,7 +485,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
     public function testSignalsForWorkflowWithCancelCaseSubWorkflow()
     {
         $this->setUpWorkflowWithSubWorkflow( 'ParallelSplitActionActionCancelCaseSynchronization' );
-        $this->execution->definitionStorage = $this->definition;
+        $this->execution->definitionStorage = $this->xmlStorage;
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -530,7 +530,7 @@ class ezcWorkflowSignalSlotTieinPluginTest extends ezcWorkflowTestCase
     public function testSignalsForWorkflowWithSubWorkflowAndVariablePassing()
     {
         $this->setUpWorkflowWithSubWorkflowAndVariablePassing();
-        $this->execution->definitionStorage = $this->definition;
+        $this->execution->definitionStorage = $this->xmlStorage;
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 

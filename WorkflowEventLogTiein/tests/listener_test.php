@@ -28,7 +28,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogStartEnd()
     {
         $this->setUpStartEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -41,7 +41,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogStartEndVariableHandler()
     {
         $this->setUpStartEndVariableHandler();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -54,7 +54,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogStartInputEnd()
     {
         $this->setUpStartInputEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $id = $this->execution->start();
         $this->setUpExecution( $id );
@@ -69,7 +69,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogStartSetUnsetEnd()
     {
         $this->setUpStartSetUnsetEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -82,7 +82,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogIncrementingLoop()
     {
         $this->setUpLoop( 'increment' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -95,7 +95,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogDecrementingLoop()
     {
         $this->setUpLoop( 'decrement' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -108,7 +108,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogSetAddSubMulDiv()
     {
         $this->setUpSetAddSubMulDiv();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -121,7 +121,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogAddVariables()
     {
         $this->setUpAddVariables();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -134,7 +134,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogParallelSplitSynchronization()
     {
         $this->setUpParallelSplitSynchronization();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -147,7 +147,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogParallelSplitSynchronization2()
     {
         $this->setUpParallelSplitSynchronization2();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
         $this->execution->resume( array( 'foo' => 'bar' ) );
@@ -162,7 +162,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogExclusiveChoiceSimpleMerge()
     {
         $this->setUpExclusiveChoiceSimpleMerge();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->setVariables( array( 'condition' => true ) );
         $this->execution->start();
@@ -176,7 +176,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogExclusiveChoiceSimpleMerge2()
     {
         $this->setUpExclusiveChoiceSimpleMerge();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->setVariables( array( 'condition' => false ) );
         $this->execution->start();
@@ -190,7 +190,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogExclusiveChoiceWithUnconditionalOutNodeSimpleMerge()
     {
         $this->setUpExclusiveChoiceWithUnconditionalOutNodeSimpleMerge();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->setVariables( array( 'condition' => false ) );
         $this->execution->start();
@@ -204,7 +204,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogExclusiveChoiceWithUnconditionalOutNodeSimpleMerge2()
     {
         $this->setUpExclusiveChoiceWithUnconditionalOutNodeSimpleMerge();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->setVariables( array( 'condition' => true ) );
         $this->execution->start();
@@ -218,7 +218,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogNestedExclusiveChoiceSimpleMerge()
     {
         $this->setUpNestedExclusiveChoiceSimpleMerge();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -231,7 +231,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogNestedExclusiveChoiceSimpleMerge2()
     {
         $this->setUpNestedExclusiveChoiceSimpleMerge( true, false );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -244,7 +244,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogNestedExclusiveChoiceSimpleMerge3()
     {
         $this->setUpNestedExclusiveChoiceSimpleMerge( false );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -257,7 +257,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogMultiChoiceSynchronizingMerge()
     {
         $this->setUpMultiChoice( 'SynchronizingMerge' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -270,7 +270,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogMultiChoiceDiscriminator()
     {
         $this->setUpMultiChoice( 'Discriminator' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -283,9 +283,9 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogNonInteractiveSubWorkflow()
     {
         $this->setUpStartEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->setUpWorkflowWithSubWorkflow( 'StartEnd' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -298,9 +298,9 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogInteractiveSubWorkflow()
     {
         $this->setUpStartInputEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->setUpWorkflowWithSubWorkflow( 'StartInputEnd' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $id = $this->execution->start();
         $this->setUpExecution( $id );
@@ -319,10 +319,10 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
         );
 
         $workflow = $definition->loadByName( 'IncrementVariable' );
-        $this->definition->save( $workflow );
+        $this->dbStorage->save( $workflow );
 
         $this->setUpWorkflowWithSubWorkflowAndVariablePassing();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -335,9 +335,9 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogWorkflowWithCancelCaseSubWorkflow()
     {
         $this->setUpCancelCase( 'last' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->setUpWorkflowWithSubWorkflow( 'ParallelSplitActionActionCancelCaseSynchronization' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -350,7 +350,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogNestedLoops()
     {
         $this->setUpNestedLoops();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -363,7 +363,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogParallelSplitCancelCaseActionActionSynchronization()
     {
         $this->setUpCancelCase( 'first' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 
@@ -376,7 +376,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogParallelSplitActionActionCancelCaseSynchronization()
     {
         $this->setUpCancelCase( 'last' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
         $this->execution->workflow = $this->workflow;
         $this->execution->start();
 

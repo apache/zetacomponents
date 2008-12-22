@@ -16,7 +16,7 @@ require_once 'Workflow/tests/case.php';
 abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
 {
     protected $db;
-    protected $definition;
+    protected $dbStorage;
 
     protected function setUp()
     {
@@ -35,7 +35,7 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
 
             $schema->writeToDb( $this->db );
 
-            $this->definition = new ezcWorkflowDatabaseDefinitionStorage( $this->db );
+            $this->dbStorage = new ezcWorkflowDatabaseDefinitionStorage( $this->db );
         }
         catch ( Exception $e )
         {
@@ -51,7 +51,7 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
         }
 
         $this->db = null;
-        $this->definition = null;
+        $this->dbStorage = null;
     }
 
     protected function cleanupTables()

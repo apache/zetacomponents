@@ -22,121 +22,25 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
         );
     }
 
-    public function testSaveAndLoadStartEnd()
+    /**
+     * @dataProvider workflowNameProvider
+     */
+    public function testSaveAndLoadWorkflow($workflowName)
     {
-        $this->setUpStartEnd();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'StartEnd' );
+        $xmlWorkflow = $this->xmlStorage->loadByName( $workflowName );
+        #$xmlWorkflow->reset();
 
-        $this->assertEquals( $this->workflow, $workflow );
-    }
+        $this->dbStorage->save( $xmlWorkflow );
+        $dbWorkflow = $this->dbStorage->loadByName( $workflowName );
 
-    public function testSaveAndLoadStartEnd2()
-    {
-        $this->setUpStartEnd();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'StartEnd' );
-
-        $this->assertEquals( $this->workflow, $workflow );
-
-        $this->definition->save( $workflow );
-    }
-
-    public function testSaveAndLoadStartEndVariableHandler()
-    {
-        $this->setUpStartEndVariableHandler();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'StartEndVariableHandler' );
-
-        $this->assertEquals( $this->workflow, $workflow );
-    }
-
-    public function testSaveAndLoadStartInputEnd()
-    {
-        $this->setUpStartInputEnd();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'StartInputEnd' );
-
-        $this->assertEquals( $this->workflow, $workflow );
-    }
-
-    public function testSaveAndLoadStartSetUnsetEnd()
-    {
-        $this->setUpStartSetUnsetEnd();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'StartSetUnsetEnd' );
-
-        $this->assertEquals( $this->workflow, $workflow );
-    }
-
-    public function testSaveAndLoadIncrementingLoop()
-    {
-        $this->setUpLoop( 'increment' );
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'IncrementingLoop' );
-
-        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
-    }
-
-    public function testSaveAndLoadDecrementingLoop()
-    {
-        $this->setUpLoop( 'decrement' );
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'DecrementingLoop' );
-
-        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
-    }
-
-    public function testSaveAndLoadSetAddSubMulDiv()
-    {
-        $this->setUpSetAddSubMulDiv();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'SetAddSubMulDiv' );
-
-        $this->assertEquals( $this->workflow, $workflow );
-    }
-
-    public function testSaveAndLoadParallelSplitSynchronization()
-    {
-        $this->setUpParallelSplitSynchronization();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'ParallelSplitSynchronization' );
-
-        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
-    }
-
-    public function testSaveAndLoadExclusiveChoiceSimpleMerge()
-    {
-        $this->setUpExclusiveChoiceSimpleMerge();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'ExclusiveChoiceSimpleMerge' );
-
-        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
-    }
-
-    public function testSaveAndLoadExclusiveChoiceWithElseSimpleMerge()
-    {
-        $this->setUpExclusiveChoiceWithElseSimpleMerge();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'ExclusiveChoiceWithElseSimpleMerge' );
-
-        $this->assertEquals( $this->workflow, $workflow, '', 0, 5 );
-    }
-
-    public function testSaveAndLoadWorkflowWithFinalActivitiesAfterCancellation()
-    {
-        $this->setUpWorkflowWithFinalActivitiesAfterCancellation();
-        $this->definition->save( $this->workflow );
-        $workflow = $this->definition->loadByName( 'WorkflowWithFinalActivitiesAfterCancellation' );
-
-        $this->assertEquals( $this->workflow, $workflow );
+        $this->assertEquals( $xmlWorkflow, $dbWorkflow );
     }
 
     public function testExceptionWhenLoadingNotExistingWorkflow()
     {
         try
         {
-            $this->definition->loadById( 1 );
+            $this->dbStorage->loadById( 1 );
         }
         catch ( ezcWorkflowDefinitionStorageException $e )
         {
@@ -151,7 +55,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
     {
         try
         {
-            $this->definition->loadByName( 'NotExisting' );
+            $this->dbStorage->loadByName( 'NotExisting' );
         }
         catch ( ezcWorkflowDefinitionStorageException $e )
         {
@@ -165,11 +69,11 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
     public function testExceptionWhenLoadingNotExistingWorkflowVersion()
     {
         $this->setUpStartEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
 
         try
         {
-            $workflow = $this->definition->loadByName( 'StartEnd', 2 );
+            $workflow = $this->dbStorage->loadByName( 'StartEnd', 2 );
         }
         catch ( ezcWorkflowDefinitionStorageException $e )
         {
@@ -211,7 +115,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
 
         try
         {
-            $this->definition->loadByName( 'NotValid' );
+            $this->dbStorage->loadByName( 'NotValid' );
         }
         catch ( ezcWorkflowDefinitionStorageException $e )
         {
@@ -224,20 +128,20 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
 
     public function testProperties()
     {
-        $this->assertTrue(isset($this->definition->options));
-        $this->assertFalse(isset($this->definition->foo));
+        $this->assertTrue(isset($this->dbStorage->options));
+        $this->assertFalse(isset($this->dbStorage->foo));
     }
 
     public function testProperties2()
     {
         $options = new ezcWorkflowDatabaseOptions;
-        $this->definition->options = $options;
+        $this->dbStorage->options = $options;
 
-        $this->assertSame( $options, $this->definition->options );
+        $this->assertSame( $options, $this->dbStorage->options );
 
         try
         {
-            $this->definition->options = new StdClass;
+            $this->dbStorage->options = new StdClass;
         }
         catch ( ezcBaseValueException $e )
         {
@@ -252,7 +156,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
     {
         try
         {
-            $foo = $this->definition->foo;
+            $foo = $this->dbStorage->foo;
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {
@@ -267,7 +171,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
     {
         try
         {
-            $this->definition->foo = null;
+            $this->dbStorage->foo = null;
         }
         catch ( ezcBasePropertyNotFoundException $e )
         {

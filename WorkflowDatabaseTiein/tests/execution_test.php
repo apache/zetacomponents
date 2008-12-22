@@ -25,7 +25,7 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
     public function testStartInputEnd()
     {
         $this->setUpStartInputEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
         $execution->workflow = $this->workflow;
@@ -56,7 +56,7 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
     public function testStartInputEndReset()
     {
         $this->setUpStartInputEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
         $execution->workflow = $this->workflow;
@@ -113,7 +113,7 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
     public function testParallelSplitSynchronization()
     {
         $this->setUpParallelSplitSynchronization2();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
         $execution->workflow = $this->workflow;
@@ -158,10 +158,10 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
     public function testNonInteractiveSubWorkflow()
     {
         $this->setUpStartEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
 
         $this->setUpWorkflowWithSubWorkflow( 'StartEnd' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
         $execution->workflow = $this->workflow;
@@ -178,10 +178,10 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
     public function testInteractiveSubWorkflow()
     {
         $this->setUpStartInputEnd();
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
 
         $this->setUpWorkflowWithSubWorkflow( 'StartInputEnd' );
-        $this->definition->save( $this->workflow );
+        $this->dbStorage->save( $this->workflow );
 
         $execution = new ezcWorkflowDatabaseExecution( $this->db );
         $execution->workflow = $this->workflow;
