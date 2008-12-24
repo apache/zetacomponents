@@ -226,7 +226,7 @@ APC
 
 To use the APC cache storage, the APC_ PHP extension must be installed. The
 corresponding storage class is ezcCacheStorageApcPlain. Note, that the other
-existing APC storage class, ezcCacheStorageApcArray has been deprecated in
+existing APC storage class, ezcCacheStorageFileApcArray has been deprecated in
 favor of hierarchical caching provided by ezcCacheStack. It is not recommended
 to use this class further on, since it will be removed in the next major
 version of the Cache component.
