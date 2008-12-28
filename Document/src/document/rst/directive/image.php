@@ -57,7 +57,7 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
 
         if ( isset( $this->node->options['align'] ) )
         {
-            $image->setAttribute( 'align', $this->node->options['align'] );
+            $image->setAttribute( 'align', trim( $this->node->options['align'] ) );
         }
     }
 

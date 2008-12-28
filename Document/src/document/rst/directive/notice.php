@@ -28,8 +28,13 @@ class ezcDocumentRstNoticeDirective extends ezcDocumentRstDirective implements e
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
     {
-        $media = $document->createElement( 'tip', htmlspecialchars( $this->node->parameters ) );
-        $root->appendChild( $media );
+        $note = $document->createElement( 'tip' );
+        $root->appendChild( $note );
+
+        $paragraph = $document->createElement( 'para' );
+        $note->appendChild( $paragraph );
+
+        $paragraph->appendChild( new DOMText( $this->node->parameters ) );
     }
 
     /**

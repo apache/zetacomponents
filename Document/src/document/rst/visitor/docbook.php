@@ -23,6 +23,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      */
     protected $complexVisitMapping = array(
         'ezcDocumentRstSectionNode'               => 'visitSection',
+        'ezcDocumentRstParagraphNode'             => 'visitParagraph',
         'ezcDocumentRstTextLineNode'              => 'visitText',
         'ezcDocumentRstLiteralNode'               => 'visitText',
         'ezcDocumentRstExternalReferenceNode'     => 'visitExternalReference',
@@ -51,7 +52,6 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      */
     protected $simpleVisitMapping = array(
         'ezcDocumentRstMarkupInlineLiteralNode' => 'literal',
-        'ezcDocumentRstParagraphNode'           => 'para',
         'ezcDocumentRstBulletListListNode'      => 'itemizedlist',
         'ezcDocumentRstDefinitionListListNode'  => 'variablelist',
         'ezcDocumentRstBulletListNode'          => 'listitem',
@@ -199,6 +199,36 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         foreach ( $node->nodes as $child )
         {
             $this->visitNode( $section, $child );
+        }
+    }
+
+    /**
+     * Visit paragraph node
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitParagraph( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        if ( !in_array( $root->tagName, array( 'para', 'attribution', 'citation' ) ) )
+        {
+            $paragraph = $this->document->createElement( 'para' );
+            $root->appendChild( $paragraph );
+
+            if ( $node->identifier !== null )
+            {
+                $paragraph->setAttribute( 'ID', $node->identifier );
+            }
+        }
+        else
+        {
+            $paragraph = $root;
+        }
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $paragraph, $child );
         }
     }
 

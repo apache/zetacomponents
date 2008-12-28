@@ -9,6 +9,8 @@
 - Fixed issue #14208: Invalid docubook markup: Attributes used in wrong case
 - Fixed issue #14210: Docbook: literallayout class should be "normal" instead
   of "Normal"
+- Fixed issue #14211: Docbook markup: citation and attribution contents should
+  not be wrapped inside a paragraph
 
 
 1.1rc1 - Monday 15 December 2008

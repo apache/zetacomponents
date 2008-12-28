@@ -136,56 +136,9 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
     }
 
     /**
-     * Check docbook for validity
-     *
-     * Check the provided docbook document, that it is valid docbook XML.
-     * 
-     * @param DOMDocument $document
-     * @return void
-     */
-    protected function checkDocbook( DOMDocument $document )
-    {
-        // Reload document to reassign elements to namespaces.
-        $xml = $document->saveXml();
-        $document = new DOMDocument();
-        $document->loadXml( $xml );
-
-        $oldSetting = libxml_use_internal_errors( true );
-        $document->schemaValidate( __DIR__ . '/files/schemas/docbook.xsd' );
-
-        // Severity types of XML errors
-        $errorTypes = array(
-            LIBXML_ERR_WARNING => 'Warning',
-            LIBXML_ERR_ERROR   => 'Error',
-            LIBXML_ERR_FATAL   => 'Fatal error',
-        );
-
-        // Get all errors
-        $xmlErrors = libxml_get_errors();
-        $errors = array();
-        foreach ( $xmlErrors as $error )
-        {
-            $errors[] = sprintf( "%s in %d:%d: %s.",
-                $errorTypes[$error->level],
-                $error->line,
-                $error->column,
-                str_replace( '{http://docbook.org/ns/docbook}', 'docbook:', trim( $error->message ) )
-            );
-        }
-        libxml_clear_errors();
-        libxml_use_internal_errors( $oldSetting );
-
-        $this->assertEquals(
-            array(),
-            $errors,
-            'Docbook document is not valid.'
-        );
-    }
-
-    /**
      * @dataProvider getRstTestDocuments
      */
-    public function testParseRstFile( $from, $to )
+    public function testParseRstHtmlFile( $from, $to )
     {
         if ( !is_file( $to ) )
         {
@@ -202,9 +155,8 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         $tempDir = $this->createTempDir( 'xhtml_rst_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // We need a proper XSD first, the current one does not accept legal
-        // XML.
-//        $this->checkDocbook( $docbook->getDomDocument() );
+        // Validate generated docbook
+        $this->assertTrue( $docbook->validateString( $xml ) );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -236,9 +188,8 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         $tempDir = $this->createTempDir( 'xhtml_metadata_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // We need a proper XSD first, the current one does not accept legal
-        // XML.
-//        $this->checkDocbook( $docbook->getDomDocument() );
+        // Validate generated docbook
+        $this->assertTrue( $docbook->validateString( $xml ) );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -275,9 +226,8 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         $tempDir = $this->createTempDir( 'xhtml_bad_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // We need a proper XSD first, the current one does not accept legal
-        // XML.
-//        $this->checkDocbook( $docbook->getDomDocument() );
+        // Validate generated docbook
+        $this->assertTrue( $docbook->validateString( $xml ) );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -311,9 +261,8 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         $tempDir = $this->createTempDir( 'xpath_filter_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // We need a proper XSD first, the current one does not accept legal
-        // XML.
-//        $this->checkDocbook( $docbook->getDomDocument() );
+        // Validate generated docbook
+        $this->assertTrue( $docbook->validateString( $xml ) );
 
         $this->assertEquals(
             file_get_contents( $to ),
@@ -351,9 +300,8 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         $tempDir = $this->createTempDir( 'xhtml_table_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
-        // We need a proper XSD first, the current one does not accept legal
-        // XML.
-//        $this->checkDocbook( $docbook->getDomDocument() );
+        // Validate generated docbook
+        $this->assertTrue( $docbook->validateString( $xml ) );
 
         $this->assertEquals(
             file_get_contents( $to ),

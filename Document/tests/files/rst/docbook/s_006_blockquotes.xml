@@ -6,16 +6,12 @@
     <title>Blockquotes</title>
     <para>This is an ordinary paragraph, introducing a block quote.</para>
     <blockquote>
-      <attribution>
-        <para> Sherlock Holmes</para>
-      </attribution>
+      <attribution> Sherlock Holmes</attribution>
       <para>"It is my business to know things.  That is my trade."</para>
     </blockquote>
     <para>Unindented paragraph.</para>
     <blockquote>
-      <attribution>
-        <para> Attribution 1</para>
-      </attribution>
+      <attribution> Attribution 1</attribution>
       <para>Block quote 1.</para>
     </blockquote>
     <blockquote>
@@ -23,9 +19,7 @@
     </blockquote>
     <para>..</para>
     <blockquote>
-      <attribution>
-        <para> Another attribution.</para>
-      </attribution>
+      <attribution> Another attribution.</attribution>
       <para>Blockquotes may also consist of multiple paragraphs, as they need to intentionally seperated by "..".</para>
       <para>So we add a second paragraph in this blockquote.</para>
     </blockquote>

@@ -28,8 +28,13 @@ class ezcDocumentRstAttentionDirective extends ezcDocumentRstDirective implement
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
     {
-        $media = $document->createElement( 'important', htmlspecialchars( $this->node->parameters ) );
-        $root->appendChild( $media );
+        $note = $document->createElement( 'important' );
+        $root->appendChild( $note );
+
+        $paragraph = $document->createElement( 'para' );
+        $note->appendChild( $paragraph );
+
+        $paragraph->appendChild( new DOMText( $this->node->parameters ) );
     }
 
     /**

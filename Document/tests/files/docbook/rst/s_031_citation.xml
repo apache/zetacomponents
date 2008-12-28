@@ -4,6 +4,6 @@
   <section ID="citations">
     <sectioninfo/>
     <title>Citations</title>
-    <para>Here is a citation reference: <citation><para>This is the citation.  It's just like a footnote, except the label is textual.</para></citation>.</para>
+    <para>Here is a citation reference: <citation>This is the citation.  It's just like a footnote, except the label is textual.</citation>.</para>
   </section>
 </article>
