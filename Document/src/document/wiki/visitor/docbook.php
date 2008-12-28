@@ -38,8 +38,11 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiLiteralBlockNode'   => 'visitLiteralBlock',
         'ezcDocumentWikiInlineLiteralNode'  => 'visitLiteral',
         'ezcDocumentWikiTableRowNode'       => 'visitTableRow',
+        'ezcDocumentWikiTableCellNode'      => 'visitTableCell',
         'ezcDocumentWikiLineBreakNode'      => 'visitLineBreak',
         'ezcDocumentWikiParagraphNode'      => 'visitParagraph',
+        'ezcDocumentWikiBlockquoteNode'     => 'visitBlockquote',
+        'ezcDocumentWikiFootnoteNode'       => 'visitFootnote',
         'ezcDocumentWikiPluginNode'         => 'visitPlugin',
 
         // Node markup is ignored, because there is no equivalent in docbook
@@ -57,14 +60,11 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         'ezcDocumentWikiSuperscriptNode'        => 'superscript',
         'ezcDocumentWikiSubscriptNode'          => 'subscript',
         'ezcDocumentWikiMonospaceNode'          => 'literal',
-        'ezcDocumentWikiBlockquoteNode'         => 'blockquote',
         'ezcDocumentWikiBulletListItemNode'     => 'listitem',
         'ezcDocumentWikiEnumeratedListItemNode' => 'listitem',
-        'ezcDocumentWikiFootnoteNode'           => 'footnote',
         'ezcDocumentWikiPageBreakNode'          => 'beginpage',
 
         'ezcDocumentWikiTableNode'              => 'table',
-        'ezcDocumentWikiTableCellNode'          => 'entry',
     );
 
     /**
@@ -404,6 +404,30 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         }
     }
 
+
+    /**
+     * Visit table cell
+     *
+     * Visit a table cell and additionally always create an inner paragraph.
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitTableCell( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $cell = $this->document->createElement( 'entry' );
+        $root->appendChild( $cell );
+
+        $para = $this->document->createElement( 'para' );
+        $cell->appendChild( $para );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $para, $child );
+        }
+    }
+
     /**
      * Visit line break
      *
@@ -466,6 +490,48 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
 
             // Remove old paragraph
             $root->removeChild( $para );
+        }
+    }
+
+    /**
+     * Visit blockquote
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitBlockquote( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $blockquote = $this->document->createElement( 'blockquote' );
+        $root->appendChild( $blockquote );
+
+        $para = $this->document->createElement( 'para' );
+        $blockquote->appendChild( $para );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $para, $child );
+        }
+    }
+
+    /**
+     * Visit footnote
+     *
+     * @param DOMNode $root 
+     * @param ezcDocumentWikiNode $node 
+     * @return void
+     */
+    protected function visitFootnote( DOMNode $root, ezcDocumentWikiNode $node )
+    {
+        $footnote = $this->document->createElement( 'footnote' );
+        $root->appendChild( $footnote );
+
+        $para = $this->document->createElement( 'para' );
+        $footnote->appendChild( $para );
+
+        foreach ( $node->nodes as $child )
+        {
+            $this->visitNode( $para, $child );
         }
     }
 

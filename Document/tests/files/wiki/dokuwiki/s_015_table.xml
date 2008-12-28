@@ -4,25 +4,47 @@
   <table>
     <thead>
       <row>
-        <entry> Heading 1 </entry>
-        <entry> Heading 2 </entry>
-        <entry> Heading 3 </entry>
+        <entry>
+          <para> Heading 1 </para>
+        </entry>
+        <entry>
+          <para> Heading 2 </para>
+        </entry>
+        <entry>
+          <para> Heading 3 </para>
+        </entry>
       </row>
     </thead>
     <tbody>
       <row>
-        <entry> Row 1 Col 1 </entry>
-        <entry> Row 1 Col 2 </entry>
-        <entry> Row 1 Col 3 </entry>
+        <entry>
+          <para> Row 1 Col 1 </para>
+        </entry>
+        <entry>
+          <para> Row 1 Col 2 </para>
+        </entry>
+        <entry>
+          <para> Row 1 Col 3 </para>
+        </entry>
       </row>
       <row>
-        <entry> Row 2 Col 1 </entry>
-        <entry> some colspan (note the double pipe) </entry>
+        <entry>
+          <para> Row 2 Col 1 </para>
+        </entry>
+        <entry>
+          <para> some colspan (note the double pipe) </para>
+        </entry>
       </row>
       <row>
-        <entry> Row 3 Col 1 </entry>
-        <entry> Row 2 Col 2 </entry>
-        <entry> Row 2 Col 3 </entry>
+        <entry>
+          <para> Row 3 Col 1 </para>
+        </entry>
+        <entry>
+          <para> Row 2 Col 2 </para>
+        </entry>
+        <entry>
+          <para> Row 2 Col 3 </para>
+        </entry>
       </row>
     </tbody>
   </table>

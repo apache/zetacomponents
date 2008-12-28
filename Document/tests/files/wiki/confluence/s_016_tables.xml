@@ -4,21 +4,39 @@
   <table>
     <thead>
       <row>
-        <entry>heading 1</entry>
-        <entry>heading 2</entry>
-        <entry>heading 3</entry>
+        <entry>
+          <para>heading 1</para>
+        </entry>
+        <entry>
+          <para>heading 2</para>
+        </entry>
+        <entry>
+          <para>heading 3</para>
+        </entry>
       </row>
     </thead>
     <tbody>
       <row>
-        <entry>col A1</entry>
-        <entry>col A2</entry>
-        <entry>col A3</entry>
+        <entry>
+          <para>col A1</para>
+        </entry>
+        <entry>
+          <para>col A2</para>
+        </entry>
+        <entry>
+          <para>col A3</para>
+        </entry>
       </row>
       <row>
-        <entry>col B1</entry>
-        <entry>col B2</entry>
-        <entry>col B3</entry>
+        <entry>
+          <para>col B1</para>
+        </entry>
+        <entry>
+          <para>col B2</para>
+        </entry>
+        <entry>
+          <para>col B3</para>
+        </entry>
       </row>
     </tbody>
   </table>

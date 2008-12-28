@@ -140,6 +140,7 @@
 						</restriction>
 					</simpleType>
 				</attribute>
+				<attribute name="language" type="string" />
 			</extension>
 		</simpleContent>
 	</complexType>
@@ -269,16 +270,22 @@
 	</complexType>
 
 	<complexType name="table">
-		<sequence>
-			<element name="tgroup">
-				<complexType>
-					<sequence>
-						<element name="thead" type="doc:tablecontent" minOccurs="0" />
-						<element name="tbody" type="doc:tablecontent" maxOccurs="unbounded" />
-					</sequence>
-				</complexType>
-			</element>
-		</sequence>
+		<choice>
+			<sequence>
+				<element name="tgroup">
+					<complexType>
+						<sequence>
+							<element name="thead" type="doc:tablecontent" minOccurs="0" />
+							<element name="tbody" type="doc:tablecontent" maxOccurs="unbounded" />
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+			<sequence maxOccurs="unbounded">
+				<element name="thead" type="doc:tablecontent" minOccurs="0" />
+				<element name="tbody" type="doc:tablecontent" maxOccurs="unbounded" />
+			</sequence>
+		</choice>
 		<attributeGroup ref="doc:common" />
 	</complexType>
 
