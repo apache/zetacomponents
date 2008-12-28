@@ -4,19 +4,31 @@
   <table>
     <thead>
       <row>
-        <entry>Heading Col 1 </entry>
-        <entry>Heading Col 2 </entry>
+        <entry>
+          <para>Heading Col 1 </para>
+        </entry>
+        <entry>
+          <para>Heading Col 2 </para>
+        </entry>
       </row>
     </thead>
     <tbody>
       <row>
-        <entry>Cell 1.1 </entry>
-        <entry>Two lines
-in Cell 1.2 </entry>
+        <entry>
+          <para>Cell 1.1 </para>
+        </entry>
+        <entry>
+          <literallayout class="normal">Two lines
+in Cell 1.2 </literallayout>
+        </entry>
       </row>
       <row>
-        <entry>Cell 2.1 </entry>
-        <entry>Cell 2.2 </entry>
+        <entry>
+          <para>Cell 2.1 </para>
+        </entry>
+        <entry>
+          <para>Cell 2.2 </para>
+        </entry>
       </row>
     </tbody>
   </table>

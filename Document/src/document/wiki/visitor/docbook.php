@@ -281,6 +281,36 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     }
 
     /**
+     * Is inline node?
+     *
+     * Check if contents of the current node are a inline node
+     *
+     * @param DOMNode $node 
+     * @return bool
+     */
+    protected function isInlineNode( DOMNode $node )
+    {
+        return in_array( $node->tagName, array(
+            'para',
+            'acronym',
+            'anchor',
+            'author',
+            'citation',
+            'email',
+            'emphasis',
+            'footnote',
+            'footnoteref',
+            'inlinemediaobject',
+            'literal',
+            'quote',
+            'subscript',
+            'superscript',
+            'link',
+            'ulink',
+        ) );
+    }
+
+    /**
      * Visit images
      *
      * @param DOMNode $root 
@@ -289,7 +319,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      */
     protected function visitImages( DOMNode $root, ezcDocumentWikiNode $node )
     {
-        $media = $this->document->createElement( $root->tagName === 'para' ? 'inlinemediaobject' : 'mediaobject' );
+        $media = $this->document->createElement( $this->isInlineNode( $root ) ? 'inlinemediaobject' : 'mediaobject' );
         $root->appendChild( $media );
 
         $imageObject = $this->document->createElement( 'imageobject' );
@@ -369,10 +399,10 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      */
     protected function visitTableRow( DOMNode $root, ezcDocumentWikiNode $node )
     {
-        $header = false;
+        $header = true;
         foreach ( $node->nodes as $cell )
         {
-            $header = $header || $cell->header;
+            $header = $header && $cell->header;
         }
 
         // Get last child element in table
@@ -419,13 +449,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         $cell = $this->document->createElement( 'entry' );
         $root->appendChild( $cell );
 
-        $para = $this->document->createElement( 'para' );
-        $cell->appendChild( $para );
-
-        foreach ( $node->nodes as $child )
-        {
-            $this->visitNode( $para, $child );
-        }
+        $this->visitParagraph( $cell, $node );
     }
 
     /**

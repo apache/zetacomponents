@@ -148,23 +148,39 @@
       <table>
         <thead>
           <row>
-            <entry>header col1</entry>
-            <entry>header col2</entry>
+            <entry>
+              <para>header col1</para>
+            </entry>
+            <entry>
+              <para>header col2</para>
+            </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <entry>col1</entry>
-            <entry>col2</entry>
+            <entry>
+              <para>col1</para>
+            </entry>
+            <entry>
+              <para>col2</para>
+            </entry>
           </row>
           <row>
-            <entry>you </entry>
-            <entry>can </entry>
+            <entry>
+              <para>you </para>
+            </entry>
+            <entry>
+              <para>can </para>
+            </entry>
           </row>
           <row>
-            <entry>also </entry>
-            <entry>align
- it. </entry>
+            <entry>
+              <para>also </para>
+            </entry>
+            <entry>
+              <literallayout class="normal">align
+ it. </literallayout>
+            </entry>
           </row>
         </tbody>
       </table>
@@ -179,18 +195,30 @@
       <table>
         <thead>
           <row>
-            <entry> Header title </entry>
-            <entry> Another header title </entry>
+            <entry>
+              <para> Header title </para>
+            </entry>
+            <entry>
+              <para> Another header title </para>
+            </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <entry> <literal> //not italic text// </literal> </entry>
-            <entry> <literal> **not bold text** </literal> </entry>
+            <entry>
+              <para> <literal> //not italic text// </literal> </para>
+            </entry>
+            <entry>
+              <para> <literal> **not bold text** </literal> </para>
+            </entry>
           </row>
           <row>
-            <entry> <emphasis>italic text</emphasis> </entry>
-            <entry> <emphasis Role="strong"> bold text </emphasis> </entry>
+            <entry>
+              <para> <emphasis>italic text</emphasis> </para>
+            </entry>
+            <entry>
+              <para> <emphasis Role="strong"> bold text </emphasis> </para>
+            </entry>
           </row>
         </tbody>
       </table>

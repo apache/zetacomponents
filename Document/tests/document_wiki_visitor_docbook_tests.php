@@ -74,12 +74,12 @@ class ezcDocumentWikiDocbookVisitorTests extends ezcTestCase
         $docbook = $document->getAsDocbook();
         $xml = $docbook->save();
 
-        // Validate generated docbook
-        $this->assertTrue( $docbook->validateString( $xml ) );
-
         // Store test file, to have something to compare on failure
         $tempDir = $this->createTempDir( 'wiki_visitor_' . $type . '_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
+
+        // Validate generated docbook
+        $this->assertTrue( $docbook->validateString( $xml ) );
 
         $this->assertEquals(
             file_get_contents( $to ),

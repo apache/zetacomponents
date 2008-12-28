@@ -3,11 +3,11 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <para>
     <ulink url="http://www.php.net">
-      <mediaobject>
+      <inlinemediaobject>
         <imageobject>
           <imagedata fileref="wiki:dokuwiki-128.png"/>
         </imageobject>
-      </mediaobject>
+      </inlinemediaobject>
     </ulink>
   </para>
 </article>

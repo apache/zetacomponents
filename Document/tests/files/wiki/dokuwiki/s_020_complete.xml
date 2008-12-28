@@ -98,11 +98,11 @@
 </literallayout>
         <para>
           <ulink url="http://www.php.net">
-            <mediaobject>
+            <inlinemediaobject>
               <imageobject>
                 <imagedata fileref="wiki:dokuwiki-128.png"/>
               </imageobject>
-            </mediaobject>
+            </inlinemediaobject>
           </ulink>
         </para>
         <para>Please note: The image formatting is the only formatting syntax accepted in link names.</para>
@@ -111,7 +111,7 @@
     </section>
     <section>
       <title> Footnotes</title>
-      <para>You can add footnotes <footnote>This is a footnote</footnote> by using double parentheses.</para>
+      <para>You can add footnotes <footnote><para>This is a footnote</para></footnote> by using double parentheses.</para>
       <literallayout>  You can add footnotes ((This is a footnote)) by using double parentheses.
 </literallayout>
     </section>
@@ -325,11 +325,21 @@
       <literallayout>  &gt;&gt;&gt; Then lets do it!
 </literallayout>
       <para>I think we should do it</para>
-      <blockquote>No we shouldn't</blockquote>
-      <blockquote>Well, I say we should</blockquote>
-      <blockquote>Really?</blockquote>
-      <blockquote>Yes!</blockquote>
-      <blockquote>Then lets do it!</blockquote>
+      <blockquote>
+        <para>No we shouldn't</para>
+      </blockquote>
+      <blockquote>
+        <para>Well, I say we should</para>
+      </blockquote>
+      <blockquote>
+        <para>Really?</para>
+      </blockquote>
+      <blockquote>
+        <para>Yes!</para>
+      </blockquote>
+      <blockquote>
+        <para>Then lets do it!</para>
+      </blockquote>
     </section>
     <section>
       <title> Tables</title>
@@ -337,25 +347,47 @@
       <table>
         <thead>
           <row>
-            <entry> Heading 1 </entry>
-            <entry> Heading 2 </entry>
-            <entry> Heading 3 </entry>
+            <entry>
+              <para> Heading 1 </para>
+            </entry>
+            <entry>
+              <para> Heading 2 </para>
+            </entry>
+            <entry>
+              <para> Heading 3 </para>
+            </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <entry> Row 1 Col 1 </entry>
-            <entry> Row 1 Col 2 </entry>
-            <entry> Row 1 Col 3 </entry>
+            <entry>
+              <para> Row 1 Col 1 </para>
+            </entry>
+            <entry>
+              <para> Row 1 Col 2 </para>
+            </entry>
+            <entry>
+              <para> Row 1 Col 3 </para>
+            </entry>
           </row>
           <row>
-            <entry> Row 2 Col 1 </entry>
-            <entry> some colspan (note the double pipe) </entry>
+            <entry>
+              <para> Row 2 Col 1 </para>
+            </entry>
+            <entry>
+              <para> some colspan (note the double pipe) </para>
+            </entry>
           </row>
           <row>
-            <entry> Row 3 Col 1 </entry>
-            <entry> Row 2 Col 2 </entry>
-            <entry> Row 2 Col 3 </entry>
+            <entry>
+              <para> Row 3 Col 1 </para>
+            </entry>
+            <entry>
+              <para> Row 2 Col 2 </para>
+            </entry>
+            <entry>
+              <para> Row 2 Col 3 </para>
+            </entry>
           </row>
         </tbody>
       </table>
@@ -368,28 +400,52 @@
       <para>To connect cells horizontally, just make the next cell completely empty as shown above. Be sure to have always the same amount of cell separators!</para>
       <para>Vertical tableheaders are possible, too.</para>
       <table>
-        <thead>
+        <tbody>
           <row>
-            <entry> </entry>
-            <entry> Heading 1 </entry>
-            <entry> Heading 2 </entry>
+            <entry>
+              <para> </para>
+            </entry>
+            <entry>
+              <para> Heading 1 </para>
+            </entry>
+            <entry>
+              <para> Heading 2 </para>
+            </entry>
           </row>
           <row>
-            <entry> Heading 3 </entry>
-            <entry> Row 1 Col 2 </entry>
-            <entry> Row 1 Col 3 </entry>
+            <entry>
+              <para> Heading 3 </para>
+            </entry>
+            <entry>
+              <para> Row 1 Col 2 </para>
+            </entry>
+            <entry>
+              <para> Row 1 Col 3 </para>
+            </entry>
           </row>
           <row>
-            <entry> Heading 4 </entry>
-            <entry> no colspan this time </entry>
-            <entry> </entry>
+            <entry>
+              <para> Heading 4 </para>
+            </entry>
+            <entry>
+              <para> no colspan this time </para>
+            </entry>
+            <entry>
+              <para> </para>
+            </entry>
           </row>
           <row>
-            <entry> Heading 5 </entry>
-            <entry> Row 2 Col 2 </entry>
-            <entry> Row 2 Col 3 </entry>
+            <entry>
+              <para> Heading 5 </para>
+            </entry>
+            <entry>
+              <para> Row 2 Col 2 </para>
+            </entry>
+            <entry>
+              <para> Row 2 Col 3 </para>
+            </entry>
           </row>
-        </thead>
+        </tbody>
       </table>
       <para>As you can see, it's the cell separator before a cell which decides about the formatting:</para>
       <literallayout>  |              ^ Heading 1            ^ Heading 2          ^
@@ -402,24 +458,44 @@
       <table>
         <thead>
           <row>
-            <entry> Table with alignment </entry>
+            <entry>
+              <para> Table with alignment </para>
+            </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <entry> right</entry>
-            <entry> center </entry>
-            <entry>left </entry>
+            <entry>
+              <para> right</para>
+            </entry>
+            <entry>
+              <para> center </para>
+            </entry>
+            <entry>
+              <para>left </para>
+            </entry>
           </row>
           <row>
-            <entry>left </entry>
-            <entry> right</entry>
-            <entry> center </entry>
+            <entry>
+              <para>left </para>
+            </entry>
+            <entry>
+              <para> right</para>
+            </entry>
+            <entry>
+              <para> center </para>
+            </entry>
           </row>
           <row>
-            <entry> xxxxxxxxxxxx </entry>
-            <entry> xxxxxxxxxxxx </entry>
-            <entry> xxxxxxxxxxxx </entry>
+            <entry>
+              <para> xxxxxxxxxxxx </para>
+            </entry>
+            <entry>
+              <para> xxxxxxxxxxxx </para>
+            </entry>
+            <entry>
+              <para> xxxxxxxxxxxx </para>
+            </entry>
           </row>
         </tbody>
       </table>
@@ -460,34 +536,62 @@ class HelloWorldApp {
       <table>
         <thead>
           <row>
-            <entry> Parameter </entry>
-            <entry> Description </entry>
+            <entry>
+              <para> Parameter </para>
+            </entry>
+            <entry>
+              <para> Description </para>
+            </entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <entry> any number </entry>
-            <entry> will be used as maximum number items to show, defaults to 8 </entry>
+            <entry>
+              <para> any number </para>
+            </entry>
+            <entry>
+              <para> will be used as maximum number items to show, defaults to 8 </para>
+            </entry>
           </row>
           <row>
-            <entry> reverse </entry>
-            <entry> display the last items in the feed first </entry>
+            <entry>
+              <para> reverse </para>
+            </entry>
+            <entry>
+              <para> display the last items in the feed first </para>
+            </entry>
           </row>
           <row>
-            <entry> author </entry>
-            <entry> show item authors names </entry>
+            <entry>
+              <para> author </para>
+            </entry>
+            <entry>
+              <para> show item authors names </para>
+            </entry>
           </row>
           <row>
-            <entry> date </entry>
-            <entry> show item dates </entry>
+            <entry>
+              <para> date </para>
+            </entry>
+            <entry>
+              <para> show item dates </para>
+            </entry>
           </row>
           <row>
-            <entry> description</entry>
-            <entry> show the item description. If <ulink url="doku&gt;config:htmlok">HTML</ulink> is disabled all tags will be stripped </entry>
+            <entry>
+              <para> description</para>
+            </entry>
+            <entry>
+              <para> show the item description. If <ulink url="doku&gt;config:htmlok">HTML</ulink> is disabled all tags will be stripped </para>
+            </entry>
           </row>
           <row>
-            <entry> <emphasis>n</emphasis>[dhm] </entry>
-            <entry> refresh period, where d=days, h=hours, m=minutes. (e.g. 12h = 12 hours). </entry>
+            <entry>
+              <para> <emphasis>n</emphasis>[dhm] </para>
+            </entry>
+            <entry>
+              <para> refresh period, where d=days, h=hours, m=minutes. (e.g. 12h = 12 hours). </para>
+            </entry>
           </row>
         </tbody>
       </table>
@@ -549,12 +653,20 @@ Some syntax influences how DokuWiki renders a page without creating any output i
       <table>
         <tbody>
           <row>
-            <entry> ~~NOTOC~~ </entry>
-            <entry> If this macro is found on the page, no table of contents will be created </entry>
+            <entry>
+              <para> ~~NOTOC~~ </para>
+            </entry>
+            <entry>
+              <para> If this macro is found on the page, no table of contents will be created </para>
+            </entry>
           </row>
           <row>
-            <entry> ~~NOCACHE~~ </entry>
-            <entry> DokuWiki caches all output by default. Sometimes this might not be wanted (eg. when the &lt;php&gt; syntax above is used), adding this macro will force DokuWiki to rerender a page on every call </entry>
+            <entry>
+              <para> ~~NOCACHE~~ </para>
+            </entry>
+            <entry>
+              <para> DokuWiki caches all output by default. Sometimes this might not be wanted (eg. when the &lt;php&gt; syntax above is used), adding this macro will force DokuWiki to rerender a page on every call </para>
+            </entry>
           </row>
         </tbody>
       </table>
