@@ -37,7 +37,7 @@ class ezcDocumentDocbookToRstParagraphHandler extends ezcDocumentDocbookToRstBas
         $foundAnchors = false;
         foreach ( $anchors as $anchor )
         {
-            $root .= '.. _' . $anchor->getAttribute( 'id' ) . ":\n";
+            $root .= '.. _' . $anchor->getAttribute( 'ID' ) . ":\n";
             $anchor->parentNode->removeChild( $anchor );
             $foundAnchors = true;
         }

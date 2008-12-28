@@ -5,7 +5,7 @@
       <title>Dense bullet list</title>
     </sectioninfo>
     <section>
-      <title><anchor id="dense_bullet_list"/>Dense bullet list</title>
+      <title><anchor ID="dense_bullet_list"/>Dense bullet list</title>
       <itemizedlist>
         <listitem>
           <para>This is a special case for bullet lists, where</para>

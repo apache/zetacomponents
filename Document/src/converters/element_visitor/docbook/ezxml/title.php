@@ -32,9 +32,9 @@ class ezcDocumentDocbookToEzXmlTitleHandler extends ezcDocumentElementVisitorHan
         $header = $root->ownerDocument->createElement( 'header' );
         $root->appendChild( $header );
 
-        if ( $node->hasAttribute( 'id' ) )
+        if ( $node->hasAttribute( 'ID' ) )
         {
-            $header->setAttribute( 'anchor_name', $node->getAttribute( 'id' ) );
+            $header->setAttribute( 'anchor_name', $node->getAttribute( 'ID' ) );
         }
 
         $converter->visitChildren( $node, $header );

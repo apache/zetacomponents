@@ -5,7 +5,7 @@
       <title>Various type sof literal blocks</title>
     </sectioninfo>
     <section>
-      <title><anchor id="various_type_sof_literal_blocks"/>Various type sof literal blocks</title>
+      <title><anchor ID="various_type_sof_literal_blocks"/>Various type sof literal blocks</title>
       <para>Paragraph:</para>
       <literallayout>Literal block, where \ are preserved.
 

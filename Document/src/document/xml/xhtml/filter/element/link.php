@@ -34,7 +34,7 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
             // The a element is an anchor
             $span->setProperty( 'type', 'anchor' );
             $span->setProperty( 'attributes', array( 
-                'id' => $element->getAttribute( 'name' ),
+                'ID' => $element->getAttribute( 'name' ),
             ) );
         }
         elseif ( $element->hasAttribute( 'href' ) &&

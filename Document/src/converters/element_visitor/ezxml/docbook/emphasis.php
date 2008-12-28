@@ -37,7 +37,7 @@ class ezcDocumentEzXmlToDocbookEmphasisHandler extends ezcDocumentElementVisitor
             
         if ( $node->tagName === 'strong' )
         {
-            $element->setAttribute( 'role', 'strong' );
+            $element->setAttribute( 'Role', 'strong' );
         }
 
         // Recurse

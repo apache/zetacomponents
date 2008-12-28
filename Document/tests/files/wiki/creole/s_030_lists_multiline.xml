@@ -3,7 +3,7 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <itemizedlist>
     <listitem>
-      <para>Item 1 with <emphasis role="strong">multiple</emphasis> lines.</para>
+      <para>Item 1 with <emphasis Role="strong">multiple</emphasis> lines.</para>
     </listitem>
     <listitem>
       <para>Item 2</para>

@@ -63,7 +63,7 @@ to test it more often.</para>
       <para>I can understand, that the optimizer does
 not offer any real improvements, like APC does, but I wouldn't expect
 such performance impact.</para>
-      <anchor id="david-at-11-may-2006-23-32"/>
+      <anchor ID="david-at-11-may-2006-23-32"/>
       <section>
         <title>David at 11. May 2006 - 23:32</title>
         <para>We found similar results when we did Zend/ionCube benchmarking in Feb this year - <ulink url="http://www.olate.co.uk/development/benchmarks.php">http://www.olate.co.uk/development/benchmarks.php</ulink></para>

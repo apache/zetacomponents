@@ -147,7 +147,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
                 if ( $node->identifier !== null )
                 {
-                    $element->setAttribute( 'id', $node->identifier );
+                    $element->setAttribute( 'ID', $node->identifier );
                 }
 
                 foreach ( $node->nodes as $child )
@@ -182,7 +182,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
     protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
     {
         $section = $this->document->createElement( 'section' );
-        $section->setAttribute( 'id', $this->calculateId( $this->nodeToString( $node->title ) ) );
+        $section->setAttribute( 'ID', $this->calculateId( $this->nodeToString( $node->title ) ) );
         $root->appendChild( $section );
 
         $info = $this->document->createElement( 'sectioninfo' );
@@ -247,7 +247,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
         if ( $node instanceof ezcDocumentRstMarkupStrongEmphasisNode )
         {
-            $markup->setAttribute( 'role', 'strong' );
+            $markup->setAttribute( 'Role', 'strong' );
         }
         $root->appendChild( $markup );
 
@@ -369,7 +369,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
     protected function visitInlineTarget( DOMNode $root, ezcDocumentRstNode $node )
     {
         $link = $this->document->createElement( 'anchor' );
-        $link->setAttribute( 'id', $this->calculateId( $this->nodeToString( $node ) ) );
+        $link->setAttribute( 'ID', $this->calculateId( $this->nodeToString( $node ) ) );
         $root->appendChild( $link );
 
         foreach ( $node->nodes as $child )

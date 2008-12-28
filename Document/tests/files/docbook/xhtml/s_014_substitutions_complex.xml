@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
-  <section id="various_substitution_examples">
+  <section ID="various_substitution_examples">
     <sectioninfo/>
     <title>Various substitution examples</title>
     <para> and  are our widget-wranglers.</para>

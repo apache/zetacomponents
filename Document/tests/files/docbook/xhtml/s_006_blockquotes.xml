@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
-  <section id="blockquotes">
+  <section ID="blockquotes">
     <sectioninfo/>
     <title>Blockquotes</title>
     <para>This is an ordinary paragraph, introducing a block quote.</para>

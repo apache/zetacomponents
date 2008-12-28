@@ -37,7 +37,7 @@ class ezcDocumentEzXmlToDocbookHeaderHandler extends ezcDocumentElementVisitorHa
 
         if ( $node->hasAttribute( 'anchor_name' ) )
         {
-            $element->setAttribute( 'id', $node->getAttribute( 'anchor_name' ) );
+            $element->setAttribute( 'ID', $node->getAttribute( 'anchor_name' ) );
         }
 
         // Recurse

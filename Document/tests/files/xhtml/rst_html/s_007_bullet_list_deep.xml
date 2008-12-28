@@ -5,7 +5,7 @@
       <title>Bullet list</title>
     </sectioninfo>
     <section>
-      <title><anchor id="bullet_list"/>Bullet list</title>
+      <title><anchor ID="bullet_list"/>Bullet list</title>
       <itemizedlist>
         <listitem>
           <para>This is the first bullet list item.  The blank line above the first list item is required; blank lines between list items (such as below this paragraph) are optional.</para>

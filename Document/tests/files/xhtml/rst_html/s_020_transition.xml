@@ -5,7 +5,7 @@
       <title>Transitions</title>
     </sectioninfo>
     <section>
-      <title><anchor id="transitions"/>Transitions</title>
+      <title><anchor ID="transitions"/>Transitions</title>
       <para>A paragraph.</para>
       <beginpage/>
       <para>A paragraph after a page transistion.</para>

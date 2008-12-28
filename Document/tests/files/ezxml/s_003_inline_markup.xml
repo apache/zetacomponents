@@ -4,7 +4,7 @@
   <section>
     <title>Paragraph</title>
     <para>
-        Some random content with <emphasis role="strong">simple</emphasis> inline
+        Some random content with <emphasis Role="strong">simple</emphasis> inline
         <emphasis>markup</emphasis>.
     </para>
   </section>

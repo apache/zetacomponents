@@ -36,9 +36,9 @@ class ezcDocumentDocbookToEzXmlSectionHandler extends ezcDocumentElementVisitorH
         $root->appendChild( $section );
 
         // Set internal cross reference target if section has an ID assigned
-        if ( $node->hasAttribute( 'id' ) )
+        if ( $node->hasAttribute( 'ID' ) )
         {
-            // $section->setAttribute( 'anchor_name', $node->getAttribute( 'id' ) );
+            // $section->setAttribute( 'anchor_name', $node->getAttribute( 'ID' ) );
         }
 
         // Recurse

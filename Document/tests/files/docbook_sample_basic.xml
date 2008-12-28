@@ -12,4 +12,4 @@ Some literal text
 Inline Image: <inlinemediaobject><imageobject><imagedata fileref="http://www.google.com/intl/en_ALL/images/logo.gif"/></imageobject></inlinemediaobject> image
 </para><mediaobject><imageobject><imagedata fileref="http://www.google.com/intl/en_ALL/images/logo.gif"/></imageobject></mediaobject><para>
 Inline tags:
-<emphasis role="strong">storng text</emphasis><emphasis>emphasized text</emphasis><literal>literal</literal><subscript>subscript</subscript><superscript>superscript</superscript><quote>quote</quote><citetitle>cite title</citetitle><acronym>FBI</acronym><programlisting>a = b</programlisting></para></section></article>
+<emphasis Role="strong">storng text</emphasis><emphasis>emphasized text</emphasis><literal>literal</literal><subscript>subscript</subscript><superscript>superscript</superscript><quote>quote</quote><citetitle>cite title</citetitle><acronym>FBI</acronym><programlisting>a = b</programlisting></para></section></article>

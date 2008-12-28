@@ -1,53 +1,53 @@
 <?xml version="1.0"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <article xmlns="http://docbook.org/ns/docbook">
-  <section id="section_title_1">
+  <section ID="section_title_1">
     <sectioninfo/>
     <title>Section Title 1</title>
-    <section id="section_title_2">
+    <section ID="section_title_2">
       <sectioninfo/>
       <title>Section Title 2</title>
-      <section id="section_title_3">
+      <section ID="section_title_3">
         <sectioninfo/>
         <title>Section Title 3</title>
-        <section id="section_title_4">
+        <section ID="section_title_4">
           <sectioninfo/>
           <title>Section Title 4</title>
-          <section id="section_title_5">
+          <section ID="section_title_5">
             <sectioninfo/>
             <title>Section Title 5</title>
-            <section id="section_title_6">
+            <section ID="section_title_6">
               <sectioninfo/>
               <title>Section Title 6</title>
             </section>
           </section>
-          <section id="section_title_5">
+          <section ID="section_title_5">
             <sectioninfo/>
             <title>Section Title 5</title>
-            <section id="section_title_6">
+            <section ID="section_title_6">
               <sectioninfo/>
               <title>Section Title 6</title>
-              <section id="section_title_7">
+              <section ID="section_title_7">
                 <sectioninfo/>
                 <title>Section Title 7</title>
-                <section id="section_title_8">
+                <section ID="section_title_8">
                   <sectioninfo/>
                   <title>Section Title 8</title>
                 </section>
               </section>
-              <section id="section_title_7">
+              <section ID="section_title_7">
                 <sectioninfo/>
                 <title>Section Title 7</title>
-                <section id="section_title_8">
+                <section ID="section_title_8">
                   <sectioninfo/>
                   <title>Section Title 8</title>
-                  <section id="section_title_9">
+                  <section ID="section_title_9">
                     <sectioninfo/>
                     <title>Section Title 9</title>
-                    <section id="section_title_10">
+                    <section ID="section_title_10">
                       <sectioninfo/>
                       <title>Section Title 10</title>
-                      <section id="section_title_11">
+                      <section ID="section_title_11">
                         <sectioninfo/>
                         <title>Section Title 11</title>
                       </section>
@@ -59,13 +59,13 @@
           </section>
         </section>
       </section>
-      <section id="section_title_3">
+      <section ID="section_title_3">
         <sectioninfo/>
         <title>Section Title 3</title>
-        <section id="section_title_4">
+        <section ID="section_title_4">
           <sectioninfo/>
           <title>Section Title 4</title>
-          <section id="section_title_5">
+          <section ID="section_title_5">
             <sectioninfo/>
             <title>Section Title 5</title>
           </section>

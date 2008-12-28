@@ -6,6 +6,7 @@
   visitor
 - Fixed issue #14188: ezcDocumentEzXml::getAsDocbook() returns an
   ezcDocumentEzXml rather than ezcDocumentDocbook
+- Fixed issue #14208: Invalid docubook markup: Attributes used in wrong case
 
 
 1.1rc1 - Monday 15 December 2008

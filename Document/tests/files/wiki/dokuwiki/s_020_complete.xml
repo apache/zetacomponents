@@ -6,7 +6,7 @@
     <para><ulink url="doku&gt;DokuWiki">doku&gt;DokuWiki</ulink> supports some simple markup language, which tries to make the datafiles to be as readable as possible. This page contains all possible syntax you may use when editing the pages. Simply have a look at the source of this page by pressing the <emphasis>Edit this page</emphasis> button at the top or bottom of the page. If you want to try something, just use the <ulink url="playground:playground">playground</ulink> page. The simpler markup is easily accessible via <ulink url="doku&gt;toolbar">quickbuttons</ulink>, too.</para>
     <section>
       <title> Basic text formatting</title>
-      <para>DokuWiki supports <emphasis role="strong">bold</emphasis>, <emphasis>italic</emphasis>, <emphasis>underlined</emphasis> and <literal>monospaced</literal> texts. Of course you can <emphasis role="strong"><emphasis><emphasis><literal>combine</literal></emphasis></emphasis></emphasis> all these.</para>
+      <para>DokuWiki supports <emphasis Role="strong">bold</emphasis>, <emphasis>italic</emphasis>, <emphasis>underlined</emphasis> and <literal>monospaced</literal> texts. Of course you can <emphasis Role="strong"><emphasis><emphasis><literal>combine</literal></emphasis></emphasis></emphasis> all these.</para>
       <literallayout>  DokuWiki supports **bold**, //italic//, __underlined__ and ''monospaced'' texts.
   Of course you can **__//''combine''//__** all these.
 </literallayout>
@@ -16,7 +16,7 @@
       <para>You can mark something as deleted as well.</para>
       <literallayout>  You can mark something as &lt;del&gt;deleted&lt;/del&gt; as well.
 </literallayout>
-      <para><emphasis role="strong">Paragraphs</emphasis> are created from blank lines. If you want to <emphasis role="strong">force a newline</emphasis> without a paragraph, you can use two backslashes followed by a whitespace or the end of line.</para>
+      <para><emphasis Role="strong">Paragraphs</emphasis> are created from blank lines. If you want to <emphasis Role="strong">force a newline</emphasis> without a paragraph, you can use two backslashes followed by a whitespace or the end of line.</para>
       <literallayout class="Normal">This is some text with some linebreaks
  Note that the two backslashes are only recognized at the end of a line
  or followed by
@@ -493,7 +493,7 @@ class HelloWorldApp {
       </table>
       <para>The refresh period defaults to 4 hours. Any value below 10 minutes will be treated as 10 minutes. <ulink url="wiki:DokuWiki">wiki:DokuWiki</ulink> will generally try to supply a cached version of a page, obviously this is inappropriate when the page contains dynamic external content. The parameter tells <ulink url="wiki:DokuWiki">wiki:DokuWiki</ulink> to re-render the page if it is more than <emphasis>refresh period</emphasis> since the page was last rendered.</para>
       <para>
-        <emphasis role="strong">Example:</emphasis>
+        <emphasis Role="strong">Example:</emphasis>
       </para>
       <literallayout>  {{rss&gt;http://slashdot.org/index.rss 5 author date 1h }}
 </literallayout>

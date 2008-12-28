@@ -178,7 +178,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
 
         if ( $node instanceof ezcDocumentWikiBoldNode )
         {
-            $markup->setAttribute( 'role', 'strong' );
+            $markup->setAttribute( 'Role', 'strong' );
         }
         $root->appendChild( $markup );
 

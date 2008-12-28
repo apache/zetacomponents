@@ -69,10 +69,10 @@ class ezcDocumentDocbookToHtmlSectionHandler extends ezcDocumentDocbookToHtmlBas
             ++$this->level;
 
             // Set internal cross reference target if section has an ID assigned
-            if ( $node->hasAttribute( 'id' ) )
+            if ( $node->hasAttribute( 'ID' ) )
             {
                 $target = $root->ownerDocument->createElement( 'a' );
-                $target->setAttribute( 'name', $node->getAttribute( 'id' ) );
+                $target->setAttribute( 'name', $node->getAttribute( 'ID' ) );
                 $root->appendChild( $target );
             }
 

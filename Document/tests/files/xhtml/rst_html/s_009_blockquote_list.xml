@@ -5,7 +5,7 @@
       <title>Blockquote &amp; list</title>
     </sectioninfo>
     <section>
-      <title><anchor id="blockquote_list"/>Blockquote &amp; list</title>
+      <title><anchor ID="blockquote_list"/>Blockquote &amp; list</title>
       <itemizedlist>
         <listitem>
           <para>First List item</para>

@@ -32,8 +32,8 @@ class ezcDocumentDocbookToEzXmlEmphasisHandler extends ezcDocumentElementVisitor
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        if ( $node->hasAttribute( 'role' ) &&
-             ( $node->getAttribute( 'role' ) === 'strong' ) )
+        if ( $node->hasAttribute( 'Role' ) &&
+             ( $node->getAttribute( 'Role' ) === 'strong' ) )
         {
             $emphasis = $root->ownerDocument->createElement( 'strong' );
         }

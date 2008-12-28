@@ -13,6 +13,8 @@
  *
  * @property bool $indentXml
  *           Indent XML on output
+ * @property string $schema
+ *           Path to XML Schema file to validate docbook documents
  *
  * @package Document
  * @version //autogen//
@@ -30,9 +32,7 @@ class ezcDocumentDocbookOptions extends ezcDocumentXmlOptions
      */
     public function __construct( array $options = array() )
     {
-        /* More to come ...
-        $this->indentXml    = false;
-        */
+        $this->schema = dirname( __FILE__ ) . '/data/docbook.xsl';
 
         parent::__construct( $options );
     }
@@ -52,16 +52,14 @@ class ezcDocumentDocbookOptions extends ezcDocumentXmlOptions
     {
         switch ( $name )
         {
-        /* More to come ...
-            case 'indentXml':
-                if ( !is_bool( $value ) )
+            case 'schema':
+                if ( !is_file( $value ) || !is_readable( $value ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'bool' );
+                    throw new ezcBaseValueException( $name, $value, 'XML schema file' );
                 }
 
-                $this->properties[$name] = (bool) $value;
+                $this->properties[$name] = (string) $value;
                 break;
-        */
 
             default:
                 parent::__set( $name, $value );

@@ -5,10 +5,10 @@
       <title>Main Title</title>
     </sectioninfo>
     <section>
-      <title><anchor id="main_title"/>Main Title</title>
+      <title><anchor ID="main_title"/>Main Title</title>
       <para>Hello world</para>
       <section>
-        <title><anchor id="subsection"/>Subsection</title>
+        <title><anchor ID="subsection"/>Subsection</title>
         <para>A bit more text, which exceeds one line to test for a simple paragraph with more then one line.</para>
       </section>
     </section>

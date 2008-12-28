@@ -5,7 +5,7 @@
       <title>No markup</title>
     </sectioninfo>
     <section>
-      <title><anchor id="no_markup"/>No markup</title>
+      <title><anchor ID="no_markup"/>No markup</title>
       <para>asterisks: * "*" '*' (*) (* [*] {*} 1*x BOM32_* double asterisks: ** a**b O(N**2) etc. backquotes: ` `` etc. underscores: _ __ __init__ __init__() etc. vertical bars: | || etc.</para>
     </section>
   </section>

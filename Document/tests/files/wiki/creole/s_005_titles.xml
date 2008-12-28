@@ -27,7 +27,7 @@
         <title>Also level 3</title>
       </section>
       <section>
-        <title><emphasis role="strong">not</emphasis> <emphasis>parsed</emphasis></title>
+        <title><emphasis Role="strong">not</emphasis> <emphasis>parsed</emphasis></title>
       </section>
     </section>
   </section>

@@ -32,7 +32,7 @@ class ezcDocumentXhtmlStrongElementFilter extends ezcDocumentXhtmlElementBaseFil
     {
         $element->setProperty( 'type', 'emphasis' );
         $element->setProperty( 'attributes', array( 
-            'role' => 'strong',
+            'Role' => 'strong',
         ) );
     }
 

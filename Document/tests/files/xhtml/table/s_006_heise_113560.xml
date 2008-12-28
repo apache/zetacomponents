@@ -24,7 +24,7 @@ Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI
       <para>Auch auf der Linux-Kernel Mailing Liste (LKML) gab es in den vergangenen Wochen wieder allerlei Diskussionen um ACPI. AusgelÃ¶st wurden die durch die von Suse-Entwickler Thomas Renninger <ulink url="http://thread.gmane.org/gmane.linux.acpi.devel/33039">gefundenes und analysiertes</ulink> Ãberhitzungsprobleme beim Einsatz von Linux auf einem HP-Notebook. Daraufhin schlug Renninger einige Ãnderungen und <ulink url="http://article.gmane.org/gmane.linux.acpi.devel/33040">ACPI BIOS Guidelines for Linux</ulink> vor. Len Brown, der Verwalter des Linux-ACPI-Subsystems, ist mit einigen der LÃ¶sungsvorschlÃ¤ge und Ideen aber nicht ganz einverstanden. </para>
       <beginpage/>
       <para>
-        <emphasis role="strong">Kernel-Log-Staccato</emphasis>
+        <emphasis Role="strong">Kernel-Log-Staccato</emphasis>
       </para>
       <itemizedlist>
         <listitem>
@@ -66,10 +66,10 @@ Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI
       <table>
         <row>
           <entry>
-            <emphasis role="strong">
+            <emphasis Role="strong">
               <ulink url="/newsticker/meldung/print/113560">Version zum Drucken</ulink>
             </emphasis>
-            <para><emphasis role="strong"><ulink url="/newsticker/meldung/mail/113560">Per E-Mail versenden</ulink></emphasis> | </para>
+            <para><emphasis Role="strong"><ulink url="/newsticker/meldung/mail/113560">Per E-Mail versenden</ulink></emphasis> | </para>
           </entry>
           <entry>
             <para>
@@ -93,7 +93,7 @@ Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI
             <section>
               <title>
                 <ulink url="/security/news/foren/go.shtml?list=1&amp;amp;forum_id=141504">
-                  <emphasis role="strong">Kommentare lesen (26 Beiträge)</emphasis>
+                  <emphasis Role="strong">Kommentare lesen (26 Beiträge)</emphasis>
                 </ulink>
               </title>
             </section>

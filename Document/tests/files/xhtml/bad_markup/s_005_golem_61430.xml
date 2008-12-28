@@ -68,9 +68,9 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
               <section>
                 <title>
                   <ulink url="http://forum.golem.de/read.php?26817">
-                    <emphasis role="strong">Kommentar-Übersicht</emphasis>
+                    <emphasis Role="strong">Kommentar-Übersicht</emphasis>
                   </ulink>
-                  <para>:<ulink url="http://forum.golem.de/post.php?26817"><emphasis role="strong">Kommentieren</emphasis></ulink> / </para>
+                  <para>:<ulink url="http://forum.golem.de/post.php?26817"><emphasis Role="strong">Kommentieren</emphasis></ulink> / </para>
                 </title>
               </section>
             </entry>
@@ -128,7 +128,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
               <section>
                 <title>
                   <ulink url="http://www.golem.de/trackback/61430">
-                    <emphasis role="strong">Trackback:</emphasis>
+                    <emphasis Role="strong">Trackback:</emphasis>
                   </ulink>
                 </title>
               </section>

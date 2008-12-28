@@ -5,7 +5,7 @@
       <title>Enumerated lists</title>
     </sectioninfo>
     <section>
-      <title><anchor id="enumerated_lists"/>Enumerated lists</title>
+      <title><anchor ID="enumerated_lists"/>Enumerated lists</title>
       <orderedlist>
         <listitem>
           <para>This is an enumerated list.</para>

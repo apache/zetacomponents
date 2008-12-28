@@ -5,10 +5,10 @@
       <title>Title references</title>
     </sectioninfo>
     <section>
-      <title><anchor id="title_references"/>Title references</title>
+      <title><anchor ID="title_references"/>Title references</title>
       <para>The text contains references to the <link linked="subtitle">Subtitle</link> and even to the document title: <link linked="title_references">Title references</link>.</para>
       <section>
-        <title><anchor id="subtitle"/>Subtitle</title>
+        <title><anchor ID="subtitle"/>Subtitle</title>
         <para>This refernces, like: <link linked="subtitle">Subtitle</link> may occur multiple times, of course.</para>
       </section>
     </section>

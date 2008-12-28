@@ -5,7 +5,7 @@
       <title>Comments</title>
     </sectioninfo>
     <section>
-      <title><anchor id="comments"/>Comments</title>
+      <title><anchor ID="comments"/>Comments</title>
       <para>Different types of comments</para>
       <para>End of comments.</para>
     </section>

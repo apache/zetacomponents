@@ -95,9 +95,23 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
      */
     public function validateFile( $file )
     {
-        // @TODO: We need a working docbook schema, which we can embed, until
-        // then we just can't really validate docbook files.
-        return false;
+        $oldSetting = libxml_use_internal_errors( true );
+        libxml_clear_errors();
+        $document = new DOMDocument();
+        $document->load( $file );
+        $document->schemaValidate( $this->options->schema );
+
+        // Get all errors
+        $xmlErrors = libxml_get_errors();
+        $errors = array();
+        foreach ( $xmlErrors as $error )
+        {
+            $errors[] = ezcDocumentValidationError::createFromLibXmlError( $error );
+        }
+        libxml_clear_errors();
+        libxml_use_internal_errors( $oldSetting );
+
+        return ( count( $errors ) ? $errors : true );
     }
 
     /**
@@ -114,9 +128,23 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
      */
     public function validateString( $string )
     {
-        // @TODO: We need a working docbook schema, which we can embed, until
-        // then we just can't really validate docbook files.
-        return false;
+        $oldSetting = libxml_use_internal_errors( true );
+        libxml_clear_errors();
+        $document = new DOMDocument();
+        $document->loadXml( $string );
+        $document->schemaValidate( $this->options->schema );
+
+        // Get all errors
+        $xmlErrors = libxml_get_errors();
+        $errors = array();
+        foreach ( $xmlErrors as $error )
+        {
+            $errors[] = ezcDocumentValidationError::createFromLibXmlError( $error );
+        }
+        libxml_clear_errors();
+        libxml_use_internal_errors( $oldSetting );
+
+        return ( count( $errors ) ? $errors : true );
     }
 }
 

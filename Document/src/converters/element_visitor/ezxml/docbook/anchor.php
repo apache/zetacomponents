@@ -32,7 +32,7 @@ class ezcDocumentEzXmlToDocbookAnchorHandler extends ezcDocumentElementVisitorHa
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $anchor = $root->ownerDocument->createElement( 'anchor' );
-        $anchor->setAttribute( 'id', $node->getAttribute( 'name' ) );
+        $anchor->setAttribute( 'ID', $node->getAttribute( 'name' ) );
         $root->appendChild( $anchor );
 
         $converter->visitChildren( $node, $anchor );

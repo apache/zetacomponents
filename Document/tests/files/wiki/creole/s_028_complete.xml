@@ -27,7 +27,7 @@
           <title>Subsub (4)</title>
           <section>
             <title>Subsubsub (5)</title>
-            <para>You can make things <emphasis role="strong">bold</emphasis> or <emphasis>italic</emphasis> or <emphasis role="strong"><emphasis>both</emphasis></emphasis> or <emphasis><emphasis role="strong">both</emphasis></emphasis>.</para>
+            <para>You can make things <emphasis Role="strong">bold</emphasis> or <emphasis>italic</emphasis> or <emphasis Role="strong"><emphasis>both</emphasis></emphasis> or <emphasis><emphasis Role="strong">both</emphasis></emphasis>.</para>
             <para>Character formatting extends across line breaks: **bold, this is still bold. This line deliberately does not end in star-star.</para>
             <para>Not bold. Character formatting does not cross paragraph boundaries.</para>
             <para>You can use <ulink url="internal links">internal links</ulink> or <ulink url="http://www.wikicreole.org">external links</ulink>, give the link a <ulink url="internal links">different</ulink> name.</para>
@@ -49,7 +49,7 @@
               </listitem>
               <listitem>
                 <para>
-                  <emphasis role="strong">bold item c</emphasis>
+                  <emphasis Role="strong">bold item c</emphasis>
                 </para>
               </listitem>
             </itemizedlist>
@@ -190,7 +190,7 @@
           </row>
           <row>
             <entry> <emphasis>italic text</emphasis> </entry>
-            <entry> <emphasis role="strong"> bold text </emphasis> </entry>
+            <entry> <emphasis Role="strong"> bold text </emphasis> </entry>
           </row>
         </tbody>
       </table>

@@ -33,7 +33,7 @@ class ezcDocumentDocbookToHtmlAnchorHandler extends ezcDocumentDocbookToHtmlBase
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $link = $root->ownerDocument->createElement( 'a' );
-        $link->setAttribute( 'name', $node->getAttribute( 'id' ) );
+        $link->setAttribute( 'name', $node->getAttribute( 'ID' ) );
         $root->appendChild( $link );
         $converter->visitChildren( $node, $link );
         return $root;

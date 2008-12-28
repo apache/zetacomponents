@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <article xmlns="http://docbook.org/ns/docbook">
-  <section id="definition_lists">
+  <section ID="definition_lists">
     <sectioninfo/>
     <title>Definition lists</title>
     <variablelist>

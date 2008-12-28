@@ -5,7 +5,7 @@
       <title>Blockquotes</title>
     </sectioninfo>
     <section>
-      <title><anchor id="blockquotes"/>Blockquotes</title>
+      <title><anchor ID="blockquotes"/>Blockquotes</title>
       <para>This is an ordinary paragraph, introducing a block quote.</para>
       <blockquote>
         <para>"It is my business to know things.  That is my trade."</para>
