@@ -23,6 +23,9 @@ require 'parser_test.php';
 
 require 'document_options_xml_base_test.php';
 require 'document_xml_base_test.php';
+
+require 'document_docbook_test.php';
+
 require 'document_rst_tokenizer_tests.php';
 require 'document_rst_parser_tests.php';
 require 'document_rst_visitor_docbook_tests.php';
@@ -66,6 +69,9 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentOptionsXmlBaseTests::suite() );
         $this->addTest( ezcDocumentXmlBaseTests::suite() );
+
+        $this->addTest( ezcDocumentDocbookTests::suite() );
+
         $this->addTest( ezcDocumentRstTokenizerTests::suite() );
         $this->addTest( ezcDocumentRstParserTests::suite() );
         $this->addTest( ezcDocumentRstDocbookVisitorTests::suite() );
