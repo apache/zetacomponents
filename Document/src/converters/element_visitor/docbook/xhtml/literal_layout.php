@@ -37,7 +37,7 @@ class ezcDocumentDocbookToHtmlLiteralLayoutHandler extends ezcDocumentDocbookToH
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         if ( !$node->hasAttribute( 'class' ) ||
-             ( $node->getAttribute( 'class' ) !== 'Normal' ) )
+             ( $node->getAttribute( 'class' ) !== 'normal' ) )
         {
             // This is "just" a code block
             $code = $root->ownerDocument->createElement( 'pre' );

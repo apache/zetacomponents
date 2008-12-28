@@ -2,6 +2,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <article xmlns="http://docbook.org/ns/docbook">
   <para>An empty line after some text will produce a paragraph.</para>
-  <literallayout class="Normal">This is second paragraph, with an line break
+  <literallayout class="normal">This is second paragraph, with an line break
 inside.</literallayout>
 </article>

@@ -455,7 +455,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
         {
             // Change paragraph into a literallayout section
             $newPara = $this->document->createElement( 'literallayout' );
-            $newPara->setAttribute( 'class', 'Normal' );
+            $newPara->setAttribute( 'class', 'normal' );
             $root->appendChild( $newPara );
 
             // Move all childs to new paragraph

@@ -37,7 +37,7 @@ class ezcDocumentDocbookToRstLiteralLayoutHandler extends ezcDocumentDocbookToRs
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         if ( !$node->hasAttribute( 'class' ) ||
-             ( $node->getAttribute( 'class' ) !== 'Normal' ) )
+             ( $node->getAttribute( 'class' ) !== 'normal' ) )
         {
             $root .= "\n::\n\n    " . preg_replace( '(\r\n|\r|\n)', "\n    ", $node->textContent ) . "\n";
         }

@@ -17,7 +17,7 @@
       <literallayout>  You can mark something as &lt;del&gt;deleted&lt;/del&gt; as well.
 </literallayout>
       <para><emphasis Role="strong">Paragraphs</emphasis> are created from blank lines. If you want to <emphasis Role="strong">force a newline</emphasis> without a paragraph, you can use two backslashes followed by a whitespace or the end of line.</para>
-      <literallayout class="Normal">This is some text with some linebreaks
+      <literallayout class="normal">This is some text with some linebreaks
  Note that the two backslashes are only recognized at the end of a line
  or followed by
  a whitespace \\this happens without it.</literallayout>

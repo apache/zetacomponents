@@ -33,7 +33,7 @@ class ezcDocumentXhtmlLineBlockElementFilter extends ezcDocumentXhtmlElementBase
     {
         $element->setProperty( 'type', 'literallayout' );
         $element->setProperty( 'attributes', array(
-            'class' => 'Normal',
+            'class' => 'normal',
         ) );
     }
 

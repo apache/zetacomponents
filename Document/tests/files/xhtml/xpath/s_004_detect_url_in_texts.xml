@@ -109,7 +109,7 @@
     </itemizedlist>
     <section><title>Comments</title><itemizedlist><listitem><anchor ID="comment_1"/><section><title><para>
 		at Sat, 21 Jun 2008 23:19:47 +0200
-	<ulink url="http://enobrev.com/"><emphasis Role="strong">Mark Armendariz</emphasis></ulink></para></title><literallayout class="Normal">
+	<ulink url="http://enobrev.com/"><emphasis Role="strong">Mark Armendariz</emphasis></ulink></para></title><literallayout class="normal">
 		I've been using this for years, which has been incredibly successful for me:
 '/(?P&lt;protocol&gt;(?:(?:f|ht)tp|https):\/\/)?
 (?P&lt;domain&gt;(?:(?!-)
@@ -133,7 +133,7 @@ Mark</literallayout><link linked="comment_1">
 		Link to comment
 	</link></section></listitem><listitem><anchor ID="comment_2"/><section><title><para>
 		at Sat, 21 Jun 2008 23:43:46 +0200
-	<ulink url="http://kore-nordmann.de"><emphasis Role="strong">Kore</emphasis></ulink></para></title><literallayout class="Normal">
+	<ulink url="http://kore-nordmann.de"><emphasis Role="strong">Kore</emphasis></ulink></para></title><literallayout class="normal">
 		I wrote similar ones following the specification of relevant RFC, but this is actually not the point of the regular expression mentioned above.
 The above one does not try to detect the parts of regular expressions, I found the PHP function parse_url() more useful (and more readable) for that  task, but from filtering URLs out of random text. Your regular expression misses that part and does not accept quite common URL chrarcters like () and ;.
 But anyways - thanks for sharing that regular expression.
@@ -141,7 +141,7 @@ But anyways - thanks for sharing that regular expression.
 		Link to comment
 	</link></section></listitem><listitem><anchor ID="comment_3"/><section><title><para>
 		at Mon, 23 Jun 2008 03:05:04 +0200
-	<ulink url="http://enobrev.com/"><emphasis Role="strong">Mark Armendariz</emphasis></ulink></para></title><literallayout class="Normal">
+	<ulink url="http://enobrev.com/"><emphasis Role="strong">Mark Armendariz</emphasis></ulink></para></title><literallayout class="normal">
 		Good call about the extra characters.  I had recently added semicolons and commas, but hadn't thought to add parentheses (thanks for the suggestion!).  The regex I gave can be used to filter them out, but now i realize what you're showing in your post.  I'd originally misread it (sorry).
 As for punctuation surrounding a url, I imagine you could get rid of anything that is "touching" a url.  Any surrounding text that is not a \s (or even \b) would likely be associated with that url and would likely do well to be filtered out as well.
 	</literallayout><link linked="comment_3">

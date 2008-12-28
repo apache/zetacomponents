@@ -169,7 +169,7 @@
         </tbody>
       </table>
       <para>You can format an address by simply forcing linebreaks:</para>
-      <literallayout class="Normal">My contact dates:
+      <literallayout class="normal">My contact dates:
  Pone: xyz
  Fax: +45
  Mobile: abc</literallayout>

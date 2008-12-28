@@ -37,7 +37,7 @@ class ezcDocumentDocbookToWikiLiteralLayoutHandler extends ezcDocumentDocbookToW
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         if ( !$node->hasAttribute( 'class' ) ||
-             ( $node->getAttribute( 'class' ) !== 'Normal' ) )
+             ( $node->getAttribute( 'class' ) !== 'normal' ) )
         {
             $root .= "<code>\n" . $node->textContent . "</code>\n";
         }

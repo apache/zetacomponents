@@ -509,7 +509,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
     protected function visitLineBlock( DOMNode $root, ezcDocumentRstNode $node )
     {
         $para = $this->document->createElement( 'literallayout' );
-        $para->setAttribute( 'class', 'Normal' );
+        $para->setAttribute( 'class', 'normal' );
         $root->appendChild( $para );
 
         // Visit lines

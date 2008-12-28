@@ -32,7 +32,7 @@ class ezcDocumentEzXmlToDocbookLineHandler extends ezcDocumentElementVisitorHand
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $element = $root->ownerDocument->createElement( 'literallayout' );
-        $element->setAttribute( 'class', 'Normal' );
+        $element->setAttribute( 'class', 'normal' );
         $root->parentNode->appendChild( $element );
 
         // Recurse

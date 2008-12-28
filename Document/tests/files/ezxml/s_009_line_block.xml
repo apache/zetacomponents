@@ -6,11 +6,11 @@
     <para>
         Some text with an
         </para>
-    <literallayout class="Normal">Inline
+    <literallayout class="normal">Inline
 line block.</literallayout>
     <para>
 	More text
 	</para>
-    <literallayout class="Normal">Another line block</literallayout>
+    <literallayout class="normal">Another line block</literallayout>
   </section>
 </article>
