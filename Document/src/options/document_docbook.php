@@ -32,7 +32,7 @@ class ezcDocumentDocbookOptions extends ezcDocumentXmlOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->schema = dirname( __FILE__ ) . '/data/docbook.xsl';
+        $this->schema = dirname( __FILE__ ) . '/data/docbook.xsd';
 
         parent::__construct( $options );
     }

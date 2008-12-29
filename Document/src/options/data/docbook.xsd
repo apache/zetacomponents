@@ -26,7 +26,7 @@
 	<complexType name="section">
 		<sequence>
 			<element name="sectioninfo" minOccurs="0" type="doc:sectioninfo" />
-			<element name="title"    type="doc:inline" />
+			<element name="title"    type="doc:inline" minOccurs="0" />
 			<element name="subtitle" type="doc:inline" minOccurs="0" />
 			<choice minOccurs="0" maxOccurs="unbounded">
                 <element name="section"       type="doc:section" />
@@ -39,6 +39,8 @@
 	<complexType name="sectioninfo">
 		<sequence minOccurs="0" maxOccurs="unbounded">
 			<choice>
+				<element name="title"    type="doc:inline" />
+				<element name="subtitle" type="doc:inline" />
                 <element name="abstract">
 					<complexType>
 						<sequence maxOccurs="unbounded">
