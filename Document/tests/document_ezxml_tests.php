@@ -92,6 +92,9 @@ class ezcDocumentEzXmlTests extends ezcTestCase
             $xml,
             'Document not visited as expected.'
         );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
     }
 
     public static function getEzXmlTestDocuments()
