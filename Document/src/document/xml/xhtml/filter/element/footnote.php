@@ -62,9 +62,19 @@ class ezcDocumentXhtmlFootnoteElementFilter extends ezcDocumentXhtmlElementBaseF
             return;
         }
 
+        // Get link text content, which is the footnote label, and remove it,
+        // so it does not show up as part of the footnote
+        $label = $element->textContent;
+        while ( $element->firstChild )
+        {
+            $element->removeChild( $element->firstChild );
+        }
+
         // Finally create footnote from element
         $element->setProperty( 'type', 'footnote' );
-        $element->setProperty( 'attributes', array() );
+        $element->setProperty( 'attributes', array(
+            'label' => $label,
+        ) );
 
         $paragraph = new ezcDocumentXhtmlDomElement( 'span', $this->footnotes[$footnoteName] );
         $element->appendChild( $paragraph );

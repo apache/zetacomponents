@@ -2,7 +2,9 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
     <sectioninfo>
-      <abstract>Personal homepage of Kore Nordmann. Contains information about his mainly PHP related projects with some political rants in his blog.</abstract>
+      <abstract>
+        <para>Personal homepage of Kore Nordmann. Contains information about his mainly PHP related projects with some political rants in his blog.</para>
+      </abstract>
       <author>Kore Nordmann</author>
       <date>Thu, 29 Nov 2007 11:56:05 +0100</date>
       <title>Image_3D performance</title>
@@ -20,31 +22,73 @@ with something CPU intesinve like <ulink url="http://pear.php.net/package/Image_
       <table>
         <tbody>
           <row>
-            <entry>Rendering times</entry>
-            <entry>PHP 5.1.4</entry>
-            <entry>with APC</entry>
-            <entry>ZendOptimizer</entry>
-            <entry>encoded</entry>
-            <entry>min. optimization</entry>
-            <entry>max. optimization</entry>
+            <entry>
+              <para>Rendering times</para>
+            </entry>
+            <entry>
+              <para>PHP 5.1.4</para>
+            </entry>
+            <entry>
+              <para>with APC</para>
+            </entry>
+            <entry>
+              <para>ZendOptimizer</para>
+            </entry>
+            <entry>
+              <para>encoded</para>
+            </entry>
+            <entry>
+              <para>min. optimization</para>
+            </entry>
+            <entry>
+              <para>max. optimization</para>
+            </entry>
           </row>
           <row>
-            <entry>raytracing</entry>
-            <entry>10.48s</entry>
-            <entry>10.40s</entry>
-            <entry>11.10s</entry>
-            <entry>13.35s</entry>
-            <entry>13.30s</entry>
-            <entry>13.30s</entry>
+            <entry>
+              <para>raytracing</para>
+            </entry>
+            <entry>
+              <para>10.48s</para>
+            </entry>
+            <entry>
+              <para>10.40s</para>
+            </entry>
+            <entry>
+              <para>11.10s</para>
+            </entry>
+            <entry>
+              <para>13.35s</para>
+            </entry>
+            <entry>
+              <para>13.30s</para>
+            </entry>
+            <entry>
+              <para>13.30s</para>
+            </entry>
           </row>
           <row>
-            <entry>projection</entry>
-            <entry>0.47s</entry>
-            <entry>0.47s</entry>
-            <entry>0.48s</entry>
-            <entry>0.56s</entry>
-            <entry>0.56s</entry>
-            <entry>0.56s</entry>
+            <entry>
+              <para>projection</para>
+            </entry>
+            <entry>
+              <para>0.47s</para>
+            </entry>
+            <entry>
+              <para>0.47s</para>
+            </entry>
+            <entry>
+              <para>0.48s</para>
+            </entry>
+            <entry>
+              <para>0.56s</para>
+            </entry>
+            <entry>
+              <para>0.56s</para>
+            </entry>
+            <entry>
+              <para>0.56s</para>
+            </entry>
           </row>
         </tbody>
       </table>

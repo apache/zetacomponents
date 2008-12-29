@@ -20,6 +20,36 @@
 class ezcDocumentXhtmlMetadataFilter extends ezcDocumentXhtmlBaseFilter
 {
     /**
+     * Metadata name mapping
+     * 
+     * @var array
+     */
+    protected $mapping = array(
+        // Common meta field names
+        'description' => 'abstract',
+        'version'     => 'releaseinfo',
+        'date'        => 'date',
+        'author'      => 'author',
+        'authors'     => 'author',
+
+        // Meta element dublin core extensions
+        'dc.title'       => 'title',
+        'dc.creator'     => 'author',
+        // 'dc.subject' => '',
+        'dc.description' => 'abstract',
+        'dc.publisher'   => 'publisher',
+        'dc.contributor' => 'contrib',
+        'dc.date'        => 'date',
+        // 'dc.type' => '',
+        // 'dc.format' => '',
+        // 'dc.identifier' => '',
+        // 'dc.source' => '',
+        // 'dc.relation' => '',
+        // 'dc.coverage' => '',
+        'dc.rights'      => 'copyright',
+    );
+
+    /**
      * Filter XHtml document
      *
      * Filter for the document, which may modify / restructure a document and
@@ -50,42 +80,31 @@ class ezcDocumentXhtmlMetadataFilter extends ezcDocumentXhtmlBaseFilter
      */
     protected function filterMetaData( DOMElement $element )
     {
-        $mapping = array(
-            // Common meta field names
-            'description' => 'abstract',
-            'version'     => 'releaseinfo',
-            'date'        => 'date',
-            'author'      => 'author',
-            'authors'     => 'author',
-
-            // Meta element dublin core extensions
-            'dc.title'       => 'title',
-            'dc.creator'     => 'author',
-            // 'dc.subject' => '',
-            'dc.description' => 'abstract',
-            'dc.publisher'   => 'publisher',
-            'dc.contributor' => 'contrib',
-            'dc.date'        => 'date',
-            // 'dc.type' => '',
-            // 'dc.format' => '',
-            // 'dc.identifier' => '',
-            // 'dc.source' => '',
-            // 'dc.relation' => '',
-            // 'dc.coverage' => '',
-            'dc.rights'      => 'copyright',
-        );
-
         if ( $element->hasAttribute( 'name' ) &&
              $element->hasAttribute( 'content' ) &&
              ( $name = strtolower( $element->getAttribute( 'name' ) ) ) &&
-             ( isset( $mapping[$name] ) ) )
+             ( isset( $this->mapping[$name] ) ) )
         {
             // Set type of element
-            $element->setProperty( 'type', $mapping[$name] );
+            $element->setProperty( 'type', $this->mapping[$name] );
+
+            // Apply special parsing and conversion to some of the given
+            // elements
+            switch ( $this->mapping[$name] )
+            {
+                case 'abstract':
+                    $textNode = $element->ownerDocument->createElement( 'span' );
+                    $textNode->setProperty( 'type', 'para' );
+                    $element->appendChild( $textNode );
+                    break;
+
+                default:
+                    $textNode = $element;
+            }
 
             // Set conents as child text node.
-            $text = new DOMText( htmlspecialchars( $element->getAttribute( 'content' ) ) );
-            $element->appendChild( $text );
+            $text = new DOMText( $element->getAttribute( 'content' ) );
+            $textNode->appendChild( $text );
         }
     }
 }

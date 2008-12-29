@@ -15,7 +15,7 @@
             <imagedata fileref="http://ad.doubleclick.net/ad/golem/artikel;kw=wirtschaft,apps,mysql,datenbank,entscheider;tile=3;sz=300x250;ord=1217494358?"/>
           </imageobject>
           <textobject>
-            <phrase/>
+            <para/>
           </textobject>
         </inlinemediaobject>
       </ulink>
@@ -29,12 +29,14 @@
                 <imagedata fileref="http://www.golem.de/0807/61430-kf_prod.jpg"/>
               </imageobject>
               <textobject>
-                <phrase>Kickfire-Appliance</phrase>
+                <para>Kickfire-Appliance</para>
               </textobject>
             </mediaobject>
             <table>
               <row>
-                <entry>Kickfire-Appliance</entry>
+                <entry>
+                  <para>Kickfire-Appliance</para>
+                </entry>
               </row>
             </table>
           </entry>
@@ -57,7 +59,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
             <imagedata fileref="http://ad.doubleclick.net/ad/golem/artikel;kw=wirtschaft,apps,mysql,datenbank,entscheider;tile=4;sz=480x60;ord=1217494358?"/>
           </imageobject>
           <textobject>
-            <phrase/>
+            <para/>
           </textobject>
         </inlinemediaobject>
       </ulink>
@@ -114,7 +116,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                   <imagedata fileref="/_img/no.gif" width="476" depth="2"/>
                 </imageobject>
                 <textobject>
-                  <phrase/>
+                  <para/>
                 </textobject>
               </mediaobject>
             </entry>
@@ -143,7 +145,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                   <imagedata fileref="/_img/no.gif" width="476" depth="2"/>
                 </imageobject>
                 <textobject>
-                  <phrase/>
+                  <para/>
                 </textobject>
               </mediaobject>
             </entry>
@@ -161,7 +163,9 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
               <table>
                 <tbody>
                   <row>
-                    <entry>Mehr zum Thema</entry>
+                    <entry>
+                      <para>Mehr zum Thema</para>
+                    </entry>
                     <entry>
                       <ulink url="http://www.golem.de/0402/29672.html">RSS</ulink>
                     </entry>
@@ -172,7 +176,9 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                 </tbody>
                 <tbody>
                   <row>
-                    <entry>Alle News</entry>
+                    <entry>
+                      <para>Alle News</para>
+                    </entry>
                     <entry>
                       <ulink url="http://rss.golem.de/rss.php?feed=RSS2.0">2.0</ulink>
                     </entry>
@@ -245,7 +251,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                 <imagedata fileref="/_img/no.gif" width="12" depth="2"/>
               </imageobject>
               <textobject>
-                <phrase/>
+                <para/>
               </textobject>
             </mediaobject>
           </entry>
@@ -258,7 +264,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                     <imagedata fileref="/_img/link_wong.png" width="16" depth="16"/>
                   </imageobject>
                   <textobject>
-                    <phrase>Artikel bei Mister Wong ablegen</phrase>
+                    <para>Artikel bei Mister Wong ablegen</para>
                   </textobject>
                 </inlinemediaobject>
               </ulink>
@@ -268,7 +274,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                     <imagedata fileref="/_img/link_yigg.png" width="16" depth="16"/>
                   </imageobject>
                   <textobject>
-                    <phrase>Artikel bei Yigg ablegen</phrase>
+                    <para>Artikel bei Yigg ablegen</para>
                   </textobject>
                 </inlinemediaobject>
               </ulink>
@@ -278,7 +284,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                     <imagedata fileref="/_img/link_linkarena.png" width="16" depth="16"/>
                   </imageobject>
                   <textobject>
-                    <phrase>Artikel bei Linkarena ablegen</phrase>
+                    <para>Artikel bei Linkarena ablegen</para>
                   </textobject>
                 </inlinemediaobject>
               </ulink>
@@ -288,7 +294,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                     <imagedata fileref="/_img/link_google.png" width="16" depth="16"/>
                   </imageobject>
                   <textobject>
-                    <phrase>Artikel bei Google ablegen</phrase>
+                    <para>Artikel bei Google ablegen</para>
                   </textobject>
                 </inlinemediaobject>
               </ulink>
@@ -298,7 +304,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                     <imagedata fileref="/_img/link_delicious.png" width="16" depth="16"/>
                   </imageobject>
                   <textobject>
-                    <phrase>Artikel bei del.icio.us ablegen</phrase>
+                    <para>Artikel bei del.icio.us ablegen</para>
                   </textobject>
                 </inlinemediaobject>
               </ulink>
@@ -308,7 +314,7 @@ Eine Betaversion des Kickfire Database Appliance soll ab 14. Oktober für Tests 
                     <imagedata fileref="/_img/link_webnews.png" width="16" depth="16"/>
                   </imageobject>
                   <textobject>
-                    <phrase>Artikel bei Webnews ablegen</phrase>
+                    <para>Artikel bei Webnews ablegen</para>
                   </textobject>
                 </inlinemediaobject>
               </ulink>

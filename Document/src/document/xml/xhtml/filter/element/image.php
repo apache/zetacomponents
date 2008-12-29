@@ -84,7 +84,7 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
 
             $phrase = new ezcDocumentXhtmlDomElement( 'span', htmlspecialchars( $text ) );
             $textObject->appendChild( $phrase );
-            $phrase->setProperty( 'type', 'phrase' );
+            $phrase->setProperty( 'type', 'para' );
         }
 
         // Keep textual image annotations
@@ -96,7 +96,7 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
 
             $phrase = new ezcDocumentXhtmlDomElement( 'span', htmlspecialchars( $element->getAttribute( 'alt' ) ) );
             $textObject->appendChild( $phrase );
-            $phrase->setProperty( 'type', 'phrase' );
+            $phrase->setProperty( 'type', 'para' );
         }
     }
 

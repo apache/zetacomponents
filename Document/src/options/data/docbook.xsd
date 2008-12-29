@@ -55,6 +55,8 @@
                 <element name="authors"     type="string" />
                 <element name="copyright"   type="string" />
                 <element name="author"      type="string" />
+                <element name="publisher"   type="string" />
+                <element name="contrib"     type="string" />
 			</choice>
 		</sequence>
 		<attributeGroup ref="doc:common" />

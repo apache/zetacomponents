@@ -22,6 +22,19 @@
 class ezcDocumentXhtmlSpecialParagraphElementFilter extends ezcDocumentXhtmlElementBaseFilter
 {
     /**
+     * Mapping of special paragraph types to their docbook equivalents
+     * 
+     * @var array
+     */
+    protected $typeMapping = array(
+        'note'      => 'note',
+        'notice'    => 'tip',
+        'warning'   => 'warning',
+        'attention' => 'important',
+        'danger'    => 'caution',
+    );
+
+    /**
      * Filter a single element
      * 
      * @param DOMElement $element 
@@ -29,28 +42,26 @@ class ezcDocumentXhtmlSpecialParagraphElementFilter extends ezcDocumentXhtmlElem
      */
     public function filterElement( DOMElement $element )
     {
-        switch ( true )
+        foreach ( $this->typeMapping as $class => $type )
         {
-            case $this->hasClass( $element, 'note' ):
-                $element->setProperty( 'type', 'note' );
-                break;
+            if ( $this->hasClass( $element, $class ) )
+            {
+                $element->setProperty( 'type', $type );
 
-            case $this->hasClass( $element, 'notice' ):
-                $element->setProperty( 'type', 'tip' );
-                break;
+                // Create a paragraph node wrapping the contents
+                $para = $element->ownerDocument->createElement( 'span' );
+                $para->setProperty( 'type', 'para' );
 
-            case $this->hasClass( $element, 'warning' ):
-                $element->setProperty( 'type', 'warning' );
-                break;
+                while ( $element->firstChild )
+                {
+                    $cloned = $element->firstChild->cloneNode( true );
+                    $para->appendChild( $cloned );
+                    $element->removeChild( $element->firstChild );
+                }
 
-            case $this->hasClass( $element, 'attention' ):
-                $element->setProperty( 'type', 'important' );
+                $element->appendChild( $para );
                 break;
-
-            case $this->hasClass( $element, 'danger' ):
-                $element->setProperty( 'type', 'caution' );
-                break;
-
+            }
         }
     }
 

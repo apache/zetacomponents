@@ -118,6 +118,51 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
     }
 
     /**
+     * Check if the current nod is an inline element
+     *
+     * Textual content is only allowed in inline element. This method returns
+     * true if the current element is an inline element, otherwise text
+     * contents might be ignored in the output.
+     * 
+     * @param DOMElement $element 
+     * @return void
+     */
+    protected function isInlineElement( DOMElement $element )
+    {
+        return in_array( $element->tagName, array(
+            'abstract',
+            'acronym',
+            'anchor',
+            'attribution',
+            'author',
+            'authors',
+            'citation',
+            'contrib',
+            'copyright',
+            'date',
+            'email',
+            'emphasis',
+            'footnote',
+            'footnoteref',
+            'inlinemediaobject',
+            'link',
+            'literal',
+            'literallayout',
+            'para',
+            'pubdate',
+            'publisher',
+            'quote',
+            'releaseinfo',
+            'subscript',
+            'subtitle',
+            'superscript',
+            'term',
+            'title',
+            'ulink',
+        ) );
+    }
+
+    /**
      * Recursively transform annotated XHtml elements to docbook
      * 
      * @param DOMElement $xhtml 
@@ -154,7 +199,19 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
                     if ( trim( $text = $child->data ) !== '' )
                     {
                         $text = new DOMText( $text );
-                        $docbook->appendChild( $text );
+
+                        if ( $this->isInlineElement( $docbook ) )
+                        {
+                            $docbook->appendChild( $text );
+                        }
+                        else
+                        {
+                            // Wrap contents into a paragraph, if we are yet
+                            // outside of an inline element.
+                            $para = $docbook->ownerDocument->createElement( 'para' );
+                            $para->appendChild( $text );
+                            $docbook->appendChild( $para );
+                        }
                     }
                     break;
                 
