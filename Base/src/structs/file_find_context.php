@@ -62,11 +62,11 @@ class ezcBaseFileFindContext extends ezcBaseStruct
      * is parsed with PHP.
      *
      * @param array(string=>mixed) $array
-     * @return ezcBaseRepositoryDirectory
+     * @return ezcBaseFileFindContext
      */
     static public function __set_state( array $array )
     {
-        return new ezcBaseRepositoryDirectory( $array['elements'], $array['count'], $array['size'] );
+        return new ezcBaseFileFindContext( $array['elements'], $array['count'], $array['size'] );
     }
 }
 ?>
