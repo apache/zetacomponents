@@ -22,6 +22,7 @@ class ezcDbSchemaMysqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
      * @var array
      */
     static private $typeMap = array(
+        'bit' => 'integer',
         'tinyint' => 'integer',
         'smallint' => 'integer',
         'mediumint' => 'integer',
