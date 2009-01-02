@@ -8,6 +8,8 @@
  * @subpackage Tests
  */
 
+require_once 'Search/tests/testfiles/test-classes.php';
+
 /**
  * Test the handler classes.
  *
