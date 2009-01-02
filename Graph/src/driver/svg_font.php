@@ -247,7 +247,7 @@ class ezcGraphSvgFont
             if ( $charInfo === false )
             {
                 $prevCharInfo = null;
-                $length .= .5 * $this->unitsPerEm[$fontPath];
+                $length += .5 * $this->unitsPerEm[$fontPath];
                 continue;
             }
 
