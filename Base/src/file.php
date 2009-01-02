@@ -143,7 +143,7 @@ class ezcBaseFile
                 // the exception if the top directory could not be read.
                 try
                 {
-                    call_user_func( $callback, $callbackContext, $sourceDir, $entry, $fileInfo );
+                    call_user_func_array( $callback, array( $callbackContext, $sourceDir, $entry, $fileInfo ) );
                     $subList = self::walkRecursive( $sourceDir . DIRECTORY_SEPARATOR . $entry, $includeFilters, $excludeFilters, $callback, $callbackContext );
                     $elements = array_merge( $elements, $subList );
                 }
