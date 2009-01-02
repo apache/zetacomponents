@@ -57,7 +57,6 @@ class ezcConfigurationManagerTest extends ezcTestCase
     // test for bug #14087
     public function testReset2()
     {
-        xdebug_break();
         $config = ezcConfigurationManager::getInstance();
         $this->assertSame( null, $this->readAttribute( $config, 'readerClass' ) );
         $this->assertSame( null, $this->readAttribute( $config, 'location' ) );
