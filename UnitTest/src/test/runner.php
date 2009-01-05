@@ -190,19 +190,19 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         if ( $coverage )
         {
             $params['coverageXML'] = $coverage;
-            $fillWhitelist = false;
+            $fillWhitelist = true;
         }
 
         if ( $pmd )
         {
             $params['pmdXML'] = $pmd;
-            $fillWhitelist = false;
+            $fillWhitelist = true;
         }
 
         if ( $reportDir )
         {
             $params['reportDirectory'] = $reportDir;
-            $fillWhitelist = false;
+            $fillWhitelist = true;
         }
 
         if ( $consoleInput->getOption( 'verbose' )->value )
