@@ -1,4 +1,4 @@
-1.0 - [RELEASEDATE]
+1.0 - Monday 05 January 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactored HTTP response writer to allow for user-defined status objects to
