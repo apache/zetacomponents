@@ -11,6 +11,12 @@
   of "Normal"
 - Fixed issue #14211: Docbook markup: citation and attribution contents should
   not be wrapped inside a paragraph
+- Added support for reading three wiki formats: Confluence, Creole and
+  DokuWiki.
+- Added support for writing the Creole wiki format.
+- Added support for reading XHTML.
+- Added support for reading and writing eZ Publish XML formats.
+- Added support for writing RST.
 
 
 1.1rc1 - Monday 15 December 2008
