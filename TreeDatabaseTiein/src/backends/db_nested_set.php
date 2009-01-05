@@ -77,7 +77,7 @@ class ezcTreeDbNestedSet extends ezcTreeDbParentChild
         // WHERE
         //     node.lft BETWEEN parent.lft AND parent.rgt
         //     AND
-        //     node.if = $nodeId
+        //     node.id = $nodeId
         // ORDER BY parent.lft
         $q->select( 'parent.id' )
           ->from( $db->quoteIdentifier( $this->indexTableName ) . " as node" )
