@@ -1,2 +1,2 @@
-MvcTools: 1.0rc1
+MvcTools: 1.0
 Feed: 1.1.1
