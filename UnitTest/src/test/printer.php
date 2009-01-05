@@ -25,12 +25,12 @@ class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
         parent::__construct( null, $verbose );
     }
 
-    protected function writeProgress($progress)
+    protected function writeProgress( $progress )
     {
-        $this->write($progress);
+        $this->write( $progress );
     }
 
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite( PHPUnit_Framework_TestSuite $suite )
     {
         if ( isset( $this->numberOfTests ) && empty( $this->numberOfTests ) )
         {
@@ -45,7 +45,7 @@ class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
         parent::write( $padding . str_pad(  $name . ': ' , 40, ' ', STR_PAD_RIGHT ) );
     }
 
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite( PHPUnit_Framework_TestSuite $suite )
     {
         if ( isset( $this->depth ) )
         {
