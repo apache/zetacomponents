@@ -8,6 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'PHPUnit/Util/Class.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -154,9 +155,9 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $this->printCredits();
 
         $params = array(
-          'convertErrorsToExceptions'   => TRUE,
-          'convertNoticesToExceptions'  => FALSE,
-          'convertWarningsToExceptions' => FALSE
+          'convertErrorsToExceptions'   => true,
+          'convertNoticesToExceptions'  => false,
+          'convertWarningsToExceptions' => false
         );
 
         // Set the release. Default is trunk. 
@@ -168,6 +169,8 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $filter    = $consoleInput->getOption( 'filter' )->value;
         $pmd       = $consoleInput->getOption( 'log-pmd' )->value;
         $logfile   = $consoleInput->getOption( 'log-xml' )->value;
+
+        $fillWhitelist = false;
 
         if ( $filter )
         {
@@ -187,16 +190,19 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         if ( $coverage )
         {
             $params['coverageXML'] = $coverage;
+            $fillWhitelist = false;
         }
 
         if ( $pmd )
         {
             $params['pmdXML'] = $pmd;
+            $fillWhitelist = false;
         }
 
         if ( $reportDir )
         {
             $params['reportDirectory'] = $reportDir;
+            $fillWhitelist = false;
         }
 
         if ( $consoleInput->getOption( 'verbose' )->value )
@@ -208,12 +214,10 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             $params['verbose'] = false;
         }
 
-        $allSuites = $this->prepareTests( $consoleInput->getArguments(), $release );
+        $this->setPrinter( new ezcTestPrinter( $params['verbose'] ) );
 
-        $printer = new ezcTestPrinter( $params['verbose'] );
-        $this->setPrinter( $printer );
-
-        $result = $this->doRun( $allSuites, $params );
+        $allSuites = $this->prepareTests( $consoleInput->getArguments(), $release, $fillWhitelist );
+        $result    = $this->doRun( $allSuites, $params );
 
         if ( $result->errorCount() > 0 )
         {
@@ -233,7 +237,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         print( "ezcUnitTest uses the PHPUnit " . PHPUnit_Runner_Version::id() . " framework from Sebastian Bergmann.\n\n" );
     }
 
-    protected function prepareTests( $packages, $release )
+    protected function prepareTests( $packages, $release, $fillWhitelist )
     {
         print( '[Preparing tests]:' );
 
@@ -249,20 +253,22 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
         foreach ( $packages as $package )
         {
-            $added = false;
-
+            $added      = false;
             $slashCount = substr_count( $package, DIRECTORY_SEPARATOR );
-            if ( ( $release == 'trunk' && $slashCount !== 0 ) || ( $release == 'stable' && $slashCount > 1 ) )
+
+            if ( ( $release == 'trunk'  && $slashCount !== 0 ) ||
+                 ( $release == 'stable' && $slashCount > 1 ) )
             {
                 if ( file_exists( $package ) )
                 {
+                    PHPUnit_Util_Class::collectStart();
                     require_once( $package );
-                    $class = $this->getClassName( $package );
+                    $class = PHPUnit_Util_Class::collectEnd();
 
-                    if ( $class !== false )
+                    if ( count( $class ) == 1 )
                     {
-                        $allSuites->addTest( call_user_func( array( $class, 'suite' ) ) );
-                        $added = true;
+                        $allSuites->addTest( call_user_func( array( $class[0], 'suite' ) ) );
+                        $added   = true;
                         $package = substr($package, 0, strpos($package, DIRECTORY_SEPARATOR));
                     }
                     else
@@ -282,13 +288,11 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                 }
             }
 
-            if ( $added )
+            if ( $fillWhitelist && $added )
             {
                 foreach ( glob( $directory . '/' . $package . '/src/*_autoload.php' ) as $autoloadFile )
                 {
-                    $autoloadArray = include $autoloadFile;
-
-                    foreach ( $autoloadArray as $className => $fileName )
+                    foreach ( include $autoloadFile as $className => $fileName )
                     {
                         if ( strpos($fileName, 'xmlwritersubstitute.php') === false )
                         {
@@ -304,35 +308,10 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         return $allSuites;
     }
 
-    public function runTest( $filename )
-    {
-    }
-
-    public function getClassName( $file )
-    {
-        $classes = get_declared_classes();
-
-        $size = count( $classes );
-        $total = $size > 30 ? 30 : $size;
-
-        // check only the last 30 classes.
-        for ( $i = $size - 1; $i > $size - $total - 1; $i-- )
-        {
-            $rf = new ReflectionClass( $classes[$i] );
-
-            $len = strlen( $file );
-            if ( strcmp( $file, substr( $rf->getFileName(), -$len ) ) == 0 )
-            {
-                return $classes[$i];
-            }
-        }
-    }
-
     /**
-     * @param string $release Release branch (stable or trunk)
-     * @param string $dir Absolute or relative path to directory to look in.
-     *
-     * @return array Package names.
+     * @param  string $release Release branch (stable or trunk)
+     * @param  string $dir     Absolute or relative path to packages directory
+     * @return array           Package names
      */
     protected function getPackages( $release, $dir )
     {
@@ -341,6 +320,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         if ( is_dir( $dir ) )
         {
             $entries = glob( $release == 'trunk' ? "$dir/*" : "$dir/*/*" );
+
             foreach ( $entries as $entry )
             {
                 if ( $this->isPackageDir( $entry ) )
@@ -355,7 +335,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
 
     protected function isPackageDir( $dir )
     {
-        // Check if it is a package.
         if ( !is_dir( $dir ) || !file_exists( $dir . '/tests/suite.php' ) )
         {
             return false;
@@ -364,45 +343,6 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         return true;
     }
 
-    // Not used anymore.
-    protected function isRelease( $dir, $entry )
-    {
-        // for now, they have the same rules.
-        return $this->isPackage( $dir, $entry );
-    }
-
-    /**
-     * @return array Releases from a package.
-     * TODO: not used anymore.
-     */
-    protected function getReleases( $dir, $package )
-    {
-        $dir .= '/' . $package;
-
-        $releases = array();
-        if ( is_dir( $dir ) )
-        {
-            if ( $dh = opendir( $dir ) )
-            {
-                while ( ( $entry = readdir( $dh ) ) !== false )
-                {
-                    if ( $this->isRelease( $dir, $entry ) )
-                    {
-                        $releases[] = $entry;
-                    }
-                }
-                closedir( $dh );
-            }
-         }
-
-        return $releases;
-    }
-
-    /**
-     * Runs a specific test suite from a package and release.
-     *
-     * @return bool True if the test has been run, false if not.
-     */
     protected function getTestSuite( $dir, $package, $release )
     {
         $suitePath = implode( '/', array( $dir, '..', $release, $package, self::SUITE_FILENAME ) );
@@ -415,11 +355,11 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
             {
                 $package = substr( $package, 0, strpos( $package, '/' ) );
             }
+
             $className = 'ezc'. $package . 'Suite';
+            $suite     = call_user_func( array( $className, 'suite' ) );
 
-            $s = call_user_func( array( $className, 'suite' ) );
-
-            return $s;
+            return $suite;
         }
 
         return null;
