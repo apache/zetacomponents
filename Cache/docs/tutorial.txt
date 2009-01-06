@@ -305,7 +305,7 @@ ezcCacheManager needs this identifier for sanity checks, so it should be a
 sensible key.
 
 The method ezcCacheStack->push() adds a new ezcCacheStackableStorage to the
-stack. Therefore, the $fileStorage is resides on the very bottom of the stack
+stack. Therefore, the $fileStorage resides on the very bottom of the stack
 and the APC storage is at the top. All implementations of ezcCacheStorage
 inside the Cache component also implement ezcCacheStackableStoragel, so you can
 stack all of them. To ease the internal handling of the storage configurations,
