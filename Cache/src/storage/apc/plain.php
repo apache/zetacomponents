@@ -12,7 +12,7 @@
 /**
  * This storage implementation stores data in an APC cache.
  *
- * This storage acan also be used with {@link ezcCacheStack}. However, APC
+ * This storage can also be used with {@link ezcCacheStack}. However, APC
  * version 3.0.16 or newer is required for that.
  *
  * @package Cache
