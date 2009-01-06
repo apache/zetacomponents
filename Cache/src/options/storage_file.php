@@ -52,9 +52,9 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
      * @param array(string=>mixed) $options The initial options to set.
      
      * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     *         If trying to assign a property which does not exist
      * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     *         If the value for the property is incorrect
      */
     public function __construct( $options = array() )
     {
@@ -139,7 +139,7 @@ class ezcCacheStorageFileOptions extends ezcBaseOptions
      * Simply returns a given option.
      * 
      * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     *         If trying to assign a property which does not exist
      * @param string $key The name of the option to get.
      * @return mixed The option value.
      * @ignore

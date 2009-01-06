@@ -97,7 +97,7 @@ abstract class ezcCacheStorageMemcache extends ezcCacheStorageMemory
      * @param mixed $val  The value for the property.
      *
      * @throws ezcBaseValueException
-     *         If a the value for the property options is not an instance of
+     *         If the value for the property options is not an instance of
      *         ezcCacheStorageOptions.
      * @ignore
      */
@@ -121,8 +121,8 @@ abstract class ezcCacheStorageMemcache extends ezcCacheStorageMemory
      * @param ezcCacheStorageMemcacheOptions $options The options to set.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted 
-     *         options depend on th ezcCacheStorage implementation and my 
+     *         If you tried to set a non-existent option value. The accepted
+     *         options depend on the ezcCacheStorage implementation and may
      *         vary.
      * @throws ezcBaseValueException
      *         If the value is not valid for the desired option.

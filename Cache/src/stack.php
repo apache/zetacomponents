@@ -18,7 +18,7 @@
  * access for the caches: The fastest cache is at the top, the slowest at the
  * bottom. Whenever data is stored in the stack, it is stored in all contained
  * storages. When data is to be restored, the stack will restore it from the
- * highest storage is is found it. Data is removed from a storage, whenever the
+ * highest storage it is found in. Data is removed from a storage, whenever the
  * storage reached a configured number of items, using a {@link
  * ezcCacheStackReplacementStrategy}.
  *
@@ -623,8 +623,8 @@ class ezcCacheStack extends ezcCacheStorage
      * @param mixed $propertyValue  The value for the property.
      *
      * @throws ezcBaseValueException 
-     *         If a the value for the property options is not an instance of 
-     *         ezcCacheStorageOptions. 
+     *         If the value for the property options is not an instance of 
+     *         ezcCacheStackOptions. 
      * @ignore
      */
     public function __set( $propertyName, $propertyValue )

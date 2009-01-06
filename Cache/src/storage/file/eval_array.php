@@ -12,7 +12,7 @@
 /**
  * This cache storage implementation stores arrays and scalar values (int,
  * float, string, bool) in files on your hard disk as PHP code. In contrast to
- * it's sibling class {@link ezcCacheStorageFileArray}, the stored PHP code is
+ * its sibling class {@link ezcCacheStorageFileArray}, the stored PHP code is
  * not simply required to restore the cache data, but is evaluated using PHP's
  * eval() function.  It takes its base methods from the extended storage base
  * class {@link ezcCacheStorageFile}.
@@ -24,7 +24,7 @@
  * data not cached a second time by an accellerator like APC, whereas the 
  * {@link ezcCacheStorageFileArray} class will permit you to explicitly allow 
  * this. ATTENTION: If you do not use a byte code cache with your PHP 
- * installation, the use of {@link ezcCacheStorageFileArray} is recommende over 
+ * installation, the use of {@link ezcCacheStorageFileArray} is recommended over 
  * the usage of {@link ezcCacheStorageEvalarray}, since eval() is much slower 
  * than directly requiring the stored PHP code.
  *

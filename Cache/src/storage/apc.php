@@ -92,7 +92,7 @@ abstract class ezcCacheStorageApc extends ezcCacheStorageMemory
      * @param mixed $val  The value for the property.
      *
      * @throws ezcBaseValueException
-     *         If a the value for the property options is not an instance of
+     *         If the value for the property options is not an instance of
      *         ezcCacheStorageOptions.
      * @ignore
      */
@@ -114,7 +114,7 @@ abstract class ezcCacheStorageApc extends ezcCacheStorageMemory
      * Return the currently set options. The options are returned on an array 
      * that has the same format as the one passed to 
      * {@link ezcCacheStorage::setOptions()}. The possible options for a storage
-     * depend on it's implementation. 
+     * depend on its implementation. 
      * 
      * @param ezcCacheStorageOptions $options 
      *

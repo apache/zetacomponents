@@ -75,8 +75,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      *         exception is thrown, your cache location has been corrupted
      *         after the cache was configured.
      * @throws ezcBasePropertyNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted
-     *         options depend on th ezcCacheStorage implementation and my
+     *         If you tried to set a non-existent option value. The accepted
+     *         options depend on the ezcCacheStorage implementation and may
      *         vary.
      */
     public function __construct( $location, $options = array() )
@@ -143,7 +143,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * ID given to it.
      *
      * The type of cache data which is expected by a ezcCacheStorage depends on
-     * it's implementation. In most cases strings and arrays will be accepted,
+     * its implementation. In most cases strings and arrays will be accepted,
      * in some rare cases only strings might be accepted.
      *
      * Using attributes you can describe your cache data further. This allows
@@ -162,12 +162,12 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      *         If an already existsing cache file could not be unlinked to
      *         store the new data (may occur, when a cache item's TTL
      *         has expired and the file should be stored with more actual
-     *         data). This exception means most likely that your cache diretory
+     *         data). This exception means most likely that your cache directory
      *         has been corrupted by external influences (file permission
      *         change).
      * @throws ezcBaseFilePermissionException
      *         If the directory to store the cache file could not be created.
-     *         This exception means most likely that your cache diretory
+     *         This exception means most likely that your cache directory
      *         has been corrupted by external influences (file permission
      *         change).
      * @throws ezcBaseFileIoException
@@ -260,14 +260,14 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * @param string $id                         The item ID to restore.
      * @param array(string=>string) $attributes  Attributes describing the
      *                                           data to restore.
-     * @param bool $search                       Wheather to search for items
+     * @param bool $search                       Whether to search for items
      *                                           if not found directly.
      *
      * @return mixed|bool The cached data on success, otherwise false.
      *
      * @throws ezcBaseFilePermissionException
      *         If an already existsing cache file could not be unlinked.
-     *         This exception means most likely that your cache diretory
+     *         This exception means most likely that your cache directory
      *         has been corrupted by external influences (file permission
      *         change).
      */
@@ -317,13 +317,13 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * @param string $id                         The item ID to purge.
      * @param array(string=>string) $attributes  Attributes describing the
      *                                           data to restore.
-     * @param bool $search                       Wheather to search for items
+     * @param bool $search                       Whether to search for items
      *                                           if not found directly.
      * @return void
      *
      * @throws ezcBaseFilePermissionException
      *         If an already existsing cache file could not be unlinked.
-     *         This exception means most likely that your cache diretory
+     *         This exception means most likely that your cache directory
      *         has been corrupted by external influences (file permission
      *         change).
      */
@@ -787,8 +787,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      *                                            reasons, too).
      *
      * @throws ezcBasePropertyNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted
-     *         options depend on th ezcCacheStorage implementation and my
+     *         If you tried to set a non-existent option value. The accepted
+     *         options depend on the ezcCacheStorage implementation and may
      *         vary.
      * @throws ezcBaseValueException
      *         If the value is not valid for the desired option.
@@ -827,7 +827,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * @param mixed $val  The value for the property.
      *
      * @throws ezcBaseValueException
-     *         If a the value for the property options is not an instance of
+     *         If the value for the property options is not an instance of
      *         ezcCacheStorageOptions.
      * @ignore
      */

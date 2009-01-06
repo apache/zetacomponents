@@ -95,8 +95,8 @@ abstract class ezcCacheStorage
      *         exception is thrown, your cache location has been corrupted
      *         after the cache was configured.
      * @throws ezcBasePropertyNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted
-     *         options depend on th ezcCacheStorage implementation and my
+     *         If you tried to set a non-existent option value. The accepted
+     *         options depend on the ezcCacheStorage implementation and may
      *         vary.
      */
     public function __construct( $location, $options = array() )
@@ -112,7 +112,7 @@ abstract class ezcCacheStorage
      * ID given to it.
      *
      * The type of cache data which is expected by a ezcCacheStorage depends on
-     * it's implementation. In most cases strings and arrays will be accepted,
+     * its implementation. In most cases strings and arrays will be accepted,
      * in some rare cases only strings might be accepted.
      *
      * Using attributes you can describe your cache data further. This allows
@@ -131,12 +131,12 @@ abstract class ezcCacheStorage
      *         If an already existsing cache file could not be unlinked to
      *         store the new data (may occur, when a cache item's TTL
      *         has expired and the file should be stored with more actual
-     *         data). This exception means most likely that your cache diretory
+     *         data). This exception means most likely that your cache directory
      *         has been corrupted by external influences (file permission
      *         change).
      * @throws ezcBaseFilePermissionException
      *         If the directory to store the cache file could not be created.
-     *         This exception means most likely that your cache diretory
+     *         This exception means most likely that your cache directory
      *         has been corrupted by external influences (file permission
      *         change).
      * @throws ezcBaseFileIoException
@@ -170,7 +170,7 @@ abstract class ezcCacheStorage
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the
      *                                          cached data.
-     * @param bool $search                      Wheather to search for items
+     * @param bool $search                      Whether to search for items
      *                                          if not found directly. Default is
      *                                          false.
      *
@@ -178,7 +178,7 @@ abstract class ezcCacheStorage
      *
      * @throws ezcBaseFilePermissionException
      *         If an already existsing cache file could not be unlinked.
-     *         This exception means most likely that your cache diretory
+     *         This exception means most likely that your cache directory
      *         has been corrupted by external influences (file permission
      *         change).
      */
@@ -199,13 +199,13 @@ abstract class ezcCacheStorage
      * @param string $id                        The item ID.
      * @param array(string=>string) $attributes Attributes that describe the
      *                                          cached data.
-     * @param bool $search                      Wheather to search for items
+     * @param bool $search                      Whether to search for items
      *                                          if not found directly. Default is
      *                                          false.
      *
      * @throws ezcBaseFilePermissionException
      *         If an already existsing cache file could not be unlinked.
-     *         This exception means most likely that your cache diretory
+     *         This exception means most likely that your cache directory
      *         has been corrupted by external influences (file permission
      *         change).
      */
@@ -217,8 +217,8 @@ abstract class ezcCacheStorage
     * attributes exists. It returns the number of cache data items found.
     *
     * @param string $id                        The item ID.
-    * @param array(string=>string) $attributes Attributes that describe the
-    * @return int The number of cache data items found matching the criteria.
+    * @param array(string=>string) $attributes Attributes that describe the item
+    * @return int The number of cache data items found matching the criteria
     */
     abstract public function countDataItems( $id = null, $attributes = array() );
 
@@ -261,7 +261,7 @@ abstract class ezcCacheStorage
      * Return the currently set options. The options are returned on an array
      * that has the same format as the one passed to
      * {@link ezcCacheStorage::setOptions()}. The possible options for a storage
-     * depend on it's implementation.
+     * depend on its implementation.
      *
      * @return ezcCacheStorageOptions The options
      *
@@ -291,8 +291,8 @@ abstract class ezcCacheStorage
      * @param ezcCacheStorageOptions $options The options to set.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         If you tried to set a non-existent option value. The accpeted
-     *         options depend on th ezcCacheStorage implementation and my
+     *         If you tried to set a non-existent option value. The accepted
+     *         options depend on the ezcCacheStorage implementation and may
      *         vary.
      * @throws ezcBaseValueException
      *         If the value is not valid for the desired option.
@@ -345,7 +345,7 @@ abstract class ezcCacheStorage
      * @param mixed $val  The value for the property.
      *
      * @throws ezcBaseValueException
-     *         If a the value for the property options is not an instance of
+     *         If the value for the property options is not an instance of
      *         ezcCacheStorageOptions.
      * @ignore
      */

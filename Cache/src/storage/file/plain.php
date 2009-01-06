@@ -11,7 +11,7 @@
 
 /**
  * This class implements a simple storage to cache plain text 
- * on the filesystem. It takes it's base methods from the extended 
+ * on the filesystem. It takes its base methods from the extended 
  * storage base class {@link ezcCacheStorageFile}.
  *
  * In contrast to other {@link ezcCacheStorageFile} implementations, the stored
@@ -19,14 +19,14 @@
  * is not capable to store array values. If numeric values are stored the 
  * restored values will be of type string. The same applies to values of the 
  * simple type bool. It is highly recommended that you cast the resulting
- * value to it's correct type, also PHP will automatically perform this cast
- * when necessary. An explicit cast ensures, that type consistant comparisons
+ * value to its correct type, also PHP will automatically perform this cast
+ * when necessary. An explicit cast ensures that type consistent comparisons
  * (using the === or !== operators) will not fail on restored cache data.
  *
  * An even better solution, if you want to store non-string values, are the
  * usage of {@link ezcCacheStorageFileArray} and 
  * {@link ezcCacheStorageFileEvalArray} storage classes, since those keep the
- * variable types of you cached data consistant.
+ * variable types of you cached data consistent.
  *
  * For example code of using a cache storage, see {@link ezcCacheManager}.
  *

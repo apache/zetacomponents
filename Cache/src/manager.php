@@ -112,7 +112,7 @@ class ezcCacheManager
      * Keeps track of the ezcCacheStorage instances.
      * Each cache is created only once per request on the first time it is
      * accessed through {@link ezcCacheManager::getCache()}. Until then,
-     * only it's configuration is stored in the
+     * only its configuration is stored in the
      * {@link ezcCacheManager::$configurations} array.
      *
      * @var array(int=>ezcCacheStorage)
@@ -268,7 +268,7 @@ class ezcCacheManager
      *         after the cache was configured.
      * @throws ezcBasePropertyNotFoundException
      *         If you tried to set a non-existent option value. The accepted
-     *         options depend on the ezcCacheStorage implementation and my
+     *         options depend on the ezcCacheStorage implementation and may
      *         vary.
      */
     public static function getCache( $id )

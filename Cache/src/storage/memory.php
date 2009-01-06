@@ -149,7 +149,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      *
      * @param string $id The item ID to restore
      * @param array(string=>string) $attributes Attributes describing the data to restore
-     * @param bool $search Wheather to search for items if not found directly
+     * @param bool $search Whether to search for items if not found directly
      * @return mixed The cached data on success, otherwise false
      */
     public function restore( $id, $attributes = array(), $search = false )
@@ -226,7 +226,7 @@ abstract class ezcCacheStorageMemory extends ezcCacheStorage implements ezcCache
      *
      * @param string $id The item ID to purge
      * @param array(string=>string) $attributes Attributes describing the data to restore
-     * @param bool $search Wheather to search for items if not found directly
+     * @param bool $search Whether to search for items if not found directly
      */
     public function delete( $id = null, $attributes = array(), $search = false )
     {

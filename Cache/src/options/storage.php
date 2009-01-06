@@ -11,7 +11,8 @@
 
 /**
  * Option class for the ezcCacheStorage class.
- * Instances of this class store the option of ezcCacheStorage implementations.
+ * Instances of this class store the options of ezcCacheStorage
+ * implementations.
  *
  * @property int    $ttl       The time to live of cache entries.
  * @property string $extension The (file) extension to use for the storage items.
@@ -29,9 +30,9 @@ class ezcCacheStorageOptions extends ezcBaseOptions
      * @param array(string=>mixed) $options The initial options to set.
      *
      * @throws ezcBasePropertyNotFoundException
-     *         If a the value for the property options is not an instance of
+     *         If trying to assign a property which does not exist
      * @throws ezcBaseValueException
-     *         If a the value for a property is out of range.
+     *         If the value for the property is incorrect
      */
     public function __construct( $options = array() )
     {
