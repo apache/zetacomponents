@@ -10,7 +10,7 @@
  */
 
 /**
- * This is the main class of the Cache package. It gives you a handy interface 
+ * This is the main class of the Cache package. It gives you a handy interface
  * to create and manage multiple caches at once. It enables you to configure
  * all caches you need in your application in a central place and access them
  * on demand in any place in your application.
@@ -40,7 +40,7 @@
  *
  * // Create a cache named "content", that resides in /var/cache/content
  * // The cache instance will use the ezcCacheStorageFileArray class
- * // to store the cache data. The time-to-live for cache items is set as 
+ * // to store the cache data. The time-to-live for cache items is set as
  * // defined above.
  * ezcCacheManager::createCache( 'content', $basePath.'/content', 'ezcCacheStorageFileArray', $options );
  *
@@ -96,7 +96,7 @@
  * $cache = ezcCacheManager::getCache( 'template' );
  *
  * // Here we are removing cache items. We do not specify an ID (which would
- * // have meant to delete 1 specific cache item), but only an array of 
+ * // have meant to delete 1 specific cache item), but only an array of
  * // attributes. This will result in all cache items to be deleted, that
  * // have this attribute assigned.
  * $cache->delete( null, array( 'node' => 5 ) );
@@ -106,12 +106,12 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcCacheManager 
+class ezcCacheManager
 {
     /**
      * Keeps track of the ezcCacheStorage instances.
      * Each cache is created only once per request on the first time it is
-     * accessed through {@link ezcCacheManager::getCache()}. Until then, 
+     * accessed through {@link ezcCacheManager::getCache()}. Until then,
      * only it's configuration is stored in the
      * {@link ezcCacheManager::$configurations} array.
      *
@@ -121,7 +121,7 @@ class ezcCacheManager
 
     /**
      * ezcCacheStorage configurations
-     * Storage to keep track of ezcCacheStorage configurations. For each 
+     * Storage to keep track of ezcCacheStorage configurations. For each
      * configured cache the configuration is initially stored here.
      * {@link ezcCacheStorage} objects are created on first access
      * through {@link ezcCacheManager::getCache()}.
@@ -136,18 +136,18 @@ class ezcCacheManager
      * @see ezcCacheManager::createCache()
      * @see ezcCacheManager::getCache()
      */
-    private function __construct() 
-    { 
+    private function __construct()
+    {
     }
 
     /**
      * Creates a new cache in the manager.
      * This method is used to create a new cache inside the manager.
      * Each cache has a unique ID to access it during the application
-     * runtime. Each location may only be used by 1 cache. 
+     * runtime. Each location may only be used by 1 cache.
      *
-     * The $storageClass parameter must be a subclass of 
-     * {@link ezcCacheStorage} and tells the manager which object 
+     * The $storageClass parameter must be a subclass of
+     * {@link ezcCacheStorage} and tells the manager which object
      * will be used for the cache.
      *
      * The $location parameter depends on the kind of {@link ezcCacheStorage}
@@ -159,7 +159,7 @@ class ezcCacheManager
      * be an existing writeable path.
      *
      * The $options array consists of several standard attributes and can
-     * additionally contain options defined by the {@link ezcCacheStorage} 
+     * additionally contain options defined by the {@link ezcCacheStorage}
      * class. Standard options are:
      *
      * <code>
@@ -178,25 +178,25 @@ class ezcCacheManager
      * @return void
      *
      * @throws ezcBaseFileNotFoundException
-     *         If the given location does not exist or is not a 
+     *         If the given location does not exist or is not a
      *         directory (thrown by sanity checks performed when storing the
      *         configuration of a cache to ensure the latter calls to
      *         {@link ezcCacheManager::getCache()} do not fail).
      * @throws ezcBaseFilePermissionException
-     *         If the given location is not read/writeable (thrown by sanity 
-     *         checks performed when storing the configuration of a cache to 
+     *         If the given location is not read/writeable (thrown by sanity
+     *         checks performed when storing the configuration of a cache to
      *         ensure the latter calls to {@link ezcCacheManager::getCache()}
      *         do not fail).
      * @throws ezcCacheUsedLocationException
      *         If the given location is already in use by another cache.
      * @throws ezcCacheInvalidStorageClassException
-     *         If the given storage class does not exist or is no subclass of 
+     *         If the given storage class does not exist or is no subclass of
      *         ezcCacheStorage.
      */
-    public static function createCache( $id, $location = null, $storageClass, $options = array() ) 
+    public static function createCache( $id, $location = null, $storageClass, $options = array() )
     {
         // BC for missing location. The location should not be missing.
-        if ( $location !== null ) 
+        if ( $location !== null )
         {
             // Unifiy file system locations
             if (  substr( $location, 0, 1 ) === '/' )
@@ -207,7 +207,7 @@ class ezcCacheManager
                     throw new ezcBaseFileNotFoundException(
                         $location,
                         'cache location',
-                        'Does not exists or is no directory.'
+                        'Does not exist or is no directory.'
                     );
                 }
             }
@@ -236,11 +236,11 @@ class ezcCacheManager
 
     /**
      * Returns the ezcCacheStorage object with the given ID.
-     * The cache ID has to be defined before using the 
+     * The cache ID has to be defined before using the
      * {@link ezcCacheManager::createCache()} method. If no instance of this
-     * cache does exist yet, it's created on the fly. If one exists, it will 
+     * cache does exist yet, it's created on the fly. If one exists, it will
      * be reused.
-     * 
+     *
      * @param string $id       The ID of the cache to return.
      * @return ezcCacheStorage The cache with the given ID.
      *
@@ -249,32 +249,32 @@ class ezcCacheManager
      *         a cache using this method, it first hast to be created using
      *         {@link ezcCacheManager::createCache()}.
      * @throws ezcBaseFileNotFoundException
-     *         If the storage location does not exist. This should usually not 
+     *         If the storage location does not exist. This should usually not
      *         happen, since {@link ezcCacheManager::createCache()} already
-     *         performs sanity checks for the cache location. In case this 
-     *         exception is thrown, your cache location has been corrupted 
+     *         performs sanity checks for the cache location. In case this
+     *         exception is thrown, your cache location has been corrupted
      *         after the cache was configured.
      * @throws ezcBaseFileNotFoundException
-     *         If the storage location is not a directory. This should usually 
+     *         If the storage location is not a directory. This should usually
      *         not happen, since {@link ezcCacheManager::createCache()} already
-     *         performs sanity checks for the cache location. In case this 
-     *         exception is thrown, your cache location has been corrupted 
+     *         performs sanity checks for the cache location. In case this
+     *         exception is thrown, your cache location has been corrupted
      *         after the cache was configured.
      * @throws ezcBaseFilePermissionException
-     *         If the storage location is not writeable. This should usually not 
+     *         If the storage location is not writeable. This should usually not
      *         happen, since {@link ezcCacheManager::createCache()} already
-     *         performs sanity checks for the cache location. In case this 
-     *         exception is thrown, your cache location has been corrupted 
+     *         performs sanity checks for the cache location. In case this
+     *         exception is thrown, your cache location has been corrupted
      *         after the cache was configured.
      * @throws ezcBasePropertyNotFoundException
-     *         If you tried to set a non-existent option value. The accepted 
-     *         options depend on the ezcCacheStorage implementation and my 
+     *         If you tried to set a non-existent option value. The accepted
+     *         options depend on the ezcCacheStorage implementation and my
      *         vary.
      */
-    public static function getCache( $id ) 
+    public static function getCache( $id )
     {
         // Look for already existing cache object
-        if ( !isset( self::$caches[$id] ) ) 
+        if ( !isset( self::$caches[$id] ) )
         {
             // Failed, look for configuration, and if it does not exist, use
             // delayed initialization.

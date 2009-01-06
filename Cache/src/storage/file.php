@@ -36,7 +36,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
 {
     /**
      * Resource used for the lock file.
-     * 
+     *
      * @var resource(file)
      */
     protected $lockResource = false;
@@ -87,7 +87,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
             throw new ezcBaseFileNotFoundException(
                 $location,
                 'cache location',
-                'Does not exists or is no directory.'
+                'Does not exist or is no directory.'
             );
         }
         if ( !is_readable( $location ) )
@@ -217,9 +217,9 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
 
     /**
      * Actually stores the given data.
-     * 
-     * @param string $filename 
-     * @param string $data 
+     *
+     * @param string $filename
+     * @param string $data
      * @return void
      *
      * @throws ezcBaseFileIoException
@@ -377,7 +377,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
     /**
      * Returns the time ( in seconds ) which remains for a cache object,
      * before it gets outdated. In case the cache object is already
-     * outdated or does not exists, this method returns 0.
+     * outdated or does not exist, this method returns 0.
      *
      * @param string $id                         The item ID.
      * @param array(string=>string) $attributes  Attributes describing the
@@ -401,7 +401,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * from the storage. If limit is left out, all outdated items are purged.
      * The purged item IDs are returned.
      *
-     * @param int $limit 
+     * @param int $limit
      * @return array(string)
      */
     public function purge( $limit = null )
@@ -415,10 +415,10 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      *
      * Recursively purges $dir until $limit is reached. $purgeCount is the
      * number of already purged items.
-     * 
-     * @param string $dir 
-     * @param int $limit 
-     * @param int $purgeCount 
+     *
+     * @param string $dir
+     * @param int $limit
+     * @param int $purgeCount
      */
     private function purgeRecursive( $dir, $limit, &$purgeCount )
     {
@@ -479,7 +479,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
                 return $purgedIds;
             }
         }
-        
+
         // Finished purging, return IDs.
         return $purgedIds;
     }
@@ -665,7 +665,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * according struct of type {@link ezcCacheStackMetaData}. The meta data
      * must be stored inside the storage, but should not be visible as normal
      * cache items to the user.
-     * 
+     *
      * @return ezcCacheStackMetaData|null
      */
     public function restoreMetaData()
@@ -674,7 +674,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
         $dataArr = @$this->fetchData(
             $this->properties['location'] . $this->properties['options']->metaDataFile
         );
-        
+
         $result = null;
         if ( $dataArr !== false )
         {
@@ -691,8 +691,8 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * be stored with the same mechanism that the storage itself uses. However,
      * it should not be stored as a normal cache item, if possible, to avoid
      * accedental user manipulation.
-     * 
-     * @param ezcCacheStackMetaData $metaData 
+     *
+     * @param ezcCacheStackMetaData $metaData
      * @return void
      */
     public function storeMetaData( ezcCacheStackMetaData $metaData )
@@ -714,13 +714,13 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * block all other method calls until the lock is freed again using {@link
      * ezcCacheStackMetaDataStorage::unlock()}. Methods that are called within
      * the request that successfully acquired the lock must succeed as usual.
-     * 
+     *
      * @return void
      */
     public function lock()
     {
         $lockFile = $this->properties['location'] . $this->properties['options']->lockFile;
-        
+
         while ( $this->lockResource === false )
         {
             clearstatcache();
@@ -745,7 +745,7 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
      * {@link ezcCacheStackMetaDataStorage::lock()}. After this method has been
      * called, blocked method calls (including calls to lock()) can suceed
      * again.
-     * 
+     *
      * @return void
      */
     public function unlock()
@@ -884,15 +884,15 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
 
     /**
      * Extracts ID, attributes and the file extension from a filename.
-     * 
-     * @param string $filename 
+     *
+     * @param string $filename
      * @return array('id'=>string,'attributes'=>string,'ext'=>string)
      */
     private function extractIdentifier( $filename )
     {
         // Regex to split up the file name into id, attributes and extension
         $regex = '(
-            (?:' . preg_quote( $this->properties['location'] ) . ') 
+            (?:' . preg_quote( $this->properties['location'] ) . ')
             (?P<id>.*)
             (?P<attr>(?:-[^-=]+=[^-]+)*)
             -? # This is added if no attributes are supplied. For whatever reason...
