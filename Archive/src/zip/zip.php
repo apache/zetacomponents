@@ -16,7 +16,7 @@
  *
  * ezcArchiveZip tries on creation to read the entire archive. Every {@link ezcArchiveEntry}
  * will be appended to the {@link ezcArchive::$entries} array. ({@link ezcArchiveTarV7} archive format
- * reads only anentry when needed the first time.)
+ * reads only an entry when needed the first time.)
  *
  * All the archive entries are read, because we need to find the {@link ezcArchiveCentralDirectoryHeader central directory}
  * that contains extra file information. Some other Zip implementations search back from the end of the archive, but:
