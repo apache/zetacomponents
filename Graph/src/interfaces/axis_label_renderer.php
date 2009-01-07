@@ -306,9 +306,9 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
     }
     
     /**
-     * Draw grid
+     * Draw non-rectangular grid lines grid
      *
-     * Draws a grid line at the current position
+     * Draws a grid line at the current position, for non-rectangular axis.
      * 
      * @param ezcGraphRenderer $renderer Renderer to draw the grid with
      * @param ezcGraphBoundings $boundings Boundings of axis
@@ -317,7 +317,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
      * @param ezcGraphColor $color Color of axis
      * @return void
      */
-    protected function drawGrid( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, ezcGraphColor $color )
+    protected function drawNonRectangularGrid( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, ezcGraphColor $color )
     {
         // Direction of grid line is direction of axis turned right by 90 
         // degrees
@@ -363,8 +363,7 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
                 continue;
             }
 
-            // Round to prevent minor float incorectnesses
-            $cuttingPosition = abs( round( $cuttingPosition, 2 ) );
+            $cuttingPosition = abs( $cuttingPosition );
 
             if ( ( $cuttingPosition >= 0 ) && 
                  ( $cuttingPosition <= 1 ) )
@@ -388,6 +387,80 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
             $cuttingPoints[1],
             $color
         );
+    }
+
+    /**
+     * Draw rectangular grid
+     *
+     * Draws a grid line at the current position for rectangular directed axis.
+     *
+     * Method special for rectangularly directed axis to minimize the floating
+     * point calculation inaccuracies. Those are not necessary for rectangles,
+     * while for non-rectangular directed axis.
+     * 
+     * @param ezcGraphRenderer $renderer Renderer to draw the grid with
+     * @param ezcGraphBoundings $boundings Boundings of axis
+     * @param ezcGraphCoordinate $position Position of step
+     * @param ezcGraphCoordinate $direction Direction of axis
+     * @param ezcGraphColor $color Color of axis
+     * @return void
+     */
+    protected function drawRectangularGrid( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, ezcGraphColor $color )
+    {
+        if ( abs( $direction->x ) < .00001 )
+        {
+            $renderer->drawGridLine(
+                new ezcGraphCoordinate(
+                    $boundings->x0,
+                    $position->y
+                ),
+                new ezcGraphCoordinate(
+                    $boundings->x1,
+                    $position->y
+                ),
+                $color
+            );
+        }
+        else
+        {
+            $renderer->drawGridLine(
+                new ezcGraphCoordinate(
+                    $position->x,
+                    $boundings->y0
+                ),
+                new ezcGraphCoordinate(
+                    $position->x,
+                    $boundings->y1
+                ),
+                $color
+            );
+        }
+    }
+
+    /**
+     * Draw grid
+     *
+     * Draws a grid line at the current position
+     * 
+     * @param ezcGraphRenderer $renderer Renderer to draw the grid with
+     * @param ezcGraphBoundings $boundings Boundings of axis
+     * @param ezcGraphCoordinate $position Position of step
+     * @param ezcGraphCoordinate $direction Direction of axis
+     * @param ezcGraphColor $color Color of axis
+     * @return void
+     */
+    protected function drawGrid( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings, ezcGraphCoordinate $position, ezcGraphCoordinate $direction, ezcGraphColor $color )
+    {
+        // Check if the axis direction is rectangular
+        if ( ( abs( $direction->x ) < .00001 ) ||
+             ( abs( $direction->y ) < .00001 ) )
+        {
+            return $this->drawRectangularGrid( $renderer, $boundings, $position, $direction, $color );
+        }
+        else
+        {
+            return $this->drawNonRectangularGrid( $renderer, $boundings, $position, $direction, $color );
+        }
     }
 
     /**
