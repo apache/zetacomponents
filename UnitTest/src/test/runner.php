@@ -265,9 +265,9 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
                     require_once( $package );
                     $class = PHPUnit_Util_Class::collectEnd();
 
-                    if ( count( $class ) == 1 )
+                    if ( count( $class ) > 0 )
                     {
-                        $allSuites->addTest( call_user_func( array( $class[0], 'suite' ) ) );
+                        $allSuites->addTest( call_user_func( array( array_pop( $class ), 'suite' ) ) );
                         $added   = true;
                         $package = substr($package, 0, strpos($package, DIRECTORY_SEPARATOR));
                     }
