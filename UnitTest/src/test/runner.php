@@ -155,6 +155,7 @@ class ezcTestRunner extends PHPUnit_TextUI_TestRunner
         $this->printCredits();
 
         $params = array(
+          'backupStaticAttributes'      => false,
           'convertErrorsToExceptions'   => true,
           'convertNoticesToExceptions'  => false,
           'convertWarningsToExceptions' => false
