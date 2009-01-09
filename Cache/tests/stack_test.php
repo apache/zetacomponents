@@ -73,7 +73,7 @@ class ezcCacheStackTest extends ezcTestCase
 
         $stack = new ezcCacheStack( 'foo', $options );
 
-        $properties = $this->getObjectAttribute( $stack, 'properties' );
+        $properties = $this->readAttribute( $stack, 'properties' );
 
         $this->assertEquals(
             'foo',

@@ -608,7 +608,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
         );
 
         $this->assertFalse(
-            $this->getObjectAttribute( $storage, 'lockResource' ),
+            $this->readAttribute( $storage, 'lockResource' ),
             'Lock resource not correctly initialized'
         );
 
@@ -621,7 +621,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
 
         $this->assertTrue(
             is_resource(
-                $this->getObjectAttribute( $storage, 'lockResource' )
+                $this->readAttribute( $storage, 'lockResource' )
             ),
             'Lock resource not correctly created'
         );
@@ -629,7 +629,7 @@ class ezcCacheStorageFileTest extends ezcTestCase
         $storage->unlock();
 
         $this->assertFalse(
-            $this->getObjectAttribute( $storage, 'lockResource' ),
+            $this->readAttribute( $storage, 'lockResource' ),
             'Lock resource not correctly released'
         );
 

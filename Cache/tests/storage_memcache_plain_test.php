@@ -362,11 +362,11 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         $storageB = ezcCacheManager::getCache( 'cache-b' );
         $storageA->reset();
 
-        $backendA = $this->getObjectAttribute( $storageA, 'backend' );
-        $backendB = $this->getObjectAttribute( $storageB, 'backend' );
+        $backendA = $this->readAttribute( $storageA, 'backend' );
+        $backendB = $this->readAttribute( $storageB, 'backend' );
 
-        $memcacheA = $this->getObjectAttribute( $backendA, 'memcache' );
-        $memcacheB = $this->getObjectAttribute( $backendB, 'memcache' );
+        $memcacheA = $this->readAttribute( $backendA, 'memcache' );
+        $memcacheB = $this->readAttribute( $backendB, 'memcache' );
 
         $this->assertSame( $memcacheA, $memcacheB );
 
@@ -617,8 +617,8 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
         $storage->reset();
 
-        $backend  = $this->getObjectAttribute( $storage, 'backend' );
-        $memcache = $this->getObjectAttribute( $backend, 'memcache' );
+        $backend  = $this->readAttribute( $storage, 'backend' );
+        $memcache = $this->readAttribute( $backend, 'memcache' );
 
         $lockKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->lockKey;
@@ -629,7 +629,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
 
         $this->assertFalse(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock stat not correctly initialized'
         );
 
@@ -642,7 +642,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
 
         $this->assertTrue(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock stat not correctly switched.'
         );
 
@@ -654,7 +654,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
 
         $this->assertFalse(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock stat not correctly initialized'
         );
     }
@@ -679,8 +679,8 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
         $secondStorage->reset();
         
-        $backend        = $this->getObjectAttribute( $storage, 'backend' );
-        $memcache       = $this->getObjectAttribute( $backend, 'memcache' );
+        $backend        = $this->readAttribute( $storage, 'backend' );
+        $memcache       = $this->readAttribute( $backend, 'memcache' );
         
         $lockKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->lockKey;
@@ -691,11 +691,11 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
             'Lock key exists.'
         );
         $this->assertFalse(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock state not correctly initialized'
         );
         $this->assertFalse(
-            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            $this->readAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
 
@@ -710,11 +710,11 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
             'Lock key not created correctly.'
         );
         $this->assertTrue(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock stat not correctly switched.'
         );
         $this->assertFalse(
-            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            $this->readAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
 
@@ -736,12 +736,12 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
         // First storage does not note that its lock disappeared
         $this->assertTrue(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock state switched unexpectedly.'
         );
         // Second storage now has the lock
         $this->assertTrue(
-            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            $this->readAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
 
@@ -753,12 +753,12 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
         // First storage does not note that its lock disappeared and was not unlocked
         $this->assertTrue(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock state switched unexpectedly.'
         );
         // Second storage released the lock
         $this->assertFalse(
-            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            $this->readAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
     }
@@ -776,8 +776,8 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
         $storage->reset();
         
-        $backend        = $this->getObjectAttribute( $storage, 'backend' );
-        $memcache       = $this->getObjectAttribute( $backend, 'memcache' );
+        $backend        = $this->readAttribute( $storage, 'backend' );
+        $memcache       = $this->readAttribute( $backend, 'memcache' );
 
         $metaDataKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->metaDataKey;
@@ -842,8 +842,8 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         );
         $storage->reset();
         
-        $backend        = $this->getObjectAttribute( $storage, 'backend' );
-        $memcache       = $this->getObjectAttribute( $backend, 'memcache' );
+        $backend        = $this->readAttribute( $storage, 'backend' );
+        $memcache       = $this->readAttribute( $backend, 'memcache' );
 
         $metaDataKey = urlencode( $storage->getLocation() ) . '_'
             . $storage->options->metaDataKey;

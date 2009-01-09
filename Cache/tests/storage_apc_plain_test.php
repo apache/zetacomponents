@@ -469,7 +469,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         );
 
         $this->assertFalse(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock stat not correctly initialized'
         );
 
@@ -482,7 +482,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         );
 
         $this->assertTrue(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock stat not correctly switched.'
         );
 
@@ -494,7 +494,7 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         );
 
         $this->assertFalse(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock stat not correctly initialized'
         );
     }
@@ -526,11 +526,11 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
             'Lock key exists.'
         );
         $this->assertFalse(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock state not correctly initialized'
         );
         $this->assertFalse(
-            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            $this->readAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
 
@@ -545,11 +545,11 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
             'Lock key not created correctly.'
         );
         $this->assertTrue(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock stat not correctly switched.'
         );
         $this->assertFalse(
-            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            $this->readAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
 
@@ -577,12 +577,12 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         );
         // First storage does not note that its lock disappeared
         $this->assertTrue(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock state switched unexpectedly.'
         );
         // Second storage now has the lock
         $this->assertTrue(
-            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            $this->readAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
 
@@ -594,12 +594,12 @@ class ezcCacheStorageApcPlainTest extends ezcCacheStorageTest
         );
         // First storage does not note that its lock disappeared and was not unlocked
         $this->assertTrue(
-            $this->getObjectAttribute( $storage, 'lock' ),
+            $this->readAttribute( $storage, 'lock' ),
             'Lock state switched unexpectedly.'
         );
         // Second storage released the lock
         $this->assertFalse(
-            $this->getObjectAttribute( $secondStorage, 'lock' ),
+            $this->readAttribute( $secondStorage, 'lock' ),
             'Lock state not correctly initialized in second storage'
         );
     }
