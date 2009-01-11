@@ -9,9 +9,13 @@ Introduction
 The MvcTools component provides an application developer with all the tools to
 architect his application framework. It is not meant to provide a full
 framework but merely provides the different parts that can be used. In this
-tutorial we'll use the MvcTools and related components to build **TheWire** —
-a twitter__ like application to share information. The source code of TheWire is
-available in SVN as well, at
+tutorial we'll use MvcTools to build **HelloMvc**, a classic application that
+greets the visitor in the choosen language. Its sources are available in the
+SVN at:
+http://svn.ez.no/svn/ezcomponents/docs/examples/applications/HelloMvc
+
+**TheWire** is a twitter__ like application to share information which is
+architectured with MvcTools and avalaible in SVN as well, at
 http://svn.ez.no/svn/ezcomponents/docs/examples/applications/TheWire/.
 
 __ http://twitter.com
