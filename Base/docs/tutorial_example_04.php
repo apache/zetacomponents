@@ -27,7 +27,7 @@ class myProgressFinder
         ezcBaseFile::walkRecursive( $sourceDir, $includeFilters, $excludeFilters,
                 array( 'myProgressFinder', 'findRecursiveCallback' ), $context );
 
-        // collect the statistics
+        // collect the statistics (which we don't do anything with in this example)
         $statistics['size'] = $context->size;
         $statistics['count'] = $context->count;
 
