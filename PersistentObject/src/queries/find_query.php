@@ -1,0 +1,110 @@
+<?php
+/**
+ * File containing the ezcPersistentFindQuery class.
+ *
+ * @package PersistentObject
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Find query object to be used with ezcPersistentSession.
+ *
+ * An instance of this class is returned by {@link
+ * ezcPersistentSession->createFindQuery()} since PersistentObject 1.5, instead
+ * of a pure {@link ezcQuerySelect} object. The this class deals as a decorator
+ * for {@link ezcQuerySelect} and offers the very same API. In addition, it
+ * allows PersistentObject to store and determine the class for objects to
+ * fetch from the query object. This deprecates the second parameter to {@link
+ * ezcPersistentSession->find()}.
+ * 
+ * @package PersistentObject
+ * @version //autogen//
+ *
+ * @todo To maintain BC completely, this class should actually extend
+ *       ezcQuerySelect, although this is code overhead. Needs to be discussed.
+ */
+class ezcPersistentFindQuery
+{
+    /**
+     * Properties. 
+     * 
+     * @var array(string=>mixed)
+     */
+    protected $properties = array();
+
+    /**
+     * Creates a new persistent find query.
+     *
+     * Creates a new persistent find query from the query object $q and the
+     * given $className.
+     * 
+     * @param ezcQuerySelect $q 
+     * @param string $className 
+     */
+    public function __construct( ezcQuerySelect $q, $className )
+    {
+        // @TODO: Implement.
+        throw new RuntimeException( 'Not implemented, yet.' );
+    }
+
+    /**
+     * Decorator.
+     * 
+     * @param string $methodName
+     * @return mixed
+     */
+    public function __call( $methodName, $arguments )
+    {
+        // @TODO: Implement.
+    }
+
+    /**
+     * Property get access.
+     * 
+     * @param string $propertyName 
+     * @return mixed
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the desired property could not be found.
+     */
+    public function __get( $propertyName )
+    {
+        // @TODO: Implement.
+    }
+
+    /**
+     * Property set access.
+     * 
+     * @param string $propertyName 
+     * @param mixed $properyValue
+     * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the desired property could not be found.
+     * @throws ezcBaseValueException
+     *         if $properyValue is not valid for $propertyName.
+     */
+    public function __set( $propertyName, $properyValue )
+    {
+        // @TODO: Implement.
+    }
+
+    /**
+     * Property isset access.
+     * 
+     * @param string $propertyName 
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $propertyName )
+    {
+        // @TODO: Implement.
+    }
+}
+
+?>
+/**
+ *  
+ */
