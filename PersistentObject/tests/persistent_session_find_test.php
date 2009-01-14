@@ -129,6 +129,62 @@ class ezcPersistentSessionFindTest extends ezcPersistentSessionTest
         }
         $this->assertEquals( 2, $i );
     }
+
+    public function testFindWithoutClassNameSingleResult()
+    {
+        $q = $this->session->createFindQuery( 'PersistentTestObject' );
+        $q->where( $q->expr->eq( $this->session->database->quoteIdentifier( 'id' ), 1 ) );
+        $objects = $this->session->find( $q );
+        $this->assertEquals( 1, count( $objects ) );
+    }
+
+    public function testFindWithoutClassNameMultipleResult()
+    {
+        $q = $this->session->createFindQuery( 'PersistentTestObject' );
+        $q->where( $q->expr->gt( $this->session->database->quoteIdentifier( 'id' ), 2 ) );
+        $objects = $this->session->find( $q );
+        $this->assertEquals( 2, count( $objects ) );
+
+        // check that the data is correct
+        $this->assertEquals( 'Ukraine', $objects[0]->varchar );
+        $this->assertEquals( 47732079, (int)$objects[0]->integer );
+        $this->assertEquals( 603.70, (float)$objects[0]->decimal );
+        $this->assertEquals( 'Ukraine has a long coastline to the black see.', $objects[0]->text );
+
+        $this->assertEquals( 'Germany', $objects[1]->varchar );
+        $this->assertEquals( 82443000, (int)$objects[1]->integer );
+        $this->assertEquals( 357.02, (float)$objects[1]->decimal );
+        $this->assertEquals( 'Home of the lederhosen!.', $objects[1]->text );
+    }
+
+    public function testFindIteratorWithoutClassNameSingleResult()
+    {
+        $q = $this->session->createFindQuery( 'PersistentTestObject' );
+        $q->where( $q->expr->eq( $this->session->database->quoteIdentifier( 'id' ), 1 ) );
+        $it = $this->session->findIterator( $q );
+        $i = 0;
+        foreach ( $it as $object )
+        {
+            ++$i;
+        }
+        $this->assertEquals( 1, $i );
+    }
+
+    public function testFindIteratorWithoutClassNameMultipleResult()
+    {
+        $q = $this->session->createFindQuery( 'PersistentTestObject' );
+        $q->where( $q->expr->gt( $this->session->database->quoteIdentifier( 'id' ), 2 ) );
+        $objects = $this->session->find( $q );
+        $this->assertEquals( 2, count( $objects ) );
+
+        $it = $this->session->findIterator( $q );
+        $i = 0;
+        foreach ( $it as $object )
+        {
+            ++$i;
+        }
+        $this->assertEquals( 2, $i );
+    }
 }
 
 ?>

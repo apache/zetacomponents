@@ -204,14 +204,51 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      *         if there is no such persistent class.
      * @throws ezcPersistentQueryException
      *         if the find query failed.
+     * @throws ezcBaseValueException
+     *         if $query parameter is not an instance of ezcPersistentFindQuery
+     *         or ezcQuerySelect. Or if $class is missing if you use
+     *         ezcQuerySelect.
      *
-     * @param ezcQuerySelect $query
+     * @param ezcPersistentFindQuery|ezcQuerySelect $query
      * @param string $class
      *
      * @return array(object($class))
+     *
+     * @apichange This method will only accept an instance of
+     *            ezcPersistentFindQuery as the $query parameter in future
+     *            major releases. The $class parameter will be removed.
      */
-    public function find( ezcQuerySelect $query, $class )
+    public function find( $query, $class = null )
     {
+        // Sanity checks
+        if ( !is_object( $query )
+             || ( !( $query instanceof ezcPersistentFindQuery )
+                  && !( $query instanceof ezcQuerySelect )
+                )
+           )
+        {
+            throw new ezcBaseValueException(
+                'query',
+                $query,
+                'ezcPersistentFindQuery (or ezcQuerySelect)'
+            );
+        }
+        if ( $query instanceof ezcQuerySelect && $class === null )
+        {
+            throw new ezcBaseValueException(
+                'class',
+                $class,
+                'must be present, if ezcQuerySelect is used for $query'
+            );
+        }
+
+        // Extract class name and select query form parameter
+        if ( $query instanceof ezcPersistentFindQuery )
+        {
+            $class = $query->className;
+            $query = $query->query;
+        }
+
         $def = $this->definitionManager->fetchDefinition( $class );
 
         $rows = $this->session->performQuery( $query )
@@ -249,14 +286,50 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      *         if there is no such persistent class.
      * @throws ezcPersistentQueryException
      *         if the find query failed.
+     * @throws ezcBaseValueException
+     *         if $query parameter is not an instance of ezcPersistentFindQuery
+     *         or ezcQuerySelect. Or if $class is missing if you use
+     *         ezcQuerySelect.
      *
-     * @param ezcQuerySelect $query
+     * @param ezcPersistentFindQuery|ezcQuerySelect $query
      * @param string $class
      *
      * @return ezcPersistentFindIterator
+     * @apichange This method will only accept an instance of
+     *            ezcPersistentFindQuery as the $query parameter in future
+     *            major releases. The $class parameter will be removed.
      */
-    public function findIterator( ezcQuerySelect $query, $class )
+    public function findIterator( $query, $class = null )
     {
+        // Sanity checks
+        if ( !is_object( $query )
+             || ( !( $query instanceof ezcPersistentFindQuery )
+                  && !( $query instanceof ezcQuerySelect )
+                )
+           )
+        {
+            throw new ezcBaseValueException(
+                'query',
+                $query,
+                'ezcPersistentFindQuery (or ezcQuerySelect)'
+            );
+        }
+        if ( $query instanceof ezcQuerySelect && $class === null )
+        {
+            throw new ezcBaseValueException(
+                'class',
+                $class,
+                'must be present, if ezcQuerySelect is used for $query'
+            );
+        }
+
+        // Extract class name and select query form parameter
+        if ( $query instanceof ezcPersistentFindQuery )
+        {
+            $class = $query->className;
+            $query = $query->query;
+        }
+
         $def  = $this->definitionManager->fetchDefinition( $class );
         $stmt = $this->session->performQuery( $query );
         return new ezcPersistentFindIterator( $stmt, $def );
@@ -378,7 +451,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      *
      * @param string $class
      *
-     * @return ezcQuerySelect
+     * @return ezcPersistentFindQuery
      */
     public function createFindQuery( $class )
     {
@@ -394,7 +467,9 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
             $this->database->quoteIdentifier( $def->table )
         );
 
-        return $q;
+        $findQuery = new ezcPersistentFindQuery( $q, $class );
+
+        return $findQuery;
     }
 
     /**
@@ -415,7 +490,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * @param string $relatedClass
      * @param string $relationName
      *
-     * @return ezcDbSelectQuery
+     * @return ezcPersistentFindQuery
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
@@ -491,7 +566,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * @param array $objectState 
      */
     private function createSimpleRelationFindQuery(
-        ezcQuery $query,
+        ezcPersistentFindQuery $query,
         ezcPersistentObjectDefinition $def,
         ezcPersistentRelation $relation,
         array $objectState
@@ -526,7 +601,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * @param array $objectState 
      */
     private function createComplexRelationFindQuery(
-        ezcQuery $query,
+        ezcPersistentFindQuery $query,
         ezcPersistentObjectDefinition $def,
         ezcPersistentManyToManyRelation $relation,
         array $objectState

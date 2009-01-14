@@ -158,13 +158,20 @@ class ezcPersistentSession
      *         if there is no such persistent class.
      * @throws ezcPersistentQueryException
      *         if the find query failed.
+     * @throws ezcBaseValueException
+     *         if $query parameter is not an instance of ezcPersistentFindQuery
+     *         or ezcQuerySelect. Or if $class is missing if you use
+     *         ezcQuerySelect.
      *
-     * @param ezcQuerySelect $query
+     * @param ezcPersistentFindQuery|ezcQuerySelect $query
      * @param string $class
      *
      * @return array(object($class))
+     * @apichange This method will only accept an instance of
+     *            ezcPersistentFindQuery as the $query parameter in future
+     *            major releases. The $class parameter will be removed.
      */
-    public function find( ezcQuerySelect $query, $class )
+    public function find( $query, $class = null )
     {
         return $this->loadHandler->find( $query, $class );
     }
@@ -188,13 +195,20 @@ class ezcPersistentSession
      *         if there is no such persistent class.
      * @throws ezcPersistentQueryException
      *         if the find query failed.
+     * @throws ezcBaseValueException
+     *         if $query parameter is not an instance of ezcPersistentFindQuery
+     *         or ezcQuerySelect. Or if $class is missing if you use
+     *         ezcQuerySelect.
      *
-     * @param ezcQuerySelect $query
+     * @param ezcPersistentFindQuery|ezcQuerySelect $query
      * @param string $class
      *
      * @return ezcPersistentFindIterator
+     * @apichange This method will only accept an instance of
+     *            ezcPersistentFindQuery as the $query parameter in future
+     *            major releases. The $class parameter will be removed.
      */
-    public function findIterator( ezcQuerySelect $query, $class )
+    public function findIterator( $query, $class = null )
     {
         return $this->loadHandler->findIterator( $query, $class );
     }
