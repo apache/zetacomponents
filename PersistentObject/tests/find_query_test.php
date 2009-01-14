@@ -171,6 +171,37 @@ class ezcPersistentFindQueryTest extends ezcTestCase
         );
     }
 
+    public function testDelegateSuccess()
+    {
+        $q = $this->getMock(
+            'ezcQuerySelect',
+            array( 'reset', 'alias', 'select' ),
+            array(),
+            '',
+            false,
+            false
+        );
+        $q->expects( $this->once() )
+           ->method( 'reset' )
+           ->will( $this->returnValue( 23 ) );
+        $q->expects( $this->once() )
+           ->method( 'alias' )
+           ->with( 'someName', 'someAlias' );
+        $q->expects( $this->never() )->method( 'select' );
+
+        $cn = 'myCustomClassName';
+        
+        $findQuery = new ezcPersistentFindQuery( $q, $cn );
+        
+        $this->assertEquals(
+            23,
+            $findQuery->reset()
+        );
+        
+        $this->assertNull(
+            $findQuery->alias( 'someName', 'someAlias' )
+        );
+    }
 
     protected function createFindQuery()
     {

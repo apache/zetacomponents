@@ -56,14 +56,23 @@ class ezcPersistentFindQuery
     }
 
     /**
-     * Decorator.
+     * Delegate to inner $query object.
+     *
+     * Delegates calls to unknown methods to $query property.
      * 
      * @param string $methodName
+     * @param array $arguments
      * @return mixed
      */
     public function __call( $methodName, $arguments )
     {
-        // @TODO: Implement.
+        return call_user_func_array(
+            array(
+                $this->properties['query'],
+                $methodName
+            ),
+            $arguments
+        );
     }
 
     /**
