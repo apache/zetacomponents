@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the PersistentObject component.
  *
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -34,6 +34,7 @@ return array(
     'ezcPersistentDeleteHandler'                          => 'PersistentObject/handlers/delete_handler.php',
     'ezcPersistentDoubleTableMap'                         => 'PersistentObject/structs/double_table_map.php',
     'ezcPersistentFindIterator'                           => 'PersistentObject/find_iterator.php',
+    'ezcPersistentFindQuery'                              => 'PersistentObject/queries/find_query.php',
     'ezcPersistentGeneratorDefinition'                    => 'PersistentObject/structs/generator_definition.php',
     'ezcPersistentLoadHandler'                            => 'PersistentObject/handlers/load_handler.php',
     'ezcPersistentManualGenerator'                        => 'PersistentObject/generators/manual_generator.php',

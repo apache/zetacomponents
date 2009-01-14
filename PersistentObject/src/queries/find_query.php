@@ -39,13 +39,20 @@ class ezcPersistentFindQuery
      * Creates a new persistent find query from the query object $q and the
      * given $className.
      * 
-     * @param ezcQuerySelect $q 
-     * @param string $className 
+     * @param ezcQuerySelect $query
+     * @param string $className
      */
-    public function __construct( ezcQuerySelect $q, $className )
+    public function __construct( ezcQuerySelect $query, $className )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        if ( !is_string( $className ) || $className === '' )
+        {
+            throw new ezcBaseValueException( 'className', $className, 'string, length > 0' );
+        }
+
+        $this->properties = array(
+            'className' => $className,
+            'query'     => $query,
+        );
     }
 
     /**
@@ -71,7 +78,23 @@ class ezcPersistentFindQuery
      */
     public function __get( $propertyName )
     {
-        // @TODO: Implement.
+        if ( array_key_exists( $propertyName, $this->properties ) )
+        {
+            return $this->properties[$propertyName];
+        }
+
+        switch ( $propertyName )
+        {
+            // @TODO: Known public properties of ezcQuerySelect. Any more?
+            case 'expr':
+                break;
+
+            default:
+                // @TODO ezcQuerySelect does not provide any properties, but uses
+                // public attributes. If this is changed, we can safely redirect here.
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        return $this->properties['query']->$propertyName;
     }
 
     /**
@@ -88,7 +111,25 @@ class ezcPersistentFindQuery
      */
     public function __set( $propertyName, $properyValue )
     {
-        // @TODO: Implement.
+        switch ( $propertyName )
+        {
+            case 'className':
+            case 'query':
+                throw new ezcBasePropertyPermissionException(
+                    $propertyName,
+                    ezcBasePropertyPermissionException::READ
+                );
+
+            // @TODO: Known public properties of ezcQuerySelect. Any more?
+            case 'expr':
+                break;
+
+            default:
+                // @TODO ezcQuerySelect does not provide any properties, but uses
+                // public attributes. If this is changed, we can safely redirect here.
+                throw new ezcBasePropertyNotFoundException( $propertyName );
+        }
+        $this->properties['query']->$propertyName = $properyValue;
     }
 
     /**
@@ -100,11 +141,24 @@ class ezcPersistentFindQuery
      */
     public function __isset( $propertyName )
     {
-        // @TODO: Implement.
+        if ( array_key_exists( $propertyName, $this->properties ) )
+        {
+            return true;
+        }
+
+        switch ( $propertyName )
+        {
+            // @TODO: Known public properties of ezcQuerySelect. Any more?
+            case 'expr':
+                break;
+
+            default:
+                // @TODO ezcQuerySelect does not provide any properties, but uses
+                // public attributes. If this is changed, we can safely redirect here.
+                return false;
+        }
+        return true;
     }
 }
 
 ?>
-/**
- *  
- */

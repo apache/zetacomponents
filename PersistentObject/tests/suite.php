@@ -44,6 +44,8 @@ require_once 'database_type_test.php';
 require_once 'persistent_object_test.php';
 require_once 'instance_delayed_init_test.php';
 
+require_once 'find_query_test.php';
+
 /**
  * @package PersistentObject
  * @subpackage Tests
@@ -83,6 +85,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentDatabaseTypeTest::suite() );
         $this->addTest( ezcPersistentObjectTest::suite() );
         $this->addTest( ezcPersistentObjectInstanceDelayedInitTest::suite() );
+        $this->addTest( ezcPersistentFindQueryTest::suite() );
     }
 
     public static function suite()
