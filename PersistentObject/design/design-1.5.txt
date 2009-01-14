@@ -205,8 +205,8 @@ recorded in the identity map, an exception is thrown, too, since the operation
 would result in a copy. Otherwise the load is performed as desired and the
 resulting object instance is recorded and returned.
 
-find( ezcQuerySelect $query, $class )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+find( ezcPersistentFindQuery $query, $class = null )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ezcPersistentSession->find() is executed. In the resulting array, each object
 is checked in the identity map. If an identity is found, it is replaced into
@@ -230,8 +230,8 @@ the identity map. 2 cases must be differntiated here:
    (as ezcPersistentSession->refresh() would do) and the updated identity will
    be returned.
 
-findIterator( ezcQuerySelect $query, string $class )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+findIterator( ezcPersistentFindQuery $query, string $class = null )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To support this method properly, a new class ezcPersistentIdenitiyFindIterator
 is introduced. This one decorates the ezcPersistentFindIterator returned by
