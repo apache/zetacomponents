@@ -417,7 +417,7 @@ The following methods will be provided by the ezcPersistentIdentityMap class:
   ezcPersistentIdentitySession->removeRelatedObject(). If the relation
   resultset is not cached, yet, the call is ignored.
 
-- getRelatedObjects( object $sourceObject, string $class )
+- getRelatedObjects( object $sourceObject, string $class, string $relationName = null)
 
   Returns an array of objects of type $class related to $sourceObject. This can
   also be an empty array, if the last lookup in the database resulted in such.
