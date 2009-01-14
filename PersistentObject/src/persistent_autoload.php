@@ -36,6 +36,7 @@ return array(
     'ezcPersistentFindIterator'                           => 'PersistentObject/find_iterator.php',
     'ezcPersistentFindQuery'                              => 'PersistentObject/queries/find_query.php',
     'ezcPersistentGeneratorDefinition'                    => 'PersistentObject/structs/generator_definition.php',
+    'ezcPersistentIdentity'                               => 'PersistentObject/structs/identity.php',
     'ezcPersistentLoadHandler'                            => 'PersistentObject/handlers/load_handler.php',
     'ezcPersistentManualGenerator'                        => 'PersistentObject/generators/manual_generator.php',
     'ezcPersistentManyToManyRelation'                     => 'PersistentObject/relations/many_to_many.php',
