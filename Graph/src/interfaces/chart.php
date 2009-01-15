@@ -80,6 +80,10 @@ abstract class ezcGraphChart
         $this->elements['title']->position = ezcGraph::TOP;
         $this->renderElement['title'] = false;
 
+        $this->addElement( 'subtitle', new ezcGraphChartElementText() );
+        $this->elements['subtitle']->position = ezcGraph::TOP;
+        $this->renderElement['subtitle'] = false;
+
         $this->addElement( 'legend', new ezcGraphChartElementLegend() );
         $this->elements['legend']->position = ezcGraph::LEFT;
 
@@ -128,8 +132,9 @@ abstract class ezcGraphChart
     {
         switch ( $propertyName ) {
             case 'title':
-                $this->elements['title']->title = $propertyValue;
-                $this->renderElement['title'] = true;
+            case 'subtitle':
+                $this->elements[$propertyName]->title = $propertyValue;
+                $this->renderElement[$propertyName] = true;
                 break;
             case 'legend':
                 if ( !is_bool( $propertyValue ) )

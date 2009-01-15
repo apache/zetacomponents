@@ -110,6 +110,104 @@ class ezcGraphTextTest extends ezcTestCase
 
         $chart->render( 500, 200 );
     }
+
+    public function testRenderSubtitleOnly()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 'foo' => 1, 'bar' => 10 ) );
+
+        $chart->subtitle = 'Subtitle of a chart';
+        $chart->subtitle->margin = 5;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawText',
+        ) );
+
+        // Y-Axis
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawText' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 6, 6, 494, 14 ) ),
+                $this->equalTo( 'Subtitle of a chart' ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
+    public function testRenderTitleAndSubtitle()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 'foo' => 1, 'bar' => 10 ) );
+
+        $chart->title    = 'Title of a chart';
+        $chart->subtitle = 'Subtitle of a chart';
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawText',
+        ) );
+
+        // Y-Axis
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawText' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 1, 1, 499, 19 ) ),
+                $this->equalTo( 'Title of a chart' ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawText' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 1, 21, 499, 37 ) ),
+                $this->equalTo( 'Subtitle of a chart' ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
+    public function testRenderTitleAndBottomSubtitle()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 'foo' => 1, 'bar' => 10 ) );
+
+        $chart->title    = 'Title of a chart';
+        $chart->subtitle = 'Subtitle of a chart';
+        $chart->subtitle->position = ezcGraph::BOTTOM;
+
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawText',
+        ) );
+
+        // Y-Axis
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawText' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 1, 1, 499, 19 ) ),
+                $this->equalTo( 'Title of a chart' ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawText' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 1, 183, 499, 199 ) ),
+                $this->equalTo( 'Subtitle of a chart' ),
+                $this->equalTo( ezcGraph::CENTER | ezcGraph::MIDDLE )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
 }
 
 ?>
