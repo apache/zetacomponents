@@ -371,6 +371,10 @@ The following 2 areas of identity mapping will be handled:
    The relations of an object are stored in its ezcPersistentIdentity struct.
    See the specific section of this document for further details.
 
+.. todo:: Related objects should propably be stored in an ArrayAccess derived
+          class instead of an array, to automatically ensure they are all of
+          the same class.
+
 Interface
 ---------
 
