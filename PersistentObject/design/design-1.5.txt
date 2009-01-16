@@ -331,6 +331,8 @@ $refetch = false;
 ezcPersistentIdentityMap
 ========================
 
+.. TODO:: This should actually become an interface to raise flexibility.
+
 This class is the internal heart of the identity map enhancement. It handles
 all caching and mapping activities globally for a session.
 
