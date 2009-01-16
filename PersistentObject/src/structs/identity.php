@@ -88,7 +88,11 @@ class ezcPersistentIdentity extends ezcBaseStruct
      * @param array $relatedObjects 
      * @param array $namedRelatedObjectSets
      */
-    public function __construct( $object = null, array $relatedObjects = null, array $namedRelatedObjectSets )
+    public function __construct(
+        $object = null,
+        array $relatedObjects = array(),
+        array $namedRelatedObjectSets = array()
+    )
     {
         $this->object                 = $object;
         $this->relatedObjects         = $relatedObjects;
