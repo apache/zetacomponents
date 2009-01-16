@@ -3,8 +3,8 @@ require_once dirname( __FILE__ ) . "/relation_test.php";
 
 class RelationTestBirthday extends RelationTest
 {
-    public $person      = null;
-    public $birthday    = null;
+    public $person   = null;
+    public $birthday = null;
 
 
     public function setState( array $state )
@@ -18,8 +18,8 @@ class RelationTestBirthday extends RelationTest
     public function getState()
     {
         return array(
-            "person"        => $this->person,
-            "birthday"      => $this->birthday,
+            "person"   => $this->person,
+            "birthday" => $this->birthday,
         );
     }
 

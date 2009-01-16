@@ -3,11 +3,11 @@ require_once dirname( __FILE__ ) . "/relation_test.php";
 
 class RelationTestPerson extends RelationTest
 {
-    public $id          = null;
-    public $firstname   = null;
-    public $surname    = null;
-    public $employer    = null;
-
+    public $id        = null;
+    public $firstname = null;
+    public $surname   = null;
+    public $employer  = null;
+                   
 
     public function setState( array $state )
     {
@@ -20,10 +20,10 @@ class RelationTestPerson extends RelationTest
     public function getState()
     {
         return array(
-            "id"            => $this->id,
-            "firstname"     => $this->firstname,
-            "surname"      => $this->surname,
-            "employer"      => $this->employer,
+            "id"        => $this->id,
+            "firstname" => $this->firstname,
+            "surname"   => $this->surname,
+            "employer"  => $this->employer,
         );
     }
 
