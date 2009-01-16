@@ -18,6 +18,52 @@
  */
 class ezcPersistentIdentityMap
 {
+    /**
+     * Object identities.
+     *
+     * Structure:
+     *
+     * <code>
+     * <?php
+     * array(
+     *     '<className>' => array(
+     *         '<id1>' => ezcPersistentIdentity(),
+     *         '<id2>' => ezcPersistentIdentity(),
+     *         // ...
+     *     ),
+     *     '<anotherClassName>' => array(
+     *         '<idA>' => ezcPersistentIdentity(),
+     *         '<idB>' => ezcPersistentIdentity(),
+     *         // ...
+     *     ),
+     *     // ...
+     * );
+     * ?>
+     * </code>
+     * 
+     * @var array(string=>array(mixed=>ezcPersistentIdentity))
+     */
+    protected $identities = array();
+
+    /**
+     * Definition manager used by {@link ezcPersistentSession}.
+     * 
+     * @var ezcPersistentDefinitionManager
+     */
+    protected $definitionManager;
+
+    /**
+     * Creates a new identity map.
+     *
+     * Creates a new identity map, which makes use of the given
+     * $definitionManager to determine object identities and relations.
+     * 
+     * @param ezcPersistentDefinitionManager $definitionManager 
+     */
+    public function __construct( ezcPersistentDefinitionManager $definitionManager )
+    {
+        $this->definitionManager = $definitionManager;
+    }
 
     /**
      * Stores the identity of $object.
@@ -26,7 +72,7 @@ class ezcPersistentIdentityMap
      * the $object has already been stored, an exception is thrown.
      * 
      * @param object $object 
-     * @throws ezcPersistentIdentityAlreadyStoredException
+     * @throws ezcPersistentIdentityAlreadyExistsException
      *         if the identity of the given $object has already been stored.
      *
      * @TODO: We need the persistence definitions to determine the objects ID.
