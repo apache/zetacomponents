@@ -71,16 +71,12 @@ class ezcPersistentIdentityMap
      * Records the identity of the given $object. In case another identity of
      * the $object has already been stored, an exception is thrown.
      * 
-     * @param object $object 
+     * @param ezcPersistentObject $object 
      * @throws ezcPersistentIdentityAlreadyExistsException
      *         if the identity of the given $object has already been stored.
-     *
-     * @TODO: We need the persistence definitions to determine the objects ID.
      */
     public function addIdentity( $object )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -106,9 +102,7 @@ class ezcPersistentIdentityMap
      * replaces a recorded identity with the given $object instead of throwung
      * an exception.
      * 
-     * @param object $object 
-     *
-     * @TODO: We need the persistence definitions to determine the objects ID.
+     * @param ezcPersistentObject $object 
      */
     public function replaceIdentity( $object )
     {
@@ -127,11 +121,9 @@ class ezcPersistentIdentityMap
      * $sourceObject and the class of the objects in $relatedObjects (and
      * optionally $relationName), an exception is thrown.
      * 
-     * @param object $sourceObject
-     * @param array(object) $relatedObjects 
+     * @param ezcPersistentObject $sourceObject
+     * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relationName 
-     *
-     * @TODO: We need the persistence definitions to determine the objects ID.
      */
     public function addRelatedObjects( $sourceObject, array $relatedObjects, $relationName = null )
     {
@@ -146,11 +138,9 @@ class ezcPersistentIdentityMap
      * does not throw an exception, if the related objects set is already
      * recorded. Instead, the set is replaced by $relatedObjects.
      * 
-     * @param object $sourceObject
-     * @param array(object) $relatedObjects 
+     * @param ezcPersistentObject $sourceObject
+     * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relationName 
-     *
-     * @TODO: We need the persistence definitions to determine the objects ID.
      */
     public function replaceRelatedObjects( $sourceObject, array $relatedObjects, $relationName = null )
     {
@@ -165,10 +155,8 @@ class ezcPersistentIdentityMap
      * ignored and related objects are newly fetched whenever {@link
      * getRelatedObjects()} is called.
      *
-     * @param object $sourceObject 
-     * @param object $relatedObject 
-     *
-     * @TODO: We need the persistence definitions to determine the objects ID.
+     * @param ezcPersistentObject $sourceObject 
+     * @param ezcPersistentObject $relatedObject 
      */
     public function addRelatedObject( $sourceObject, $relatedObject )
     {
@@ -182,8 +170,8 @@ class ezcPersistentIdentityMap
      * Removes the $relatedObject from all recorded relation sets for
      * $sourceObject.
      * 
-     * @param object $sourceObject 
-     * @param object $relatedObject 
+     * @param ezcPersistentObject $sourceObject 
+     * @param ezcPersistentObject $relatedObject 
      */
     public function removeRelatedObject( $sourceObject, $relatedObject )
     {
@@ -199,7 +187,7 @@ class ezcPersistentIdentityMap
      * (empty array returned). In case no related objects are recorded, yet,
      * null is returned.
      * 
-     * @param object $sourceObject 
+     * @param ezcPersistentObject $sourceObject 
      * @param string $class 
      * @param string $relationName 
      */
