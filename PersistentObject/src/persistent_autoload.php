@@ -17,6 +17,7 @@ return array(
     'ezcPersistentIdentityAlreadyExistsException'              => 'PersistentObject/exceptions/identity_already_exists.php',
     'ezcPersistentIdentityMissingException'                    => 'PersistentObject/exceptions/identity_missing.php',
     'ezcPersistentIdentityRelatedObjectsAlreadyExistException' => 'PersistentObject/exceptions/identity_related_objects_already_exist.php',
+    'ezcPersistentIdentityRelatedObjectsInconsistentException' => 'PersistentObject/exceptions/identity_related_objects_inconsistent.php',
     'ezcPersistentInvalidObjectStateException'                 => 'PersistentObject/exceptions/invalid_object_state.php',
     'ezcPersistentObjectAlreadyPersistentException'            => 'PersistentObject/exceptions/already_persistent.php',
     'ezcPersistentObjectNotPersistentException'                => 'PersistentObject/exceptions/not_persistent.php',
