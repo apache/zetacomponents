@@ -262,6 +262,10 @@ class ezcFeedEntryElement extends ezcFeedElement
      * @throws ezcFeedUnsupportedElementException
      *         if the element $name is not supported
      *
+     * @apichange All items are not encoded at all, in future versions this
+     *            should be done in one of the ways as described in
+     *            http://issues.ez.no/14093
+     *
      * @param string $name The name of the element to add
      * @return ezcFeedElement
      */
