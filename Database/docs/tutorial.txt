@@ -177,7 +177,9 @@ verbose; this is mainly due to the fact that you need to fetch the query object
 from the handler and that you are required to use prepared statements with the
 query abstraction layer. The factory methods in the handler to fetch the query
 object ensure that you get a query of the correct type, regardless of what
-database you use.
+database you use. Please note that if you want to use table/column names that
+are SQL keywords, such as **group**, you need to quote the table/column names
+manually with ezcDbHandler::quoteIdentifier().
 
 Bind parameters
 ---------------
