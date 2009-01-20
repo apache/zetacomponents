@@ -69,7 +69,8 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
     public function __construct( array $options = array() )
     {
         parent::__construct( $options );
-        $this->properties['angle'] = null;
+        $this->properties['angle']  = null;
+        $this->properties['labelOffset'] = true;
     }
 
     /**
@@ -97,6 +98,16 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
                 $reducement = (int) ( $propertyValue - $propertyValue % 360 );
                 $this->properties['angle'] = (float) $propertyValue - $reducement;
                 break;
+
+            case 'labelOffset':
+                if ( !is_bool( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'bool' );
+                }
+
+                $this->properties[$propertyName] = (bool) $propertyValue;
+                break;
+
             default:
                 return parent::__set( $propertyName, $propertyValue );
         }
@@ -193,10 +204,17 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
             $degTextAngle += 360.;
         }
 
-        $this->offset =
-            ( $this->angle < 0 ? -1 : 1 ) *
-            ( $axis->position & ( ezcGraph::TOP | ezcGraph::LEFT ) ? 1 : -1 ) *
-            ( 1 - cos( deg2rad( $this->angle * 2 ) ) );
+        if ( $this->properties['labelOffset'] )
+        {
+            $this->offset =
+                ( $this->angle < 0 ? -1 : 1 ) *
+                ( $axis->position & ( ezcGraph::TOP | ezcGraph::LEFT ) ? 1 : -1 ) *
+                ( 1 - cos( deg2rad( $this->angle * 2 ) ) );
+        }
+        else
+        {
+            $this->offset = 0;
+        }
 
         $axisSpaceFactor = abs(
             ( $this->direction->x == 0 ? 0 :

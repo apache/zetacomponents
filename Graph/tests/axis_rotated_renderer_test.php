@@ -112,6 +112,53 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         $chart->render( 500, 200 );
     }
 
+    public function testRenderTextBoxesNoOffset()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->xAxis->axisLabelRenderer->angle = 45;
+        $chart->xAxis->axisLabelRenderer->labelOffset = false;
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        
+        $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(
+            'drawText',
+        ) );
+
+        $mockedRenderer
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawText' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 130., 180., 140., 236.6 ), 1. ),
+                $this->equalTo( 'sample 1' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 140, 180 ) ) )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawText' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 210., 180., 220., 236.6 ), 1. ),
+                $this->equalTo( 'sample 2' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 220, 180 ) ) )
+            );
+        $mockedRenderer
+            ->expects( $this->at( 4 ) )
+            ->method( 'drawText' )
+            ->with(
+                $this->equalTo( new ezcGraphBoundings( 450., 180., 460., 236.6 ), 1. ),
+                $this->equalTo( 'sample 5' ),
+                $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
+                $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 460, 180 ) ) )
+            );
+
+        $chart->renderer = $mockedRenderer;
+
+        $chart->render( 500, 200 );
+    }
+
     public function testRenderTextBoxes3D()
     {
         $chart = new ezcGraphLineChart();
@@ -192,6 +239,32 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
         }
 
         $this->fail( 'Expected ezcBaseValueException.' );
+    }
+
+    public function testAxisRotatedLabelRendererPropertyLabelOffset()
+    {
+        $options = new ezcGraphAxisRotatedLabelRenderer();
+
+        $this->assertSame(
+            true,
+            $options->labelOffset,
+            'Wrong default value for property labelOffset in class ezcGraphAxisRotatedLabelRenderer'
+        );
+
+        $options->labelOffset = false;
+        $this->assertSame(
+            false,
+            $options->labelOffset,
+            'Setting property value did not work for property labelOffset in class ezcGraphAxisRotatedLabelRenderer'
+        );
+
+        try
+        {
+            $options->labelOffset = 'true';
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expecetd */ }
     }
 
     public function testRenderCompleteLineChart()
