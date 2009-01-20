@@ -77,6 +77,24 @@ class ezcPersistentIdentityMap
      */
     public function addIdentity( $object )
     {
+        $class = get_class( $object );
+        $def   = $this->definitionManager->fetchDefinition( $class );
+        $state = $object->getState();
+        $id    = $state[$def->idProperty->propertyName];
+
+        if ( !isset( $this->identities[$class] ) )
+        {
+            $this->identities[$class] = array();
+        }
+
+        if ( isset( $this->identities[$class][$id] ) )
+        {
+            throw new ezcPersistentIdentityAlreadyExistsException(
+                $class, $id
+            );
+        }
+
+        $this->identities[$class][$id] = new ezcPersistentIdentity( $object );
     }
 
     /**
@@ -120,10 +138,21 @@ class ezcPersistentIdentityMap
      * In case a set of related objects has already been recorded for
      * $sourceObject and the class of the objects in $relatedObjects (and
      * optionally $relationName), an exception is thrown.
+     *
+     * If $relatedObjects are to be added, for which no identity has been
+     * recorded, yet, an exception is thrown.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relationName 
+     *
+     * @throws ezcPersistentIdentityRelatedObjectsAlreadyExistException
+     *         if the set of related objects already exists.
+     * @throws ezcPersistentIdentityMissingException
+     *         if no identity exists for an object in $relatedObjects.
+     *
+     * @todo We need the related class here, too, to be able to store empty
+     *       related sets.
      */
     public function addRelatedObjects( $sourceObject, array $relatedObjects, $relationName = null )
     {
@@ -141,6 +170,9 @@ class ezcPersistentIdentityMap
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relationName 
+     *
+     * @todo We need the related class here, too, to be able to store empty
+     *       related sets.
      */
     public function replaceRelatedObjects( $sourceObject, array $relatedObjects, $relationName = null )
     {
@@ -155,6 +187,9 @@ class ezcPersistentIdentityMap
      * ignored and related objects are newly fetched whenever {@link
      * getRelatedObjects()} is called.
      *
+     * Note: All named sets for $relatedObject are automatically invalidated,
+     * if this method is called, to avoid inconsistencies.
+     *
      * @param ezcPersistentObject $sourceObject 
      * @param ezcPersistentObject $relatedObject 
      */
@@ -168,7 +203,10 @@ class ezcPersistentIdentityMap
      * Removes a $relatedObject from the relation set of $sourceObject.
      *
      * Removes the $relatedObject from all recorded relation sets for
-     * $sourceObject.
+     * $sourceObject. This also includes named sets.
+     *
+     * Note: In contrast to {@link addRelatedObject()} a call to this method
+     * does not invalidate all named related sets to $sourceObject.
      * 
      * @param ezcPersistentObject $sourceObject 
      * @param ezcPersistentObject $relatedObject 
