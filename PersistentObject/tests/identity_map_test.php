@@ -1508,6 +1508,230 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
             $idMap
         );
     }
+
+    public function testGetRelatedObjectsUnnamedSuccess()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $relatedObjects = array();
+        $relatedObjects[0] = new RelationTestAddress();
+        $relatedObjects[0]->id = 42;
+        $relatedObjects[1] = new RelationTestAddress();
+        $relatedObjects[1]->id = 65;
+
+        $idMap->addIdentity( $obj );
+        $idMap->addIdentity( $relatedObjects[0] );
+        $idMap->addIdentity( $relatedObjects[1] );
+
+        $idMap->addRelatedObjects( $obj, $relatedObjects );
+
+        $this->assertEquals(
+            $relatedObjects,
+            $idMap->getRelatedObjects( $obj, 'RelationTestAddress' )
+        );
+    }
+
+    public function testGetRelatedObjectsNamedSuccess()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $relatedObjects = array();
+        $relatedObjects[0] = new RelationTestAddress();
+        $relatedObjects[0]->id = 42;
+        $relatedObjects[1] = new RelationTestAddress();
+        $relatedObjects[1]->id = 65;
+
+        $idMap->addIdentity( $obj );
+        $idMap->addIdentity( $relatedObjects[0] );
+        $idMap->addIdentity( $relatedObjects[1] );
+
+        $idMap->addRelatedObjects( $obj, $relatedObjects, 'set_name' );
+
+        $this->assertEquals(
+            $relatedObjects,
+            $idMap->getRelatedObjects( $obj, 'RelationTestAddress', 'set_name' )
+        );
+    }
+
+    public function testGetRelatedObjectsUnnamedNotExistSuccess()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $idMap->addIdentity( $obj );
+
+        $this->assertEquals(
+            null,
+            $idMap->getRelatedObjects( $obj, 'RelationTestAddress' )
+        );
+    }
+
+    public function testGetRelatedObjectsNamedNotExistSuccess()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $idMap->addIdentity( $obj );
+
+        $this->assertEquals(
+            null,
+            $idMap->getRelatedObjects( $obj, 'RelationTestAddress', 'set_name' )
+        );
+    }
+
+    public function testGetRelatedObjectsUnnamedEmptySuccess()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $idMap->addIdentity( $obj );
+
+        throw new RuntimeException( 'API not complete. Need to add empty array here.' );
+
+        $this->assertEquals(
+            null,
+            $idMap->getRelatedObjects( $obj, 'RelationTestAddress' )
+        );
+    }
+
+    /*
+     * getRelatedObjects()
+     */
+
+    public function testGetRelatedObjectsNamedEmptySuccess()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $idMap->addIdentity( $obj );
+
+        throw new RuntimeException( 'API not complete. Need to add empty array here.' );
+
+        $this->assertEquals(
+            null,
+            $idMap->getRelatedObjects( $obj, 'RelationTestAddress', 'set_name' )
+        );
+    }
+
+    /*
+     * reset()
+     */
+
+    public function testResetEmptySuccess()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+
+        $this->assertAttributeEquals(
+            array(),
+            'identities',
+            $idMap
+        );
+        $this->assertAttributeSame(
+            $this->definitionManager,
+            'definitionManager',
+            $idMap
+        );
+
+        $idMap->reset();
+
+        $this->assertAttributeEquals(
+            array(),
+            'identities',
+            $idMap
+        );
+        $this->assertAttributeSame(
+            $this->definitionManager,
+            'definitionManager',
+            $idMap
+        );
+    }
+
+    public function testResetNonEmptySuccess()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $relatedObjects = array();
+        $relatedObjects[0] = new RelationTestAddress();
+        $relatedObjects[0]->id = 42;
+        $relatedObjects[1] = new RelationTestAddress();
+        $relatedObjects[1]->id = 65;
+
+        $idMap->addIdentity( $obj );
+        $idMap->addIdentity( $relatedObjects[0] );
+        $idMap->addIdentity( $relatedObjects[1] );
+
+        $idMap->addRelatedObjects( $obj, $relatedObjects );
+        $idMap->addRelatedObjects( $obj, $relatedObjects, 'set_name' );
+
+        $this->assertAttributeEquals(
+            array(
+                'RelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        $relatedObjects,
+                        array( 'set_name' => $relatedObjects )
+                    )
+                ),
+                'RelationTestAddress' => array(
+                    42 => new ezcPersistentIdentity( $relatedObjects[0] ),
+                    65 => new ezcPersistentIdentity( $relatedObjects[1] ),
+                ),
+            ),
+            'identities',
+            $idMap
+        );
+        $this->assertAttributeSame(
+            $this->definitionManager,
+            'definitionManager',
+            $idMap
+        );
+
+        $idMap->reset();
+
+        $this->assertAttributeEquals(
+            array(),
+            'identities',
+            $idMap
+        );
+        $this->assertAttributeSame(
+            $this->definitionManager,
+            'definitionManager',
+            $idMap
+        );
+    }
 }
 
 ?>
