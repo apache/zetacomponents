@@ -82,16 +82,33 @@ class ezcPersistentIdentityMap
         $state = $object->getState();
         $id    = $state[$def->idProperty->propertyName];
 
-        if ( !isset( $this->identities[$class] ) )
-        {
-            $this->identities[$class] = array();
-        }
-
         if ( isset( $this->identities[$class][$id] ) )
         {
             throw new ezcPersistentIdentityAlreadyExistsException(
                 $class, $id
             );
+        }
+        
+        $this->setIdentity( $object, $class, $id );
+    }
+
+    /**
+     * Sets the identity of $object.
+     *
+     * $object is of the class $class and has $id.
+     *
+     * @see addIdentity()
+     * @see replaceIdentity()
+     * 
+     * @param ezcPersistentObject $object 
+     * @param string $class 
+     * @param mixed $id 
+     */
+    protected function setIdentity( $object, $class, $id )
+    {
+        if ( !isset( $this->identities[$class] ) )
+        {
+            $this->identities[$class] = array();
         }
 
         $this->identities[$class][$id] = new ezcPersistentIdentity( $object );
@@ -109,8 +126,15 @@ class ezcPersistentIdentityMap
      */
     public function getIdentity( $class, $id )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        if ( !isset( $this->identities[$class] ) )
+        {
+            return null;
+        }
+        if ( !isset( $this->identities[$class][$id] ) )
+        {
+            return null;
+        }
+        return $this->identities[$class][$id]->object;
     }
 
     /**
@@ -124,8 +148,12 @@ class ezcPersistentIdentityMap
      */
     public function replaceIdentity( $object )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $class = get_class( $object );
+        $def   = $this->definitionManager->fetchDefinition( $class );
+        $state = $object->getState();
+        $id    = $state[$def->idProperty->propertyName];
+
+        $this->setIdentity( $object, $class, $id );
     }
 
     /**
