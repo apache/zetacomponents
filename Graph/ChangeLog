@@ -5,6 +5,8 @@
   floating point inaccuracies
 - Implemented feature #12897: Add the possibility to have a subtitle for
   Graphs.
+- Implemented feature #11980: Provide an initial array with labels for labeled
+  axis
 
 
 1.4 - Monday 05 January 2009

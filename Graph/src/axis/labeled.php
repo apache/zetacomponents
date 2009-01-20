@@ -174,6 +174,21 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
     }
 
     /**
+     * Provide initial set of labels
+     *
+     * This method may be used to provide an ordered set of labels, containing
+     * labels, which are not available in the datasets or to provide a label
+     * order different to the one in the given dataset.
+     * 
+     * @param array $labels 
+     * @return void
+     */
+    public function provideLabels( array $labels )
+    {
+        $this->addData( $labels );
+    }
+
+    /**
      * Add data for this axis
      * 
      * @param array $values Value which will be displayed on this axis

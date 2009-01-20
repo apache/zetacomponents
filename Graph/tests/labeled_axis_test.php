@@ -404,6 +404,72 @@ class ezcGraphLabeledAxisTest extends ezcGraphTestCase
         );
     }
 
+    public function testProvidedLabelsIdentity()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->xAxis->provideLabels( array( 2000, 2001, 2002 ) );
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 
+            2000 => 42,
+            2001 => 23,
+            2002 => 5,
+        ) );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            array(
+                2000,
+                2001,
+                2002,
+            ),
+            $this->readAttribute( $chart->xAxis, 'displayedLabels' )
+        );
+    }
+
+    public function testProvidedLabelsReordered()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->xAxis->provideLabels( array( 2002, 2001, 2000 ) );
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 
+            2000 => 42,
+            2001 => 23,
+            2002 => 5,
+        ) );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            array(
+                2002,
+                2001,
+                2000,
+            ),
+            $this->readAttribute( $chart->xAxis, 'displayedLabels' )
+        );
+    }
+
+    public function testProvidedLabelsAdditionalLabels()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->xAxis->provideLabels( array( 2000, 2001, 2003, 2004, 2005 ) );
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( 
+            2001 => 23,
+            2002 => 5,
+            2004 => 42,
+        ) );
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            array(
+                2000,
+                2001,
+                2002,
+                2003,
+                2004,
+                2005,
+            ),
+            $this->readAttribute( $chart->xAxis, 'displayedLabels' )
+        );
+    }
+
     public function testGetLabel()
     {
         $chart = new ezcGraphLineChart();
