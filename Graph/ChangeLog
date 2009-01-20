@@ -9,6 +9,7 @@
   axis
 - Implemented feature #13634: Make Offset of ezcGraphAxisRotatedLabelRenderer
   optional
+- Implamented feature #14146: Add new data symbols - square and box
 
 
 1.4 - Monday 05 January 2009

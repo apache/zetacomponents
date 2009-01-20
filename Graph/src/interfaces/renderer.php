@@ -488,6 +488,7 @@ abstract class ezcGraphRenderer
         switch ( $symbol )
         {
             case ezcGraph::NO_SYMBOL:
+            case ezcGraph::SQUARE:
                 $return = $this->driver->drawPolygon(
                     array(
                         new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
@@ -530,6 +531,18 @@ abstract class ezcGraphRenderer
                         true
                     );
                 }
+                return $return;
+            case ezcGraph::BOX:
+                $return = $this->driver->drawPolygon(
+                    array(
+                        new ezcGraphCoordinate( $boundings->x0, $boundings->y0 ),
+                        new ezcGraphCoordinate( $boundings->x1, $boundings->y0 ),
+                        new ezcGraphCoordinate( $boundings->x1, $boundings->y1 ),
+                        new ezcGraphCoordinate( $boundings->x0, $boundings->y1 ),
+                    ),
+                    $color,
+                    false
+                );
                 return $return;
             case ezcGraph::DIAMOND:
                 $return = $this->driver->drawPolygon(

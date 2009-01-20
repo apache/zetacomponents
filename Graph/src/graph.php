@@ -36,6 +36,14 @@ class ezcGraph
      * symbol.
      */
     const ARROW = 4;
+    /**
+     * A square, filled box, symbol
+     */
+    const SQUARE = 5;
+    /**
+     * A non-filled box symbol
+     */
+    const BOX = 6;
 
     /**
      * Constant used for background repetition. No repeat.

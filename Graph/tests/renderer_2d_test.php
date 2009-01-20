@@ -716,6 +716,52 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         );
     }
 
+    public function testRenderSymbolSquare()
+    {
+        $this->driver
+            ->expects( $this->once() )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array(
+                    new ezcGraphCoordinate( 100, 100 ),
+                    new ezcGraphCoordinate( 120, 100 ),
+                    new ezcGraphCoordinate( 120, 120 ),
+                    new ezcGraphCoordinate( 100, 120 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( true )
+            );
+
+        $this->renderer->drawSymbol(
+            new ezcGraphBoundings( 100, 100, 120, 120 ),
+            ezcGraphColor::fromHex( '#FF0000' ),
+            ezcGraph::SQUARE
+        );
+    }
+
+    public function testRenderSymbolBox()
+    {
+        $this->driver
+            ->expects( $this->once() )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array(
+                    new ezcGraphCoordinate( 100, 100 ),
+                    new ezcGraphCoordinate( 120, 100 ),
+                    new ezcGraphCoordinate( 120, 120 ),
+                    new ezcGraphCoordinate( 100, 120 ),
+                ) ),
+                $this->equalTo( ezcGraphColor::fromHex( '#FF0000' ) ),
+                $this->equalTo( false )
+            );
+
+        $this->renderer->drawSymbol(
+            new ezcGraphBoundings( 100, 100, 120, 120 ),
+            ezcGraphColor::fromHex( '#FF0000' ),
+            ezcGraph::BOX
+        );
+    }
+
     public function testRenderFilledDataLineWithSymbolSameColor()
     {
         $this->driver
@@ -2191,6 +2237,26 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
 
         $graph->renderer->options->axisEndStyle = ezcGraph::NO_SYMBOL;
         $graph->renderer->options->shortAxis    = true;
+
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testSquareAndBoxSymbolsInChart()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->palette = new ezcGraphPaletteBlack();
+
+        $graph->data['sample1'] = new ezcGraphArrayDataSet( array( 1, 4, 6, 8, 2 ) );
+        $graph->data['sample1']->symbol = ezcGraph::SQUARE;
+        $graph->data['sample2'] = new ezcGraphArrayDataSet( array( 4, 6, 8, 2, 1 ) );
+        $graph->data['sample2']->symbol = ezcGraph::BOX;
 
         $graph->render( 560, 250, $filename );
 
