@@ -422,6 +422,7 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter implements 
      */
     protected function fetchPublicKeys( $file )
     {
+        // supress warnings caused by file_get_contents() if $file could not be opened
         $data = @file_get_contents( $file );
         if ( empty( $data ) )
         {

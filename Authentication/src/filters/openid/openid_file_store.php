@@ -158,6 +158,8 @@ class ezcAuthenticationOpenidFileStore extends ezcAuthenticationOpenidStore
     public function storeNonce( $nonce )
     {
         $file = $this->path . DIRECTORY_SEPARATOR . $nonce;
+
+        // supress warnings caused by fopen() if $file could not be opened
         $fh = @fopen( $file, 'w' );
 
         if ( $fh === false )
@@ -208,6 +210,8 @@ class ezcAuthenticationOpenidFileStore extends ezcAuthenticationOpenidStore
     public function storeAssociation( $url, $association )
     {
         $file = $this->path . DIRECTORY_SEPARATOR . $this->convertToFilename( $url );
+
+        // supress warnings caused by fopen() if $file could not be opened
         $fh = @fopen( $file, 'w' );
 
         if ( $fh === false )

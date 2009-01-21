@@ -617,6 +617,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         $path = isset( $parts['path'] ) ? $parts['path'] : '/';
         $port = isset( $parts['port'] ) ? $parts['port'] : 80;
 
+        // supress warnings caused by fsockopen() if $host is not a valid domain
         $connection = @fsockopen( $host, $port, $errno, $errstr, $this->options->timeoutOpen );
         if ( $connection === false )
         {
@@ -679,6 +680,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         $path = isset( $parts['path'] ) ? $parts['path'] : '/';
         $port = isset( $parts['port'] ) ? $parts['port'] : 80;
 
+        // supress warnings caused by fsockopen() if $host is not a valid domain
         $connection = @fsockopen( $host, $port, $errno, $errstr, $this->options->timeoutOpen );
         if ( $connection === false )
         {
@@ -776,6 +778,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         $host = isset( $parts['host'] ) ? $parts['host'] : null;
         $port = 80;
 
+        // supress warnings caused by fsockopen() if $host is not a valid domain
         $connection = @fsockopen( $host, $port, $errno, $errstr, $this->options->timeoutOpen );
         if ( !$connection )
         {
@@ -861,6 +864,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         $host = isset( $parts['host'] ) ? $parts['host'] : null;
         $port = 443;
 
+        // supress warnings caused by fsockopen() if $host is not a valid domain
         $connection = @fsockopen( 'ssl://' . $host, $port, $errno, $errstr, $this->options->timeoutOpen );
         if ( !$connection )
         {
@@ -975,6 +979,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         $host = isset( $parts['host'] ) ? $parts['host'] : null;
         $port = 443;
 
+        // supress warnings caused by fsockopen() if $host is not a valid domain
         $connection = @fsockopen( 'ssl://' . $host, $port, $errno, $errstr, $this->options->timeoutOpen );
         if ( !$connection )
         {
