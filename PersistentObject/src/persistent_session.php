@@ -274,7 +274,7 @@ class ezcPersistentSession
      *
      * Relations that should preferably be used with this method are:
      * <ul>
-     * <li>{@link ezcPersistentManyToOneRelation}</ li>
+     * <li>{@link ezcPersistentManyToOneRelation}</li>
      * <li>{@link ezcPersistentOneToOneRelation}</li>
      * </ul>
      * For other relation types {@link getRelatedObjects()} is recommended.
