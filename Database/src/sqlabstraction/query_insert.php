@@ -28,8 +28,8 @@
  * <code>
  * $q = ezcDbInstance::get()->createInsertQuery();
  * $q->insertInto( 'legends' )
- *        ->set( 'Gretzky', 99 )
- *        ->set( 'Lindros', 88 );
+ *        ->set( 'name', $q->bindValue( 'Gretzky' ) )
+ *        ->set( 'year', $q->bindValue( 1961 ) );
  * $stmt = $q->prepare();
  * $stmt->execute();
  * </code>
