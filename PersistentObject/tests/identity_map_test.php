@@ -597,7 +597,11 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
         $this->assertAttributeEquals(
             array(
                 'RelationTestPerson' => array(
-                    23 => new ezcPersistentIdentity( $obj, array(), array( 'set_name' => $relatedObjects ) )
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array(),
+                        array( 'RelationTestAddress' => array( 'set_name' => $relatedObjects ) )
+                    )
                 ),
                 'RelationTestAddress' => array(
                     42 => new ezcPersistentIdentity( $relatedObjects[42] ),
@@ -638,8 +642,10 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                         $obj,
                         array(),
                         array(
-                            'first_set' => $relatedObjects,
-                            'second_set' => $relatedObjects
+                            'RelationTestAddress' => array( 
+                                'first_set' => $relatedObjects,
+                                'second_set' => $relatedObjects
+                            ),
                         )
                     ),
                 ),
@@ -766,7 +772,11 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
         $this->assertAttributeEquals(
             array(
                 'RelationTestPerson' => array(
-                    23 => new ezcPersistentIdentity( $obj, array(), array( 'set_name' => $relatedObjects ) )
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array(),
+                        array( 'RelationTestAddress' => array( 'set_name' => $relatedObjects ) )
+                    )
                 ),
                 'RelationTestAddress' => array(
                     42 => new ezcPersistentIdentity( $relatedObjects[42] ),
@@ -844,7 +854,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
         $idMap->addIdentity( $relatedObjects[42] );
         $idMap->addIdentity( $relatedObjects[65] );
 
-        $idMap->replaceRelatedObjects( $obj, $relatedObjects );
+        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress' );
 
         $this->assertAttributeEquals(
             array(
@@ -880,12 +890,16 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
         $idMap->addIdentity( $relatedObjects[42] );
         $idMap->addIdentity( $relatedObjects[65] );
 
-        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'set_name' );
+        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress', 'set_name' );
 
         $this->assertAttributeEquals(
             array(
                 'RelationTestPerson' => array(
-                    23 => new ezcPersistentIdentity( $obj, array(), array( 'set_name' => $relatedObjects ) )
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array(),
+                        array( 'RelationTestAddress' => array(  'set_name' => $relatedObjects ) )
+                    )
                 ),
                 'RelationTestAddress' => array(
                     42 => new ezcPersistentIdentity( $relatedObjects[42] ),
@@ -916,8 +930,8 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
         $idMap->addIdentity( $relatedObjects[42] );
         $idMap->addIdentity( $relatedObjects[65] );
 
-        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'first_set' );
-        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'second_set' );
+        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress', 'first_set' );
+        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress', 'second_set' );
 
         $this->assertAttributeEquals(
             array(
@@ -926,8 +940,10 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                         $obj,
                         array(),
                         array(
-                            'first_set' => $relatedObjects,
-                            'second_set' => $relatedObjects
+                            'RelationTestAddress' => array(
+                                'first_set' => $relatedObjects,
+                                'second_set' => $relatedObjects
+                            ),
                         )
                     ),
                 ),
@@ -961,7 +977,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
         try
         {
-            $idMap->replaceRelatedObjects( $obj, $relatedObjects );
+            $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress' );
             $this->fail( 'Exception not thrown on add of related objects where an identity is missing.' );
         }
         catch ( ezcPersistentIdentityMissingException $e ) {}
@@ -999,8 +1015,8 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
         $idMap->addIdentity( $relatedObjects[42] );
         $idMap->addIdentity( $relatedObjects[65] );
 
-        $idMap->replaceRelatedObjects( $obj, $relatedObjects );
-        $idMap->replaceRelatedObjects( $obj, $relatedObjects );
+        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress' );
+        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress' );
 
         $this->assertAttributeEquals(
             array(
@@ -1036,16 +1052,21 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
         $idMap->addIdentity( $relatedObjects[42] );
         $idMap->addIdentity( $relatedObjects[65] );
 
-        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'set_name' );
-        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'set_name' );
+        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress', 'set_name' );
+        $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress', 'set_name' );
 
         $this->assertAttributeEquals(
             array(
                 'RelationTestPerson' => array(
-                    23 => new ezcPersistentIdentity( $obj, array(), array( 'set_name' => $relatedObjects ) )
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array(),
+                        array( 'RelationTestAddress' => array( 'set_name' => $relatedObjects ) )
+                    )
                 ),
                 'RelationTestAddress' => array(
                     42 => new ezcPersistentIdentity( $relatedObjects[42] ),
+                    65 => new ezcPersistentIdentity( $relatedObjects[65] ),
                 ),
             ),
             'identities',
@@ -1074,7 +1095,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
         try
         {
-            $idMap->replaceRelatedObjects( $obj, $relatedObjects );
+            $idMap->replaceRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress' );
             $this->fail( 'Exception not thrown on inconsistent related object set.' );
         }
         catch ( ezcPersistentIdentityRelatedObjectsInconsistentException $e ) {}
@@ -1435,7 +1456,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                     23 => new ezcPersistentIdentity(
                         $obj,
                         array( 'RelationTestAddress' => $relatedObjects ),
-                        array( 'set_name' => $relatedObjects )
+                        array( 'RelationTestAddress' => array( 'set_name' => $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -1460,9 +1481,11 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                             ),
                         ),
                         array(
-                            'set_name' => array(
-                                65 => $relatedObjects[65],
-                            ),
+                            'RelationTestAddress' => array(
+                                'set_name' => array(
+                                    65 => $relatedObjects[65],
+                                ),
+                            )
                         )
                     )
                 ),
@@ -1710,7 +1733,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                     23 => new ezcPersistentIdentity(
                         $obj,
                         array( 'RelationTestAddress' => $relatedObjects ),
-                        array( 'set_name' => $relatedObjects )
+                        array( 'RelationTestAddress' => array( 'set_name' => $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
