@@ -1258,7 +1258,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                     23 => new ezcPersistentIdentity(
                         $obj,
                         array( 'RelationTestAddress' => $relatedObjects ),
-                        array( 'named_set' => $relatedObjects )
+                        array( 'RelationTestAddress' => array( 'named_set' => $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -1282,10 +1282,12 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => $relatedObjects )
+                        array( 'RelationTestAddress' => $relatedObjects + array( 3 => $newRelatedObject ) )
                     )
                 ),
                 'RelationTestAddress' => array(
+                    42 => new ezcPersistentIdentity( $relatedObjects[42] ),
+                    65 => new ezcPersistentIdentity( $relatedObjects[65] ),
                     3  => new ezcPersistentIdentity( $newRelatedObject ),
                 ),
             ),
@@ -1360,6 +1362,59 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
             'identities',
             $idMap
         );
+    }
+
+    public function testAddRelatedObjectTwiceFailure()
+    {
+        $idMap = new ezcPersistentIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+        
+        $relatedObjects = array();
+        $relatedObjects[42] = new RelationTestAddress();
+        $relatedObjects[42]->id = 42;
+        $relatedObjects[65] = new RelationTestAddress();
+        $relatedObjects[65]->id = 65;
+
+        $idMap->addIdentity( $obj );
+        $idMap->addIdentity( $relatedObjects[42] );
+        $idMap->addIdentity( $relatedObjects[65] );
+
+        $idMap->addRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress' );
+
+        $newRelatedObject     = new RelationTestAddress();
+        $newRelatedObject->id = 3;
+        
+        $idMap->addIdentity( $newRelatedObject );
+        $idMap->addRelatedObject( $obj, $newRelatedObject, 'RelationTestAddress' );
+
+        $this->assertAttributeEquals(
+            array(
+                'RelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array( 'RelationTestAddress' => ( $relatedObjects + array( 3 => $newRelatedObject ) ) )
+                    ),
+                ),
+                'RelationTestAddress' => array(
+                    42 => new ezcPersistentIdentity( $relatedObjects[42] ),
+                    65 => new ezcPersistentIdentity( $relatedObjects[65] ),
+                    3  => new ezcPersistentIdentity( $newRelatedObject ),
+                ),
+            ),
+            'identities',
+            $idMap
+        );
+
+        try
+        {
+            $idMap->addRelatedObject( $obj, $newRelatedObject, 'RelationTestAddress' );
+            $this->fail( 'Exception not thrown on double add of same new related object.' );
+        }
+        catch( ezcPersistentIdentityRelatedObjectsAlreadyExistException $e ) {}
     }
 
     /*
