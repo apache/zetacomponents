@@ -172,20 +172,109 @@ class ezcPersistentIdentityMap
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
+     * @param string $relatedClass 
      * @param string $relationName 
      *
      * @throws ezcPersistentIdentityRelatedObjectsAlreadyExistException
      *         if the set of related objects already exists.
      * @throws ezcPersistentIdentityMissingException
-     *         if no identity exists for an object in $relatedObjects.
+     *         if no identity exists for $sourceObject or an object in
+     *         $relatedObjects.
+     * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
+     *         if an object in $relatedObjects is not of $relatedClass.
      *
      * @todo We need the related class here, too, to be able to store empty
      *       related sets.
      */
-    public function addRelatedObjects( $sourceObject, array $relatedObjects, $relationName = null )
+    public function addRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName = null )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $this->setRelatedObjects( $sourceObject, $relatedObjects, $relatedClass, $relationName );
+    }
+
+    /**
+     * Sets a set of $relatedObjects to $sourceObject.
+     *
+     * Performs the actual store of $relatedObjects as required by {@link
+     * addRelatedObjects()} and {@link replaceRelatedObjects()}. If
+     * $failExisting is true, checks required by {@link addRelatedObjects()}
+     * are performed. Otherwise, $relatedObjects will replace existing sets.
+     * 
+     * @param ezcPersistentObject $sourceObject 
+     * @param array(ezcPersistentObject) $relatedObjects 
+     * @param string $relatedClass 
+     * @param string $relationName 
+     * @param bool $failExisting 
+     */
+    protected function setRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName, $failExisting = true )
+    {
+        $srcClass = get_class( $sourceObject );
+        $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
+        $srcState = $sourceObject->getState();
+        $srcId    = $srcState[$srcDef->idProperty->propertyName];
+
+        // Sanity checks
+
+        if ( !isset( $srcDef->relations[$relatedClass] ) )
+        {
+            throw new ezcPersistentRelationNotFoundException(
+                $srcClass,
+                $relatedClass,
+                $relationName
+            );
+        }
+
+        if ( !isset( $this->identities[$srcClass][$srcId] ) )
+        {
+            throw new ezcPersistentIdentityMissingException(
+                $srcClass,
+                $srcId
+            );
+        }
+
+        if ( $failExisting && (
+             ( $relationName === null 
+                 && isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass] ) )
+          || ( $relationName !== null
+                 && isset( $this->identities[$srcClass][$srcId]->namedRelatedObjectSets[$relatedClass][$relationName] ) )
+        ) )
+        {
+            throw new ezcPersistentIdentityRelatedObjectsAlreadyExistException(
+                $srcClass, $srcId, $relatedClass, $relationName
+            );
+        }
+
+        $relDef = $this->definitionManager->fetchDefinition( $relatedClass );
+
+        $relStore = array();
+        foreach ( $relatedObjects as $relObj )
+        {
+            if ( !( $relObj instanceof $relatedClass ) )
+            {
+                throw new ezcPersistentIdentityRelatedObjectsInconsistentException(
+                    $srcClass, $srcId, $relatedClass, get_class( $relObj )
+                );
+            }
+
+            $relState = $relObj->getState();
+            if ( !isset( $this->identities[$relatedClass][$relState[$relDef->idProperty->propertyName]] ) )
+            {
+                throw new ezcPersistentIdentityMissingException(
+                    $relatedClass,
+                    $relState[$relDef->idProperty->propertyName]
+                );
+            }
+
+            $relStore[$relState[$relDef->idProperty->propertyName]] = $relObj;
+        }
+        
+        if ( $relationName === null )
+        {
+            $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass] = $relStore;
+        }
+        else
+        {
+            $this->identities[$srcClass][$srcId]->namedRelatedObjectSets[$relatedClass][$relationName] = $relStore;
+        }
     }
 
     /**
@@ -202,10 +291,9 @@ class ezcPersistentIdentityMap
      * @todo We need the related class here, too, to be able to store empty
      *       related sets.
      */
-    public function replaceRelatedObjects( $sourceObject, array $relatedObjects, $relationName = null )
+    public function replaceRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName = null )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $this->setRelatedObjects( $sourceObject, $relatedObjects, $relatedClass, $relationName, false );
     }
 
     /**
@@ -223,8 +311,59 @@ class ezcPersistentIdentityMap
      */
     public function addRelatedObject( $sourceObject, $relatedObject )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $srcClass = get_class( $sourceObject );
+        $relClass = get_class( $relatedObject );
+
+        $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
+        $relDef   = $this->definitionManager->fetchDefinition( $relClass );
+
+        if ( !isset( $srcDef->relations[$relClass] ) )
+        {
+            throw new ezcPersistentRelationNotFoundException(
+                $srcClass,
+                $relClass
+            );
+        }
+
+        $srcState = $sourceObject->getState();
+        $srcId    = $srcState[$srcDef->idProperty->propertyName];
+
+        if ( !isset( $this->identities[$srcClass][$srcId] ) )
+        {
+            throw new ezcPersistentIdentityMissingException(
+                $srcClass,
+                $srcId
+            );
+        }
+
+        $relState = $relatedObject->getState();
+        $relId    = $relState[$relDef->idProperty->propertyName];
+
+        if ( !isset( $this->identities[$relClass][$relId] ) )
+        {
+            throw new ezcPersistentIdentityMissingException(
+                $relClass,
+                $relId
+            );
+        }
+
+        if ( !isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relClass] ) )
+        {
+            // Ignore call, since related objects for $relClass have not been stored, yet
+            return null;
+        }
+
+        if ( isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relClass][$relId] ) )
+        {
+            throw new ezcPersistentIdentityRelatedObjectsAlreadyExistException(
+                $srcClass, $srcId, $relClass
+            );
+        }
+
+        $this->identities[$srcClass][$srcId]->relatedObjects[$relClass][$relId] = $relatedObject;
+        
+        // Invalidate all named sets for $relClass
+        unset( $this->identities[$srcClass][$srcId]->namedRelatedObjectSets[$relClass] );
     }
 
     /**
@@ -241,8 +380,54 @@ class ezcPersistentIdentityMap
      */
     public function removeRelatedObject( $sourceObject, $relatedObject )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $srcClass = get_class( $sourceObject );
+        $relClass = get_class( $relatedObject );
+
+        $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
+        $relDef   = $this->definitionManager->fetchDefinition( $relClass );
+
+        if ( !isset( $srcDef->relations[$relClass] ) )
+        {
+            throw new ezcPersistentRelationNotFoundException(
+                $srcClass,
+                $relClass
+            );
+        }
+
+        $srcState = $sourceObject->getState();
+        $srcId    = $srcState[$srcDef->idProperty->propertyName];
+
+        if ( !isset( $this->identities[$srcClass][$srcId] ) )
+        {
+            throw new ezcPersistentIdentityMissingException(
+                $srcClass,
+                $srcId
+            );
+        }
+
+        $relState = $relatedObject->getState();
+        $relId    = $relState[$relDef->idProperty->propertyName];
+
+        if ( !isset( $this->identities[$relClass][$relId] ) )
+        {
+            // Ignore call
+            return null;
+        }
+
+        if ( !isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relClass] ) )
+        {
+            // Ignore call, since related objects for $relClass have not been stored, yet
+            return null;
+        }
+
+        unset( $this->identities[$srcClass][$srcId]->relatedObjects[$relClass][$relId] );
+        if ( isset( $this->identities[$srcClass][$srcId]->namedRelatedObjectSets[$relClass] ) )
+        {
+            foreach ( $this->identities[$srcClass][$srcId]->namedRelatedObjectSets[$relClass] as $setName => $rels )
+            {
+                unset( $this->identities[$srcClass][$srcId]->namedRelatedObjectSets[$relClass][$setName][$relId] );
+            }
+        }
     }
 
     /**
