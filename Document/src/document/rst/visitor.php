@@ -428,6 +428,10 @@ abstract class ezcDocumentRstVisitor
     {
         switch ( true )
         {
+            case $node instanceof ezcDocumentRstDocumentNode:
+                $this->aggregateListItems( $node );
+                break;
+
             case $node instanceof ezcDocumentRstSectionNode:
                 $node->reference = $this->addReferenceTarget( $this->nodeToString( $node->title ) );
                 $this->aggregateListItems( $node );
