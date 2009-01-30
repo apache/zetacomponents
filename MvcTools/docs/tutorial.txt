@@ -45,7 +45,7 @@ ezcMvcHttpRequestParser
     would use in most cases, as it's meant for the Web part of applications.
 
 ezcMvcMailRequestParser
-    Uses an e-mail messages to create a request object from. The request parser
+    Uses an e-mail message to create a request object from. The request parser
     requires an ezcMail object and therefore this request parser is only
     available through the MvcMailTiein component.
 
