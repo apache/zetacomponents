@@ -1694,8 +1694,6 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
         $idMap->addIdentity( $obj );
 
-        throw new RuntimeException( 'API not complete. Need to add empty array here.' );
-
         $this->assertEquals(
             null,
             $idMap->getRelatedObjects( $obj, 'RelationTestAddress' )
@@ -1716,8 +1714,6 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
         $obj->id = 23;
 
         $idMap->addIdentity( $obj );
-
-        throw new RuntimeException( 'API not complete. Need to add empty array here.' );
 
         $this->assertEquals(
             null,

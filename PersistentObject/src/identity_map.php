@@ -431,21 +431,55 @@ class ezcPersistentIdentityMap
     }
 
     /**
-     * Returns the set of related objects of $class for $sourceObject.
+     * Returns the set of related objects of $relatedClass for $sourceObject.
      *
      * Returns the set of related objects for $sourceObject identified by
-     * $class and optionally $relationName. This might also be an empty set
+     * $relatedClass and optionally $setName. This might also be an empty set
      * (empty array returned). In case no related objects are recorded, yet,
      * null is returned.
      * 
      * @param ezcPersistentObject $sourceObject 
-     * @param string $class 
-     * @param string $relationName 
+     * @param string $relatedClass 
+     * @param string $setName 
      */
-    public function getRelatedObjects( $sourceObject, $class, $relationName = null )
+    public function getRelatedObjects( $sourceObject, $relatedClass, $setName = null )
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $srcClass = get_class( $sourceObject );
+        $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
+        $srcState = $sourceObject->getState();
+        $srcId    = $srcState[$srcDef->idProperty->propertyName];
+
+        // Sanity checks
+
+        if ( !isset( $srcDef->relations[$relatedClass] ) )
+        {
+            throw new ezcPersistentRelationNotFoundException(
+                $srcClass,
+                $relatedClass,
+                $relationName
+            );
+        }
+
+        if ( !isset( $this->identities[$srcClass][$srcId] ) )
+        {
+            return null;
+        }
+
+        if ( $setName !== null
+             && isset( $this->identities[$srcClass][$srcId] )
+             && isset( $this->identities[$srcClass][$srcId]->namedRelatedObjectSets[$relatedClass][$setName] )
+        )
+        {
+            return $this->identities[$srcClass][$srcId]->namedRelatedObjectSets[$relatedClass][$setName];
+        }
+        elseif ( $setName === null
+                 && isset( $this->identities[$srcClass][$srcId] )
+                 && isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass] )
+        )
+        {
+            return $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass];
+        }
+        return null;
     }
 
     /**
@@ -455,8 +489,7 @@ class ezcPersistentIdentityMap
      */
     public function reset()
     {
-        // @TODO: Implement.
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $this->identities = array();
     }
 }
 
