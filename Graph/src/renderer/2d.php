@@ -1285,6 +1285,214 @@ class ezcGraphRenderer2d
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
         ezcGraphChartElementAxis $axis,
+        ezcGraphAxisLabelRenderer $labelClass = null,
+        ezcGraphBoundings $innerBoundings = null )
+    {
+        // Legacy axis drawing for BC reasons
+        if ( $innerBoundings === null )
+        {
+            return $this->legacyDrawAxis( $boundings, $start, $end, $axis, $labelClass );
+        }
+
+        // Calculate axis start and end points depending on inner boundings
+        if ( ( $axis->position === ezcGraph::TOP ) ||
+             ( $axis->position === ezcGraph::BOTTOM ) )
+        {
+            $innerStart = new ezcGraphCoordinate( 
+                $start->x + $boundings->x0,
+                ( $axis->position === ezcGraph::TOP ? $innerBoundings->y0 : $innerBoundings->y1 )
+            );
+            $innerEnd = new ezcGraphCoordinate(
+                $end->x   + $boundings->x0,
+                ( $axis->position === ezcGraph::TOP ? $innerBoundings->y1 : $innerBoundings->y0 )
+            );
+        }
+        else
+        {
+            $innerStart = new ezcGraphCoordinate( 
+                ( $axis->position === ezcGraph::LEFT ? $innerBoundings->x0 : $innerBoundings->x1 ),
+                $start->y + $boundings->y0
+            );
+            $innerEnd = new ezcGraphCoordinate(
+                ( $axis->position === ezcGraph::LEFT ? $innerBoundings->x1 : $innerBoundings->x0 ),
+                $end->y   + $boundings->y0
+            );
+        }
+
+        // Shorten axis, if requested
+        if ( $this->options->shortAxis )
+        {
+            $start = clone $innerStart;
+            $end   = clone $innerEnd;
+        }
+        else
+        {
+            $start->x += $boundings->x0;
+            $start->y += $boundings->y0;
+            $end->x += $boundings->x0;
+            $end->y += $boundings->y0;
+        }
+
+        // Determine normalized direction
+        $direction = new ezcGraphVector(
+            $start->x - $end->x,
+            $start->y - $end->y
+        );
+        $direction->unify();
+
+        // Draw axis
+        $this->driver->drawLine(
+            $start,
+            $end,
+            $axis->border,
+            1
+        );
+
+        // Draw small arrowhead
+        $this->drawAxisArrowHead(
+            $end,
+            $direction,
+            max(
+                $axis->minArrowHeadSize,
+                min(
+                    $axis->maxArrowHeadSize,
+                    abs( ceil( ( ( $end->x - $start->x ) + ( $end->y - $start->y ) ) * $axis->axisSpace / 4 ) )
+                )
+            ),
+            $axis->border
+        );
+
+        // Draw axis label, if set
+        $this->drawAxisLabel( $end, $innerBoundings, $axis );
+
+        // If font should not be synchronized, use font configuration from
+        // each axis
+        if ( $this->options->syncAxisFonts === false )
+        {
+            $this->driver->options->font = $axis->font;
+        }
+
+        $labelClass->renderLabels(
+            $this,
+            $boundings,
+            $innerStart,
+            $innerEnd,
+            $axis,
+            $innerBoundings
+        );
+    }
+
+    /**
+     * Draw axis label
+     *
+     * Draw labels at the end of an axis.
+     * 
+     * @param ezcGraphCoordinate $position 
+     * @param ezcGraphBoundings $boundings 
+     * @param ezcGraphChartElementAxis $axis 
+     * @return void
+     */
+    protected function drawAxisLabel( ezcGraphCoordinate $position, ezcGraphBoundings $boundings, ezcGraphChartElementAxis $axis )
+    {
+        if ( $axis->label === false )
+        {
+            return;
+        }
+
+        $width = $boundings->width;
+        switch ( $axis->position )
+        {
+            case ezcGraph::TOP:
+                $this->driver->drawTextBox(
+                    $axis->label,
+                    new ezcGraphCoordinate(
+                        $position->x + $axis->labelMargin - $width * ( 1 - $axis->axisSpace * 2 ),
+                        $position->y - $axis->labelMargin - $axis->labelSize
+                    ),
+                    $width * ( 1 - $axis->axisSpace * 2 ) - $axis->labelMargin,
+                    $axis->labelSize,
+                    ezcGraph::TOP | ezcGraph::RIGHT
+                );
+                break;
+            case ezcGraph::BOTTOM:
+                $this->driver->drawTextBox(
+                    $axis->label,
+                    new ezcGraphCoordinate(
+                        $position->x + $axis->labelMargin,
+                        $position->y + $axis->labelMargin
+                    ),
+                    $width * ( 1 - $axis->axisSpace * 2 ) - $axis->labelMargin,
+                    $axis->labelSize,
+                    ezcGraph::TOP | ezcGraph::LEFT
+                );
+                break;
+            case ezcGraph::LEFT:
+                $this->driver->drawTextBox(
+                    $axis->label,
+                    new ezcGraphCoordinate(
+                        $position->x - $width,
+                        $position->y - $axis->labelSize - $axis->labelMargin
+                    ),
+                    $width - $axis->labelMargin,
+                    $axis->labelSize,
+                    ezcGraph::BOTTOM | ezcGraph::RIGHT
+                );
+                break;
+            case ezcGraph::RIGHT:
+                $this->driver->drawTextBox(
+                    $axis->label,
+                    new ezcGraphCoordinate(
+                        $position->x,
+                        $position->y - $axis->labelSize - $axis->labelMargin
+                    ),
+                    $width - $axis->labelMargin,
+                    $axis->labelSize,
+                    ezcGraph::BOTTOM | ezcGraph::LEFT
+                );
+                break;
+        }
+    }
+
+    /**
+     * Draw axis
+     *
+     * Draws an axis form the provided start point to the end point. A specific 
+     * angle of the axis is not required.
+     *
+     * For the labeleing of the axis a sorted array with major steps and an 
+     * array with minor steps is expected, which are build like this:
+     *  array(
+     *      array(
+     *          'position' => (float),
+     *          'label' => (string),
+     *      )
+     *  )
+     * where the label is optional.
+     *
+     * The label renderer class defines how the labels are rendered. For more
+     * documentation on this topic have a look at the basic label renderer 
+     * class.
+     *
+     * Additionally it can be specified if a major and minor grid are rendered 
+     * by defining a color for them. The axis label is used to add a caption 
+     * for the axis.
+     *
+     * This function is deprecated and will be removed in favor of its
+     * reimplementation using the innerBoundings parameter.
+     * 
+     * @param ezcGraphBoundings $boundings Boundings of axis
+     * @param ezcGraphCoordinate $start Start point of axis
+     * @param ezcGraphCoordinate $end Endpoint of axis
+     * @param ezcGraphChartElementAxis $axis Axis to render
+     * @param ezcGraphAxisLabelRenderer $labelClass Used label renderer
+     * @apichange
+     * @return void
+     */
+    protected function legacyDrawAxis(
+        ezcGraphBoundings $boundings,
+        ezcGraphCoordinate $start,
+        ezcGraphCoordinate $end,
+        ezcGraphChartElementAxis $axis,
         ezcGraphAxisLabelRenderer $labelClass = null )
     {
         // Store axis space for use by label renderer
@@ -1368,62 +1576,8 @@ class ezcGraphRenderer2d
             $axis->border
         );
 
-        // Draw axis label
-        if ( $axis->label !== false )
-        {
-            $width = $boundings->width;
-            switch ( $axis->position )
-            {
-                case ezcGraph::TOP:
-                    $this->driver->drawTextBox(
-                        $axis->label,
-                        new ezcGraphCoordinate(
-                            $end->x + $axis->labelMargin - $width * ( 1 - $axis->axisSpace * 2 ),
-                            $end->y - $axis->labelMargin - $axis->labelSize
-                        ),
-                        $width * ( 1 - $axis->axisSpace * 2 ) - $axis->labelMargin,
-                        $axis->labelSize,
-                        ezcGraph::TOP | ezcGraph::RIGHT
-                    );
-                    break;
-                case ezcGraph::BOTTOM:
-                    $this->driver->drawTextBox(
-                        $axis->label,
-                        new ezcGraphCoordinate(
-                            $end->x + $axis->labelMargin,
-                            $end->y + $axis->labelMargin
-                        ),
-                        $width * ( 1 - $axis->axisSpace * 2 ) - $axis->labelMargin,
-                        $axis->labelSize,
-                        ezcGraph::TOP | ezcGraph::LEFT
-                    );
-                    break;
-                case ezcGraph::LEFT:
-                    $this->driver->drawTextBox(
-                        $axis->label,
-                        new ezcGraphCoordinate(
-                            $end->x - $width,
-                            $end->y - $axis->labelSize - $axis->labelMargin
-                        ),
-                        $width - $axis->labelMargin,
-                        $axis->labelSize,
-                        ezcGraph::BOTTOM | ezcGraph::RIGHT
-                    );
-                    break;
-                case ezcGraph::RIGHT:
-                    $this->driver->drawTextBox(
-                        $axis->label,
-                        new ezcGraphCoordinate(
-                            $end->x,
-                            $end->y - $axis->labelSize - $axis->labelMargin
-                        ),
-                        $width - $axis->labelMargin,
-                        $axis->labelSize,
-                        ezcGraph::BOTTOM | ezcGraph::LEFT
-                    );
-                    break;
-            }
-        }
+        // Draw axis label, if set
+        $this->drawAxisLabel( $end, $boundings, $axis );
 
         // Collect axis labels and draw, when all axisSpaces are collected
         $this->axisLabels[] = array(

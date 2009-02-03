@@ -67,7 +67,7 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
             $this->removeTempDir();
         }
     }
-
+// /*
     public function testRenderLabeledPieSegment()
     {
         $this->driver
@@ -1596,13 +1596,15 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
     public function testRenderVerticalAxis()
     {
         $chart = new ezcGraphLineChart();
+        $chart->yAxis->addData( array( 1, 2, 3, 4, 5 ) );
+        $chart->yAxis->calculateAxisBoundings();
 
         $this->driver
             ->expects( $this->at( 0 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 120., 220. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 120., 20. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 140., 220. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 140., 20. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( 1 )
             );
@@ -1611,9 +1613,9 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
-                    new ezcGraphCoordinate( 120., 20. ),
-                    new ezcGraphCoordinate( 122.5, 25. ),
-                    new ezcGraphCoordinate( 117.5, 25. ),
+                    new ezcGraphCoordinate( 140., 20. ),
+                    new ezcGraphCoordinate( 142.5, 25. ),
+                    new ezcGraphCoordinate( 137.5, 25. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
@@ -1621,22 +1623,65 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
 
         $this->renderer->drawAxis(
             new ezcGraphBoundings( 100, 20, 500, 220 ),
-            new ezcGraphCoordinate( 20, 200 ),
-            new ezcGraphCoordinate( 20, 0 ),
-            $chart->yAxis
+            new ezcGraphCoordinate( 40, 200 ),
+            new ezcGraphCoordinate( 40, 0 ),
+            $chart->yAxis,
+            new ezcGraphAxisCenteredLabelRenderer(),
+            new ezcGraphBoundings( 140, 40, 460, 200 )
+        );
+    }
+    
+    public function testRenderVerticalShortAxis()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->yAxis->addData( array( 1, 2, 3, 4, 5 ) );
+        $chart->yAxis->calculateAxisBoundings();
+
+        $this->driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 140., 200. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 140., 40. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( 1 )
+            );
+        $this->driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array(
+                    new ezcGraphCoordinate( 140., 40. ),
+                    new ezcGraphCoordinate( 142, 45. ),
+                    new ezcGraphCoordinate( 138, 45. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( true )
+            );
+
+        $this->renderer->options->shortAxis = true;
+        $this->renderer->drawAxis(
+            new ezcGraphBoundings( 100, 20, 500, 220 ),
+            new ezcGraphCoordinate( 40, 200 ),
+            new ezcGraphCoordinate( 40, 0 ),
+            $chart->yAxis,
+            new ezcGraphAxisCenteredLabelRenderer(),
+            new ezcGraphBoundings( 140, 40, 460, 200 )
         );
     }
     
     public function testRenderVerticalAxisReverse()
     {
         $chart = new ezcGraphLineChart();
+        $chart->yAxis->addData( array( 1, 2, 3, 4, 5 ) );
+        $chart->yAxis->calculateAxisBoundings();
 
         $this->driver
             ->expects( $this->at( 0 ) )
             ->method( 'drawLine' )
             ->with(
-                $this->equalTo( new ezcGraphCoordinate( 120., 20. ), 1. ),
-                $this->equalTo( new ezcGraphCoordinate( 120., 220. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 140., 20. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 140., 220. ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( 1 )
             );
@@ -1645,9 +1690,9 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
             ->method( 'drawPolygon' )
             ->with(
                 $this->equalTo( array(
-                    new ezcGraphCoordinate( 120., 220. ),
-                    new ezcGraphCoordinate( 117.5, 215. ),
-                    new ezcGraphCoordinate( 122.5, 215. ),
+                    new ezcGraphCoordinate( 140., 220. ),
+                    new ezcGraphCoordinate( 137.5, 215. ),
+                    new ezcGraphCoordinate( 142.5, 215. ),
                 ), 1. ),
                 $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
                 $this->equalTo( true )
@@ -1655,15 +1700,19 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
 
         $this->renderer->drawAxis(
             new ezcGraphBoundings( 100, 20, 500, 220 ),
-            new ezcGraphCoordinate( 20, 0 ),
-            new ezcGraphCoordinate( 20, 200 ),
-            $chart->yAxis
+            new ezcGraphCoordinate( 40, 0 ),
+            new ezcGraphCoordinate( 40, 200 ),
+            $chart->yAxis,
+            new ezcGraphAxisCenteredLabelRenderer(),
+            new ezcGraphBoundings( 140, 40, 460, 200 )
         );
     }
     
     public function testRenderHorizontalAxis()
     {
         $chart = new ezcGraphLineChart();
+        $chart->yAxis->addData( array( 1, 2, 3, 4, 5 ) );
+        $chart->yAxis->calculateAxisBoundings();
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1691,13 +1740,56 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
             new ezcGraphBoundings( 100, 20, 500, 220 ),
             new ezcGraphCoordinate( 50, 100 ),
             new ezcGraphCoordinate( 350, 100 ),
-            $chart->yAxis
+            $chart->yAxis,
+            new ezcGraphAxisCenteredLabelRenderer(),
+            new ezcGraphBoundings( 140, 40, 460, 200 )
+        );
+    }
+    
+    public function testRenderHorizontalShortAxis()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->xAxis->addData( array( 1, 2, 3, 4, 5 ) );
+        $chart->xAxis->calculateAxisBoundings();
+
+        $this->driver
+            ->expects( $this->at( 0 ) )
+            ->method( 'drawLine' )
+            ->with(
+                $this->equalTo( new ezcGraphCoordinate( 140., 120. ), 1. ),
+                $this->equalTo( new ezcGraphCoordinate( 460., 120. ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( 1 )
+            );
+        $this->driver
+            ->expects( $this->at( 1 ) )
+            ->method( 'drawPolygon' )
+            ->with(
+                $this->equalTo( array(
+                    new ezcGraphCoordinate( 460., 120. ),
+                    new ezcGraphCoordinate( 452, 124. ),
+                    new ezcGraphCoordinate( 452, 116. ),
+                ), 1. ),
+                $this->equalTo( ezcGraphColor::fromHex( '#2E3436' ) ),
+                $this->equalTo( true )
+            );
+
+        $this->renderer->options->shortAxis = true;
+        $this->renderer->drawAxis(
+            new ezcGraphBoundings( 100, 20, 500, 220 ),
+            new ezcGraphCoordinate( 0, 100 ),
+            new ezcGraphCoordinate( 400, 100 ),
+            $chart->xAxis,
+            new ezcGraphAxisCenteredLabelRenderer(),
+            new ezcGraphBoundings( 140, 40, 460, 200 )
         );
     }
     
     public function testRenderHorizontalAxisReverse()
     {
         $chart = new ezcGraphLineChart();
+        $chart->yAxis->addData( array( 1, 2, 3, 4, 5 ) );
+        $chart->yAxis->calculateAxisBoundings();
 
         $this->driver
             ->expects( $this->at( 0 ) )
@@ -1725,7 +1817,9 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
             new ezcGraphBoundings( 100, 20, 500, 220 ),
             new ezcGraphCoordinate( 350, 100 ),
             new ezcGraphCoordinate( 50, 100 ),
-            $chart->yAxis
+            $chart->yAxis,
+            new ezcGraphAxisCenteredLabelRenderer(),
+            new ezcGraphBoundings( 140, 40, 460, 200 )
         );
     }
 
@@ -1744,8 +1838,8 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         file_put_contents( $filename, ob_get_clean() );
 
         $this->compare(
-            $filename,
-            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            $filename
         );
     }
 
@@ -1755,6 +1849,30 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
 
         $chart = new ezcGraphLineChart();
         $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+        $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
+
+        $chart->driver = new ezcGraphSvgDriver();
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            $filename
+        );
+    }
+
+    public function testRenderLineChartZeroAxisSpace()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+
+        $chart->xAxis->axisSpace = .0;
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+        $chart->yAxis->axisSpace = .0;
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
 
         $chart->data['Line 1'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         $chart->data['Line 2'] = new ezcGraphArrayDataSet( array( 'sample 1' => 543, 'sample 2' => 234, 'sample 3' => 298, 'sample 4' => 5, 'sample 5' => 613) );
@@ -2116,8 +2234,10 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
 
         $chart->xAxis->label = 'Samples';
         $chart->xAxis->position = ezcGraph::RIGHT;
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->label = 'Numbers';
         $chart->yAxis->position = ezcGraph::TOP;
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
 
         $chart->driver = new ezcGraphSvgDriver();
 

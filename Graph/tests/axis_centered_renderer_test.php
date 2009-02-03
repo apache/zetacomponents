@@ -74,7 +74,7 @@ class ezcGraphAxisCenteredRendererTest extends ezcTestCase
         $chart->palette = new ezcGraphPaletteBlack();
         $chart->xAxis->axisLabelRenderer = new ezcGraphAxisCenteredLabelRenderer();
         $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
-        $chart->yAxis->axisSpace = 0.001;
+        $chart->yAxis->axisSpace = 0;
         $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => 21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
         
         $mockedRenderer = $this->getMock( 'ezcGraphRenderer2d', array(

@@ -14,6 +14,7 @@
 */
 require_once 'axis_centered_renderer_test.php';
 require_once 'axis_exact_renderer_test.php';
+require_once 'axis_boxed_renderer_test.php';
 require_once 'axis_rotated_renderer_test.php';
 require_once 'background_test.php';
 require_once 'boundings_test.php';
@@ -46,6 +47,7 @@ require_once 'polynom_test.php';
 require_once 'radar_axis_test.php';
 require_once 'radar_chart.php';
 require_once 'renderer_2d_test.php';
+require_once 'renderer_2d_legacy_test.php';
 require_once 'renderer_3d_test.php';
 require_once 'struct_test.php';
 require_once 'text_test.php';
@@ -68,6 +70,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcGraphAxisCenteredRendererTest::suite() );
         $this->addTest( ezcGraphAxisExactRendererTest::suite() );
+        $this->addTest( ezcGraphAxisBoxedRendererTest::suite() );
         $this->addTest( ezcGraphAxisRotatedRendererTest::suite() );
         $this->addTest( ezcGraphBackgroundTest::suite() );
         $this->addTest( ezcGraphBoundingsTest::suite() );
@@ -98,6 +101,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphRadarChartAxisTest::suite() );
         $this->addTest( ezcGraphRadarChartTest::suite() );
         $this->addTest( ezcGraphRenderer2dTest::suite() );
+        $this->addTest( ezcGraphRenderer2dLegacyTest::suite() );
         $this->addTest( ezcGraphRenderer3dTest::suite() );
         $this->addTest( ezcGraphStructTest::suite() );
         $this->addTest( ezcGraphSvgDriverTest::suite() );

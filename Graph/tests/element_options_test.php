@@ -636,6 +636,43 @@ class ezcGraphElementOptionsTest extends ezcTestImageCase
         $this->fail( 'Expected ezcBaseValueException.' );
     }
 
+    /* Disabled for now.
+    public function testChartElementAxisPropertyOuterAxisSpace()
+    {
+        $options = new ezcGraphChartElementNumericAxis();
+
+        $this->assertSame(
+            null,
+            $options->outerAxisSpace,
+            'Wrong default value for property outerAxisSpace in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->outerAxisSpace = .2;
+        $this->assertSame(
+            .2,
+            $options->outerAxisSpace,
+            'Setting property value did not work for property outerAxisSpace in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->outerAxisSpace = null;
+        $this->assertSame(
+            null,
+            $options->outerAxisSpace,
+            'Setting property value did not work for property outerAxisSpace in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->outerAxisSpace = false;
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            return true;
+        }
+
+        $this->fail( 'Expected ezcBaseValueException.' );
+    } // */
+
     public function testChartElementAxisPropertyMajorGrid()
     {
         $options = new ezcGraphChartElementNumericAxis();

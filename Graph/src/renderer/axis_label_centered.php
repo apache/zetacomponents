@@ -85,7 +85,8 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
         ezcGraphBoundings $boundings,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
-        ezcGraphChartElementAxis $axis )
+        ezcGraphChartElementAxis $axis,
+        ezcGraphBoundings $innerBoundings = null )
     {
         // receive rendering parameters from axis
         $steps = $axis->getSteps();
@@ -97,24 +98,14 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
 
         // Determine normalized axis direction
         $direction = new ezcGraphVector(
-            $start->x - $end->x,
-            $start->y - $end->y
+            $end->x - $start->x,
+            $end->y - $start->y
         );
         $direction->unify();
-        
-        if ( $this->outerGrid )
-        {
-            $gridBoundings = $boundings;
-        }
-        else
-        {
-            $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + $renderer->xAxisSpace * abs( $direction->y ),
-                $boundings->y0 + $renderer->yAxisSpace * abs( $direction->x ),
-                $boundings->x1 - $renderer->xAxisSpace * abs( $direction->y ),
-                $boundings->y1 - $renderer->yAxisSpace * abs( $direction->x )
-            );
-        }
+
+        // Get axis space
+        $gridBoundings = null;
+        list( $xSpace, $ySpace ) = $this->getAxisSpace( $renderer, $boundings, $axis, $innerBoundings, $gridBoundings );
 
         // Draw steps and grid
         foreach ( $steps as $nr => $step )
@@ -165,14 +156,14 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
                         case ( $nr === 0 ):
                             // First label
                             $labelSize = min(
-                                $renderer->xAxisSpace * 2,
+                                $xSpace * 2,
                                 $step->width * $axisBoundings->width
                             );
                             break;
                         case ( $step->isLast ):
                             // Last label
                             $labelSize = min(
-                                $renderer->xAxisSpace * 2,
+                                $xSpace * 2,
                                 $steps[$nr - 1]->width * $axisBoundings->width
                             );
                             break;
@@ -188,7 +179,7 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
                         $position->x - $labelSize / 2 + $this->labelPadding,
                         $position->y + $this->labelPadding,
                         $position->x + $labelSize / 2 - $this->labelPadding,
-                        $position->y + $renderer->yAxisSpace - $this->labelPadding
+                        $position->y + $ySpace - $this->labelPadding
                     );
 
                     $alignement = ezcGraph::CENTER | ezcGraph::TOP;
@@ -201,14 +192,14 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
                         case ( $nr === 0 ):
                             // First label
                             $labelSize = min(
-                                $renderer->yAxisSpace * 2,
+                                $ySpace * 2,
                                 $step->width * $axisBoundings->height
                             );
                             break;
                         case ( $step->isLast ):
                             // Last label
                             $labelSize = min(
-                                $renderer->yAxisSpace * 2,
+                                $ySpace * 2,
                                 $steps[$nr - 1]->width * $axisBoundings->height
                             );
                             break;
@@ -221,7 +212,7 @@ class ezcGraphAxisCenteredLabelRenderer extends ezcGraphAxisLabelRenderer
                     }
 
                     $labelBoundings = new ezcGraphBoundings(
-                        $position->x - $renderer->xAxisSpace + $this->labelPadding,
+                        $position->x - $xSpace + $this->labelPadding,
                         $position->y - $labelSize / 2 + $this->labelPadding,
                         $position->x - $this->labelPadding,
                         $position->y + $labelSize / 2 - $this->labelPadding

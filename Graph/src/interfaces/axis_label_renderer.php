@@ -266,8 +266,8 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
             // Turn direction vector to left by 90 degrees and multiply 
             // with major step size
             $stepStart = new ezcGraphCoordinate(
-                $position->x - $direction->y * $size,
-                $position->y + $direction->x * $size
+                $position->x + $direction->y * $size,
+                $position->y - $direction->x * $size
             );
             $drawStep = true;
         }
@@ -285,8 +285,8 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
             // Turn direction vector to right by 90 degrees and multiply 
             // with major step size
             $stepEnd = new ezcGraphCoordinate(
-                $position->x + $direction->y * $size,
-                $position->y - $direction->x * $size
+                $position->x - $direction->y * $size,
+                $position->y + $direction->x * $size
             );
             $drawStep = true;
         }
@@ -488,6 +488,49 @@ abstract class ezcGraphAxisLabelRenderer extends ezcBaseOptions
     public function modifyChartDataPosition( ezcGraphCoordinate $coordinate )
     {
         return $coordinate;
+    }
+
+    /**
+     * Get axis space values
+     *
+     * Get axis space values, depending on passed parameters. If
+     * $innerBoundings is given it will be used to caclulat the axis spaces
+     * available for label rendering. If not given the legacy method will be
+     * used, which uses the xAxisSpace and yAxisSpace values calcualted by the
+     * renderer.
+     *
+     * Returns an array( $xSpace, $ySpace ), containing the irespective size in
+     * pixels. Additionally calculates the grid boundings passed by reference.
+     * 
+     * @param ezcGraphRenderer $renderer 
+     * @param ezcGraphBoundings $boundings 
+     * @param mixed $innerBoundings 
+     * @return array
+     */
+    protected function getAxisSpace( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings, ezcGraphChartElementAxis $axis, $innerBoundings, &$gridBoundings )
+    {
+        if ( $innerBoundings !== null )
+        {
+            $gridBoundings = clone $innerBoundings;
+            $xSpace = abs( $axis->position === ezcGraph::LEFT ? $innerBoundings->x0 - $boundings->x0 : $boundings->x1 - $innerBoundings->x1 );
+            $ySpace = abs( $axis->position === ezcGraph::TOP  ? $innerBoundings->y0 - $boundings->y0 : $boundings->y1 - $innerBoundings->y1 );
+        }
+        else
+        {
+            $gridBoundings = new ezcGraphBoundings(
+                $boundings->x0 + ( $xSpace = abs( $renderer->xAxisSpace ) ),
+                $boundings->y0 + ( $ySpace = abs( $renderer->yAxisSpace ) ),
+                $boundings->x1 - $xSpace,
+                $boundings->y1 - $ySpace
+            );
+        }
+
+        if ( $this->outerGrid )
+        {
+            $gridBoundings = $boundings;
+        }
+
+        return array( $xSpace, $ySpace );
     }
 
     /**

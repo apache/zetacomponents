@@ -184,17 +184,10 @@ class ezcGraphLineChart extends ezcGraphChart
      * @param ezcGraphBoundings $boundings Remaining boundings
      * @return void
      */
-    protected function renderData( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings )
+    protected function renderData( ezcGraphRenderer $renderer, ezcGraphBoundings $boundings, ezcGraphBoundings $innerBoundings )
     {
-        // Apply axis space
-        $xAxisSpace = ( $boundings->x1 - $boundings->x0 ) * $this->yAxis->axisSpace;
-        $yAxisSpace = ( $boundings->y1 - $boundings->y0 ) * $this->xAxis->axisSpace;
-
-        $boundings->x0 += $xAxisSpace;
-        $boundings->x1 -= $xAxisSpace;
-
-        $boundings->y0 += $yAxisSpace;
-        $boundings->y1 -= $yAxisSpace;
+        // Use inner boundings for drawning chart data
+        $boundings = $innerBoundings;
 
         $yAxisNullPosition = $this->elements['yAxis']->getCoordinate( false );
 
@@ -561,27 +554,50 @@ class ezcGraphLineChart extends ezcGraphChart
         foreach ( $this->elements as $name => $element )
         {
             // Skip element, if it should not get rendered
-            if ( $this->renderElement[$name] === false )
+            if ( ( $this->renderElement[$name] === false ) ||
+                 ( $name === 'xAxis' ) ||
+                 ( $name === 'yAxis' ) )
             {
                 continue;
-            }
-
-            // Special settings for special elements
-            switch ( $name )
-            {
-                case 'xAxis':
-                    // get Position of 0 on the Y-axis for orientation of the x-axis
-                    $element->nullPosition = $this->elements['yAxis']->getCoordinate( false );
-                    break;
-                case 'yAxis':
-                    // get Position of 0 on the X-axis for orientation of the y-axis
-                    $element->nullPosition = $this->elements['xAxis']->getCoordinate( false );
-                    break;
             }
 
             $this->driver->options->font = $element->font;
             $boundings = $element->render( $this->renderer, $boundings );
         }
+
+        // Set relative positions of axis in chart depending on the "null"
+        // value on the other axis.
+        $this->elements['xAxis']->nullPosition = $this->elements['yAxis']->getCoordinate( false );
+        $this->elements['yAxis']->nullPosition = $this->elements['xAxis']->getCoordinate( false );
+
+        // Calculate inner data boundings of chart
+        $innerBoundings = new ezcGraphBoundings(
+            $boundings->x0 + $boundings->width *
+                ( ( ( $this->elements['yAxis']->outerAxisSpace === null ) || 
+                    ( $this->elements['xAxis']->position === ezcGraph::LEFT ) ) ?
+                    $this->elements['yAxis']->axisSpace :
+                    $this->elements['yAxis']->outerAxisSpace ),
+            $boundings->y0 + $boundings->height *
+                ( ( ( $this->elements['xAxis']->outerAxisSpace === null ) || 
+                    ( $this->elements['yAxis']->position === ezcGraph::TOP ) ) ?
+                    $this->elements['xAxis']->axisSpace :
+                    $this->elements['yAxis']->outerAxisSpace ),
+            $boundings->x1 - $boundings->width *
+                ( ( ( $this->elements['yAxis']->outerAxisSpace === null ) || 
+                    ( $this->elements['xAxis']->position === ezcGraph::RIGHT ) ) ?
+                    $this->elements['yAxis']->axisSpace :
+                    $this->elements['yAxis']->outerAxisSpace ),
+            $boundings->y1 - $boundings->height *
+                ( ( ( $this->elements['xAxis']->outerAxisSpace === null ) || 
+                    ( $this->elements['yAxis']->position === ezcGraph::BOTTOM ) ) ?
+                    $this->elements['xAxis']->axisSpace :
+                    $this->elements['yAxis']->outerAxisSpace )
+        );
+
+        // Render axis
+        $this->driver->options->font = $this->elements['yAxis']->font;
+        $boundings = $this->elements['xAxis']->render( $this->renderer, $boundings, $innerBoundings );
+        $boundings = $this->elements['yAxis']->render( $this->renderer, $boundings, $innerBoundings );
 
         // Render additional axis
         foreach ( $this->additionalAxis as $element )
@@ -605,7 +621,7 @@ class ezcGraphLineChart extends ezcGraphChart
         }
 
         // Render graph
-        $this->renderData( $this->renderer, $boundings );
+        $this->renderData( $this->renderer, $boundings, $innerBoundings );
     }
 
     /**

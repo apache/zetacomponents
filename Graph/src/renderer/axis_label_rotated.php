@@ -130,7 +130,8 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
         ezcGraphBoundings $boundings,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
-        ezcGraphChartElementAxis $axis )
+        ezcGraphChartElementAxis $axis,
+        ezcGraphBoundings $innerBoundings = null )
     {
         // receive rendering parameters from axis
         $steps = $axis->getSteps();
@@ -149,19 +150,9 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
         $this->direction->unify();
         $axisAngle = -$this->direction->angle( new ezcGraphVector( 1, 0 ) );
 
-        if ( $this->outerGrid )
-        {
-            $gridBoundings = $boundings;
-        }
-        else
-        {
-            $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + $renderer->xAxisSpace,
-                $boundings->y0 + $renderer->yAxisSpace,
-                $boundings->x1 - $renderer->xAxisSpace,
-                $boundings->y1 - $renderer->yAxisSpace
-            );
-        }
+        // Get axis space
+        $gridBoundings = null;
+        list( $xSpace, $ySpace ) = $this->getAxisSpace( $renderer, $boundings, $axis, $innerBoundings, $gridBoundings );
 
         // Determine optimal angle if none specified
         if ( $this->angle === null )
@@ -181,8 +172,8 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
                 $axisBoundings->height * $minimumStepWidth * $this->direction->y
             );
             $height = abs(
-                $renderer->yAxisSpace * $this->direction->x +
-                $renderer->xAxisSpace * $this->direction->y
+                $ySpace * $this->direction->x +
+                $xSpace * $this->direction->y
             );
 
             $length = sqrt( pow( $width, 2 ) + pow( $height, 2 ) );
@@ -218,9 +209,9 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
 
         $axisSpaceFactor = abs(
             ( $this->direction->x == 0 ? 0 :
-                $this->direction->x * $renderer->yAxisSpace / $axisBoundings->width ) +
+                $this->direction->x * $ySpace / $axisBoundings->width ) +
             ( $this->direction->y == 0 ? 0 :
-                $this->direction->y * $renderer->xAxisSpace / $axisBoundings->height )
+                $this->direction->y * $xSpace / $axisBoundings->height )
         );
 
         $start = new ezcGraphCoordinate(
@@ -234,11 +225,11 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
 
         $labelLength = sqrt(
             pow(
-                $renderer->xAxisSpace * $this->direction->y +
+                $xSpace * $this->direction->y +
                 $axisSpaceFactor * $this->offset * ( $end->x - $start->x ),
                 2 ) +
             pow(
-                $renderer->yAxisSpace * $this->direction->x +
+                $ySpace * $this->direction->x +
                 $axisSpaceFactor * $this->offset * ( $end->y - $start->y ),
                 2 )
         );
@@ -264,8 +255,8 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
                 case ( $nr === 0 ):
                     $labelSize = min(
                         abs( 
-                            $renderer->xAxisSpace * 2 * $this->direction->x +
-                            $renderer->yAxisSpace * 2 * $this->direction->y ),
+                            $xSpace * 2 * $this->direction->x +
+                            $ySpace * 2 * $this->direction->y ),
                         abs( 
                             $step->width * $axisBoundings->width * $this->direction->x +
                             $step->width * $axisBoundings->height * $this->direction->y )
@@ -274,8 +265,8 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
                 case ( $step->isLast ):
                     $labelSize = min(
                         abs( 
-                            $renderer->xAxisSpace * 2 * $this->direction->x +
-                            $renderer->yAxisSpace * 2 * $this->direction->y ),
+                            $xSpace * 2 * $this->direction->x +
+                            $ySpace * 2 * $this->direction->y ),
                         abs( 
                             $steps[$nr - 1]->width * $axisBoundings->width * $this->direction->x +
                             $steps[$nr - 1]->width * $axisBoundings->height * $this->direction->y )

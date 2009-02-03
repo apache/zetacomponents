@@ -92,7 +92,8 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
         ezcGraphBoundings $boundings,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
-        ezcGraphChartElementAxis $axis )
+        ezcGraphChartElementAxis $axis,
+        ezcGraphBoundings $innerBoundings = null )
     {
         // receive rendering parameters from axis
         $steps = $axis->getSteps();
@@ -104,24 +105,14 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
 
         // Determine normalized axis direction
         $direction = new ezcGraphVector(
-            $start->x - $end->x,
-            $start->y - $end->y
+            $end->x - $start->x,
+            $end->y - $start->y
         );
         $direction->unify();
         
-        if ( $this->outerGrid )
-        {
-            $gridBoundings = $boundings;
-        }
-        else
-        {
-            $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + $renderer->xAxisSpace * abs( $direction->y ),
-                $boundings->y0 + $renderer->yAxisSpace * abs( $direction->x ),
-                $boundings->x1 - $renderer->xAxisSpace * abs( $direction->y ),
-                $boundings->y1 - $renderer->yAxisSpace * abs( $direction->x )
-            );
-        }
+        // Get axis space
+        $gridBoundings = null;
+        list( $xSpace, $ySpace ) = $this->getAxisSpace( $renderer, $boundings, $axis, $innerBoundings, $gridBoundings );
 
         // Draw steps and grid
         foreach ( $steps as $nr => $step )
@@ -169,7 +160,7 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
                         $labelWidth = $axisBoundings->width * 
                             $steps[$nr - $step->isLast]->width /
                             ( $this->showLastValue + 1 );
-                        $labelHeight = $renderer->yAxisSpace;
+                        $labelHeight = $ySpace;
 
                         if ( ( $this->renderLastOutside === true ) &&
                              ( $step->isLast === true ) )
@@ -180,7 +171,7 @@ class ezcGraphAxisExactLabelRenderer extends ezcGraphAxisLabelRenderer
 
                     case ezcGraph::BOTTOM:
                     case ezcGraph::TOP:
-                        $labelWidth = $renderer->xAxisSpace;
+                        $labelWidth = $xSpace;
                         $labelHeight = $axisBoundings->height * 
                             $steps[$nr - $step->isLast]->width /
                             ( $this->showLastValue + 1 );

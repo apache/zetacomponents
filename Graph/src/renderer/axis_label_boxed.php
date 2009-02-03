@@ -74,7 +74,8 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
         ezcGraphBoundings $boundings,
         ezcGraphCoordinate $start,
         ezcGraphCoordinate $end,
-        ezcGraphChartElementAxis $axis )
+        ezcGraphChartElementAxis $axis,
+        ezcGraphBoundings $innerBoundings = null )
     {
         // receive rendering parameters from axis
         $steps = $axis->getSteps();
@@ -87,24 +88,14 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
 
         // Determine normalized axis direction
         $this->direction = new ezcGraphVector(
-            $start->x - $end->x,
-            $start->y - $end->y
+            $end->x - $start->x,
+            $end->y - $start->y
         );
         $this->direction->unify();
         
-        if ( $this->outerGrid )
-        {
-            $gridBoundings = $boundings;
-        }
-        else
-        {
-            $gridBoundings = new ezcGraphBoundings(
-                $boundings->x0 + $renderer->xAxisSpace * abs( $this->direction->y ),
-                $boundings->y0 + $renderer->yAxisSpace * abs( $this->direction->x ),
-                $boundings->x1 - $renderer->xAxisSpace * abs( $this->direction->y ),
-                $boundings->y1 - $renderer->yAxisSpace * abs( $this->direction->x )
-            );
-        }
+        // Get axis space
+        $gridBoundings = null;
+        list( $xSpace, $ySpace ) = $this->getAxisSpace( $renderer, $boundings, $axis, $innerBoundings, $gridBoundings );
 
         // Determine additional required axis space by boxes
         $firstStep = reset( $steps );
@@ -133,30 +124,30 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
                 switch ( true )
                 {
                     case ( abs( $this->direction->x ) > abs( $this->direction->y ) ) &&
-                         ( $this->direction->x <= 0 ):
+                         ( $this->direction->x > 0 ):
                         $labelBoundings = new ezcGraphBoundings(
                             $position->x - $stepSize->x + $this->labelPadding,
                             $position->y + $this->labelPadding,
                             $position->x - $this->labelPadding,
-                            $position->y + $renderer->yAxisSpace - $this->labelPadding
+                            $position->y + $ySpace - $this->labelPadding
                         );
 
                         $alignement = ezcGraph::CENTER | ezcGraph::TOP;
                     break;
                     case ( abs( $this->direction->x ) > abs( $this->direction->y ) ) &&
-                         ( $this->direction->x > 0 ):
+                         ( $this->direction->x < 0 ):
                         $labelBoundings = new ezcGraphBoundings(
                             $position->x + $this->labelPadding,
                             $position->y + $this->labelPadding,
                             $position->x + $stepSize->x - $this->labelPadding,
-                            $position->y + $renderer->yAxisSpace - $this->labelPadding
+                            $position->y + $ySpace - $this->labelPadding
                         );
 
                         $alignement = ezcGraph::CENTER | ezcGraph::TOP;
                     break;
-                    case ( $this->direction->y <= 0 ):
+                    case ( $this->direction->y > 0 ):
                         $labelBoundings = new ezcGraphBoundings(
-                            $position->x - $renderer->xAxisSpace + $this->labelPadding,
+                            $position->x - $xSpace + $this->labelPadding,
                             $position->y - $stepSize->y + $this->labelPadding,
                             $position->x - $this->labelPadding,
                             $position->y - $this->labelPadding
@@ -164,9 +155,9 @@ class ezcGraphAxisBoxedLabelRenderer extends ezcGraphAxisLabelRenderer
 
                         $alignement = ezcGraph::MIDDLE | ezcGraph::RIGHT;
                         break;
-                    case ( $this->direction->y > 0 ):
+                    case ( $this->direction->y < 0 ):
                         $labelBoundings = new ezcGraphBoundings(
-                            $position->x - $renderer->xAxisSpace + $this->labelPadding,
+                            $position->x - $xSpace + $this->labelPadding,
                             $position->y + $this->labelPadding,
                             $position->x - $this->labelPadding,
                             $position->y + $stepSize->y - $this->labelPadding
