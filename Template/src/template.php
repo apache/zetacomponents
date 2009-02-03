@@ -99,6 +99,9 @@ class ezcTemplate
     /**
      * An array containing the properties of this object:
      *
+     * The stream and streamStack properties are internal only, and should not
+     * be used externally.
+     *
      * @var array(string=>mixed)
      */
     private $properties = array( 'configuration' => null,
