@@ -75,4 +75,11 @@ class OverrideLocationNew implements ezcTemplateLocation
     }
 }
 
+class PathResolver implements ezcTemplateLocator
+{
+    public function translatePath( $path )
+    {
+        return 'overridden/'. $path;
+    }
+}
 ?>

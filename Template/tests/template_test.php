@@ -206,6 +206,17 @@ class ezcTemplateTest extends ezcTestCase
         $this->assertEquals("[\nYes\n]\n", $out);
     }
 
+    public function testTemplateLocator()
+    {
+        $c = ezcTemplateConfiguration::getInstance( 'templates' );
+        $c->locator = new PathResolver();
+
+        $template = new ezcTemplate();
+        $out = $template->process( 'test1.ezt', $c );
+
+        $this->assertEquals("[\nYes\n]\n", $out);
+    }
+
     public function testTemplateFileNotWriteableException()
     {
         file_put_contents( $this->templatePath . "/test.ezt", "Hello world" );

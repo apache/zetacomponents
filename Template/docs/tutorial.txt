@@ -186,11 +186,13 @@ As you can expect the result is::
 
 Template locations
 ------------------
-Since version 1.2 it is possible to send a Location object instead of a
-*location* parameter of the *process* method. A Location object is an object
-that implements the Location interface. The interface is as follows::
 
-    interface ezcTemplateLocationInterface
+Since version 1.2 it is possible to send a location object instead of a
+*location* parameter of the *process* method. A location object is an object
+that implements the ezcTemplateLocation interface. The interface is as
+follows::
+
+    interface ezcTemplateLocation
     {
         public function getPath();
     }
@@ -199,13 +201,13 @@ that implements the Location interface. The interface is as follows::
 The Template engine calls the *getPath* method on the object implementing this
 interface when needed. The *getPath* method returns a
 string specifying the template to execute. If the return value is a relative
-path , if it does not start with a slash, then the *templatePath* from the
+path, if it does not start with a slash, then the *templatePath* from the
 configuration is prepended. 
 
 The next example executes the *hello\_world.ezt* template via a location
 object::
 
-    class MyLocation implements ezcTemplateLocationInterface
+    class MyLocation implements ezcTemplateLocation
     {
         public function getPath()
         {
@@ -215,6 +217,34 @@ object::
 
     $t = new ezcTemplate();
     $t->process( new MyLocation() );
+
+It is also possible to provide a callback for every time a template's location
+is requested. Instead of supplying an object to the process() method of the
+ezcTemplate object like we do above we configure the callback with the template
+system's configuration::
+
+    $c = ezcTemplateConfiguration::getInstance( 'templates' );
+    $c->locator = new PathResolver();
+
+The PathResolver class implements the ezcTemplateLocator interface and is
+responsible for translating the paths that processed by the template engine. In
+the example below it simply prepends "overridden/" to the path. The
+*templatePath* from the configuration is prepended. The implementation::
+
+    class PathResolver implements ezcTemplateLocator
+    {   
+        public function translatePath( $path )
+        {   
+            return 'overridden/'. $path;
+        }   
+    }
+
+For every path that now passes through the template engine, "overridden/" is
+prepended. Which means that the following code actually processes
+"overridden/test1.ezt"::
+
+    $template = new ezcTemplate();
+    $out = $template->process( 'test1.ezt', $c );
 
 
 Template syntax

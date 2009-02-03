@@ -180,7 +180,7 @@ class ezcTemplateConfiguration
             case 'locator': 
                 if ( !($value instanceof ezcTemplateLocator) && $value !== null )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'ezcTemplateLocator' );
+                    throw new ezcBaseValueException( $name, $value, 'ezcTemplateLocator or null' );
                 }
 
                 $this->properties[$name] = $value;
