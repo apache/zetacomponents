@@ -113,7 +113,7 @@ Design
 ------
 
 The Identity Map support should be optional to not break BC and keep
-flexibility. Therefore, a new class named ezcPersistentIdentityMapSession is
+flexibility. Therefore, a new class named ezcPersistentIdentitySession is
 implemented. This extends the current implementation ezcPersistentSession to
 make instanceof checks still work. All of the methods will be overwritten and
 new handler classes, extending the existing ones will be implemented to reflect
@@ -130,6 +130,11 @@ role in this design:
   performed using the original ezcPersistentSession instance.
 
 - ezcPersistentIdentityMap
+
+  This interface provides the methods that will be used by
+  ezcPersistentIdentitySession to cache query results. A basic implementation
+  of this interface is ezcPersistentBasicIdentityMap, realizing the typical
+  identity map, by storing the identities in memory of the current process.
   
   An instance of this class builds the heart of ezcPersistentIdentitySession.
   It takes care for the in-memory management of object identities. The instance
@@ -378,39 +383,34 @@ The following 2 areas of identity mapping will be handled:
 Interface
 ---------
 
-.. todo:: - Make this class an interface
-          - Consolidate add*/replace* methods to set* methods to avoid
-            overhead
+The following methods will be provided by the ezcPersistentIdentityMap
+interface:
 
-The following methods will be provided by the ezcPersistentIdentityMap class:
+- setIdentity( object $object )
 
-- addIdentity( object $object )
-
-  Adds a new object to the identity map. If the object already exists in the
-  map, an exception is throwen.
+  Sets the identity for $object. If an identity for this object was already
+  recorded, it will be overwritten. The object using the identity map must
+  take care about checking if the identity was already recorded.
 
 - getIdentity( string $class, mixed $id )
 
   Returns the object recorded for $class, identified by $id. If such object is
   not available, null is returned.
 
-- replaceIdentity( object $object )
-  
-  Adds the object to the map, if it does not exist, yet. If it already exists,
-  the values of the existing identity are replaced by the values of $object.
-  The cached identity is returned in both cases.
+- setRelatedObjects( object $sourceObject, array $relatedObjects, string $relatedClass )
 
-- addRelatedObjects( object $sourceObject, array $relatedObjects, string $relationName = null )
+  Sets $relatedObjects for $sourceObject of class $relatedClass. The objects in
+  $relatedObjects must all be of $relatedClass, otherwise an exception will be
+  thrown. If a set of $relatedObjects for $className already exists, it will be
+  overwritten. The object using the identity map must take care about checking
+  if the related objects were already recorded.
 
-  This method creates a related object result set for the given $object, which
-  can be obtained later by getRelatedObjects(). In case the relation already
-  exists in the identity map, an exception is thrown.
+- setRelatedObjectSet( object $sourceObject, array $relatedObjects, string $setName )
 
-- replaceRelatedObjects( object $sourceObject, array $relatedObjects, string $relationName = null )
-
-  This method works similar to replaceIdentity(). In case the relation set does
-  not exist in the session, it is added as if addRelatedObjects() was used. If
-  the relation set does exist, the original set is replaced with the new one.
+  Creates a named set of $relatedObjects for $sourceObject named $setName. If a
+  set of $relatedObjects with $setName already exists, it will be overwritten.
+  The object using the identity map must take care about checking if the
+  related objects were already recorded.
 
 - addRelatedObject( object $sourceObject, object $relatedObject )
 
@@ -427,16 +427,27 @@ The following methods will be provided by the ezcPersistentIdentityMap class:
   ezcPersistentIdentitySession->removeRelatedObject(). If the relation
   resultset is not cached, yet, the call is ignored.
 
-- getRelatedObjects( object $sourceObject, string $class, string $relationName = null)
+- getRelatedObjects( object $sourceObject, string $class )
 
   Returns an array of objects of type $class related to $sourceObject. This can
   also be an empty array, if the last lookup in the database resulted in such.
   In case no related objects have been recorded, yet, null is returned.
 
+- getRelatedObjectSet( object $sourceObject, string $setName )
+
+  Returns the related object set $setName for the $sourceObject. If no such
+  named related set exists, null is returned.
+
 - reset()
 
   Resets the complete identity map to its original state, purging all related
-  objects and relation result sets.
+  objects and named related object sets.
+
+The PersistentObject component will provide a basic implementation of
+ezcPersistentIdentityMap which simply stores the identities in memory (the
+original idea of an identity map): ezcPersistentBasiIdentityMap. Making
+ezcPersistentIdentityMap an interface allows users to create more advanced
+maps, e.g. involving caching mechanisms.
 
 --------------
 Usage examples
@@ -542,7 +553,6 @@ Open issues
   checks will not work.
 - loadIfExists() can return null. Should this result be cached or should the
   method try to load again if no object has been loaded successfully, yet?
-
 - The update() method only allows to update 1 specific object right now. This
   results in a lot of select queries, if multiple objects need to be updated.
   We should allow arrays of objects here and update them in a row using <id> IN
