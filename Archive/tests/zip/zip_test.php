@@ -57,7 +57,6 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         mkdir( $target );
 
         $archive = ezcArchive::open( $odtFile );
-//        xdebug_break();
         $archive->extract( $target );
 
         $this->assertTrue( file_exists( $target . "content.xml" ) );
