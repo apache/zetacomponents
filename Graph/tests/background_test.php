@@ -98,6 +98,17 @@ class ezcGraphBackgroundTest extends ezcGraphTestCase
         );
     }
 
+    public function testSetOptionsBorderLineChart()
+    {
+        $lineChart = new ezcGraphLineChart();
+        $lineChart->background->border = '#FF0000';
+
+        $this->assertEquals( 
+            ezcGraphColor::fromHex( 'FF0000' ),
+            $lineChart->background->border
+        );
+    }
+
     public function testSetOptionsBorderWidth()
     {
         $pieChart = new ezcGraphPieChart();
