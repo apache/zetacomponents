@@ -244,6 +244,9 @@ A feed object can be created by calling the constructor with the optional feed
 type (``atom``, ``rss1`` or ``rss2``). In our case we create an generic feed::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed();
     ?>
 
@@ -624,6 +627,9 @@ We start with creating an RSS2 feed object, which we fill with *title*,
 *description*, *author* and *link* elements::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed( 'rss2' );
 
     $feed->title = 'Flight of the RC plane';
@@ -764,6 +770,9 @@ If the XML feed is stored in a file or URL, use the static method **parse()**
 from ezcFeed to parse the feed and create an ezcFeed object out of it::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = ezcFeed::parse( 'http://ezcomponents.org/feed/news.xml' ); // URL
     $feed = ezcFeed::parse( '/tmp/news.xml' ); // local file
     ?>
@@ -772,6 +781,9 @@ If the XML feed is protected with HTTP authentication (username and password
 required in order to access it), provide the username and password in the URL::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = ezcFeed::parse( 'http://username:password@ezcomponents.org/feed/news.xml' );
     ?>
 
@@ -784,6 +796,9 @@ If the XML feed is stored in a string variable, use the static method
 out of it::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = ezcFeed::parseContent( $xml ); // $xml is a string
     ?>
 
@@ -922,6 +937,9 @@ If the XML feed is stored in a file or URL, use the static method **parse()**
 from ezcFeed to parse the feed and create an ezcFeed object out of it::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = ezcFeed::parse( 'http://rcplanes.example.com/feed/podcast.xml' );
     $feed = ezcFeed::parse( '/tmp/podcast.xml' ); // local file
     ?>
@@ -930,6 +948,9 @@ If the XML feed is protected with HTTP authentication (username and password
 required in order to access it), provide the username and password in the URL::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = ezcFeed::parse( 'http://username:password@rcplanes.example.com/feed/podcast.xml' );
     ?>
 
@@ -942,6 +963,9 @@ If the XML feed is stored in a string variable, use the static method
 out of it::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = ezcFeed::parseContent( $xml ); // $xml is a string
     ?>
 
@@ -1180,6 +1204,9 @@ This is a minimal script to be able to generate all 3 feed types from the same
 ezcFeed data::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed();
 
     $author = $feed->add( 'author' );
@@ -1306,6 +1333,9 @@ Example of new feed type::
 Example of how to use the feed type above::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     ezcFeed::registerFeed( 'opml', 'myOpmlHandler' );
     $feed = new ezcFeed();
     // fill $feed with OPML properties
@@ -1378,6 +1408,9 @@ Example of a new module type::
 Example of how to use the module above::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     ezcFeed::registerModule( 'Slash', 'mySlashHandler', 'slash');
 
     $feed = new ezcFeed();

@@ -140,6 +140,9 @@ This is a minimal script to be able to generate all 3 feed types from the same
 ezcFeed data::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed();
 
     $author = $feed->add( 'author' );
@@ -3021,6 +3024,9 @@ Can appear only once.
 Create example::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed( 'rss2' );
     $item = $feed->add( 'item' );
     $module = $item->addModule( 'Content' );
@@ -3064,6 +3070,9 @@ but other licenses can be used as well.
 Create example::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed( 'rss2' );
     $module = $feed->addModule( 'CreativeCommons' );
     $module->license = 'text content';
@@ -3097,6 +3106,9 @@ but other licenses can be used as well.
 Create example::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed( 'rss2' );
     $item = $feed->add( 'item' );
     $module = $item->addModule( 'CreativeCommons' );
@@ -3142,6 +3154,9 @@ attribute is accessed as *language*.
 Create example::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed( 'rss2' );
     $module = $feed->addModule( 'DublinCore' );
     $element = $module->add( 'contributor' );
@@ -3416,6 +3431,9 @@ attribute is accessed as *language*.
 Create example::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed();
     $item = $feed->add( 'item' );
     $module = $item->addModule( 'DublinCore' );
@@ -3699,6 +3717,9 @@ Can appear only once.
 Create example::
 
     <?php
+    // use eZ Components autoload mechanism
+    require_once 'tutorial_autoload.php';
+
     $feed = new ezcFeed( 'rss2' );
     $item = $feed->add( 'item' );
     $module = $item->addModule( 'Geo' );
