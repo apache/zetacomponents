@@ -1,6 +1,7 @@
 1.4.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #13631: Rendering issues, when axisSpace set to 0
 - Resolved task #14219: Refactor grid drawing to be less susceptible to
   floating point inaccuracies
 - Implemented feature #12897: Add the possibility to have a subtitle for

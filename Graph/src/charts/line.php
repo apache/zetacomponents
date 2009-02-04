@@ -617,7 +617,7 @@ class ezcGraphLineChart extends ezcGraphChart
 
             $this->driver->options->font = $element->font;
             $element->nullPosition = $element->chartPosition;
-            $boundings = $element->render( $this->renderer, $boundings );
+            $boundings = $element->render( $this->renderer, $boundings, $innerBoundings );
         }
 
         // Render graph

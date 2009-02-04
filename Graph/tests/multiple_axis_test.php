@@ -288,5 +288,74 @@ class ezcGraphMultipleAxisTest extends ezcGraphTestCase
             $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
+
+    public function testRenderNoLabelRendererDifferentAxisSpace()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+
+        $chart->additionalAxis['marker'] = $marker = new ezcGraphChartElementLabeledAxis();
+        $chart->additionalAxis['empty'] = $empty = new ezcGraphChartElementLabeledAxis();
+
+        $chart->xAxis->axisSpace = 0.1;
+        $chart->yAxis->axisSpace = 0.05;
+
+        $marker->position = ezcGraph::LEFT;
+        $marker->axisSpace = .1;
+        $marker->chartPosition = 1;
+
+        $empty->position =  ezcGraph::BOTTOM;
+        $empty->chartPosition = .5;
+        $empty->label = 'Marker';
+
+        $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1, 'sample 6' => 74) );
+        $chart->data['sampleData']->xAxis = $chart->additionalAxis['marker'];
+        
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329) );
+        $chart->data['Even more data'] = new ezcGraphArrayDataSet( array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450) );
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderNoLabelRendererZeroAxisSpace()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+
+        $chart->additionalAxis['marker'] = $marker = new ezcGraphChartElementLabeledAxis();
+        $chart->additionalAxis['empty'] = $empty = new ezcGraphChartElementLabeledAxis();
+
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+        $chart->xAxis->axisSpace = 0;
+
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+        $chart->yAxis->axisSpace = 0;
+
+        $marker->position = ezcGraph::LEFT;
+        $marker->axisSpace = 0;
+        $marker->chartPosition = 1;
+
+        $empty->position =  ezcGraph::RIGHT;
+        $empty->chartPosition = .0;
+        $empty->axisSpace = 0;
+        $empty->label = 'Marker';
+
+        $chart->data['moreData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 112, 'sample 2' => 54, 'sample 3' => 12, 'sample 4' => -167, 'sample 5' => 329) );
+        $chart->data['Even more data'] = new ezcGraphArrayDataSet( array( 'sample 1' => 300, 'sample 2' => -30, 'sample 3' => 220, 'sample 4' => 67, 'sample 5' => 450) );
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 ?>
