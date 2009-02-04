@@ -255,8 +255,8 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
                 case ( $nr === 0 ):
                     $labelSize = min(
                         abs( 
-                            $xSpace * 2 * $this->direction->x +
-                            $ySpace * 2 * $this->direction->y ),
+                            $xSpace * 2 * $this->direction->y +
+                            $ySpace * 2 * $this->direction->x ),
                         abs( 
                             $step->width * $axisBoundings->width * $this->direction->x +
                             $step->width * $axisBoundings->height * $this->direction->y )
@@ -265,21 +265,17 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
                 case ( $step->isLast ):
                     $labelSize = min(
                         abs( 
-                            $xSpace * 2 * $this->direction->x +
-                            $ySpace * 2 * $this->direction->y ),
+                            $xSpace * 2 * $this->direction->y +
+                            $ySpace * 2 * $this->direction->x ),
                         abs( 
                             $steps[$nr - 1]->width * $axisBoundings->width * $this->direction->x +
                             $steps[$nr - 1]->width * $axisBoundings->height * $this->direction->y )
                     );
                     break;
                 default:
-                    $labelSize = min(
-                        abs( 
-                            $step->width * $axisBoundings->width * $this->direction->x +
-                            $step->width * $axisBoundings->height * $this->direction->y ),
-                        abs( 
-                            $steps[$nr - 1]->width * $axisBoundings->width * $this->direction->x +
-                            $steps[$nr - 1]->width * $axisBoundings->height * $this->direction->y )
+                    $labelSize = abs( 
+                        $step->width * $axisBoundings->width * $this->direction->x +
+                        $step->width * $axisBoundings->height * $this->direction->y
                     );
                     break;
             }

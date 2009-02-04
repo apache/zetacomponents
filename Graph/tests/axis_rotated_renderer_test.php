@@ -83,7 +83,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 146.3, 180., 160., 236.6 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 146.3, 180., 160., 208.3 ), 1. ),
                 $this->equalTo( 'sample 1' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 160, 180 ) ) )
@@ -101,7 +101,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 446.3, 180., 460., 236.6 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 446.3, 180., 460., 208.3 ), 1. ),
                 $this->equalTo( 'sample 5' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 460, 180 ) ) )
@@ -130,7 +130,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 130., 180., 140., 236.6 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 130., 180., 140., 208.3 ), 1. ),
                 $this->equalTo( 'sample 1' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 140, 180 ) ) )
@@ -148,7 +148,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 450., 180., 460., 236.6 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 450., 180., 460., 208.3 ), 1. ),
                 $this->equalTo( 'sample 5' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 460, 180 ) ) )
@@ -176,7 +176,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 146.3, 180., 160., 236.6 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 146.3, 180., 160., 208.3 ), 1. ),
                 $this->equalTo( 'sample 1' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 160, 180 ) ) )
@@ -194,7 +194,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 446.3, 180., 460., 236.6 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 446.3, 180., 460., 208.3 ), 1. ),
                 $this->equalTo( 'sample 5' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 460, 180 ) ) )
@@ -442,6 +442,64 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             53.,
             'Angle estimation wrong.',
             1.
+        );
+    }
+
+    public function testRenderWithModifiedAxisSpace()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $labelCount = 20;
+        $data = $this->getRandomData( $labelCount, 500, 2000, 23 );
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+
+        // Set manual label count
+        $chart->xAxis->labelCount = 21;
+
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->xAxis->axisLabelRenderer->angle = 45;
+        $chart->xAxis->axisSpace = 0.1;
+
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+        $chart->yAxis->axisSpace = 0.05;
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderWithZeroAxisSpace()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $labelCount = 20;
+        $data = $this->getRandomData( $labelCount, 500, 2000, 23 );
+
+        $chart = new ezcGraphLineChart();
+        $chart->palette = new ezcGraphPaletteBlack();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( $data );
+
+        // Set manual label count
+        $chart->xAxis->labelCount = 21;
+
+        $chart->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
+        $chart->xAxis->axisLabelRenderer->angle = 45;
+        $chart->xAxis->axisSpace = 0.1;
+
+        $chart->yAxis->axisLabelRenderer = new ezcGraphAxisNoLabelRenderer();
+        $chart->yAxis->axisSpace = 0;
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 }
