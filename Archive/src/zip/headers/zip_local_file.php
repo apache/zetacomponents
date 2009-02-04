@@ -302,7 +302,7 @@ class ezcArchiveLocalFileHeader
      *
      * @param ezcArchiveCharacterFile $file
      */
-    public function __construct( ezcArchiveCharacterFile $file = null )
+    public function __construct( ezcArchiveCharacterFile $file = null, ezcArchiveCentralDirectoryHeader $centralHeader = null )
     {
         // Offset | Field size |  Description
         // ----------------------------------
@@ -338,6 +338,16 @@ class ezcArchiveLocalFileHeader
 
             // Append extra field information.
             $this->setExtraFieldData( $extraField );
+
+            // Fix the local file headers from the central header, in case crc,
+            // compressed size and original size are not set. This is needed
+            // for Open Office documents at least.
+            if ( $centralHeader && $this->properties['compressedSize'] === 0 && $this->properties['uncompressedSize'] === 0 )
+            {
+                $this->properties['compressedSize'] = $centralHeader->compressedSize;
+                $this->properties['uncompressedSize'] = $centralHeader->uncompressedSize;
+                $this->properties['crc'] = $centralHeader->crc;
+            }
 
             // Skip the file.
             $file->seek( $this->compressedSize, SEEK_CUR );

@@ -36,6 +36,11 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $this->removeTempDir();
     }
 
+    protected function isWindows()
+    {
+        return ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) ? true : false;
+    }
+
     public function testOpenArchive()
     {
         $archive = $this->td->getArchive( "2_textfiles" );
@@ -43,9 +48,26 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $this->assertEquals( "file1.txt", $entry->getPath() );
     }
 
-    protected function isWindows()
+    public function testOttExtract()
     {
-        return ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) ? true : false;
+        $original = dirname(__FILE__) . "/../data/ezpublish.ott";
+        $odtFile = $this->tempDir . "/ezpublish.ott";
+        copy( $original, $odtFile );
+        $target = $this->tempDir . "/unzipped/";
+        mkdir( $target );
+
+        $archive = ezcArchive::open( $odtFile );
+        xdebug_break();
+        $archive->extract( $target );
+
+        $this->assertTrue( file_exists( $target . "content.xml" ) );
+        $this->assertEquals( 9695, filesize( $target . "content.xml" ) );
+        $this->assertTrue( file_exists( $target . "Configurations2" ) );
+        $this->assertTrue( file_exists( $target . "Configurations2/floater" ) );
+        $this->assertEquals( 17723, filesize( $target . "styles.xml" ) );
+        $this->assertEquals( 1693, filesize( $target . "Pictures/100000000000012C0000003CBE7676D8.gif" ) );
+
+        $this->assertFalse( file_exists( $target . "Configurations2/file_does_not_exist" ) );
     }
 
     public function testOdtExtract()
@@ -60,6 +82,7 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $archive->extract($target);
 
         $this->assertTrue( file_exists( $target . "content.xml" ) );
+        $this->assertEquals( 2553, filesize( $target . "content.xml" ) );
         $this->assertTrue( file_exists( $target . "Configurations2" ) );
         $this->assertTrue( file_exists( $target . "Configurations2/floater" ) );
 

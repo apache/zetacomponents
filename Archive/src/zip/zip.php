@@ -298,7 +298,7 @@ class ezcArchiveZip extends ezcArchive implements Iterator
                 throw new ezcArchiveException( "Zip file corrupt?" );
             }
 
-            $this->localHeaders[$fileNumber] = new ezcArchiveLocalFileHeader( $this->file );
+            $this->localHeaders[$fileNumber] = new ezcArchiveLocalFileHeader( $this->file, $this->centralHeaders[$fileNumber] );
         }
 
         return $this->localHeaders[$fileNumber];
