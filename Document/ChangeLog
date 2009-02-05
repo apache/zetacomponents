@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14390: Items before first section are merged with first section
+- Fixed issue #14332: Paragraphs are sometimes missing in the output, when
+  converting rst documents
 
 
 1.1 - Monday 05 January 2009

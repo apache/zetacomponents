@@ -3650,7 +3650,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 {
                     // If the found section has a same or higher level, just
                     // put everything back on the stack
-                    $child->nodes = $collected;
+                    $child->nodes = array_merge( 
+                        $child->nodes,
+                        $collected
+                    );
                     array_unshift( $this->documentStack, $child );
 
                     /* DEBUG
