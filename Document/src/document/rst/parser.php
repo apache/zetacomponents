@@ -378,6 +378,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "\n\nStart parser\n============\n\n";
         // /DEBUG */
+        $this->documentStack = array(
+            new ezcDocumentRstDocumentNode(),
+        );
 
         while ( ( $token = array_shift( $tokens ) ) !== null )
         {
@@ -434,7 +437,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
                         {
                             $doc = new ezcDocumentRstSectionNode( $node->token );
                             $doc->nodes = $this->documentStack;
-//                            echo "\nIntermediate document:\n", $doc->dump(), "\n";
                         }
 
                         break;
@@ -557,6 +559,22 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         $parser = new ezcDocumentRstParser();
         return $parser->parse( $fixedTokens );
+    }
+
+    /**
+     * Print a dump of the document stack
+     *
+     * This function is only for use during dubbing of the document stack
+     * structure.
+     * 
+     * @return void
+     */
+    protected function dumpDocumentStack()
+    {
+        foreach ( $this->documentStack as $nr => $node )
+        {
+            printf( "% 2d) %s\n", $nr, $node->dump() );
+        }
     }
 
     /**
@@ -3627,18 +3645,36 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             if ( $child->type === ezcDocumentRstNode::SECTION )
             {
-                if ( $child->depth <= $node->depth )
+                if ( ( $child->depth <= $node->depth ) &&
+                     ( $node->depth !== 0 ) )
                 {
-                    $child->nodes = $collected;
                     // If the found section has a same or higher level, just
-                    // put it back on the stack
+                    // put everything back on the stack
+                    $child->nodes = $collected;
                     array_unshift( $this->documentStack, $child );
+
                     /* DEBUG
                     echo "   -> Leave on stack.\n";
+                    $this->dumpDocumentStack();
                     // /DEBUG */
                     return $node;
                 }
 
+                // Reduce document, if reached
+                if ( ( $child->depth == 0 ) &&
+                     ( $node->depth == 0 ) )
+                {
+                    /* DEBUG
+                    echo "   -> Aggregate in root document node.\n";
+                    // /DEBUG */
+                    $child->nodes = array_merge(
+                        $child->nodes,
+                        $collected
+                    );
+                    return $child;
+                }
+
+                // Check for title depth incosistency
                 if ( ( $lastSectionDepth - $child->depth ) > 1 )
                 {
                     $this->triggerError(
@@ -3668,12 +3704,19 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 $lastSectionDepth = $child->depth;
             }
 
+            /* DEBUG
+            echo "  -> Found another child...\n";
+            // /DEBUG */
             array_unshift( $collected, $child );
         }
 
-        $node->nodes = array_merge(
-            $node->nodes,
-            $collected
+        // No reduction found, put things back on stack.
+        /* DEBUG
+        echo "   -> Put everything back on stack.\n";
+        // /DEBUG */
+        $this->documentStack = array_merge(
+            array_reverse( $collected ),
+            $this->documentStack
         );
         return $node;
     }

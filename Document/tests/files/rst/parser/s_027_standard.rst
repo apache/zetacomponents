@@ -8,6 +8,237 @@ return ezcDocumentRstDocumentNode::__set_state(array(
    'nodes' => 
   array (
     0 => 
+    ezcDocumentRstCommentNode::__set_state(array(
+       'indentation' => 0,
+       'line' => 1,
+       'position' => 1,
+       'type' => 8,
+       'nodes' => 
+      array (
+        0 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 1,
+           'position' => 4,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 5,
+             'content' => 'This is a comment',
+             'line' => 1,
+             'position' => 4,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        1 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 1,
+           'position' => 21,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 4,
+             'content' => '.',
+             'line' => 1,
+             'position' => 21,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        2 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 1,
+           'position' => 22,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 1,
+             'content' => false,
+             'line' => 1,
+             'position' => 22,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        3 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 1,
+           'position' => 23,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 5,
+             'content' => 'Note how any initial comments are moved by',
+             'line' => 1,
+             'position' => 23,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        4 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 1,
+           'position' => 65,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 2,
+             'content' => '
+',
+             'line' => 1,
+             'position' => 65,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        5 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 2,
+           'position' => 1,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 1,
+             'content' => '  ',
+             'line' => 2,
+             'position' => 1,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        6 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 2,
+           'position' => 4,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 5,
+             'content' => 'transforms to after the document title, subtitle, and docinfo',
+             'line' => 2,
+             'position' => 4,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        7 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 2,
+           'position' => 65,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 4,
+             'content' => '.',
+             'line' => 2,
+             'position' => 65,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        8 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 2,
+           'position' => 66,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 2,
+             'content' => '
+',
+             'line' => 2,
+             'position' => 66,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+        9 => 
+        ezcDocumentRstLiteralNode::__set_state(array(
+           'line' => 3,
+           'position' => 1,
+           'type' => 50,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentRstToken::__set_state(array(
+             'type' => 2,
+             'content' => '
+',
+             'line' => 3,
+             'position' => 1,
+             'escaped' => false,
+          )),
+           'identifier' => NULL,
+        )),
+      ),
+       'token' => 
+      ezcDocumentRstToken::__set_state(array(
+         'type' => 4,
+         'content' => '..',
+         'line' => 1,
+         'position' => 1,
+         'escaped' => false,
+      )),
+       'identifier' => NULL,
+    )),
+    1 => 
+    ezcDocumentRstNamedReferenceNode::__set_state(array(
+       'name' => 
+      array (
+        0 => 
+        ezcDocumentRstToken::__set_state(array(
+           'type' => 5,
+           'content' => 'doctitle',
+           'line' => 4,
+           'position' => 5,
+           'escaped' => false,
+        )),
+      ),
+       'line' => 4,
+       'position' => 1,
+       'type' => 53,
+       'nodes' => 
+      array (
+      ),
+       'token' => 
+      ezcDocumentRstToken::__set_state(array(
+         'type' => 4,
+         'content' => '..',
+         'line' => 4,
+         'position' => 1,
+         'escaped' => false,
+      )),
+       'identifier' => NULL,
+    )),
+    2 => 
     ezcDocumentRstSectionNode::__set_state(array(
        'title' => 
       ezcDocumentRstTitleNode::__set_state(array(
