@@ -2652,8 +2652,6 @@ cache to the table, with a new id and *expired* set to 0.
 The *cache_files* table contains something like:
 
 == ================================== =======
-cache_files
----------------------------------------------
 id cache                              expired
 == ================================== =======
 01 compiles/cache/user.ezt-9dsafa0    0
@@ -2699,14 +2697,12 @@ An example implementation of the *register* method is as follows: ::
 
 After registration the *cache_values* table contains something like:
 
-== ======= =======
-cache_values
-------------------
-id name    value
-== ======= =======
-01 user    1
-02 user    2
-== ======= =======
+== ============= =======
+id name          value
+== ============= =======
+01 user          1
+02 user          2
+== ============= =======
 
 Via the *cache_files* table, we know that the user ID 1 is bound to the
 cache file 'compiles/cache/user.ezt-9dsafa0' and it is not expired.
@@ -2769,8 +2765,6 @@ values: $name and $value. If we assume that user with ID 1 changes the e-mail
 address, the *cache_files* table is:
 
 == ================================== =======
-cache_files
----------------------------------------------
 id cache                              expired
 == ================================== =======
 01 compiles/cache/user.ezt-9dsafa0    1
@@ -2779,14 +2773,12 @@ id cache                              expired
 
 And the *cache_values* table remains the same:
 
-== ======= =======
-cache_values
-------------------
-id name    value
-== ======= =======
-01 user    1
-02 user    2
-== ======= =======
+== ============= =======
+id name          value
+== ============= =======
+01 user          1
+02 user          2
+== ============= =======
 
 
 5.  *isValid( $template, $templateName, $cacheName )*. The Template engine calls
@@ -3018,7 +3010,7 @@ interface.
 Translations
 ============
 
-With the tr_context_ and tr_ template constructs you can add translatable
+With the `tr_context`_ and tr_ template constructs you can add translatable
 strings to you application. For them to work you have to take a few steps. 
 
 First of all, you need to make sure that you have the TemplateTranslationTiein
