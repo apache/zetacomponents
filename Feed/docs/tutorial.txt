@@ -168,6 +168,9 @@ the class ezcFeedElement):
   *link*, *title*, *url* (RSS1 and RSS2), *description*, *width*, *height*
   (RSS2 only), *about* (RSS1 only)
 
+- **language** (ezcFeedTextElement) - specifies a language for the feed, one
+  of `RSS language codes`_.
+
 - **link** (ezcFeedLinkElement) - specifies a link with the attributes *href*,
   *rel*, *hreflang*, *title*, *type*, *length*
 
@@ -1440,6 +1443,8 @@ please see the `specifications`_ page.
 .. _DublinCore-specifications: http://dublincore.org/documents/dces/
 .. _Geo-specifications: http://www.w3.org/2003/01/geo/
 .. _iTunes-specifications: http://www.apple.com/itunes/store/podcaststechspecs.html
+
+.. _RSS language codes: http://www.rssboard.org/rss-language-codes
 
 .. _aggregator: http://en.wikipedia.org/wiki/List_of_feed_aggregators
 .. _date_format(): http://php.net/manual/en/function.date-format.php
