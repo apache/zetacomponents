@@ -17,6 +17,8 @@
  *           Colors for datapoint elements
  * @property int $symbol
  *           Symbols for datapoint elements
+ * @property string $highlightValue
+ *           Displayed string if a data point is highlighted
  * @property bool $highlight
  *           Status if datapoint element is hilighted
  * @property int $displayType
