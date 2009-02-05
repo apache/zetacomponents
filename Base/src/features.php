@@ -294,13 +294,23 @@ class ezcBaseFeatures
                     $dirs = explode( ':', $envPath );
                     foreach ( $dirs as $dir )
                     {
+                        // The @-operator is used here mainly to avoid
+                        // open_basedir warnings. If open_basedir (or any other
+                        // circumstance) prevents the desired file from being
+                        // accessed, it is fine for file_exists() to return
+                        // false, since it is useless for use then, anyway.
                         if ( file_exists( "{$dir}/{$fileName}" ) )
                         {
                             return "{$dir}/{$fileName}";
                         }
                     }
                 }
-                elseif ( file_exists( "./{$fileName}" ) )
+                // The @-operator is used here mainly to avoid open_basedir
+                // warnings. If open_basedir (or any other circumstance)
+                // prevents the desired file from being accessed, it is fine
+                // for file_exists() to return false, since it is useless for
+                // use then, anyway.
+                elseif ( @file_exists( "./{$fileName}" ) )
                 {
                     return $fileName;
                 }
@@ -311,13 +321,23 @@ class ezcBaseFeatures
                     $dirs = explode( ';', $envPath );
                     foreach ( $dirs as $dir )
                     {
-                        if ( file_exists( "{$dir}\\{$fileName}.exe" ) )
+                        // The @-operator is used here mainly to avoid
+                        // open_basedir warnings. If open_basedir (or any other
+                        // circumstance) prevents the desired file from being
+                        // accessed, it is fine for file_exists() to return
+                        // false, since it is useless for use then, anyway.
+                        if ( @file_exists( "{$dir}\\{$fileName}.exe" ) )
                         {
                             return "{$dir}\\{$fileName}.exe";
                         }
                     }
                 }
-                elseif ( file_exists( "{$fileName}.exe" ) )
+                // The @-operator is used here mainly to avoid open_basedir
+                // warnings. If open_basedir (or any other circumstance)
+                // prevents the desired file from being accessed, it is fine
+                // for file_exists() to return false, since it is useless for
+                // use then, anyway.
+                elseif ( @file_exists( "{$fileName}.exe" ) )
                 {
                     return "{$fileName}.exe";
                 }
