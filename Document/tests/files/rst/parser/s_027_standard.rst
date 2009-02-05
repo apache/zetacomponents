@@ -15022,14 +15022,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 334,
-                           'position' => 11,
+                           'position' => 12,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 333,
-                               'position' => 0,
+                               'position' => 1,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15039,7 +15039,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'A footnote contains body elements, consistently indented by at least 3 spaces.',
                                  'line' => 333,
-                                 'position' => 0,
+                                 'position' => 1,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15051,7 +15051,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 334,
-                             'position' => 11,
+                             'position' => 12,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15060,14 +15060,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 336,
-                           'position' => 36,
+                           'position' => 37,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 336,
-                               'position' => -4,
+                               'position' => -3,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15077,7 +15077,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'This is the footnote\'s second paragraph.',
                                  'line' => 336,
-                                 'position' => -4,
+                                 'position' => -3,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15089,7 +15089,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 336,
-                             'position' => 36,
+                             'position' => 37,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15137,14 +15137,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 341,
-                           'position' => 55,
+                           'position' => 56,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 338,
-                               'position' => 0,
+                               'position' => 1,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15154,7 +15154,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'Footnotes may be numbered, either manually (as in ',
                                  'line' => 338,
-                                 'position' => 0,
+                                 'position' => 1,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15169,13 +15169,13 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                    'type' => 5,
                                    'content' => '1',
                                    'line' => 338,
-                                   'position' => 51,
+                                   'position' => 52,
                                    'escaped' => false,
                                 )),
                               ),
                                'target' => false,
                                'line' => 338,
-                               'position' => 53,
+                               'position' => 54,
                                'type' => 43,
                                'nodes' => 
                               array (
@@ -15185,7 +15185,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '_',
                                  'line' => 338,
-                                 'position' => 53,
+                                 'position' => 54,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15193,7 +15193,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             2 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 338,
-                               'position' => 54,
+                               'position' => 55,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15203,7 +15203,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => ') or automatically using a "#"-prefixed label.  This footnote has a label so it can be referred to from multiple places, both as a footnote reference (',
                                  'line' => 338,
-                                 'position' => 54,
+                                 'position' => 55,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15218,7 +15218,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                    'type' => 4,
                                    'content' => '#',
                                    'line' => 341,
-                                   'position' => 12,
+                                   'position' => 13,
                                    'escaped' => false,
                                 )),
                                 1 => 
@@ -15226,13 +15226,13 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                    'type' => 5,
                                    'content' => 'label',
                                    'line' => 341,
-                                   'position' => 13,
+                                   'position' => 14,
                                    'escaped' => false,
                                 )),
                               ),
                                'target' => false,
                                'line' => 341,
-                               'position' => 19,
+                               'position' => 20,
                                'type' => 43,
                                'nodes' => 
                               array (
@@ -15242,7 +15242,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '_',
                                  'line' => 341,
-                                 'position' => 19,
+                                 'position' => 20,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15250,7 +15250,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             4 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 341,
-                               'position' => 20,
+                               'position' => 21,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15260,7 +15260,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => ') and as a ',
                                  'line' => 341,
-                                 'position' => 20,
+                                 'position' => 21,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15269,7 +15269,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             ezcDocumentRstAnonymousLinkNode::__set_state(array(
                                'target' => false,
                                'line' => 341,
-                               'position' => 52,
+                               'position' => 53,
                                'type' => 40,
                                'nodes' => 
                               array (
@@ -15277,14 +15277,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
                                    'openTag' => false,
                                    'line' => 341,
-                                   'position' => 51,
+                                   'position' => 52,
                                    'type' => 32,
                                    'nodes' => 
                                   array (
                                     0 => 
                                     ezcDocumentRstTextLineNode::__set_state(array(
                                        'line' => 341,
-                                       'position' => 32,
+                                       'position' => 33,
                                        'type' => 4,
                                        'nodes' => 
                                       array (
@@ -15294,7 +15294,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                          'type' => 5,
                                          'content' => 'hyperlink reference',
                                          'line' => 341,
-                                         'position' => 32,
+                                         'position' => 33,
                                          'escaped' => false,
                                       )),
                                        'identifier' => NULL,
@@ -15305,7 +15305,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                      'type' => 4,
                                      'content' => '`',
                                      'line' => 341,
-                                     'position' => 51,
+                                     'position' => 52,
                                      'escaped' => false,
                                   )),
                                    'identifier' => NULL,
@@ -15316,7 +15316,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '__',
                                  'line' => 341,
-                                 'position' => 52,
+                                 'position' => 53,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15324,7 +15324,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             6 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 341,
-                               'position' => 54,
+                               'position' => 55,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15334,7 +15334,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '.',
                                  'line' => 341,
-                                 'position' => 54,
+                                 'position' => 55,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15346,7 +15346,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 341,
-                             'position' => 55,
+                             'position' => 56,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15355,14 +15355,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 343,
-                           'position' => 0,
+                           'position' => 1,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 343,
-                               'position' => -9,
+                               'position' => -8,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15372,7 +15372,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '__label_',
                                  'line' => 343,
-                                 'position' => -9,
+                                 'position' => -8,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15384,7 +15384,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 343,
-                             'position' => 0,
+                             'position' => 1,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15424,14 +15424,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 346,
-                           'position' => 14,
+                           'position' => 15,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 345,
-                               'position' => 0,
+                               'position' => 1,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15441,7 +15441,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'This footnote is numbered automatically and anonymously using a label of "#" only.',
                                  'line' => 345,
-                                 'position' => 0,
+                                 'position' => 1,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15453,7 +15453,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 346,
-                             'position' => 14,
+                             'position' => 15,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15462,14 +15462,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 348,
-                           'position' => 25,
+                           'position' => 26,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 348,
-                               'position' => -4,
+                               'position' => -3,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15479,7 +15479,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'This is the second paragraph.',
                                  'line' => 348,
-                                 'position' => -4,
+                                 'position' => -3,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15491,7 +15491,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 348,
-                             'position' => 25,
+                             'position' => 26,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15500,14 +15500,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 350,
-                           'position' => 28,
+                           'position' => 29,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 350,
-                               'position' => -4,
+                               'position' => -3,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15517,7 +15517,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'And this is the third paragraph.',
                                  'line' => 350,
-                                 'position' => -4,
+                                 'position' => -3,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15529,7 +15529,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 350,
-                             'position' => 28,
+                             'position' => 29,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15569,14 +15569,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 353,
-                           'position' => 42,
+                           'position' => 43,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 352,
-                               'position' => 0,
+                               'position' => 1,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15586,7 +15586,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'Footnotes may also use symbols, specified with a "*" label. Here\'s a reference to the next footnote: ',
                                  'line' => 352,
-                                 'position' => 0,
+                                 'position' => 1,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15601,13 +15601,13 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                    'type' => 4,
                                    'content' => '*',
                                    'line' => 353,
-                                   'position' => 38,
+                                   'position' => 39,
                                    'escaped' => false,
                                 )),
                               ),
                                'target' => false,
                                'line' => 353,
-                               'position' => 40,
+                               'position' => 41,
                                'type' => 43,
                                'nodes' => 
                               array (
@@ -15617,7 +15617,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '_',
                                  'line' => 353,
-                                 'position' => 40,
+                                 'position' => 41,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15625,7 +15625,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             2 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 353,
-                               'position' => 41,
+                               'position' => 42,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15635,7 +15635,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '.',
                                  'line' => 353,
-                                 'position' => 41,
+                                 'position' => 42,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15647,7 +15647,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 353,
-                             'position' => 42,
+                             'position' => 43,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15687,14 +15687,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 355,
-                           'position' => 52,
+                           'position' => 53,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 355,
-                               'position' => 0,
+                               'position' => 1,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15704,7 +15704,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'This footnote shows the next symbol in the sequence.',
                                  'line' => 355,
-                                 'position' => 0,
+                                 'position' => 1,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15716,7 +15716,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 355,
-                             'position' => 52,
+                             'position' => 53,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15756,14 +15756,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 358,
-                           'position' => 23,
+                           'position' => 24,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 357,
-                               'position' => 0,
+                               'position' => 1,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15773,7 +15773,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'Here\'s an unreferenced footnote, with a reference to a nonexistent footnote: ',
                                  'line' => 357,
-                                 'position' => 0,
+                                 'position' => 1,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15788,13 +15788,13 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                    'type' => 5,
                                    'content' => '5',
                                    'line' => 358,
-                                   'position' => 19,
+                                   'position' => 20,
                                    'escaped' => false,
                                 )),
                               ),
                                'target' => false,
                                'line' => 358,
-                               'position' => 21,
+                               'position' => 22,
                                'type' => 43,
                                'nodes' => 
                               array (
@@ -15804,7 +15804,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '_',
                                  'line' => 358,
-                                 'position' => 21,
+                                 'position' => 22,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15812,7 +15812,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             2 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 358,
-                               'position' => 22,
+                               'position' => 23,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15822,7 +15822,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 4,
                                  'content' => '.',
                                  'line' => 358,
-                                 'position' => 22,
+                                 'position' => 23,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15834,7 +15834,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 358,
-                             'position' => 23,
+                             'position' => 24,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -15948,14 +15948,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 364,
-                           'position' => 41,
+                           'position' => 42,
                            'type' => 3,
                            'nodes' => 
                           array (
                             0 => 
                             ezcDocumentRstTextLineNode::__set_state(array(
                                'line' => 363,
-                               'position' => 0,
+                               'position' => 1,
                                'type' => 4,
                                'nodes' => 
                               array (
@@ -15965,7 +15965,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                  'type' => 5,
                                  'content' => 'Citations are text-labeled footnotes. They may be rendered separately and differently from footnotes.',
                                  'line' => 363,
-                                 'position' => 0,
+                                 'position' => 1,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15977,7 +15977,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 364,
-                             'position' => 41,
+                             'position' => 42,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,

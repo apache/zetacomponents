@@ -378,9 +378,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "\n\nStart parser\n============\n\n";
         // /DEBUG */
-        $this->documentStack = array(
-            new ezcDocumentRstDocumentNode(),
-        );
 
         while ( ( $token = array_shift( $tokens ) ) !== null )
         {
@@ -500,7 +497,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         {
             $firstToken = reset( $tokens );
             $offset = $firstToken->position + 
-                ( $firstToken->type === ezcDocumentRstToken::WHITESPACE ? 1 : -1 );
+                ( $firstToken->type === ezcDocumentRstToken::WHITESPACE ? 0 : -1 );
             $fixedTokens = array();
             foreach ( $tokens as $nr => $token )
             {
@@ -513,7 +510,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 }
 
                 if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
-                     ( $token->position < $offset ) )
+                     ( $token->position <= $offset ) )
                 {
                     if ( strlen( $token->content ) <= 1 )
                     {
@@ -763,6 +760,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             );
         }
 
+        array_push( $this->documentStack, new ezcDocumentRstDocumentNode() );
         return new ezcDocumentRstDocumentNode();
     }
 
@@ -3018,38 +3016,41 @@ class ezcDocumentRstParser extends ezcDocumentParser
      */
     protected function readGridTableSpecification( &$tokens )
     {
-        // Detect the cell sizes inside of the simple table.
+        // Detect the cell sizes inside of the grid table.
         $tableSpec = array();
         /* DEBUG
         echo "  -> Table specification: ";
         // /DEBUG */
-        while ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE )
-        {
-            $specToken = array_shift( $tokens );
-            if ( ( ( $specToken->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-                   ( ( $specToken->content[0] === '=' ) ||
-                     ( $specToken->content[0] === '-' ) ) ) ||
-                 ( ( $specToken->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-                   ( $specToken->content === '+' ) ) )
+        $i = -1;
+        do {
+            ++$i;
+            while ( $tokens[$i]->type !== ezcDocumentRstToken::NEWLINE )
             {
-                if ( $specToken->content === '+' )
+                if ( ( $tokens[$i]->content === '+' ) &&
+                     ( ( isset( $tokens[$i - 1] ) ) &&
+                       ( ( $tokens[$i - 1]->type === ezcDocumentRstToken::NEWLINE ) ||
+                         ( ( $tokens[$i - 1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                           ( ( $tokens[$i - 1]->content[0] === '=' ) ||
+                             ( $tokens[$i - 1]->content[0] === '-' ) ) ) ) ) &&
+                     ( ( isset( $tokens[$i + 1] ) ) &&
+                       ( ( $tokens[$i + 1]->type === ezcDocumentRstToken::NEWLINE ) ||
+                         ( ( $tokens[$i + 1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                           ( ( $tokens[$i + 1]->content[0] === '=' ) ||
+                             ( $tokens[$i + 1]->content[0] === '-' ) ) ) ) ) )
                 {
-                    $tableSpec[] = $specToken->position;
+                    $tableSpec[] = $tokens[$i]->position;
                 }
+
+                ++$i;
             }
-            else
-            {
-                $this->triggerError(
-                    E_PARSE,
-                    'Invalid token in grid table specifaction.',
-                    null, $specToken->line, $specToken->position
-                );
-            }
-        }
-        array_shift( $tokens );
+        } while ( ( $tokens[$i]->type !== ezcDocumentRstToken::NEWLINE ) ||
+                  ( $tokens[$i + 1]->type !== ezcDocumentRstToken::NEWLINE ) );
         /* DEBUG
         echo "\n";
         // /DEBUG */
+
+        $tableSpec = array_unique( $tableSpec );
+        sort( $tableSpec );
 
         return $tableSpec;
     }
@@ -3224,7 +3225,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Initilize column number array
         for ( $c = 0; $c < $cellCount; ++$c )
         {
-            $columnNumber[$c] = 0;
+            $rowNumber[$c] = 0;
         }
 
         // Create cell mapping array
@@ -3236,7 +3237,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 {
                     // No explicit cell definition given. Map to last cell in
                     // current row.
-                    $row = $columnNumber[$c];
+                    $row = $rowNumber[$c];
 
                     // It may happen for cell seperators, that the last cell is
                     // not available. It is save to skip this case.
@@ -3266,7 +3267,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 elseif ( $cells[$r][$c] === 1 )
                 {
                     // New cell, just add to mapping table.
-                    $cellMapping[$r][$c] = array( $columnNumber[$c], $c );
+                    $cellMapping[$r][$c] = array( $rowNumber[$c], $c );
                 }
                 elseif ( $cells[$r][$c] > 1 )
                 {
@@ -3276,9 +3277,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     // The increased column number is the maximum of the
                     // current column + 1 and all other columns, because we
                     // want to keep up to a same row number in one row.
-                    $columnNumber[$c] = max(
-                        $columnNumber[$c] + 1,
-                        max( $columnNumber )
+                    $rowNumber[$c] = max(
+                        $rowNumber[$c] + 1,
+                        max( $rowNumber ),
+                        max( array_slice( $rowNumber, $c ) ) + 1
                     );
                 }
             }
@@ -3298,7 +3300,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Iterate over cell mapping array to calculate cell spans
         $cellSpans = array();
-        $rNr = 0;
+        $rNr = 1;
         foreach ( $cellMapping as $nr => $row )
         {
             // Determine maximum row number in current row
@@ -4110,7 +4112,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             $node->indentation = $this->indentation;
             $node->nodes = $linkedNodes;
             /* DEBUG
-            echo "   => Create paragraph with indentation {$node->indentation}\n";
+            echo "   => Create paragraph with indentation {$node->indentation} (postIndent: {$this->postIndentation})\n";
             // /DEBUG */
             $this->indentation = ( $this->postIndentation !== null ? $this->postIndentation : 0 );
             return $node;

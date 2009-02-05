@@ -181,14 +181,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             ezcDocumentRstParagraphNode::__set_state(array(
                'indentation' => 0,
                'line' => 7,
-               'position' => 18,
+               'position' => 19,
                'type' => 3,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 6,
-                   'position' => 0,
+                   'position' => 1,
                    'type' => 4,
                    'nodes' => 
                   array (
@@ -198,7 +198,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'type' => 5,
                      'content' => 'This is the citation.  It\'s just like a footnote, except the label is textual.',
                      'line' => 6,
-                     'position' => 0,
+                     'position' => 1,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -210,7 +210,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => '
 ',
                  'line' => 7,
-                 'position' => 18,
+                 'position' => 19,
                  'escaped' => false,
               )),
                'identifier' => NULL,

@@ -269,14 +269,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             ezcDocumentRstParagraphNode::__set_state(array(
                'indentation' => 0,
                'line' => 8,
-               'position' => 58,
+               'position' => 59,
                'type' => 3,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 8,
-                   'position' => 0,
+                   'position' => 1,
                    'type' => 4,
                    'nodes' => 
                   array (
@@ -286,7 +286,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'type' => 5,
                      'content' => 'This footnote is labeled manually, so its number is fixed.',
                      'line' => 8,
-                     'position' => 0,
+                     'position' => 1,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -298,7 +298,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => '
 ',
                  'line' => 8,
-                 'position' => 58,
+                 'position' => 59,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -346,14 +346,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             ezcDocumentRstParagraphNode::__set_state(array(
                'indentation' => 0,
                'line' => 13,
-               'position' => 53,
+               'position' => 54,
                'type' => 3,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 10,
-                   'position' => 0,
+                   'position' => 1,
                    'type' => 4,
                    'nodes' => 
                   array (
@@ -363,7 +363,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'type' => 5,
                      'content' => 'This autonumber-labeled footnote will be labeled "1". It is the first auto-numbered footnote and no other footnote with label "1" exists.  The order of the footnotes is used to determine numbering, not the order of the footnote references.',
                      'line' => 10,
-                     'position' => 0,
+                     'position' => 1,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -375,7 +375,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => '
 ',
                  'line' => 13,
-                 'position' => 53,
+                 'position' => 54,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -415,14 +415,14 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             ezcDocumentRstParagraphNode::__set_state(array(
                'indentation' => 0,
                'line' => 16,
-               'position' => 59,
+               'position' => 60,
                'type' => 3,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentRstTextLineNode::__set_state(array(
                    'line' => 15,
-                   'position' => 0,
+                   'position' => 1,
                    'type' => 4,
                    'nodes' => 
                   array (
@@ -432,7 +432,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                      'type' => 5,
                      'content' => 'This footnote will be labeled "3".  It is the second auto-numbered footnote, but footnote label "2" is already used.',
                      'line' => 15,
-                     'position' => 0,
+                     'position' => 1,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -444,7 +444,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                  'content' => '
 ',
                  'line' => 16,
-                 'position' => 59,
+                 'position' => 60,
                  'escaped' => false,
               )),
                'identifier' => NULL,
