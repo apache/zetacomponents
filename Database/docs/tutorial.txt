@@ -331,7 +331,7 @@ Instead, you should use bindParameter() to achieve the same effect: ::
     $stmt = $q->prepare();
     $stmt->execute();
     
-::
+..
   - difference in case sensitivity
   - difference in allowed field length
   - difference in what you can compare (e.g TRUE =! 0)
