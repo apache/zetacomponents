@@ -91,9 +91,17 @@
               <para>Cells may   span rows. </para>
             </entry>
             <entry morerows="1">
-              <para>- Table cells       </para>
-              <para>- contain           </para>
-              <para>- body elements.    </para>
+              <itemizedlist>
+                <listitem>
+                  <para>Table cells       </para>
+                </listitem>
+                <listitem>
+                  <para>contain           </para>
+                </listitem>
+                <listitem>
+                  <para>body elements.    </para>
+                </listitem>
+              </itemizedlist>
             </entry>
           </row>
           <row>
@@ -120,7 +128,7 @@
     </table>
     <table>
       <tgroup>
-        <thead>
+        <tbody>
           <row>
             <entry>
               <para>row 1, col 1 </para>
@@ -134,14 +142,6 @@
             <entry>
               <para>column 4  </para>
             </entry>
-          </row>
-        </thead>
-        <tbody>
-          <row>
-            <entry/>
-            <entry/>
-            <entry/>
-            <entry/>
           </row>
           <row>
             <entry>
@@ -170,7 +170,7 @@
     </table>
     <table>
       <tgroup>
-        <thead>
+        <tbody>
           <row>
             <entry>
               <para>row 1, col 1 </para>
@@ -184,14 +184,6 @@
             <entry>
               <para>column 4  </para>
             </entry>
-          </row>
-        </thead>
-        <tbody>
-          <row>
-            <entry/>
-            <entry/>
-            <entry/>
-            <entry/>
           </row>
           <row>
             <entry morerows="1">
@@ -220,7 +212,7 @@
     </table>
     <table>
       <tgroup>
-        <thead>
+        <tbody>
           <row>
             <entry>
               <para>row 1, col 1 </para>
@@ -234,14 +226,6 @@
             <entry>
               <para>column 4  </para>
             </entry>
-          </row>
-        </thead>
-        <tbody>
-          <row>
-            <entry/>
-            <entry/>
-            <entry/>
-            <entry/>
           </row>
           <row>
             <entry>
@@ -273,7 +257,7 @@
     </table>
     <table>
       <tgroup>
-        <thead>
+        <tbody>
           <row>
             <entry>
               <para>row 1, col 1 </para>
@@ -287,14 +271,6 @@
             <entry>
               <para>column 4  </para>
             </entry>
-          </row>
-        </thead>
-        <tbody>
-          <row>
-            <entry/>
-            <entry/>
-            <entry/>
-            <entry/>
           </row>
           <row>
             <entry>
@@ -323,7 +299,7 @@
     </table>
     <table>
       <tgroup>
-        <thead>
+        <tbody>
           <row>
             <entry>
               <para>row 1, col 1 </para>
@@ -337,14 +313,6 @@
             <entry>
               <para>column 4  </para>
             </entry>
-          </row>
-        </thead>
-        <tbody>
-          <row>
-            <entry/>
-            <entry/>
-            <entry/>
-            <entry/>
           </row>
           <row>
             <entry>
