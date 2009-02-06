@@ -556,34 +556,17 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
      */
     protected function checkImagemagick()
     {
+        $this->binary = false;
         if ( !isset( $this->options['binary'] ) )
         {
-            switch ( PHP_OS )
-            {
-                case 'Linux':
-                case 'Unix':
-                case 'FreeBSD':
-                case 'MacOS':
-                case 'Darwin':
-                case 'SunOS':
-                    $this->binary = 'identify';
-                    break;
-                case 'Windows':
-                case 'WINNT':
-                case 'WIN32':
-                    $this->binary = 'identify.exe';
-                    break;
-                default:
-                    throw new ezcImageAnalyzerInvalidHandlerException( 'ezcImageAnalyzerImagemagickHandler' );
-                    break;
-            }
+            $this->binary = ezcBaseFeatures::getImageIdentifyExecutable();
         }
-        else
+        else if ( file_exists( $this->options['binary'] ) )
         {
             $this->binary = $this->options['binary'];
         }
 
-        return ezcBaseFeatures::hasImageIdentify();
+        return ( $this->binary !== false );
     }
 
     /**
