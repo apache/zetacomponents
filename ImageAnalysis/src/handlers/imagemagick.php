@@ -210,7 +210,8 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
      */
     public function analyzeType( $file )
     {
-        $parameters = '-format ' . escapeshellarg( '%m|' ) . ' ' . escapeshellarg( $file );
+        $format = ( ezcBaseFeatures::os() === 'Windows' ? '"%m|"' : escapeshellarg( '%m|' ) );
+        $parameters = '-format ' . $format . ' ' . escapeshellarg( $file );
         $res = ezcImageAnalyzerImagemagickHandler::runCommand( $parameters, $outputString, $errorString );
         if ( $res !== 0 || $errorString !== '' )
         {
@@ -263,7 +264,8 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
         // Animated Cog]*"
         // --------------------------------
 
-        $command = '-format ' . escapeshellarg( '[%m|%b|%w|%h|%k|%r|%c]*' ) . ' ' . escapeshellarg( $file );
+        $formatString = ( ezcBaseFeatures::os() === 'Windows' ? '"[%m|%b|%w|%h|%k|%r|%c]*"' : escapeshellarg( '[%m|%b|%w|%h|%k|%r|%c]*' ) );
+        $command = '-format ' . $formatString . ' ' . escapeshellarg( $file );
 
         // Execute ImageMagick
         $return = $this->runCommand( $command, $outputString, $errorString );
@@ -584,7 +586,8 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
      */
     protected function runCommand( $parameters, &$stdOut, &$errOut, $stripNewlines = true )
     {
-        $command = escapeshellcmd( $this->binary ) . ( $parameters !== '' ?  ' ' . $parameters : '' );
+        $command = ( ezcBaseFeatures::os() === 'Windows' ? $this->binary : escapeshellcmd( $this->binary ) )
+            . ( $parameters !== '' ?  ' ' . $parameters : '' );
         // Prepare to run ImageMagick command
         $descriptors = array(
             array( 'pipe', 'r' ),
