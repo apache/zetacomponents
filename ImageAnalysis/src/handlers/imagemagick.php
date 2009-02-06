@@ -556,7 +556,6 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
      */
     protected function checkImagemagick()
     {
-        $this->binary = false;
         if ( !isset( $this->options['binary'] ) )
         {
             $this->binary = ezcBaseFeatures::getImageIdentifyExecutable();
@@ -566,7 +565,7 @@ class ezcImageAnalyzerImagemagickHandler extends ezcImageAnalyzerHandler
             $this->binary = $this->options['binary'];
         }
 
-        return ( $this->binary !== false );
+        return ( $this->binary !== null );
     }
 
     /**
