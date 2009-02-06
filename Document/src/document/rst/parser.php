@@ -1132,7 +1132,15 @@ class ezcDocumentRstParser extends ezcDocumentParser
              // Rule 4
              ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ||
                ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
-               ( strpos( '\'")]}>-/:.,;!?\\_', $tokens[0]->content[0] ) !== false ) ) );
+               ( strpos( '\'")]}>-/:.,;!?\\_', $tokens[0]->content[0] ) !== false ) ) &&
+             // Rule 5
+             ( ( !isset( $this->documentStack[0] ) ) ||
+               ( ( ( $this->documentStack[0]->token->content !== '"' ) || ( $tokens[0]->content !== '"' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '\'' ) || ( $tokens[0]->content !== '\'' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '(' ) || ( $tokens[0]->content !== ')' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '[' ) || ( $tokens[0]->content !== ']' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '{' ) || ( $tokens[0]->content !== '}' ) ) &&
+                 ( ( $this->documentStack[0]->token->content !== '<' ) || ( $tokens[0]->content !== '>' ) ) ) ) );
     }
 
     /**
@@ -1299,12 +1307,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         //
         // For the anonymous hyperlink marker the same rules apply as for a
         // common end marker.
-        if ( // Rule 3
-             ( $this->documentStack[0]->token->type !== ezcDocumentRstToken::WHITESPACE ) &&
-             // Rule 4
-             ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ||
-               ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
-               ( strpos( '\'")]}>-/:.,;!?\\', $tokens[0]->content[0] ) !== false ) ) )
+        if ( $this->isInlineEndToken( $token, $tokens ) )
         {
             // Create a markup close tag
             return new ezcDocumentRstAnonymousLinkNode( $token );
@@ -1407,13 +1410,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         //
         // For the anonymous hyperlink marker the same rules apply as for a
         // common end marker.
-        if ( // Rule 3
-             ( ( isset( $this->documentStack[0] ) ) &&
-               ( $this->documentStack[0]->token->type !== ezcDocumentRstToken::WHITESPACE ) ) &&
-             // Rule 4
-             ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ||
-               ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
-               ( strpos( '\'")]}>-/:.,;!?\\', $tokens[0]->content[0] ) !== false ) ) )
+        if ( $this->isInlineEndToken( $token, $tokens ) )
         {
             // Create a markup close tag
             return new ezcDocumentRstExternalReferenceNode( $token );
