@@ -859,7 +859,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( ( ( $tokens[1]->type === ezcDocumentRstToken::NEWLINE ) ||
                ( ( $tokens[1]->type === ezcDocumentRstToken::WHITESPACE ) && 
                  ( $tokens[2]->type === ezcDocumentRstToken::NEWLINE ) ) ||
-               ( strlen( $tokens[1]->content ) > strlen( $token->content ) ) ) &&
+               ( strlen( $tokens[1]->content ) > strlen( $token->content ) ) ||
+               ( ( $tokens[1]->type === ezcDocumentRstToken::WHITESPACE ) &&
+                 ( isset( $tokens[2] ) ) &&
+                 ( ( strlen( $tokens[1]->content ) + strlen( $tokens[2]->content ) ) > strlen( $token->content ) ) ) ) &&
              isset( $this->documentStack[0] ) &&
              !in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {

@@ -21,5 +21,10 @@ Different types of comments
 
 .. |and even this is a comment.
 
+..
+  - difference in case sensitivity
+  - difference in allowed field length
+  - difference in what you can compare (e.g TRUE =! 0)
+
 End of comments.
 

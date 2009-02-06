@@ -1,6 +1,7 @@
 1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #14405: Comments in RST not handled for all cases
 - Fixed issue #14390: Items before first section are merged with first section
 - Fixed issue #14332: Paragraphs are sometimes missing in the output, when
   converting rst documents
