@@ -27,7 +27,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
              'token' => 
             ezcDocumentRstToken::__set_state(array(
                'type' => 5,
-               'content' => 'Simple table full ccolumn span',
+               'content' => 'Simple table full column span',
                'line' => 1,
                'position' => 1,
                'escaped' => false,
@@ -37,7 +37,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
           1 => 
           ezcDocumentRstTextLineNode::__set_state(array(
              'line' => 1,
-             'position' => 31,
+             'position' => 30,
              'type' => 4,
              'nodes' => 
             array (
@@ -47,7 +47,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'type' => 2,
                'content' => '',
                'line' => 1,
-               'position' => 31,
+               'position' => 30,
                'escaped' => false,
             )),
              'identifier' => NULL,
@@ -56,7 +56,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
          'token' => 
         ezcDocumentRstToken::__set_state(array(
            'type' => 4,
-           'content' => '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+           'content' => '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
            'line' => 2,
            'position' => 1,
            'escaped' => false,
@@ -781,7 +781,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
        'token' => 
       ezcDocumentRstToken::__set_state(array(
          'type' => 4,
-         'content' => '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+         'content' => '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
          'line' => 2,
          'position' => 1,
          'escaped' => false,

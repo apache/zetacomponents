@@ -1,5 +1,5 @@
-Simple table full ccolumn span
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Simple table full column span
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 == ================================== =======
 cache_files
