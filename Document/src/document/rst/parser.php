@@ -3807,7 +3807,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Set blockquote indentation to the indentation of the last item on
         // the document stack. This way it can be handled like other block
         // level elements and already has the special markup.
-        $blockquote->indentation = isset( $this->documentStack[0] ) ? $this->documentStack[0]->indentation : 0;
+        $blockquote->indentation = isset( $this->documentStack[0] ) && isset( $this->documentStack[0]->indentation ) ? $this->documentStack[0]->indentation : 0;
 
         return $blockquote;
     }
