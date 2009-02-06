@@ -10,7 +10,7 @@
  * @package Base
  * @subpackage Tests
  */
-class ezcBaseFeaturesTest extends ezcTestCase
+class ezcBaseFeaturesUnixTest extends ezcTestCase
 {
     protected function setUp()
     {
@@ -139,7 +139,7 @@ class ezcBaseFeaturesTest extends ezcTestCase
 
     public static function suite()
     {
-        return new PHPUnit_Framework_TestSuite("ezcBaseFeaturesTest");
+        return new PHPUnit_Framework_TestSuite(__CLASS__);
     }
 }
 ?>

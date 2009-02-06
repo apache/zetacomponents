@@ -271,16 +271,17 @@ class ezcBaseFeatures
     {
         if ( array_key_exists( 'PATH', $_ENV ) )
         {
-            $envPath = $_ENV['PATH'];
-            if ( strlen( trim( $envPath ) ) == 0 )
-            {
-                $envPath = false;
-            }
+            $envPath = trim( $_ENV['PATH'] );
         }
-        else
+        else if ( ( $envPath = getenv( 'PATH' ) ) !== false )
+        {
+            $envPath = trim( $envPath );
+        }
+        if ( is_string( $envPath ) && strlen( trim( $envPath ) ) == 0 )
         {
             $envPath = false;
         }
+
         switch ( self::os() )
         {
             case 'Unix':

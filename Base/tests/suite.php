@@ -9,7 +9,8 @@
 
 require_once( "base_test.php");
 require_once( "base_init_test.php");
-require_once( "features_test.php");
+require_once( "features_unix_test.php");
+require_once( "features_windows_test.php");
 require_once( "base_options_test.php");
 require_once( "struct_test.php");
 require_once 'file_find_recursive_test.php';
@@ -31,7 +32,8 @@ class ezcBaseSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcBaseTest::suite() );
         $this->addTest( ezcBaseInitTest::suite() );
-        $this->addTest( ezcBaseFeaturesTest::suite() );
+        $this->addTest( ezcBaseFeaturesUnixTest::suite() );
+        $this->addTest( ezcBaseFeaturesWindowsTest::suite() );
         $this->addTest( ezcBaseOptionsTest::suite() );
         $this->addTest( ezcBaseStructTest::suite() );
         $this->addTest( ezcBaseFileCalculateRelativePathTest::suite() );
