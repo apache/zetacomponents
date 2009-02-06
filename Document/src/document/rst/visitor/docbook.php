@@ -185,9 +185,6 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         $section->setAttribute( 'ID', $this->calculateId( $this->nodeToString( $node->title ) ) );
         $root->appendChild( $section );
 
-        $info = $this->document->createElement( 'sectioninfo' );
-        $section->appendChild( $info );
-
         $title = $this->document->createElement( 'title' );
         $section->appendChild( $title );
 
@@ -615,6 +612,13 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
     {
         // Get sectioninfo node, to add the stuff there.
         $secInfo = $root->getElementsByTagName( 'sectioninfo' )->item( 0 );
+        
+        if ( $secInfo === null )
+        {
+            // If not yet existant, create section info
+            $secInfo = $root->ownerDocument->createElement( 'sectioninfo' );
+            $root->insertBefore( $secInfo, $root->firstChild );
+        }
 
         $fieldListItemMapping = array(
             'authors'     => 'authors',

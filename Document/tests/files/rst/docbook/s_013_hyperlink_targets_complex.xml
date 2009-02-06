@@ -2,7 +2,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <article xmlns="http://docbook.org/ns/docbook">
   <section ID="various_types_of_hyperlink_targets">
-    <sectioninfo/>
     <title>Various types of hyperlink targets</title>
     <para>Clicking on this internal hyperlink will take us to the <ulink url="target">target</ulink> below.</para>
     <para ID="target">The hyperlink target above points to this paragraph.</para>
