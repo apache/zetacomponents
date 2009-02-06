@@ -1,6 +1,8 @@
 1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed issue #14415: Simple table markup does not work with header cell
+  spanning all columns
 - Fixed issue #14407: Underscores not allowed to appear in RST documents
 - Fixed issue #14406: Unknown property 'indentation' used in RST parser
 - Fixed issue #14405: Comments in RST not handled for all cases

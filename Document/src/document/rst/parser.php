@@ -2703,36 +2703,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
                   ( ( $tokens[0]->content[0] !== '=' ) &&
                     ( $tokens[0]->content[0] !== '-' ) ) ||
                   ( !isset( $tokens[1] ) ) ||
-                  ( $tokens[1]->type !== ezcDocumentRstToken::WHITESPACE ) ||
-                  ( !isset( $tokens[2] ) ) ||
-                  ( $tokens[2]->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
-                  ( ( $tokens[2]->content[0] !== '=' ) &&
-                    ( $tokens[2]->content[0] !== '-' ) ) ) &&
+                  ( ( $tokens[1]->type !== ezcDocumentRstToken::WHITESPACE ) &&
+                    ( $tokens[1]->type !== ezcDocumentRstToken::NEWLINE ) ) ) &&
                 ( $token = array_shift( $tokens ) ) )
         {
-            // Determine column for current content.
-            $column = false;
-            foreach ( $cellStarts as $nr => $position )
-            {
-                if ( !isset( $cellStarts[$nr + 1] ) ||
-                     ( $cellStarts[$nr + 1] > $token->position ) )
-                {
-                    $column = $nr;
-                    /* DEBUG
-                    echo "$column, ";
-                    // /DEBUG */
-                    break;
-                }
-            }
-
-            if ( $column === false )
-            {
-                $column = $nr;
-                /* DEBUG
-                echo "$column, ";
-                // /DEBUG */
-            }
-
             // Increase row number, if the we get non-whitespace content in the
             // first cell
             if ( ( ( $row === -1 ) &&
@@ -2743,18 +2717,42 @@ class ezcDocumentRstParser extends ezcDocumentParser
                    ( $token->type !== ezcDocumentRstToken::NEWLINE ) ) )
             {
                 ++$row;
+                $column = false;
                 /* DEBUG
                 echo "\n   -> Row $row: ";
                 // /DEBUG */
             }
 
+            // Determine column for current content.
+            foreach ( $cellStarts as $nr => $position )
+            {
+                if ( $position == $token->position )
+                {
+                    $column = $nr;
+                    /* DEBUG
+                    echo "Increase: $column, ";
+                    // /DEBUG */
+                    break;
+                }
+            }
+
+            if ( $column === false )
+            {
+                $column = $nr;
+                /* DEBUG
+                echo "Init: $column, ";
+                // /DEBUG */
+            }
+
             // Check if we need to split up the token, because of a single
             // seperating whitespace at the column boundings.
-            if ( ( $token->type === ezcDocumentRstToken::TEXT_LINE ) &&
-                 isset( $cellStarts[$column + 1] ) &&
+            if ( isset( $cellStarts[$column + 1] ) &&
                  ( isset( $token->content[$split = $cellStarts[$column + 1] - $token->position - 1] ) ) &&
                  ( $token->content[$split] === ' ' ) )
             {
+                /* DEBUG
+                echo "Split, ";
+                // /DEBUG */
                 $newToken = clone( $token );
                 $token->content = substr( $token->content, 0, $split );
 
@@ -2880,7 +2878,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
                   ( $tokens[0]->content[0] === '-' ) &&
                   ( $tokens[0]->position === 1 ) &&
                   ( isset( $tokens[1] ) ) &&
-                  ( $tokens[1]->type == ezcDocumentRstToken::WHITESPACE ) &&
+                  ( ( $tokens[1]->type == ezcDocumentRstToken::WHITESPACE ) ||
+                    ( $tokens[1]->type == ezcDocumentRstToken::NEWLINE ) ) &&
                   // We ignore the actual header undeline table cell
                   // redefinition, as we detect this magically while reading
                   // the cells already.
