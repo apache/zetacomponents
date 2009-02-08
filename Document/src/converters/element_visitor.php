@@ -157,7 +157,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
                     $this->triggerError( E_NOTICE, "Unhandled element '{$node->tagName}'." );
 
                     // Recurse into element nodes anyways
-                    $this->visitChilds( $node, $root );
+                    $this->visitChildren( $node, $root );
                 }
                 break;
 
