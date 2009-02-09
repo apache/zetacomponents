@@ -2748,6 +2748,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // seperating whitespace at the column boundings.
             if ( isset( $cellStarts[$column + 1] ) &&
                  ( isset( $token->content[$split = $cellStarts[$column + 1] - $token->position - 1] ) ) &&
+                 ( strlen( $token->content ) > ( $split + 1 ) ) &&
                  ( $token->content[$split] === ' ' ) )
             {
                 /* DEBUG
