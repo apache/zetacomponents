@@ -632,6 +632,12 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             case ezcSearchDocumentDefinition::BOOLEAN:
                 $value = $value ? 'true' : 'false';
                 break;
+
+            case ezcSearchDocumentDefinition::STRING:
+            case ezcSearchDocumentDefinition::TEXT:
+            case ezcSearchDocumentDefinition::HTML:
+                $value = preg_replace( '/[\x00-\x09\x0B\x0C\x1E\x1F]/', '', $value );
+                break;
         }
         return $value;
     }

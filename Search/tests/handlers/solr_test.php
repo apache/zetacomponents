@@ -57,7 +57,7 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
     function testConnectAndPing()
     {
         $r = $this->solr->sendRawGetCommand( 'admin/ping' );
-        self::assertContains( "<ping", $r );
+        self::assertContains( "ping", $r );
     }
 
     function testSearchEmptyResultsSimple()

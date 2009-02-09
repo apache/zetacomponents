@@ -149,7 +149,6 @@ class ezcSearchSessionTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 2, count( $r->documents ) );
-        self::assertGreaterThan( 3.5, $r->documents[$a->id]->score );
     }
 
     public function testCreateFindQueryWithAccent()
