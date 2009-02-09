@@ -1,16 +1,16 @@
 1.1.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #14415: Simple table markup does not work with header cell
-  spanning all columns
-- Fixed issue #14407: Underscores not allowed to appear in RST documents
-- Fixed issue #14406: Unknown property 'indentation' used in RST parser
-- Fixed issue #14405: Comments in RST not handled for all cases
-- Fixed issue #14390: Items before first section are merged with first section
 - Fixed issue #14332: Paragraphs are sometimes missing in the output, when
   converting rst documents
+- Fixed issue #14390: Items before first section are merged with first section
+- Fixed issue #14405: Comments in RST not handled for all cases
+- Fixed issue #14406: Unknown property 'indentation' used in RST parser
+- Fixed issue #14407: Underscores not allowed to appear in RST documents
 - Fixed issue #14408: Error parsing grd tables, where first line does not
   provide full table column specification
+- Fixed issue #14415: Simple table markup does not work with header cell
+  spanning all columns
 
 
 1.1 - Monday 05 January 2009
