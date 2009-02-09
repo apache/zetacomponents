@@ -4,6 +4,7 @@
 - Fixed issue #14402: Auto detection of external programs (binaries) does not
   throw warnings anymore.
 
+
 1.6 - Monday 05 January 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
