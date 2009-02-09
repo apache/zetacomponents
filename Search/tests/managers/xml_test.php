@@ -18,7 +18,7 @@ class ezcSearchXmlDefinitionManager extends ezcTestCase
 {
     public function setUp()
     {
-        $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
+        $this->testFilesDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'testfiles' . DIRECTORY_SEPARATOR;
     }
 
     public function testCanNotFindDefinitionFile()
@@ -37,7 +37,7 @@ class ezcSearchXmlDefinitionManager extends ezcTestCase
 
     public function testCanNotFindDefinitionFileWithoutDirSlash()
     {
-        $m = new ezcSearchXmlManager( dirname( __FILE__ ) . '/testfiles' );
+        $m = new ezcSearchXmlManager( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'testfiles' );
         try
         {
             $d = $m->fetchDefinition( 'doesNotExist' );
