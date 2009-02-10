@@ -83,7 +83,7 @@ abstract class ezcTestCase extends PHPUnit_Framework_TestCase
                 {
                     if ( $file[0] != "." )
                     {
-                        $this->removeRecursively( $this->tempDir . "/" . $file );
+                        $this->removeRecursively( $this->tempDir . DIRECTORY_SEPARATOR . $file );
                     }
                 }
             }
@@ -110,7 +110,7 @@ abstract class ezcTestCase extends PHPUnit_Framework_TestCase
                 {
                     if ( $file != "." && $file != '..' )
                     {
-                        $this->removeRecursively( $entry . "/" . $file );
+                        $this->removeRecursively( $entry . DIRECTORY_SEPARATOR . $file );
                     }
                 }
 
