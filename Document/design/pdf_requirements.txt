@@ -65,7 +65,7 @@ Hyphenation
 Especially justified texts in narrow text columns requires hyphenation for
 words, otherwise the blanks between characters and words might increase to
 much. A pluggable hyphenation mechanism is required, which can be adapted to
-languages, based on externally available dictionaries.
+different languages, based on externally available dictionaries.
 
 Widows and orphans
 ^^^^^^^^^^^^^^^^^^
@@ -80,6 +80,20 @@ Inline formatting
 
 Depending on the used font and styles inline formatting might have a serious
 effect on the text width. This MUST be respecting during text rendering.
+
+LTF and RTL languages
+^^^^^^^^^^^^^^^^^^^^^
+
+The text wrapping must be able to work with left-to-right and right-to-left
+languages.
+
+Floating media objects
+^^^^^^^^^^^^^^^^^^^^^^
+
+For media objects, which do not span the whole column width, it should be
+possible to float text around the media objects. Detection of the actual image
+borders is not required - the rectangular frame around the image should be
+sufficant for text floating.
 
 Embedding of media
 ------------------
