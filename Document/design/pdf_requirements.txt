@@ -140,7 +140,8 @@ Driver infrastructure
 There are multiple ways to generate PDF documents, like:
 
 - pecl/libharu
-- FDPF
+- FPDF
+- TCPDF
 - pdflib
 - Zend_PDF
 
