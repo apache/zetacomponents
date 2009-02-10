@@ -170,3 +170,12 @@ wrapping of texts, it might be useful in similar cases, for example:
   One major problem might be the used markup for formatting of inline text
   elements.
 
+Import of PDF pages
+-------------------
+
+For cover pages (or similar) of documents it might be useful to extract whole
+pages from other PDFs and embed them in the generated PDF document.
+
+This requires reading of existing PDF documents, though - which is not planned
+to be implemented yet.
+
