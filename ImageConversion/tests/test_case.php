@@ -35,7 +35,7 @@ class ezcImageConversionTestCase extends ezcTestImageCase
     {
         parent::__construct();
         $dataDir = dirname( __FILE__ ) . "/data";
-        foreach ( glob( "$dataDir/*" ) as $testFile )
+        foreach ( glob( $dataDir . DIRECTORY_SEPARATOR . '*' ) as $testFile )
         {
             if ( !is_file( $testFile ) )
             {
@@ -45,7 +45,7 @@ class ezcImageConversionTestCase extends ezcTestImageCase
             $this->testFiles[basename( $pathInfo["basename"], "." . $pathInfo["extension"] )] = realpath( $testFile );
         }
         $this->testFiles["nonexistent"] = "nonexistent.jpg";
-        $this->referencePath = "$dataDir/compare";
+        $this->referencePath = $dataDir . DIRECTORY_SEPARATOR . 'compare';
     }
 
     public function __destruct()
@@ -68,13 +68,13 @@ class ezcImageConversionTestCase extends ezcTestImageCase
     protected function getTempPath( $index = "" )
     {
         return ezcImageConversionTestCase::REGENERATION_MODE === true
-            ? "{$this->referencePath}/{$this->getTestName( $index )}"
-            : "{$this->getTempBasePath()}/{$this->getTestName( $index )}";
+            ? $this->referencePath . DIRECTORY_SEPARATOR . $this->getTestName( $index )
+            : $this->getTempBasePath() . DIRECTORY_SEPARATOR . $this->getTestName( $index );
     }
 
     protected function getReferencePath( $index = "" )
     {
-        return "{$this->referencePath}/{$this->getTestName( $index )}";
+        return $this->referencePath . DIRECTORY_SEPARATOR . $this->getTestName( $index );
     }
 
     private function getTestName ( $index )
