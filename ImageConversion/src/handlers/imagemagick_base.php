@@ -213,7 +213,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         
         // Wait for process to terminate and store return value
         $status = proc_get_status( $imageProcess );
-        while ( $status['running'] === true )
+        while ( $status['running'] !== false )
         {
             // Sleep 1/100 second to wait for convert to exit
             usleep( 10000 );
@@ -221,8 +221,9 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         }
         $return = proc_close( $imageProcess );
         
-        // Process potential errors
-        if ( $status['exitcode'] != 0 || strlen( $errorString ) > 0 )
+	// Process potential errors
+	// Exit code may be messed up with -1, especially on Windoze
+        if ( ( $status['exitcode'] != 0 && $status['exitcode'] != -1 ) || strlen( $errorString ) > 0 )
         {
             // If this code is reached we have a bug in this component or in ImageMagick itself.
             throw new Exception(
@@ -393,30 +394,16 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
     {
         if ( !isset( $settings->options['binary'] ) )
         {
-            // Try to use basic binary names only, if not provided (standard case 
-            // on Unix, binary should be in the $PATH, so is accessable).
-            switch ( PHP_OS )
-            {
-                case 'Linux':
-                case 'Unix':
-                case 'FreeBSD':
-                case 'MacOS':
-                case 'Darwin':
-                    $this->binary = 'convert';
-                    break;
-                case 'Windows':
-                case 'WINNT':
-                case 'WIN32':
-                    $this->binary = 'convert.exe';
-                    break;
-                default:
-                    throw new ezcImageHandlerNotAvailableException( 'ezcImageImagemagickHandler', "System '" . PHP_OS . "' not supported by handler 'ezcImageImagemagickHandler'." );
-                    break;
-            }
+            $this->binary = ezcBaseFeatures::getImageConvertExecutable();
         }
-        else
+        else if ( file_exists( $settings->options['binary'] ) )
         {
-            $this->binary = $settings->options['binary'];
+            $this->binary = $this->settings['binary'];
+        }
+
+        if ( $this->binary === null )
+        {
+            throw new ezcImageHandlerNotAvailableException( 'ezcImageImagemagickHandler', 'ImageMagick not installed or not available in PATH variable.' );
         }
         
         // Prepare to run ImageMagick command
@@ -450,7 +437,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         $return = proc_close( $imageProcess );
 
         // Process potential errors
-        if ( $return != 0 || strlen( $errorString ) > 0 || strpos( $outputString, 'ImageMagick' ) === false )
+        if ( strlen( $errorString ) > 0 || strpos( $outputString, 'ImageMagick' ) === false )
         {
             throw new ezcImageHandlerNotAvailableException( 'ezcImageImagemagickHandler', 'ImageMagick not installed or not available in PATH variable.' );
         }
