@@ -315,7 +315,7 @@ class ezcWorkflowEventLogTieinListenerTest extends ezcWorkflowEventLogTieinTestC
     public function testLogWorkflowWithSubWorkflowAndVariablePassing()
     {
         $definition = new ezcWorkflowDefinitionStorageXml(
-          dirname( dirname( dirname( __FILE__ ) ) ) . '/Workflow/tests/data/'
+          dirname( dirname( dirname( __FILE__ ) ) ) . DIRECTORY_SEPARATOR . 'Workflow' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR
         );
 
         $workflow = $definition->loadByName( 'IncrementVariable' );

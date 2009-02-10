@@ -30,7 +30,7 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
 
             $schema = ezcDbSchema::createFromFile(
               'array',
-              dirname( __FILE__ ) . '/workflow.dba'
+              dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'workflow.dba'
             );
 
             $schema->writeToDb( $this->db );
