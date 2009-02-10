@@ -34,7 +34,7 @@ class ezcImageConversionTestCase extends ezcTestImageCase
     public function __construct()
     {
         parent::__construct();
-        $dataDir = dirname( __FILE__ ) . "/data";
+        $dataDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'data';
         foreach ( glob( $dataDir . DIRECTORY_SEPARATOR . '*' ) as $testFile )
         {
             if ( !is_file( $testFile ) )
