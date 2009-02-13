@@ -1173,7 +1173,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
         $this->assertEquals(
             $relatedObjects,
-            $idMap->getRelatedObjects( $obj, 'RelationTestAddress', 'set_name' )
+            $idMap->getRelatedObjectSet( $obj, 'set_name' )
         );
     }
 
@@ -1207,7 +1207,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
         $this->assertEquals(
             null,
-            $idMap->getRelatedObjects( $obj, 'RelationTestAddress', 'set_name' )
+            $idMap->getRelatedObjectSet( $obj,'set_name' )
         );
     }
 
@@ -1241,7 +1241,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
         $this->assertEquals(
             null,
-            $idMap->getRelatedObjects( $obj, 'RelationTestAddress', 'set_name' )
+            $idMap->getRelatedObjectSet( $obj, 'set_name' )
         );
     }
 
