@@ -980,7 +980,8 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                 ),
             ),
             'identities',
-            $idMap
+            $idMap,
+            'Identity map before removal.'
         );
 
         $idMap->removeRelatedObject( $obj, $relatedObjects[42] );
@@ -1003,7 +1004,8 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                 ),
             ),
             'identities',
-            $idMap
+            $idMap,
+            'Identity map after removal.'
         );
     }
 
@@ -1060,11 +1062,9 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
                             ),
                         ),
                         array(
-                            'RelationTestAddress' => array(
-                                'set_name' => array(
-                                    65 => $relatedObjects[65],
-                                ),
-                            )
+                            'set_name' => array(
+                                65 => $relatedObjects[65],
+                            ),
                         )
                     )
                 ),
