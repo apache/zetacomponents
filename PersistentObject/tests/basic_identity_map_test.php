@@ -12,12 +12,12 @@ require_once 'data/relation_test_address.php';
 require_once 'data/relation_test_employer.php';
 
 /**
- * Tests the ezcPersistentIdentityMap class.
+ * Tests the ezcPersistentBasicIdentityMap class.
  *
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentityMapTest extends ezcTestCase
+class ezcPersistentBasicIdentityMapTest extends ezcTestCase
 {
     protected $definitionManager;
 
@@ -43,7 +43,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testCtor()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
 
@@ -65,7 +65,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetIdentityFailureNotExists()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -76,7 +76,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetIdentitySingleRecordedSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -93,7 +93,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetIdentityMultipleRecordedSameClassSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -119,7 +119,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetIdentityMultipleRecordedDifferentClassSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -149,7 +149,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetIdentitySingleObjectSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -173,7 +173,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetIdentityTowObjectsSameClassSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -217,7 +217,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetIdentityTowObjectsDifferentClassSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -263,7 +263,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetIdentityMissingDefinitionFailure()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
 
@@ -280,7 +280,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetIdentitySameObjectTwiceSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -318,7 +318,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetIdentityEqualObjectTwiceFailure()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -363,7 +363,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetRelatedObjectsWithoutNameNotExistsSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -399,7 +399,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetRelatedObjectsWithNameNotExsistsSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -439,7 +439,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetRelatedObjectsTwiceWithDifferentNamesNotExistSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -483,7 +483,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetRelatedObjectsMissingIdentityFailure()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -522,7 +522,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetRelatedObjectsWithoutNameAlreadyExistSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -559,7 +559,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetRelatedObjectsWithNameAlreadyExistSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -600,7 +600,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testSetRelatedObjectsInconsistentFailure()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -647,7 +647,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testAddRelatedObjectToExistingSetSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -710,7 +710,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testAddRelatedObjectIgnoredEmptySetSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -756,7 +756,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testAddRelatedObjectInvalidateNamedSetsSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -822,7 +822,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testAddRelatedObjectMissingIdentityFailure()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -856,7 +856,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testAddRelatedObjectMissingDefinitionFailure()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -890,7 +890,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testAddRelatedObjectTwiceFailure()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -947,7 +947,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testRemoveRelatedObjectSingleSetSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1011,7 +1011,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testRemoveRelatedObjectMultipleSetsSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1080,7 +1080,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testRemoveRelatedObjectNotExistsSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1125,7 +1125,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetRelatedObjectsUnnamedSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1152,7 +1152,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetRelatedObjectsNamedSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1179,7 +1179,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetRelatedObjectsUnnamedNotExistSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1196,7 +1196,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetRelatedObjectsNamedNotExistSuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1213,7 +1213,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetRelatedObjectsUnnamedEmptySuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1230,7 +1230,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testGetRelatedObjectsNamedEmptySuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
@@ -1251,7 +1251,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testResetEmptySuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
 
@@ -1282,7 +1282,7 @@ class ezcPersistentIdentityMapTest extends ezcTestCase
 
     public function testResetNonEmptySuccess()
     {
-        $idMap = new ezcPersistentIdentityMap(
+        $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
         );
         
