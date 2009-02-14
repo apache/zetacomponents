@@ -181,13 +181,21 @@ class ezcPersistentSessionIdentityLoadTest extends ezcPersistentSessionTest
 
     public function testRefreshValid()
     {
-        $object = $this->idSession->load( 'PersistentTestObject', 1 );
+        $first  = $this->idSession->load( 'PersistentTestObject', 1 );
+        $second = $this->idSession->load( 'PersistentTestObject', 1 );
 
-        $object->integer = 23;
+        $this->assertSame( $first, $second );
 
-        $this->idSession->refresh( $object );
+        $first->integer = 23;
 
-        $this->assertEquals( 9006405, (int)$object->integer );
+        $this->assertEquals( 23, $second->integer );
+
+        $this->idSession->refresh( $first );
+
+        $this->assertSame( $first, $second );
+
+        $this->assertEquals( 9006405, (int)$first->integer );
+        $this->assertEquals( 9006405, (int)$second->integer );
     }
 
     public function testRefreshInvalid()

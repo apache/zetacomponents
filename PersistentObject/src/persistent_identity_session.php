@@ -65,10 +65,24 @@ class ezcPersistentIdentitySession
      * @param int $id
      *
      * @return object
+     *
+     * @TODO: Map access can be optimized by submitting $class and $id to setIdentity().
      */
     public function load( $class, $id )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $idMap = $this->properties['identityMap'];
+
+        $identity = $idMap->getIdentity( $class, $id );
+
+        if ( $identity !== null )
+        {
+            return $identity;
+        }
+
+        $identity = $this->session->load( $class, $id );
+        $idMap->setIdentity( $identity );
+        
+        return $identity;
     }
 
     /**
@@ -86,7 +100,23 @@ class ezcPersistentIdentitySession
      */
     public function loadIfExists( $class, $id )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $idMap = $this->properties['identityMap'];
+
+        $identity = $idMap->getIdentity( $class, $id );
+
+        if ( $identity !== null )
+        {
+            return $identity;
+        }
+
+        $identity = $this->session->loadIfExists( $class, $id );
+
+        if ( $identity !== null )
+        {
+            $idMap->setIdentity( $identity );
+        }
+        
+        return $identity;
     }
 
     /**
@@ -111,7 +141,22 @@ class ezcPersistentIdentitySession
      */
     public function loadIntoObject( $object, $id )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $idMap = $this->properties['identityMap'];
+        $class = get_class( $object );
+
+        $identity = $idMap->getIdentity( $class, $id );
+
+        if ( $identity !== null )
+        {
+            throw new ezcPersistentIdentityAlreadyExistsException(
+                $class,
+                $id
+            );
+        }
+
+        $this->session->loadIntoObject( $object, $id );
+
+        $idMap->setIdentity( $object );
     }
 
     /**
@@ -135,7 +180,7 @@ class ezcPersistentIdentitySession
      */
     public function refresh( $object )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $this->session->refresh( $object );
     }
 
     /**
