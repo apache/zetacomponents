@@ -43,6 +43,7 @@ return array(
     'ezcPersistentFindQuery'                                   => 'PersistentObject/queries/find_query.php',
     'ezcPersistentGeneratorDefinition'                         => 'PersistentObject/structs/generator_definition.php',
     'ezcPersistentIdentity'                                    => 'PersistentObject/structs/identity.php',
+    'ezcPersistentIdentitySession'                             => 'PersistentObject/persistent_identity_session.php',
     'ezcPersistentLoadHandler'                                 => 'PersistentObject/handlers/load_handler.php',
     'ezcPersistentManualGenerator'                             => 'PersistentObject/generators/manual_generator.php',
     'ezcPersistentManyToManyRelation'                          => 'PersistentObject/relations/many_to_many.php',

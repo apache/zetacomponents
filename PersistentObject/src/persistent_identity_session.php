@@ -68,6 +68,7 @@ class ezcPersistentIdentitySession
      */
     public function load( $class, $id )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -85,6 +86,7 @@ class ezcPersistentIdentitySession
      */
     public function loadIfExists( $class, $id )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -109,6 +111,7 @@ class ezcPersistentIdentitySession
      */
     public function loadIntoObject( $object, $id )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -132,6 +135,7 @@ class ezcPersistentIdentitySession
      */
     public function refresh( $object )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -185,6 +189,7 @@ class ezcPersistentIdentitySession
      */
     public function find( $query, $class = null )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -225,6 +230,7 @@ class ezcPersistentIdentitySession
      */
     public function findIterator( $query, $class = null )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -271,6 +277,7 @@ class ezcPersistentIdentitySession
      */
     public function getRelatedObjects( $object, $relatedClass, $relationName = null )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -318,6 +325,7 @@ class ezcPersistentIdentitySession
      */
     public function getRelatedObject( $object, $relatedClass, $relationName = null )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -342,6 +350,7 @@ class ezcPersistentIdentitySession
      */
     public function createFindQuery( $class )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -362,6 +371,7 @@ class ezcPersistentIdentitySession
      */
     public function createRelationFindQuery( $object, $relatedClass )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -386,6 +396,7 @@ class ezcPersistentIdentitySession
      */
     public function save( $object )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -403,6 +414,7 @@ class ezcPersistentIdentitySession
      */
     public function update( $object )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -425,6 +437,7 @@ class ezcPersistentIdentitySession
      */
     public function saveOrUpdate( $object )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -458,6 +471,7 @@ class ezcPersistentIdentitySession
      */
     public function addRelatedObject( $object, $relatedObject, $relationName = null )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -473,6 +487,7 @@ class ezcPersistentIdentitySession
      */
     public function createUpdateQuery( $class )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -488,6 +503,7 @@ class ezcPersistentIdentitySession
      */
     public function updateFromQuery( ezcQueryUpdate $query )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -523,6 +539,7 @@ class ezcPersistentIdentitySession
      */
     public function delete( $object )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -550,6 +567,7 @@ class ezcPersistentIdentitySession
      */
     public function removeRelatedObject( $object, $relatedObject, $relationName = null )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -566,6 +584,7 @@ class ezcPersistentIdentitySession
      */
     public function deleteFromQuery( ezcQueryDelete $query )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -582,6 +601,7 @@ class ezcPersistentIdentitySession
      */
     public function createDeleteQuery( $class )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
 
@@ -598,6 +618,7 @@ class ezcPersistentIdentitySession
      */
     public function generateAliasMap( ezcPersistentObjectDefinition $def, $prefixTableName = true )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -612,6 +633,7 @@ class ezcPersistentIdentitySession
      */
     public function getColumnsFromDefinition( ezcPersistentObjectDefinition $def, $prefixTableName = true )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -628,6 +650,7 @@ class ezcPersistentIdentitySession
      */
     public function getObjectState( $object )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
@@ -645,6 +668,7 @@ class ezcPersistentIdentitySession
      */
     public function performQuery( ezcQuery $q, $transaction = false )
     {
+        throw new RuntimeException( 'Not implemented, yet.' );
     }
 
     /**
