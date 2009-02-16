@@ -16,7 +16,7 @@ require_once 'persistent_session_test.php';
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentitySessionTest extends ezcTestCase
+class ezcPersistentIdentitySessionTest extends ezcPersistentSessionTest
 {
     protected $idMap;
 
