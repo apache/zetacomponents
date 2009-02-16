@@ -42,6 +42,20 @@ class ezcDatabaseFactoryTest extends ezcTestCase
         }
     }
 
+    // test for bug #14464
+    public function testWithWrongArgument()
+    {
+        try
+        {
+            $foo = ezcDbFactory::create( true );
+            self::fail( "Expected exception was not thrown" );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            self::assertEquals( "The value '1' that you were trying to assign to parameter 'dbParams' is invalid. Allowed values are: string or array.", $e->getMessage() );
+        }
+    }
+
     public function testGetImplementations()
     {
         $array = ezcDbFactory::getImplementations();

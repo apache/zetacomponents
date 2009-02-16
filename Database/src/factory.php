@@ -137,6 +137,10 @@ class ezcDbFactory
         {
             $dbParams = self::parseDSN( $dbParams );
         }
+        else if ( !is_array( $dbParams ) )
+        {
+            throw new ezcBaseValueException( 'dbParams', $dbParams, 'string or array', 'parameter' );
+        }
 
         $impName = null; // implementation name
 
