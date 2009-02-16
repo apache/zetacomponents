@@ -130,6 +130,24 @@ class ezcPersistentSessionFindTest extends ezcPersistentSessionTest
         $this->assertEquals( 2, $i );
     }
 
+    public function testFindIteratorMultipleResultObjectNotChanged()
+    {
+        $q = $this->session->createFindQuery( 'PersistentTestObject' );
+        $q->where( $q->expr->gt( $this->session->database->quoteIdentifier( 'id' ), 2 ) );
+
+        $it = $this->session->findIterator( $q, 'PersistentTestObject' );
+
+        $lastObject = null;
+        foreach ( $it as $object )
+        {
+            if ( $lastObject !== null )
+            {
+                $this->assertNotSame( $lastObject, $object );
+            }
+            $lastObject = $object;
+        }
+    }
+
     public function testFindWithoutClassNameSingleResult()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
