@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require_once 'persistent_session_test.php';
+require_once 'persistent_identity_session_test.php';
 
 /**
  * Tests the load facilities of ezcPersistentSession.
@@ -16,30 +16,13 @@ require_once 'persistent_session_test.php';
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentSessionIdentityLoadTest extends ezcPersistentSessionTest
+class ezcPersistentSessionIdentityLoadTest extends ezcPersistentIdentitySessionTest
 {
-    protected $idMap;
-
-    protected $idSession;
-
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->idMap = new ezcPersistentBasicIdentityMap(
-            $this->session->definitionManager
-        );
-
-        $this->idSession = new ezcPersistentIdentitySession(
-            $this->session,
-            $this->idMap
-        );
-    }
 
     // loadIfExists
 
