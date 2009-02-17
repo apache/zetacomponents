@@ -20,7 +20,7 @@ The first part of this document briefly introduces the Java Hibernate system,
 which works as the reference implementation. Highly Java specific details are
 intentionally left out here, but will occasionally occur in the second and
 third part, to explain design decisions. The latter 2 parts of this document
-describes the proposed design of our system in detail and explain why this way
+describe the proposed design of our system in detail and explain why this way
 has been chosen.
 
 Hibernate (Java)
@@ -30,8 +30,8 @@ Hibernate is a development component for the Java programming language, that
 allows developers to transparently store objects inside a relational database
 (RDB). The approach is an implementation of the Active Record design pattern.
 Hibernate was used to model the current PersistentObject component of eZ
-components. One of the larges benefits of Hibernate against other Active Record
-implementations is, that in Hibernate the classes of persistent objects are not
+components. One of the largest benefits of Hibernate against other Active Record
+implementations is that in Hibernate the classes of persistent objects are not
 required to extend a common base class or to implement a specific interface.
 
 General overview
@@ -450,7 +450,7 @@ Address that are related to an instance of the class Person, using the
 ezcPersistentSession->getRelated*() methods.
 
 Note, that the "column map" contains the database column names, and not the
-property names of the persistent classes. The comlumn map of One-To-Many
+property names of the persistent classes. The column map of One-To-Many
 relations must at least contain 1 ezcPersistentSingleTableMap. You can also add
 more mappings to the column map, which allows you a more fine grained selection
 of the objects to fetch and also allows you to specify multiple keys to match.
@@ -527,7 +527,7 @@ realizes the reverse mapping of the first one-to-many example: ::
     $def->relations["Person"]->reverse = true;
     ?>
 
-The speciality in this example is the "reverse" flag. This is necessary, to
+The specialty in this example is the "reverse" flag. This is necessary, to
 avoid constraint violations within the database, if the same relation is added
 twice. Setting "reverse" to true indicates, that there is already a relation
 defined in the opposite direction, which is the main relation. The effect in
@@ -556,12 +556,12 @@ General comments
 The described design is not as "nice" and "clean" as the Hibernate approach is.
 This mainly results from the lack of features in PHP, which are provided by
 Java and used in Hibernate. The largest issue is, that we cannot change classes during
-compile-/runtime, which disables us to add methods to classes after they
+compile-/runtime, which prevents us from adding methods to classes after they
 have been defined. Since we do not want to force persistent classes to extend a
 common base class, we cannot use cute features like overloading to make a nicer
 API. 
 
-While discussing this, the idea came up, to offer a common base class, as an
+While discussing this, the idea came up to offer a common base class, as an
 option, but make it not necessary. This approach would allow us to e.g.
 implement real lazy-loading through property access. Such a base class is
 easily implementable using the current design proposal as the basis.
