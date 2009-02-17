@@ -8,14 +8,14 @@ Purpose of Persistent Object package
 ------------------------------------
 
 The purpose of the Persistent Object class is to provide the means to store an
-object to a database in a transparant manner. The idea is to be able to quickly
+object to a database in a transparent manner. The idea is to be able to quickly
 develop "objects" that should be stored to the database without having to write
 SQL calls compatible with all databases etc.
 
 Current implementation
 ----------------------
 
-Currrently Persistent Object functionality is implemented in the class
+Currently Persistent Object functionality is implemented in the class
 eZPersistentObject. The design of this package should be based around this
 class. However, a general cleanup of the class is necessary. It should also
 be refactored to use PHP 5 properties.
@@ -50,7 +50,7 @@ Class design
 ------------
 
 ezcPersistentObject
-    This class implements the persistet object with the above requirements.
+    This class implements the persistent object with the above requirements.
     In order to use it you must inherit it and define the various properties,
     and implement the definition method which is used to tell 
     ezcPersistentObject what your object looks like.
@@ -62,5 +62,5 @@ ezcPersistentRecord
    with.
 
 ezcPeristentObjectValidator
-   This is a convinience class that contains functionality to check if your
+   This is a convenience class that contains functionality to check if your
    ezcPersistentObject definitions are valid or not.
