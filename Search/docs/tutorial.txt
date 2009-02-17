@@ -52,9 +52,8 @@ use of the handler's functionality as possible.
 Solr
 ----
 
-Currently the only implemented handler is a handler that talks to Apache's
-Solr_. The handler accesses Solr over TCP/IP as a web service. Solr is a
-very capable search provider, with many features__.
+This handler uses Apache's Solr as backend. It accesses Solr over TCP/IP as a
+web service. Solr is a very capable search provider, with many features__.
 
 __ http://lucene.apache.org/solr/features.html
 
@@ -71,6 +70,20 @@ Solr requires a few minor changes to make it work with the Search component.
 `This schema`__ should be used as a basis for the Search component.
 
 __ http://svn.ez.no/svn/ezcomponents/trunk/Search/docs/schema.xml
+
+Zend_Search_Lucene
+------------------
+
+The component also provides a backend based on Zend's Lucene implementation.
+This backend has *many* limitations compared to Solr_, such as missing
+multi-valued field support, no data-type support and a much lower performance.
+In order to use this backend, you need to have a specific autoload function as
+well as the Zend Framework installed and included in the PHP included path. An
+example on how to use it follows:
+
+.. include:: tutorial/zend-lucene.php
+   :literal:
+
 
 Definition Managers
 ===================

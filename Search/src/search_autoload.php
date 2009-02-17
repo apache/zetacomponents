@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the Search component.
  *
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -35,6 +35,7 @@ return array(
     'ezcSearchQuerySolr'                         => 'Search/abstraction/implementations/solr.php',
     'ezcSearchQueryToken'                        => 'Search/structs/query_token.php',
     'ezcSearchQueryTools'                        => 'Search/abstraction/query_tools.php',
+    'ezcSearchQueryZendLucene'                   => 'Search/abstraction/implementations/zend_lucene.php',
     'ezcSearchResult'                            => 'Search/structs/search_result.php',
     'ezcSearchResultDocument'                    => 'Search/structs/search_result_document.php',
     'ezcSearchRstXmlExtractor'                   => 'Search/extractors/rstxml.php',
@@ -43,5 +44,6 @@ return array(
     'ezcSearchSimpleImage'                       => 'Search/extractors/helpers/image.php',
     'ezcSearchSolrHandler'                       => 'Search/handlers/solr.php',
     'ezcSearchXmlManager'                        => 'Search/managers/xml_manager.php',
+    'ezcSearchZendLuceneHandler'                 => 'Search/handlers/zend_lucene.php',
 );
 ?>

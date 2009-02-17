@@ -8,8 +8,8 @@
  * @subpackage Tests
  */
 
-require 'testfiles/article.php';
-require_once 'testfiles/test-classes.php';
+require_once 'Search/tests/testfiles/article.php';
+require_once 'Search/tests/testfiles/test-classes.php';
 
 /**
  * Test the handler classes.
@@ -17,11 +17,11 @@ require_once 'testfiles/test-classes.php';
  * @package Search
  * @subpackage Tests
  */
-class ezcSearchSessionZendLuceneTest extends ezcTestCase
+class ezcSearchHandlerZendLuceneTest extends ezcTestCase
 {
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( "ezcSearchSessionZendLuceneTest" );
+         return new PHPUnit_Framework_TestSuite( "ezcSearchHandlerZendLuceneTest" );
     }
 
     public function setUp()
@@ -39,7 +39,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         {
             self::markTestSkipped( 'Couldn\'t open Zend Lucene.' );
         }
-        $this->testFilesDir = dirname( __FILE__ ) . '/testfiles/';
+        $this->testFilesDir = dirname( __FILE__ ) . '/../testfiles/';
     }
 
     public function tearDown()
@@ -113,30 +113,28 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
 
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
         $session->beginTransaction();
-        echo time(), "\n";
-        for ( $i = 0; $i < 50; $i++ )
+        for ( $i = 0; $i < 5; $i++ )
         {
             $session->index( $a );
         }
         $session->commit();
-        echo time(), "\n";
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->eq( 'title', 'Article' ) );
         $r = $session->find( $q );
-        self::assertEquals( 1, $r->resultCount );
+        self::assertEquals( 5, $r->resultCount );
     }
 
     public function testIndexDocument3()
     {
-        $d = file_get_contents( dirname( __FILE__ ) . '/../../../docs/guidelines/implementation.txt' );
+        $d = file_get_contents( dirname( __FILE__ ) . '/../../../../docs/guidelines/implementation.txt' );
         $a = new Article( null, 'Test Article', 'This is Rethans an article to test', $d, time(), array( 'Derick Rethans', 'Legolas Rethans' ) );
 
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
         $session->index( $a );
 
         $q = $session->createFindQuery( 'Article' );
-        $q->where( $q->eq( 'author', 'Derick Rethans' ) );
+        $q->where( $q->eq( 'author', 'Legolas Rethans' ) );
 
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
@@ -189,7 +187,6 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
 
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->eq( 'summary', 'ソウ*' ) );
-        echo $q->getQuery(), "\n";
 
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
@@ -340,7 +337,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $q->where( $q->important( $q->eq( 'title', 'Twee' ) ) );
         self::assertEquals( "ezcsearch_type:Article AND +title:Twee^2", $q->getQuery() );
         $r = $session->find( $q );
-        self::assertEquals( 1, $r->resultCount );
+        self::assertEquals( 2, $r->resultCount );
     }
 
     public function testCreateFindQueryBoost()
@@ -403,7 +400,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->eq( 'title', 'Article' ) );
         $q->limit( 1 );
-        echo $q->getQuery(), "\n";
+
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
@@ -422,6 +419,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->eq( 'title', 'Article' ) );
         $q->limit( 1, 1 );
+        xdebug_break();
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
@@ -460,7 +458,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $q->where( $q->eq( 'title', 'Article' ) );
         $q->limit( 1 );
         $q->orderBy( 'id' );
-        echo $q->getQuery(), "\n";
+
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
@@ -509,9 +507,9 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
     {
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
 
-        $time1 = time() - 86400;
-        $time2 = time();
-        $time3 = time() + 3600;
+        $time1 = 1234714201;
+        $time2 = 1234800601;
+        $time3 = 1234804201;
         $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', $time1, "derick" );
         $session->index( $a );
         $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', $time2, "alexandru" );
@@ -520,10 +518,9 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $session->index( $a );
 
         $q = $session->createFindQuery( 'Article' );
-        $timeb1 = time() - 20;
-        $timeb2 = time() + 7200;
+        $timeb1 = 1234800581;
+        $timeb2 = 1234807801;
         $q->where( $q->between( 'published', $timeb1, $timeb2 ) );
-        echo $time1, ' ', $time2, ' ', $time3, ' ', $timeb1, ' ', $timeb2, ' ', $q->getQuery(), "\n";
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 2, count( $r->documents ) );

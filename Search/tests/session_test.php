@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require 'testfiles/article.php';
+require_once 'testfiles/article.php';
 require_once 'testfiles/test-classes.php';
 
 /**

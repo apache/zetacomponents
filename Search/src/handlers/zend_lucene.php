@@ -26,27 +26,6 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
     public $connection;
 
     /**
-     * Hosts the hostname of the zendlucene server
-     *
-     * @var string
-     */
-    private $host;
-
-    /**
-     * Hosts the port number of the zendlucene server
-     *
-     * @var int
-     */
-    private $port;
-
-    /**
-     * Hosts the location of the interface on the zendlucene server
-     *
-     * @var string
-     */
-    private $location;
-
-    /**
      * Stores the transaction nesting depth.
      *
      * @var integer
@@ -58,7 +37,7 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
      *
      * @param string $location
      */
-    public function __construct( $location = '/tmp/lucene' )
+    public function __construct( $location )
     {
         $this->connection = Zend_Search_Lucene::create( $location );
         $this->inTransaction = 0;
@@ -66,7 +45,6 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
         {
             throw new ezcSearchCanNotConnectException( 'zendlucene', $location );
         }
-
     }
 
     /**
@@ -99,17 +77,10 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
      * Builds query parameters from the different query fields
      *
      * @param string $queryWord
-     * @param string $defaultField
      * @param array(string=>string) $searchFieldList
-     * @param array(string=>string) $returnFieldList
-     * @param array(string=>string) $highlightFieldList
-     * @param array(string=>string) $facetFieldList
-     * @param int    $limit
-     * @param int    $offset
-     * @param array(string=>string) $order
      * @return array
      */
-    private function buildQuery( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = null, $offset = false, $order = array() )
+    private function buildQuery( $queryWord, $searchFieldList = array() )
     {
         if ( count( $searchFieldList ) > 0 )
         {
@@ -123,48 +94,7 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
         {
             $queryString = $queryWord;
         }
-        $queryFlags = array( 'q' => $queryString, 'wt' => 'json', 'df' => $defaultField );
-        if ( count( $returnFieldList ) )
-        {
-            $returnFieldList[] = 'score';
-            $queryFlags['fl'] = join( ' ', $returnFieldList );
-        }
-        if ( count( $highlightFieldList ) )
-        {
-            $queryFlags['hl'] = 'true';
-            $queryFlags['hl.snippets'] = 3;
-            $queryFlags['hl.fl'] = join( ' ', $highlightFieldList );
-            $queryFlags['hl.simple.pre'] = '<b>';
-            $queryFlags['hl.simple.post'] = '</b>';
-        }
-        if ( count( $facetFieldList ) )
-        {
-            $queryFlags['facet'] = 'true';
-            $queryFlags['facet.mincount'] = 1;
-            $queryFlags['facet.sort'] = 'false';
-            $queryFlags['facet.field'] = join( ' ', $facetFieldList );
-        }
-        if ( count( $order ) )
-        {
-            $sortFlags = array();
-            foreach ( $order as $column => $type )
-            {
-                if ( $type == ezcSearchQueryTools::ASC )
-                {
-                    $sortFlags[] = "$column asc";
-                }
-                else
-                {
-                    $sortFlags[] = "$column desc";
-                }
-            }
-            $queryFlags['sort'] = join( ', ', $sortFlags );
-        }
-        $queryFlags['start'] = $offset;
-        $queryFlags['rows'] = $limit === null ? 999999 : $limit;
-
-//        Zend_Search_Lucene::setResultSetLimit( $offset + $limit );
-        return $queryFlags;
+        return $queryString;
     }
 
     /**
@@ -180,16 +110,16 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
         $s = new ezcSearchResult();
         $s->resultCount = count( $response );
 
-        $counter = 0;
+        $counter = -1;
 
         foreach ( $response as $hit )
         {
-            if ( $query->offset < $counter )
+            $counter++;
+            if ( $counter < $query->offset )
             {
                 continue;
             }
-            $counter++;
-            if ( $counter > $query->limit )
+            if ( $query->limit !== null && $counter >= ( $query->limit + $query->offset ) )
             {
                 break;
             }
@@ -213,47 +143,6 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
             $s->documents[$attr[$idProperty]] = array( 'meta' => array( 'score' => $hit->score ), 'document' => $obj );
         }
 
-        // process highlighting
-        if ( isset( $response->highlighting ) && count( $s->documents ) )
-        {
-            foreach ( $s->documents as $id => &$document )
-            {
-                $document['highlight'] = array();
-                if ( isset( $response->highlighting->$id ) )
-                {
-                    foreach ( $def->fields as $field )
-                    {
-                        $fieldName = $this->mapFieldType( $field->field, $field->type );
-                        if ( $field->highlight && isset( $response->highlighting->$id->$fieldName ) )
-                        {
-                            $document['highlight'][$field->field] = $response->highlighting->$id->$fieldName;
-                        }
-                    }
-                }
-            }
-        }
-
-        // process facets
-        if ( isset( $response->facet_counts ) && isset( $response->facet_counts->facet_fields ) )
-        {
-            $facets = $response->facet_counts->facet_fields;
-            foreach ( $def->fields as $field )
-            {
-                $fieldName = $this->mapFieldType( $field->field, $field->type );
-                if ( isset( $facets->$fieldName ) )
-                {
-                    // sigh, stupid array format needs fixing
-                    $facetValues = array();
-                    $facet = $facets->$fieldName;
-                    for ( $i = 0; $i < count( $facet ); $i += 2 )
-                    {
-                        $facetValues[$facet[$i]] = $facet[$i+1];
-                    }
-                    $s->facets[$field->field] = $facetValues;
-                }
-            }
-        }
-
         return $s;
     }
 
@@ -261,26 +150,15 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
      * Executes a search by building and sending a query and returns the raw result
      *
      * @param string $queryWord
-     * @param string $defaultField
      * @param array(string=>string) $searchFieldList
-     * @param array(string=>string) $returnFieldList
-     * @param array(string=>string) $highlightFieldList
-     * @param array(string=>string) $facetFieldList
-     * @param int    $limit
-     * @param int    $offset
      * @param array(string=>string) $order
      * @return stdClass
      */
-    public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = null, $offset = 0, $order = array() )
+    public function search( $queryWord, $searchFieldList = array(), $order = array() )
     {
-        /*
-        $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order ) );
-        $result = json_decode( $result );
-        */
-        $query = $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order );
-//        $query = new Zend_Search_Lucene_Search_Query_Term( new Zend_Search_Lucene_Index_Term( 'article', 'title' ) );
+        $query = $this->buildQuery( $queryWord, $searchFieldList );
         $args = array();
-        $args[] = $query['q'];
+        $args[] = $query;
 
         if ( is_array( $order ) )
         {
@@ -345,14 +223,9 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
     public function find( ezcSearchFindQuery $query )
     {
         $queryWord = join( ' AND ', $query->whereClauses );
-        $resultFieldList = $query->resultFields;
-        $highlightFieldList = $query->highlightFields;
-        $facetFieldList = $query->facets;
-        $limit = $query->limit;
-        $offset = $query->offset;
         $order = $query->orderByClauses;
 
-        $res = $this->search( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order );
+        $res = $this->search( $queryWord, array(), $order );
         return $this->createResponseFromData( $query, $res );
     }
 
@@ -366,15 +239,8 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
     public function getQuery( ezcSearchQueryZendLucene $query )
     {
         $queryWord = join( ' AND ', $query->whereClauses );
-        $resultFieldList = $query->resultFields;
-        $highlightFieldList = $query->highlightFields;
-        $facetFieldList = $query->facets;
-        $limit = $query->limit;
-        $offset = $query->offset;
-        $order = $query->orderByClauses;
 
-        $query = $this->buildQuery( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order );
-        return $query['q'];
+        return $this->buildQuery( $queryWord );
     }
 
     /**
@@ -611,14 +477,12 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
         foreach ( $definition->fields as $field )
         {
             $values = $this->mapFieldValuesForIndex( $field, $document[$field->field] );
-//            $xml->writeAttribute( 'name', $this->mapFieldType( $field->field, $field->type ) );a
             foreach ( $values as $value )
             {
                 switch ( $field->type )
                 {
                     case ezcSearchDocumentDefinition::INT:
                     case ezcSearchDocumentDefinition::DATE:
-                    case ezcSearchDocumentDefinition::STRING:
                         $doc->addField( Zend_Search_Lucene_Field::Keyword( $field->field, $value ) );
                         break;
 

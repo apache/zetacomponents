@@ -14,6 +14,7 @@
 require 'managers/embedded_test.php';
 require 'managers/xml_test.php';
 require 'handlers/solr_test.php';
+require 'handlers/zend_lucene_test.php';
 require 'build_query_test.php';
 require 'session_test.php';
 
@@ -32,6 +33,7 @@ class ezcSearchSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcSearchXmlDefinitionManager::suite() );
         $this->addTest( ezcSearchBuildSearchQueryTest::suite() );
         $this->addTest( ezcSearchHandlerSolrTest::suite() );
+        $this->addTest( ezcSearchHandlerZendLuceneTest::suite() );
         $this->addTest( ezcSearchSessionTest::suite() );
     }
 
