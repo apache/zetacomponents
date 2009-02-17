@@ -25,10 +25,10 @@ Requirements
 
 Most importantly you must be able to do the most basic operations on an object:
 
-- create a new with default values
-- copy another from another
+- create a new object with default values
+- copy an object from another
 - fetch an object from the database
-- delete and object from the database
+- delete an object from the database
 - fetch a list of objects based on some conditions
 - remove a list of objects
 
