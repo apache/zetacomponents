@@ -49,7 +49,7 @@ class ezcPersistentFindIterator implements Iterator
      *
      * @var object
      */
-    private $object = null;
+    protected $object = null;
 
     /**
      * The statement to retrieve data from.
@@ -63,7 +63,7 @@ class ezcPersistentFindIterator implements Iterator
      *
      * $var ezcPersistentObjectDefinition
      */
-    private $def = null;
+    protected $def = null;
 
     /**
      * Initializes the iterator with the statement $stmt and the definition $def..
