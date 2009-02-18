@@ -234,7 +234,39 @@ class ezcPersistentIdentitySession
      */
     public function find( $query, $class = null )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $objects = $this->session->find( $query, $class );
+
+        $defs = array();
+
+        foreach ( $objects as $id => $object )
+        {
+            $class = get_class( $object );
+
+            if ( !isset( $defs[$class] ) )
+            {
+                $defs[$class] = $this->session->definitionManager->fetchDefinition(
+                    $class
+                );
+            }
+
+            $state = $object->getState();
+            
+            $identity = $this->properties['identityMap']->getIdentity(
+                $class,
+                $state[$defs[$class]->idProperty->propertyName]
+            );
+
+            if ( $identity !== null )
+            {
+                $objects[$id] = $identity;
+            }
+            else
+            {
+                $this->properties['identityMap']->setIdentity( $object );
+            }
+        }
+
+        return $objects;
     }
 
     /**
@@ -275,7 +307,42 @@ class ezcPersistentIdentitySession
      */
     public function findIterator( $query, $class = null )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        // Sanity checks
+        if ( !is_object( $query )
+             || ( !( $query instanceof ezcPersistentFindQuery )
+                  && !( $query instanceof ezcQuerySelect )
+                )
+           )
+        {
+            throw new ezcBaseValueException(
+                'query',
+                $query,
+                'ezcPersistentFindQuery (or ezcQuerySelect)'
+            );
+        }
+        if ( $query instanceof ezcQuerySelect && $class === null )
+        {
+            throw new ezcBaseValueException(
+                'class',
+                $class,
+                'must be present, if ezcQuerySelect is used for $query'
+            );
+        }
+
+        // Extract class name and select query form parameter
+        if ( $query instanceof ezcPersistentFindQuery )
+        {
+            $class = $query->className;
+            $query = $query->query;
+        }
+
+        $def  = $this->definitionManager->fetchDefinition( $class );
+        $stmt = $this->session->performQuery( $query );
+        return new ezcPersistentIdentityFindIterator(
+            $stmt,
+            $def,
+            $this->identityMap
+        );
     }
 
     /**
@@ -395,7 +462,7 @@ class ezcPersistentIdentitySession
      */
     public function createFindQuery( $class )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        return $this->session->createFindQuery( $class );
     }
 
     /**
@@ -736,7 +803,7 @@ class ezcPersistentIdentitySession
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
                 break;
             default:
-                throw new ezcBasePropertyNotFoundException( $name );
+                $this->session->$name = $value;
                 break;
         }
     }
@@ -760,11 +827,11 @@ class ezcPersistentIdentitySession
      */
     public function __get( $propertyName )
     {
-        if ( $this->__isset( $propertyName ) === true )
+        if ( array_key_exists( $propertyName, $this->properties ) )
         {
             return $this->properties[$propertyName];
         }
-        throw new ezcBasePropertyNotFoundException( $propertyName );
+        return $this->session->$propertyName;
     }
 
     /**
@@ -779,7 +846,10 @@ class ezcPersistentIdentitySession
      */
     public function __isset( $propertyName )
     {
-        return array_key_exists( $propertyName, $this->properties );
+        return (
+            array_key_exists( $propertyName, $this->properties )
+            || isset( $this->session->$propertyName )
+        );
     }
 }
 ?>
