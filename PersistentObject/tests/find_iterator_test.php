@@ -162,6 +162,8 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
         $this->assertEquals( null, $it->next() );
     }
 
+    /*
+     * Issue #14473: ezcPersistentFindIterator overwrites last object
     public function testThatOnlyOneObjectIsUsed()
     {
         $q = $this->session->createFindQuery( 'PersistentTestObject' );
@@ -173,6 +175,32 @@ class ezcPersistentFindIteratorTest extends ezcTestCase
         $object1 = $it->next();
         $object2 = $it->next();
         $this->assertEquals( $object1, $object2 );
+    }
+    */
+
+    public function testMultipleResultsStateNotOverwritten()
+    {
+        $q = $this->session->createFindQuery( 'PersistentTestObject' );
+        $q->where( $q->expr->gt( $this->db->quoteIdentifier( 'id' ), 2 ) );
+        $stmt = $q->prepare();
+        $stmt->execute();
+        $it = new ezcPersistentFindIterator( $stmt, $this->manager->fetchDefinition( 'PersistentTestObject' ) );
+
+        $last = null;
+        foreach ( $it as $current )
+        {
+            $this->assertNotSame(
+                $last,
+                $current,
+                'Objects are the same instance.'
+            );
+            $this->assertNotEquals(
+                $last,
+                $current,
+                'Objects have the same content.'
+            );
+            $last = $current;
+        }
     }
 
     public function testBreakOutOfIterator()

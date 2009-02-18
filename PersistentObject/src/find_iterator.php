@@ -12,9 +12,9 @@
  * This class provides functionality to iterate over a database
  * result set in the form of persistent objects.
  *
- * ezcPersistentFindIterator only instantiates one object which
- * is reused for each iteration. This saves memory and is faster
- * than fetching and instantiating the result set in one go.
+ * Note: The iterator does not return only a single instance anymore, since
+ * this has been fixed as a bug fix. A new instance is cloned for each
+ * iteration step.
  *
  * You must loop over the complete resultset of the iterator or
  * flush it before executing new queries.
@@ -146,6 +146,11 @@ class ezcPersistentFindIterator implements Iterator
             if ( $this->object == null ) // no object yet
             {
                 $this->object = new $this->def->class;
+            }
+            else
+            {
+                // Issue #14473: ezcPersistentFindIterator overwrites last object
+                $this->object = clone $this->object;
             }
             $this->object->setState( ezcPersistentStateTransformer::rowToStateArray( $row, $this->def ) );
         }
