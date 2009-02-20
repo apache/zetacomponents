@@ -288,11 +288,12 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
     {
         $class = get_class( $object );
         $def   = $this->definitionManager->fetchDefinition( $class );
-        $state = $this->filterAndCastState(
-            $this->session->getObjectState( $object ),
+        $state = $this->session->getObjectState( $object );
+        $castedState = $this->filterAndCastState(
+            $state,
             $def
         );
-        $idValue = $state[$def->idProperty->propertyName];
+        $idValue = $castedState[$def->idProperty->propertyName];
 
         // Fetch the id generator.
         if ( $idGenerator === null 
@@ -311,7 +312,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         }
 
         if ( $doPersistenceCheck == true
-             && $idGenerator->checkPersistence( $def, $this->database, $state )
+             && $idGenerator->checkPersistence( $def, $this->database, $castedState )
         )
         {
             throw new ezcPersistentObjectAlreadyPersistentException( $class );
@@ -320,7 +321,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         // Set up and execute the query.
         $q = $this->database->createInsertQuery();
         $q->insertInto( $this->database->quoteIdentifier( $def->table ) );
-        foreach ( $state as $name => $value )
+        foreach ( $castedState as $name => $value )
         {
             if ( $name !== $def->idProperty->propertyName )
             {
