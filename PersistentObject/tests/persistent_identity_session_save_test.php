@@ -148,12 +148,7 @@ class ezcPersistentSessionSaveTest extends ezcPersistentIdentitySessionTest
         $obj->decimal = 23.42;
         $obj->text    = 'Foo Bar Baz';
 
-        ini_set( 'xdebug.var_display_max_children', 20 );
-    
-        xdebug_start_trace( 'save_persistent_identity' );
         $this->idSession->save( $obj );
-        xdebug_stop_trace();
-
 
         $q = $this->idSession->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
