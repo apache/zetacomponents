@@ -181,6 +181,16 @@ class ezcTranslationTsBackendTest extends ezcTestCase
         }
     }
 
+    public function testGetContextNames()
+    {
+        $currentDir = dirname( __FILE__ );
+        $backend = new ezcTranslationTsBackend( "{$currentDir}/files/translations" );
+        $backend->setOptions( array ( 'format' => '[LOCALE].xml' ) );
+        $contextNames = $backend->getContextNames( 'nb-no' );
+
+        self::assertEquals( array( 'contentstructuremenu/show_content_structure', 'design/admin/class/classlist', 'design/admin/class/datatype/browse_objectrelationlist_placement' ), $contextNames );
+    }
+
     public function testGetContext1()
     {
         $currentDir = dirname( __FILE__ );

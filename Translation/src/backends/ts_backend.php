@@ -258,8 +258,9 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
         else
         {
             $dom = new DOMDocument( '1.0', 'UTF-8' );
-            $dom->formatOutput = true;
+            $dom->preserveWhiteSpace = false;
             $dom->load( $filename );
+            $dom->formatOutput = true;
             $root = $dom->getElementsByTagName( 'TS' )->item( 0 );
         }
 
@@ -355,6 +356,27 @@ class ezcTranslationTsBackend implements ezcTranslationBackend, ezcTranslationCo
             }
         }
         throw new ezcTranslationContextNotAvailableException( $context );
+    }
+
+    /**
+     * Returns a list with all context names for the locale $locale.
+     *
+     * @throws ezcTranslationMissingTranslationFileException if the translation
+     *         file does not exist.
+     * @throws ezcTranslationNotConfiguredException if the option <i>format</i>
+     *         is not set before this method is called.
+     * @param string $locale
+     * @return array(string)
+     */
+    public function getContextNames( $locale )
+    {
+        $ts = $this->openTranslationFile( $locale );
+        $contextNames = array();
+        foreach ( $ts as $trContext )
+        {
+            $contextNames[] = (string) $trContext->name;
+        }
+        return $contextNames;
     }
 
     /**
