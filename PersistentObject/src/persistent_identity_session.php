@@ -508,7 +508,29 @@ class ezcPersistentIdentitySession
      */
     public function save( $object )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $class = get_class( $object );
+        $def   = $this->definitionManager->fetchDefinition( $class );
+        $state = $object->getState();
+        
+        // Sanity checks
+        if ( isset( $state[$def->idProperty->propertyName] ) )
+        {
+            $id       = $state[$def->idProperty->propertyName];
+            $identity = $this->identityMap->getIdentity( $class, $id );
+            if ( $identity !== null )
+            {
+                if ( $identity === $object )
+                {
+                    throw new ezcPersistentObjectAlreadyPersistentException( $class );
+                }
+                throw new ezcPersistentIdentityAlreadyExistsException( $class, $identity );
+            }
+        }
+
+        $this->session->save( $object );
+
+        $id    = $state[$def->idProperty->propertyName];
+        $this->identityMap->setIdentity( $object );
     }
 
     /**
@@ -526,7 +548,9 @@ class ezcPersistentIdentitySession
      */
     public function update( $object )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        // The object already must have been fetched before here, so an
+        // identity is already recorded.
+        $this->session->update( $object );
     }
 
     /**
@@ -549,7 +573,17 @@ class ezcPersistentIdentitySession
      */
     public function saveOrUpdate( $object )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $this->session->saveOrUpdate( $object );
+
+        $class = get_class( $object );
+        $def   = $this->definitionManager->fetchDefinition( $class );
+        $state = $object->getState();
+        $id    = $state[$def->idProperty->propertyName];
+
+        if ( $this->identityMap->getIdentity( $class, $id ) === null )
+        {
+            $this->identityMap->setIdentity( $object );
+        }
     }
 
     /**
