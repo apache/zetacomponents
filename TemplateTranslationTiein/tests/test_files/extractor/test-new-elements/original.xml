@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TS>
+  <context>
+    <name>test0</name>
+    <message>
+      <source>not used at all</source>
+      <translation>not used at all</translation>
+      <location filename="test.ezt" line="5"/>
+    </message>
+  </context>
+  <context>
+    <name>test</name>
+    <message>
+      <source>een</source>
+      <translation>een</translation>
+      <location filename="test.ezt" line="5"/>
+    </message>
+    <message>
+      <source>drie</source>
+      <translation>drie</translation>
+      <location filename="test.ezt" line="11"/>
+    </message>
+    <message>
+      <source>gone</source>
+      <translation>gone</translation>
+      <location filename="test.ezt" line="11"/>
+    </message>
+  </context>
+  <context>
+    <name>test4</name>
+    <message>
+      <source>thirteen</source>
+      <translation>thirteen</translation>
+      <location filename="test2.ezt" line="6"/>
+    </message>
+  </context>
+  <context>
+    <name>test5</name>
+    <message>
+      <source>fourteen</source>
+      <translation type="obsolete">thirteen</translation>
+      <location filename="test2.ezt" line="6"/>
+    </message>
+  </context>
+</TS>

@@ -1,0 +1,41 @@
+{var $twee, $drie, $zes, $zeven, $acht, $elf}
+{tr_context "test"}
+
+{cache_block}
+{tr "een"}
+{/cache_block}
+
+{capture $twee}
+{tr "twee"}
+{/capture}
+
+{switch $drie}
+{case 3}{tr "drie"}{/case}
+{default}{tr "vier"}{/default}
+{/switch}
+
+{cache_block}
+{dynamic}
+{tr "vijf"}
+{/dynamic}
+{/cache_block}
+
+{tr_context "test2"}
+{foreach array() as $zes}
+{tr "zes"}
+{/foreach}
+
+{if $zeven}
+{tr "zeven"}
+{elseif $acht}
+{tr "acht"}
+{else}
+{tr "negen"}
+{/if}
+
+{tr "tien"}
+
+{while $elf}
+{tr "elf"}
+{delimiter}{tr "twaalf"}{/delimiter}
+{/while}
