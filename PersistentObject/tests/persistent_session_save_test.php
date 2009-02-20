@@ -123,6 +123,25 @@ class ezcPersistentSessionSaveTest extends ezcPersistentSessionTest
             $arr[0]->integer->format( 'U' )
         );
     }
+
+    public function testConversionNotBreaksState()
+    {
+        $date = new DateTime( '@327535200' );
+
+        $obj = new PersistentTestObjectConverter();
+
+        $obj->varchar = 'Foo Bar';
+        $obj->integer = $date;
+        $obj->decimal = 23.42;
+        $obj->text    = 'Foo Bar Baz';
+
+        $this->session->save( $obj );
+        
+        $this->assertSame(
+            $date,
+            $obj->integer
+        );
+    }
     
     public function testNoConversionOnUpdate()
     {
