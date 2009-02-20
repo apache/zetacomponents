@@ -397,6 +397,12 @@ interface:
   Returns the object recorded for $class, identified by $id. If such object is
   not available, null is returned.
 
+- removeIdentity( object $object )
+  
+  Removes the identity for the given $object from the map. In addition, removes
+  the object from all related object sets and named related object sets it is
+  referenced in.
+
 - setRelatedObjects( object $sourceObject, array $relatedObjects, string $relatedClass )
 
   Sets $relatedObjects for $sourceObject of class $relatedClass. The objects in
