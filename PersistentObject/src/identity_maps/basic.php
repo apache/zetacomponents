@@ -168,11 +168,19 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
         $relDef = $this->definitionManager->fetchDefinition( $relatedClass );
 
+        // Remove references before replacing a set
+        if ( isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass] ) )
+        {
+            $this->removeReferences( $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass] );
+        }
+
         $relStore = new ArrayObject();
         foreach ( $relatedObjects as $relObj )
         {
             if ( !( $relObj instanceof $relatedClass ) )
             {
+                // Cleanup already set references before bailing out
+                $this->removeReferences( $relStore );
                 throw new ezcPersistentIdentityRelatedObjectsInconsistentException(
                     $srcClass, $srcId, $relatedClass, get_class( $relObj )
                 );
@@ -183,6 +191,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
             if ( !isset( $this->identities[$relatedClass][$relId] ) )
             {
+                // Cleanup already set references before bailing out
+                $this->removeReferences( $relStore );
                 throw new ezcPersistentIdentityMissingException(
                     $relatedClass,
                     $relId
@@ -242,6 +252,12 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
         $identity = $this->identities[$srcClass][$srcId];
 
+        // Remove references before replacing a set
+        if ( isset( $identity->namedRelatedObjectSets[$setName] ) )
+        {
+            $this->removeReferences( $identity->namedRelatedObjectSets[$setName] );
+        }
+
         $relDefs  = array();
         $relStore = new ArrayObject();
 
@@ -258,6 +274,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
             if ( !isset( $this->identities[$relClass][$relId] ) )
             {
+                // Cleanup already set references before bailing out
+                $this->removeReferences( $relStore );
                 throw new ezcPersistentIdentityMissingException(
                     $relatedClass,
                     $relState[$relDef->idProperty->propertyName]
