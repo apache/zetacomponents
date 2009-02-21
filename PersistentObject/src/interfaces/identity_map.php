@@ -43,6 +43,18 @@ interface ezcPersistentIdentityMap
     public function getIdentity( $class, $id );
 
     /**
+     * Removes the identity identitfied by $class and $id from the map. 
+     *
+     * Removes the object identified by $class and $id from the map and deletes
+     * all references of it. If the identity does not exist, the call is
+     * silently ignored.
+     * 
+     * @param string $class 
+     * @param mixed $id 
+     */
+    public function removeIdentity( $class, $id );
+
+    /**
      * Stores a set of $relatedObjects to $sourceObject.
      *
      * Stores the given set of $relatedObjects for $sourceObject. If

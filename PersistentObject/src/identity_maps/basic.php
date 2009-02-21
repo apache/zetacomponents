@@ -113,6 +113,41 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
     }
 
     /**
+     * Removes the identity identitfied by $class and $id from the map. 
+     *
+     * Removes the object identified by $class and $id from the map and deletes
+     * all references of it. If the identity does not exist, the call is
+     * silently ignored.
+     * 
+     * @param string $class 
+     * @param mixed $id 
+     */
+    public function removeIdentity( $class, $id )
+    {
+        if ( isset( $this->identities[$class][$id] ) )
+        {
+            // First remove all references to this object
+            foreach( $this->identities[$class][$id]->references as $refList )
+            {
+                $removeIds = array();
+                // Needs iteration here, to determine key
+                foreach ( $refList->getIterator() as $refId => $refItem )
+                {
+                    if ( $refItem === $this->identities[$class][$id]->object )
+                    {
+                        $removeIds[] = $refId;
+                    }
+                }
+                foreach ( $removeIds as $removeId )
+                {
+                    unset( $refList[$removeId] );
+                }
+            }
+            unset( $this->identities[$class][$id] );
+        }
+    }
+
+    /**
      * Stores a set of $relatedObjects to $sourceObject.
      *
      * Stores the given set of $relatedObjects for $sourceObject. If
