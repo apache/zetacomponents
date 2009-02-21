@@ -168,7 +168,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
         $relDef = $this->definitionManager->fetchDefinition( $relatedClass );
 
-        $relStore = array();
+        $relStore = new ArrayObject();
         foreach ( $relatedObjects as $relObj )
         {
             if ( !( $relObj instanceof $relatedClass ) )
@@ -179,15 +179,20 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             }
 
             $relState = $relObj->getState();
-            if ( !isset( $this->identities[$relatedClass][$relState[$relDef->idProperty->propertyName]] ) )
+            $relId    = $relState[$relDef->idProperty->propertyName];
+
+            if ( !isset( $this->identities[$relatedClass][$relId] ) )
             {
                 throw new ezcPersistentIdentityMissingException(
                     $relatedClass,
-                    $relState[$relDef->idProperty->propertyName]
+                    $relId
                 );
             }
 
-            $relStore[$relState[$relDef->idProperty->propertyName]] = $relObj;
+            $relStore[$relId] = $relObj;
+
+            // Store reference
+            $this->identities[$relatedClass][$relId]->references->attach( $relStore );
         }
         
         $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass] = $relStore;
@@ -238,7 +243,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
         $identity = $this->identities[$srcClass][$srcId];
 
         $relDefs  = array();
-        $relStore = array();
+        $relStore = new ArrayObject();
 
         foreach ( $relatedObjects as $relObj )
         {
@@ -249,14 +254,19 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             }
 
             $relState = $relObj->getState();
-            if ( !isset( $this->identities[$relClass][$relState[$relDefs[$relClass]->idProperty->propertyName]] ) )
+            $relId    = $relState[$relDefs[$relClass]->idProperty->propertyName];
+
+            if ( !isset( $this->identities[$relClass][$relId] ) )
             {
                 throw new ezcPersistentIdentityMissingException(
                     $relatedClass,
                     $relState[$relDef->idProperty->propertyName]
                 );
             }
-            $relStore[$relState[$relDefs[$relClass]->idProperty->propertyName]] = $relObj;
+            $relStore[$relId] = $relObj;
+
+            // Store reference
+            $this->identities[$relClass][$relId]->references->attach( $relStore );
         }
         
         $identity->namedRelatedObjectSets[$setName] = $relStore;
@@ -327,8 +337,16 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
         }
 
         $this->identities[$srcClass][$srcId]->relatedObjects[$relClass][$relId] = $relatedObject;
+
+        // Store new reference
+        $this->identities[$relClass][$relId]->references->attach(
+            $this->identities[$srcClass][$srcId]->relatedObjects[$relClass]
+        );
         
         // Invalidate all named sets, since they might be inconsistent now
+        $this->removeAllReferences( 
+            $this->identities[$srcClass][$srcId]->namedRelatedObjectSets
+        );
         $this->identities[$srcClass][$srcId]->namedRelatedObjectSets = array();
     }
 
@@ -371,18 +389,23 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             // Ignore call
             return null;
         }
-        $identity = $this->identities[$srcClass][$srcId];
+        $srcIdentity = $this->identities[$srcClass][$srcId];
+        $relIdentity = $this->identities[$relClass][$relId];
 
-        if ( isset( $identity->relatedObjects[$relClass] ) )
+        if ( isset( $srcIdentity->relatedObjects[$relClass] ) )
         {
-            unset( $identity->relatedObjects[$relClass][$relId] );
+            unset( $srcIdentity->relatedObjects[$relClass][$relId] );
+            $relIdentity->references->detach( $srcIdentity->relatedObjects[$relClass] );
         }
 
-        foreach ( $identity->namedRelatedObjectSets as $setName => $rels )
+        foreach ( $srcIdentity->namedRelatedObjectSets as $setName => $rels )
         {
             if ( isset( $rels[$relId] ) && $rels[$relId] instanceof $relClass )
             {
-                unset( $identity->namedRelatedObjectSets[$setName][$relId] );
+                unset( $srcIdentity->namedRelatedObjectSets[$setName][$relId] );
+                $relIdentity->references->detach(
+                    $srcIdentity->namedRelatedObjectSets[$setName]
+                );
             }
         }
     }
@@ -421,9 +444,12 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             return null;
         }
 
-        if ( isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass] ) )
+        $identity = $this->identities[$srcClass][$srcId];
+
+        if ( isset( $identity->relatedObjects[$relatedClass] ) )
         {
-            return $this->identities[$srcClass][$srcId]->relatedObjects[$relatedClass];
+            // Return a real array here, not the ArrayObject stored
+            return $identity->relatedObjects[$relatedClass]->getArrayCopy();
         }
         return null;
     }
@@ -454,7 +480,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
         if ( isset( $identity->namedRelatedObjectSets[$setName] ) )
         {
-            return $identity->namedRelatedObjectSets[$setName];
+            return $identity->namedRelatedObjectSets[$setName]->getArrayCopy();
         }
         return null;
     }
@@ -467,6 +493,47 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
     public function reset()
     {
         $this->identities = array();
+    }
+
+    /**
+     * Removes all references to all $sets from all objects in $sets.
+     *
+     * Removes all references to all object $sets from all objects contained in
+     * each of the $sets.
+     * 
+     * @param array $sets 
+     * @see removeReferences()
+     */
+    protected function removeAllReferences( array $sets )
+    {
+        foreach ( $sets as $set )
+        {
+            $this->removeReferences( $set );
+        }
+    }
+
+    /**
+     * Removes all references to $set from the objects in $set.
+     *
+     * Maintains the {ezcPersistentIdentity::$references} attribute by removing
+     * all refereneces to $set from all objects identities contained in $set.
+     *
+     * @param ArrayObject $set 
+     */
+    protected function removeReferences( ArrayObject $set )
+    {
+        foreach ( $set as $obj )
+        {
+            $class = get_class( $obj );
+            $def   = $this->definitionManager->fetchDefinition( $class );
+            $state = $obj->getState();
+            $id    = $state[$def->idProperty->propertyName];
+            
+            if ( $this->identities[$class][$id]->references->contains( $set ) )
+            {
+                $this->identities[$class][$id]->references->detach( $set );
+            }
+        }
     }
 }
 

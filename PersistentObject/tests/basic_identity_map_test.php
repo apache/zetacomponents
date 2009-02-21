@@ -385,7 +385,10 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         $this->assertAttributeEquals(
             array(
                 'RelationTestPerson' => array(
-                    23 => new ezcPersistentIdentity( $obj, array( 'RelationTestAddress' => $relatedObjects ) )
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects ) )
+                    )
                 ),
                 'RelationTestAddress' => array(
                     42 => new ezcPersistentIdentity( $relatedObjects[42] ),
@@ -424,7 +427,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                     23 => new ezcPersistentIdentity(
                         $obj,
                         array(),
-                        array( 'set_name' => $relatedObjects )
+                        array( 'set_name' => new ArrayObject( $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -466,8 +469,8 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                         $obj,
                         array(),
                         array(
-                            'first_set' => $relatedObjects,
-                            'second_set' => $relatedObjects
+                            'first_set' => new ArrayObject( $relatedObjects ),
+                            'second_set' => new ArrayObject( $relatedObjects )
                         )
                     ),
                 ),
@@ -545,7 +548,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         $this->assertAttributeEquals(
             array(
                 'RelationTestPerson' => array(
-                    23 => new ezcPersistentIdentity( $obj, array( 'RelationTestAddress' => $relatedObjects ) )
+                    23 => new ezcPersistentIdentity( $obj, array( 'RelationTestAddress' => new ArrayObject( $relatedObjects ) ) )
                 ),
                 'RelationTestAddress' => array(
                     42 => new ezcPersistentIdentity( $relatedObjects[42] ),
@@ -585,7 +588,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                     23 => new ezcPersistentIdentity(
                         $obj,
                         array(),
-                        array( 'set_name' => $relatedObjects )
+                        array( 'set_name' => new ArrayObject( $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -671,7 +674,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => $relatedObjects )
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -694,7 +697,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => ( $relatedObjects + array( 3 => $newRelatedObject ) ) )
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects + array( 3 => $newRelatedObject ) ) )
                     ),
                 ),
                 'RelationTestAddress' => array(
@@ -781,8 +784,8 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => $relatedObjects ),
-                        array( 'named_set' => $relatedObjects )
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects ) ),
+                        array( 'named_set' => new ArrayObject( $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -806,7 +809,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => $relatedObjects + array( 3 => $newRelatedObject ) )
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects + array( 3 => $newRelatedObject ) ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -920,7 +923,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => ( $relatedObjects + array( 3 => $newRelatedObject ) ) )
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects + array( 3 => $newRelatedObject ) ) )
                     ),
                 ),
                 'RelationTestAddress' => array(
@@ -971,7 +974,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => $relatedObjects )
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -992,9 +995,9 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                     23 => new ezcPersistentIdentity(
                         $obj,
                         array(
-                            'RelationTestAddress' => array(
+                            'RelationTestAddress' => new ArrayObject( array(
                                 65 => $relatedObjects[65],
-                            )
+                            ) )
                         )
                     )
                 ),
@@ -1036,8 +1039,8 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => $relatedObjects ),
-                        array( 'set_name' => $relatedObjects )
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects ) ),
+                        array( 'set_name' => new ArrayObject( $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(
@@ -1057,14 +1060,14 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                     23 => new ezcPersistentIdentity(
                         $obj,
                         array(
-                            'RelationTestAddress' => array(
+                            'RelationTestAddress' => new ArrayObject( array(
                                 65 => $relatedObjects[65],
-                            ),
+                            ) ),
                         ),
                         array(
-                            'set_name' => array(
+                            'set_name' => new ArrayObject( array(
                                 65 => $relatedObjects[65],
-                            ),
+                            ) ),
                         )
                     )
                 ),
@@ -1307,8 +1310,8 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
                 'RelationTestPerson' => array(
                     23 => new ezcPersistentIdentity(
                         $obj,
-                        array( 'RelationTestAddress' => $relatedObjects ),
-                        array( 'set_name' => $relatedObjects )
+                        array( 'RelationTestAddress' => new ArrayObject( $relatedObjects ) ),
+                        array( 'set_name' => new ArrayObject( $relatedObjects ) )
                     )
                 ),
                 'RelationTestAddress' => array(

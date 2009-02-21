@@ -30,12 +30,12 @@ class ezcPersistentIdentity extends ezcBaseStruct
      * <code>
      * <?php
      * array(
-     *     '<relatedClassName>' => array(
+     *     '<relatedClassName>' => ArrayObject(
      *         '<id1>' => ezcPersistentObject,
      *         '<id2>' => ezcPersistentObject,
      *         // ...
      *     ),
-     *     '<anotherRelatedClassName>' => array(
+     *     '<anotherRelatedClassName>' => ArrayObject(
      *         '<idA>' => ezcPersistentObject,
      *         '<idB>' => ezcPersistentObject,
      *         // ...
@@ -45,7 +45,7 @@ class ezcPersistentIdentity extends ezcBaseStruct
      * ?>
      * </code>
      * 
-     * @var array(string=>array(mixed=>ezcPersistentObject))
+     * @var array(string=>ArrayObject(mixed=>ezcPersistentObject))
      */
     public $relatedObjects;
 
@@ -57,13 +57,13 @@ class ezcPersistentIdentity extends ezcBaseStruct
      * <code>
      * <?php
      * array(
-     *     '<relatedClassName>' => array(
+     *     '<relatedClassName>' => ArrayObject(
      *         '<setName' => array(
      *             '<id1>' => ezcPersistentObject,
      *             '<id2>' => ezcPersistentObject,
      *             // ...
      *         ),
-     *         '<anotherSetName' => array(
+     *         '<anotherSetName' => ArrayObject(
      *             '<idA>' => ezcPersistentObject,
      *             '<idB>' => ezcPersistentObject,
      *             // ...
@@ -74,9 +74,20 @@ class ezcPersistentIdentity extends ezcBaseStruct
      * ?>
      * </code>
      * 
-     * @var array(string=>array(mixed=>ezcPersistentObject))
+     * @var array(string=>ArrayObject(mixed=>ezcPersistentObject))
      */
     public $namedRelatedObjectSets;
+
+    /**
+     * Stores all references to $object in other identities. 
+     *
+     * This attribute stores references to all $relatedObjects and
+     * $namedRelatedObjectSets sets, the $object of this identity is referenced
+     * in.
+     * 
+     * @var SplObjectStorage(ArrayObject)
+     */
+    public $references;
 
     /**
      * Creates a new object identity.
@@ -91,12 +102,18 @@ class ezcPersistentIdentity extends ezcBaseStruct
     public function __construct(
         $object = null,
         array $relatedObjects = array(),
-        array $namedRelatedObjectSets = array()
+        array $namedRelatedObjectSets = array(),
+        SplObjectStorage $references = null
     )
     {
         $this->object                 = $object;
         $this->relatedObjects         = $relatedObjects;
         $this->namedRelatedObjectSets = $namedRelatedObjectSets;
+        $this->references             = (
+            $references === null
+                ? new SplObjectStorage()
+                : $references
+        );
     }
 }
 
