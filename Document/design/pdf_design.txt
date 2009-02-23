@@ -51,7 +51,7 @@ access the layout directives, like the following example shows::
 	$pdf = new ezcDocumentPdf();
 	$pdf->createFromDocbook( $docbook );
 
-	$pdf['article > section title']['font-size'] = '1.6em';
+	$pdf->styles['article > section title']['font-size'] = '1.6em';
 
 Directives which are specified later will always overwrite earlier directives,
 for each each formatting option specified in the later directive. The
@@ -70,6 +70,10 @@ again very much look like a simplified variant of CSS::
 	Formatting ::= Name '=' '"' Value '"' ';'
 	Name       ::= [A-Za-z-]+
 	Value      ::= [^"]+
+
+Importing and exporting styles may be accomblished by::
+
+	$pdf->styles->load( 'styles.pcss' );
 
 List of formatting options
 --------------------------
