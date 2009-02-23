@@ -4343,6 +4343,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               array (
                                 0 => 
                                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                                   'role' => false,
                                    'openTag' => false,
                                    'line' => 103,
                                    'position' => 11,
@@ -4453,6 +4454,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               array (
                                 0 => 
                                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                                   'role' => false,
                                    'openTag' => false,
                                    'line' => 103,
                                    'position' => 35,
@@ -4834,6 +4836,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               array (
                                 0 => 
                                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                                   'role' => false,
                                    'openTag' => false,
                                    'line' => 106,
                                    'position' => 68,
@@ -5611,6 +5614,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             1 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => false,
                                'openTag' => false,
                                'line' => 116,
                                'position' => 58,
@@ -5657,7 +5661,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
                                  'type' => 4,
-                                 'content' => '.  Here are some explicit interpreted text roles: a PEP reference (:PEP:',
+                                 'content' => '.  Here are some explicit interpreted text roles: a PEP reference (',
                                  'line' => 116,
                                  'position' => 59,
                                  'escaped' => false,
@@ -5666,6 +5670,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             3 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => 'PEP',
                                'openTag' => false,
                                'line' => 117,
                                'position' => 65,
@@ -5712,7 +5717,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
                                  'type' => 4,
-                                 'content' => '); an RFC reference (:RFC:',
+                                 'content' => '); an RFC reference (',
                                  'line' => 117,
                                  'position' => 66,
                                  'escaped' => false,
@@ -5721,6 +5726,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             5 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => 'RFC',
                                'openTag' => false,
                                'line' => 118,
                                'position' => 26,
@@ -5767,7 +5773,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
                                  'type' => 4,
-                                 'content' => '); a :sub:',
+                                 'content' => '); a ',
                                  'line' => 118,
                                  'position' => 27,
                                  'escaped' => false,
@@ -5776,6 +5782,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             7 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => 'sub',
                                'openTag' => false,
                                'line' => 118,
                                'position' => 47,
@@ -5822,7 +5829,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
                                  'type' => 4,
-                                 'content' => '; a :sup:',
+                                 'content' => '; a ',
                                  'line' => 118,
                                  'position' => 48,
                                  'escaped' => false,
@@ -5831,6 +5838,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             9 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => 'sup',
                                'openTag' => false,
                                'line' => 118,
                                'position' => 69,
@@ -5877,7 +5885,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
                                  'type' => 4,
-                                 'content' => '; and explicit roles for :emphasis:',
+                                 'content' => '; and explicit roles for ',
                                  'line' => 118,
                                  'position' => 70,
                                  'escaped' => false,
@@ -5886,6 +5894,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             11 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => 'emphasis',
                                'openTag' => false,
                                'line' => 119,
                                'position' => 43,
@@ -5932,7 +5941,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
                                  'type' => 1,
-                                 'content' => ' :strong:',
+                                 'content' => ' ',
                                  'line' => 119,
                                  'position' => 44,
                                  'escaped' => false,
@@ -5941,6 +5950,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                             )),
                             13 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => 'strong',
                                'openTag' => false,
                                'line' => 119,
                                'position' => 60,
@@ -5987,64 +5997,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
                                  'type' => 2,
-                                 'content' => ' :literal:',
+                                 'content' => ' :markup`.',
                                  'line' => 119,
                                  'position' => 61,
-                                 'escaped' => false,
-                              )),
-                               'identifier' => NULL,
-                            )),
-                            15 => 
-                            ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
-                               'openTag' => false,
-                               'line' => 120,
-                               'position' => 17,
-                               'type' => 32,
-                               'nodes' => 
-                              array (
-                                0 => 
-                                ezcDocumentRstTextLineNode::__set_state(array(
-                                   'line' => 120,
-                                   'position' => 11,
-                                   'type' => 4,
-                                   'nodes' => 
-                                  array (
-                                  ),
-                                   'token' => 
-                                  ezcDocumentRstToken::__set_state(array(
-                                     'type' => 5,
-                                     'content' => 'markup',
-                                     'line' => 120,
-                                     'position' => 11,
-                                     'escaped' => false,
-                                  )),
-                                   'identifier' => NULL,
-                                )),
-                              ),
-                               'token' => 
-                              ezcDocumentRstToken::__set_state(array(
-                                 'type' => 4,
-                                 'content' => '`',
-                                 'line' => 120,
-                                 'position' => 17,
-                                 'escaped' => false,
-                              )),
-                               'identifier' => NULL,
-                            )),
-                            16 => 
-                            ezcDocumentRstTextLineNode::__set_state(array(
-                               'line' => 120,
-                               'position' => 18,
-                               'type' => 4,
-                               'nodes' => 
-                              array (
-                              ),
-                               'token' => 
-                              ezcDocumentRstToken::__set_state(array(
-                                 'type' => 4,
-                                 'content' => '.',
-                                 'line' => 120,
-                                 'position' => 18,
                                  'escaped' => false,
                               )),
                                'identifier' => NULL,
@@ -15275,6 +15230,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               array (
                                 0 => 
                                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                                   'role' => false,
                                    'openTag' => false,
                                    'line' => 341,
                                    'position' => 52,
@@ -16297,6 +16253,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                           array (
                             0 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => false,
                                'openTag' => false,
                                'line' => 377,
                                'position' => 44,
@@ -16371,6 +16328,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                           array (
                             0 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => false,
                                'openTag' => false,
                                'line' => 378,
                                'position' => 18,
@@ -16574,6 +16532,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                           array (
                             0 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => false,
                                'openTag' => false,
                                'line' => 381,
                                'position' => 50,
@@ -16971,6 +16930,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                           array (
                             0 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => false,
                                'openTag' => false,
                                'line' => 388,
                                'position' => 58,
@@ -17211,6 +17171,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                           array (
                             0 => 
                             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                               'role' => false,
                                'openTag' => false,
                                'line' => 393,
                                'position' => 47,
@@ -17498,6 +17459,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               array (
                                 0 => 
                                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                                   'role' => false,
                                    'openTag' => false,
                                    'line' => 408,
                                    'position' => 30,
@@ -17927,6 +17889,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               array (
                                 0 => 
                                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                                   'role' => false,
                                    'openTag' => false,
                                    'line' => 424,
                                    'position' => 45,
@@ -30665,7 +30628,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                            'token' => 
                           ezcDocumentRstToken::__set_state(array(
                              'type' => 5,
-                             'content' => 'This is the :raw-role:',
+                             'content' => 'This is the ',
                              'line' => 739,
                              'position' => 1,
                              'escaped' => false,
@@ -30674,6 +30637,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         )),
                         1 => 
                         ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                           'role' => 'raw-role',
                            'openTag' => false,
                            'line' => 739,
                            'position' => 35,

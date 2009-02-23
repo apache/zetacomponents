@@ -156,6 +156,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             'shiftLineBlock',
             'shiftInlineLiteral',
             'shiftInlineMarkup',
+            'shiftInterpretedTextMarkup',
             'shiftReference',
             'shiftAnonymousHyperlinks',
             'shiftExternalReference',
@@ -243,7 +244,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             'reduceMarkup',
         ),
         ezcDocumentRstNode::MARKUP_INTERPRETED  => array(
-            'reduceMarkup',
+            'reduceInterpretedText',
             'reduceInternalTarget',
         ),
         ezcDocumentRstNode::MARKUP_SUBSTITUTION => array(
@@ -1241,9 +1242,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
             case '**':
                 $class = 'ezcDocumentRstMarkupStrongEmphasisNode';
                 break;
-            case '`':
-                $class = 'ezcDocumentRstMarkupInterpretedTextNode';
-                break;
             case '|':
                 $class = 'ezcDocumentRstMarkupSubstitutionNode';
                 break;
@@ -1273,6 +1271,143 @@ class ezcDocumentRstParser extends ezcDocumentParser
             echo "   => Create closing tag: $class\n";
             // /DEBUG */
             return new $class( $token, false );
+        }
+
+        // - Rule 6 is implicitely given by the tokenizer.
+        // - Rule 7 is ensured by the escaping rules, defined in the shiftBackslash method.
+
+        // In other preconditions this is no inline markup, but maybe just text.
+        return false;
+    }
+
+    /**
+     * Try to shift a interpreted text role
+     *
+     * Text role shifting is only called directly from the
+     * shiftInterpretedTextMarkup() method and tries to find the associated
+     * role.
+     * 
+     * @param ezcDocumentRstToken $token 
+     * @param array $tokens 
+     * @return mixed
+     */
+    protected function shiftInterpretedTextRole( ezcDocumentRstToken $token, array &$tokens )
+    {
+        /* DEBUG
+        echo "   -> Scan for a role\n";
+        // /DEBUG */
+
+        if ( ( ( $token->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
+               ( $token->content !== ':' ) ||
+               ( !isset( $tokens[0] ) ) ||
+               ( $tokens[0]->type !== ezcDocumentRstToken::TEXT_LINE ) ) &&
+             ( ( $token->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
+               ( $token->content !== '`' ) ||
+               ( !isset( $tokens[0] ) ) ||
+               ( $tokens[0]->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
+               ( $tokens[0]->content !== ':' ) ) )
+        {
+            return false;
+        }
+
+        $behind     = false;
+        $aggregated = array();
+        if ( $token->content === '`' )
+        {
+            $behind = true;
+            $token  = $aggregated[] = array_shift( $tokens );
+        }
+
+        $role = '';
+        do {
+            $roleNameToken = $aggregated[] = array_shift( $tokens );
+            $role .= $roleNameToken->content;
+        } while ( isset( $tokens[0] ) &&
+                  ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) ||
+                    ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                      ( preg_match( '(^[._-]+$)', $tokens[0]->content ) ) ) ) );
+
+        // Check if this is really a valid role, otherwise put all checked
+        // tokens back on the stack and do not handle this as a interpreted
+        // text role.
+        if ( !preg_match( '(^[A-Za-z0-9._-]+$)', $role ) ||
+             !isset( $tokens[0] ) ||
+             ( $tokens[0]->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
+             ( $tokens[0]->content !== ':' ) ||
+             ( !$behind &&
+               ( !isset( $tokens[1] ) ||
+                 ( $tokens[1]->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
+                 ( $tokens[1]->content !== '`' ) ) ) )
+        {
+            /* DEBUG
+            echo "   -> Not a role - reverting.\n";
+            // /DEBUG */
+            $tokens = array_merge(
+                $aggregated,
+                $tokens
+            );
+            return false;
+        }
+
+        /* DEBUG
+        echo "   -> Found role: $role\n";
+        // /DEBUG */
+
+        // Remove last colon from token list
+        array_shift( $tokens );
+        return $role;
+    }
+
+    /**
+     * Detect interpreted text inline markup
+     *
+     * As defined at:
+     * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#interpreted-text
+     * 
+     * @param ezcDocumentRstToken $token 
+     * @param array $tokens 
+     * @return ezcDocumentRstMarkupEmphasisNode
+     */
+    protected function shiftInterpretedTextMarkup( ezcDocumentRstToken $token, array &$tokens )
+    {
+        $role = false;
+        if ( ( $token->content !== '`' ) &&
+             !( $role = $this->shiftInterpretedTextRole( $token, $tokens ) ) )
+        {
+            return false;
+        }
+
+        // If we found a valid role before the token, update the current token
+        // to the actual interpreted text markup start token 
+        if ( $role !== false )
+        {
+            $token = array_shift( $tokens );
+        }
+
+        /* DEBUG
+        echo "   -> Interpreted text markup found, role: $role\n";
+        // /DEBUG */
+
+        if ( $this->isInlineStartToken( $token, $tokens ) )
+        {
+            // Create a markup open tag
+            /* DEBUG
+            echo "   => Create opening inline interpreted text tag.\n";
+            // /DEBUG */
+            $node = new ezcDocumentRstMarkupInterpretedTextNode( $token, true );
+            $node->role = $role;
+            return $node;
+        }
+
+        if ( $this->isInlineEndToken( $token, $tokens ) )
+        {
+            // Create a markup close tag
+            /* DEBUG
+            echo "   => Create closing inline interpreted text tag.\n";
+            // /DEBUG */
+            $node = new ezcDocumentRstMarkupInterpretedTextNode( $token, false );
+            $node->role = $this->shiftInterpretedTextRole( $token, $tokens );
+            return $node;
         }
 
         // - Rule 6 is implicitely given by the tokenizer.
@@ -4151,6 +4286,72 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 // stuff as child nodes and add the closing tag to the document
                 // stack.
                 $node->nodes = $childs;
+                return $node;
+            }
+
+            /* DEBUG
+            echo "     - Collected " . ezcDocumentRstNode::getTokenName( $child->type ) . " ({$child->token->content}).\n";
+            // /DEBUG */
+
+            // Append unusable but inline node to potential child list.
+            array_unshift( $childs, $child );
+        }
+
+        // We did not find an opening node.
+        //
+        // This is not a parse error, but in this case we just consider the
+        // closing node as text and reattach all found childs to the document
+        // stack.
+        /* DEBUG
+        echo "   => Use as Text.\n";
+        // /DEBUG */
+        $this->documentStack = array_merge(
+            array_reverse( $childs ),
+            $this->documentStack
+        );
+
+        return new ezcDocumentRstTextLineNode( $node->token );
+    }
+
+    /**
+     * Reduce interpreted text inline markup
+     *
+     * Tries to find the opening tag for a markup definition.
+     * 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function reduceInterpretedText( ezcDocumentRstNode $node )
+    {
+        if ( $node->openTag === true )
+        {
+            // Opening tags are just added to the document stack and we exit
+            // the reuction method.
+            return $node;
+        }
+
+        $childs = array();
+        while ( isset( $this->documentStack[0] ) &&
+                in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
+        {
+            $child = array_shift( $this->documentStack );
+            if ( ( $child->type == $node->type ) &&
+                 ( $child->openTag === true ) )
+            {
+                /* DEBUG
+                echo "   => Found matching tag.\n";
+                // /DEBUG */
+                // We found the nearest matching open tag. Append all included
+                // stuff as child nodes and add the closing tag to the document
+                // stack.
+                $node->nodes = $childs;
+
+                // Set the role from the opening tag, if defined there
+                if ( $child->role )
+                {
+                    $node->role = $child->role;
+                }
+
                 return $node;
             }
 

@@ -19,6 +19,13 @@
 class ezcDocumentRstMarkupInterpretedTextNode extends ezcDocumentRstMarkupNode
 {
     /**
+     * Text role
+     * 
+     * @var mixed
+     */
+    public $role = false;
+
+    /**
      * Construct RST document node
      * 
      * @param ezcDocumentRstToken $token
@@ -29,6 +36,16 @@ class ezcDocumentRstMarkupInterpretedTextNode extends ezcDocumentRstMarkupNode
     {
         parent::__construct( $token, self::MARKUP_INTERPRETED );
         $this->openTag = (bool) $open;
+    }
+
+    /**
+     * Return node content, if available somehow
+     * 
+     * @return string
+     */
+    protected function content()
+    {
+        return (string) $this->role;
     }
 
     /**
@@ -44,6 +61,11 @@ class ezcDocumentRstMarkupInterpretedTextNode extends ezcDocumentRstMarkupNode
             $properties['token'],
             $properties['openTag']
         );
+
+        if ( isset( $properties['role'] ) )
+        {
+            $node->role = $properties['role'];
+        }
 
         $node->nodes = $properties['nodes'];
         return $node;
