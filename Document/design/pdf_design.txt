@@ -212,7 +212,7 @@ Renderer
 ========
 
 The renderer will be responsible for the actual typesetting. It will receive a
-docbook document, apply the given layout directives and calculate the
+Docbook document, apply the given layout directives and calculate the
 appropriate calls to the driver from those.
 
 The renderer optionally receives a set of helper objects, which perform relevant
@@ -221,6 +221,26 @@ parts of the typesetting, like:
 Hyphenator
 	Class implementing hyphenation for a specific language. We might provide a
 	default implementation, which reads standard hyphenation files.
+
+The renderer state will be shared using an object representing the page
+currently processed, which contains information about the already covered
+areas and therefore the still available space.
+
+Using such a state object, the state can easily be shared between different
+renderers for different aspects of the rendering process. This should allow us
+to write simpler rendering classes, which should be better maintainable then
+one big renderer class, which methods would take care of all aspects.
+
+Which renderer classes can be separated, will show up during implementation,
+but those for example could be:
+
+ezcDocumentPdfParagraphRenderer
+	Takes care of rendering the Docbook inline markup inside one paragraph.
+	Respects orphans and widows and might be required to split paragraphs.
+
+ezcDocumentPdfTableRenderer
+	Renders tables. It might be useful to even split this up more into a table
+	row and cell renderer.
 
 Additional renderer features
 ----------------------------
