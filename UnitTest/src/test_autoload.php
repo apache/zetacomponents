@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the UnitTest component.
  *
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -15,6 +15,8 @@ return array(
     'ezcTestDatabaseSettings'       => 'UnitTest/test/database_settings.php',
     'ezcTestImageCase'              => 'UnitTest/test/image_case.php',
     'ezcTestPrinter'                => 'UnitTest/test/printer.php',
+    'ezcTestRegressionSuite'        => 'UnitTest/regression_suite.php',
+    'ezcTestRegressionTest'         => 'UnitTest/regression_test.php',
     'ezcTestRunner'                 => 'UnitTest/test/runner.php',
     'ezcTestSettings'               => 'UnitTest/test/settings.php',
 );
