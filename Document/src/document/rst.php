@@ -102,6 +102,22 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
     );
 
     /**
+     * Registered interpreted text role handlers
+     *
+     * Interpreted text roles are special RST element, which are documented at:
+     * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#interpreted-text
+     *
+     * Interpreted text roles are the best entry point for custom rules for
+     * inline markup. You can register custom text role using the class method
+     * registerRole().
+     * 
+     * @var array
+     */
+    protected $roles = array(
+        'strong' => 'ezcDocumentRstStrongTextRole',
+    );
+
+    /**
      * Asbtract syntax tree.
      *
      * The internal representation of RST documents.
@@ -149,6 +165,23 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
     }
 
     /**
+     * Register text role handler
+     *
+     * Register a custom text role handler for special text roles or overwrite
+     * existing text role handlers. The text roles are specified by its
+     * (lowercase) name and the class name, which should handle the text role
+     * and extend from ezcDocumentRstTextRole.
+     * 
+     * @param string $name 
+     * @param string $class 
+     * @return void
+     */
+    public function registerRole( $name, $class )
+    {
+        $this->roles[strtolower( $name )] = (string) $class;
+    }
+
+    /**
      * Get directive handler
      *
      * Get directive handler class name for the specified name.
@@ -165,6 +198,25 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
         }
 
         return $this->directives[$name];
+    }
+
+    /**
+     * Get text role handler
+     *
+     * Get text role handler class name for the specified name.
+     * 
+     * @param string $name 
+     * @return string
+     */
+    public function getRoleHandler( $name )
+    {
+        $name = strtolower( $name );
+        if ( !isset( $this->roles[$name] ) )
+        {
+            throw new ezcDocumentRstMissingTextRoleHandlerException( $name );
+        }
+
+        return $this->roles[$name];
     }
 
     /**

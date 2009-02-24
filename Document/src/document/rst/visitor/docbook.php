@@ -30,7 +30,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         'ezcDocumentRstReferenceNode'             => 'visitInternalFootnoteReference',
         'ezcDocumentRstAnonymousLinkNode'         => 'visitAnonymousReference',
         'ezcDocumentRstMarkupSubstitutionNode'    => 'visitSubstitutionReference',
-        'ezcDocumentRstMarkupInterpretedTextNode' => 'visitChildren',
+        'ezcDocumentRstMarkupInterpretedTextNode' => 'visitInterpretedTextNode',
         'ezcDocumentRstMarkupStrongEmphasisNode'  => 'visitEmphasisMarkup',
         'ezcDocumentRstMarkupEmphasisNode'        => 'visitEmphasisMarkup',
         'ezcDocumentRstTargetNode'                => 'visitInlineTarget',
@@ -259,6 +259,38 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
         {
             $this->visitNode( $root, $child );
         }
+    }
+
+    /**
+     * Visit interpreted text node markup
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitInterpretedTextNode( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        // If no role is specified, just recurse
+        if ( !isset( $node->role ) ||
+             ( $node->role === false ) )
+        {
+            return $this->visitChildren( $root, $node );
+        }
+
+        try
+        {
+            $handlerClass = $this->rst->getRoleHandler( $node->role );
+        }
+        catch ( ezcDocumentRstMissingTextRoleHandlerException $e )
+        {
+            return $this->triggerError(
+                E_WARNING, $e->getMessage(),
+                null, $node->token->line, $node->token->position
+            );
+        }
+
+        $roleHandler = new $handlerClass( $this->ast, $this->path, $node );
+        $roleHandler->toDocbook( $this->document, $root );
     }
 
     /**

@@ -24,7 +24,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     protected $complexVisitMapping = array(
         'ezcDocumentRstSectionNode'               => 'visitSection',
         'ezcDocumentRstTextLineNode'              => 'visitText',
-        'ezcDocumentRstMarkupInterpretedTextNode' => 'visitChildren',
+        'ezcDocumentRstMarkupInterpretedTextNode' => 'visitInterpretedTextNode',
         'ezcDocumentRstExternalReferenceNode'     => 'visitExternalReference',
         'ezcDocumentRstMarkupSubstitutionNode'    => 'visitSubstitutionReference',
         'ezcDocumentRstTargetNode'                => 'visitInlineTarget',
@@ -413,6 +413,45 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
             array( 'ezcDocumentRstXhtmlVisitor', 'urlEscapeArray' ),
             $url
         );
+    }
+
+    /**
+     * Visit interpreted text node markup
+     * 
+     * @param DOMNode $root 
+     * @param ezcDocumentRstNode $node 
+     * @return void
+     */
+    protected function visitInterpretedTextNode( DOMNode $root, ezcDocumentRstNode $node )
+    {
+        // If no role is specified, just recurse
+        if ( !isset( $node->role ) ||
+             ( $node->role === false ) )
+        {
+            return $this->visitChildren( $root, $node );
+        }
+
+        try
+        {
+            $handlerClass = $this->rst->getRoleHandler( $node->role );
+        }
+        catch ( ezcDocumentRstMissingTextRoleHandlerException $e )
+        {
+            return $this->triggerError(
+                E_WARNING, $e->getMessage(),
+                null, $node->token->line, $node->token->position
+            );
+        }
+
+        $roleHandler = new $handlerClass( $this->ast, $this->path, $node );
+        if ( !$roleHandler instanceof ezcDocumentRstXhtmlTextRole )
+        {
+            return $this->triggerError(
+                E_WARNING, "Directive '{$handlerClass}' does not support HTML rendering.",
+                null, $node->token->line, $node->token->position
+            );
+        }
+        $roleHandler->toXhtml( $this->document, $root );
     }
 
     /**

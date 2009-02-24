@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the Document component.
  *
- * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -16,6 +16,7 @@ return array(
     'ezcDocumentMissingVisitorException'                 => 'Document/exceptions/missing_visitor.php',
     'ezcDocumentParserException'                         => 'Document/exceptions/parser.php',
     'ezcDocumentRstMissingDirectiveHandlerException'     => 'Document/exceptions/missing_directive_handler.php',
+    'ezcDocumentRstMissingTextRoleHandlerException'      => 'Document/exceptions/missing_text_role_handler.php',
     'ezcDocumentRstTokenizerException'                   => 'Document/exceptions/rst_tokenizer.php',
     'ezcDocumentVisitException'                          => 'Document/exceptions/visitor.php',
     'ezcDocumentWikiMissingPluginHandlerException'       => 'Document/exceptions/missing_plugin_handler.php',
@@ -50,6 +51,8 @@ return array(
     'ezcDocumentRstImageDirective'                       => 'Document/document/rst/directive/image.php',
     'ezcDocumentRstLinkNode'                             => 'Document/document/rst/nodes/link.php',
     'ezcDocumentRstMarkupNode'                           => 'Document/document/rst/nodes/markup.php',
+    'ezcDocumentRstTextRole'                             => 'Document/document/rst/role.php',
+    'ezcDocumentRstXhtmlTextRole'                        => 'Document/interfaces/rst_xhtml_role.php',
     'ezcDocumentRstXhtmlVisitor'                         => 'Document/document/rst/visitor/xhtml.php',
     'ezcDocumentWiki'                                    => 'Document/document/wiki.php',
     'ezcDocumentWikiLineLevelNode'                       => 'Document/document/wiki/nodes/line.php',
@@ -210,7 +213,9 @@ return array(
     'ezcDocumentRstParagraphNode'                        => 'Document/document/rst/nodes/paragraph.php',
     'ezcDocumentRstParser'                               => 'Document/document/rst/parser.php',
     'ezcDocumentRstReferenceNode'                        => 'Document/document/rst/nodes/reference.php',
+    'ezcDocumentRstReplaceDirective'                     => 'Document/document/rst/directive/replace.php',
     'ezcDocumentRstSectionNode'                          => 'Document/document/rst/nodes/section.php',
+    'ezcDocumentRstStrongTextRole'                       => 'Document/document/rst/role/strong.php',
     'ezcDocumentRstSubstitutionNode'                     => 'Document/document/rst/nodes/substitution.php',
     'ezcDocumentRstTableBodyNode'                        => 'Document/document/rst/nodes/table_body.php',
     'ezcDocumentRstTableCellNode'                        => 'Document/document/rst/nodes/table_cell.php',
