@@ -9,12 +9,12 @@
  */
 
 /**
- * Visitor for RST strong text roles
+ * Visitor for RST title reference text roles
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentRstStrongTextRole extends ezcDocumentRstTextRole implements ezcDocumentRstXhtmlTextRole
+class ezcDocumentRstTitleReferenceTextRole extends ezcDocumentRstTextRole implements ezcDocumentRstXhtmlTextRole
 {
     /**
      * Transform text role to docbook
@@ -28,11 +28,10 @@ class ezcDocumentRstStrongTextRole extends ezcDocumentRstTextRole implements ezc
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
     {
-        $strong = $document->createElement( 'emphasis' );
-        $strong->setAttribute( 'Role', 'strong' );
-        $root->appendChild( $strong );
+        $title= $document->createElement( 'citetitle' );
+        $root->appendChild( $title );
 
-        $this->appendText( $strong );
+        $this->appendText( $title );
     }
 
     /**
@@ -46,10 +45,10 @@ class ezcDocumentRstStrongTextRole extends ezcDocumentRstTextRole implements ezc
      */
     public function toXhtml( DOMDocument $document, DOMElement $root )
     {
-        $strong = $document->createElement( 'strong' );
-        $root->appendChild( $strong );
+        $title= $document->createElement( 'cite' );
+        $root->appendChild( $title );
 
-        $this->appendText( $strong );
+        $this->appendText( $title );
     }
 }
 

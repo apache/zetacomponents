@@ -75,6 +75,20 @@ abstract class ezcDocumentRstTextRole
     }
 
     /**
+     * Append text from interpreted text node to given DOMElement
+     * 
+     * @param DOMElement $root 
+     * @return void
+     */
+    protected function appendText( DOMElement $root )
+    {
+        foreach ( $this->node->nodes as $node )
+        {
+            $root->appendChild( new DOMText( $node->token->content ) );
+        }
+    }
+
+    /**
      * Transform text role to docbook
      *
      * Create a docbook XML structure at the text roles position in the

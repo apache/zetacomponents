@@ -9,12 +9,12 @@
  */
 
 /**
- * Visitor for RST strong text roles
+ * Visitor for RST superscript text roles
  * 
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentRstStrongTextRole extends ezcDocumentRstTextRole implements ezcDocumentRstXhtmlTextRole
+class ezcDocumentRstSuperscriptTextRole extends ezcDocumentRstTextRole implements ezcDocumentRstXhtmlTextRole
 {
     /**
      * Transform text role to docbook
@@ -28,11 +28,10 @@ class ezcDocumentRstStrongTextRole extends ezcDocumentRstTextRole implements ezc
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
     {
-        $strong = $document->createElement( 'emphasis' );
-        $strong->setAttribute( 'Role', 'strong' );
-        $root->appendChild( $strong );
+        $superscript = $document->createElement( 'superscript' );
+        $root->appendChild( $superscript );
 
-        $this->appendText( $strong );
+        $this->appendText( $superscript );
     }
 
     /**
@@ -46,10 +45,10 @@ class ezcDocumentRstStrongTextRole extends ezcDocumentRstTextRole implements ezc
      */
     public function toXhtml( DOMDocument $document, DOMElement $root )
     {
-        $strong = $document->createElement( 'strong' );
-        $root->appendChild( $strong );
+        $superscript = $document->createElement( 'sup' );
+        $root->appendChild( $superscript );
 
-        $this->appendText( $strong );
+        $this->appendText( $superscript );
     }
 }
 

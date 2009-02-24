@@ -83,6 +83,7 @@
                 <element name="superscript"       type="doc:inline" />
                 <element name="link"              type="doc:link" />
                 <element name="ulink"             type="doc:ulink" />
+                <element name="citetitle"         type="doc:inline" />
 			</choice>
 		</sequence>
 		<attributeGroup ref="doc:common" />

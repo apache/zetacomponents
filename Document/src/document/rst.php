@@ -114,7 +114,16 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * @var array
      */
     protected $roles = array(
-        'strong' => 'ezcDocumentRstStrongTextRole',
+        'emphasis'        => 'ezcDocumentRstEmphasisTextRole',
+        'literal'         => 'ezcDocumentRstLiteralTextRole',
+        'strong'          => 'ezcDocumentRstStrongTextRole',
+        'subscript'       => 'ezcDocumentRstSubscriptTextRole',
+        'sub'             => 'ezcDocumentRstSubscriptTextRole',
+        'superscript'     => 'ezcDocumentRstSuperscriptTextRole',
+        'sup'             => 'ezcDocumentRstSuperscriptTextRole',
+        'title_reference' => 'ezcDocumentRstTitleReferenceTextRole',
+        'title'           => 'ezcDocumentRstTitleReferenceTextRole',
+        't'               => 'ezcDocumentRstTitleReferenceTextRole',
     );
 
     /**
