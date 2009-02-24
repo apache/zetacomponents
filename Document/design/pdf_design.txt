@@ -25,19 +25,19 @@ already known from CSS, and humanly readable formatting options.
 A limited subset of CSS will be used for now for addressing elements inside the
 Docbook XML tree. The grammar for those rules will be::
 
-	Address     ::= Element ( Rule )*
-	Rule        ::= '>'? Element
-	Element     ::= ElementName '.' ClassName
+    Address     ::= Element ( Rule )*
+    Rule        ::= '>'? Element
+    Element     ::= ElementName '.' ClassName
 
-	ClassName   ::= [A-Za-z_-]+
-	ElementName ::= XMLName* | '*'
+    ClassName   ::= [A-Za-z_-]+
+    ElementName ::= XMLName* | '*'
 
-	* XMLName references to http://www.w3.org/TR/REC-xml/#NT-Name
+    * XMLName references to http://www.w3.org/TR/REC-xml/#NT-Name
 
 The semantics of this simple subset of addressing directives are the same as in
 CSS. A second level title could for example then be addressed by::
 
-	section title
+    section title
 
 The formatting options are also mostly the same as in CSS, but again only
 using a subset of the definitions available in CSS and with some additional
@@ -48,10 +48,10 @@ or warnings.
 The PDF document wrapper class will implement Iterator and ArrayAccess to
 access the layout directives, like the following example shows::
 
-	$pdf = new ezcDocumentPdf();
-	$pdf->createFromDocbook( $docbook );
+    $pdf = new ezcDocumentPdf();
+    $pdf->createFromDocbook( $docbook );
 
-	$pdf->styles['article > section title']['font-size'] = '1.6em';
+    $pdf->styles['article > section title']['font-size'] = '1.6em';
 
 Directives which are specified later will always overwrite earlier directives,
 for each each formatting option specified in the later directive. The
@@ -65,15 +65,15 @@ The layout directives can be exported and imported to and from files, so that
 users of the component may store a custom PDF layout. The storage format will
 again very much look like a simplified variant of CSS::
 
-	File       ::= Directive+
-	Directive  ::= Rule '{' Formatting* '}'
-	Formatting ::= Name '=' '"' Value '"' ';'
-	Name       ::= [A-Za-z-]+
-	Value      ::= [^"]+
+    File       ::= Directive+
+    Directive  ::= Rule '{' Formatting* '}'
+    Formatting ::= Name '=' '"' Value '"' ';'
+    Name       ::= [A-Za-z-]+
+    Value      ::= [^"]+
 
 Importing and exporting styles may be accomblished by::
 
-	$pdf->styles->load( 'styles.pcss' );
+    $pdf->styles->load( 'styles.pcss' );
 
 List of formatting options
 --------------------------
@@ -129,11 +129,11 @@ and some custom options. The options just reused from CSS are:
 Custom properties are:
 
 text-columns
-	Number of text text columns in one section.
+    Number of text text columns in one section.
 page-size
-	Size of pages
+    Size of pages
 page-orientation
-	Orientation of pages
+    Orientation of pages
 
 Not all options can be applied to each element. The renderer might complain on
 invalid options, depending on the configured error level.
@@ -151,10 +151,10 @@ current page they are rendered on.
 
 They can be set like::
 
-	$pdf = new ezcDocumentPdf();
-	$pdf->createFromDocbook( $docbook );
+    $pdf = new ezcDocumentPdf();
+    $pdf->createFromDocbook( $docbook );
 
-	$pdf->footer = new myDocumentPdfPart();
+    $pdf->footer = new myDocumentPdfPart();
 
 Each of those parts can render itself and calculate the appropriate bounding.
 There might be extensions from the basic PDFPart class, which again render small
@@ -164,11 +164,11 @@ placeholders with page dependent contents.
 Possible implementations would be:
 
 ezcDocumentPdfDocbookPart
-	Receives a docbook document and renders it using a a defined style at the
-	header or footer of the current page. Placeholders in the text,
-	represented by, for example, entities might be replaced.
+    Receives a docbook document and renders it using a a defined style at the
+    header or footer of the current page. Placeholders in the text,
+    represented by, for example, entities might be replaced.
 ezcDocumentPdfStringPart
-	Receives a simple string, in which simple placeholders are replaced.
+    Receives a simple string, in which simple placeholders are replaced.
 
 Other elements
 --------------
@@ -183,17 +183,17 @@ after the actual contents. Those are for example:
 To add those to on PDF document you can create a pdf set, which is then rendered
 into one file::
 
-	$pdf = new ezcDocumentPdf();
-	$pdf->createFromDocbook( $docbook );
+    $pdf = new ezcDocumentPdf();
+    $pdf->createFromDocbook( $docbook );
 
-	$set = new ezcDocumentPdfSet();
-	$set->parts = array(
-		new ezcDocumentPdfPdfPart( 'title.pdf' ),
-		$customTableOfContents,
-		$pdf,
-		$bibliography,
-	);
-	$set->render( 'my.pdf' );
+    $set = new ezcDocumentPdfSet();
+    $set->parts = array(
+        new ezcDocumentPdfPdfPart( 'title.pdf' ),
+        $customTableOfContents,
+        $pdf,
+        $bibliography,
+    );
+    $set->render( 'my.pdf' );
 
 Some of the documents aggregated in one set can of course again be documents
 created from Docbook documents. Each element in the set may contain custom
@@ -219,8 +219,8 @@ The renderer optionally receives a set of helper objects, which perform relevant
 parts of the typesetting, like:
 
 Hyphenator
-	Class implementing hyphenation for a specific language. We might provide a
-	default implementation, which reads standard hyphenation files.
+    Class implementing hyphenation for a specific language. We might provide a
+    default implementation, which reads standard hyphenation files.
 
 The renderer state will be shared using an object representing the page
 currently processed, which contains information about the already covered
@@ -235,12 +235,12 @@ Which renderer classes can be separated, will show up during implementation,
 but those for example could be:
 
 ezcDocumentPdfParagraphRenderer
-	Takes care of rendering the Docbook inline markup inside one paragraph.
-	Respects orphans and widows and might be required to split paragraphs.
+    Takes care of rendering the Docbook inline markup inside one paragraph.
+    Respects orphans and widows and might be required to split paragraphs.
 
 ezcDocumentPdfTableRenderer
-	Renders tables. It might be useful to even split this up more into a table
-	row and cell renderer.
+    Renders tables. It might be useful to even split this up more into a table
+    row and cell renderer.
 
 Additional renderer features
 ----------------------------
@@ -255,33 +255,52 @@ Example
 A full example for the creation of a PDF document from a HTML page could look
 like::
 
-	<?php
-	$html = new ezcDocumentXhtml();
-	$html->loadFile( 'http://ezcomponents.org/introduction' );
+    <?php
+    $html = new ezcDocumentXhtml();
+    $html->loadFile( 'http://ezcomponents.org/introduction' );
 
-	$pdf = new ezcDocumentPdf();
-	$pdf->createFromDocbook( $html->getAsDocbook() );
+    $pdf = new ezcDocumentPdf();
+    $pdf->createFromDocbook( $html->getAsDocbook() );
 
-	// Load some custom layout directives
-	$pdf->style->load( 'my_styles.pcss' );
-	$pdf->style['article']['text-columns'] = 3;
+    // Load some custom layout directives
+    $pdf->style->load( 'my_styles.pcss' );
+    $pdf->style['article']['text-columns'] = 3;
 
-	// Set a custom header
-	$pdf->header = new ezcDocumentPdfStringPart(
-		'%title by %author - %pageNum / %pageCount'
-	);
+    // Set a custom header
+    $pdf->header = new ezcDocumentPdfStringPart(
+        '%title by %author - %pageNum / %pageCount'
+    );
 
-	// Set a custom paragraph renderer
-	$pdf->renderer->paragraph = new myPdfParagraphRenderer();
+    // Set a custom paragraph renderer
+    $pdf->renderer->paragraph = new myPdfParagraphRenderer();
 
-	// Use the hyphenator with a german dictionary
-	$pdf->renderer->hyphenator = new myDictionaryHyphenator(
-		'/path/to/german.dict'
-	);
+    // Use the hyphenator with a german dictionary
+    $pdf->renderer->hyphenator = new myDictionaryHyphenator(
+        '/path/to/german.dict'
+    );
 
-	// Store the generated PDF
-	file_put_contents( 'my.pdf', $pdf );
-	?>
+    // Store the generated PDF
+    file_put_contents( 'my.pdf', $pdf );
+    ?>
+
+A file containing the layout directives could look like::
+
+    article {
+        page-size: "A4";
+    }
+
+    paragraph {
+        font-family: "Bitstream Vera Sans";
+        font-size: "1em";
+    }
+
+    article > title {
+        font-weight: "bold";
+    }
+
+    section title {
+        font-weight: "normal";
+    }
 
 Classes
 =======
@@ -289,40 +308,40 @@ Classes
 The classes implemented for the PDF generation are:
 
 ezcDocumentPdf
-	Base class, representing the PDF generation. Aggregates the style
-	information, the docbook source document, renderer and page parts like
-	footer and header.
+    Base class, representing the PDF generation. Aggregates the style
+    information, the docbook source document, renderer and page parts like
+    footer and header.
 
 ezcDocumentPdfSet
-	Class aggregating multiple ezcDocumentPdf objects, to create one single
-	PDF document from multiple parts, like a cover page, the actual content, a
-	bibliography, etc.
+    Class aggregating multiple ezcDocumentPdf objects, to create one single
+    PDF document from multiple parts, like a cover page, the actual content, a
+    bibliography, etc.
 
 ezcDocumentPdfStyles
-	Class containing the PDF layout directives, also implements loading and
-	storing of those layout directives.
+    Class containing the PDF layout directives, also implements loading and
+    storing of those layout directives.
 
 ezcDocumentPdfPart
-	Abstract base class for page parts, like headers and footers. Renders the
-	respective part and will be extended by multiple concrete
-	implementations, which offer convient rendering methods.
+    Abstract base class for page parts, like headers and footers. Renders the
+    respective part and will be extended by multiple concrete
+    implementations, which offer convient rendering methods.
 
 ezcDocumentPdfRenderer
-	Basic renderer class, which aggregates renderers for distinct page
-	elements, like paragraphs and tables, and dispatches the rendering to
-	them. Also maintains the ezcDocumentPdfPage state object, which contains
-	information of already covered parts of the pages.
+    Basic renderer class, which aggregates renderers for distinct page
+    elements, like paragraphs and tables, and dispatches the rendering to
+    them. Also maintains the ezcDocumentPdfPage state object, which contains
+    information of already covered parts of the pages.
 
 ezcDocumentPdfParagraphRenderer
-	Example for the concrete aspect specific renderer classes, which only
-	implement the rendering of small parts of a document, like single
-	paragraphs, tables, or table cell contents.
+    Example for the concrete aspect specific renderer classes, which only
+    implement the rendering of small parts of a document, like single
+    paragraphs, tables, or table cell contents.
 
 ezcDocumentPdfPage
-	State object describing the current state of a single page in the PDF
-	document, like still available space.
+    State object describing the current state of a single page in the PDF
+    document, like still available space.
 
 ezcDocumentPdfHyphenator
-	Abstract base class for hyphenation implementations for more accurate word
-	wrapping.
+    Abstract base class for hyphenation implementations for more accurate word
+    wrapping.
 
