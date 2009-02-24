@@ -231,6 +231,13 @@ renderers for different aspects of the rendering process. This should allow us
 to write simpler rendering classes, which should be better maintainable then
 one big renderer class, which methods would take care of all aspects.
 
+This page state object, knowing about free space on the current page, for
+example allows to float text around images spanning multiple paragraphs,
+because the already covered space is encoded. This allows all renderers for
+the different aspects to reuse this knowledge and depend their rendering on
+this. The space already covered on a page will most probably be represented by
+a list of bounding boxes.
+
 Which renderer classes can be separated, will show up during implementation,
 but those for example could be:
 
