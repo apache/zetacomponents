@@ -171,6 +171,54 @@ class ezcDocumentRstXhtmlVisitorTests extends ezcTestCase
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
     }
+
+    public static function getErroneousTestDocuments()
+    {
+//        return array();
+        return array(
+            array(
+                dirname( __FILE__ ) . '/files/rst/xhtml/e_001_missing_directive.txt',
+                'Visitor error: Warning: \'No directive handler registered for directive \'missing_directive_dclaration\'.\' in line 7 at position 1.',
+            ),
+            array(
+                dirname( __FILE__ ) . '/files/rst/xhtml/e_001_missing_role.txt',
+                'Visitor error: Warning: \'No text role handler registered for text role \'no-handler-registered\'.\' in line 4 at position 45.',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getErroneousTestDocuments
+     */
+    public function testParseErroneousRstFile( $file, $message )
+    {
+        try
+        {
+            $document = new ezcDocumentRst();
+            $document->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+
+            $document->registerDirective( 'my_custom_directive', 'ezcDocumentTestDummyDirective' );
+            $document->registerDirective( 'user', 'ezcDocumentTestDummyDirective' );
+            $document->registerDirective( 'book', 'ezcDocumentTestDummyDirective' );
+            $document->registerDirective( 'function', 'ezcDocumentTestDummyDirective' );
+            $document->registerDirective( 'replace', 'ezcDocumentTestDummyDirective' );
+
+            $document->loadFile( $file );
+
+            $docbook = $document->getAsXhtml();
+            $html    = $docbook->save();
+            $document = $parser->parse( $tokenizer->tokenizeFile( $file ) );
+            $this->fail( 'Expected some exception.' );
+        }
+        catch ( ezcDocumentException $e )
+        {
+            $this->assertSame(
+                $message,
+                $e->getMessage(),
+                'Different parse error expected.'
+            );
+        }
+    }
 }
 
 ?>

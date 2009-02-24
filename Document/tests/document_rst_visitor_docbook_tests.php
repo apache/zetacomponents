@@ -94,7 +94,11 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         return array(
             array(
                 dirname( __FILE__ ) . '/files/rst/docbook/e_001_missing_directive.txt',
-                'Visitor error: Warning: \'No directive handler registered for directive \'missing_directive_dclaration\'.\' in line 7 at position 1.'
+                'Visitor error: Warning: \'No directive handler registered for directive \'missing_directive_dclaration\'.\' in line 7 at position 1.',
+            ),
+            array(
+                dirname( __FILE__ ) . '/files/rst/docbook/e_001_missing_role.txt',
+                'Visitor error: Warning: \'No text role handler registered for text role \'no-handler-registered\'.\' in line 4 at position 45.',
             ),
         );
     }
