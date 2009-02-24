@@ -249,3 +249,37 @@ If the used driver class implements the respective interfaces the renderer will
 also offer to sign PDF documents, or add write protection (or similar) to the
 PDF document.
 
+Example
+=======
+
+A full example for the creation of a PDF document from a HTML page could look
+like::
+
+	<?php
+	$html = new ezcDocumentXhtml();
+	$html->loadFile( 'http://ezcomponents.org/introduction' );
+
+	$pdf = new ezcDocumentPdf();
+	$pdf->createFromDocbook( $html->getAsDocbook() );
+
+	// Load some custom layout directives
+	$pdf->style->load( 'my_styles.pcss' );
+	$pdf->style['article']['text-columns'] = 3;
+
+	// Set a custom header
+	$pdf->header = new ezcDocumentPdfStringPart(
+		'%title by %author - %pageNum / %pageCount'
+	);
+
+	// Set a custom paragraph renderer
+	$pdf->renderer->paragraph = new myPdfParagraphRenderer();
+
+	// Use the hyphenator with a german dictionary
+	$pdf->renderer->hyphenator = new myDictionaryHyphenator(
+		'/path/to/german.dict'
+	);
+
+	// Store the generated PDF
+	file_put_contents( 'my.pdf', $pdf );
+	?>
+
