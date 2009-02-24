@@ -206,7 +206,7 @@ The actual PDF renderer calls methods on the driver, which abstract the quirks
 of the respective implementations. There will be drivers for at least:
 
 - pecl/libharu
-- FPDF
+- TCPDF
 
 Renderer
 ========
