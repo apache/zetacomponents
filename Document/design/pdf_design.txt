@@ -283,3 +283,46 @@ like::
 	file_put_contents( 'my.pdf', $pdf );
 	?>
 
+Classes
+=======
+
+The classes implemented for the PDF generation are:
+
+ezcDocumentPdf
+	Base class, representing the PDF generation. Aggregates the style
+	information, the docbook source document, renderer and page parts like
+	footer and header.
+
+ezcDocumentPdfSet
+	Class aggregating multiple ezcDocumentPdf objects, to create one single
+	PDF document from multiple parts, like a cover page, the actual content, a
+	bibliography, etc.
+
+ezcDocumentPdfStyles
+	Class containing the PDF layout directives, also implements loading and
+	storing of those layout directives.
+
+ezcDocumentPdfPart
+	Abstract base class for page parts, like headers and footers. Renders the
+	respective part and will be extended by multiple concrete
+	implementations, which offer convient rendering methods.
+
+ezcDocumentPdfRenderer
+	Basic renderer class, which aggregates renderers for distinct page
+	elements, like paragraphs and tables, and dispatches the rendering to
+	them. Also maintains the ezcDocumentPdfPage state object, which contains
+	information of already covered parts of the pages.
+
+ezcDocumentPdfParagraphRenderer
+	Example for the concrete aspect specific renderer classes, which only
+	implement the rendering of small parts of a document, like single
+	paragraphs, tables, or table cell contents.
+
+ezcDocumentPdfPage
+	State object describing the current state of a single page in the PDF
+	document, like still available space.
+
+ezcDocumentPdfHyphenator
+	Abstract base class for hyphenation implementations for more accurate word
+	wrapping.
+
