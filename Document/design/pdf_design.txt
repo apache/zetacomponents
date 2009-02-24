@@ -66,7 +66,7 @@ users of the component may store a custom PDF layout. The storage format will
 again very much look like a simplified variant of CSS::
 
     File       ::= Directive+
-    Directive  ::= Rule '{' Formatting* '}'
+    Directive  ::= Address '{' Formatting* '}'
     Formatting ::= Name '=' '"' Value '"' ';'
     Name       ::= [A-Za-z-]+
     Value      ::= [^"]+
