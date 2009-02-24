@@ -200,6 +200,10 @@ Some of the documents aggregated in one set can of course again be documents
 created from Docbook documents. Each element in the set may contain custom
 layout directives.
 
+For the inclusion of other document parts into a PdfSet you are expected to
+extend from the PDF base class and implement you custom functionality there.
+This could mean generating idexes, or a bibliography from the content.
+
 Drivers
 =======
 
