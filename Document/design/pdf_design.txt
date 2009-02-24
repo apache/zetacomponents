@@ -27,10 +27,11 @@ Docbook XML tree. The grammar for those rules will be::
 
     Address     ::= Element ( Rule )*
     Rule        ::= '>'? Element
-    Element     ::= ElementName '.' ClassName
+    Element     ::= ElementName ( '.' ClassName | '#' ElementId )
 
     ClassName   ::= [A-Za-z_-]+
     ElementName ::= XMLName* | '*'
+	ElementId   ::= XMLName
 
     * XMLName references to http://www.w3.org/TR/REC-xml/#NT-Name
 
