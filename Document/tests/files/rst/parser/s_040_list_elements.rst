@@ -213,6 +213,25 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             ezcDocumentRstDirectiveNode::__set_state(array(
                'identifier' => 'directive',
                'parameters' => ' A directive',
+               'tokens' => 
+              array (
+                0 => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 1,
+                   'content' => ' ',
+                   'line' => 10,
+                   'position' => 17,
+                   'escaped' => false,
+                )),
+                1 => 
+                ezcDocumentRstToken::__set_state(array(
+                   'type' => 5,
+                   'content' => 'A directive',
+                   'line' => 10,
+                   'position' => 18,
+                   'escaped' => false,
+                )),
+              ),
                'options' => NULL,
                'indentation' => 2,
                'line' => 10,
@@ -466,6 +485,25 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                 ezcDocumentRstDirectiveNode::__set_state(array(
                    'identifier' => 'directive',
                    'parameters' => ' A directive',
+                   'tokens' => 
+                  array (
+                    0 => 
+                    ezcDocumentRstToken::__set_state(array(
+                       'type' => 1,
+                       'content' => ' ',
+                       'line' => 22,
+                       'position' => 19,
+                       'escaped' => false,
+                    )),
+                    1 => 
+                    ezcDocumentRstToken::__set_state(array(
+                       'type' => 5,
+                       'content' => 'A directive',
+                       'line' => 22,
+                       'position' => 20,
+                       'escaped' => false,
+                    )),
+                  ),
                    'options' => NULL,
                    'indentation' => 4,
                    'line' => 22,

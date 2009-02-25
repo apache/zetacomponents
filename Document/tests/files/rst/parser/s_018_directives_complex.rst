@@ -74,6 +74,41 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         ezcDocumentRstDirectiveNode::__set_state(array(
            'identifier' => 'image',
            'parameters' => ' mylogo.jpeg',
+           'tokens' => 
+          array (
+            0 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 1,
+               'content' => ' ',
+               'line' => 4,
+               'position' => 11,
+               'escaped' => false,
+            )),
+            1 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'mylogo',
+               'line' => 4,
+               'position' => 12,
+               'escaped' => false,
+            )),
+            2 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 4,
+               'content' => '.',
+               'line' => 4,
+               'position' => 18,
+               'escaped' => false,
+            )),
+            3 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'jpeg',
+               'line' => 4,
+               'position' => 19,
+               'escaped' => false,
+            )),
+          ),
            'options' => 
           array (
             'alt' => '   My Logo',
@@ -98,6 +133,66 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         ezcDocumentRstDirectiveNode::__set_state(array(
            'identifier' => 'figure',
            'parameters' => ' larch.png',
+           'tokens' => 
+          array (
+            0 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 1,
+               'content' => ' ',
+               'line' => 7,
+               'position' => 12,
+               'escaped' => false,
+            )),
+            1 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'larch',
+               'line' => 7,
+               'position' => 13,
+               'escaped' => false,
+            )),
+            2 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 4,
+               'content' => '.',
+               'line' => 7,
+               'position' => 18,
+               'escaped' => false,
+            )),
+            3 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'png',
+               'line' => 7,
+               'position' => 19,
+               'escaped' => false,
+            )),
+            4 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'The larch',
+               'line' => 9,
+               'position' => 4,
+               'escaped' => false,
+            )),
+            5 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 4,
+               'content' => '.',
+               'line' => 9,
+               'position' => 13,
+               'escaped' => false,
+            )),
+            6 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => '
+',
+               'line' => 9,
+               'position' => 14,
+               'escaped' => false,
+            )),
+          ),
            'options' => NULL,
            'indentation' => 0,
            'line' => 7,
@@ -211,6 +306,25 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         ezcDocumentRstDirectiveNode::__set_state(array(
            'identifier' => 'note',
            'parameters' => ' This is a paragraph',
+           'tokens' => 
+          array (
+            0 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 1,
+               'content' => ' ',
+               'line' => 11,
+               'position' => 10,
+               'escaped' => false,
+            )),
+            1 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'This is a paragraph',
+               'line' => 11,
+               'position' => 11,
+               'escaped' => false,
+            )),
+          ),
            'options' => NULL,
            'indentation' => 0,
            'line' => 11,
@@ -364,6 +478,66 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         ezcDocumentRstDirectiveNode::__set_state(array(
            'identifier' => 'figure',
            'parameters' => ' larch.png',
+           'tokens' => 
+          array (
+            0 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 1,
+               'content' => ' ',
+               'line' => 17,
+               'position' => 12,
+               'escaped' => false,
+            )),
+            1 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'larch',
+               'line' => 17,
+               'position' => 13,
+               'escaped' => false,
+            )),
+            2 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 4,
+               'content' => '.',
+               'line' => 17,
+               'position' => 18,
+               'escaped' => false,
+            )),
+            3 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'png',
+               'line' => 17,
+               'position' => 19,
+               'escaped' => false,
+            )),
+            4 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'The larch',
+               'line' => 20,
+               'position' => 4,
+               'escaped' => false,
+            )),
+            5 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 4,
+               'content' => '.',
+               'line' => 20,
+               'position' => 13,
+               'escaped' => false,
+            )),
+            6 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => '
+',
+               'line' => 20,
+               'position' => 14,
+               'escaped' => false,
+            )),
+          ),
            'options' => 
           array (
             'scale' => ' 50',
@@ -480,6 +654,84 @@ return ezcDocumentRstDocumentNode::__set_state(array(
         ezcDocumentRstDirectiveNode::__set_state(array(
            'identifier' => 'my_custom_directive',
            'parameters' => ' param1 param2',
+           'tokens' => 
+          array (
+            0 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 1,
+               'content' => ' ',
+               'line' => 22,
+               'position' => 25,
+               'escaped' => false,
+            )),
+            1 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'param1 param2',
+               'line' => 22,
+               'position' => 26,
+               'escaped' => false,
+            )),
+            2 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'Contents,',
+               'line' => 26,
+               'position' => 5,
+               'escaped' => false,
+            )),
+            3 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => '
+',
+               'line' => 26,
+               'position' => 14,
+               'escaped' => false,
+            )),
+            4 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'Which are also',
+               'line' => 27,
+               'position' => 11,
+               'escaped' => false,
+            )),
+            5 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => '
+',
+               'line' => 27,
+               'position' => 25,
+               'escaped' => false,
+            )),
+            6 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 5,
+               'content' => 'completely preserved',
+               'line' => 28,
+               'position' => 13,
+               'escaped' => false,
+            )),
+            7 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 4,
+               'content' => '.',
+               'line' => 28,
+               'position' => 33,
+               'escaped' => false,
+            )),
+            8 => 
+            ezcDocumentRstToken::__set_state(array(
+               'type' => 2,
+               'content' => '
+',
+               'line' => 28,
+               'position' => 34,
+               'escaped' => false,
+            )),
+          ),
            'options' => 
           array (
             'option1' => ' Some content',

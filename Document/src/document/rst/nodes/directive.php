@@ -33,6 +33,13 @@ class ezcDocumentRstDirectiveNode extends ezcDocumentRstBlockNode
     public $parameters;
 
     /**
+     * Directive content tokens
+     * 
+     * @var array
+     */
+    public $tokens;
+
+    /**
      * Directive options
      * 
      * @var array
@@ -72,6 +79,12 @@ class ezcDocumentRstDirectiveNode extends ezcDocumentRstBlockNode
         $node->parameters  = $properties['parameters'];
         $node->options     = $properties['options'];
         $node->indentation = isset( $properties['indentation'] ) ? $properties['indentation'] : 0;
+
+        if ( isset( $properties['tokens'] ) )
+        {
+            $node->tokens = $properties['tokens'];
+        }
+
         return $node;
     }
 }

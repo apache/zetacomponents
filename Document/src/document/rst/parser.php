@@ -2204,16 +2204,19 @@ class ezcDocumentRstParser extends ezcDocumentParser
     {
         // All nodes until the first newline are the so called parameters of
         // the directive.
-        $parameters = '';
+        $parameters      = '';
+        $directiveTokens = array();
         while ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE )
         {
-            $token = array_shift( $tokens );
-            $parameters .= $token->content;
+            $token             = array_shift( $tokens );
+            $parameters       .= $token->content;
+            $directiveTokens[] = $token;
         }
         /* DEBUG
         echo "  -> Set directive parameter: $parameters\n";
         // /DEBUG */
         $directive->parameters = $parameters;
+        $directive->tokens     = $directiveTokens;
         array_shift( $tokens );
 
         // If there are two newlines, there are no options.
@@ -2257,6 +2260,47 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Leave everything else up to the comment shifter
         return $directive;
+    }
+
+    /**
+     * Handle special directives
+     *
+     * Handle special directives like replace, which require reparsing of the
+     * directives contents, which is not possible to do during visiting, but is
+     * required to already be done inside the parser.
+     * 
+     * @param ezcDocumentRstSubstitutionNode $substitution 
+     * @param ezcDocumentRstDirectiveNode $node 
+     * @return ezcDocumentRstSubstitutionNode
+     */
+    protected function handleSpecialDirectives( ezcDocumentRstSubstitutionNode $substitution, ezcDocumentRstDirectiveNode $node )
+    {
+        // Special handling for some directives
+        switch ( strtolower( $node->identifier ) )
+        {
+            case 'replace':
+                // Reenter the parser with the replace directive contents
+                // and assign the contents from the first paragraph to the
+                // substitution target node.
+                if ( !count( $node->tokens ) )
+                {
+                    $substitution->nodes = array();
+                    break;
+                }
+
+                $document = $this->reenterParser( $node->tokens );
+                $contents = array();
+                foreach ( $document->nodes as $section )
+                {
+                    $contents = array_merge( $contents, $section->nodes );
+                }
+                $substitution->nodes = $contents;
+                break;
+            // The date and unicode directives would be required to be
+            // handled similarly.
+        }
+
+        return $substitution;
     }
 
     /**
@@ -2595,6 +2639,12 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( ( $node instanceof ezcDocumentRstDirectiveNode ) &&
              ( in_array( $node->identifier, $this->shortDirectives, true ) ) )
         {
+            // Handle special cases like the replace directive
+            if ( $substitution !== null )
+            {
+                $return = $this->handleSpecialDirectives( $substitution, $node );
+            }
+
             return $return;
         }
 
@@ -2631,11 +2681,18 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 array_unshift( $tokens, $skippedLine );
             }
 
+            // Handle special cases like the replace directive
+            if ( $substitution !== null )
+            {
+                $return = $this->handleSpecialDirectives( $substitution, $node );
+            }
+
             return $return;
         }
 
         // Collect all contents, until the indentation changes.
-        $collected = array();
+        $collected       = array();
+        $directiveTokens = array();
         while ( // Empty lines are inlcuded.
                 ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
                 // All other lines must start with the determined base
@@ -2673,7 +2730,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 /* DEBUG
                 echo ".";
                 // /DEBUG */
-                $collected[] = new ezcDocumentRstLiteralNode( $item = array_shift( $tokens ) );
+                $collected[]       = new ezcDocumentRstLiteralNode( $item = array_shift( $tokens ) );
+                $directiveTokens[] = $item;
             }
             while ( $item->type !== ezcDocumentRstToken::NEWLINE );
             /* DEBUG
@@ -2694,6 +2752,23 @@ class ezcDocumentRstParser extends ezcDocumentParser
             $node->nodes,
             $collected
         );
+
+        // For special directives like the replace directive we also need to
+        // aggregate all found tokens on the tokens property
+        if ( $node instanceof ezcDocumentRstDirectiveNode )
+        {
+            $node->tokens = array_merge(
+                $node->tokens,
+                $directiveTokens
+            );
+        }
+
+        // Handle special cases like the replace directive
+        if ( $substitution !== null )
+        {
+            $return = $this->handleSpecialDirectives( $substitution, $node );
+        }
+
         return $return;
     }
 
