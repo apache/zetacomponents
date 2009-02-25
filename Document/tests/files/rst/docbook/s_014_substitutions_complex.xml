@@ -21,6 +21,6 @@
     </itemizedlist>
     <para><inlinemediaobject><imageobject><imagedata fileref="discord.png"/></imageobject></inlinemediaobject> is the official symbol of <ulink url="http://www.poee.org/">POEE</ulink>.</para>
     <para><ulink url="http://docutils.sourceforge.net/rst.html">reStructuredText</ulink> is a little annoying to type over and over, especially when writing about <ulink url="http://docutils.sourceforge.net/rst.html">reStructuredText</ulink> itself, and spelling out the bicapitalized word <ulink url="http://docutils.sourceforge.net/rst.html">reStructuredText</ulink> every time isn't really necessary for <ulink url="http://docutils.sourceforge.net/rst.html">reStructuredText</ulink> source readability.</para>
-    <para>But still, that's nothing compared to a name like the Java <superscript>TM</superscript> 2 Platform, Enterprise Edition Client Access Services__.</para>
+    <para>But still, that's nothing compared to a name like <ulink url="http://developer.java.sun.com/developer/earlyAccess/j2eecas/">the Java <superscript>TM</superscript> 2 Platform, Enterprise Edition Client Access Services</ulink>.</para>
   </section>
 </article>

@@ -4589,7 +4589,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Aggregate token to check for an embedded inline URL
         $text = false;
-        if ( $this->documentStack[0]->type === ezcDocumentRstNode::MARKUP_INTERPRETED )
+        if ( ( $this->documentStack[0]->type === ezcDocumentRstNode::MARKUP_INTERPRETED ) ||
+             ( $this->documentStack[0]->type === ezcDocumentRstNode::MARKUP_SUBSTITUTION ) )
         {
             /* DEBUG
             echo "   - Scan literal for embedded URI.\n";

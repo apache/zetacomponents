@@ -3,6 +3,7 @@
 
 - Fixed parsing of lists inside simple table cells
 - Implemented #14075: Text roles support for RST
+- Implemented #14403: Add support for replace-"directive".
 
 1.1.1 - Monday 09 February 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -2887,27 +2887,46 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'identifier' => NULL,
             )),
             1 => 
-            ezcDocumentRstMarkupSubstitutionNode::__set_state(array(
-               'openTag' => false,
+            ezcDocumentRstAnonymousLinkNode::__set_state(array(
+               'target' => false,
                'line' => 57,
-               'position' => 10,
-               'type' => 34,
+               'position' => 11,
+               'type' => 40,
                'nodes' => 
               array (
                 0 => 
-                ezcDocumentRstTextLineNode::__set_state(array(
+                ezcDocumentRstMarkupSubstitutionNode::__set_state(array(
+                   'openTag' => false,
                    'line' => 57,
-                   'position' => 2,
-                   'type' => 4,
+                   'position' => 10,
+                   'type' => 34,
                    'nodes' => 
                   array (
+                    0 => 
+                    ezcDocumentRstTextLineNode::__set_state(array(
+                       'line' => 57,
+                       'position' => 2,
+                       'type' => 4,
+                       'nodes' => 
+                      array (
+                      ),
+                       'token' => 
+                      ezcDocumentRstToken::__set_state(array(
+                         'type' => 5,
+                         'content' => 'j2ee-cas',
+                         'line' => 57,
+                         'position' => 2,
+                         'escaped' => false,
+                      )),
+                       'identifier' => NULL,
+                    )),
                   ),
                    'token' => 
                   ezcDocumentRstToken::__set_state(array(
-                     'type' => 5,
-                     'content' => 'j2ee-cas',
+                     'type' => 4,
+                     'content' => '|',
                      'line' => 57,
-                     'position' => 2,
+                     'position' => 10,
                      'escaped' => false,
                   )),
                    'identifier' => NULL,
@@ -2916,9 +2935,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 4,
-                 'content' => '|',
+                 'content' => '__',
                  'line' => 57,
-                 'position' => 10,
+                 'position' => 11,
                  'escaped' => false,
               )),
                'identifier' => NULL,
@@ -2926,7 +2945,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             2 => 
             ezcDocumentRstTextLineNode::__set_state(array(
                'line' => 57,
-               'position' => 11,
+               'position' => 13,
                'type' => 4,
                'nodes' => 
               array (
@@ -2934,9 +2953,9 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                'token' => 
               ezcDocumentRstToken::__set_state(array(
                  'type' => 4,
-                 'content' => '__.',
+                 'content' => '.',
                  'line' => 57,
-                 'position' => 11,
+                 'position' => 13,
                  'escaped' => false,
               )),
                'identifier' => NULL,
