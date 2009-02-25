@@ -136,6 +136,9 @@ abstract class ezcGraphChart
                 $this->elements[$propertyName]->title = $propertyValue;
                 $this->renderElement[$propertyName] = true;
                 break;
+            case 'background':
+                $this->elements[$propertyName]->color = $propertyValue;
+                break;
             case 'legend':
                 if ( !is_bool( $propertyValue ) )
                 {

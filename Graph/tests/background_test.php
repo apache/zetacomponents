@@ -101,11 +101,11 @@ class ezcGraphBackgroundTest extends ezcGraphTestCase
     public function testSetOptionsBorderLineChart()
     {
         $lineChart = new ezcGraphLineChart();
-        $lineChart->background->border = '#FF0000';
+        $lineChart->background = '#FF0000';
 
         $this->assertEquals( 
             ezcGraphColor::fromHex( 'FF0000' ),
-            $lineChart->background->border
+            $lineChart->background->color
         );
     }
 
@@ -353,5 +353,50 @@ class ezcGraphBackgroundTest extends ezcGraphTestCase
         );
     }
 
+    public function testRenderPieChartBackgroundColorShortcut()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphPieChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->background = '#2e3436';
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
+    public function testRenderLineChartBackgroundColorShortcut()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array(
+            'Mozilla' => 4375,
+            'IE' => 345,
+            'Opera' => 1204,
+            'wget' => 231,
+            'Safari' => 987,
+        ) );
+
+        $chart->background = '#2e3436';
+
+        $chart->render( 500, 200, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
 }
 ?>
