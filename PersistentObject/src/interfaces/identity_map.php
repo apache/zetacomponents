@@ -82,7 +82,7 @@ interface ezcPersistentIdentityMap
      *         if an object in $relatedObjects is not of $relatedClass.
      *
     */
-    public function setRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass );
+    public function setRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName = null );
 
     /**
      * Stores a named set of $relatedObjects to $sourceObject.
@@ -123,8 +123,9 @@ interface ezcPersistentIdentityMap
      *
      * @param ezcPersistentObject $sourceObject 
      * @param ezcPersistentObject $relatedObject 
+     * @param string $relationName
      */
-    public function addRelatedObject( $sourceObject, $relatedObject );
+    public function addRelatedObject( $sourceObject, $relatedObject, $relationName = null );
 
     /**
      * Removes a $relatedObject from the relation set of $sourceObject.
@@ -137,8 +138,9 @@ interface ezcPersistentIdentityMap
      * 
      * @param ezcPersistentObject $sourceObject 
      * @param ezcPersistentObject $relatedObject 
+     * @param string $relationName
      */
-    public function removeRelatedObject( $sourceObject, $relatedObject );
+    public function removeRelatedObject( $sourceObject, $relatedObject, $relationName = null );
 
     /**
      * Returns the set of related objects of $relatedClass for $sourceObject.

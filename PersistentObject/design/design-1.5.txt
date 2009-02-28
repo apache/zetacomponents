@@ -406,7 +406,7 @@ interface:
   the object from all related object sets and named related object sets it is
   referenced in.
 
-- setRelatedObjects( object $sourceObject, array $relatedObjects, string $relatedClass )
+- setRelatedObjects( object $sourceObject, array $relatedObjects, string $relatedClass, $relationName = null )
 
   Sets $relatedObjects for $sourceObject of class $relatedClass. The objects in
   $relatedObjects must all be of $relatedClass, otherwise an exception will be
@@ -429,7 +429,7 @@ interface:
   setRelatedObjectSet(), since during the addition to the identity map, already
   existsing identities are replaced into the related object set.
 
-- addRelatedObject( object $sourceObject, object $relatedObject )
+- addRelatedObject( object $sourceObject, object $relatedObject, $relationName = null )
 
   Appends a related object to an existing cached relation. Used in
   ezcPersistentIdentitySession->addRelatedObject().
@@ -444,7 +444,7 @@ interface:
   ezcPersistentIdentitySession->removeRelatedObject(). If the relation
   resultset is not cached, yet, the call is ignored.
 
-- getRelatedObjects( object $sourceObject, string $class )
+- getRelatedObjects( object $sourceObject, string $class, $relationName = null )
 
   Returns an array of objects of type $class related to $sourceObject. This can
   also be an empty array, if the last lookup in the database resulted in such.
