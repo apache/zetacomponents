@@ -383,6 +383,9 @@ The following 2 areas of identity mapping will be handled:
 Interface
 ---------
 
+.. todo:: Add support for named relations (multiple relations to the same
+          class!)
+
 The following methods will be provided by the ezcPersistentIdentityMap
 interface:
 
