@@ -1019,7 +1019,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         $newRelatedObject->id = 3;
         
         $idMap->setIdentity( $newRelatedObject );
-        $idMap->addRelatedObject( $obj, $newRelatedObject, 'RelationTestAddress' );
+        $idMap->addRelatedObject( $obj, $newRelatedObject );
 
         $identities = $this->readAttribute(
             $idMap, 'identities'
@@ -1347,7 +1347,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         $newRelatedObject->id = 3;
         
         $idMap->setIdentity( $newRelatedObject );
-        $idMap->addRelatedObject( $obj, $newRelatedObject, 'RelationTestAddress' );
+        $idMap->addRelatedObject( $obj, $newRelatedObject );
 
         $identities = $this->readAttribute(
             $idMap, 'identities'
@@ -1407,7 +1407,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
 
         try
         {
-            $idMap->addRelatedObject( $obj, $newRelatedObject, 'RelationTestAddress' );
+            $idMap->addRelatedObject( $obj, $newRelatedObject );
             $this->fail( 'Exception not thrown on double add of same new related object.' );
         }
         catch( ezcPersistentIdentityRelatedObjectsAlreadyExistException $e ) {}
