@@ -414,12 +414,20 @@ interface:
   overwritten. The object using the identity map must take care about checking
   if the related objects were already recorded.
 
+  The using object *must* call getRelatedObjects() after using
+  setRelatedObjects(), since during the addition to the identity map, already
+  existsing identities are replaced into the related object set.
+
 - setRelatedObjectSet( object $sourceObject, array $relatedObjects, string $setName )
 
   Creates a named set of $relatedObjects for $sourceObject named $setName. If a
   set of $relatedObjects with $setName already exists, it will be overwritten.
   The object using the identity map must take care about checking if the
   related objects were already recorded.
+
+  The using object *must* call getRelatedObjectSet() after using
+  setRelatedObjectSet(), since during the addition to the identity map, already
+  existsing identities are replaced into the related object set.
 
 - addRelatedObject( object $sourceObject, object $relatedObject )
 
