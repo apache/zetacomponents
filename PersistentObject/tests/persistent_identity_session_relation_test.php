@@ -190,7 +190,7 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
 
         $this->idSession->addRelatedObject( $person, $newRelAddress );
 
-        $addressesAfter = $this->getRelatedObjects( $person, 'RelationTestAddress' );
+        $addressesAfter = $this->idSession->getRelatedObjects( $person, 'RelationTestAddress' );
 
         foreach ( $addressesBefore as $id => $relAddress )
         {
