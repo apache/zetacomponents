@@ -787,7 +787,7 @@ class ezcPersistentIdentitySession
      */
     public function generateAliasMap( ezcPersistentObjectDefinition $def, $prefixTableName = true )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        return $this->session->generateAliasMap( $def, $prefixTableName );
     }
 
     /**
@@ -802,42 +802,7 @@ class ezcPersistentIdentitySession
      */
     public function getColumnsFromDefinition( ezcPersistentObjectDefinition $def, $prefixTableName = true )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
-    }
-
-    /**
-     * Returns the object state.
-     *
-     * This method wraps around $object->getState() to add optional sanity
-     * checks to this call, like a correct return type of getState() and
-     * correct keys and values in the returned array.
-     * 
-     * @param object $object 
-     * @return array
-     *
-     * @access private
-     */
-    public function getObjectState( $object )
-    {
-        throw new RuntimeException( 'Not implemented, yet.' );
-    }
-
-    /**
-     * Performs the given query.
-     *
-     * Performs the $query, checks for errors and throws an exception in case.
-     * Returns the generated statement object on success. If the $transaction
-     * parameter is set to true, the query is excuted transaction save.
-     * 
-     * @param ezcQuery $q 
-     * @param bool $transaction
-     * @return PDOStatement
-     *
-     * @access private
-     */
-    public function performQuery( ezcQuery $q, $transaction = false )
-    {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        return $this->session->getColumnsFromDefinition( $def, $prefixTableName );
     }
 
     /**

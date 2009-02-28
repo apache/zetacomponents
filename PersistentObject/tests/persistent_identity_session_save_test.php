@@ -16,7 +16,7 @@ require_once 'persistent_identity_session_test.php';
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentSessionSaveTest extends ezcPersistentIdentitySessionTest
+class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionTest
 {
     public static function suite()
     {

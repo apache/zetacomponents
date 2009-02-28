@@ -21,6 +21,12 @@ require_once 'persistent_session_load_test.php';
 require_once 'persistent_session_misc_test.php';
 require_once 'persistent_session_save_test.php';
 
+require_once 'persistent_identity_session_delete_test.php';
+require_once 'persistent_identity_session_find_test.php';
+require_once 'persistent_identity_session_load_test.php';
+require_once 'persistent_identity_session_save_test.php';
+require_once 'persistent_identity_session_relation_test.php';
+
 require_once 'find_iterator_test.php';
 require_once 'manual_generator_test.php';
 require_once 'native_generator_test.php';
@@ -46,6 +52,8 @@ require_once 'instance_delayed_init_test.php';
 
 require_once 'find_query_test.php';
 
+require_once 'basic_identity_map_test.php';
+
 /**
  * @package PersistentObject
  * @subpackage Tests
@@ -65,6 +73,11 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentSessionLoadTest::suite() );
         $this->addTest( ezcPersistentSessionMiscTest::suite() );
         $this->addTest( ezcPersistentSessionSaveTest::suite() );
+        $this->addTest( ezcPersistentIdentitySessionDeleteTest::suite() );
+        $this->addTest( ezcPersistentIdentitySessionFindTest::suite() );
+        $this->addTest( ezcPersistentIdentitySessionLoadTest::suite() );
+        $this->addTest( ezcPersistentIdentitySessionSaveTest::suite() );
+        $this->addTest( ezcPersistentIdentitySessionRelationTest::suite() );
         $this->addTest( ezcPersistentFindIteratorTest::suite() );
         $this->addTest( ezcPersistentManualGeneratorTest::suite() );
         $this->addTest( ezcPersistentNativeGeneratorTest::suite() );
@@ -86,6 +99,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentObjectTest::suite() );
         $this->addTest( ezcPersistentObjectInstanceDelayedInitTest::suite() );
         $this->addTest( ezcPersistentFindQueryTest::suite() );
+        $this->addTest( ezcPersistentBasicIdentityMapTest::suite() );
     }
 
     public static function suite()
