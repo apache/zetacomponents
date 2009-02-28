@@ -10,6 +10,7 @@
 require_once 'data/relation_test_person.php';
 require_once 'data/relation_test_address.php';
 require_once 'data/relation_test_employer.php';
+require_once 'data/multi_relation_test_person.php';
 
 /**
  * Tests the ezcPersistentBasicIdentityMap class.
@@ -563,6 +564,71 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
+    public function testSetRelatedObjectsWithRelationNameNotExistsSuccess()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new MultiRelationTestPerson();
+        $obj->id = 23;
+        
+        $relatedObjects = new ArrayObject();
+        $relatedObjects[42] = new MultiRelationTestPerson();
+        $relatedObjects[42]->id = 42;
+        $relatedObjects[65] = new MultiRelationTestPerson();
+        $relatedObjects[65]->id = 65;
+
+        $idMap->setIdentity( $obj );
+        $idMap->setIdentity( $relatedObjects[42] );
+        $idMap->setIdentity( $relatedObjects[65] );
+
+        $idMap->setRelatedObjects(
+            $obj,
+            $relatedObjects->getArrayCopy(),
+            'MultiRelationTestPerson',
+            'fathers_children'
+        );
+
+        $identities = $this->readAttribute(
+            $idMap, 'identities'
+        );
+
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][42]->references ) );
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][65]->references ) );
+
+        $this->assertEquals(
+            array(
+                'MultiRelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array( 'MultiRelationTestPerson__fathers_children' => $relatedObjects )
+                    ),
+                    42 => new ezcPersistentIdentity(
+                        $relatedObjects[42],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][42]->references
+                    ),
+                    65 => new ezcPersistentIdentity(
+                        $relatedObjects[65],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][65]->references
+                    ),
+                ),
+            ),
+            $identities
+        );
+
+        $this->assertEquals(
+            1, count( $identities['MultiRelationTestPerson'][42]->references )
+        );
+        $this->assertEquals(
+            1, count( $identities['MultiRelationTestPerson'][65]->references )
+        );
+    }
+
     public function testSetRelatedObjectsWithNameNotExsistsSuccess()
     {
         $idMap = new ezcPersistentBasicIdentityMap(
@@ -1078,6 +1144,135 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
+    public function testAddRelatedObjectWithRelationNameToExistingSetSuccess()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new MultiRelationTestPerson();
+        $obj->id = 23;
+        
+        $relatedObjects = array();
+        $relatedObjects[42] = new MultiRelationTestPerson();
+        $relatedObjects[42]->id = 42;
+        $relatedObjects[65] = new MultiRelationTestPerson();
+        $relatedObjects[65]->id = 65;
+
+        $idMap->setIdentity( $obj );
+        $idMap->setIdentity( $relatedObjects[42] );
+        $idMap->setIdentity( $relatedObjects[65] );
+
+        $idMap->setRelatedObjects(
+            $obj,
+            $relatedObjects,
+            'MultiRelationTestPerson',
+            'mothers_children'
+        );
+
+        $identities = $this->readAttribute(
+            $idMap, 'identities'
+        );
+
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][42]->references ) );
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][65]->references ) );
+
+        $this->assertEquals(
+            array(
+                'MultiRelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array( 'MultiRelationTestPerson__mothers_children' => new ArrayObject( $relatedObjects ) )
+                    ),
+                    42 => new ezcPersistentIdentity(
+                        $relatedObjects[42],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][42]->references
+                    ),
+                    65 => new ezcPersistentIdentity(
+                        $relatedObjects[65],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][65]->references
+                    ),
+                ),
+            ),
+            $identities
+        );
+
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][42]->references ),
+            'Rel count of valid object incorrect,'
+        );
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][65]->references ),
+            'Rel count of valid object incorrect,'
+        );
+
+        $newRelatedObject     = new MultiRelationTestPerson();
+        $newRelatedObject->id = 3;
+        
+        $idMap->setIdentity( $newRelatedObject );
+        $idMap->addRelatedObject( $obj, $newRelatedObject, 'mothers_children' );
+
+        $identities = $this->readAttribute(
+            $idMap, 'identities'
+        );
+
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][42]->references ) );
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][65]->references ) );
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][3]->references ) );
+
+        $this->assertEquals(
+            array(
+                'MultiRelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array( 'MultiRelationTestPerson__mothers_children' => new ArrayObject( $relatedObjects + array( 3 => $newRelatedObject ) ) )
+                    ),
+                    42 => new ezcPersistentIdentity(
+                        $relatedObjects[42],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][42]->references
+                    ),
+                    65 => new ezcPersistentIdentity(
+                        $relatedObjects[65],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][65]->references
+                    ),
+                    3  => new ezcPersistentIdentity(
+                        $newRelatedObject,
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][3]->references
+                    ),
+                ),
+            ),
+            $identities
+        );
+
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][42]->references ),
+            'Rel count of valid object incorrect,'
+        );
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][65]->references ),
+            'Rel count of valid object incorrect,'
+        );
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][3]->references ),
+            'Rel count of valid object incorrect,'
+        );
+    }
+
     public function testAddRelatedObjectIgnoredEmptySetSuccess()
     {
         $idMap = new ezcPersistentBasicIdentityMap(
@@ -1589,6 +1784,123 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
+    public function testRemoveRelatedObjectNamedRelationSingleSetSuccess()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new MultiRelationTestPerson();
+        $obj->id = 23;
+        
+        $relatedObjects = array();
+        $relatedObjects[42] = new MultiRelationTestPerson();
+        $relatedObjects[42]->id = 42;
+        $relatedObjects[65] = new MultiRelationTestPerson();
+        $relatedObjects[65]->id = 65;
+
+        $idMap->setIdentity( $obj );
+        $idMap->setIdentity( $relatedObjects[42] );
+        $idMap->setIdentity( $relatedObjects[65] );
+
+        $idMap->setRelatedObjects(
+            $obj,
+            $relatedObjects,
+            'MultiRelationTestPerson',
+            'fathers_children'
+        );
+        
+        $identities = $this->readAttribute(
+            $idMap, 'identities'
+        );
+
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][42]->references ) );
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][65]->references ) );
+
+        $this->assertEquals(
+            array(
+                'MultiRelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array( 'MultiRelationTestPerson__fathers_children' => new ArrayObject( $relatedObjects ) )
+                    ),
+                    42 => new ezcPersistentIdentity(
+                        $relatedObjects[42],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][42]->references
+                    ),
+                    65 => new ezcPersistentIdentity(
+                        $relatedObjects[65],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][65]->references
+                    ),
+                ),
+            ),
+            $identities
+        );
+
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][42]->references ),
+            'Rel count of valid object incorrect,'
+        );
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][65]->references ),
+            'Rel count of valid object incorrect,'
+        );
+
+        $idMap->removeRelatedObject( $obj, $relatedObjects[42], 'fathers_children' );
+        
+        $identities = $this->readAttribute(
+            $idMap, 'identities'
+        );
+
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][42]->references ) );
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][65]->references ) );
+
+        $this->assertEquals(
+            array(
+                'MultiRelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array(
+                            'MultiRelationTestPerson__fathers_children' => new ArrayObject( array(
+                                65 => $relatedObjects[65],
+                            ) )
+                        )
+                    ),
+                    42 => new ezcPersistentIdentity(
+                        $relatedObjects[42],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][42]->references
+                    ),
+                    65 => new ezcPersistentIdentity(
+                        $relatedObjects[65],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][65]->references
+                    ),
+                ),
+            ),
+            $identities
+        );
+
+        $this->assertEquals(
+            0,
+            count( $identities['MultiRelationTestPerson'][42]->references ),
+            'Rel count of valid object incorrect,'
+        );
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][65]->references ),
+            'Rel count of valid object incorrect,'
+        );
+    }
+
     public function testRemoveRelatedObjectMultipleSetsSuccess()
     {
         $idMap = new ezcPersistentBasicIdentityMap(
@@ -1712,6 +2024,123 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
+    public function testRemoveRelatedObjectRelationNameMultipleSetsSuccess()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new MultiRelationTestPerson();
+        $obj->id = 23;
+        
+        $relatedObjects = array();
+        $relatedObjects[42] = new MultiRelationTestPerson();
+        $relatedObjects[42]->id = 42;
+        $relatedObjects[65] = new MultiRelationTestPerson();
+        $relatedObjects[65]->id = 65;
+
+        $idMap->setIdentity( $obj );
+        $idMap->setIdentity( $relatedObjects[42] );
+        $idMap->setIdentity( $relatedObjects[65] );
+
+        $idMap->setRelatedObjects( $obj, $relatedObjects, 'MultiRelationTestPerson', 'mothers_children' );
+        $idMap->setRelatedObjects( $obj, $relatedObjects, 'MultiRelationTestPerson', 'fathers_children' );
+
+        $identities = $this->readAttribute(
+            $idMap, 'identities'
+        );
+
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][42]->references ) );
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][65]->references ) );
+        
+        $this->assertEquals(
+            array(
+                'MultiRelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array(
+                            'MultiRelationTestPerson__mothers_children' => new ArrayObject( $relatedObjects ),
+                            'MultiRelationTestPerson__fathers_children' => new ArrayObject( $relatedObjects ),
+                        )
+                    ),
+                    42 => new ezcPersistentIdentity(
+                        $relatedObjects[42],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][42]->references
+                    ),
+                    65 => new ezcPersistentIdentity(
+                        $relatedObjects[65],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][65]->references
+                    ),
+                ),
+            ),
+            $identities
+        );
+
+        $this->assertEquals(
+            2,
+            count( $identities['MultiRelationTestPerson'][42]->references ),
+            'Rel count of valid object incorrect,'
+        );
+        $this->assertEquals(
+            2,
+            count( $identities['MultiRelationTestPerson'][65]->references ),
+            'Rel count of valid object incorrect,'
+        );
+
+        $idMap->removeRelatedObject( $obj, $relatedObjects[42], 'fathers_children' );
+
+        $identities = $this->readAttribute(
+            $idMap, 'identities'
+        );
+
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][42]->references ) );
+        $this->assertTrue( isset( $identities['MultiRelationTestPerson'][65]->references ) );
+
+        $this->assertEquals(
+            array(
+                'MultiRelationTestPerson' => array(
+                    23 => new ezcPersistentIdentity(
+                        $obj,
+                        array(
+                            'MultiRelationTestPerson__fathers_children' => new ArrayObject( array(
+                                65 => $relatedObjects[65],
+                            ) ),
+                            'MultiRelationTestPerson__mothers_children' => new ArrayObject( $relatedObjects ),
+                        )
+                    ),
+                    42 => new ezcPersistentIdentity(
+                        $relatedObjects[42],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][42]->references
+                    ),
+                    65 => new ezcPersistentIdentity(
+                        $relatedObjects[65],
+                        array(),
+                        array(),
+                        $identities['MultiRelationTestPerson'][65]->references
+                    ),
+                ),
+            ),
+            $identities
+        );
+
+        $this->assertEquals(
+            1,
+            count( $identities['MultiRelationTestPerson'][42]->references ),
+            'Rel count of valid object incorrect,'
+        );
+        $this->assertEquals(
+            2,
+            count( $identities['MultiRelationTestPerson'][65]->references ),
+            'Rel count of valid object incorrect,'
+        );
+    }
+
     public function testRemoveRelatedObjectNotExistsSuccess()
     {
         $idMap = new ezcPersistentBasicIdentityMap(
@@ -1783,6 +2212,49 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
             $idMap->getRelatedObjects( $obj, 'RelationTestAddress' )
         );
     }
+
+    public function testGetRelatedObjectsRelationNameSuccess()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new MultiRelationTestPerson();
+        $obj->id = 23;
+
+        $relatedObjects = array();
+        $relatedObjects[42] = new MultiRelationTestPerson();
+        $relatedObjects[42]->id = 42;
+        $relatedObjects[65] = new MultiRelationTestPerson();
+        $relatedObjects[65]->id = 65;
+
+        $idMap->setIdentity( $obj );
+        $idMap->setIdentity( $relatedObjects[42] );
+        $idMap->setIdentity( $relatedObjects[65] );
+
+        $idMap->setRelatedObjects(
+            $obj,
+            $relatedObjects,
+            'MultiRelationTestPerson',
+            'mothers_children'
+        );
+        $idMap->setRelatedObjects(
+            $obj,
+            array(),
+            'MultiRelationTestPerson',
+            'fathers_children'
+        );
+
+        $this->assertEquals(
+            $relatedObjects,
+            $idMap->getRelatedObjects( $obj, 'MultiRelationTestPerson', 'mothers_children' )
+        );
+        $this->assertEquals(
+            array(),
+            $idMap->getRelatedObjects( $obj, 'MultiRelationTestPerson', 'fathers_children' )
+        );
+    }
+
 
     public function testGetRelatedObjectsNamedSuccess()
     {

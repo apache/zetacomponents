@@ -470,7 +470,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
         if ( isset( $srcIdentity->relatedObjects[$relationStoreName] ) )
         {
-            unset( $srcIdentity->relatedObjects[$relClass][$relId] );
+            unset( $srcIdentity->relatedObjects[$relationStoreName][$relId] );
             $relIdentity->references->detach( $srcIdentity->relatedObjects[$relationStoreName] );
         }
 
@@ -526,10 +526,10 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
         $identity = $this->identities[$srcClass][$srcId];
 
-        if ( isset( $identity->relatedObjects[$relatedClass] ) )
+        if ( isset( $identity->relatedObjects[$relationStoreName] ) )
         {
             // Return a real array here, not the ArrayObject stored
-            return $identity->relatedObjects[$relatedClass]->getArrayCopy();
+            return $identity->relatedObjects[$relationStoreName]->getArrayCopy();
         }
         return null;
     }
