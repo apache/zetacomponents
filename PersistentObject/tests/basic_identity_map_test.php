@@ -693,7 +693,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
-    public function testSetRelatedObjectsMissingIdentityFailure()
+    public function testSetRelatedObjectsMissingIdentitySuccess()
     {
         $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
@@ -711,27 +711,43 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         $idMap->setIdentity( $obj );
         $idMap->setIdentity( $relatedObjects[42] );
 
-        try
-        {
-            $idMap->setRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress' );
-            $this->fail( 'Exception not thrown on add of related objects where an identity is missing.' );
-        }
-        catch ( ezcPersistentIdentityMissingException $e ) {}
+        $idMap->setRelatedObjects( $obj, $relatedObjects, 'RelationTestAddress' );
 
         $identities = $this->readAttribute(
             $idMap, 'identities'
         );
 
+        $this->assertTrue( isset( $identities['RelationTestAddress'][42]->references ) );
+        $this->assertTrue( isset( $identities['RelationTestAddress'][65]->references ) );
+
         $this->assertEquals(
             array(
                 'RelationTestPerson' => array(
-                    23 => new ezcPersistentIdentity( $obj )
+                    23 => new ezcPersistentIdentity( $obj, array( 'RelationTestAddress' => new ArrayObject( $relatedObjects ) ) )
                 ),
                 'RelationTestAddress' => array(
-                    42 => new ezcPersistentIdentity( $relatedObjects[42] ),
+                    42 => new ezcPersistentIdentity(
+                        $relatedObjects[42],
+                        array(),
+                        array(),
+                        $identities['RelationTestAddress'][42]->references
+                    ),
+                    65 => new ezcPersistentIdentity(
+                        $relatedObjects[65],
+                        array(),
+                        array(),
+                        $identities['RelationTestAddress'][65]->references
+                    ),
                 ),
             ),
             $identities
+        );
+
+        $this->assertEquals(
+            1, count( $identities['RelationTestAddress'][42]->references )
+        );
+        $this->assertEquals(
+            1, count( $identities['RelationTestAddress'][65]->references )
         );
     }
 

@@ -156,21 +156,21 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      *
      * In case a set of related objects has already been recorded for
      * $sourceObject and the class of the objects in $relatedObjects (and
-     * optionally $relationName), an exception is thrown.
+     * optionally $relationName), this set of related objects is silently
+     * replaced..
      *
      * If $relatedObjects are to be added, for which no identity has been
-     * recorded, yet, an exception is thrown.
+     * recorded, yet, an identity is automatically recorded. If an identity
+     * already exists, the identity is used instead of the submited object.
+     * 
+     * NOTE: Therefore the using object MUST call {@link getRelatedObjects()}
+     * after this method was used.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relatedClass 
      * @param string $relationName 
      *
-     * @throws ezcPersistentIdentityRelatedObjectsAlreadyExistException
-     *         if the set of related objects already exists.
-     * @throws ezcPersistentIdentityMissingException
-     *         if no identity exists for $sourceObject or an object in
-     *         $relatedObjects.
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
      *
@@ -224,14 +224,16 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             $relState = $relObj->getState();
             $relId    = $relState[$relDef->idProperty->propertyName];
 
+            // Check and replace identities
             if ( !isset( $this->identities[$relatedClass][$relId] ) )
             {
-                // Cleanup already set references before bailing out
-                $this->removeReferences( $relStore );
-                throw new ezcPersistentIdentityMissingException(
-                    $relatedClass,
-                    $relId
+                $this->identities[$relatedClass][$relId] = new ezcPersistentIdentity(
+                    $relObj
                 );
+            }
+            else
+            {
+                $relObj = $this->identities[$relatedClass][$relId]->object;
             }
 
             $relStore[$relId] = $relObj;
@@ -253,17 +255,16 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * $sourceObject with $setName, this set is silently overwritten.
      *
      * If $relatedObjects are to be added, for which no identity has been
-     * recorded, yet, an exception is thrown.
+     * recorded, yet, an identity is automatically recorded. If an identity
+     * already exists, the identity is used instead of the submited object.
+     * 
+     * NOTE: Therefore the using object MUST call {@link getRelatedObjectSet()}
+     * after this method was used.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $setName 
      *
-     * @throws ezcPersistentIdentityRelatedObjectsAlreadyExistException
-     *         if the set of related objects already exists.
-     * @throws ezcPersistentIdentityMissingException
-     *         if no identity exists for $sourceObject or an object in
-     *         $relatedObjects.
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
      *
@@ -307,15 +308,18 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             $relState = $relObj->getState();
             $relId    = $relState[$relDefs[$relClass]->idProperty->propertyName];
 
+            // Check and replace identities
             if ( !isset( $this->identities[$relClass][$relId] ) )
             {
-                // Cleanup already set references before bailing out
-                $this->removeReferences( $relStore );
-                throw new ezcPersistentIdentityMissingException(
-                    $relatedClass,
-                    $relState[$relDef->idProperty->propertyName]
+                $this->identities[$relClass][$relId] = new ezcPersistentIdentity(
+                    $relObj
                 );
             }
+            else
+            {
+                $relObj = $this->identities[$relClass][$relId]->object;
+            }
+
             $relStore[$relId] = $relObj;
 
             // Store reference
