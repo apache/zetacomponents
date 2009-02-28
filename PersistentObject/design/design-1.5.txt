@@ -438,7 +438,7 @@ interface:
   call is ignored. This results in a newly fetch of the relation when
   getRelatedObjects() is called.
 
-- removeRelatedObject( object $sourceObject, object $relatedObject )
+- removeRelatedObject( object $sourceObject, object $relatedObject, $relationName = null )
 
   Removes a related object from the relation cache. Used in
   ezcPersistentIdentitySession->removeRelatedObject(). If the relation

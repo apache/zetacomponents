@@ -151,8 +151,9 @@ interface ezcPersistentIdentityMap
      * 
      * @param ezcPersistentObject $sourceObject 
      * @param string $relatedClass 
+     * @param string $relationName
      */
-    public function getRelatedObjects( $sourceObject, $relatedClass );
+    public function getRelatedObjects( $sourceObject, $relatedClass, $relationName = null );
 
     /**
      * Returns a named set of related objects for $sourceObject.
