@@ -78,7 +78,7 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
             "Related RelationTestPerson objects not fetched correctly."
         );
 
-        $related2 = $this->getRelatedObjects( $person, "RelationTestEmployer" );
+        $related2 = $this->idSession->getRelatedObjects( $person, "RelationTestEmployer" );
 
         foreach ( $related1 as $id => $relObj )
         {
@@ -165,8 +165,19 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
         $addresses1 = $this->idSession->getRelatedObjects( $person1, 'RelationTestAddress' );
         $addresses2 = $this->idSession->getRelatedObjects( $person2, 'RelationTestAddress' );
 
-        $this->assertSame( $addresses1[0], $addresses2[0] );
-        $this->assertSame( $addresses1[2], $addresses2[2] );
+        $found = 0;
+        foreach ( $addresses1 as $id => $relAddr )
+        {
+            if ( isset( $addresses2[$id] ) )
+            {
+                ++$found;
+                $this->assertSame(
+                    $relAddr,
+                    $addresses2[$id]
+                );
+            }
+        }
+        $this->assertEquals( 2, $found );
     }
 
     public function testAddRelatedObjectReflectedInIdentityMap()
