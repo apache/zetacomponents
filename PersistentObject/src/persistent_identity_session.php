@@ -735,7 +735,8 @@ class ezcPersistentIdentitySession
      */
     public function removeRelatedObject( $object, $relatedObject, $relationName = null )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $this->session->removeRelatedObject( $object, $relatedObject, $relationName );
+        $this->identityMap->removeRelatedObject( $object, $relatedObject, $relationName );
     }
 
     /**

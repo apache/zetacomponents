@@ -197,6 +197,27 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
             $this->assertSame( $relAddress, $addressesAfter[$id] );
         }
     }
+
+    public function testRemoveRelatedObjectReflectedInIdentityMap()
+    {
+        $person = $this->idSession->load( 'RelationTestPerson', 1 );
+        $addressesBefore = $this->idSession->getRelatedObjects( $person, 'RelationTestAddress' );
+
+        reset( $addressesBefore );
+
+        $firstKey = key( $addressesBefore );
+        $firstObj = current( $addressesBefore );
+
+        $this->idSession->removeRelatedObject( $person, $firstObj );
+
+        $addressesAfter = $this->idSession->getRelatedObjects( $person, 'RelationTestAddress' );
+
+        foreach ( $addressesAfter as $key => $obj )
+        {
+            $this->assertNotSame( $firstKey, $key );
+            $this->assertNotSame( $firstObj, $obj );
+        }
+    }
 }
 
 ?>
