@@ -386,10 +386,26 @@ class ezcPersistentIdentitySession
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
+     *
+     * @TODO Add support for $relationName!
      */
     public function getRelatedObjects( $object, $relatedClass, $relationName = null )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $relatedObjs = $this->identityMap->getRelatedObjects( $object, $relatedClass );
+        if ( $relatedObjs !== null )
+        {
+            return $relatedObjs;
+        }
+
+        $relatedObjs = $this->session->getRelatedObjects(
+            $object,
+            $relatedClass,
+            $relationName
+        );
+
+        $this->identityMap->setRelatedObjects( $object, $relatedObjs, $relatedClass );
+
+        return $this->identityMap->getRelatedObjects( $object, $relatedClass );
     }
 
     /**
@@ -434,10 +450,13 @@ class ezcPersistentIdentitySession
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
+     *
+     * @TODO Add support for $relationName!
      */
     public function getRelatedObject( $object, $relatedClass, $relationName = null )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $relObjs = $this->getRelatedObjects( $object, $relatedClass );
+        return reset( $relObjs );
     }
 
     /**
@@ -614,10 +633,13 @@ class ezcPersistentIdentitySession
      *         ezcPersistentRelation->reverse}.
      * @throws ezcPersistentRelationNotFoundException
      *         if the deisred relation is not defined.
+     *
+     * @TODO Add support for $relationName!
      */
     public function addRelatedObject( $object, $relatedObject, $relationName = null )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $this->session->addRelatedObject( $object, $relatedObject, $relationName );
+        $this->identityMap->addRelatedObject( $object, $relatedObject );
     }
 
     /**
