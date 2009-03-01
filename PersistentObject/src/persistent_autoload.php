@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the PersistentObject component.
  *
- * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -62,6 +62,7 @@ return array(
     'ezcPersistentOneToOneRelation'                            => 'PersistentObject/relations/one_to_one.php',
     'ezcPersistentPropertyDateTimeConverter'                   => 'PersistentObject/object/property_converters/date.php',
     'ezcPersistentRelationCollection'                          => 'PersistentObject/object/relation_collection.php',
+    'ezcPersistentRelationFindDefinition'                      => 'PersistentObject/structs/relation_find_definition.php',
     'ezcPersistentSaveHandler'                                 => 'PersistentObject/handlers/save_handler.php',
     'ezcPersistentSequenceGenerator'                           => 'PersistentObject/generators/sequence_generator.php',
     'ezcPersistentSession'                                     => 'PersistentObject/persistent_session.php',
