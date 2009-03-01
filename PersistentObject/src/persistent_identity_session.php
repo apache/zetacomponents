@@ -767,12 +767,30 @@ class ezcPersistentIdentitySession
      * @param string $class
      *
      * @return ezcQueryDelete
+     *
+     * @TODO: Throw exception.
      */
     public function createDeleteQuery( $class )
     {
         throw new RuntimeException( 'Not implemented, yet.' );
     }
 
+    /**
+     * Loads an object of $class with $id and related objects defined by $relations.
+     *
+     * This method loads the object of $class identified by $id. In addition,
+     * all objects defined by $relations are loaded and fetched into the
+     * identity map. Those can then be retrieved using {@link
+     * getRelatedObjects()}, without issueing further database queries.
+     * 
+     * @param string $class 
+     * @param string $id 
+     * @param array(ezcPersistentRelationFindDefinition) $relations 
+     * @return object
+     */
+    public function loadWithRelatedObjects( $class, $id, array $relations )
+    {
+    }
 
     /**
      * Returns a hash map between property and column name for the given
