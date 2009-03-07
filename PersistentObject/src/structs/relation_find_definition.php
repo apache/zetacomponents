@@ -79,6 +79,7 @@ class ezcPersistentRelationFindDefinition extends ezcBaseStruct
      * property stores the table alias of ist mapping table.
      * 
      * @var string
+     * @access private
      */
     public $relationTableAlias;
 
