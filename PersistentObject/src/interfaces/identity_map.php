@@ -16,6 +16,11 @@
  * 
  * @package PersistentObject
  * @version //autogen//
+ *
+ * @TODO: After implementation of classes related to this interface is
+ *        finished, it needs to be evaluated which type of method is used more
+ *        often: Object ones or *WithId ones. The interface should be cleaned
+ *        up on that basis.
  */
 interface ezcPersistentIdentityMap
 {
@@ -37,10 +42,9 @@ interface ezcPersistentIdentityMap
      * this object, it is silently replaced. The using object must take care to
      * check for already recorded identity itself.
      * 
-     * @param mixed $object 
-     * @param mixed $class 
+     * @param ezcPersistentObject $object 
+     * @param string $class 
      * @param mixed $id 
-     * @return void
      */
     public function setIdentityWithId( $object, $class, $id );
 
