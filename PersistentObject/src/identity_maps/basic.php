@@ -248,6 +248,9 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
+     *
+     * @TODO This should return the related object set to avoid another call
+     *       to getRelatedObjects().
      */
     public function setRelatedObjectsWithId( $sourceClass, $sourceId, array $relatedObjects, $relatedClass, $relationName = null )
     {
