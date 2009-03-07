@@ -25,10 +25,20 @@ class ezcPersistentIdentityRelationQueryCreator
         $this->createAliases( $srcDef, $relations );
 
         // Select the desired object columns as main
-        $q->select( $srcDef->idProperty->columnName );
+        $q->select(
+            $q->alias(
+                $this->getColumnName( $srcDef->table, $srcDef->idProperty->columnName ),
+                $srcDef->idProperty->columnName
+            )
+        );
         foreach ( $srcDef->properties as $property )
         {
-            $q->select( $property->columnName );
+            $q->select(
+                $q->alias(
+                    $this->getColumnName( $srcDef->table, $property->columnName ),
+                    $property->columnName
+                )
+            );
         }
         
         $this->createSelects( $q, $relations );
@@ -38,7 +48,13 @@ class ezcPersistentIdentityRelationQueryCreator
         $this->createJoins( $q, $srcDef->table, $relations );
 
         $q->where(
-            $q->expr->eq( $srcDef->idProperty->columnName, $q->bindValue( $id )  )
+            $q->expr->eq(
+                $this->getColumnName(
+                    $srcDef->table,
+                    $srcDef->idProperty->columnName
+                ),
+                $q->bindValue( $id )
+            )
         );
     }
 
@@ -138,6 +154,18 @@ class ezcPersistentIdentityRelationQueryCreator
     {
         foreach ( $relations as $relation )
         {
+            $q->select(
+                $q->alias(
+                    $this->getColumnName(
+                        $relation->tableAlias,
+                        $relation->definition->idProperty->columnName
+                    ),
+                    $this->getColumnAlias(
+                        $relation->tableAlias,
+                        $relation->definition->idProperty->columnName
+                    )
+                )
+            );
             foreach ( $relation->definition->properties as $property )
             {
                 $q->select(
