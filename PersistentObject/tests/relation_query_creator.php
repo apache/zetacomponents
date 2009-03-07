@@ -18,7 +18,7 @@ require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentRelationQueryCreatorTest extends ezcTestCase
+class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcTestCase
 {
     protected $def;
 
