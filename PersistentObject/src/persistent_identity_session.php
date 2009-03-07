@@ -80,7 +80,7 @@ class ezcPersistentIdentitySession
         }
 
         $identity = $this->session->load( $class, $id );
-        $idMap->setIdentity( $identity );
+        $idMap->setIdentityWithId( $identity, $class, $id );
         
         return $identity;
     }
@@ -113,7 +113,7 @@ class ezcPersistentIdentitySession
 
         if ( $identity !== null )
         {
-            $idMap->setIdentity( $identity );
+            $idMap->setIdentityWithId( $identity, $class, $id );
         }
         
         return $identity;
@@ -156,7 +156,7 @@ class ezcPersistentIdentitySession
 
         $this->session->loadIntoObject( $object, $id );
 
-        $idMap->setIdentity( $object );
+        $idMap->setIdentityWithId( $object, $class, $id );
     }
 
     /**
@@ -238,7 +238,7 @@ class ezcPersistentIdentitySession
 
         $defs = array();
 
-        foreach ( $objects as $id => $object )
+        foreach ( $objects as $i => $object )
         {
             $class = get_class( $object );
 
@@ -250,19 +250,24 @@ class ezcPersistentIdentitySession
             }
 
             $state = $object->getState();
+            $id    = $state[$defs[$class]->idProperty->propertyName];
             
             $identity = $this->properties['identityMap']->getIdentity(
                 $class,
-                $state[$defs[$class]->idProperty->propertyName]
+                $id
             );
 
             if ( $identity !== null )
             {
-                $objects[$id] = $identity;
+                $objects[$i] = $identity;
             }
             else
             {
-                $this->properties['identityMap']->setIdentity( $object );
+                $this->properties['identityMap']->setIdentityWithId(
+                    $object,
+                    $class,
+                    $id
+                );
             }
         }
 
@@ -387,11 +392,16 @@ class ezcPersistentIdentitySession
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      *
-     * @TODO Add support for $relationName!
+     * @TODO ezcPersistentIdentityMap->setRelatedObjects() should return the
+     *       object set to avoid the call to getRelatedObject().
      */
     public function getRelatedObjects( $object, $relatedClass, $relationName = null )
     {
-        $relatedObjs = $this->identityMap->getRelatedObjects( $object, $relatedClass );
+        $relatedObjs = $this->identityMap->getRelatedObjects(
+            $object,
+            $relatedClass,
+            $relationName
+        );
         if ( $relatedObjs !== null )
         {
             return $relatedObjs;
@@ -405,7 +415,7 @@ class ezcPersistentIdentitySession
 
         $this->identityMap->setRelatedObjects( $object, $relatedObjs, $relatedClass );
 
-        return $this->identityMap->getRelatedObjects( $object, $relatedClass );
+        return $this->identityMap->getRelatedObjects( $object, $relatedClass, $relationName );
     }
 
     /**
@@ -450,12 +460,14 @@ class ezcPersistentIdentitySession
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
-     *
-     * @TODO Add support for $relationName!
      */
     public function getRelatedObject( $object, $relatedClass, $relationName = null )
     {
-        $relObjs = $this->getRelatedObjects( $object, $relatedClass );
+        $relObjs = $this->getRelatedObjects(
+            $object,
+            $relatedClass,
+            $relationName
+        );
         return reset( $relObjs );
     }
 
@@ -548,7 +560,6 @@ class ezcPersistentIdentitySession
 
         $this->session->save( $object );
 
-        $id    = $state[$def->idProperty->propertyName];
         $this->identityMap->setIdentity( $object );
     }
 
@@ -601,7 +612,7 @@ class ezcPersistentIdentitySession
 
         if ( $this->identityMap->getIdentity( $class, $id ) === null )
         {
-            $this->identityMap->setIdentity( $object );
+            $this->identityMap->setIdentityWithId( $object, $class, $id );
         }
     }
 
