@@ -46,6 +46,7 @@ return array(
     'ezcPersistentIdentityFindIterator'                        => 'PersistentObject/identity_find_iterator.php',
     'ezcPersistentIdentityRelationQueryCreator'                => 'PersistentObject/identity_session/relation_query_creator.php',
     'ezcPersistentIdentitySession'                             => 'PersistentObject/persistent_identity_session.php',
+    'ezcPersistentIdentitySessionRelationObjectExtractor'      => 'PersistentObject/identity_session/relation_object_extractor.php',
     'ezcPersistentLoadHandler'                                 => 'PersistentObject/handlers/load_handler.php',
     'ezcPersistentManualGenerator'                             => 'PersistentObject/generators/manual_generator.php',
     'ezcPersistentManyToManyRelation'                          => 'PersistentObject/relations/many_to_many.php',
