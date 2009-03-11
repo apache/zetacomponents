@@ -44,9 +44,9 @@ Database Schema
 
     The "node_connection" table connects the nodes from the "node" table.
 
-  - Table "execution_data_handler"
+  - Table "variable_handler"
 
-    The "node_connection" stores the information about the execution data
+    The "variable_handler" table stores the information about the variable
     handlers of a workflow.
 
 - Workflow Execution
