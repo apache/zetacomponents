@@ -209,6 +209,21 @@ class ezcWorkflowDatabaseTieinExecutionTest extends ezcWorkflowDatabaseTieinTest
         $this->assertFalse( $execution->isSuspended() );
     }
 
+    public function testInvalidExecutionIdThrowsException()
+    {
+        try
+        {
+            $execution = new ezcWorkflowDatabaseExecution( $this->db, '1' );
+        }
+        catch ( ezcWorkflowExecutionException $e )
+        {
+            $this->assertEquals( '$executionId must be an integer.', $e->getMessage() );
+            return;
+        }
+
+        $this->fail( 'Expected an ezcWorkflowExecutionException to be thrown.' );
+    }
+
     public function testNotExistingExecutionThrowsException()
     {
         try
