@@ -193,21 +193,22 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
             $nodes[$node['node_id']]->setId( $node['node_id'] );
 
-            if ( $node['node_class'] == 'ezcWorkflowNodeStart' )
+            if ($nodes[$node['node_id']] instanceof ezcWorkflowNodeFinally &&
+                !isset( $finallyNode ) )
             {
-                $startNode = $nodes[$node['node_id']];
+                $finallyNode = $nodes[$node['node_id']];
             }
 
-            else if ( $node['node_class'] == 'ezcWorkflowNodeEnd' &&
-                      !isset( $defaultEndNode ) )
+            else if ($nodes[$node['node_id']] instanceof ezcWorkflowNodeEnd &&
+                     !isset( $defaultEndNode ) )
             {
                 $defaultEndNode = $nodes[$node['node_id']];
             }
 
-            else if ( $node['node_class'] == 'ezcWorkflowNodeFinally' &&
-                      !isset( $finallyNode ) )
+            else if ($nodes[$node['node_id']] instanceof ezcWorkflowNodeStart &&
+                     !isset( $startNode ) )
             {
-                $finallyNode = $nodes[$node['node_id']];
+               $startNode = $nodes[$node['node_id']];
             }
         }
 
