@@ -288,7 +288,6 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         if ( !isset( $this->localHeaders[$fileNumber] ) )
         {
             // Read the local header
-            //
             $this->file->seek( $this->localHeaderPositions[$fileNumber] );
 
             $sig = $this->file->read( 4 );
@@ -325,8 +324,8 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         $this->file->seek( $pos );
 
         /*
-        // Part: 1/2
-        // Append the stream filter.
+        Part: 1
+        - Append the stream filter.
         switch ( $header->compressionMethod )
         {
             case 8:  $this->file->appendStreamFilter( "zlib.inflate" ); break;
@@ -337,10 +336,10 @@ class ezcArchiveZip extends ezcArchive implements Iterator
         $data = $this->file->read( $header->compressedSize );
 
         /*
-        Part: 2/2
-        // And remove the stream filter.
-        // Then we can write the file directly from the archive without copying it entirely to memory.
-        // Unfortunately, this method segfaults for me.
+        Part: 2
+        - And remove the stream filter.
+        - Then we can write the file directly from the archive without copying it entirely to memory.
+        - Unfortunately, this method segfaults for me.
 
         if ( $header->compressionMethod == 8  || $header->compressionMethod == 12 )
         {

@@ -127,7 +127,7 @@ class ezcArchiveCentralDirectoryEndHeader
 
             case "totalCentralDirectoryEntries":
                 $this->setTotalDirectoryEntries( $value );
-                // @todo check if intentionally no "break;"
+                break;
 
             case "centralDirectorySize":
             case "centralDirectoryStart":

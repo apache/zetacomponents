@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the Archive component.
  *
- * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -30,16 +30,16 @@ return array(
     'ezcArchiveCentralDirectoryEndHeader' => 'Archive/zip/headers/zip_central_directory_end.php',
     'ezcArchiveCentralDirectoryHeader'    => 'Archive/zip/headers/zip_central_directory.php',
     'ezcArchiveCharacterFile'             => 'Archive/file/character_file.php',
-    'ezcArchiveChecksums'                 => 'Archive/checksums.php',
-    'ezcArchiveEntry'                     => 'Archive/archive_entry.php',
-    'ezcArchiveFileStructure'             => 'Archive/file_structure.php',
+    'ezcArchiveChecksums'                 => 'Archive/utils/checksums.php',
+    'ezcArchiveEntry'                     => 'Archive/entry.php',
+    'ezcArchiveFileStructure'             => 'Archive/structs/file.php',
+    'ezcArchiveFileType'                  => 'Archive/utils/file_type.php',
     'ezcArchiveGnuHeader'                 => 'Archive/tar/headers/tar_gnu.php',
     'ezcArchiveGnuTar'                    => 'Archive/tar/gnu_tar.php',
-    'ezcArchiveMime'                      => 'Archive/archive_mime.php',
     'ezcArchiveOptions'                   => 'Archive/options/archive.php',
     'ezcArchivePaxHeader'                 => 'Archive/tar/headers/tar_pax.php',
     'ezcArchivePaxTar'                    => 'Archive/tar/pax_tar.php',
-    'ezcArchiveStatMode'                  => 'Archive/stat_mode.php',
+    'ezcArchiveStatMode'                  => 'Archive/utils/stat_mode.php',
     'ezcArchiveZip'                       => 'Archive/zip/zip.php',
 );
 ?>

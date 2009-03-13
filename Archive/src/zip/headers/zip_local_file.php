@@ -548,8 +548,6 @@ class ezcArchiveLocalFileHeader
     /**
      * Sets the compression.
      *
-     * @todo for now only decompressed
-     *
      * @param int $compressionMethod
      * @param int $compressedSize
      * @return void
@@ -557,8 +555,8 @@ class ezcArchiveLocalFileHeader
     public function setCompression( $compressionMethod, $compressedSize )
     {
         // Fixme, for now only decompressed.
-        $this->compressionMethod = $compressionMethod; // FIXME
-        $this->compressedSize = $compressedSize; // FIXME
+        $this->compressionMethod = $compressionMethod;
+        $this->compressedSize = $compressedSize;
 
     }
 

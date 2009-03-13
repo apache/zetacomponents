@@ -347,8 +347,6 @@ class ezcArchiveCharacterFile extends ezcArchiveFile
     /**
      * Reads current character plus extra. Forward the current pointer.
      *
-     * @todo FIXME
-     *
      * @param int $bytes
      * @return string
      */

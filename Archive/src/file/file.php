@@ -287,19 +287,15 @@ abstract class ezcArchiveFile implements Iterator
 
             $this->fp = fopen( $this->fileName, "rb" );
 
-            // echo ("Switch read mode should seek to the end of the file ");
-
             if ( $this->fp === false )
             {
                 throw new ezcBaseFilePermissionException( self::getPureFileName( $this->fileName ), ezcBaseFilePermissionException::READ, "Cannot switch back to read mode" );
             }
             $this->readAppendSwitch = self::SWITCH_READ;
 
-            // $this->positionSeek( $pos );
             $this->positionSeek( 0, SEEK_END );
 
-            // XXX DOESN'T Make sense, Seek-end should be at the end!
-            // echo ("nonsense function called");
+            // Doesn't Make sense, Seek-end should be at the end!
             while ( fgetc( $this->fp ) !== false );
         }
     }
@@ -429,12 +425,6 @@ abstract class ezcArchiveFile implements Iterator
 
                 case SEEK_END:
                     throw new ezcArchiveException( "SEEK_END in a non-seekable file is not supported (yet)." );
-                    /*
-                    $st = fstat( $this->fp );
-                    $transPos = $pos + $st["size"];
-                    echo ( "e" );
-                    break;
-                    */
             }
 
             $cur = ftell( $this->fp );

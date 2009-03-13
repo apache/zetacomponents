@@ -473,7 +473,7 @@ class ezcArchiveBlockFile extends ezcArchiveFile
      * Appends one block with only NUL characters to the file.
      *
      * @throws ezcBaseFilePermissionException if the file is opened in read-only mode.
-     * @todo rename to appendNullBlocks
+     * @apichange Rename to appendNullBlocks
      *
      * @param int $amount
      * @return void
@@ -528,7 +528,6 @@ class ezcArchiveBlockFile extends ezcArchiveFile
             $this->rewind();
         }
 
-        // XXX check this, can be done via getLastBlockNumber() ?
         while ( $this->isValid && $blocks > $this->blockNumber )
         {
             $this->next();

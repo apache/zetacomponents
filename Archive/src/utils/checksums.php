@@ -78,7 +78,7 @@ class ezcArchiveChecksums
      */
     public static function getTotalByteValueFromFile( $fileName )
     {
-        if ( ( $fp = fopen( $fileName ,'rb' ) ) === false )
+        if ( ( $fp = fopen( $fileName, 'rb' ) ) === false )
         {
             return false;
         }
@@ -87,7 +87,7 @@ class ezcArchiveChecksums
         $total = 0;
         while ( true )
         {
-            $i = @fread( $fp, 1 );
+            $i = fread( $fp, 1 );
             if ( strlen( $i ) == 0 )
             {
                 break;
@@ -96,7 +96,7 @@ class ezcArchiveChecksums
             $total += ord( $i );
         }
 
-        @fclose( $fp );
+        fclose( $fp );
 
         return $total;
     }
@@ -153,7 +153,7 @@ class ezcArchiveChecksums
         // Perform the algorithm on each character in file
         while ( true )
         {
-            $i = @fread( $fp, 1 );
+            $i = fread( $fp, 1 );
             if ( strlen( $i ) == 0 )
             {
                 break;
@@ -161,7 +161,7 @@ class ezcArchiveChecksums
             $crc = ( ( $crc >> 8 ) & 0x00ffffff ) ^ self::$crc32Table[( $crc & 0xFF ) ^ ord( $i )];
         }
 
-        @fclose( $fp );
+        fclose( $fp );
 
         // Exclusive OR the result with the beginning value.
         return $crc ^ 0xffffffff;

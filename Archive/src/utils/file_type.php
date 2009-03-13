@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcArchiveMime class.
+ * File containing the abstract ezcArchiveFileType class.
  *
  * @package Archive
  * @version //autogentag//
@@ -24,7 +24,7 @@
  * @version //autogentag//
  * @access private
  */
-class ezcArchiveMime
+class ezcArchiveFileType
 {
     /**
      * Returns the archive type of the given file.
@@ -246,14 +246,6 @@ class ezcArchiveMime
     public static function tarContainsFileName( $data )
     {
         return $data[0] != "\0";
-
-        // $rest = trim( substr( $data, 0, 100 ), "a..zA..Z0..9/_.-\0" );
-        // if ( strlen( $rest ) == 0 )
-        // {
-        //     return true;
-        // }
-        //
-        // return false;
     }
 }
 ?>

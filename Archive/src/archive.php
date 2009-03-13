@@ -184,20 +184,20 @@ abstract class ezcArchive implements Iterator
             return self::createInstance( $archiveName, $forceType, $options );
         }
 
-        $h = ezcArchiveMime::detect( $archiveName );
+        $h = ezcArchiveFileType::detect( $archiveName );
 
         while ( $h == ezcArchive::GZIP || $h == ezcArchive::BZIP2 )
         {
             if ( $h == ezcArchive::GZIP )
             {
                 $archiveName = "compress.zlib://$archiveName";
-                $h = ezcArchiveMime::detect( $archiveName );
+                $h = ezcArchiveFileType::detect( $archiveName );
             }
 
             if ( $h == ezcArchive::BZIP2 )
             {
                 $archiveName = "compress.bzip2://$archiveName";
-                $h = ezcArchiveMime::detect( $archiveName );
+                $h = ezcArchiveFileType::detect( $archiveName );
             }
         }
 
@@ -220,7 +220,6 @@ abstract class ezcArchive implements Iterator
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
      * @param mixed $value
-     * @return void
      * @ignore
      */
     public function __set( $name, $value )
@@ -236,7 +235,6 @@ abstract class ezcArchive implements Iterator
      *
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @param string $name
-     * @return mixed
      * @ignore
      */
     public function __get( $name )
@@ -857,30 +855,6 @@ abstract class ezcArchive implements Iterator
             $this->next();
         }
     }
-
-    /**
-     * Append a file or directory to the end of the archive. Multiple files or directory can
-     * be added to the archive when an array is used as input parameter.
-     *
-     * @see appendToCurrent()
-     *
-     * @throws ezcArchiveWriteException  if one of the files cannot be written to the archive.
-     * @throws ezcFileReadException      if one of the files cannot be read from the local filesystem.
-     *
-     * @param string|array(string) $entries  Add the files and or directories to the archive.
-     *
-     * @return void
-     */
-//    public function append( $files, $prefix )
-//    {
-//        if ( !$this->isWritable() )
-//        {
-//            throw new ezcArchiveException( "Archive is read-only", ezcArchiveException::ARCHIVE_NOT_WRITABLE );
-//        }
-//
-//        $this->seek( 0, SEEK_END );
-//        $this->appendToCurrent( $files, $prefix );
-//     }
 
     /**
      * Returns true if the current archive is empty, otherwise false.
