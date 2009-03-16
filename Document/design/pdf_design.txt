@@ -68,7 +68,7 @@ again very much look like a simplified variant of CSS::
 
     File       ::= Directive+
     Directive  ::= Address '{' Formatting* '}'
-    Formatting ::= Name '=' '"' Value '"' ';'
+    Formatting ::= Name ':' '"' Value '"' ';'
     Name       ::= [A-Za-z-]+
     Value      ::= [^"]+
 
