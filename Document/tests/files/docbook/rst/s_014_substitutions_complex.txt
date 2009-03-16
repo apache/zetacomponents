@@ -34,19 +34,19 @@ K, and trumped in hand with the |image_4| 2.
 
 - |image_5| means stop.
 
-  .. |image_5| image:: red_light.png
-
 - |image_6| means go.
 
-  .. |image_6| image:: green_light.png
-
 - |image_7| means go really fast.
-
-  .. |image_7| image:: yellow_light.png
 
 |image_8| is the official symbol of `POEE`__.
 
 __ http://www.poee.org/
+
+  .. |image_5| image:: red_light.png
+
+  .. |image_6| image:: green_light.png
+
+  .. |image_7| image:: yellow_light.png
 
 .. |image_8| image:: discord.png
 

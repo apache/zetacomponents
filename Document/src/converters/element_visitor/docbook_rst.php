@@ -291,6 +291,13 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      */
     public function finishParagraph( $root )
     {
+        // Only finish paragraph, if there is no current indentation, otherwise
+        // this might break a single list into multiple lists
+        if ( self::$indentation > 0 )
+        {
+            return $root;
+        }
+
         $appended = false;
 
         // Append links to paragraph
