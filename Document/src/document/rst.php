@@ -293,6 +293,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
         $converter = new ezcDocumentDocbookToRstConverter();
+        $converter->options->errorReporting = $this->options->errorReporting;
         $this->contents = $converter->convert( $document )->save();
     }
 
