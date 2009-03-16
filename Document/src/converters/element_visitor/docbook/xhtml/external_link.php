@@ -32,7 +32,7 @@ class ezcDocumentDocbookToHtmlExternalLinkHandler extends ezcDocumentDocbookToHt
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $link = $root->ownerDocument->createElement( 'a' );
-        $link->setAttribute( 'href', urlencode( $node->getAttribute( 'url' ) ) );
+        $link->setAttribute( 'href', $node->getAttribute( 'url' ) );
         $root->appendChild( $link );
         $converter->visitChildren( $node, $link );
         return $root;
