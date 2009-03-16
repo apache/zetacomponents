@@ -1,0 +1,320 @@
+<?php
+/**
+ * File containing the ezcDocumentPdfCssParser class
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Parser for simplified CSS rules for PDF layout specifications
+ *
+ * @package Document
+ * @version //autogen//
+ */
+class ezcDocumentPdfCssParser extends ezcDocumentParser
+{
+    /**
+     * Currently parsed file, stored for additional error context
+     * 
+     * @var string
+     */
+    protected $file;
+
+    /**
+     * Expressions for tokenizing the strings.
+     * 
+     * @var array
+     */
+    protected $expressions = array();
+
+    /**
+     * Tokens irrelevant to the parser, which will bee thrown away immediately
+     * 
+     * @var array
+     */
+    protected $ignoreTokens = array(
+        self::T_WHITESPACE,
+        self::T_COMMENT,
+    );
+
+    /**
+     * Names for the known tokens, for nicer error messages
+     * 
+     * @var array
+     */
+    protected $tokenNames = array(
+        self::T_WHITESPACE => 'T_WHITESPACE',
+        self::T_COMMENT    => 'T_COMMENT',
+        self::T_ADDRESS    => 'T_ADDRESS (CSS element addressing queries)',
+        self::T_START      => 'T_START ("{")',
+        self::T_END        => 'T_END ("}")',
+        self::T_FORMATTING => 'T_FORMATTING (formatting specification)',
+        self::T_EOF        => 'T_EOF (end of file)',
+    );
+
+    /**
+     * Regular expression for characters a XML name may start with, as defined
+     * at:
+     * 
+     * http://www.w3.org/TR/REC-xml/#NT-NameStartChar
+     */
+    const XML_NAME_STARTCHAR = '(?:[:A-Za-z_])';
+        // @TODO: Integrate: |[#xC0-#xD6]|[#xD8-#xF6]|[#xF8-#x2FF]|[#x370-#x37D]|[#x37F-#x1FFF]|[#x200C-#x200D]|[#x2070-#x218F]|[#x2C00-#x2FEF]|[#x3001-#xD7FF]|[#xF900-#xFDCF]|[#xFDF0-#xFFFD]|[#x10000-#xEFFFF])';
+
+    /**
+     * Regular expression for characters a XML name may contain, as defined at:
+     * 
+     * http://www.w3.org/TR/REC-xml/#NT-NameChar
+     */
+    const XML_NAME_CHAR      = '(?:[-.0-9])';
+        // @TODO: Integrate: |#xB7|[#x0300-#x036F]|[#x203F-#x2040])';
+
+    /**
+     * Whitespace token
+     */
+    const T_WHITESPACE = 1;
+
+    /**
+     * Comment token
+     */
+    const T_COMMENT    = 2;
+
+    /**
+     * Addressing element token
+     */
+    const T_ADDRESS    = 3;
+
+    /**
+     * Directive start token
+     */
+    const T_START      = 4;
+
+    /**
+     * Directive end token
+     */
+    const T_END        = 5;
+
+    /**
+     * Formatting rule token
+     */
+    const T_FORMATTING = 6;
+
+    /**
+     * End of file token
+     */
+    const T_EOF        = 7;
+
+    /**
+     * Construct parser
+     *
+     * Creates the regualr expressions for tokenizing the PCSS file.
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $xmlName = '(?:' . self::XML_NAME_STARTCHAR . '(?:' . self::XML_NAME_STARTCHAR . '|' . self::XML_NAME_CHAR . ')*)';
+        $element = '(?:' . $xmlName . '|\\*)(?:\\.[A-Za-z_-]|#' . $xmlName . ')?';
+
+        $this->expressions = array(
+            array(
+                'type'  => self::T_WHITESPACE,
+                'match' => '(\\A\\s+)S' ),
+            array(
+                'type'  => self::T_COMMENT,
+                'match' => '(\\A/\\*.*\\*/)SUs' ),
+            array(
+                'type'  => self::T_COMMENT,
+                'match' => '(\\A//.*$)Sm' ),
+            array(
+                'type'  => self::T_START,
+                'match' => '(\\A\\{)S' ),
+            array(
+                'type'  => self::T_END,
+                'match' => '(\\A\\})S' ),
+            array(
+                'type'  => self::T_FORMATTING,
+                'match' => '(\\A(?P<name>[A-Za-z-]+)\\s*:\\s*"(?P<value>[^"]+)"\\s*;)S' ),
+            array(
+                'type'  => self::T_ADDRESS,
+                'match' => '(\\A' . $element . '(?:([\\t\\x20]+>)?[\\t\\x20]+' . $element . ')*)S' ),
+        );
+    }
+
+    /**
+     * Parse the given file
+     *
+     * Try to parse the given PCSS file and return the AST containing the file
+     * contents.
+     *
+     * @param string $file 
+     * @return void
+     */
+    public function parseFile( $file )
+    {
+        $this->file = $file;
+        $ast = $this->parseString( file_get_contents( $file ) );
+        $this->file = null;
+        return $ast;
+    }
+
+    /**
+     * Parse the given file
+     *
+     * Try to parse the given PCSS string and return the AST containing the
+     * string contents.
+     * 
+     * @param string $string 
+     * @return void
+     */
+    public function parseString( $string )
+    {
+        // Normalize line endings
+        $string = preg_replace( '(\r\n|\r|\n)', "\n", $string );
+
+        return $this->parse(
+            $this->tokenize( $string )
+        );
+    }
+
+    /**
+     * Tokenize the input string
+     *
+     * Returns an array of arrays representing the tokens.
+     *
+     * @param string $string 
+     * @return array
+     */
+    protected function tokenize( $string )
+    {
+        $line     = 1;
+        $position = 1;
+        $tokens   = array();
+
+        while ( strlen( $string ) )
+        {
+            foreach ( $this->expressions as $rule )
+            {
+                if ( !preg_match( $rule['match'], $string, $match ) )
+                {
+                    continue;
+                }
+
+                $string = substr( $string, strlen( $match[0] ) );
+
+                // Update position in file
+                $line     += substr_count( $match[0], "\n" );
+                if ( ( $pos = strrpos( $match[0], "\n" ) ) !== false )
+                {
+                    $position  = strrpos( $match[0], "\n" ) + 1;
+                }
+                else
+                {
+                    $position += strlen( $match[0] );
+                }
+
+                // Skip irrelevant rules
+                if ( in_array( $rule['type'], $this->ignoreTokens ) )
+                {
+                    continue 2;
+                }
+
+                // Add all other rules including their match to the token
+                // array
+                $tokens[] = array(
+                    'type'     => $rule['type'],
+                    'line'     => $line,
+                    'position' => $position,
+                    'match'    => $match,
+                );
+
+                continue 2;
+            }
+
+            // No matching rule could be found
+            return $this->triggerError( E_PARSE,
+                "Could not parse string: " . substr( $string, 0, 20 ),
+                $this->file, $line, $position
+            );
+        }
+
+        $tokens[] = array(
+            'type'     => self::T_EOF,
+            'line'     => $line,
+            'position' => $position,
+            'match'    => null,
+        );
+
+        return $tokens;
+    }
+
+    /**
+     * Read expected from token array
+     *
+     * Try to read the given token from the token array. If another token is
+     * found, a parse error is issued. If the token is found, the token is
+     * removed fromt he token array and returned.
+     *
+     * @param int $type 
+     * @param array $tokens 
+     * @return array
+     */
+    private function read( $type, array &$tokens )
+    {
+        $token = array_shift( $tokens );
+
+        if ( $token['type'] !== $type )
+        {
+            $this->triggerError( E_PARSE,
+                "Expected " . $this->tokenNames[$type] . " token, found " . $this->tokenNames[$token['type']] . '.',
+                $this->file, $token['line'], $token['position']
+            );
+        }
+
+        return $token;
+    }
+
+    /**
+     * Parse given token array
+     *
+     * Parse the given token array, and create an array of directive objects
+     * from it, if the token array specifies a valid PCSS file.
+     * 
+     * @param array $tokens 
+     * @return array
+     */
+    protected function parse( array $tokens )
+    {
+        $directives = array();
+
+        while ( count( $tokens ) > 1 )
+        {
+            // Address should always be followed by a start token
+            $formats = array();
+            $address = $this->read( self::T_ADDRESS, $tokens );
+            $this->read( self::T_START, $tokens );
+
+            while ( $tokens[0]['type'] !== self::T_END )
+            {
+                $format = $this->read( self::T_FORMATTING, $tokens );
+                $formats[$format['match']['name']] = $format['match']['value'];
+            }
+
+            $this->read( self::T_END, $tokens );
+
+            // Create successfully read directive
+            $directives[] = new ezcDocumentPdfCssDirective(
+                $address['match'][0],
+                $formats
+            );
+        }
+
+        return $directives;
+    }
+}
+

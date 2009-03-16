@@ -1,0 +1,12 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 'foo',
+     'formats' => 
+    array (
+    ),
+  )),
+);
+
