@@ -8,9 +8,7 @@
  * @subpackage Tests
  */
 
-require_once dirname( __FILE__ ) . "/data/relation_test_employer.php";
-require_once dirname( __FILE__ ) . "/data/relation_test_person.php";
-require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
+require_once dirname( __FILE__ ) . '/persistent_identity_session_relation_prefetch_test.php';
 
 /**
  * Tests ezcPersistentManyToOneRelation class.
@@ -18,62 +16,25 @@ require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcTestCase
+class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistentIdentitySessionRelationPrefetchTest
 {
-    protected $def;
-
-    protected $qc;
-
-    protected $db;
-
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public function setup()
-    {
-        $this->def = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
-        $this->qc  = new ezcPersistentIdentityRelationQueryCreator( $this->def );
-        // Use hardcoded SQLite here, to create unified SQL statements
-        $this->db  = ezcDbFactory::create( 'sqlite://:memory:' );
-    }
-    
     public function testCreateOneLevelOneRelationQuery()
     {
-        $relations = array(
-            new ezcPersistentRelationFindDefinition(
-                'RelationTestEmployer'
-            ),
-        );
-
-        $q = new ezcQuerySelect( $this->db );
-
-        $this->qc->createQuery( $q, 'RelationTestPerson', 2, $relations );
-
         $this->assertEquals(
             'SELECT id, firstname, surname, employer, PO_employers_1.name AS PO_employers_1_name '
             . 'FROM PO_persons LEFT JOIN PO_employers AS PO_employers_1 '
             . 'ON PO_persons.employer = PO_employers_1.id WHERE id = :ezcValue1',
-            $q->getQuery()
+            $this->getOneLevelOneRelationQuery()->getQuery()
         );
     }
-    
+
     public function testCreateOneLevelMultiRelationQuery()
     {
-        $relations = array(
-            new ezcPersistentRelationFindDefinition(
-                'RelationTestEmployer'
-            ),
-            new ezcPersistentRelationFindDefinition(
-                'RelationTestAddress'
-            ),
-        );
-
-        $q = new ezcQuerySelect( $this->db );
-
-        $this->qc->createQuery( $q, 'RelationTestPerson', 2, $relations );
-
         $this->assertEquals(
             'SELECT id, firstname, surname, employer, PO_employers_1.name AS PO_employers_1_name, '
             . 'PO_addresses_1.street AS PO_addresses_1_street, PO_addresses_1.zip AS PO_addresses_1_zip, '
@@ -82,29 +43,12 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcTestCase
             . 'LEFT JOIN PO_persons_addresses AS PO_persons_addresses_1 ON PO_persons.id = PO_persons_addresses_1.person_id '
             . 'LEFT JOIN PO_addresses AS PO_addresses_1 ON PO_persons_addresses_1.address_id = PO_addresses_1.id '
             . 'WHERE id = :ezcValue1',
-            $q->getQuery()
+            $this->getCreateOneLevelMultiRelationQuery()->getQuery()
         );
     }
 
     public function testCreateMultiLevelSingleRelationQuery()
     {
-        $relations = array(
-            new ezcPersistentRelationFindDefinition(
-                'RelationTestAddress',
-                null,
-                array(
-                    new ezcPersistentRelationFindDefinition(
-                        'RelationTestPerson'
-                    )
-                )
-            ),
-        );
-
-        $q = new ezcQuerySelect( $this->db );
-
-        $this->qc->createQuery( $q, 'RelationTestPerson', 2, $relations );
-
-
         $this->assertEquals(
             'SELECT id, firstname, surname, employer, '
             . 'PO_addresses_1.street AS PO_addresses_1_street, PO_addresses_1.zip AS PO_addresses_1_zip, '
@@ -115,43 +59,12 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcTestCase
             . 'ON PO_persons_addresses_1.address_id = PO_addresses_1.id LEFT JOIN PO_persons_addresses AS PO_persons_addresses_2 '
             . 'ON PO_addresses_1.id = PO_persons_addresses_2.address_id LEFT JOIN PO_persons AS PO_persons_1 '
             . 'ON PO_persons_addresses_2.person_id = PO_persons_1.id WHERE id = :ezcValue1',
-            $q->getQuery()
+            $this->getCreateMultiLevelSingleRelationQuery()->getQuery()
         );
     }
 
     public function testCreateMultiLevelMultiRelationQuery()
     {
-        $relations = array(
-            new ezcPersistentRelationFindDefinition(
-                'RelationTestAddress',
-                null,
-                array(
-                    new ezcPersistentRelationFindDefinition(
-                        'RelationTestPerson',
-                        null,
-                        array(
-                            new ezcPersistentRelationFindDefinition(
-                                'RelationTestEmployer'
-                            ),
-                            new ezcPersistentRelationFindDefinition(
-                                'RelationTestBirthday'
-                            ),
-                        )
-                    )
-                )
-            ),
-            new ezcPersistentRelationFindDefinition(
-                'RelationTestEmployer'
-            ),
-            new ezcPersistentRelationFindDefinition(
-                'RelationTestBirthday'
-            ),
-        );
-
-        $q = new ezcQuerySelect( $this->db );
-
-        $this->qc->createQuery( $q, 'RelationTestPerson', 2, $relations );
-
         $this->assertEquals(
             'SELECT id, firstname, surname, employer, PO_addresses_1.street AS PO_addresses_1_street, '
             . 'PO_addresses_1.zip AS PO_addresses_1_zip, PO_addresses_1.city AS PO_addresses_1_city, '
@@ -168,7 +81,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcTestCase
             . 'ON PO_persons_1.id = PO_birthdays_1.person_id LEFT JOIN PO_employers AS PO_employers_2 '
             . 'ON PO_persons.employer = PO_employers_2.id LEFT JOIN PO_birthdays AS PO_birthdays_2 '
             . 'ON PO_persons.id = PO_birthdays_2.person_id WHERE id = :ezcValue1',
-            $q->getQuery()
+            $this->getCreateMultiLevelMultiRelationQuery()->getQuery()
         );
     }
 }

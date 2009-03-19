@@ -4,9 +4,9 @@ class RelationTest
     /**
      * Insert data for the test
      */
-    public static function insertData()
+    public static function insertData( $db = null )
     {
-        $db = ezcDbInstance::get();
+        $db = ( $db === null ? ezcDbInstance::get() : $db );
 
         $db->exec( "INSERT INTO " . $db->quoteIdentifier( "PO_addresses" ) . " (" . $db->quoteIdentifier( "street" ) . ", " . $db->quoteIdentifier( "zip" ) . ", " . $db->quoteIdentifier( "city" ) . ", " . $db->quoteIdentifier( "type" ) . ") VALUES (" . $db->quote( "Httproad 23" ) . ", " . $db->quote( "12345" ) . ", " . $db->quote( "Internettown" ) . ", " . $db->quote( "work" ) . ")" );
         $db->exec( "INSERT INTO " . $db->quoteIdentifier( "PO_addresses" ) . " (" . $db->quoteIdentifier( "street" ) . ", " . $db->quoteIdentifier( "zip" ) . ", " . $db->quoteIdentifier( "city" ) . ", " . $db->quoteIdentifier( "type" ) . ") VALUES (" . $db->quote( "Ftpstreet 42" ) . ", " . $db->quote( "12345" ) . ", " . $db->quote( "Internettown" ) . ", " . $db->quote( "work" ) . ")" );
@@ -55,9 +55,9 @@ class RelationTest
     /**
      * Loads the schema from file into the database.
      */
-    public static function setupTables()
+    public static function setupTables( $db = null )
     {
-        $db = ezcDbInstance::get();
+        $db = ( $db === null ? ezcDbInstance::get() : $db );
         $schema = ezcDbSchema::createFromFile( "array", dirname( __FILE__ ) . "/relation.dba" );
         $schema->writeToDb( $db );
     }

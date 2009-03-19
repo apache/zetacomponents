@@ -8,9 +8,7 @@
  * @subpackage Tests
  */
 
-require_once dirname( __FILE__ ) . "/data/relation_test_employer.php";
-require_once dirname( __FILE__ ) . "/data/relation_test_person.php";
-require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
+require_once dirname( __FILE__ ) . '/persistent_identity_session_relation_prefetch_test.php';
 
 /**
  * Tests ezcPersistentManyToOneRelation class.
@@ -18,15 +16,11 @@ require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcTestCase
+class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersistentIdentitySessionRelationPrefetchTest
 {
-    protected $defManager;
-
     protected $sesstion;
 
     protected $idMap;
-
-    protected $creator;
 
     protected $extractor;
 
@@ -37,33 +31,17 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcTestCas
 
     public function setup()
     {
-        try
-        {
-            $this->db = ezcDbInstance::get();
-        }
-        catch ( Exception $e )
-        {
-            $this->markTestSkipped( 'There was no database configured' );
-        }
-        RelationTestPerson::setupTables();
-        RelationTestPerson::insertData();
+        parent::setup();
 
-        // @TODO: This is currently needed to fix the attribute set in
-        // ezcDbHandler. Should be removed as soon as this is fixed!
-        $this->db->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
-
-        $this->defManager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        RelationTestPerson::setupTables( $this->db );
+        RelationTestPerson::insertData( $this->db );
 
         $this->session = new ezcPersistentSession(
-            ezcDbInstance::get(),
+            $this->db,
             $this->defManager
         );
 
         $this->idMap = new ezcPersistentBasicIdentityMap(
-            $this->defManager
-        );
-
-        $this->creator = new ezcPersistentIdentityRelationQueryCreator(
             $this->defManager
         );
 
@@ -80,14 +58,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcTestCas
 
     public function testOneLevelOneRelationExtract()
     {
-        // Prepare PDOStatement
-        $relations = array(
-            new ezcPersistentRelationFindDefinition(
-                'RelationTestEmployer'
-            ),
-        );
-        $q = $this->session->database->createSelectQuery();
-        $this->creator->createQuery( $q, 'RelationTestPerson', 2, $relations );
+        $q = $this->getOneLevelOneRelationQuery();
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -117,7 +88,6 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcTestCas
             current( $this->session->getRelatedObjects( $person, 'RelationTestEmployer' ) )
         );
     }
-    
 }
 
 ?>
