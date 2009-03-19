@@ -11,6 +11,27 @@
 /**
  * Parser for simplified CSS rules for PDF layout specifications
  *
+ * The EBNF for the parsed grammar is the following. The EBNF does not specify
+ * the allowed comments, which are common C-style comments:
+ *
+ * <code>
+ *  File       ::= Directive+
+ *  Directive  ::= Address '{' Formatting* '}'
+ *  Formatting ::= Name ':' '"' Value '"' ';'
+ *  Name       ::= [A-Za-z-]+
+ *  Value      ::= [^"]+
+ *
+ *  Address     ::= Element ( Rule )*
+ *  Rule        ::= '>'? Element
+ *  Element     ::= ElementName ( '.' ClassName | '#' ElementId )
+ *
+ *  ClassName   ::= [A-Za-z_-]+
+ *  ElementName ::= XMLName* | '*'
+ *  ElementId   ::= XMLName
+ *
+ *  * XMLName references to http://www.w3.org/TR/REC-xml/#NT-Name
+ * </code>
+ *
  * @package Document
  * @version //autogen//
  */
