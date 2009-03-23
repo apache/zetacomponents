@@ -274,7 +274,10 @@ class ezcArchiveEntry
     /**
      * Returns a bit mask representing the permissions of this entry.
      *
-     * @return int
+     * It returns the permissions in octal numbers as a string, for example:
+     * "0000755"
+     *
+     * @return string
      */
     public function getPermissions()
     {

@@ -13,7 +13,7 @@
  * @version //autogen//
  * @subpackage Tests
  */
-class ezcArchiveMimeTest extends ezcTestCase
+class ezcArchiveFileTypeTest extends ezcTestCase
 {
     protected function setUp()
     {
@@ -32,7 +32,7 @@ class ezcArchiveMimeTest extends ezcTestCase
         copy ( dirname( __FILE__ ) . "/data/tar_gnu_2_textfiles.tar", "$dir/my.tar" );
         exec( "gzip $dir/my.tar" );
 
-        $this->assertEquals( ezcArchive::GZIP, ezcArchiveMime::detect( "$dir/my.tar.gz" ) );
+        $this->assertEquals( ezcArchive::GZIP, ezcArchiveFileType::detect( "$dir/my.tar.gz" ) );
     }
 
     public function testRecognizeBzip2()
@@ -41,7 +41,7 @@ class ezcArchiveMimeTest extends ezcTestCase
         copy ( dirname( __FILE__ ) . "/data/tar_gnu_2_textfiles.tar", "$dir/my.tar" );
         exec( "bzip2 $dir/my.tar" );
 
-        $this->assertEquals( ezcArchive::BZIP2, ezcArchiveMime::detect( "$dir/my.tar.bz2" ) );
+        $this->assertEquals( ezcArchive::BZIP2, ezcArchiveFileType::detect( "$dir/my.tar.bz2" ) );
     }
 
     public function testRecognizeZip()
@@ -49,7 +49,7 @@ class ezcArchiveMimeTest extends ezcTestCase
         $dir = $this->getTempDir();
         copy ( dirname( __FILE__ ) . "/data/infozip_2_textfiles.zip", "$dir/my.zip" );
 
-        $this->assertEquals( ezcArchive::ZIP, ezcArchiveMime::detect( "$dir/my.zip" ) );
+        $this->assertEquals( ezcArchive::ZIP, ezcArchiveFileType::detect( "$dir/my.zip" ) );
     }
 
     public function testRecognizeTarUstar()
@@ -57,7 +57,7 @@ class ezcArchiveMimeTest extends ezcTestCase
         $dir = $this->getTempDir();
         copy ( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/my.tar" );
 
-        $this->assertEquals( ezcArchive::TAR_USTAR, ezcArchiveMime::detect( "$dir/my.tar" ) );
+        $this->assertEquals( ezcArchive::TAR_USTAR, ezcArchiveFileType::detect( "$dir/my.tar" ) );
     }
 
     public function testRecognizeTarV7()
@@ -65,7 +65,7 @@ class ezcArchiveMimeTest extends ezcTestCase
         $dir = $this->getTempDir();
         copy ( dirname( __FILE__ ) . "/data/tar_v7_2_textfiles.tar", "$dir/my.tar" );
 
-        $this->assertEquals( ezcArchive::TAR_V7, ezcArchiveMime::detect( "$dir/my.tar" ) );
+        $this->assertEquals( ezcArchive::TAR_V7, ezcArchiveFileType::detect( "$dir/my.tar" ) );
     }
 
     public function testRecognizeTarPax()
@@ -73,7 +73,7 @@ class ezcArchiveMimeTest extends ezcTestCase
         $dir = $this->getTempDir();
         copy ( dirname( __FILE__ ) . "/data/tar_pax_2_textfiles.tar", "$dir/my.tar" );
 
-        $this->assertEquals( ezcArchive::TAR_PAX, ezcArchiveMime::detect( "$dir/my.tar" ) );
+        $this->assertEquals( ezcArchive::TAR_PAX, ezcArchiveFileType::detect( "$dir/my.tar" ) );
     }
 
     public function testRecognizeTarGnu()
@@ -81,7 +81,7 @@ class ezcArchiveMimeTest extends ezcTestCase
         $dir = $this->getTempDir();
         copy ( dirname( __FILE__ ) . "/data/tar_gnu_2_textfiles.tar", "$dir/my.tar" );
 
-        $this->assertEquals( ezcArchive::TAR_GNU, ezcArchiveMime::detect( "$dir/my.tar" ) );
+        $this->assertEquals( ezcArchive::TAR_GNU, ezcArchiveFileType::detect( "$dir/my.tar" ) );
     }
 
     public static function suite()

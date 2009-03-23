@@ -25,7 +25,7 @@ require_once( "compressed_archives/bzip2_test.php");
 require_once( "zip/zip_test.php");
 
 require_once( "archive_test.php");
-require_once( "archive_mime_test.php");
+require_once( "file_type.php");
 
 /**
  * @package Archive
@@ -40,7 +40,7 @@ class ezcArchiveSuite extends PHPUnit_Framework_TestSuite
         $this->setName( "Archive" );
 
 		$this->addTest( ezcArchiveTest::suite() );
-		$this->addTest( ezcArchiveMimeTest::suite() );
+		$this->addTest( ezcArchiveFileTypeTest::suite() );
 		$this->addTest( ezcArchiveBlockFileTest::suite() );
 		$this->addTest( ezcArchiveCharacterFileTest::suite() );
 		$this->addTest( ezcArchiveV7TarTest::suite() );
