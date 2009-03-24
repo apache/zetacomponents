@@ -31,6 +31,17 @@ class ezcDocumentPdfInferencableDomElement extends DOMElement
     protected $locationId = null;
 
     /**
+     * Attributes relevant enough to be included in the location identifier.
+     * Contents of the class attribute are annotated differently, so it will
+     * not be included here.
+     * 
+     * @var array
+     */
+    protected $relevantAttributes = array(
+        'Role',
+    );
+
+    /**
      * Get elements location ID
      *
      * Return the elements location ID, based on the factors described in the
@@ -40,12 +51,44 @@ class ezcDocumentPdfInferencableDomElement extends DOMElement
      */
     public function getLocationId()
     {
-        if ( $locationId !== null )
+        if ( $this->locationId !== null )
         {
             return $this->locationId;
         }
 
-        // Calculate location ID...
+        // If we did not reach the root node yet, request the parent location
+        // id to prepend to generated ID:
+        $locationId = '';
+        if ( !$this->parentNode instanceof DOMDocument )
+        {
+            $locationId = $this->parentNode->getLocationId();
+        }
+
+        // Append current node information
+        $locationId .= '/' . $this->tagName;
+
+        // Check for relevant attributes, so that they are also included
+        foreach ( $this->relevantAttributes as $attribute )
+        {
+            if ( $this->hasAttribute( $attribute ) )
+            {
+                $locationId .= '[' . $attribute . '=' . preg_replace( '([^a-z0-9_-]+)', '_', $this->getAttribute( $attribute ) ) . ']';
+            }
+        }
+
+        // Append class, if set
+        if ( $this->hasAttribute( 'class' ) )
+        {
+            $locationId .= '.' . preg_replace( '([^a-z0-9_-]+)', '_', $this->getAttribute( 'class' ) );
+        }
+
+        // Append ID, if set
+        if ( $this->hasAttribute( 'ID' ) )
+        {
+            $locationId .= '#' . preg_replace( '([^a-z0-9_-]+)', '_', $this->getAttribute( 'ID' ) );
+        }
+
+        return $locationId;
     }
 }
 
