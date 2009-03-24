@@ -81,7 +81,7 @@ class ezcDocumentPdfCssParserTests extends ezcTestCase
         return array(
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_001_missing_address.pcss',
-                'Parse error: Fatal error: \'Expected T_ADDRESS (CSS element addressing queries) token, found T_START ("{").\' in line 1 at position 2.',
+                'Parse error: Fatal error: \'Expected one of: T_ADDRESS (CSS element addressing queries), T_DESC_ADDRESS (CSS element addressing queries), T_ADDRESS_ID (CSS element addressing queries), T_ADDRESS_CLASS (CSS element addressing queries), found T_START ("{").\' in line 1 at position 2.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_002_invalid_address.pcss',
@@ -89,15 +89,15 @@ class ezcDocumentPdfCssParserTests extends ezcTestCase
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_003_missing_start.pcss',
-                'Parse error: Fatal error: \'Expected T_START ("{") token, found T_FORMATTING (formatting specification).\' in line 2 at position 18.',
+                'Parse error: Fatal error: \'Expected one of: T_ADDRESS (CSS element addressing queries), T_DESC_ADDRESS (CSS element addressing queries), T_ADDRESS_ID (CSS element addressing queries), T_ADDRESS_CLASS (CSS element addressing queries), found T_FORMATTING (formatting specification).\' in line 2 at position 18.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_004_missing_end.pcss',
-                'Parse error: Fatal error: \'Expected T_FORMATTING (formatting specification) token, found T_EOF (end of file).\' in line 3 at position 1.',
+                'Parse error: Fatal error: \'Expected one of: T_FORMATTING (formatting specification), found T_EOF (end of file).\' in line 3 at position 1.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_005_missing_end_2.pcss',
-                'Parse error: Fatal error: \'Expected T_FORMATTING (formatting specification) token, found T_ADDRESS (CSS element addressing queries).\' in line 4 at position 5.',
+                'Parse error: Fatal error: \'Expected one of: T_FORMATTING (formatting specification), found T_ADDRESS (CSS element addressing queries).\' in line 4 at position 5.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_006_invalid_rule.pcss',

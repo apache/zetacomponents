@@ -67,13 +67,16 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      * @var array
      */
     protected $tokenNames = array(
-        self::T_WHITESPACE => 'T_WHITESPACE',
-        self::T_COMMENT    => 'T_COMMENT',
-        self::T_ADDRESS    => 'T_ADDRESS (CSS element addressing queries)',
-        self::T_START      => 'T_START ("{")',
-        self::T_END        => 'T_END ("}")',
-        self::T_FORMATTING => 'T_FORMATTING (formatting specification)',
-        self::T_EOF        => 'T_EOF (end of file)',
+        self::T_WHITESPACE    => 'T_WHITESPACE',
+        self::T_COMMENT       => 'T_COMMENT',
+        self::T_ADDRESS       => 'T_ADDRESS (CSS element addressing queries)',
+        self::T_DESC_ADDRESS  => 'T_DESC_ADDRESS (CSS element addressing queries)',
+        self::T_ADDRESS_ID    => 'T_ADDRESS_ID (CSS element addressing queries)',
+        self::T_ADDRESS_CLASS => 'T_ADDRESS_CLASS (CSS element addressing queries)',
+        self::T_START         => 'T_START ("{")',
+        self::T_END           => 'T_END ("}")',
+        self::T_FORMATTING    => 'T_FORMATTING (formatting specification)',
+        self::T_EOF           => 'T_EOF (end of file)',
     );
 
     /**
@@ -89,44 +92,63 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      * Regular expression for characters a XML name may contain, as defined at:
      * 
      * http://www.w3.org/TR/REC-xml/#NT-NameChar
+     *
+     * We exclude the dot (.) from the name, since this one is used to specify
+     * classes, just like in CSS. Should not, but may limit the actual usage.
+     * Since now no docbook markup element contains a dot.
      */
-    const XML_NAME_CHAR      = '(?:[-.0-9])';
+    const XML_NAME_CHAR      = '(?:[-0-9])';
         // @TODO: Integrate: |#xB7|[#x0300-#x036F]|[#x203F-#x2040])';
 
     /**
      * Whitespace token
      */
-    const T_WHITESPACE = 1;
+    const T_WHITESPACE    = 1;
 
     /**
      * Comment token
      */
-    const T_COMMENT    = 2;
+    const T_COMMENT       = 2;
 
     /**
-     * Addressing element token
+     * Common addressing element token
      */
-    const T_ADDRESS    = 3;
+    const T_ADDRESS       = 10;
+
+    /**
+     * Direct descendant addressing element token
+     */
+    const T_DESC_ADDRESS  = 11;
+
+    /**
+     * Addressing ID token
+     */
+    const T_ADDRESS_ID    = 12;
+
+    /**
+     * Addressing class token
+     */
+    const T_ADDRESS_CLASS = 13;
 
     /**
      * Directive start token
      */
-    const T_START      = 4;
+    const T_START         = 20;
 
     /**
      * Directive end token
      */
-    const T_END        = 5;
+    const T_END           = 21;
 
     /**
      * Formatting rule token
      */
-    const T_FORMATTING = 6;
+    const T_FORMATTING    = 30;
 
     /**
      * End of file token
      */
-    const T_EOF        = 7;
+    const T_EOF           = 40;
 
     /**
      * Construct parser
@@ -140,7 +162,6 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
         parent::__construct();
 
         $xmlName = '(?:' . self::XML_NAME_STARTCHAR . '(?:' . self::XML_NAME_STARTCHAR . '|' . self::XML_NAME_CHAR . ')*)';
-        $element = '(?:' . $xmlName . '|\\*)(?:\\.[A-Za-z_-]|#' . $xmlName . ')?';
 
         $this->expressions = array(
             array(
@@ -163,7 +184,16 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
                 'match' => '(\\A(?P<name>[A-Za-z-]+)\\s*:\\s*"(?P<value>[^"]+)"\\s*;)S' ),
             array(
                 'type'  => self::T_ADDRESS,
-                'match' => '(\\A' . $element . '(?:([\\t\\x20]+>)?[\\t\\x20]+' . $element . ')*)S' ),
+                'match' => '(\\A' . $xmlName . ')S' ),
+            array(
+                'type'  => self::T_DESC_ADDRESS,
+                'match' => '(\\A>[\\t\\x20]+' . $xmlName . ')S' ),
+            array(
+                'type'  => self::T_ADDRESS_CLASS,
+                'match' => '(\\A\\.[A-Za-z_-]+)S' ),
+            array(
+                'type'  => self::T_ADDRESS_ID,
+                'match' => '(\\A#' . $xmlName . ')S' ),
         );
     }
 
@@ -281,18 +311,24 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      * found, a parse error is issued. If the token is found, the token is
      * removed fromt he token array and returned.
      *
-     * @param int $type 
+     * @param array $types
      * @param array $tokens 
      * @return array
      */
-    private function read( $type, array &$tokens )
+    private function read( array $types, array &$tokens )
     {
         $token = array_shift( $tokens );
 
-        if ( $token['type'] !== $type )
+        if ( !in_array( $token['type'], $types, true ) )
         {
+            $names = array();
+            foreach ( $types as $type )
+            {
+                $names[] = $this->tokenNames[$type];
+            }
+
             $this->triggerError( E_PARSE,
-                "Expected " . $this->tokenNames[$type] . " token, found " . $this->tokenNames[$token['type']] . '.',
+                "Expected one of: " . implode( ', ', $names ) . ", found " . $this->tokenNames[$token['type']] . '.',
                 $this->file, $token['line'], $token['position']
             );
         }
@@ -313,24 +349,38 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
     {
         $directives = array();
 
+        $addressTokens = array(
+            self::T_ADDRESS,
+            self::T_DESC_ADDRESS,
+            self::T_ADDRESS_ID,
+            self::T_ADDRESS_CLASS,
+        );
+
         while ( count( $tokens ) > 1 )
         {
             // Address should always be followed by a start token
             $formats = array();
-            $address = $this->read( self::T_ADDRESS, $tokens );
-            $this->read( self::T_START, $tokens );
+            $address = array();
+
+            do {
+                $addressToken = $this->read( $addressTokens, $tokens );
+                $address[] = $addressToken['match'][0];
+            }
+            while ( $tokens[0]['type'] !== self::T_START );
+
+            $this->read( array( self::T_START ), $tokens );
 
             while ( $tokens[0]['type'] !== self::T_END )
             {
-                $format = $this->read( self::T_FORMATTING, $tokens );
+                $format = $this->read( array( self::T_FORMATTING ), $tokens );
                 $formats[$format['match']['name']] = $format['match']['value'];
             }
 
-            $this->read( self::T_END, $tokens );
+            $this->read( array( self::T_END ), $tokens );
 
             // Create successfully read directive
             $directives[] = new ezcDocumentPdfCssDirective(
-                $address['match'][0],
+                $address,
                 $formats
             );
         }
