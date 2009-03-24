@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfDriver class
+ * File containing the ezcDocumentPdfHaruDriver class
  *
  * @package Document
  * @version //autogen//
@@ -9,16 +9,12 @@
  */
 
 /**
- * Abstract base class for driver implementations.
- *
- * Driver implement the actual creation of PDF documents. They offer a simple
- * unified API for PDF creation and proxy them to the actual PDF
- * implementation, which will create the binary data.
+ * Pdf driver based on pecl/haru
  *
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentPdfDriver
+class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 {
     /**
      * Set text formatting option
@@ -35,7 +31,10 @@ abstract class ezcDocumentPdfDriver
      * @param mixed $value 
      * @return void
      */
-    abstract public function setTextFormatting( $type, $value );
+    public function setTextFormatting( $type, $value )
+    {
+        return;
+    }
 
     /**
      * Calculate the rendered width of the current word
@@ -46,7 +45,10 @@ abstract class ezcDocumentPdfDriver
      * @param string $word 
      * @return float
      */
-    abstract public function calculateWordWidth( $word );
+    public function calculateWordWidth( $word )
+    {
+        return 42;
+    }
 
     /**
      * Draw word at given position
@@ -59,6 +61,9 @@ abstract class ezcDocumentPdfDriver
      * @param string $word 
      * @return void
      */
-    abstract public function drawWord( $x, $y, $word );
+    public function drawWord( $x, $y, $word )
+    {
+        return;
+    }
 }
 

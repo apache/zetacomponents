@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentPdfRenderer extends ezcDocumentPdfRenderer
+abstract extends ezcDocumentPdfRenderer
 {
     /**
      * Used driver implementation
