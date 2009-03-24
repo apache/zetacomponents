@@ -47,7 +47,7 @@ require 'document_ezxml_tests.php';
 
 require 'document_pdf_pcss_parser_tests.php';
 require 'document_pdf_hyphenator_tests.php';
-require 'document_pdf_document_pdf_style_inference_tests.php';
+require 'document_pdf_location_id_tests.php';
 
 require 'converter_docbook_html_test.php';
 require 'converter_docbook_html_xsl_test.php';
@@ -97,7 +97,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentPdfCssParserTests::suite() );
         $this->addTest( ezcDocumentPdfHyphenatorTests::suite() );
-        $this->addTest( ezcDocumentPdfStyleInferenceTests::suite() );
+        $this->addTest( ezcDocumentPdfLocationIdTests::suite() );
 
         $this->addTest( ezcDocumentConverterDocbookToHtmlTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );
