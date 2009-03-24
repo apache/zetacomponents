@@ -1,7 +1,8 @@
 1.x - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed parsing of lists inside simple table cells
+- Fixed: Parsing of lists inside simple table cells
+- Fixed: Error reporting of document handlers were not used in converters
 - Implemented #14075: Text roles support for RST
 - Implemented #14403: Add support for replace-"directive".
 
