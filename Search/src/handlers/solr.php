@@ -82,6 +82,20 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
     }
 
     /**
+     * Closes the connection, and re-connects to Solr
+     *
+     * @throws ezcSearchCanNotConnectException if a connection can not be established.
+     */
+    public function reConnect()
+    {
+        // Added the @ here because the connection could be in a broken state,
+        // or already be closed. There is no way to check for that properly, so
+        // we'll have to use the shut-up operator.
+        @fclose( $this->connection );
+        $this->connect();
+    }
+
+    /**
      * Starts a transaction for indexing.
      *
      * When using a transaction, the amount of processing that solr does

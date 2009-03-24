@@ -60,6 +60,21 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
         self::assertContains( "ping", $r );
     }
 
+    function testReConnectAndPing()
+    {
+        $this->solr->reconnect();
+        $r = $this->solr->sendRawGetCommand( 'admin/ping' );
+        self::assertContains( "ping", $r );
+    }
+
+    function testCloseReConnectAndPing()
+    {
+        fclose( $this->solr->connection );
+        $this->solr->reconnect();
+        $r = $this->solr->sendRawGetCommand( 'admin/ping' );
+        self::assertContains( "ping", $r );
+    }
+
     function testSearchEmptyResultsSimple()
     {
         $r = $this->solr->sendRawGetCommand( 'select', array( 'q' => 'solr', 'wt' => 'json', 'df' => 'name_s' ) );
