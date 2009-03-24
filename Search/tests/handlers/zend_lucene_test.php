@@ -419,7 +419,6 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->eq( 'title', 'Article' ) );
         $q->limit( 1, 1 );
-        xdebug_break();
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
