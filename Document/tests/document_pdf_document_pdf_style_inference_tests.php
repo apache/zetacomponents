@@ -30,7 +30,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         $this->document = new DOMDocument();
         $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
 
-        $this->document->load( dirname( __FILE__ ) . '/files/docbook/ezxml/s_004_paragraph.xml' );
+        $this->document->load( dirname( __FILE__ ) . '/files/docbook/pdf/location_ids.xml' );
 
         $this->xpath = new DOMXPath( $this->document );
         $this->xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
@@ -56,6 +56,16 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         );
     }
 
+    public function testLocationIdFromStrangeElementId()
+    {
+        $element = $this->xpath->query( '//doc:sectioninfo' )->item( 0 );
+
+        $this->assertEquals(
+            '/article/section#paragraph_with_inline_markup/sectioninfo#some_strange_id_42',
+            $element->getLocationId()
+        );
+    }
+
     public function testNodeLocationIdWithRole()
     {
         $element = $this->xpath->query( '//doc:emphasis' )->item( 1 );
@@ -66,37 +76,23 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         );
     }
 
-    public function testEmptyRuleSet()
+    public function testNodeLocationIdWithClass()
     {
-        $inferencer = new ezcDocumentPdfStyleInferencer();
-        $element    = $this->xpath->query( '//doc:section' )->item( 0 );
+        $element = $this->xpath->query( '//doc:para' )->item( 1 );
 
         $this->assertEquals(
-            array(),
-            $inferencer->inferenceFormattingRules( $element )
+            '/article/section#paragraph_with_inline_markup/para.note_warning',
+            $element->getLocationId()
         );
     }
 
-    public function testRootNodeSingleRule()
+    public function testNodeLocationIdWithRoleNormalization()
     {
-        $inferencer = new ezcDocumentPdfStyleInferencer();
-
-        $inferencer->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                'article',
-                array(
-                    'foo' => 'bar',
-                )
-            ),
-        ) );
-
-        $element    = $this->xpath->query( '//doc:article' )->item( 0 );
+        $element = $this->xpath->query( '//doc:emphasis' )->item( 2 );
 
         $this->assertEquals(
-            array(
-                'foo' => 'bar',
-            ),
-            $inferencer->inferenceFormattingRules( $element )
+            '/article/section#paragraph_with_inline_markup/para.note_warning/emphasis[Role=strong]',
+            $element->getLocationId()
         );
     }
 }

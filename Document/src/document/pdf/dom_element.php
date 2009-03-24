@@ -72,20 +72,20 @@ class ezcDocumentPdfInferencableDomElement extends DOMElement
         {
             if ( $this->hasAttribute( $attribute ) )
             {
-                $locationId .= '[' . $attribute . '=' . preg_replace( '([^a-z0-9_-]+)', '_', $this->getAttribute( $attribute ) ) . ']';
+                $locationId .= '[' . $attribute . '=' . preg_replace( '([^a-z0-9_-]+)', '_', strtolower( $this->getAttribute( $attribute ) ) ) . ']';
             }
         }
 
         // Append class, if set
         if ( $this->hasAttribute( 'class' ) )
         {
-            $locationId .= '.' . preg_replace( '([^a-z0-9_-]+)', '_', $this->getAttribute( 'class' ) );
+            $locationId .= '.' . preg_replace( '([^a-z0-9_-]+)', '_', strtolower( $this->getAttribute( 'class' ) ) );
         }
 
         // Append ID, if set
         if ( $this->hasAttribute( 'ID' ) )
         {
-            $locationId .= '#' . preg_replace( '([^a-z0-9_-]+)', '_', $this->getAttribute( 'ID' ) );
+            $locationId .= '#' . preg_replace( '([^a-z0-9_-]+)', '_', strtolower( $this->getAttribute( 'ID' ) ) );
         }
 
         return $locationId;
