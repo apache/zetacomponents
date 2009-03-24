@@ -553,7 +553,7 @@ abstract class ezcArchive implements Iterator
 
                         if ( $permissions === null || $permissions === false )
                         {
-                            $permissions = 0777;
+                            $permissions = '0777';
                         }
                         mkdir( $fileName, octdec( $permissions ), true );
                         break;

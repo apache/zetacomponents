@@ -63,6 +63,35 @@ class ezcArchiveZipTest extends ezcArchiveTestCase
         $this->assertEquals( 9695, filesize( $target . "content.xml" ) );
         $this->assertTrue( file_exists( $target . "Configurations2" ) );
         $this->assertTrue( file_exists( $target . "Configurations2/floater" ) );
+        $stat = stat( $target . "Configurations2/accelerator" );
+        $this->assertEquals( 0777 & ~umask(), $stat['mode'] & 0777 );
+        $stat = stat( $target . "Configurations2/floater" );
+        $this->assertEquals( 0777 & ~umask(), $stat['mode'] & 0777 );
+        $this->assertEquals( 17723, filesize( $target . "styles.xml" ) );
+        $this->assertEquals( 1693, filesize( $target . "Pictures/100000000000012C0000003CBE7676D8.gif" ) );
+
+        $this->assertFalse( file_exists( $target . "Configurations2/file_does_not_exist" ) );
+    }
+
+    public function testOttExtract2()
+    {
+        $original = dirname(__FILE__) . "/../data/ezpublish2.zip";
+        $odtFile = $this->tempDir . "/ezpublish.ott";
+        copy( $original, $odtFile );
+        $target = $this->tempDir . "/unzipped/";
+        mkdir( $target );
+
+        $archive = ezcArchive::open( $odtFile );
+        $archive->extract( $target );
+
+        $this->assertTrue( file_exists( $target . "content.xml" ) );
+        $this->assertEquals( 9695, filesize( $target . "content.xml" ) );
+        $this->assertTrue( file_exists( $target . "Configurations2" ) );
+        $this->assertTrue( file_exists( $target . "Configurations2/floater" ) );
+        $stat = stat( $target . "Configurations2/accelerator" );
+        $this->assertEquals( 0777 & ~umask(), $stat['mode'] & 0777 );
+        $stat = stat( $target . "Configurations2/floater" );
+        $this->assertEquals( 0777 & ~umask(), $stat['mode'] & 0777 );
         $this->assertEquals( 17723, filesize( $target . "styles.xml" ) );
         $this->assertEquals( 1693, filesize( $target . "Pictures/100000000000012C0000003CBE7676D8.gif" ) );
 
