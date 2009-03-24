@@ -18,12 +18,20 @@
 class ezcSearchNetworkException extends ezcSearchException
 {
     /**
+     * Contains the raw HTTP body of the network error, if available
+     *
+     * @var string
+     */
+    public $rawBody;
+
+    /**
      * Constructs an ezcSearchNetworkException
      *
      * @param string $message
      */
-    public function __construct( $message )
+    public function __construct( $message, $rawBody = null )
     {
+        $this->rawBody = $rawBody;
         $message = "A network issue occurred: $message";
         parent::__construct( $message );
     }

@@ -193,13 +193,6 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             }
         }
 
-        // check http status code
-        if ( $statusCode >= 400 )
-        {
-            // Something went wrong.
-            throw new ezcSearchNetworkException( "The HTTP server reported: $statusMessage" );
-        }
-
         $data = '';
         $chunkLength = -1;
         // read http content with chunked encoding
@@ -231,6 +224,14 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
                 $data .= $line;
             }
         }
+
+        // check http status code
+        if ( $statusCode >= 400 )
+        {
+            // Something went wrong.
+            throw new ezcSearchNetworkException( "The HTTP server reported: $statusMessage", $data );
+        }
+
         return $data;
     }
 

@@ -76,6 +76,20 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
         self::assertEquals( 0, $r->responseHeader->status );
     }
 
+    function testSearchWithBrokenQuery()
+    {
+        try
+        {
+            $r = $this->solr->search( 'id:[0 to', '' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcSearchNetworkException $e )
+        {
+            self::assertContains( 'A network issue occurred:', $e->getMessage() );
+            self::assertContains( 'ParseException:', $e->rawBody );
+        }
+    }
+
     function testSimpleIndex()
     {
         $r = $this->solr->sendRawGetCommand( 'select', array( 'q' => 'solr', 'wt' => 'json', 'df' => 'name_s' ) );
