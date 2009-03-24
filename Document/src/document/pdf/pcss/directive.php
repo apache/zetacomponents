@@ -17,9 +17,9 @@
 class ezcDocumentPdfCssDirective extends ezcBaseStruct
 {
     /**
-     * Address string
+     * Directive address
      * 
-     * @var string
+     * @var array
      */
     public $address;
 
@@ -31,16 +31,98 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
     public $formats;
 
     /**
+     * Regular expression compiled from directive address
+     * 
+     * @var string
+     */
+    protected $regularExpression = null;
+
+    /**
      * Construct directive from address and formats 
      * 
      * @param string $address 
      * @param array $formats 
      * @return void
      */
-    public function __construct( $address, array $formats )
+    public function __construct( array $address, array $formats )
     {
         $this->address = $address;
         $this->formats = $formats;
+    }
+
+    /**
+     * Compile regular expression
+     *
+     * Compiles the address of this style directive into a PCRE regular
+     * expression, which then can be matched against location IDs.
+     * 
+     * @return void
+     */
+    protected function compileRegularExpression()
+    {
+        $regexp  = '(';
+
+        $address = $this->address;
+        while ( $token = array_shift( $address ) )
+        {
+            // Check for direct descendants
+            if ( strpos( $token, '>' ) === 0 )
+            {
+                $token   = preg_replace( '(>[\\t\\x20]+)', '', $token );
+                $regexp .= '/' . preg_quote( $token );
+            }
+            else
+            {
+                $regexp .= '.*/' . preg_quote( $token );
+            }
+
+            // Append optional class and ID restrictions
+            $restrictions = array();
+            while ( isset( $address[0] ) &&
+                    ( ( strpos( $address[0], '.' ) === 0 ) ||
+                      ( strpos( $address[0], '#' ) === 0 ) ) )
+            {
+                $token = array_shift( $address );
+                $restrictions[$token[0]] = substr( $token, 1 );
+            }
+
+            // Append optional restrictions
+            if ( isset( $restrictions['.'] ) )
+            {
+                $regexp .= '\\.' . preg_quote( $restrictions['.'] );
+            }
+
+            // Append optional restrictions
+            if ( isset( $restrictions['#'] ) )
+            {
+                $regexp .= '[^/]*#' . preg_quote( $restrictions['#'] );
+            }
+
+            $regexp .= '[^/]*';
+        }
+
+        $regexp .= ')S';
+        $this->regularExpression = $regexp;
+    }
+
+    /**
+     * Return a PCRE regular expression for directive address
+     *
+     * Return a PCRE regular expression representing the address of
+     * the directive, intended to match location IDs representing
+     * the docbook element nodes.
+     *
+     * @param string $locationId 
+     * @return string
+     */
+    public function getRegularExpression()
+    {
+        if ( $this->regularExpression === null )
+        {
+            $this->compileRegularExpression();
+        }
+
+        return $this->regularExpression;
     }
 
     /**
