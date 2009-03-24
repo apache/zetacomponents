@@ -58,6 +58,23 @@ class ezcDocumentPdfPage
     }
 
     /**
+     * Set space covored
+     *
+     * Append a rectangle of already covered space. This space will then not be
+     * reused for any other objects on the page.
+     *
+     * There is no check for overlapping of covered areas in here, so that you
+     * can add bounding boxes wrapping multiple already existing rectangles.
+     * 
+     * @param ezcDocumentPdfPageRectangle $rectangle 
+     * @return void
+     */
+    public function setCovered( ezcDocumentPdfPageRectangle $rectangle )
+    {
+        $this->covered[] = $rectangle;
+    }
+
+    /**
      * Try to fit specified rectangle on page
      *
      * Try to find place for the specified rectangle on the curernt page. Each
