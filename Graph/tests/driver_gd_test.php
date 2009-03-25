@@ -58,7 +58,7 @@ class ezcGraphGdDriverTest extends ezcTestImageCase
         unset( $this->driver );
         if ( !$this->hasFailed() )
         {
-            $this->removeTempDir();
+            // $this->removeTempDir();
         }
     }
 
@@ -421,6 +421,35 @@ class ezcGraphGdDriverTest extends ezcTestImageCase
             array(),
             'Expected empty point array as return value.',
             1.
+        );
+    }
+
+    public function testDrawFullCircleSectorBug14655()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.png';
+
+        // Draw filled cicle sector at ( 240.00, 95.00 ) with dimensions ( 144, 76 ) from 0.00 to 360.00.
+        $return = $this->driver->drawCircleSector(
+            new ezcGraphCoordinate( 100, 50 ),
+            80,
+            40,
+            0.,
+            360.,
+            ezcGraphColor::fromHex( '#3465A4' )
+        );
+
+        $this->driver->render( $filename );
+
+        $this->assertTrue(
+            file_exists( $filename ),
+            'No image was generated.'
+        );
+
+        $this->assertImageSimilar(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.png',
+            'Image does not look as expected.',
+            2000
         );
     }
 

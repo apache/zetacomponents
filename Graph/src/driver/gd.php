@@ -739,6 +739,11 @@ class ezcGraphGdDriver extends ezcGraphDriver
             $endAngle = $tmp;
         }
 
+        if ( ( $endAngle - $startAngle ) > 359.99999 )
+        {
+            return $this->drawCircle( $center, $width, $height, $color, $filled );
+        }
+
         // Because of bug #45552 in PHPs ext/GD we check for a minimal distance
         // on the outer border of the circle sector, and skip the drawing if
         // the distance is lower then 1.
