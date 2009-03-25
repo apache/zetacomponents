@@ -84,6 +84,22 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
         );
     }
 
+    public function testNotMatchChildWithParentAssertion()
+    {
+        $element = $this->xpath->query( '//doc:section' )->item( 0 );
+
+        $directive = new ezcDocumentPdfCssDirective(
+            array( 'article' ),
+            array()
+        );
+
+        $this->assertEquals(
+            false,
+            (bool) preg_match( $regexp = $directive->getRegularExpression(), $id = $element->getLocationId() ),
+            "Directive $regexp was expected to NOT match elements location id: \"$id\"."
+        );
+    }
+
     public function testNoMatchRequiredId()
     {
         $element = $this->xpath->query( '//doc:article' )->item( 0 );
@@ -356,7 +372,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
         );
     }
 
-    public function testMatchChildOnlyById()
+    public function testNotMatchChildOnlyById()
     {
         $element = $this->xpath->query( '//doc:para' )->item( 0 );
 
@@ -366,9 +382,9 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
         );
 
         $this->assertEquals(
-            true,
+            false,
             (bool) preg_match( $regexp = $directive->getRegularExpression(), $id = $element->getLocationId() ),
-            "Directive $regexp was expected to match elements location id: \"$id\"."
+            "Directive $regexp was expected to NOT match elements location id: \"$id\"."
         );
     }
 }

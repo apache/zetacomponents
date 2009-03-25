@@ -115,7 +115,7 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
             $regexp .= '(?:\\[[^]]+\\])*';
         }
 
-        $regexp .= '(?:/|$))S';
+        $regexp .= '$)S';
         $this->regularExpression = $regexp;
     }
 
