@@ -637,6 +637,40 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         );
     }
 
+    public function testMixedAutomagicAndManualScaling11()
+    {
+        $chart = new ezcGraphLineChart();
+        $chart->data['sample'] = new ezcGraphArrayDataSet( array( "1.2" => 3, "1.25" => 1 ) );
+        $chart->yAxis->min = 1.175;
+        $chart->yAxis->max = 1.275;
+        $chart->yAxis->majorStep = 0.025;
+        $chart->render( 500, 200 );
+
+        $this->assertEquals(
+            1.175,
+            $chart->yAxis->min,
+            'As value for: min; '
+        );
+
+        $this->assertEquals(
+            1.275,
+            $chart->yAxis->max,
+            'As value for: max; '
+        );
+
+        $this->assertEquals(
+            0.025,
+            $chart->yAxis->majorStep,
+            'As value for: majorStep; '
+        );
+
+        $this->assertEquals(
+            .005,
+            $chart->yAxis->minorStep,
+            'As value for: minorStep; '
+        );
+    }
+
     public function testMixedAutomagicAndManualScalingStepSizeFailure1()
     {
         $chart = new ezcGraphLineChart();

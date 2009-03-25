@@ -383,7 +383,10 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
 
         // Check that the major step size matches up with the min and max
         // values on the axis.
-        if ( ( ( $quotient = ( $this->properties['max'] - $this->properties['min'] ) / $this->properties['majorStep'] ) - floor( $quotient ) ) > .00001 )
+        $quotient = ( $this->properties['max'] - $this->properties['min'] ) / $this->properties['majorStep'];
+        $quotient = abs( $quotient - floor( $quotient ) );
+        if ( ( $quotient >= .00001 ) &&
+             ( abs( $quotient - 1 ) >=  .00001 ) )
         {
             throw new ezcGraphInvalidStepSizeException( "The difference between minimum and maximum value is not a multiplier of the major step size." );
         }
