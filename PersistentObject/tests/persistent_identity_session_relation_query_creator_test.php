@@ -47,8 +47,8 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             . 'LEFT JOIN PO_persons_addresses AS PO_persons_addresses_1 ON PO_persons.id = PO_persons_addresses_1.person_id '
             . 'LEFT JOIN PO_addresses AS PO_addresses_1 ON PO_persons_addresses_1.address_id = PO_addresses_1.id '
             . 'WHERE PO_persons.id = :ezcValue1',
-            $this->getCreateOneLevelMultiRelationQuery(
-                $this->getCreateOneLevelMultiRelationRelations()
+            $this->getOneLevelMultiRelationQuery(
+                $this->getOneLevelMultiRelationRelations()
             )->getQuery()
         );
     }
@@ -65,8 +65,8 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             . 'ON PO_persons_addresses_1.address_id = PO_addresses_1.id LEFT JOIN PO_persons_addresses AS PO_persons_addresses_2 '
             . 'ON PO_addresses_1.id = PO_persons_addresses_2.address_id LEFT JOIN PO_persons AS PO_persons_1 '
             . 'ON PO_persons_addresses_2.person_id = PO_persons_1.id WHERE PO_persons.id = :ezcValue1',
-            $this->getCreateMultiLevelSingleRelationQuery(
-                $this->getCreateMultiLevelSingleRelationRelations()
+            $this->getMultiLevelSingleRelationQuery(
+                $this->getMultiLevelSingleRelationRelations()
             )->getQuery()
         );
     }
@@ -91,8 +91,8 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             . 'ON PO_persons_1.id = PO_birthdays_1.person_id LEFT JOIN PO_employers AS PO_employers_2 '
             . 'ON PO_persons.employer = PO_employers_2.id LEFT JOIN PO_birthdays AS PO_birthdays_2 '
             . 'ON PO_persons.id = PO_birthdays_2.person_id WHERE PO_persons.id = :ezcValue1',
-            $this->getCreateMultiLevelMultiRelationQuery(
-                $this->getCreateMultiLevelMultiRelationRelations()
+            $this->getMultiLevelMultiRelationQuery(
+                $this->getMultiLevelMultiRelationRelations()
             )->getQuery()
         );
     }

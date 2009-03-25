@@ -60,7 +60,7 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         return $q;
     }
 
-    protected function getCreateOneLevelMultiRelationRelations()
+    protected function getOneLevelMultiRelationRelations()
     {
         return array(
             new ezcPersistentRelationFindDefinition(
@@ -73,7 +73,7 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
 
     }
     
-    protected function getCreateOneLevelMultiRelationQuery( $relations )
+    protected function getOneLevelMultiRelationQuery( $relations )
     {
         $q = new ezcQuerySelect( $this->db );
 
@@ -82,7 +82,7 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         return $q;
     }
 
-    protected function getCreateMultiLevelSingleRelationRelations()
+    protected function getMultiLevelSingleRelationRelations()
     {
         return array(
             new ezcPersistentRelationFindDefinition(
@@ -97,7 +97,7 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         );
     }
 
-    protected function getCreateMultiLevelSingleRelationQuery( $relations )
+    protected function getMultiLevelSingleRelationQuery( $relations )
     {
         $q = new ezcQuerySelect( $this->db );
 
@@ -107,7 +107,7 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
     }
     
 
-    protected function getCreateMultiLevelMultiRelationRelations()
+    protected function getMultiLevelMultiRelationRelations()
     {
         return array(
             new ezcPersistentRelationFindDefinition(
@@ -137,7 +137,7 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         );
     }
 
-    protected function getCreateMultiLevelMultiRelationQuery( $relations )
+    protected function getMultiLevelMultiRelationQuery( $relations )
     {
         $q = new ezcQuerySelect( $this->db );
 
