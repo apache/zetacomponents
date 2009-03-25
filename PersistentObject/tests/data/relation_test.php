@@ -62,9 +62,10 @@ class RelationTest
         $schema->writeToDb( $db );
     }
 
-    public static function cleanup()
+    public static function cleanup( $db )
     {
-        $db = ezcDbInstance::get();
+        $db = ( $db === null ? ezcDbInstance::get() : $db );
+
         $db->exec( "DROP TABLE " . $db->quoteIdentifier( "PO_addresses" ) );
         $db->exec( "DROP TABLE " . $db->quoteIdentifier( "PO_birthdays" ) );
         $db->exec( "DROP TABLE " . $db->quoteIdentifier( "PO_employers" ) );

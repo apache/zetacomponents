@@ -53,12 +53,13 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
     public function teardown()
     {
-        RelationTestEmployer::cleanup();
+        RelationTestEmployer::cleanup( $this->db );
     }
 
     public function testOneLevelOneRelationExtract()
     {
-        $q = $this->getOneLevelOneRelationQuery();
+        $relations = $this->getOneLevelOneRelationRelations();
+        $q         = $this->getOneLevelOneRelationQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();

@@ -42,24 +42,27 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         $this->db->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
     }
 
-    protected function getOneLevelOneRelationQuery()
+    protected function getOneLevelOneRelationRelations()
     {
-        $relations = array(
+        return array(
             new ezcPersistentRelationFindDefinition(
                 'RelationTestEmployer'
             ),
         );
+    }
 
+    protected function getOneLevelOneRelationQuery( $relations )
+    {
         $q = new ezcQuerySelect( $this->db );
 
         $this->queryCreator->createQuery( $q, 'RelationTestPerson', 2, $relations );
 
         return $q;
     }
-    
-    protected function getCreateOneLevelMultiRelationQuery()
+
+    protected function getCreateOneLevelMultiRelationRelations()
     {
-        $relations = array(
+        return array(
             new ezcPersistentRelationFindDefinition(
                 'RelationTestEmployer'
             ),
@@ -68,6 +71,10 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
             ),
         );
 
+    }
+    
+    protected function getCreateOneLevelMultiRelationQuery( $relations )
+    {
         $q = new ezcQuerySelect( $this->db );
 
         $this->queryCreator->createQuery( $q, 'RelationTestPerson', 2, $relations );
@@ -75,9 +82,9 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         return $q;
     }
 
-    protected function getCreateMultiLevelSingleRelationQuery()
+    protected function getCreateMultiLevelSingleRelationRelations()
     {
-        $relations = array(
+        return array(
             new ezcPersistentRelationFindDefinition(
                 'RelationTestAddress',
                 null,
@@ -88,17 +95,21 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
                 )
             ),
         );
+    }
 
+    protected function getCreateMultiLevelSingleRelationQuery( $relations )
+    {
         $q = new ezcQuerySelect( $this->db );
 
         $this->queryCreator->createQuery( $q, 'RelationTestPerson', 2, $relations );
 
         return $q;
     }
+    
 
-    protected function getCreateMultiLevelMultiRelationQuery()
+    protected function getCreateMultiLevelMultiRelationRelations()
     {
-        $relations = array(
+        return array(
             new ezcPersistentRelationFindDefinition(
                 'RelationTestAddress',
                 null,
@@ -124,7 +135,10 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
                 'RelationTestBirthday'
             ),
         );
+    }
 
+    protected function getCreateMultiLevelMultiRelationQuery( $relations )
+    {
         $q = new ezcQuerySelect( $this->db );
 
         $this->queryCreator->createQuery( $q, 'RelationTestPerson', 2, $relations );

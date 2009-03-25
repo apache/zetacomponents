@@ -30,7 +30,9 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             . 'PO_employers_1.id AS PO_employers_1_id, PO_employers_1.name AS PO_employers_1_name '
             . 'FROM PO_persons LEFT JOIN PO_employers AS PO_employers_1 '
             . 'ON PO_persons.employer = PO_employers_1.id WHERE PO_persons.id = :ezcValue1',
-            $this->getOneLevelOneRelationQuery()->getQuery()
+            $this->getOneLevelOneRelationQuery(
+                $this->getOneLevelOneRelationRelations()
+            )->getQuery()
         );
     }
 
@@ -45,7 +47,9 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             . 'LEFT JOIN PO_persons_addresses AS PO_persons_addresses_1 ON PO_persons.id = PO_persons_addresses_1.person_id '
             . 'LEFT JOIN PO_addresses AS PO_addresses_1 ON PO_persons_addresses_1.address_id = PO_addresses_1.id '
             . 'WHERE PO_persons.id = :ezcValue1',
-            $this->getCreateOneLevelMultiRelationQuery()->getQuery()
+            $this->getCreateOneLevelMultiRelationQuery(
+                $this->getCreateOneLevelMultiRelationRelations()
+            )->getQuery()
         );
     }
 
@@ -61,7 +65,9 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             . 'ON PO_persons_addresses_1.address_id = PO_addresses_1.id LEFT JOIN PO_persons_addresses AS PO_persons_addresses_2 '
             . 'ON PO_addresses_1.id = PO_persons_addresses_2.address_id LEFT JOIN PO_persons AS PO_persons_1 '
             . 'ON PO_persons_addresses_2.person_id = PO_persons_1.id WHERE PO_persons.id = :ezcValue1',
-            $this->getCreateMultiLevelSingleRelationQuery()->getQuery()
+            $this->getCreateMultiLevelSingleRelationQuery(
+                $this->getCreateMultiLevelSingleRelationRelations()
+            )->getQuery()
         );
     }
 
@@ -85,7 +91,9 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             . 'ON PO_persons_1.id = PO_birthdays_1.person_id LEFT JOIN PO_employers AS PO_employers_2 '
             . 'ON PO_persons.employer = PO_employers_2.id LEFT JOIN PO_birthdays AS PO_birthdays_2 '
             . 'ON PO_persons.id = PO_birthdays_2.person_id WHERE PO_persons.id = :ezcValue1',
-            $this->getCreateMultiLevelMultiRelationQuery()->getQuery()
+            $this->getCreateMultiLevelMultiRelationQuery(
+                $this->getCreateMultiLevelMultiRelationRelations()
+            )->getQuery()
         );
     }
 }
