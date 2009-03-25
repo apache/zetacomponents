@@ -60,7 +60,7 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
      */
     protected function compileRegularExpression()
     {
-        $regexp  = '(';
+        $regexp  = '(^';
 
         $address = $this->address;
         while ( $token = array_shift( $address ) )
@@ -71,9 +71,15 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
                 $token   = preg_replace( '(>[\\t\\x20]+)', '', $token );
                 $regexp .= '/' . preg_quote( $token );
             }
+            elseif ( ( strpos( $token, '.' ) === 0 ) ||
+                     ( strpos( $token, '#' ) === 0 ) )
+            {
+                $regexp .= '(?:/[^/]+)*/[^.]+';
+                array_unshift( $address, $token );
+            }
             else
             {
-                $regexp .= '.*/' . preg_quote( $token );
+                $regexp .= '(?:/[^/]+)*/' . preg_quote( $token );
             }
 
             // Append optional class and ID restrictions
@@ -89,19 +95,27 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
             // Append optional restrictions
             if ( isset( $restrictions['.'] ) )
             {
-                $regexp .= '\\.' . preg_quote( $restrictions['.'] );
+                $regexp .= '\\.(?:[a-z0-9_-]+_)?' . preg_quote( $restrictions['.'] ) . '(?:_[a-z0-9_-]+)?';
+            }
+            else
+            {
+                $regexp .= '(?:\\.[a-z0-9_-]+)?';
             }
 
             // Append optional restrictions
             if ( isset( $restrictions['#'] ) )
             {
-                $regexp .= '[^/]*#' . preg_quote( $restrictions['#'] );
+                $regexp .= '#' . preg_quote( $restrictions['#'] );
+            }
+            else
+            {
+                $regexp .= '(?:#[a-z0-9_-]+)?';
             }
 
-            $regexp .= '[^/]*';
+            $regexp .= '(?:\\[[^]]+\\])*';
         }
 
-        $regexp .= ')S';
+        $regexp .= '(?:/|$))S';
         $this->regularExpression = $regexp;
     }
 
