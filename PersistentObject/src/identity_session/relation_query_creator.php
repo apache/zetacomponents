@@ -1,22 +1,61 @@
 <?php
+/**
+ * File containing the ezcPersistentIdentityRelationQueryCreator class.
+ *
+ * @package PersistentObject
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
 /**
- * ezcPersistentIdentityRelationQueryCreator 
+ * Creates JOIN queries to fetch related objects for a given object.
+ *
+ * An instance of this class is used in {@link ezcPersistentIdentitySession} to
+ * generate a {@link ezcQuerySelect} object to fetch related objects for a
+ * certain object. The results of the generated query are then extracted using
+ * {@link ezcPersistentIdentityRelationObjectExtractor}.
  * 
  * @package PersistentObject
  * @version //autogen//
+ * @access private
  *
  * @TODO Quote identifiers!
  */
 class ezcPersistentIdentityRelationQueryCreator
 {
+    /**
+     * Definition Manager.
+     * 
+     * @var ezcPersistentDefinitionManager
+     */
     protected $defManager;
 
+    /**
+     * Creates a new query generator. 
+     *
+     * Creates a new query generator that will receive needed persistentence
+     * definitions from $defManager.
+     * 
+     * @param ezcPersistentDefinitionManager $defManager 
+     */
     public function __construct( ezcPersistentDefinitionManager $defManager )
     {
         $this->defManager = $defManager;
     }
 
+    /**
+     * Generates a relation pre-fetch query.
+     *
+     * This method generates a relation pre-fetch query on basis of $q. The
+     * query will fetch the object of $class with $id and all related objects
+     * defined in $relations.
+     * 
+     * @param ezcQuerySelect $q 
+     * @param string $class 
+     * @param mixed $id 
+     * @param array $relations 
+     */
     public function createQuery( ezcQuerySelect $q, $class, $id, array $relations )
     {
         $srcDef = $this->defManager->fetchDefinition( $class );
@@ -150,6 +189,16 @@ class ezcPersistentIdentityRelationQueryCreator
         }
     }
 
+    /**
+     * Adds all columns to be selected to $q.
+     *
+     * Adds the columns from all tables defined in $relations to the select
+     * query $q. Columns are selected using an alias to identify which relation
+     * they belong too, using the tables alias.
+     * 
+     * @param ezcQuerySelect $q 
+     * @param array $relations 
+     */
     protected function createSelects( ezcQuerySelect $q, array $relations )
     {
         foreach ( $relations as $relation )
@@ -182,6 +231,13 @@ class ezcPersistentIdentityRelationQueryCreator
         }
     }
 
+    /**
+     * Returns an alias for $column from $table.
+     * 
+     * @param string $table 
+     * @param string $column 
+     * @return string
+     */
     protected function getColumnAlias( $table, $column )
     {
         return sprintf(
@@ -191,6 +247,13 @@ class ezcPersistentIdentityRelationQueryCreator
         );
     }
 
+    /**
+     * Returns the full qualified column name for the $column in $table.
+     * 
+     * @param string $table 
+     * @param string $column 
+     * @return string
+     */
     protected function getColumnName( $table, $column )
     {
         return sprintf(
@@ -203,14 +266,13 @@ class ezcPersistentIdentityRelationQueryCreator
     /**
      * Creates the joins to select $relations from $srcTableName.
      *
-     * Creates the necessary JOIN statements in $q, to select all related
+     * Creates the necessary JOIN statements in $q to select all related
      * objects defined by $relations, seen from $srcTableName point of view.
      * $srcTableName must already be the alias table name of the source table.
      * 
      * @param ezcQuerySelect $q 
      * @param string $srcTableName 
      * @param array(ezcPersistentRelationFindDefinition) $relations 
-     * @return void
      */
     protected function createJoins( ezcQuerySelect $q, $srcTableName, array $relations )
     {
@@ -225,12 +287,11 @@ class ezcPersistentIdentityRelationQueryCreator
      * Creates the JOIN necessary to fetch related objects of $relation.
      *
      * Detects if $relation needs a n:m-relation JOIN or just a simple join and
-     * dispatches to the actual methods.
+     * dispatches to the correct methods.
      * 
      * @param ezcQuerySelect $q 
      * @param string $srcTableName 
      * @param ezcPersistentRelationFindDefinition $relation 
-     * @return void
      */
     protected function createJoin( ezcQuerySelect $q, $srcTableName, ezcPersistentRelationFindDefinition $relation )
     {
@@ -254,7 +315,6 @@ class ezcPersistentIdentityRelationQueryCreator
      * @param ezcQuerySelect $q 
      * @param string $srcTableName 
      * @param ezcPersistentRelationFindDefinition $relation 
-     * @return void
      */
     protected function createComplexJoin( ezcQuerySelect $q, $srcTableName, ezcPersistentRelationFindDefinition $relation )
     {
@@ -324,7 +384,6 @@ class ezcPersistentIdentityRelationQueryCreator
      * @param ezcQuerySelect $q 
      * @param string $srcTableName 
      * @param ezcPersistentRelationFindDefinition $relation 
-     * @return void
      */
     protected function createSimpleJoin( ezcQuerySelect $q, $srcTableName, ezcPersistentRelationFindDefinition $relation )
     {
