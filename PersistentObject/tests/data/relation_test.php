@@ -62,7 +62,7 @@ class RelationTest
         $schema->writeToDb( $db );
     }
 
-    public static function cleanup( $db )
+    public static function cleanup( $db = null )
     {
         $db = ( $db === null ? ezcDbInstance::get() : $db );
 
