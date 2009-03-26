@@ -16,6 +16,7 @@ require_once( "context_test.php");
 require_once( "writers/writer_file_test.php");
 require_once( "writers/writer_unix_file_test.php");
 require_once( "writers/writer_syslog_test.php");
+require_once( "writers/writer_stack_test.php");
 
 /**
  * @package EventLog
@@ -34,6 +35,7 @@ class ezcEventLogSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcLogFileWriterTest::suite() );
         $this->addTest( ezcLogUnixFileWriterTest::suite() );
         $this->addTest( ezcLogSyslogWriterTest::suite() );
+        $this->addTest( ezcLogStackWriterTest::suite() );
         $this->addTest( ezcLogMessageTest::suite() );
         $this->addTest( ezcLogTest::suite() );
     }
