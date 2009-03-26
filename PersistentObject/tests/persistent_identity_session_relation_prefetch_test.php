@@ -11,6 +11,7 @@
 require_once dirname( __FILE__ ) . "/data/relation_test_employer.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_person.php";
 require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
+require_once dirname( __FILE__ ) . "/data/relation_test_birthday.php";
 
 /**
  * Tests ezcPersistentManyToOneRelation class.
