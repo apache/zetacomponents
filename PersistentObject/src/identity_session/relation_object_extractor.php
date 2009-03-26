@@ -19,7 +19,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcPersistentIdentitySessionRelationObjectExtractor
+class ezcPersistentIdentityRelationObjectExtractor
 {
     /**
      * Definition manager.

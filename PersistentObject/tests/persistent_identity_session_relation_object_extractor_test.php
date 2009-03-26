@@ -45,7 +45,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
             $this->defManager
         );
 
-        $this->extractor = new ezcPersistentIdentitySessionRelationObjectExtractor(
+        $this->extractor = new ezcPersistentIdentityRelationObjectExtractor(
             $this->idMap,
             $this->defManager
         );
