@@ -21,15 +21,38 @@
 abstract class ezcDocumentPdfDriver
 {
     /**
+     * Ńormal text
+     */
+    const FONT_PLAIN   = 0;
+
+    /**
+     * Bold text
+     */
+    const FONT_BOLD    = 1;
+
+    /**
+     * Italic text
+     */
+    const FONT_OBLIQUE = 2;
+
+    /**
+     * Create a new page
+     *
+     * Create a new page in the PDF document with the given width and height.
+     * 
+     * @param float $width 
+     * @param float $height 
+     * @return void
+     */
+    abstract public function createPage( $width, $height );
+
+    /**
      * Set text formatting option
      *
      * Set a text formatting option. The names of the options are the same used
      * in the PCSS files and need to be translated by the driver to the proper
      * backend calls.
      *
-       @TODO: How to handle resetting the text formatting? Does the renderer
-       already knows everything relevant, or do we need to provide a method in
-       the driver for explicit reset?
      *
      * @param string $type 
      * @param mixed $value 
