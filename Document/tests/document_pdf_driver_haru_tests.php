@@ -101,6 +101,18 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
         );
     }
 
+    public function testUtf8FontWidth()
+    {
+        $driver = new ezcDocumentPdfHaruDriver();
+        $driver->createPage( 210, 297 );
+
+        $this->assertEquals(
+            36,
+            $driver->calculateWordWidth( 'ℋℇℒℒΩ' ),
+            'Wrong word width estimation', .1
+        );
+    }
+
     public function testRenderHelloWorld()
     {
         $driver = new ezcDocumentPdfHaruDriver();
@@ -164,6 +176,19 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
         $driver->setTextFormatting( 'font-weight', 'bold' );
         $driver->setTextFormatting( 'font-style', 'italic' );
         $driver->drawWord( 0, 110, 'The quick brown fox jumps over the lazy dog' );
+
+        $filename = $this->tempDir . __METHOD__ . '.pdf';
+        file_put_contents( $filename, $pdf = $driver->save() );
+
+        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
+    }
+
+    public function testRenderUtf8Text()
+    {
+        $driver = new ezcDocumentPdfHaruDriver();
+        $driver->createPage( 210, 297 );
+
+        $driver->drawWord( 10, 10, 'ℋℇℒℒΩ' );
 
         $filename = $this->tempDir . __METHOD__ . '.pdf';
         file_put_contents( $filename, $pdf = $driver->save() );
