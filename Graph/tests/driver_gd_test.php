@@ -58,7 +58,7 @@ class ezcGraphGdDriverTest extends ezcTestImageCase
         unset( $this->driver );
         if ( !$this->hasFailed() )
         {
-            // $this->removeTempDir();
+            $this->removeTempDir();
         }
     }
 
