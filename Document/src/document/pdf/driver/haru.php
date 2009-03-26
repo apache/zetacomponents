@@ -142,8 +142,10 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         }
 
         // Style fallback
-        $style = isset( $this->fonts[$name][$style] ) ? $style :
-                    isset( $this->fonts[$name][$this->currentFont['style']] ) ? $this->currentFont['style'] : self::FONT_PLAIN;
+        if ( !isset( $this->fonts[$name][$style] ) )
+        {
+            $style = isset( $this->fonts[$name][$this->currentFont['style']] ) ? $this->currentFont['style'] : self::FONT_PLAIN;
+        }
 
         // Create and use font on current page
         $font = $this->document->getFont( $this->fonts[$name][$style] );
