@@ -15,13 +15,17 @@
  * unified API for PDF creation and proxy them to the actual PDF
  * implementation, which will create the binary data.
  *
+ * The unit used for all values passed to methods of this class is milimeters.
+ * The extending drivers need to transform these values in a representation
+ * they can use.
+ *
  * @package Document
  * @version //autogen//
  */
 abstract class ezcDocumentPdfDriver
 {
     /**
-     * Ńormal text
+     * Normal text
      */
     const FONT_PLAIN   = 0;
 
@@ -34,6 +38,46 @@ abstract class ezcDocumentPdfDriver
      * Italic text
      */
     const FONT_OBLIQUE = 2;
+
+    /**
+     * One millimeter in inch
+     */
+    const MM_IN_INCH = 0.0393700787;
+
+    /**
+     * Resolution in DPI for transformations between mm and pixels.
+     * 
+     * @var int
+     */
+    protected $resolution = 72;
+
+    /**
+     * Convert mm to pixel
+     *
+     * Method to convert values provided in mm to pixels given the configured
+     * resolution of the document specified in the $resolution property.
+     *
+     * @param float $value
+     * @return float
+     */
+    protected function mmToPixel( $value )
+    {
+        return $value * self::MM_IN_INCH * $this->resolution;
+    }
+
+    /**
+     * Convert pixel to mm
+     *
+     * Method to convert values provided in pixels to mm given the configured
+     * resolution of the document specified in the $resolution property.
+     *
+     * @param float $value
+     * @return float
+     */
+    protected function pixelToMm( $value )
+    {
+        return $value / self::MM_IN_INCH / $this->resolution;
+    }
 
     /**
      * Create a new page
@@ -83,5 +127,14 @@ abstract class ezcDocumentPdfDriver
      * @return void
      */
     abstract public function drawWord( $x, $y, $word );
+
+    /**
+     * Generate and return PDF
+     *
+     * Return the generated binary PDF content as a string.
+     * 
+     * @return string
+     */
+    abstract public function save();
 }
 

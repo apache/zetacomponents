@@ -84,7 +84,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     protected $currentFont = array(
         'name'  => 'sans-serif',
         'style' => self::FONT_PLAIN,
-        'size'  => 12,
+        'size'  => 28.5,
         'font'  => null,
     );
 
@@ -115,8 +115,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     {
         $this->pages[] = $this->currentPage = $this->document->addPage();
 
-        $this->currentPage->setWidth( $width );
-        $this->currentPage->setHeight( $height );
+        $this->currentPage->setWidth( $this->mmToPixel( $width ) );
+        $this->currentPage->setHeight( $this->mmToPixel( $height ) );
     }
 
     /**
@@ -214,7 +214,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
                 break;
 
             case 'font-size':
-                $this->currentFont['size'] = (float) $value;
+                $this->currentFont['size'] = $this->mmToPixel( (float) $value );
 
                 if ( $this->currentFont['font'] !== null )
                 {
@@ -247,7 +247,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
         }
 
-        return $this->currentPage->getTextWidth( $word );
+        return $this->pixelToMm( $this->currentPage->getTextWidth( $word ) );
     }
 
     /**
@@ -263,7 +263,32 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function drawWord( $x, $y, $word )
     {
-        return;
+        // Ensure font is initialized
+        if ( $this->currentFont['font'] === null )
+        {
+            $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
+        }
+
+        $this->currentPage->beginText();
+        $this->currentPage->textOut( 
+            $this->mmToPixel( $x ),
+            $this->currentPage->getHeight() - $this->mmToPixel( $y ) - $this->currentFont['size'],
+            $word
+        );
+        $this->currentPage->endText();
+    }
+
+    /**
+     * Generate and return PDF
+     *
+     * Return the generated binary PDF content as a string.
+     * 
+     * @return string
+     */
+    public function save()
+    {
+        $this->document->saveToStream();
+        return $this->document->readFromStream( $this->document->getStreamSize() );
     }
 }
 
