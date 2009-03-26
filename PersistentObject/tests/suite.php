@@ -35,6 +35,8 @@ require_once 'one_to_many_relation_test.php';
 require_once 'many_to_one_relation_test.php';
 require_once 'one_to_one_relation_test.php';
 require_once 'many_to_many_relation_test.php';
+require_once 'multi_relation_test.php';
+
 require_once 'keyword_test.php';
 require_once 'string_identifier_test.php';
 require_once 'object_property_test.php';
@@ -53,6 +55,8 @@ require_once 'instance_delayed_init_test.php';
 require_once 'find_query_test.php';
 
 require_once 'basic_identity_map_test.php';
+require_once 'persistent_identity_session_relation_query_creator_test.php';
+require_once 'persistent_identity_session_relation_object_extractor_test.php';
 
 /**
  * @package PersistentObject
@@ -86,6 +90,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentOneToOneRelationTest::suite() );
         $this->addTest( ezcPersistentManyToOneRelationTest::suite() );
         $this->addTest( ezcPersistentManyToManyRelationTest::suite() );
+        $this->addTest( ezcPersistentMultiRelationTest::suite() );
         $this->addTest( ezcPersistentKeywordTest::suite() );
         $this->addTest( ezcPersistentStringIdentifierTest::suite() );
         $this->addTest( ezcPersistentObjectPropertyTest::suite() );
@@ -100,6 +105,8 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentObjectInstanceDelayedInitTest::suite() );
         $this->addTest( ezcPersistentFindQueryTest::suite() );
         $this->addTest( ezcPersistentBasicIdentityMapTest::suite() );
+        $this->addTest( ezcPersistentIdentitySessionRelationQueryCreatorTest::suite() );
+        $this->addTest( ezcPersistentIdentitySessionRelationObjectExtractorTest::suite() );
     }
 
     public static function suite()
