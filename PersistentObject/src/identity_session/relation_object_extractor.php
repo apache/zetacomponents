@@ -86,6 +86,12 @@ class ezcPersistentIdentitySessionRelationObjectExtractor
                     $relation->tableAlias
                 )
             ];
+            
+            if ( $id === null )
+            {
+                // No related object of this relation exists, skip
+                continue;
+            }
 
             // Check if object was already extracted
             $object = $this->idMap->getIdentity( $relation->relatedClass, $id );
