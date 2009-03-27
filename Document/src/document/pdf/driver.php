@@ -27,17 +27,22 @@ abstract class ezcDocumentPdfDriver
     /**
      * Normal text
      */
-    const FONT_PLAIN   = 0;
+    const FONT_PLAIN     = 0;
 
     /**
      * Bold text
      */
-    const FONT_BOLD    = 1;
+    const FONT_BOLD      = 1;
 
     /**
      * Italic text
      */
-    const FONT_OBLIQUE = 2;
+    const FONT_OBLIQUE   = 2;
+
+    /**
+     * Underlined text
+     */
+    const FONT_UNDERLINE = 4;
 
     /**
      * One millimeter in inch

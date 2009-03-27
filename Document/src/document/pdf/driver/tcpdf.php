@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfHaruDriver class
+ * File containing the ezcDocumentPdfTcpdfDriver class
  *
  * @package Document
  * @version //autogen//
@@ -8,18 +8,24 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+// Include TCPDF library.
+// @TODO: Fix this to point to a generic location, but TCPDF seems not to be
+// installable using PEAR; so that the user might be required to include this
+// himself.
+require dirname( __FILE__ ) . '/tcpdf/tcpdf.php';
+
 /**
  * Pdf driver based on pecl/haru
  *
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
+class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
 {
     /**
-     * Haru Document instance
+     * Tcpdf Document instance
      * 
-     * @var HaruDoc
+     * @var Tcpdf
      */
     protected $document;
 
@@ -44,90 +50,29 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     protected $fonts = array(
         'sans-serif' => array(
-            self::FONT_PLAIN   => 'Helvetica',
-            self::FONT_BOLD    => 'Helvetica-Bold',
-            self::FONT_OBLIQUE => 'Helvetica-Oblique',
-            3                  => 'Helvetica-BoldOblique',
+            self::FONT_PLAIN   => 'times',
+            self::FONT_BOLD    => 'timesb',
+            self::FONT_OBLIQUE => 'timesi',
+            3                  => 'timesbi',
         ),
         'serif' => array(
-            self::FONT_PLAIN   => 'Times-Roman',
-            self::FONT_BOLD    => 'Times-Bold',
-            self::FONT_OBLIQUE => 'Times-Oblique',
-            3                  => 'Times-BoldOblique',
+            self::FONT_PLAIN   => 'helvetica',
+            self::FONT_BOLD    => 'helveticab',
+            self::FONT_OBLIQUE => 'helveticai',
+            3                  => 'helveticabi',
         ),
         'monospace' => array(
-            self::FONT_PLAIN   => 'Courier',
-            self::FONT_BOLD    => 'Courier-Bold',
-            self::FONT_OBLIQUE => 'Courier-Oblique',
-            3                  => 'Courier-BoldOblique',
+            self::FONT_PLAIN   => 'courier',
+            self::FONT_BOLD    => 'courierb',
+            self::FONT_OBLIQUE => 'courieri',
+            3                  => 'courierbi',
         ),
         'Symbol' => array(
-            self::FONT_PLAIN   => 'Symbol',
+            self::FONT_PLAIN   => 'symbol',
         ),
         'ZapfDingbats' => array(
-            self::FONT_PLAIN   => 'ZapfDingbats',
+            self::FONT_PLAIN   => 'zapfdingbats',
         ),
-    );
-
-    /**
-     * Encodings known by libharu.
-     *
-     * Libharu sadly does not know any encoding which is capable of
-     * representing the full unicode charset. It only knows about several
-     * encodings representing subsets of it. This is a list of all available
-     * encodings which will just be tried to use for input strings, mapped to
-     * their iconv equivalents.
-     * 
-     * @var array
-     */
-    protected $encodings = array(
-        'StandardEncoding' => 'ISO_8859-1', // Assumption
-        'MacRomanEncoding' => 'MAC',
-        'WinAnsiEncoding'  => 'ISO_8859-1',
-        'ISO8859-2'        => 'ISO_8859-2',
-        'ISO8859-3'        => 'ISO_8859-3',
-        'ISO8859-4'        => 'ISO_8859-4',
-        'ISO8859-5'        => 'ISO_8859-5',
-        'ISO8859-6'        => 'ISO_8859-6',
-        'ISO8859-7'        => 'ISO_8859-7',
-        'ISO8859-8'        => 'ISO_8859-8',
-        'ISO8859-9'        => 'ISO_8859-9',
-        'ISO8859-10'       => 'ISO_8859-10',
-        'ISO8859-11'       => 'ISO_8859-11',
-        'ISO8859-13'       => 'ISO_8859-12',
-        'ISO8859-14'       => 'ISO_8859-13',
-        'ISO8859-15'       => 'ISO_8859-14',
-        'ISO8859-16'       => 'ISO_8859-16',
-        'CP1250'           => 'CP1250',
-        'CP1251'           => 'CP1251',
-        'CP1252'           => 'CP1252',
-        'CP1253'           => 'CP1253',
-        'CP1254'           => 'CP1254',
-        'CP1255'           => 'CP1255',
-        'CP1256'           => 'CP1256',
-        'CP1257'           => 'CP1257',
-        'CP1258'           => 'CP1258',
-        'KOI8-R'           => 'KOI8-R',
-        /*
-         * @TODO: Find out how about the respective equivalents in inconv
-         * encoding notation.
-        'GB-EUC-H'         => '',
-        'GB-EUC-V'         => '',
-        'GBK-EUC-H'        => '',
-        'GBK-EUC-V'        => '',
-        'ETen-B5-H'        => '',
-        'ETen-B5-V'        => '',
-        '90ms-RKSJ-H'      => '',
-        '90ms-RKSJ-V'      => '',
-        '90msp-RKSJ-H'     => '',
-        'EUC-H'            => '',
-        'EUC-V'            => '',
-        'KSC-EUC-H'        => '',
-        'KSC-EUC-V'        => '',
-        'KSCms-UHC-H'      => '',
-        'KSCms-UHC-HW-H'   => '',
-        'KSCms-UHC-HW-V'   => '',
-         */
     );
 
     /**
@@ -145,8 +90,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     protected $currentFont = array(
         'name'  => 'sans-serif',
         'style' => self::FONT_PLAIN,
-        'size'  => 28.5,
-        'font'  => null,
+        'size'  => 12,
     );
 
     /**
@@ -158,9 +102,13 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function __construct()
     {
-        $this->document = new HaruDoc();
-        $this->document->setPageMode( HaruDoc::PAGE_MODE_USE_THUMBS );
+        // Do nothing in here, we can only instantiate the document on first
+        // page creation, because we do not know about the page format
+        // beforehand.
         $this->pages = array();
+
+        // Sorry for this, but we need it to prevent from warnings in TCPDF:
+        $GLOBALS['utf8tolatin'] = array();
     }
 
     /**
@@ -174,10 +122,29 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function createPage( $width, $height )
     {
-        $this->pages[] = $this->currentPage = $this->document->addPage();
+        if ( $this->document === null )
+        {
+            $this->document = new TCPDF(
+                'P',  // Portrait size, which should notter sinc we provide the exact size
+                'mm', // Units used for all values, except font sizes
+                array( $width, $height ),
+                true,   // Use unicode
+                'UTF-8'
+            );
 
-        $this->currentPage->setWidth( $this->mmToPixel( $width ) );
-        $this->currentPage->setHeight( $this->mmToPixel( $height ) );
+            // We do this ourselves
+            $this->document->SetAutoPageBreak( false );
+
+            $this->document->setFont(
+                $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
+                '', // Style
+                $this->currentFont['size']
+            );
+        }
+
+        // Create a new page, and create a reference in the pages array
+        $this->document->AddPage( 'P', array( $width, $height ) );
+        $this->pages[] = $this->document->getPage();
     }
 
     /**
@@ -209,15 +176,17 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         }
 
         // Create and use font on current page
-        $font = $this->document->getFont( $this->fonts[$name][$style] );
-
-        $this->currentPage->setFontAndSize( $font, $this->currentFont['size'] );
+        $this->document->setFont(
+            $this->fonts[$name][self::FONT_PLAIN],
+            ( $style & self::FONT_BOLD      ? 'B' : '' ) .
+            ( $style & self::FONT_OBLIQUE   ? 'I' : '' ) .
+            ( $style & self::FONT_UNDERLINE ? 'U' : '' )
+        );
 
         $this->currentFont = array(
             'name'  => $name,
             'style' => $style,
             'size'  => $this->currentFont['size'],
-            'font'  => $font,
         );
     }
 
@@ -279,14 +248,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
             case 'font-size':
                 $this->currentFont['size'] = $this->mmToPixel( (float) $value );
-
-                if ( $this->currentFont['font'] !== null )
-                {
-                    $this->currentPage->setFontAndSize(
-                        $this->currentFont['font'],
-                        $this->currentFont['size']
-                    );
-                }
+                $this->document->setFontSize( $this->currentFont['size'] );
                 break;
 
             default:
@@ -305,15 +267,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function calculateWordWidth( $word )
     {
-        // $word = iconv( 'UTF-8', 'UCS-2', $word );
-
-        // Ensure font is initialized
-        if ( $this->currentFont['font'] === null )
-        {
-            $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
-        }
-
-        return $this->pixelToMm( $this->currentPage->getTextWidth( $word ) );
+        return $this->document->GetStringWidth( $word );
     }
 
     /**
@@ -329,19 +283,11 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function drawWord( $x, $y, $word )
     {
-        // Ensure font is initialized
-        if ( $this->currentFont['font'] === null )
-        {
-            $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
-        }
-
-        $this->currentPage->beginText();
-        $this->currentPage->textOut( 
-            $this->mmToPixel( $x ),
-            $this->currentPage->getHeight() - $this->mmToPixel( $y ) - $this->currentFont['size'],
+        $this->document->setXY( $x, $y );
+        $this->document->Write(
+            $this->pixelToMm( $this->currentFont['size'] ),
             $word
         );
-        $this->currentPage->endText();
     }
 
     /**
@@ -353,8 +299,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function save()
     {
-        $this->document->saveToStream();
-        return $this->document->readFromStream( $this->document->getStreamSize() );
+        return $this->document->Output( 'ignored', 'S' );
     }
 }
 

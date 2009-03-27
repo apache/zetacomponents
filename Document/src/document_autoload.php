@@ -188,6 +188,7 @@ return array(
     'ezcDocumentPdfParagraphRenderer'                    => 'Document/document/pdf/renderer/paragraph.php',
     'ezcDocumentPdfRendererDispatcher'                   => 'Document/document/pdf/renderer_dispatcher.php',
     'ezcDocumentPdfStyleInferencer'                      => 'Document/document/pdf/style_inferencer.php',
+    'ezcDocumentPdfTcpdfDriver'                          => 'Document/document/pdf/driver/tcpdf.php',
     'ezcDocumentRst'                                     => 'Document/document/rst.php',
     'ezcDocumentRstAnonymousLinkNode'                    => 'Document/document/rst/nodes/link_anonymous.php',
     'ezcDocumentRstAnonymousReferenceNode'               => 'Document/document/rst/nodes/anon_reference.php',

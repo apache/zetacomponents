@@ -47,8 +47,12 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
      */
     protected function assertPdfDocumentsSimilar( $content, $name )
     {
-        $this->assertFileExists( $compare = $this->basePath . $name . '.pdf' );
+        $baseName = str_replace( '::', '_', $name ) . '.pdf';
 
+        // Store file for manual inspection if the test case fails
+        file_put_contents( $this->tempDir . $baseName, $content );
+
+        $this->assertFileExists( $compare = $this->basePath . $baseName );
         $this->assertEquals(
             file_get_contents( $compare ),
             $content,

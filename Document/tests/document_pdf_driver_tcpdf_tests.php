@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcDocumentPdfDriverHaruTests
+ * ezcDocumentPdfDriverTcpdfTests
  * 
  * @package Document
  * @version //autogen//
@@ -17,8 +17,10 @@ require_once 'pdf_test.php';
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
+class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
 {
+    protected $oldErrorReporting;
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
@@ -32,11 +34,22 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
         }
 
         parent::setUp();
+
+        // Change error reporting - this is evil, but otherwise TCPDF will
+        // abort the tests, because it throws lots of E_NOTICE and
+        // E_DEPRECATED.
+        $this->oldErrorReporting = error_reporting( E_PARSE | E_ERROR | E_WARNING );
+    }
+
+    public function tearDown()
+    {
+        error_reporting( $this->oldErrorReporting );
+        parent::tearDown();
     }
 
     public function testEstimateDefaultWordWidth()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
 
         $this->assertEquals(
@@ -48,7 +61,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
     public function testEstimateWordWidthDifferentSize()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-size', '14' );
 
@@ -61,7 +74,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
     public function testEstimateBoldWordWidth()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-weight', 'bold' );
 
@@ -74,7 +87,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
     public function testEstimateMonospaceWordWidth()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'monospace' );
         $driver->setTextFormatting( 'font-size', '12' );
@@ -88,7 +101,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
     public function testFontStyleFallback()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'ZapfDingbats' );
         $driver->setTextFormatting( 'font-weight', 'bold' );
@@ -103,7 +116,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
     public function testUtf8FontWidth()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
 
         $this->assertEquals(
@@ -115,7 +128,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
     public function testRenderHelloWorld()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '10' );
@@ -129,7 +142,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
     public function testRenderHelloWorldSmallFont()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '4' );
@@ -143,7 +156,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
     public function testRenderSwitchingFontStates()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-size', '8' );
 
@@ -172,14 +185,16 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
         $driver->setTextFormatting( 'font-weight', 'bold' );
         $driver->setTextFormatting( 'font-style', 'italic' );
         $driver->drawWord( 0, 110, 'The quick brown fox jumps over the lazy dog' );
-        $pdf = $driver->save();
+
+        $filename = $this->tempDir . __METHOD__ . '.pdf';
+        file_put_contents( $filename, $pdf = $driver->save() );
 
         $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
     }
 
     public function testRenderUtf8Text()
     {
-        $driver = new ezcDocumentPdfHaruDriver();
+        $driver = new ezcDocumentPdfTcpdfDriver();
         $driver->createPage( 210, 297 );
 
         $driver->drawWord( 10, 10, 'ℋℇℒℒΩ' );
