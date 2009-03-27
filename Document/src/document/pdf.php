@@ -6,6 +6,7 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  */
 
 /**
@@ -13,6 +14,7 @@
  * 
  * @package Document
  * @version //autogen//
+ * @access private
  * @mainclass
  */
 class ezcDocumentPdf extends ezcDocument
