@@ -31,7 +31,26 @@ class ezcPersistentIdentitySession
      */
     private $properties = array();
 
+    /**
+     * The persistent session this object wraps.
+     * 
+     * @var ezcPersistentSession
+     */
     protected $session;
+
+    /**
+     * Query creator for relation pre-fetching. 
+     * 
+     * @var ezcPersistentIdentityRelationQueryCreator
+     */
+    protected $queryCreator;
+
+    /**
+     * Related object extractor used for pre-fetching. 
+     * 
+     * @var ezcPersistentIdentityRelationObjectExtractor
+     */
+    protected $objectExtractor;
 
     /**
      * Creates a new identity session.
@@ -801,6 +820,31 @@ class ezcPersistentIdentitySession
      */
     public function loadWithRelatedObjects( $class, $id, array $relations )
     {
+        if ( $this->queryCreator === null )
+        {
+            $this->queryCreator = new ezcPersistentIdentityRelationQueryCreator(
+                $this->session->definitionManager
+            );
+        }
+
+        $select = $this->session->database->createSelectQuery();
+
+        $this->queryCreator->createQuery( $select, $class, $id, $relations );
+
+        $stmt = $select->prepare();
+        $stmt->execute();
+
+        if ( $this->objectExtractor === null )
+        {
+            $this->objectExtractor = new ezcPersistentIdentityRelationObjectExtractor(
+                $this->properties['identityMap'],
+                $this->session->definitionManager
+            );
+        }
+
+        $this->objectExtractor->extractObjects( $stmt, $class, $id, $relations );
+
+        return $this->identityMap->getIdentity( $class, $id );
     }
 
     /**

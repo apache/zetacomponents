@@ -44,17 +44,17 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
         RelationTestPerson::setupTables();
         RelationTestPerson::insertData();
 
-        $this->idSession = new ezcPersistentSession(
+        $this->session = new ezcPersistentSession(
             ezcDbInstance::get(),
             new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" )
         );
 
         $this->idMap = new ezcPersistentBasicIdentityMap(
-            $this->idSession->definitionManager
+            $this->session->definitionManager
         );
 
         $this->idSession = new ezcPersistentIdentitySession(
-            $this->idSession,
+            $this->session,
             $this->idMap
         );
     }
@@ -216,6 +216,102 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
         {
             $this->assertNotSame( $firstKey, $key );
             $this->assertNotSame( $firstObj, $obj );
+        }
+    }
+
+    public function testLoadWithRelatedObjectsOnce()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+
+        $person = $this->idSession->loadWithRelatedObjects(
+            'RelationTestPerson',
+            2,
+            array(
+                new ezcPersistentRelationFindDefinition(
+                    'RelationTestEmployer'
+                ),
+                new ezcPersistentRelationFindDefinition(
+                    'RelationTestAddress'
+                ),
+            )
+        );
+
+        $this->assertEquals(
+            2,
+            $person->id
+        );
+        $this->assertNotNull(
+            $person->firstname
+        );
+        $this->assertNotNull(
+            $person->surname
+        );
+
+        $this->assertNotNull(
+            $this->idMap->getRelatedObjects( $person, 'RelationTestEmployer' )
+        );
+
+        $this->assertNotNull(
+            $this->idMap->getRelatedObjects( $person, 'RelationTestAddress' )
+        );
+    }
+
+    public function testLoadWithRelatedObjectsTwice()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+
+        $firstPerson = $this->idSession->loadWithRelatedObjects(
+            'RelationTestPerson',
+            2,
+            array(
+                new ezcPersistentRelationFindDefinition(
+                    'RelationTestEmployer'
+                ),
+                new ezcPersistentRelationFindDefinition(
+                    'RelationTestAddress'
+                ),
+            )
+        );
+
+        $firstEmployers = $this->idSession->getRelatedObjects( $firstPerson, 'RelationTestEmployer' );
+        $firstAddresses = $this->idSession->getRelatedObjects( $firstPerson, 'RelationTestAddress' );
+
+        $secondPerson = $this->idSession->loadWithRelatedObjects(
+            'RelationTestPerson',
+            2,
+            array(
+                new ezcPersistentRelationFindDefinition(
+                    'RelationTestEmployer'
+                ),
+                new ezcPersistentRelationFindDefinition(
+                    'RelationTestAddress'
+                ),
+            )
+        );
+
+        $secondEmployers = $this->idSession->getRelatedObjects( $secondPerson, 'RelationTestEmployer' );
+        $secondAddresses = $this->idSession->getRelatedObjects( $secondPerson, 'RelationTestAddress' );
+
+        $this->assertSame( $firstPerson, $secondPerson );
+
+        foreach ( $firstEmployers as $id => $employer )
+        {
+            $this->assertSame(
+                $employer,
+                $secondEmployers[$id]
+            );
+        }
+
+        foreach ( $firstAddresses as $id => $address )
+        {
+            $this->assertSame(
+                $address,
+                $secondAddresses[$id]
+            );
         }
     }
 }
