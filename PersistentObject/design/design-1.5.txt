@@ -336,10 +336,9 @@ $refetch = false;
 ezcPersistentIdentityMap
 ========================
 
-.. TODO:: This should actually become an interface to raise flexibility.
-
-This class is the internal heart of the identity map enhancement. It handles
-all caching and mapping activities globally for a session.
+This interface models the internal heart of the identity map enhancement. An
+implmentation of it handles all caching and mapping activities globally for a
+session.
 
 Users shall usually not access the identity map object directly to fetch cached
 objects or add new ones. On the other hand, the identity map should be
@@ -616,8 +615,8 @@ following operations:
 
 To achieve this, the following methods will be added:
 
-loadWithRelatedObjects( string $class, mixed $id, ezcPersistentRelationFindDefinition $relations )
---------------------------------------------------------------------------------------------------
+loadWithRelatedObjects( string $class, mixed $id, array(ezcPersistentRelationFindDefinition) $relations )
+---------------------------------------------------------------------------------------------------------
 
 This method takes care about finding a speicifc persistent object (like the
 ezcPersistentSession->load() method) and finds related objects in addition. The
