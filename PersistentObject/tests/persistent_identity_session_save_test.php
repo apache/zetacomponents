@@ -243,6 +243,25 @@ class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionT
         catch ( ezcPersistentObjectAlreadyPersistentException $e ) {};
     }
 
+    public function testSaveAlreadyInDatabaseRefetch()
+    {
+        $this->idSession->options->refetch = true;
+
+        $object = new PersistentTestObject();
+        $object->varchar = 'Finland';
+        $object->integer = 42;
+        $object->decimal = 1.42;
+        $object->text = "Finland has Nokia!";
+        $this->idSession->save( $object );
+
+        try
+        {
+            $this->idSession->save( $object );
+            $this->fail( "Save of object already saved did not fail." );
+        }
+        catch ( ezcPersistentObjectAlreadyPersistentException $e ) {};
+    }
+
     public function testMissingIdProperty()
     {
         $object          = new PersistentTestObjectNoId();

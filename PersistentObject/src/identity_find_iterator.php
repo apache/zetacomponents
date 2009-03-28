@@ -50,6 +50,13 @@ class ezcPersistentIdentityFindIterator extends ezcPersistentFindIterator
     protected $idMap;
 
     /**
+     * Identity session options 
+     * 
+     * @var ezcPersistentIdentitySessionOptions
+     */
+    protected $options;
+
+    /**
      * Initializes the iterator with the statement $stmt and the definition $def..
      *
      * The statement $stmt must be executed but not used to retrieve any results yet.
@@ -66,11 +73,13 @@ class ezcPersistentIdentityFindIterator extends ezcPersistentFindIterator
     public function __construct(
         PDOStatement $stmt,
         ezcPersistentObjectDefinition $def,
-        ezcPersistentIdentityMap $idMap
+        ezcPersistentIdentityMap $idMap,
+        ezcPersistentIdentitySessionOptions $options
     )
     {
         parent::__construct( $stmt, $def );
-        $this->idMap = $idMap;
+        $this->idMap   = $idMap;
+        $this->options = $options;
     }
     /**
      * Returns the next persistent object in the result set.
@@ -87,13 +96,18 @@ class ezcPersistentIdentityFindIterator extends ezcPersistentFindIterator
 
         if ( $object !== null )
         {
-            $class = get_class( $object );
-            $state = $object->getState();
+            $identity = null;
 
-            $identity = $this->idMap->getIdentity(
-                $class,
-                $state[$this->def->idProperty->propertyName]
-            );
+            if ( !$this->options->refetch )
+            {
+                $class = get_class( $object );
+                $state = $object->getState();
+
+                $identity = $this->idMap->getIdentity(
+                    $class,
+                    $state[$this->def->idProperty->propertyName]
+                );
+            }
 
             if ( $identity !== null )
             {

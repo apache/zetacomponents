@@ -42,6 +42,24 @@ class ezcPersistentIdentitySessionLoadTest extends ezcPersistentIdentitySessionT
         );
     }
 
+    public function testLoadIfExistsValidRefetch()
+    {
+        $this->idSession->options->refetch = true;
+
+        $first = $this->idSession->loadIfExists( 'PersistentTestObject', 1 );
+        $this->assertEquals( 'PersistentTestObject', get_class( $first ) );
+
+        $second = $this->idSession->loadIfExists( 'PersistentTestObject', 1 );
+        $this->assertEquals( 'PersistentTestObject', get_class( $first ) );
+
+        // Test identity
+        $this->assertNotSame(
+            $first,
+            $second,
+            'Object identity idenitical on second load with refetch.'
+        );
+    }
+
     public function testLoadIfExistsInvalid()
     {
         $object = $this->idSession->loadIfExists( 'NoSuchClass', 1 );
@@ -72,6 +90,24 @@ class ezcPersistentIdentitySessionLoadTest extends ezcPersistentIdentitySessionT
         );
     }
 
+    public function testLoadValidRefetch()
+    {
+        $this->idSession->options->refetch = true;
+
+        $first = $this->idSession->load( 'PersistentTestObject', "1" );
+        $this->assertEquals( 'PersistentTestObject', get_class( $first ) );
+
+        $second = $this->idSession->load( 'PersistentTestObject', "1" );
+        $this->assertEquals( 'PersistentTestObject', get_class( $second ) );
+
+        // Test identity
+        $this->assertNotSame(
+            $first,
+            $second,
+            'Object identity idenitical on second load with refetch.'
+        );
+    }
+
     public function testLoadInvalid()
     {
         try
@@ -82,8 +118,39 @@ class ezcPersistentIdentitySessionLoadTest extends ezcPersistentIdentitySessionT
         catch ( ezcPersistentDefinitionNotFoundException $e ) {}
     }
 
+    public function testLoadInvalidRefetch()
+    {
+        $this->idSession->options->refetch = true;
+
+        try
+        {
+            $object = $this->idSession->load( 'NoSuchClass', 1 );
+            $this->fail( "load() called with invalid class. Did not get an exception" );
+        }
+        catch ( ezcPersistentDefinitionNotFoundException $e ) {}
+    }
+
     public function testLoadNoSuchObject()
     {
+        try
+        {
+            $object = $this->idSession->load( 'PersistentTestObject', 999 );
+            $this->fail( "load() called with invalid object id. Did not get an exception" );
+        }
+        catch ( ezcPersistentQueryException $e )
+        {
+            $this->assertEquals(
+                "A query failed internally in Persistent Object: No object of class 'PersistentTestObject' with id '999'.",
+                $e->getMessage()
+            );
+            return;
+        }
+    }
+
+    public function testLoadNoSuchObjectRefetch()
+    {
+        $this->idSession->options->refetch = true;
+
         try
         {
             $object = $this->idSession->load( 'PersistentTestObject', 999 );
@@ -111,7 +178,7 @@ class ezcPersistentIdentitySessionLoadTest extends ezcPersistentIdentitySessionT
         $this->assertEquals( 449.96, (float)$object->decimal );
         $this->assertEquals( 'Sweden has nice girls!', $object->text );
     }
-    
+
     public function testLoadIntoObjectTwiceFailure()
     {
         $first = new PersistentTestObject();
@@ -131,6 +198,25 @@ class ezcPersistentIdentitySessionLoadTest extends ezcPersistentIdentitySessionT
         catch ( ezcPersistentIdentityAlreadyExistsException $e ) {}
     }
 
+    public function testLoadIntoObjectTwiceSuccessRefetch()
+    {
+        $this->idSession->options->refetch = true;
+
+        $first = new PersistentTestObject();
+        $this->idSession->loadIntoObject( $first, 1 );
+
+        $this->assertEquals( 'Sweden', $first->varchar );
+        $this->assertEquals( 9006405, (int)$first->integer );
+        $this->assertEquals( 449.96, (float)$first->decimal );
+        $this->assertEquals( 'Sweden has nice girls!', $first->text );
+
+        $second = new PersistentTestObject();
+        $this->idSession->loadIntoObject( $second, 1 );
+
+        $this->assertNotSame( $first, $second );
+        $this->assertEquals( $first, $second );
+    }
+
     public function testLoadIntoObjectInvalid()
     {
         try
@@ -144,8 +230,41 @@ class ezcPersistentIdentitySessionLoadTest extends ezcPersistentIdentitySessionT
         }
     }
 
+    public function testLoadIntoObjectInvalidRefetch()
+    {
+        $this->idSession->options->refetch = true;
+
+        try
+        {
+            $object = $this->idSession->loadIntoObject( new Exception(), 1 );
+            $this->fail( "loadIntoObject() called with invalid class. Did not get an exception" );
+        }
+        catch ( ezcPersistentDefinitionNotFoundException $e )
+        {
+            return;    
+        }
+    }
+
     public function testLoadIntoObjectNoSuchObject()
     {
+        try
+        {
+            $object = $this->idSession->loadIntoObject( new PersistentTestObject(), 999 );
+            $this->fail( "loadIntoObject() called with invalid class. Did not get an exception" );
+        }
+        catch ( ezcPersistentQueryException $e )
+        {
+            $this->assertEquals(
+                "A query failed internally in Persistent Object: No object of class 'PersistentTestObject' with id '999'.",
+                $e->getMessage()
+            );
+        }
+    }
+
+    public function testLoadIntoObjectNoSuchObjectRefetch()
+    {
+        $this->idSession->options->refetch = true;
+
         try
         {
             $object = $this->idSession->loadIntoObject( new PersistentTestObject(), 999 );

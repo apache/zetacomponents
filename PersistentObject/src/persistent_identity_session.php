@@ -11,10 +11,11 @@
 /**
  * ezcPersistentIdentitySession is an identity map wrapper around ezcPersistentSession.
  *
- * @property-read ezcDbHandler $database
- *                The database handler set in the constructor.
- * @property-read ezcPersistentDefinitionManager $definitionManager
- *                The persistent definition manager set in the constructor.
+ * @property-read ezcPersistentIdentityMap $identityMap
+ *                Identity map used by this session. You should usually not
+ *                access this property directly.
+ * @property ezcPersistentIdentitySessionOptions $options
+ *                Options to influence the behaviour of the session.
  *
  * @package PersistentObject
  * @version //autogen//
@@ -56,15 +57,21 @@ class ezcPersistentIdentitySession
      * Creates a new identity session.
      *
      * This identity session will use $session to issue the actual database
-     * operations and store object identities in $identityMap.
+     * operations and store object identities in $identityMap. $options
+     * influence the behavior of the identity session, like setting the
+     * $refetch option to force reloading of objects.
      * 
      * @param ezcPersistentSession $session 
      * @param ezcPersistentIdentityMap $identityMap 
+     * @param ezcPersistentIdentitySessionOptions $options
      */
-    public function __construct( ezcPersistentSession $session, ezcPersistentIdentityMap $identityMap )
+    public function __construct( ezcPersistentSession $session, ezcPersistentIdentityMap $identityMap, ezcPersistentIdentitySessionOptions $options = null )
     {
         $this->session                   = $session;
         $this->properties['identityMap'] = $identityMap;
+        $this->properties['options']     = (
+            $options === null ? new ezcPersistentIdentitySessionOptions() : $options
+        );
     }
 
     /**
@@ -91,11 +98,14 @@ class ezcPersistentIdentitySession
     {
         $idMap = $this->properties['identityMap'];
 
-        $identity = $idMap->getIdentity( $class, $id );
-
-        if ( $identity !== null )
+        if ( !$this->properties['options']->refetch )
         {
-            return $identity;
+            $identity = $idMap->getIdentity( $class, $id );
+
+            if ( $identity !== null )
+            {
+                return $identity;
+            }
         }
 
         $identity = $this->session->load( $class, $id );
@@ -121,11 +131,14 @@ class ezcPersistentIdentitySession
     {
         $idMap = $this->properties['identityMap'];
 
-        $identity = $idMap->getIdentity( $class, $id );
-
-        if ( $identity !== null )
+        if ( !$this->properties['options']->refetch )
         {
-            return $identity;
+            $identity = $idMap->getIdentity( $class, $id );
+
+            if ( $identity !== null )
+            {
+                return $identity;
+            }
         }
 
         $identity = $this->session->loadIfExists( $class, $id );
@@ -161,16 +174,20 @@ class ezcPersistentIdentitySession
     public function loadIntoObject( $object, $id )
     {
         $idMap = $this->properties['identityMap'];
+        
         $class = get_class( $object );
 
-        $identity = $idMap->getIdentity( $class, $id );
-
-        if ( $identity !== null )
+        if ( !$this->properties['options']->refetch )
         {
-            throw new ezcPersistentIdentityAlreadyExistsException(
-                $class,
-                $id
-            );
+            $identity = $idMap->getIdentity( $class, $id );
+
+            if ( $identity !== null )
+            {
+                throw new ezcPersistentIdentityAlreadyExistsException(
+                    $class,
+                    $id
+                );
+            }
         }
 
         $this->session->loadIntoObject( $object, $id );
@@ -271,10 +288,15 @@ class ezcPersistentIdentitySession
             $state = $object->getState();
             $id    = $state[$defs[$class]->idProperty->propertyName];
             
-            $identity = $this->properties['identityMap']->getIdentity(
-                $class,
-                $id
-            );
+            $identity = null;
+
+            if ( !$this->properties['options']->refetch )
+            {
+                $identity = $this->properties['identityMap']->getIdentity(
+                    $class,
+                    $id
+                );
+            }
 
             if ( $identity !== null )
             {
@@ -328,6 +350,8 @@ class ezcPersistentIdentitySession
      * @apichange This method will only accept an instance of
      *            ezcPersistentFindQuery as the $query parameter in future
      *            major releases. The $class parameter will be removed.
+     *
+     * @TODO: Send options to find iterator for re-fetching!
      */
     public function findIterator( $query, $class = null )
     {
@@ -365,7 +389,8 @@ class ezcPersistentIdentitySession
         return new ezcPersistentIdentityFindIterator(
             $stmt,
             $def,
-            $this->identityMap
+            $this->identityMap,
+            $this->properties['options']
         );
     }
 
@@ -416,14 +441,17 @@ class ezcPersistentIdentitySession
      */
     public function getRelatedObjects( $object, $relatedClass, $relationName = null )
     {
-        $relatedObjs = $this->identityMap->getRelatedObjects(
-            $object,
-            $relatedClass,
-            $relationName
-        );
-        if ( $relatedObjs !== null )
+        if ( !$this->properties['options']->refetch )
         {
-            return $relatedObjs;
+            $relatedObjs = $this->identityMap->getRelatedObjects(
+                $object,
+                $relatedClass,
+                $relationName
+            );
+            if ( $relatedObjs !== null )
+            {
+                return $relatedObjs;
+            }
         }
 
         $relatedObjs = $this->session->getRelatedObjects(
@@ -530,6 +558,8 @@ class ezcPersistentIdentitySession
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
+     *
+     * @TODO: Implement!
      */
     public function createRelationFindQuery( $object, $relatedClass )
     {
@@ -563,10 +593,11 @@ class ezcPersistentIdentitySession
         $state = $object->getState();
         
         // Sanity checks
-        if ( isset( $state[$def->idProperty->propertyName] ) )
+        if ( !$this->properties['options']->refetch && isset( $state[$def->idProperty->propertyName] ) )
         {
             $id       = $state[$def->idProperty->propertyName];
             $identity = $this->identityMap->getIdentity( $class, $id );
+
             if ( $identity !== null )
             {
                 if ( $identity === $object )
@@ -629,7 +660,7 @@ class ezcPersistentIdentitySession
         $state = $object->getState();
         $id    = $state[$def->idProperty->propertyName];
 
-        if ( $this->identityMap->getIdentity( $class, $id ) === null )
+        if ( $this->properties['options']->refetch || $this->identityMap->getIdentity( $class, $id ) === null )
         {
             $this->identityMap->setIdentityWithId( $object, $class, $id );
         }
@@ -817,6 +848,8 @@ class ezcPersistentIdentitySession
      * @param string $id 
      * @param array(ezcPersistentRelationFindDefinition) $relations 
      * @return object
+     *
+     * @TODO: The object extractor needs to be aware of re-fetching!
      */
     public function loadWithRelatedObjects( $class, $id, array $relations )
     {
@@ -893,14 +926,29 @@ class ezcPersistentIdentitySession
     {
         switch ( $name )
         {
-            case 'session':
             case 'identityMap':
-                throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
+                throw new ezcBasePropertyPermissionException(
+                    $name,
+                    ezcBasePropertyPermissionException::READ
+                );
+
+            case 'options':
+                if ( !( $value instanceof ezcPersistentIdentitySessionOptions ) )
+                {
+                    throw new ezcBaseValueException(
+                        $name,
+                        $value,
+                        'ezcPersistentIdentitySessionOptions'
+                    );
+                }
                 break;
+
             default:
+                // Decorator: Dispatch unknown options to inner session
                 $this->session->$name = $value;
-                break;
+                return;
         }
+        $this->properties[$name] = $value;
     }
 
     /**
