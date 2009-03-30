@@ -105,7 +105,16 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             $this->identities[$class] = array();
         }
 
-        $this->identities[$class][$id] = new ezcPersistentIdentity( $object );
+        $newIdentity = new ezcPersistentIdentity( $object );
+        if ( isset( $this->identities[$class][$id] ) )
+        {
+            $this->replaceIdentityReferences(
+                $this->identities[$class][$id],
+                $newIdentity
+            );
+        }
+
+        $this->identities[$class][$id] = $newIdentity;
     }
 
     /**
@@ -146,22 +155,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
         if ( isset( $this->identities[$class][$id] ) )
         {
             // First remove all references to this object
-            foreach( $this->identities[$class][$id]->references as $refList )
-            {
-                $removeIds = array();
-                // Needs iteration here, to determine key
-                foreach ( $refList->getIterator() as $refId => $refItem )
-                {
-                    if ( $refItem === $this->identities[$class][$id]->object )
-                    {
-                        $removeIds[] = $refId;
-                    }
-                }
-                foreach ( $removeIds as $removeId )
-                {
-                    unset( $refList[$removeId] );
-                }
-            }
+            $this->removeIdentityReferences( $this->identities[$class][$id] );
             unset( $this->identities[$class][$id] );
         }
     }
@@ -175,26 +169,24 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      *
      * In case a set of related objects has already been recorded for
      * $sourceObject and the class of the objects in $relatedObjects (and
-     * optionally $relationName), this set of related objects is silently
-     * replaced..
+     * optionally $relationName), an exception is thrown.
      *
-     * If $relatedObjects are to be added, for which no identity has been
-     * recorded, yet, an identity is automatically recorded. If an identity
-     * already exists, the identity is used instead of the submited object.
-     * 
-     * NOTE: Therefore the using object MUST call {@link getRelatedObjects()}
-     * after this method was used.
+     * If for any of the $relatedObjects no identity is recorded, yet, it will
+     * be recorded. Otherwise, the object will be replaced by its existing
+     * identity. Except if $replaceIdentities is set to true: In this case a
+     * new identity will be recorded for every object in $relatedObjects.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relatedClass 
      * @param string $relationName 
+     * @param bool $replaceIdentities
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
      *
-    */
-    public function setRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName = null )
+     */
+    public function setRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName = null, $replaceIdentities = false )
     {
         $srcClass = get_class( $sourceObject );
         $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
@@ -225,7 +217,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             $srcId,
             $relatedObjects,
             $relatedClass,
-            $relationName
+            $relationName,
+            $replaceIdentities
         );
     }
 
@@ -240,19 +233,22 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * object of $sourceClass with $sourceId and the class of the objects in
      * $relatedObjects (and optionally $relationName), an exception is thrown.
      *
+     * If for any of the $relatedObjects no identity is recorded, yet, it will
+     * be recorded. Otherwise, the object will be replaced by its existing
+     * identity. Except if $replaceIdentities is set to true: In this case a
+     * new identity will be recorded for every object in $relatedObjects.
+     *
      * @param string $sourceClass 
      * @param mixed $sourceId 
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relatedClass 
      * @param string $relationName 
+     * @param bool $replaceIdentities
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
-     *
-     * @TODO This should return the related object set to avoid another call
-     *       to getRelatedObjects().
      */
-    public function setRelatedObjectsWithId( $sourceClass, $sourceId, array $relatedObjects, $relatedClass, $relationName = null )
+    public function setRelatedObjectsWithId( $sourceClass, $sourceId, array $relatedObjects, $relatedClass, $relationName = null, $replaceIdentities = false )
     {
         $relDef = $this->definitionManager->fetchDefinition( $relatedClass );
 
@@ -287,6 +283,16 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
                     $relObj
                 );
             }
+            else if ( $replaceIdentities )
+            {
+                // Replace identities on re-fetch
+                $newIdentity = new ezcPersistentIdentity( $relObj );
+                $this->replaceIdentityReferences(
+                    $this->identities[$relatedClass][$relId],
+                    $newIdentity
+                );
+                $this->identities[$relatedClass][$relId] = $newIdentity;
+            }
             else
             {
                 $relObj = $this->identities[$relatedClass][$relId]->object;
@@ -310,22 +316,20 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * In case a set of related objects has already been recorded for
      * $sourceObject with $setName, this set is silently overwritten.
      *
-     * If $relatedObjects are to be added, for which no identity has been
-     * recorded, yet, an identity is automatically recorded. If an identity
-     * already exists, the identity is used instead of the submited object.
-     * 
-     * NOTE: Therefore the using object MUST call {@link getRelatedObjectSet()}
-     * after this method was used.
+     * If for any of the $relatedObjects no identity is recorded, yet, it will
+     * be recorded. Otherwise, the object will be replaced by its existing
+     * identity. Except if $replaceIdentities is set to true: In this case a
+     * new identity will be recorded for every object in $relatedObjects.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $setName 
+     * @param bool $replaceIdentities
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
-     *
-    */
-    public function setRelatedObjectSet( $sourceObject, array $relatedObjects, $setName )
+     */
+    public function setRelatedObjectSet( $sourceObject, array $relatedObjects, $setName, $replaceIdentities = false )
     {
         $srcClass = get_class( $sourceObject );
         $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
@@ -346,7 +350,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             $srcClass,
             $srcId,
             $relatedObjects,
-            $setName
+            $setName,
+            $replaceIdentities
         );
     }
 
@@ -358,16 +363,22 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      *
      * In case a set of related objects has already been recorded for
      * $sourceObject with $setName, this set is silently overwritten.
+     *
+     * If for any of the $relatedObjects no identity is recorded, yet, it will
+     * be recorded. Otherwise, the object will be replaced by its existing
+     * identity. Except if $replaceIdentities is set to true: In this case a
+     * new identity will be recorded for every object in $relatedObjects.
      * 
      * @param string $sourceClass 
      * @param mixed $sourceId 
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $setName 
+     * @param bool $replaceIdentities
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
      */
-    public function setRelatedObjectSetWithId( $sourceClass, $sourceId, array $relatedObjects, $setName )
+    public function setRelatedObjectSetWithId( $sourceClass, $sourceId, array $relatedObjects, $setName, $replaceIdentities = false )
     {
         $identity = $this->identities[$sourceClass][$sourceId];
 
@@ -397,6 +408,16 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
                 $this->identities[$relClass][$relId] = new ezcPersistentIdentity(
                     $relObj
                 );
+            }
+            else if ( $replaceIdentities )
+            {
+                // Replace identities on re-fetch
+                $newIdentity = new ezcPersistentIdentity( $relObj );
+                $this->replaceIdentityReferences(
+                    $this->identities[$relClass][$relId],
+                    $newIdentity
+                );
+                $this->identities[$relClass][$relId] = $newIdentity;
             }
             else
             {
@@ -796,6 +817,48 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             if ( $this->identities[$class][$id]->references->contains( $set ) )
             {
                 $this->identities[$class][$id]->references->detach( $set );
+            }
+        }
+    }
+
+    protected function replaceIdentityReferences( $oldIdentity, $newIdentity )
+    {
+        foreach( $oldIdentity->references as $refList )
+        {
+            $replaceIds = array();
+            // Needs iteration here, to determine key
+            foreach ( $refList->getIterator() as $refId => $refItem )
+            {
+                if ( $refItem === $oldIdentity->object )
+                {
+                    $replaceIds[] = $refId;
+                }
+            }
+            foreach ( $replaceIds as $replaceId )
+            {
+                // Replace object in related sets
+                $refList[$replaceId] = $newIdentity->object;
+            }
+        }
+    }
+
+    protected function removeIdentityReferences( $identity )
+    {
+        foreach( $identity->references as $refList )
+        {
+            $removeIds = array();
+            // Needs iteration here, to determine key
+            foreach ( $refList->getIterator() as $refId => $refItem )
+            {
+                if ( $refItem === $identity->object )
+                {
+                    $removeIds[] = $refId;
+                }
+            }
+            foreach ( $removeIds as $removeId )
+            {
+                // Remove object from related set
+                unset( $refList[$removeId] );
             }
         }
     }

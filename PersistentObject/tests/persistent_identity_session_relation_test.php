@@ -98,6 +98,51 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
         }
     }
 
+    public function testGetRelatedObjectsEmployer1Refetch()
+    {
+        $person = $this->idSession->load( "RelationTestPerson", 1 );
+
+        $related1 = $this->idSession->getRelatedObjects( $person, "RelationTestEmployer" );
+        
+        $this->assertEquals(
+            1,
+            count( $related1 ),
+            "Related RelationTestPerson objects not fetched correctly."
+        );
+
+        // Refetch
+        $this->idSession->options->refetch = true;
+
+        $related2 = $this->idSession->getRelatedObjects( $person, "RelationTestEmployer" );
+
+        foreach ( $related1 as $id => $relObj )
+        {
+            $this->assertNotSame(
+                $relObj,
+                $related2[$id],
+                'Object in second load not the same not.'
+            );
+            $this->assertEquals(
+                $relObj,
+                $related2[$id],
+                'Object in second load not the same not.'
+            );
+        }
+        foreach ( $related2 as $id => $relObj )
+        {
+            $this->assertNotSame(
+                $relObj,
+                $related1[$id],
+                'Object in first load not the same not.'
+            );
+            $this->assertEquals(
+                $relObj,
+                $related1[$id],
+                'Object in first load not the same not.'
+            );
+        }
+    }
+
     public function testGetRelatedObjectEmployer1()
     {
         $person = $this->idSession->load( "RelationTestPerson", 1 );
@@ -105,6 +150,20 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
         $employer2 = $this->idSession->getRelatedObject( $person, "RelationTestEmployer" );
 
         $this->assertSame( $employer1, $employer2 );
+    }
+
+    public function testGetRelatedObjectEmployer1Refetch()
+    {
+        $person = $this->idSession->load( "RelationTestPerson", 1 );
+        $employer1 = $this->idSession->getRelatedObject( $person, "RelationTestEmployer" );
+
+        // Refetch
+        $this->idSession->options->refetch = true;
+
+        $employer2 = $this->idSession->getRelatedObject( $person, "RelationTestEmployer" );
+
+        $this->assertNotSame( $employer1, $employer2 );
+        $this->assertEquals( $employer1, $employer2 );
     }
 
     public function testAddRelatedObjectEmployerFailureReverse()
@@ -156,6 +215,32 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
         }
         $this->assertTrue( $found );
     }
+
+    public function testRelatedObjectsIdentityLoadedBeforeRefetch()
+    {
+        $person = $this->idSession->load( 'RelationTestPerson', 1 );
+        $address = $this->idSession->load( 'RelationTestAddress', 2 );
+
+        // Refetch
+        $this->idSession->options->refetch = true;
+
+        $addresses = $this->idSession->getRelatedObjects( $person, 'RelationTestAddress' );
+
+        $found = false;
+        foreach ( $addresses as $relAddress )
+        {
+            if ( $address == $relAddress )
+            {
+                $this->assertNotSame(
+                    $address,
+                    $relAddress
+                );
+                $found = true;
+                break;
+            }
+        }
+        $this->assertTrue( $found );
+    }
     
     public function testRelatedObjectsIdentityFetchedBefore()
     {
@@ -172,6 +257,33 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
             {
                 ++$found;
                 $this->assertSame(
+                    $relAddr,
+                    $addresses2[$id]
+                );
+            }
+        }
+        $this->assertEquals( 2, $found );
+    }
+    
+    public function testRelatedObjectsIdentityFetchedBeforeRefetch()
+    {
+        $person1 = $this->idSession->load( 'RelationTestPerson', 1 );
+        $person2 = $this->idSession->load( 'RelationTestPerson', 2 );
+
+        $addresses1 = $this->idSession->getRelatedObjects( $person1, 'RelationTestAddress' );
+
+        // Refetch
+        $this->idSession->options->refetch = true;
+
+        $addresses2 = $this->idSession->getRelatedObjects( $person2, 'RelationTestAddress' );
+
+        $found = 0;
+        foreach ( $addresses1 as $id => $relAddr )
+        {
+            if ( isset( $addresses2[$id] ) )
+            {
+                ++$found;
+                $this->assertNotSame(
                     $relAddr,
                     $addresses2[$id]
                 );

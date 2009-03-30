@@ -460,7 +460,13 @@ class ezcPersistentIdentitySession
             $relationName
         );
 
-        $this->identityMap->setRelatedObjects( $object, $relatedObjs, $relatedClass );
+        $this->identityMap->setRelatedObjects(
+            $object,
+            $relatedObjs,
+            $relatedClass,
+            $relationName,
+            $this->properties['options']->refetch
+        );
 
         return $this->identityMap->getRelatedObjects( $object, $relatedClass, $relationName );
     }

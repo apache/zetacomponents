@@ -83,19 +83,22 @@ interface ezcPersistentIdentityMap
      * $sourceObject and the class of the objects in $relatedObjects (and
      * optionally $relationName), an exception is thrown.
      *
-     * If $relatedObjects are to be added, for which no identity has been
-     * recorded, yet, an exception is thrown.
+     * If for any of the $relatedObjects no identity is recorded, yet, it will
+     * be recorded. Otherwise, the object will be replaced by its existing
+     * identity. Except if $replaceIdentities is set to true: In this case a
+     * new identity will be recorded for every object in $relatedObjects.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relatedClass 
      * @param string $relationName 
+     * @param bool $replaceIdentities
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
      *
-    */
-    public function setRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName = null );
+     */
+    public function setRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName = null, $replaceIdentities = false );
 
     /**
      * Stores a set of $relatedObjects for the object of $sourceClass with $sourceId.
@@ -108,16 +111,22 @@ interface ezcPersistentIdentityMap
      * object of $sourceClass with $sourceId and the class of the objects in
      * $relatedObjects (and optionally $relationName), an exception is thrown.
      *
+     * If for any of the $relatedObjects no identity is recorded, yet, it will
+     * be recorded. Otherwise, the object will be replaced by its existing
+     * identity. Except if $replaceIdentities is set to true: In this case a
+     * new identity will be recorded for every object in $relatedObjects.
+     *
      * @param string $sourceClass 
      * @param mixed $sourceId 
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relatedClass 
      * @param string $relationName 
+     * @param bool $replaceIdentities
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
      */
-    public function setRelatedObjectsWithId( $sourceClass, $sourceId, array $relatedObjects, $relatedClass, $relationName = null );
+    public function setRelatedObjectsWithId( $sourceClass, $sourceId, array $relatedObjects, $relatedClass, $relationName = null, $replaceIdentities = false );
 
     /**
      * Stores a named set of $relatedObjects to $sourceObject.
@@ -128,17 +137,20 @@ interface ezcPersistentIdentityMap
      * In case a set of related objects has already been recorded for
      * $sourceObject with $setName, this set is silently overwritten.
      *
-     * If $relatedObjects are to be added, for which no identity has been
-     * recorded, yet, an exception is thrown.
+     * If for any of the $relatedObjects no identity is recorded, yet, it will
+     * be recorded. Otherwise, the object will be replaced by its existing
+     * identity. Except if $replaceIdentities is set to true: In this case a
+     * new identity will be recorded for every object in $relatedObjects.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $setName 
+     * @param bool $replaceIdentities
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
      */
-    public function setRelatedObjectSet( $sourceObject, array $relatedObjects, $setName );
+    public function setRelatedObjectSet( $sourceObject, array $relatedObjects, $setName, $replaceIdentities = false );
 
     /**
      * Stores a named set of $relatedObjects for the object of $sourceClass with $sourceId.
@@ -148,16 +160,22 @@ interface ezcPersistentIdentityMap
      *
      * In case a set of related objects has already been recorded for
      * $sourceObject with $setName, this set is silently overwritten.
+     *
+     * If for any of the $relatedObjects no identity is recorded, yet, it will
+     * be recorded. Otherwise, the object will be replaced by its existing
+     * identity. Except if $replaceIdentities is set to true: In this case a
+     * new identity will be recorded for every object in $relatedObjects.
      * 
      * @param string $sourceClass 
      * @param mixed $sourceId 
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $setName 
+     * @param bool $replaceIdentities
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
      */
-    public function setRelatedObjectSetWithId( $sourceClass, $sourceId, array $relatedObjects, $setName );
+    public function setRelatedObjectSetWithId( $sourceClass, $sourceId, array $relatedObjects, $setName, $replaceIdentities = false );
 
     /**
      * Appends a new $relatedObject to the relation set of $sourceObject.
