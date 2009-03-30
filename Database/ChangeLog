@@ -1,4 +1,4 @@
-1.4.4 - [RELEASEDATE]
+1.4.4 - Monday 30 March 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14464: ezcDbFactory::create shouldn't throw a warning on invalid
