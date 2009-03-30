@@ -2,7 +2,7 @@
 
 require_once 'tutorial_autoload.php';
 
-class myCustomConfigurator extends ezcCacheStackConfigurator
+class myCustomConfigurator implements ezcCacheStackConfigurator
 {
     public static function configure( ezcCacheStack $stack )
     {
