@@ -1,4 +1,4 @@
-1.3.3 - [RELEASEDATE]
+1.3.3 - Monday 30 March 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14588: Doc error: ezcArchiveEntry::getPermissions( ) returns a
