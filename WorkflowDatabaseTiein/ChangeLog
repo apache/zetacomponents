@@ -1,4 +1,4 @@
-1.3.1 - [RELEASEDATE]
+1.3.1 - Monday 30 March 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - ezcWorkflowDatabaseDefinitionStorage can now handle subclasses of
