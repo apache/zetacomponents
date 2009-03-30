@@ -22,7 +22,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfPage
+class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
 {
     /**
      * Already covered areas, given as an arrays of ezcDocumentPdfPageRectangle
@@ -57,6 +57,19 @@ class ezcDocumentPdfPage
     {
         $this->width  = (float) $width;
         $this->height = (float) $height;
+    }
+
+    /**
+     * Return the inner width of the page
+     *
+     * Return the inner width of the page, calculated using the absolute page
+     * width and the assigned padding.
+     * 
+     * @return float
+     */
+    public function innerWidth()
+    {
+        return $this->width;
     }
 
     /**
@@ -100,6 +113,21 @@ class ezcDocumentPdfPage
     public function testFitRectangle( $xPos = null, $yPos = null, $width = null, $height = null )
     {
         return false;
+    }
+
+    /**
+     * Get elements location ID
+     *
+     * Return the elements location ID, based on the factors described in the
+     * class header.
+     * 
+     * @return string
+     */
+    public function getLocationId()
+    {
+        // @TODO: Maybe include the page number or similar additional
+        // information here.
+        return '/page';
     }
 }
 ?>

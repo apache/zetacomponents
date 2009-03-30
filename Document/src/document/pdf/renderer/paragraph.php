@@ -28,22 +28,45 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
      * markup, like <emphasis>.
      * 
      * @param ezcDocumentPdfPage $page 
-     * @param string $paragraph 
+     * @param ezcDocumentPdfHyphenator $hyphenator 
+     * @param ezcDocumentPdfInferencableDomElement $paragraph 
      * @return void
      */
-    public function render( ezcDocumentPdfPage $page, $paragraph )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $paragraph )
     {
-        $tokens = $this->tokenize( $paragraph );
-
         // Calculate paragraph width from page layout settings
+        $width = $this->calculateParagraphWidth( $page );
 
         // Iterate over tokens and try to fit them in the current line, use
-        // hyphenator to split word.
+        // hyphenator to split words.
+        $tokens = $this->tokenize( $paragraph );
+        $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $width );
 
-        // If new line is required, check if fits maximum height, optionally
-        // wrap, mind orphans and widows
+        // @TODO: Get this working
+        $space  = $page->testFitRectangle( null, null, $width, null );
 
         // Render token, respecting assigned styles
+        // @TODO: Mind orphans and widows here.
+        // @TODO: Check four exceeding wvailable space.
+        foreach ( $lines as $line )
+        {
+            // @TODO: Render
+        }
+    }
+
+    /**
+     * Calculate paragraph width
+     *
+     * Calculate the available horizontal space for paragraphs depending on the
+     * page layout settings.
+     */
+    protected function calculateParagraphWidth( ezcDocumentPdfPage $page )
+    {
+        // Inference page styles
+        $rules = $this->styles->inferenceFormattingRules( $page );
+
+        return $page->innerWidth() / $rules['text-columns'] -
+            ( $rules['text-column-spacing'] * ( $rules['text-columns'] - 1 ) );
     }
 
     /**
@@ -57,12 +80,108 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
      * included whitespace characters, each associated with its markup
      * elements.
      * 
-     * @param string $string 
+     * @param ezcDocumentPdfInferencableDomElement $element 
      * @return array
      */
-    protected function tokenize( $string )
+    protected function tokenize( ezcDocumentPdfInferencableDomElement $element )
     {
-        return array();
+        $tokens = array();
+        $rules  = $this->styles->inferenceFormattingRules( $element );
+        foreach ( $element->childNodes as $child )
+        {
+            switch ( $child->nodeType )
+            {
+                // case XML_CDATA_SECTION_NODE:
+                case XML_TEXT_NODE:
+                    $words = preg_split( '(\\s+)', $child->textContent );
+                    foreach ( $words as $word )
+                    {
+                        $tokens[] = array(
+                            'word'  => $word,
+                            'style' => $rules,
+                        );
+                    }
+                    break;
+
+                case XML_ELEMENT_NODE:
+                    $tokens = array_merge(
+                        $tokens,
+                        $this->tokenize( $child )
+                    );
+                    break;
+            }
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * Try to match tokens into lines
+     *
+     * Try to match tokens into lines of the given width. Returns an array with
+     * words for each line. The words might already be split up by the
+     * hyphenator.
+     * 
+     * @param array $tokens 
+     * @param ezcDocumentPdfHyphenator $hyphenator 
+     * @param float $width 
+     * @return array
+     */
+    protected function fitTokensInLines( array $tokens, ezcDocumentPdfHyphenator $hyphenator, $available )
+    {
+        $lines    = array( array(
+            'tokens' => array(),
+            'height' => 0,
+        ) );
+        $line     = 0;
+        $consumed = 0;
+        foreach ( $tokens as $token )
+        {
+            // Apply current styles
+            foreach ( $token['style'] as $style => $value )
+            {
+                $this->driver->setTextFormatting( $style, $value );
+            }
+            
+            if ( ( $consumed + ( $width = $this->driver->calculateWordWidth( $token['word'] ) ) ) < $available )
+            {
+                // The word just fits into the current line
+                $token['width']           = $width;
+                $lines[$line]['tokens'][] = $token;
+                $lines[$line]['height']   = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
+                $consumed                += $width + $this->driver->calculateWordWidth( ' ' );
+                continue;
+            }
+
+            // Try to hyphenate the current word
+            $hyphens = $hyphenator->splitWord( $token['word'] );
+            foreach ( $hyphens as $hyphen )
+            {
+                if ( ( $consumed + ( $width = $this->driver->calculateWordWidth( $hyphen[0] ) ) ) < $available )
+                {
+                    $second         = $token;
+                    $second['word'] = $hyphen[1];
+                    array_unshift( $tokens, $second );
+
+                    $token['width']           = $width;
+                    $token['word']            = $hyphen[0];
+                    $lines[$line]['tokens'][] = $token;
+                    $lines[$line]['height']   = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
+                    $consumed                += $width + $this->driver->calculateWordWidth( ' ' );
+                    continue;
+                }
+            }
+
+            // Word did not even fit into the line hyphenated, switch to next line.
+            $token['width'] = $width = $this->driver->calculateWordWidth( $token['word'] );
+            $lines[++$line] = array(
+                'tokens' => array( $token ),
+                'height' => $this->driver->getCurrentLineHeight(),
+            );
+            $consumed       = $width + $this->driver->calculateWordWidth( ' ' );
+        }
+
+        return $lines;
     }
 }
 ?>

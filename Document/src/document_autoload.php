@@ -49,6 +49,8 @@ return array(
     'ezcDocumentParser'                                  => 'Document/interfaces/parser.php',
     'ezcDocumentPdfDriver'                               => 'Document/document/pdf/driver.php',
     'ezcDocumentPdfHyphenator'                           => 'Document/document/pdf/hyphenator.php',
+    'ezcDocumentPdfLocateable'                           => 'Document/document/pdf/locateable.php',
+    'ezcDocumentPdfRenderer'                             => 'Document/document/pdf/renderer.php',
     'ezcDocumentRstBlockNode'                            => 'Document/document/rst/nodes/block.php',
     'ezcDocumentRstImageDirective'                       => 'Document/document/rst/directive/image.php',
     'ezcDocumentRstLinkNode'                             => 'Document/document/rst/nodes/link.php',

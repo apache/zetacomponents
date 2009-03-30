@@ -54,6 +54,53 @@ class ezcDocumentPdfStyleInferencer
     protected $styleDirectives = array();
 
     /**
+     * Construct style inference with default styles
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->setDefaultStyles();
+    }
+
+    /**
+     * Set the default styles
+     *
+     * Creates a list of default styles for very common elements.
+     * 
+     * @return void
+     */
+    protected function setDefaultStyles()
+    {
+        $this->styleDirectives = array(
+            // Set up base page layout
+            new ezcDocumentPdfCssDirective(
+                array( 'page' ),
+                array(
+                    'text-columns'        => 1,
+                    'text-column-spacing' => '10mm',
+                )
+            ),
+            // General text formatting
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'font-size'   => '8mm',
+                    'font-family' => 'serif',
+                    'line-height' => '1.4',
+                )
+            ),
+            new ezcDocumentPdfCssDirective(
+                array( 'title' ),
+                array(
+                    'font-size'   => '10mm',
+                    'font-weight' => 'bold',
+                )
+            ),
+        );
+    }
+
+    /**
      * Append list of style directives
      *
      * Append another set of style directives. Since style directives are
@@ -98,17 +145,17 @@ class ezcDocumentPdfStyleInferencer
     /**
      * Inference formatting rules for element
      *
-     * Inference the formatting rules for the passed DOMElement. First the
-     * cache will be checked for already inferenced formatting rules defined
-     * for this element type, using its generated location identifier.
+     * Inference the formatting rules for the passed DOMElement or location id.
+     * First the cache will be checked for already inferenced formatting rules
+     * defined for this element type, using its generated location identifier.
      *
      * Of not cached, the formatting rules will be inferenced using the
      * algorithm described in the class header.
      * 
-     * @param DOMElement $element 
-     * @return void
+     * @param ezcDocumentPdfLocateable $element 
+     * @return array
      */
-    public function inferenceFormattingRules( ezcDocumentPdfInferencableDomElement $element )
+    public function inferenceFormattingRules( ezcDocumentPdfLocateable $element )
     {
         // Check style cache early, to speed things up.
         $locationId = $element->getLocationId();
@@ -119,7 +166,8 @@ class ezcDocumentPdfStyleInferencer
 
         // Check if we are at the root node, otherwise inherit style directives
         $formats = array();
-        if ( !$element->parentNode instanceof DOMDocument )
+        if ( ( $element instanceof DOMElement ) &&
+             !$element->parentNode instanceof DOMDocument )
         {
             $formats = $this->inferenceFormattingRules( $element->parentNode );
         }

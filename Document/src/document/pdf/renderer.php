@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-abstract extends ezcDocumentPdfRenderer
+abstract class ezcDocumentPdfRenderer
 {
     /**
      * Used driver implementation
@@ -26,14 +26,22 @@ abstract extends ezcDocumentPdfRenderer
     protected $driver;
 
     /**
+     * Used PDF style inferencer for evaluating current styling
+     * 
+     * @var ezcDocumentPdfStyleInferencer
+     */
+    protected $styles;
+
+    /**
      * Construct renderer from driver to use
      * 
      * @param ezcDocumentPdfDriver $driver 
      * @return void
      */
-    public function __construct( ezcDocumentPdfDriver $driver )
+    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles )
     {
         $this->driver = $driver;
+        $this->styles = $styles;
     }
 }
 ?>

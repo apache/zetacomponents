@@ -23,7 +23,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfInferencableDomElement extends DOMElement
+class ezcDocumentPdfInferencableDomElement extends DOMElement implements ezcDocumentPdfLocateable
 {
     /**
      * Calculated location Id
@@ -49,7 +49,7 @@ class ezcDocumentPdfInferencableDomElement extends DOMElement
      * Return the elements location ID, based on the factors described in the
      * class header.
      * 
-     * @return void
+     * @return string
      */
     public function getLocationId()
     {

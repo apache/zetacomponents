@@ -123,6 +123,16 @@ abstract class ezcDocumentPdfDriver
     abstract public function calculateWordWidth( $word );
 
     /**
+     * Get current line height
+     *
+     * Return the current line height in millimeter based on the current font
+     * and text rendering settings.
+     * 
+     * @return float
+     */
+    abstract public function getCurrentLineHeight();
+
+    /**
      * Draw word at given position
      *
      * Draw the given word at the given position using the currently set text
