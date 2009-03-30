@@ -72,6 +72,9 @@ again very much look like a simplified variant of CSS::
     Name       ::= [A-Za-z-]+
     Value      ::= [^"]+
 
+C-style comments are allowed anywhere in the definition file, like ```/* ..
+*/``` and ```// ...```.
+
 Importing and exporting styles may be accomblished by::
 
     $pdf->styles->load( 'styles.pcss' );
@@ -131,6 +134,8 @@ Custom properties are:
 
 text-columns
     Number of text text columns in one section.
+text-column-spacing
+    The margin between multiple text comlumns on one page
 page-size
     Size of pages
 page-orientation
