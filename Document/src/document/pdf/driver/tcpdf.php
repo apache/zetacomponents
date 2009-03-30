@@ -304,4 +304,4 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         return $this->document->Output( 'ignored', 'S' );
     }
 }
-
+?>

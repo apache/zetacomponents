@@ -102,4 +102,4 @@ class ezcDocumentPdfPage
         return false;
     }
 }
-
+?>

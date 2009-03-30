@@ -41,4 +41,4 @@ class ezcDocumentPdfDefaultHyphenator extends ezcDocumentPdfHyphenator
         return array( array( $word ) );
     }
 }
-
+?>

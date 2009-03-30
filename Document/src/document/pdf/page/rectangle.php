@@ -79,4 +79,4 @@ class ezcDocumentPdfPageRectangle
         return true;
     }
 }
-
+?>

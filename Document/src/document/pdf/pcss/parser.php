@@ -390,4 +390,4 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
         return $directives;
     }
 }
-
+?>

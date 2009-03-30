@@ -139,4 +139,4 @@ class ezcDocumentPdfStyleInferencer
         return $formats;
     }
 }
-
+?>

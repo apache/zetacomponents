@@ -93,4 +93,4 @@ class ezcDocumentPdfInferencableDomElement extends DOMElement
         return $locationId;
     }
 }
-
+?>

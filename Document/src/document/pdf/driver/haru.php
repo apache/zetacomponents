@@ -359,4 +359,4 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         return $this->document->readFromStream( $this->document->getStreamSize() );
     }
 }
-
+?>

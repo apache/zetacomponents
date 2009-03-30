@@ -36,4 +36,4 @@ abstract extends ezcDocumentPdfRenderer
         $this->driver = $driver;
     }
 }
-
+?>

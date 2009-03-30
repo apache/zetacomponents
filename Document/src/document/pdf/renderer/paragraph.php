@@ -65,4 +65,4 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         return array();
     }
 }
-
+?>

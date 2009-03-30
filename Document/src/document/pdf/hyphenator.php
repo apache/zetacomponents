@@ -42,4 +42,4 @@ abstract class ezcDocumentPdfHyphenator
      */
     abstract public function splitWord( $word );
 }
-
+?>

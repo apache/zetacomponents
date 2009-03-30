@@ -60,4 +60,4 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
         );
     }
 }
-
+?>
