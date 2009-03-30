@@ -199,10 +199,10 @@ class ezcCacheManager
         if ( $location !== null )
         {
             // Unifiy file system locations
-            if (  substr( $location, 0, 1 ) === '/' )
+            if ( substr( $location, 0, 1 ) === '/' )
             {
                 // If non-existent
-                if ( ( $location = realpath( $location ) ) === false )
+                if ( ( $realLocation = realpath( $location ) ) === false )
                 {
                     throw new ezcBaseFileNotFoundException(
                         $location,
@@ -210,6 +210,7 @@ class ezcCacheManager
                         'Does not exist or is no directory.'
                     );
                 }
+                $location = $realLocation;
             }
 
             // Sanity check double taken locations.

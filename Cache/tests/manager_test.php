@@ -91,14 +91,14 @@ class ezcCacheManagerTest extends ezcTestCase
         try 
         {
             $cache = ezcCacheManager::createCache( $id, '/fckgw', $this->data[$id] );
+            $this->fail('Exception not thrown on invalid location </fckgw>.');
         }
         catch ( ezcBaseFileNotFoundException $e )
         {
-            $caughtException = true;
-        }
-        if ( $caughtException === false )
-        {
-            $this->fail('Exception not thrown on invalid location <'.$location.'>.');
+            $this->assertEquals(
+               "The cache location file '/fckgw' could not be found. (Does not exist or is no directory.)",
+               $e->getMessage()
+            );
         }
         
         // Second try, allocate a cache succesfully
