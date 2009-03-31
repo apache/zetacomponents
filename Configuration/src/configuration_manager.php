@@ -190,7 +190,6 @@ class ezcConfigurationManager
         $key = "{$this->readerClass}-{$this->location}-{$name}";
         if ( !isset( $this->nameMap[$key] ) )
         {
-            echo "Refreshing for '$key'\n";
             $className = $this->readerClass;
             $class = new $className();
             $class->init( $this->location, $name, $this->options );
