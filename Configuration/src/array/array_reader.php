@@ -107,7 +107,7 @@ class ezcConfigurationArrayReader extends ezcConfigurationFileReader
      */
     public function load()
     {
-        $data = include ( $this->path );
+        $data = include $this->path;
 
         $this->config = new ezcConfiguration( $data['settings'], $data['comments'] );
         return $this->config;

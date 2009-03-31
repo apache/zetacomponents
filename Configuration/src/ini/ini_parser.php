@@ -150,9 +150,13 @@ class ezcConfigurationIniParser implements Iterator
     {
         /* Check for booleans */
         if ( $value == 'false' )
+        {
             return false;
+        }
         if ( $value == 'true' )
+        {
             return true;
+        }
 
         /* Check for numbers - decimal */
         if ( preg_match( '@^-?(([1-9][0-9]*)|(0))$@', $value ) )
