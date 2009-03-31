@@ -392,6 +392,20 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $this->assertEquals( $expected, $result );
     }
 
+    // test for bug #14701
+    public function testReInit()
+    {
+        $config = ezcConfigurationManager::getInstance();
+
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files' );
+        $setting = $config->getStringSetting( 'bug14701', 'Standard', 'Summer' );
+        $this->assertEquals( 'summer', $setting );
+
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files/fr' );
+        $setting = $config->getStringSetting( 'bug14701', 'Standard', 'Summer' );
+        $this->assertEquals( "l'été", $setting );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( 'ezcConfigurationManagerTest' );

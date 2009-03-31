@@ -183,12 +183,14 @@ class ezcConfigurationManager
      */
     private function fetchReader( $name )
     {
-        if ( !isset( $this->nameMap[$name] ) )
+        if ( $this->readerClass === null || $this->location === null )
         {
-            if ( $this->readerClass === null || $this->location === null )
-            {
-                throw new ezcConfigurationManagerNotInitializedException();
-            }
+            throw new ezcConfigurationManagerNotInitializedException();
+        }
+        $key = "{$this->readerClass}-{$this->location}-{$name}";
+        if ( !isset( $this->nameMap[$key] ) )
+        {
+            echo "Refreshing for '$key'\n";
             $className = $this->readerClass;
             $class = new $className();
             $class->init( $this->location, $name, $this->options );
@@ -196,9 +198,9 @@ class ezcConfigurationManager
             {
                 $class->load();
             }
-            $this->nameMap[$name] = $class;
+            $this->nameMap[$key] = $class;
         }
-        return $this->nameMap[$name];
+        return $this->nameMap[$key];
     }
 
     /**
