@@ -44,20 +44,29 @@ class ezcMvcResultContent extends ezcBaseStruct
     public $encoding;
 
     /**
+     * The content disposition information
+     *
+     * @var ezcMvcResultContentDisposition
+     */
+    public $disposition;
+
+    /**
      * Constructs a new ezcMvcResultContent.
      *
      * @param string $language
      * @param string $type
      * @param string $charset
      * @param string $encoding
+     * @param ezcMvcResultContentDisposition $disposition
      */
     public function __construct( $language = '', $type = '', 
-        $charset = '', $encoding = '' )
+        $charset = '', $encoding = '', $disposition = null )
     {
         $this->language = $language;
         $this->type = $type;
         $this->charset = $charset;
         $this->encoding = $encoding;
+        $this->disposition = $disposition;
     }
 
     /**
@@ -76,7 +85,7 @@ class ezcMvcResultContent extends ezcBaseStruct
     static public function __set_state( array $array )
     {
         return new ezcMvcResultContent( $array['language'], $array['type'], 
-            $array['charset'], $array['encoding'] );
+            $array['charset'], $array['encoding'], $array['disposition'] );
     }
 }
 ?>

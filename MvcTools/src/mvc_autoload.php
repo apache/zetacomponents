@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the MvcTools component.
  *
- * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -56,6 +56,7 @@ return array(
     'ezcMvcResult'                      => 'MvcTools/structs/result.php',
     'ezcMvcResultCache'                 => 'MvcTools/structs/result_cache.php',
     'ezcMvcResultContent'               => 'MvcTools/structs/result_content.php',
+    'ezcMvcResultContentDisposition'    => 'MvcTools/structs/result_content_disposition.php',
     'ezcMvcResultCookie'                => 'MvcTools/structs/result_cookie.php',
     'ezcMvcResultFilter'                => 'MvcTools/interfaces/result_filter.php',
     'ezcMvcResultUnauthorized'          => 'MvcTools/result_types/unauthorized.php',

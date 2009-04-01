@@ -42,6 +42,7 @@ class ezcMvcResultContentTest extends ezcTestCase
         'type' => 'ezc',
         'charset' => 'ezp',
         'encoding' => 'buddymiles',
+        'disposition' => new ezcMvcResultContentDisposition(),
         );
         $struct = ezcMvcResultContent::__set_state( $state );
         $this->assertEquals( 'php', $struct->language, 'Property language does not have the expected value' );

@@ -256,7 +256,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         $response->body = "Ze body.";
         $response->content = new ezcMvcResultContent;
         $response->content->charset = 'utf-8';
-        
+
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
@@ -268,6 +268,125 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
 
         self::assertSame( $expectedHeaders, $headers );
         self::assertSame( "Ze body.", $body );
+    }
+
+    public static function testContentDispositionSimple1()
+    {
+        $response = new ezcMvcResponse;
+        $response->content = new ezcMvcResultContent;
+        $response->content->disposition = new ezcMvcResultContentDisposition;
+
+        list( $headers, $body ) = self::doTest( $response );
+
+        $expectedHeaders = array(
+            "X-Powered-By: eZ Components MvcTools",
+            "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
+            "Content-Disposition: inline",
+            'Content-Length: 0',
+        );
+
+        self::assertSame( $expectedHeaders, $headers );
+    }
+
+    public static function testContentDispositionSimple2()
+    {
+        $response = new ezcMvcResponse;
+        $response->content = new ezcMvcResultContent;
+        $response->content->disposition = new ezcMvcResultContentDisposition;
+        $response->content->disposition->type = 'attachment';
+        $response->content->disposition->size = 42;
+
+        list( $headers, $body ) = self::doTest( $response );
+
+        $expectedHeaders = array(
+            "X-Powered-By: eZ Components MvcTools",
+            "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
+            "Content-Disposition: attachment; size=42",
+            'Content-Length: 0',
+        );
+
+        self::assertSame( $expectedHeaders, $headers );
+    }
+
+    public static function testContentDispositionDates()
+    {
+        $response = new ezcMvcResponse;
+        $response->content = new ezcMvcResultContent;
+        $response->content->disposition = new ezcMvcResultContentDisposition;
+        $response->content->disposition->creationDate = new DateTime( '-1 day' );
+        $response->content->disposition->modificationDate = new DateTime( '-1 hour' );
+        $response->content->disposition->readDate = new DateTime();
+
+        list( $headers, $body ) = self::doTest( $response );
+
+        $expectedHeaders = array(
+            "X-Powered-By: eZ Components MvcTools",
+            "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
+            'Content-Disposition: inline' . 
+                '; creation-date="' . date_create()->modify( '-1 day' )->format( DateTime::RFC2822 ) . '"' .
+                '; modification-date="' . date_create()->modify( '-1 hour' )->format( DateTime::RFC2822 ) . '"' .
+                '; read-date="' . date_create()->format( DateTime::RFC2822 ) . '"',
+            'Content-Length: 0',
+        );
+
+        self::assertSame( $expectedHeaders, $headers );
+    }
+
+    public static function testContentDispositionFilenameAscii()
+    {
+        $response = new ezcMvcResponse;
+        $response->content = new ezcMvcResultContent;
+        $response->content->disposition = new ezcMvcResultContentDisposition;
+        $response->content->disposition->filename = "kake.pdf";
+
+        list( $headers, $body ) = self::doTest( $response );
+
+        $expectedHeaders = array(
+            "X-Powered-By: eZ Components MvcTools",
+            "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T' ),
+            'Content-Disposition: inline; filename=kake.pdf', 
+            'Content-Length: 0',
+        );
+
+        self::assertSame( $expectedHeaders, $headers );
+    }
+
+    public static function testContentDispositionFilenameAsciiWithSpecials()
+    {
+        $response = new ezcMvcResponse;
+        $response->content = new ezcMvcResultContent;
+        $response->content->disposition = new ezcMvcResultContentDisposition;
+        $response->content->disposition->filename = "banan kake er <godt>.pdf";
+
+        list( $headers, $body ) = self::doTest( $response );
+
+        $expectedHeaders = array(
+            "X-Powered-By: eZ Components MvcTools",
+            "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T' ),
+            'Content-Disposition: inline; filename="banan kake er <godt>.pdf"',
+            'Content-Length: 0',
+        );
+
+        self::assertSame( $expectedHeaders, $headers );
+    }
+
+    public static function testContentDispositionFilenameUTF8()
+    {
+        $response = new ezcMvcResponse;
+        $response->content = new ezcMvcResultContent;
+        $response->content->disposition = new ezcMvcResultContentDisposition;
+        $response->content->disposition->filename = "blåbær kake er godt.pdf";
+
+        list( $headers, $body ) = self::doTest( $response );
+
+        $expectedHeaders = array(
+            "X-Powered-By: eZ Components MvcTools",
+            "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T' ),
+            "Content-Disposition: inline; filename*=utf-8''bl%C3%A5b%C3%A6r+kake+er+godt.pdf",
+            'Content-Length: 0',
+        );
+
+        self::assertSame( $expectedHeaders, $headers );
     }
 
     public static function suite()
