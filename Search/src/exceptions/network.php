@@ -28,6 +28,7 @@ class ezcSearchNetworkException extends ezcSearchException
      * Constructs an ezcSearchNetworkException
      *
      * @param string $message
+     * @param mixed  $rawBody
      */
     public function __construct( $message, $rawBody = null )
     {

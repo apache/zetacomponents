@@ -413,7 +413,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $tbody = $dom->getElementsByTagName( 'body' )->item( 0 );
 
             $xpath = new DOMXPath($dom);
-            $tocElem = $xpath->evaluate( "//pre" , $tbody )->item( 0 );
+            $tocElem = $xpath->evaluate( '//pre', $tbody )->item( 0 );
             $error = $tocElem->nodeValue;
 
             $s->error = $error;
