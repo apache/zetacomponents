@@ -13,8 +13,8 @@
  * A request parser takes the raw request - protocol dependent - and creates an
  * abstract ezcMvcRequest object of this.
  *
- * @property  string  $prefix  The prefix in the URL that should be stripped
- *                             from URL properties.
+ * @property  string $prefix The prefix in the URL that should be stripped
+ *                           from URL properties.
  *
  * @package MvcTools
  * @version //autogentag//

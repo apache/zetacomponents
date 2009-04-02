@@ -10,6 +10,7 @@
 /**
  * This class implements a filter definition to wrap around the filtername and its
  * options.
+ *
  * @package MvcTools
  * @version //autogentag//
  */
@@ -33,8 +34,7 @@ class ezcMvcFilterDefinition extends ezcBaseStruct
      * @param string $className
      * @param array $options
      */
-    public function __construct( $className = '', 
-        $options = array() )
+    public function __construct( $className = '', $options = array() )
     {
         $this->className = $className;
         $this->options = $options;

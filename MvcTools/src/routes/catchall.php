@@ -62,7 +62,7 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
     {
         $requestParts = explode( '/', $request->uri );
 
-        if ( !$this->checkPrefixMatch( $requestParts ) ) 
+        if ( !$this->checkPrefixMatch( $requestParts ) )
         {
             return null;
         }
