@@ -434,6 +434,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidCaseNullSmartModeFileStore()
     {
+        if ( ! ( ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) || ezcBaseFeatures::hasExtensionSupport( 'gmp' ) ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-bcmath or --with-gmp.' );
+        }
+
         if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
         {
             $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
@@ -478,6 +483,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidCaseNullSmartModeFileStoreFailHostInaccessible()
     {
+        if ( ! ( ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) || ezcBaseFeatures::hasExtensionSupport( 'gmp' ) ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-bcmath or --with-gmp.' );
+        }
+
         if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
         {
             $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
@@ -514,6 +524,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
     public function testOpenidCaseNullSmartModeFileStoreExistent()
     {
+        if ( ! ( ezcBaseFeatures::hasExtensionSupport( 'bcmath' ) || ezcBaseFeatures::hasExtensionSupport( 'gmp' ) ) )
+        {
+            $this->markTestSkipped( 'PHP must be compiled with --with-bcmath or --with-gmp.' );
+        }
+
         if ( !ezcBaseFeatures::hasExtensionSupport( 'openssl' ) )
         {
             $this->markTestSkipped( 'PHP must be compiled with --with-openssl.' );
