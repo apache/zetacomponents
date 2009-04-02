@@ -72,6 +72,7 @@ class ezcTreeVisitorYUI implements ezcTreeVisitor
     /**
      * Constructs a new ezcTreeVisitorYUI visualizer.
      *
+     * @param string $xmlId
      * @param ezcTreeVisitorYUIOptions $options
      */
     public function __construct( $xmlId, ezcTreeVisitorYUIOptions $options = null )
