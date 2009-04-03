@@ -34,7 +34,7 @@ class ezcBaseFileFindRecursiveTest extends ezcTestCase
             14 => 'File/tests/suite.php',
         );
         self::assertEquals( $expected, ezcBaseFile::findRecursive( "File", array(), array( '@/docs/@', '@svn@', '@\.swp$@' ), $stats ) );
-        self::assertEquals( array( 'size' => 134201, 'count' => 15 ), $stats );
+        self::assertEquals( array( 'size' => 134399, 'count' => 15 ), $stats );
     }
 
     public function testRecursive2()
@@ -57,7 +57,7 @@ class ezcBaseFileFindRecursiveTest extends ezcTestCase
             14 => './File/tests/suite.php',
         );
         self::assertEquals( $expected, ezcBaseFile::findRecursive( ".", array( '@^\./File/@' ), array( '@/docs/@', '@\.svn@', '@\.swp$@' ), $stats ) );
-        self::assertEquals( array( 'size' => 134201, 'count' => 15 ), $stats );
+        self::assertEquals( array( 'size' => 134399, 'count' => 15 ), $stats );
     }
 
     public function testRecursive3()
