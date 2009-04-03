@@ -127,7 +127,7 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
             self::assertEquals(
                 1,
                 preg_match(
-                    "(The file '{$this->tempDir}/dir6/file[15].txt' can not be removed.)",
+                    "(The file '{$this->tempDir}/dir6/file[12].txt' can not be removed.)",
                     $e->getMessage()
                 )
             );
