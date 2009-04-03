@@ -115,7 +115,8 @@ class ezcAuthenticationSession
     {
         $this->start();
         if ( isset( $_SESSION[$this->options->timestampKey] ) && 
-             time() - $_SESSION[$this->options->timestampKey] >= $this->options->validity )
+             time() - $_SESSION[$this->options->timestampKey] >= $this->options->validity
+           )
         {
             $this->destroy();
             $this->regenerateId();

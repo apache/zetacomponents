@@ -349,7 +349,8 @@ class ezcAuthenticationTypekeyFilter extends ezcAuthenticationFilter implements 
             return self::STATUS_SIGNATURE_MISSING;
         }
         if ( $this->options->validity !== 0 &&
-             time() - $timestamp >= $this->options->validity )
+             time() - $timestamp >= $this->options->validity
+           )
         {
             return self::STATUS_SIGNATURE_EXPIRED;
         }

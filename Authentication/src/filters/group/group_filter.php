@@ -355,7 +355,6 @@ class ezcAuthenticationGroupFilter extends ezcAuthenticationFilter
     /**
      * Adds an authentication filter at the end of the filter list.
      *
-     *
      * Example of using multipleCredentials:
      * <code>
      * $credentials1 = new ezcAuthenticationPasswordCredentials( 'john.doe', '1234' );

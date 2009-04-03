@@ -128,7 +128,8 @@ class ezcAuthenticationTypekeyOptions extends ezcAuthenticationFilterOptions
                     $headers = @get_headers( $value );
                     if ( $headers === false
                          || count( $headers ) === 0 // get_headers returns an empty array for unreachable hosts
-                         || strpos( $headers[0], '404 Not Found' ) !== false )
+                         || strpos( $headers[0], '404 Not Found' ) !== false
+                       )
                     {
                         throw new ezcBaseFileNotFoundException( $value );
                     }

@@ -371,7 +371,8 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                     {
                         $association = $store->getAssociation( $provider );
                         if ( $association === false ||
-                             time() - $association->issued > $association->validity )
+                             time() - $association->issued > $association->validity
+                           )
                         {
                             $lib = ezcAuthenticationMath::createBignumLibrary();
                             $p = self::DEFAULT_P;
@@ -436,7 +437,8 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                     {
                         $association = $store->getAssociation( $provider );
                         if ( $association !== false &&
-                             time() - $association->issued <= $association->validity )
+                             time() - $association->issued <= $association->validity
+                           )
                         {
                             $params['openid.assoc_handle'] = urlencode( $association->handle );
                         }
@@ -527,7 +529,8 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                     {
                         $association = $store->getAssociation( $provider );
                         if ( $association !== false &&
-                             time() - $association->issued <= $association->validity )
+                             time() - $association->issued <= $association->validity
+                           )
                         {
                             if ( $this->checkSignatureSmart( $association, $params ) )
                             {

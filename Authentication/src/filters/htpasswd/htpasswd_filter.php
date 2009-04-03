@@ -55,7 +55,7 @@
  * </code>
  *
  * @property string $file
- *                  The path and file name of the htpasswd file to use.
+ *           The path and file name of the htpasswd file to use.
  *
  * @package Authentication
  * @version //autogen//

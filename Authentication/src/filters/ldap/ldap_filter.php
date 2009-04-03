@@ -285,7 +285,8 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
                     {
                         // ignore case of $attribute
                         if ( isset( $attributes[$attribute] )
-                             || isset( $attributes[strtolower( $attribute )] ) )
+                             || isset( $attributes[strtolower( $attribute )] )
+                           )
                         {
                             for ( $i = 0; $i < $attributes[$attribute]['count']; $i++ )
                             {

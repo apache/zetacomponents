@@ -27,9 +27,9 @@
  * </code>
  *
  * @property bool $plain
- *                Specifies if the password is passed to the filter in plain
- *                text or encrypted. The encryption will be autodetected by the
- *                filter from the password stored in the htpasswd file.
+ *           Specifies if the password is passed to the filter in plain
+ *           text or encrypted. The encryption will be autodetected by the
+ *           filter from the password stored in the htpasswd file.
  *
  * @package Authentication
  * @version //autogen//

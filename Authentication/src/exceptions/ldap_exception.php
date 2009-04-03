@@ -27,6 +27,7 @@ class ezcAuthenticationLdapException extends ezcAuthenticationException
      *
      * @param string $message Message to throw
      * @param mixed $code Error code returned by ldap_errno() function
+     * @param mixed $ldapMessage Message thrown by the LDAP server
      */
     public function __construct( $message, $code = false, $ldapMessage = false )
     {
