@@ -80,7 +80,7 @@ class ezcLogDatabaseWriterTest extends ezcTestCase
             }
             if ( $this->db instanceof ezcDbHandlerMysql )
             {
-                $this->assertEquals( "SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ezc.logtable' doesn't exist", $e->getMessage() );
+                $this->assertRegexp( "/SQLSTATE\[42S02\]: Base table or view not found: 1146 Table '(.*)' doesn't exist/", $e->getMessage() );
             }
             if ( $this->db instanceof ezcDbHandlerSqlite )
             {
