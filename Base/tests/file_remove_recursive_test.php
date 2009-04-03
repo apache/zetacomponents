@@ -123,7 +123,7 @@ class ezcBaseFileRemoveRecursiveTest extends ezcTestCase
         }
         catch ( ezcBaseFilePermissionException $e )
         {
-            // Make no asumption on which file is tryed to be removed first
+            // Make no asumption on which file is tried to be removed first
             self::assertEquals(
                 1,
                 preg_match(
