@@ -1,0 +1,68 @@
+<?php
+/**
+ * File containing the ezcDocumentPdfBoundingBox class
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
+
+/**
+ * Bounding box
+ *
+ * Bounding box, used to specify rectangular covered or availalable areas.
+ *
+ * @package Document
+ * @access private
+ * @version //autogen//
+ */
+class ezcDocumentPdfBoundingBox extends ezcBaseStruct
+{
+    /**
+     * Vertical box position
+     * 
+     * @var float
+     */
+    public $x;
+
+    /**
+     * Horizontal box position
+     * 
+     * @var float
+     */
+    public $y;
+
+    /**
+     * Box width 
+     * 
+     * @var float
+     */
+    public $width;
+
+    /**
+     * Box height
+     * 
+     * @var float
+     */
+    public $height;
+
+    /**
+     * Construct a bounding box from its dimensions
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @return void
+     */
+    public function __construct( $x, $y, $width, $height )
+    {
+        $this->x      = (float) $x;
+        $this->y      = (float) $y;
+        $this->width  = (float) $width;
+        $this->height = (float) $height;
+    }
+}
+?>

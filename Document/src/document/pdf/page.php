@@ -81,10 +81,10 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      * There is no check for overlapping of covered areas in here, so that you
      * can add bounding boxes wrapping multiple already existing rectangles.
      * 
-     * @param ezcDocumentPdfPageRectangle $rectangle 
+     * @param ezcDocumentPdfBoundingBox $rectangle 
      * @return void
      */
-    public function setCovered( ezcDocumentPdfPageRectangle $rectangle )
+    public function setCovered( ezcDocumentPdfBoundingBox $rectangle )
     {
         $this->covered[] = $rectangle;
     }
@@ -112,7 +112,48 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      */
     public function testFitRectangle( $xPos = null, $yPos = null, $width = null, $height = null )
     {
-        return false;
+        // Ensure requested area is within the page boundings
+        if ( ( $xPos < 0 ) ||
+             ( $yPos < 0 ) ||
+             ( ( $xPos + $width ) > $this->width ) ||
+             ( ( $yPos + $height ) > $this->height ) )
+        {
+            return false;
+        }
+
+        // Store aspects of passed parameters
+        $moveX        = ( $xPos === null );
+        $moveY        = ( $yPos === null );
+        $adjustWidth  = ( $width === null );
+        $adjustHeight = ( $width === null );
+        $boundings    = new ezcDocumentPdfBoundingBox( $xPos, $yPos, $width, $height );
+
+        // Test all covered areas for intersections with the given bounding box
+        foreach ( $this->covered as $covered )
+        {
+            if ( ( ( ( $boundings->x > $covered->x ) &&
+                     ( $boundings->x < ( $covered->x + $covered->width ) ) ) ||
+                   ( ( ( $boundings->x + $boundings->width ) > $covered->x ) &&
+                     ( ( $boundings->x + $boundings->width ) < ( $covered->x + $covered->width ) ) ) ||
+                   ( ( $boundings->x < $covered->x ) &&
+                     ( ( $boundings->x + $boundings->width ) > ( $covered->x + $covered->width ) ) ) ) &&
+                 ( ( ( $boundings->y > $covered->y ) &&
+                     ( $boundings->y < ( $covered->y + $covered->height ) ) ) ||
+                   ( ( ( $boundings->y + $boundings->height ) > $covered->y ) &&
+                     ( ( $boundings->y + $boundings->height ) < ( $covered->y + $covered->height ) ) ) ||
+                   ( ( $boundings->y < $covered->y ) &&
+                     ( ( $boundings->y + $boundings->height ) > ( $covered->y + $covered->height ) ) ) ) )
+            {
+                if ( !$moveX && !$moveY )
+                {
+                    return false;
+                }
+
+                // Do something.
+            }
+        }
+
+        return $boundings;
     }
 
     /**

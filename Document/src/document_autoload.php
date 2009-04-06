@@ -179,6 +179,7 @@ return array(
     'ezcDocumentEzXmlToDocbookTableRowHandler'           => 'Document/converters/element_visitor/ezxml/docbook/table_row.php',
     'ezcDocumentParserOptions'                           => 'Document/options/document_parser.php',
     'ezcDocumentPdf'                                     => 'Document/document/pdf.php',
+    'ezcDocumentPdfBoundingBox'                          => 'Document/document/pdf/box.php',
     'ezcDocumentPdfCssDirective'                         => 'Document/document/pdf/pcss/directive.php',
     'ezcDocumentPdfCssParser'                            => 'Document/document/pdf/pcss/parser.php',
     'ezcDocumentPdfDefaultHyphenator'                    => 'Document/document/pdf/hyphenator/default.php',
