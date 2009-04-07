@@ -550,17 +550,21 @@ class ezcPersistentIdentitySession
      * {@link find()} and the related class name, to retrieve a sub-set of
      * related objects.
      *
+     *
+     *
      * @param object $object
      * @param string $relatedClass
+     * @param string $relationName
+     * @param string $setName
      *
-     * @return ezcDbSelectQuery
+     * @return ezcPersistentFindQuery
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      *
      * @TODO: Implement!
      */
-    public function createRelationFindQuery( $object, $relatedClass )
+    public function createRelationFindQuery( $object, $relatedClass, $relationName = null, $setName = null )
     {
         throw new RuntimeException( 'Not implemented, yet.' );
     }
