@@ -73,40 +73,54 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentCodeManagerTest::suite() );
         $this->addTest( ezcPersistentCacheManagerTest::suite() );
         $this->addTest( ezcPersistentMultiManagerTest::suite() );
+
         $this->addTest( ezcPersistentSessionDeleteTest::suite() );
         $this->addTest( ezcPersistentSessionFindTest::suite() );
         $this->addTest( ezcPersistentSessionLoadTest::suite() );
         $this->addTest( ezcPersistentSessionMiscTest::suite() );
         $this->addTest( ezcPersistentSessionSaveTest::suite() );
+
         $this->addTest( ezcPersistentIdentitySessionOptionsTest::suite() );
         $this->addTest( ezcPersistentIdentitySessionDeleteTest::suite() );
         $this->addTest( ezcPersistentIdentitySessionFindTest::suite() );
         $this->addTest( ezcPersistentIdentitySessionLoadTest::suite() );
         $this->addTest( ezcPersistentIdentitySessionSaveTest::suite() );
         $this->addTest( ezcPersistentIdentitySessionRelationTest::suite() );
+
         $this->addTest( ezcPersistentFindIteratorTest::suite() );
+
         $this->addTest( ezcPersistentManualGeneratorTest::suite() );
         $this->addTest( ezcPersistentNativeGeneratorTest::suite() );
+
         $this->addTest( ezcPersistentSessionInstanceTest::suite() );
+
         $this->addTest( ezcPersistentOneToManyRelationTest::suite() );
         $this->addTest( ezcPersistentOneToOneRelationTest::suite() );
         $this->addTest( ezcPersistentManyToOneRelationTest::suite() );
         $this->addTest( ezcPersistentManyToManyRelationTest::suite() );
         $this->addTest( ezcPersistentMultiRelationTest::suite() );
+
         $this->addTest( ezcPersistentKeywordTest::suite() );
         $this->addTest( ezcPersistentStringIdentifierTest::suite() );
+
         $this->addTest( ezcPersistentObjectPropertyTest::suite() );
         $this->addTest( ezcPersistentObjectIdPropertyTest::suite() );
         $this->addTest( ezcPersistentObjectDefinitionTest::suite() );
         $this->addTest( ezcPersistentObjectRelationsTest::suite() );
         $this->addTest( ezcPersistentObjectPropertiesTest::suite() );
         $this->addTest( ezcPersistentObjectColumnsTest::suite() );
+
         $this->addTest( ezcPersistentPropertyDateTimeConverterTest::suite() );
+
         $this->addTest( ezcPersistentDatabaseTypeTest::suite() );
+
         $this->addTest( ezcPersistentObjectTest::suite() );
         $this->addTest( ezcPersistentObjectInstanceDelayedInitTest::suite() );
+
         $this->addTest( ezcPersistentFindQueryTest::suite() );
+
         $this->addTest( ezcPersistentBasicIdentityMapTest::suite() );
+
         $this->addTest( ezcPersistentIdentitySessionRelationQueryCreatorTest::suite() );
         $this->addTest( ezcPersistentIdentitySessionRelationObjectExtractorTest::suite() );
     }
