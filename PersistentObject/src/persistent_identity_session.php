@@ -268,6 +268,39 @@ class ezcPersistentIdentitySession
      */
     public function find( $query, $class = null )
     {
+        $relQueryWithName = isset( $query->metaData ) && isset( $query->metaData['relationSetName'] );
+
+        if ( !$this->options->refetch && $relQueryWithName )
+        {
+            // Check if such a subset already exisist
+            $objects = $this->identityMap->getRelatedObjectSet(
+                $query->metaData['relationSource'],
+                $query->metaData['relationSetName']
+            );
+            if ( $objects !== null )
+            {
+                return $objects;
+            }
+        }
+
+        $objects = $this->performFind( $query, $class );
+
+        // Query for createRelationFindQuery() with sub-set name assigned
+        // No refetch check needed anymore
+        if ( $relQueryWithName )
+        {
+            $objects = $this->identityMap->setRelatedObjectSet(
+                $query->metaData['relationSource'],
+                $objects,
+                $query->metaData['relationSetName']
+            );
+        }
+
+        return $objects;
+    }
+
+    private function performFind( $query, $class = null )
+    {
         $objects = $this->session->find( $query, $class );
 
         $defs = array();
@@ -308,16 +341,6 @@ class ezcPersistentIdentitySession
                     $id
                 );
             }
-        }
-
-        // Query for createRelationFindQuery() with sub-set name assigned
-        if ( isset( $query->metaData ) && isset( $query->metaData['relationSetName'] ) )
-        {
-            $this->identityMap->setRelatedObjectSet(
-                $query->metaData['relationSource'],
-                $objects,
-                $query->metaData['relationSetName']
-            );
         }
 
         return $objects;
@@ -560,7 +583,17 @@ class ezcPersistentIdentitySession
      * {@link find()} and the related class name, to retrieve a sub-set of
      * related objects.
      *
+     * If multiple relations are defined for the $relatedClass (using {@link
+     * ezcPersistentRelationCollection}), the parameter $relationName becomes
+     * mandatory to determine which relation definition to use. For normal
+     * relations, this parameter is silently ignored.
      *
+     * If you provide a $setName, the resulting set of related objects fetched
+     * by {@link find()} is cached under the given name for $object. You can
+     * retrieve this set either through {@link getRelatedObjectSubset()} or by
+     * issueing the same query (or a query with the same $object and $setName)
+     * again. Overwriting a once created named set can be enfored using the
+     * 'refetch' option in {@link ezcPersistentIdentitySessionOptions}.
      *
      * @param object $object
      * @param string $relatedClass
@@ -572,7 +605,7 @@ class ezcPersistentIdentitySession
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      *
-     * @TODO: Implement!
+     * @TODO: Implement {@link getRelatedObjectSubset()}.
      */
     public function createRelationFindQuery( $object, $relatedClass, $relationName = null, $setName = null )
     {
