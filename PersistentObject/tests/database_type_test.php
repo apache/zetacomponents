@@ -360,7 +360,7 @@ class ezcPersistentDatabaseTypeTest extends ezcTestCase
             )
         );
         $objs = $this->session->find( $q, 'DatabaseTypeTestObject' );
-        $obj  = $objs[0];
+        $obj  = $objs[1];
 
         $this->assertSame(
             '1',

@@ -184,14 +184,14 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         $employer = $this->session->load( "RelationTestEmployer", 1 );
 
         $res = array(
-          0 => 
+          2 => 
           RelationTestPerson::__set_state(array(
              'id' => '2',
              'firstname' => 'Frederick',
              'surname' => 'Ajax',
              'employer' => '1',
           )),
-          1 => 
+          3 => 
           RelationTestPerson::__set_state(array(
              'id' => '3',
              'firstname' => 'Raymond',
@@ -211,7 +211,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
     {
         $employer = $this->session->load( "RelationTestEmployer", 2 );
         $res = array(
-            0 => 
+            1 => 
             RelationTestPerson::__set_state(array(
                 'id' => '1',
                 'firstname' => 'Theodor',
@@ -232,7 +232,7 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         $q = $this->session->createRelationFindQuery( $employer, 'RelationTestPerson' );
 
         $res = array(
-            0 => 
+            1 => 
             RelationTestPerson::__set_state(array(
                 'id' => '1',
                 'firstname' => 'Theodor',

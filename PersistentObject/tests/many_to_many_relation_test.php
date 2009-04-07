@@ -182,7 +182,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
     {
         $person = $this->session->load( "RelationTestPerson", 1 );
         $res = array (
-            0 => 
+            1 => 
             RelationTestAddress::__set_state(array(
                 'id' => '1',
                 'street' => 'Httproad 23',
@@ -190,7 +190,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
                 'city' => 'Internettown',
                 'type' => 'work',
             )),
-            1 => 
+            2 => 
             RelationTestAddress::__set_state(array(
                 'id' => '2',
                 'street' => 'Ftpstreet 42',
@@ -198,7 +198,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
                 'city' => 'Internettown',
                 'type' => 'work',
             )),
-            2 => 
+            4 => 
             RelationTestAddress::__set_state(array(
                 'id' => '4',
                 'street' => 'Pythonstreet 13',
@@ -219,7 +219,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
     {
         $person = $this->session->load( "RelationTestPerson", 2 );
         $res = array (
-            0 => 
+            1 => 
             RelationTestAddress::__set_state(array(
                 'id' => '1',
                 'street' => 'Httproad 23',
@@ -227,7 +227,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
                 'city' => 'Internettown',
                 'type' => 'work',
             )),
-            1 => 
+            3 => 
             RelationTestAddress::__set_state(array(
                 'id' => '3',
                 'street' => 'Phpavenue 21',
@@ -235,7 +235,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
                 'city' => 'Internettown',
                 'type' => 'private',
             )),
-            2 => 
+            4 => 
             RelationTestAddress::__set_state(array(
                 'id' => '4',
                 'street' => 'Pythonstreet 13',
@@ -311,14 +311,14 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         $address = $this->session->load( "RelationTestAddress", 1 );
 
         $res = array (
-            0 => 
+            1 => 
             RelationTestPerson::__set_state(array(
              'id' => '1',
              'firstname' => 'Theodor',
              'surname' => 'Gopher',
              'employer' => '2',
             )),
-            1 => 
+            2 => 
             RelationTestPerson::__set_state(array(
              'id' => '2',
              'firstname' => 'Frederick',
@@ -449,7 +449,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
         $this->session->removeRelatedObject( $person, $address );
 
         $res = array (
-            0 => 
+            3 => 
             RelationTestAddress::__set_state(array(
                 'id' => '3',
                 'street' => 'Phpavenue 21',
@@ -457,7 +457,7 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
                 'city' => 'Internettown',
                 'type' => 'private',
             )),
-            1 => 
+            4 => 
             RelationTestAddress::__set_state(array(
                 'id' => '4',
                 'street' => 'Pythonstreet 13',
@@ -532,14 +532,14 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
 
         $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
         $res = array (
-            0 => 
+            2 => 
             RelationTestPerson::__set_state(array(
              'id' => '2',
              'firstname' => 'Frederick',
              'surname' => 'Ajax',
              'employer' => '1',
             )),
-            1 => 
+            3 => 
             RelationTestPerson::__set_state(array(
              'id' => '3',
              'firstname' => 'Raymond',
@@ -573,14 +573,14 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
 
         $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
         $res = array (
-            0 => 
+            2 => 
             RelationTestPerson::__set_state(array(
              'id' => '2',
              'firstname' => 'Frederick',
              'surname' => 'Ajax',
              'employer' => '1',
             )),
-            1 => 
+            3 => 
             RelationTestPerson::__set_state(array(
              'id' => '3',
              'firstname' => 'Raymond',
@@ -594,11 +594,11 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             $friends
         );
 
-        $this->session->removeRelatedObject( $person, $friends[0] );
+        $this->session->removeRelatedObject( $person, $friends[2] );
 
         $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
         $res = array (
-            0 => 
+            3 => 
             RelationTestPerson::__set_state(array(
              'id' => '3',
              'firstname' => 'Raymond',
@@ -658,14 +658,14 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
 
         $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
         $res = array (
-            0 => 
+            2 => 
             RelationTestPerson::__set_state(array(
              'id' => '2',
              'firstname' => 'Frederick',
              'surname' => 'Ajax',
              'employer' => '1',
             )),
-            1 => 
+            3 => 
             RelationTestPerson::__set_state(array(
              'id' => '3',
              'firstname' => 'Raymond',
@@ -679,8 +679,8 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             $friends
         );
 
-        $this->session->removeRelatedObject( $person, $friends[0] );
-        $this->session->removeRelatedObject( $person, $friends[1] );
+        $this->session->removeRelatedObject( $person, $friends[2] );
+        $this->session->removeRelatedObject( $person, $friends[3] );
 
         $friends = $this->session->getRelatedObjects( $person, 'RelationTestPerson' );
 

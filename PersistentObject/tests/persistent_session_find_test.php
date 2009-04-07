@@ -47,17 +47,20 @@ class ezcPersistentSessionFindTest extends ezcPersistentSessionTest
         $q->where( $q->expr->gt( $this->session->database->quoteIdentifier( 'id' ), 2 ) );
         $objects = $this->session->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 2, count( $objects ) );
+        $this->assertTrue(
+            isset( $objects[3] ) && isset( $objects[4] )
+        );
 
         // check that the data is correct
-        $this->assertEquals( 'Ukraine', $objects[0]->varchar );
-        $this->assertEquals( 47732079, (int)$objects[0]->integer );
-        $this->assertEquals( 603.70, (float)$objects[0]->decimal );
-        $this->assertEquals( 'Ukraine has a long coastline to the black see.', $objects[0]->text );
+        $this->assertEquals( 'Ukraine', $objects[3]->varchar );
+        $this->assertEquals( 47732079, (int)$objects[3]->integer );
+        $this->assertEquals( 603.70, (float)$objects[3]->decimal );
+        $this->assertEquals( 'Ukraine has a long coastline to the black see.', $objects[3]->text );
 
-        $this->assertEquals( 'Germany', $objects[1]->varchar );
-        $this->assertEquals( 82443000, (int)$objects[1]->integer );
-        $this->assertEquals( 357.02, (float)$objects[1]->decimal );
-        $this->assertEquals( 'Home of the lederhosen!.', $objects[1]->text );
+        $this->assertEquals( 'Germany', $objects[4]->varchar );
+        $this->assertEquals( 82443000, (int)$objects[4]->integer );
+        $this->assertEquals( 357.02, (float)$objects[4]->decimal );
+        $this->assertEquals( 'Home of the lederhosen!.', $objects[4]->text );
     }
     
     public function testTablePrefixingInFindQuery()
@@ -85,10 +88,10 @@ class ezcPersistentSessionFindTest extends ezcPersistentSessionTest
         $this->assertEquals( 1, count( $objects ) );
 
         // check that the data is correct
-        $this->assertEquals( 'Ukraine', $objects[0]->varchar );
-        $this->assertEquals( 47732079, (int)$objects[0]->integer );
-        $this->assertEquals( 603.70, (float)$objects[0]->decimal );
-        $this->assertEquals( 'Ukraine has a long coastline to the black see.', $objects[0]->text );
+        $this->assertEquals( 'Ukraine', $objects[3]->varchar );
+        $this->assertEquals( 47732079, (int)$objects[3]->integer );
+        $this->assertEquals( 603.70, (float)$objects[3]->decimal );
+        $this->assertEquals( 'Ukraine has a long coastline to the black see.', $objects[3]->text );
     }
 
     // findIterator
@@ -162,17 +165,18 @@ class ezcPersistentSessionFindTest extends ezcPersistentSessionTest
         $q->where( $q->expr->gt( $this->session->database->quoteIdentifier( 'id' ), 2 ) );
         $objects = $this->session->find( $q );
         $this->assertEquals( 2, count( $objects ) );
+        $this->assertTrue( isset( $objects[3] ) && isset( $objects[4] ) );
 
         // check that the data is correct
-        $this->assertEquals( 'Ukraine', $objects[0]->varchar );
-        $this->assertEquals( 47732079, (int)$objects[0]->integer );
-        $this->assertEquals( 603.70, (float)$objects[0]->decimal );
-        $this->assertEquals( 'Ukraine has a long coastline to the black see.', $objects[0]->text );
+        $this->assertEquals( 'Ukraine', $objects[3]->varchar );
+        $this->assertEquals( 47732079, (int)$objects[3]->integer );
+        $this->assertEquals( 603.70, (float)$objects[3]->decimal );
+        $this->assertEquals( 'Ukraine has a long coastline to the black see.', $objects[3]->text );
 
-        $this->assertEquals( 'Germany', $objects[1]->varchar );
-        $this->assertEquals( 82443000, (int)$objects[1]->integer );
-        $this->assertEquals( 357.02, (float)$objects[1]->decimal );
-        $this->assertEquals( 'Home of the lederhosen!.', $objects[1]->text );
+        $this->assertEquals( 'Germany', $objects[4]->varchar );
+        $this->assertEquals( 82443000, (int)$objects[4]->integer );
+        $this->assertEquals( 357.02, (float)$objects[4]->decimal );
+        $this->assertEquals( 'Home of the lederhosen!.', $objects[4]->text );
     }
 
     public function testFindIteratorWithoutClassNameSingleResult()

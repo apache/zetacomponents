@@ -93,15 +93,18 @@ class ezcPersistentSessionLoadTest extends ezcPersistentSessionTest
             1,
             count( $arr )
         );
+        $this->assertNotNull(
+            $arr[4]
+        );
 
         $this->assertType(
             'DateTime',
-            $arr[0]->integer
+            $arr[4]->integer
         );
 
         $this->assertEquals(
             '82443000',
-            $arr[0]->integer->format( 'U' )
+            $arr[4]->integer->format( 'U' )
         );
     }
 

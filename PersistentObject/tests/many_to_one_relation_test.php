@@ -189,7 +189,7 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
     {
         $person = $this->session->load( "RelationTestPerson", 1 );
         $res = array (
-        0 => 
+        2 => 
             RelationTestEmployer::__set_state(array(
                 'id' => '2',
                 'name' => 'Oldschool Web 1.x company',
@@ -207,7 +207,7 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
     {
         $person = $this->session->load( "RelationTestPerson", 2 );
         $res = array (
-            0 => RelationTestEmployer::__set_state(array(
+            1 => RelationTestEmployer::__set_state(array(
                 'id' => '1',
                 'name' => 'Great Web 2.0 company',
             )),

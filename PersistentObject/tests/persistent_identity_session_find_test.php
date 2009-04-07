@@ -39,13 +39,15 @@ class ezcPersistentIdentitySessionFindTest extends ezcPersistentIdentitySessionT
         $q->where( $q->expr->eq( $this->idSession->database->quoteIdentifier( 'id' ), 1 ) );
         $objects = $this->idSession->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 1, count( $objects ) );
+        $this->assertTrue( isset( $objects[1] ) );
 
-        $first = $objects[0];
+        $first = $objects[1];
 
         $objects = $this->idSession->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 1, count( $objects ) );
+        $this->assertTrue( isset( $objects[1] ) );
 
-        $second = $objects[0];
+        $second = $objects[1];
 
         $this->assertSame( $first, $second );
     }
@@ -58,13 +60,15 @@ class ezcPersistentIdentitySessionFindTest extends ezcPersistentIdentitySessionT
         $q->where( $q->expr->eq( $this->idSession->database->quoteIdentifier( 'id' ), 1 ) );
         $objects = $this->idSession->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 1, count( $objects ) );
+        $this->assertTrue( isset( $objects[1] ) );
 
-        $first = $objects[0];
+        $first = $objects[1];
 
         $objects = $this->idSession->find( $q, 'PersistentTestObject' );
         $this->assertEquals( 1, count( $objects ) );
+        $this->assertTrue( isset( $objects[1] ) );
 
-        $second = $objects[0];
+        $second = $objects[1];
 
         $this->assertNotSame( $first, $second );
     }
@@ -219,13 +223,14 @@ class ezcPersistentIdentitySessionFindTest extends ezcPersistentIdentitySessionT
 
         $objects = $this->idSession->find( $q );
         $this->assertEquals( 1, count( $objects ) );
+        $this->assertTrue( isset( $objects[1] ) );
 
-        $first = $objects[0];
+        $first = $objects[1];
 
         $objects = $this->idSession->find( $q );
         $this->assertEquals( 1, count( $objects ) );
 
-        $second = $objects[0];
+        $second = $objects[1];
 
         $this->assertSame( $first, $second );
     }
@@ -239,13 +244,15 @@ class ezcPersistentIdentitySessionFindTest extends ezcPersistentIdentitySessionT
 
         $objects = $this->idSession->find( $q );
         $this->assertEquals( 1, count( $objects ) );
+        $this->assertTrue( isset( $objects[1] ) );
 
-        $first = $objects[0];
+        $first = $objects[1];
 
         $objects = $this->idSession->find( $q );
         $this->assertEquals( 1, count( $objects ) );
+        $this->assertTrue( isset( $objects[1] ) );
 
-        $second = $objects[0];
+        $second = $objects[1];
 
         $this->assertNotSame( $first, $second );
     }

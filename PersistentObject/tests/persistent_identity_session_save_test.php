@@ -86,14 +86,15 @@ class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionT
             1,
             count( $arr )
         );
+        $this->assertTrue( isset( $arr[5] ) );
 
         $this->assertNull(
-            $arr[0]->integer
+            $arr[5]->integer
         );
 
-        $arr[0]->integer = new DateTime( '@327535200' );
+        $arr[5]->integer = new DateTime( '@327535200' );
 
-        $this->idSession->update( $arr[0] );
+        $this->idSession->update( $arr[5] );
         
         $q = $this->idSession->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
@@ -108,15 +109,16 @@ class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionT
             1,
             count( $arr )
         );
+        $this->assertTrue( isset( $arr[5] ) );
 
         $this->assertType(
             'DateTime',
-            $arr[0]->integer
+            $arr[5]->integer
         );
 
         $this->assertEquals(
             '327535200',
-            $arr[0]->integer->format( 'U' )
+            $arr[5]->integer->format( 'U' )
         );
     }
 
@@ -163,20 +165,21 @@ class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionT
             1,
             count( $arr )
         );
+        $this->assertTrue( isset( $arr[5] ) );
 
         $this->assertType(
             'DateTime',
-            $arr[0]->integer
+            $arr[5]->integer
         );
 
         $this->assertEquals(
             '327535200',
-            $arr[0]->integer->format( 'U' )
+            $arr[5]->integer->format( 'U' )
         );
 
-        $arr[0]->integer = null;
+        $arr[5]->integer = null;
 
-        $this->idSession->update( $arr[0] );
+        $this->idSession->update( $arr[5] );
         
         $q = $this->idSession->createFindQuery( 'PersistentTestObjectConverter' );
         $q->where(
@@ -191,9 +194,10 @@ class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionT
             1,
             count( $arr )
         );
+        $this->assertTrue( isset( $arr[5] ) );
 
         $this->assertNull(
-            $arr[0]->integer
+            $arr[5]->integer
         );
     }
 
@@ -305,15 +309,16 @@ class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionT
             1,
             count( $arr )
         );
+        $this->assertTrue( isset( $arr[5] ) );
 
         $this->assertType(
             'DateTime',
-            $arr[0]->integer
+            $arr[5]->integer
         );
 
         $this->assertEquals(
             '327535200',
-            $arr[0]->integer->format( 'U' )
+            $arr[5]->integer->format( 'U' )
         );
     }
 
@@ -342,9 +347,10 @@ class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionT
             1,
             count( $arr )
         );
+        $this->assertTrue( isset( $arr[5] ) );
 
         $this->assertNull(
-            $arr[0]->integer
+            $arr[5]->integer
         );
     }
 

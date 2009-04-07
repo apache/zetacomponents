@@ -181,7 +181,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
     {
         $person = $this->session->load( "RelationTestPerson", 1 );
         $res = array (
-            0 => 
+            1 => 
             RelationTestBirthday::__set_state(array(
                 'person' => '1',
                 'birthday' => '327535201',
@@ -198,7 +198,7 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
     {
         $person = $this->session->load( "RelationTestPerson", 2 );
         $res = array(
-            0 => 
+            2 => 
             RelationTestBirthday::__set_state(array(
                 'person' => '2',
                 'birthday' => '-138243599',

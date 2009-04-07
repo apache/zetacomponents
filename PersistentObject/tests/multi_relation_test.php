@@ -86,16 +86,17 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             count( $persons ),
             'MultiRelationTestPerson object not found correctly.'
         );
+        $this->assertTrue( isset( $persons[3] ) && isset( $persons[4] ) );
 
         $this->assertEquals(
             3,
-            $persons[0]->id,
+            $persons[3]->id,
             'First MultiRelationTestPerson object not found correctly.'
         );
 
         $this->assertEquals(
             4,
-            $persons[1]->id,
+            $persons[4]->id,
             'First MultiRelationTestPerson object not found correctly.'
         );
     }
@@ -146,22 +147,23 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             count( $children ),
             'Number of found children incorrect.'
         );
+        $this->assertTrue( isset( $children[3] ) && isset( $children[4] ) && isset( $children[5] ) );
 
         $this->assertEquals(
             3,
-            $children[0]->id,
+            $children[3]->id,
             'First child fetched incorrect.'
         );
 
         $this->assertEquals(
             4,
-            $children[1]->id,
+            $children[4]->id,
             'First child fetched incorrect.'
         );
 
         $this->assertEquals(
             5,
-            $children[2]->id,
+            $children[5]->id,
             'First child fetched incorrect.'
         );
     }
@@ -177,22 +179,23 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             count( $children ),
             'Number of found children incorrect.'
         );
+        $this->assertTrue( isset( $children[3] ) && isset( $children[4] ) && isset( $children[5] ) );
 
         $this->assertEquals(
             3,
-            $children[0]->id,
+            $children[3]->id,
             'First child fetched incorrect.'
         );
 
         $this->assertEquals(
             4,
-            $children[1]->id,
+            $children[4]->id,
             'First child fetched incorrect.'
         );
 
         $this->assertEquals(
             5,
-            $children[2]->id,
+            $children[5]->id,
             'First child fetched incorrect.'
         );
     }
@@ -207,22 +210,23 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             count( $children ),
             'Number of found children incorrect.'
         );
+        $this->assertTrue( isset( $children[3] ) && isset( $children[4] ) && isset( $children[5] ) );
 
         $this->assertEquals(
             3,
-            $children[0]->id,
+            $children[3]->id,
             'First child fetched incorrect.'
         );
 
         $this->assertEquals(
             4,
-            $children[1]->id,
+            $children[4]->id,
             'First child fetched incorrect.'
         );
 
         $this->assertEquals(
             5,
-            $children[2]->id,
+            $children[5]->id,
             'First child fetched incorrect.'
         );
     }
@@ -343,7 +347,7 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
 
         try
         {
-            $this->session->removeRelatedObject( $mother, $children[0] );
+            $this->session->removeRelatedObject( $mother, $children[3] );
             $this->fail( 'Exception not thrown on removeRelatedObject() without relation name.' );
         }
         catch ( ezcPersistentUndeterministicRelationException $e ) {}
