@@ -1,11 +1,6 @@
 1.6alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #14473: ezcPersistentFindIterator does not overwrite object
-  instances anymore.
-- Fixed issue #14505: Property converters don't break the state of newly saved
-  objects anymore.
-
 
 1.5.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
