@@ -393,6 +393,35 @@ class ezcPersistentIdentitySessionSaveTest extends ezcPersistentIdentitySessionT
         }
         catch ( ezcPersistentDefinitionNotFoundException $e ) {}
     }
+
+    // From query
+
+    public function testUpdateFromQueryResetIdMap()
+    {
+        $o1 = $this->idSession->load( 'PersistentTestObject', 1 );
+        $o2 = $this->idSession->load( 'PersistentTestObject', 2 );
+
+        $this->assertNotNull(
+            $this->idMap->getIdentity( 'PersistentTestObject', 1 )
+        );
+        $this->assertNotNull(
+            $this->idMap->getIdentity( 'PersistentTestObject', 2 )
+        );
+
+        $q = $this->idSession->createUpdateQuery( 'PersistentTestObject' );
+        $q->set( 'type_varchar', $this->session->database->quote( 'Foo bar' ) );
+        $q->where( $q->expr->neq( 'integer', 1 ) );
+        $this->idSession->updateFromQuery( $q );
+
+        // ID map has been reset
+        $this->assertNull(
+            $this->idMap->getIdentity( 'PersistentTestObject', 1 )
+        );
+        $this->assertNull(
+            $this->idMap->getIdentity( 'PersistentTestObject', 2 )
+        );
+    }
+    
 }
 
 ?>
