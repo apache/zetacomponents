@@ -323,11 +323,15 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * be recorded. Otherwise, the object will be replaced by its existing
      * identity. Except if $replaceIdentities is set to true: In this case a
      * new identity will be recorded for every object in $relatedObjects.
+     *
+     * The method returns the created set of related objects to avoid another
+     * call to {@link getRelatedObjectSet()} by the using objct.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $setName 
      * @param bool $replaceIdentities
+     * @return array(ezcPersistentObject)
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
@@ -349,7 +353,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             );
         }
 
-        $this->setRelatedObjectSetWithId(
+        return $this->setRelatedObjectSetWithId(
             $srcClass,
             $srcId,
             $relatedObjects,
@@ -371,12 +375,16 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * be recorded. Otherwise, the object will be replaced by its existing
      * identity. Except if $replaceIdentities is set to true: In this case a
      * new identity will be recorded for every object in $relatedObjects.
+     *
+     * The method returns the created set of related objects to avoid another
+     * call to {@link getRelatedObjectSet()} by the using objct.
      * 
      * @param string $sourceClass 
      * @param mixed $sourceId 
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $setName 
      * @param bool $replaceIdentities
+     * @return array(ezcPersistentObject)
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
@@ -434,6 +442,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
         }
         
         $identity->namedRelatedObjectSets[$setName] = $relStore;
+        return $relStore->getArrayCopy();
     }
 
     /**
