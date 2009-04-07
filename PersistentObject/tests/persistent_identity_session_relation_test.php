@@ -426,6 +426,45 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
             );
         }
     }
+
+    public function testCreateRelationFindQueryNoSetName()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+        
+        $person = $this->idSession->load( 'RelationTestPerson', 1 );
+
+        $q = $this->idSession->createRelationFindQuery( $person, 'RelationTestAddress' );
+
+        $this->assertFalse(
+            isset( $q->metaData['relationSetName'] )
+        );
+    }
+
+    public function testCreateRelationFindQueryWithSetName()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+        
+        $person = $this->idSession->load( 'RelationTestPerson', 1 );
+
+        $q = $this->idSession->createRelationFindQuery(
+            $person,
+            'RelationTestAddress',
+            null,
+            'some set name'
+        );
+
+        $this->assertTrue(
+            isset( $q->metaData['relationSetName'] )
+        );
+        $this->assertEquals(
+            'some set name',
+            $q->metaData['relationSetName']
+        );
+    }
 }
 
 ?>

@@ -566,7 +566,14 @@ class ezcPersistentIdentitySession
      */
     public function createRelationFindQuery( $object, $relatedClass, $relationName = null, $setName = null )
     {
-        throw new RuntimeException( 'Not implemented, yet.' );
+        $q = $this->session->createRelationFindQuery( $object, $relatedClass, $relationName );
+        
+        if ( $setName !== null )
+        {
+            $q->metaData['relationSetName'] = $setName;
+        }
+
+        return $q;
     }
 
     /**
