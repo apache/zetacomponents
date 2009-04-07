@@ -263,6 +263,22 @@ getRelatedObject( object $object, $relatedClass, $relationName = null )
 
 Same as above, only for a single object.
 
+createRelationFindQuery( object $object, string $relatedClass, string $relationName = null, string $setName = null )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method just returns an instance of ezcPersistentFindQuery, as
+ezcPersistentSession->createRelationFindQuery() does. In addition to that, the
+optionally given $setName is set in the returned query. If the set name is
+given, getRelatedObjectSubset() (see `API additions for
+ezcPersistentIdentityMap`_) can be used to retrieve this set again.
+
+If the $setName is missing, the related object set returned by find() will not
+be cached, since it cannot be ensured that all related objects are fetched due
+to where conditions in the query.
+
+In any case, fetched object identities are cached and replaced from the
+identity map.
+
 save( object $object )
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -700,7 +716,8 @@ getRelatedObjectsSubset( object $object, string $relatedClass, string $setName, 
 -------------------------------------------------------------------------------------------------------------
 
 This method works similar to getRelatedObjects(), but allows to access a subset
-of related objects, fetched using findWithRelationSubset().
+of related objects, fetched using findWithRelationSubset(). If the set
+identified by $setName does not exist, null is returned.
 
 API additions for ezcPersistentIdentityMap
 ==========================================
