@@ -348,8 +348,6 @@ class ezcPersistentIdentitySession
      * @apichange This method will only accept an instance of
      *            ezcPersistentFindQuery as the $query parameter in future
      *            major releases. The $class parameter will be removed.
-     *
-     * @TODO: Send options to find iterator for re-fetching!
      */
     public function findIterator( $query, $class = null )
     {
