@@ -440,6 +440,9 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
         $this->assertFalse(
             isset( $q->metaData['relationSetName'] )
         );
+        $this->assertFalse(
+            isset( $q->metaData['relationSource'] )
+        );
     }
 
     public function testCreateRelationFindQueryWithSetName()
@@ -464,6 +467,86 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
             'some set name',
             $q->metaData['relationSetName']
         );
+        $this->assertTrue(
+            isset( $q->metaData['relationSource'] )
+        );
+        $this->assertSame(
+            $person,
+            $q->metaData['relationSource']
+        );
+    }
+
+    public function testFindRelatedObjectsWithoutSetName()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+        
+        $person = $this->idSession->load( 'RelationTestPerson', 1 );
+
+        $q = $this->idSession->createRelationFindQuery( $person, 'RelationTestAddress' );
+
+        $addresses = $this->idSession->find( $q );
+
+        $this->assertNull(
+            $this->idMap->getRelatedObjects( $person, 'RelationTestAddress' )
+        );
+    }
+
+    public function testFindRelatedObjectsWithSetName()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+        
+        $person = $this->idSession->load( 'RelationTestPerson', 1 );
+
+        $q = $this->idSession->createRelationFindQuery(
+            $person,
+            'RelationTestAddress',
+            null,
+            'foobar'
+        );
+
+        $addresses = $this->idSession->find( $q );
+
+        $this->assertNotNull(
+            $this->idMap->getRelatedObjectSet( $person, 'foobar' )
+        );
+    }
+
+    public function testFindRelatedObjectsWithSetNameRefetch()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+        
+        $person = $this->idSession->load( 'RelationTestPerson', 1 );
+
+        $q = $this->idSession->createRelationFindQuery(
+            $person,
+            'RelationTestAddress',
+            null,
+            'foobar'
+        );
+
+        $addresses1 = $this->idSession->find( $q );
+
+        $this->idSession->options->refetch = true;
+
+        $addresses2 = $this->idSession->find( $q );
+
+        foreach( $addresses1 as $key => $origObj )
+        {
+            $this->assertNotSame(
+                $origObj,
+                $addresses2[$key]
+            );
+            $this->assertEquals(
+                $origObj,
+                $addresses2[$key]
+            );
+        }
     }
 }
 

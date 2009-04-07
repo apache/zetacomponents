@@ -310,6 +310,16 @@ class ezcPersistentIdentitySession
             }
         }
 
+        // Query for createRelationFindQuery() with sub-set name assigned
+        if ( isset( $query->metaData ) && isset( $query->metaData['relationSetName'] ) )
+        {
+            $this->identityMap->setRelatedObjectSet(
+                $query->metaData['relationSource'],
+                $objects,
+                $query->metaData['relationSetName']
+            );
+        }
+
         return $objects;
     }
 
@@ -571,6 +581,7 @@ class ezcPersistentIdentitySession
         if ( $setName !== null )
         {
             $q->metaData['relationSetName'] = $setName;
+            $q->metaData['relationSource']  = $object;
         }
 
         return $q;
