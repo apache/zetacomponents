@@ -91,8 +91,6 @@ class ezcPersistentIdentitySession
      * @param int $id
      *
      * @return object
-     *
-     * @TODO: Map access can be optimized by submitting $class and $id to setIdentity().
      */
     public function load( $class, $id )
     {
@@ -700,8 +698,6 @@ class ezcPersistentIdentitySession
      *         ezcPersistentRelation->reverse}.
      * @throws ezcPersistentRelationNotFoundException
      *         if the deisred relation is not defined.
-     *
-     * @TODO Add support for $relationName!
      */
     public function addRelatedObject( $object, $relatedObject, $relationName = null )
     {
@@ -791,7 +787,6 @@ class ezcPersistentIdentitySession
      *         if the object could not be deleted.
      *
      * @param object $object The persistent object to delete.
-     * @TODO: The identity map does not support deletion of objects, yet.
      */
     public function delete( $object )
     {
