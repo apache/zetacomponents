@@ -305,6 +305,9 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
         }
         
         $this->identities[$sourceClass][$sourceId]->relatedObjects[$relationStoreName] = $relStore;
+
+        // Return to avoid another call to getRelatedObjcts()
+        return $relStore->getArrayCopy();
     }
 
     /**

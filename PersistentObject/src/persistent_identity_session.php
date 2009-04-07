@@ -431,9 +431,6 @@ class ezcPersistentIdentitySession
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
-     *
-     * @TODO ezcPersistentIdentityMap->setRelatedObjects() should return the
-     *       object set to avoid the call to getRelatedObject().
      */
     public function getRelatedObjects( $object, $relatedClass, $relationName = null )
     {
@@ -456,7 +453,7 @@ class ezcPersistentIdentitySession
             $relationName
         );
 
-        $this->identityMap->setRelatedObjects(
+        $storedRelatedObjs = $this->identityMap->setRelatedObjects(
             $object,
             $relatedObjs,
             $relatedClass,
@@ -464,7 +461,7 @@ class ezcPersistentIdentitySession
             $this->properties['options']->refetch
         );
 
-        return $this->identityMap->getRelatedObjects( $object, $relatedClass, $relationName );
+        return $storedRelatedObjs;
     }
 
     /**

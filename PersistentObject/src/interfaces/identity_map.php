@@ -87,12 +87,17 @@ interface ezcPersistentIdentityMap
      * be recorded. Otherwise, the object will be replaced by its existing
      * identity. Except if $replaceIdentities is set to true: In this case a
      * new identity will be recorded for every object in $relatedObjects.
+     *
+     * The method returns the newly added set of related objects, to avoid
+     * another call to {@link getRelatedObjects()} by the using object.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relatedClass 
      * @param string $relationName 
      * @param bool $replaceIdentities
+     *
+     * @return array(ezcPersistentObject)
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
@@ -116,12 +121,17 @@ interface ezcPersistentIdentityMap
      * identity. Except if $replaceIdentities is set to true: In this case a
      * new identity will be recorded for every object in $relatedObjects.
      *
+     * The method returns the newly added set of related objects, to avoid
+     * another call to {@link getRelatedObjects()} by the using object.
+     *
      * @param string $sourceClass 
      * @param mixed $sourceId 
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $relatedClass 
      * @param string $relationName 
      * @param bool $replaceIdentities
+     *
+     * @return array(ezcPersistentObject)
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
