@@ -50,9 +50,31 @@ class ezcPersistentFindQueryTest extends ezcTestCase
             array(
                 'className' => $cn,
                 'query'     => $q,
+                'metaData'  => new ArrayObject(),
             ),
             'properties',
             $findQuery
+        );
+    }
+
+    public function testSetOwnPropertiesSuccess()
+    {
+        $findQuery = $this->createFindQuery();
+
+        $metaData = new ArrayObject();
+        
+        $findQuery->metaData = $metaData;
+
+        $this->assertSame(
+            $metaData,
+            $findQuery->metaData
+        );
+
+        $findQuery->metaData['foo'] = 23;
+
+        $this->assertEquals(
+            23,
+            $metaData['foo']
         );
     }
 
@@ -85,6 +107,13 @@ class ezcPersistentFindQueryTest extends ezcTestCase
                 $e->getMessage()
             );
         }
+
+        try
+        {
+            $findQuery->metaData = 'foo';
+            $this->fail( 'Exception not thrown on set access to property $metaData.' );
+        }
+        catch ( ezcBaseValueException $e ) {}
     }
 
     public function testSetQueryPropertiesFailure()
@@ -127,6 +156,10 @@ class ezcPersistentFindQueryTest extends ezcTestCase
         $this->assertSame(
             $q,
             $findQuery->query
+        );
+        $this->assertEquals(
+            new ArrayObject(),
+            $findQuery->metaData
         );
     }
 

@@ -52,6 +52,7 @@ class ezcPersistentFindQuery
         $this->properties = array(
             'className' => $className,
             'query'     => $query,
+            'metaData'  => new ArrayObject(),
         );
     }
 
@@ -128,6 +129,14 @@ class ezcPersistentFindQuery
                     $propertyName,
                     ezcBasePropertyPermissionException::READ
                 );
+
+            case 'metaData':
+                if ( !( $properyValue instanceof ArrayObject ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $properyValue, 'ArrayObject' );
+                }
+                $this->properties[$propertyName] = $properyValue;
+                return;
 
             // @TODO: Known public properties of ezcQuerySelect. Any more?
             case 'expr':
