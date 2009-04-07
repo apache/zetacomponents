@@ -331,17 +331,23 @@ class ezcPersistentSession
      * {@link find()} and the related class name, to retrieve a sub-set of
      * related objects.
      *
+     * If multiple relations are defined for the $relatedClass (using {@link
+     * ezcPersistentRelationCollection}), the parameter $relationName becomes
+     * mandatory to determine which relation definition to use. For normal
+     * relations, this parameter is silently ignored.
+     *
      * @param object $object
      * @param string $relatedClass
+     * @param string $relationName
      *
-     * @return ezcDbSelectQuery
+     * @return ezcPersistentFindQuery
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
      */
-    public function createRelationFindQuery( $object, $relatedClass )
+    public function createRelationFindQuery( $object, $relatedClass, $relationName = null )
     {
-        return $this->loadHandler->createRelationFindQuery( $object, $relatedClass );
+        return $this->loadHandler->createRelationFindQuery( $object, $relatedClass, $relationName );
     }
 
     /**

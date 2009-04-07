@@ -166,6 +166,37 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
         );
     }
 
+    public function testFindRelatedObjectsSuccessMotherChild()
+    {
+        $mother   = $this->session->load( 'MultiRelationTestPerson', 1 );
+        $q = $this->session->createRelationFindQuery( $mother, 'MultiRelationTestPerson', 'mothers_children' );
+        $children = $this->session->find( $q );
+
+        $this->assertEquals(
+            3,
+            count( $children ),
+            'Number of found children incorrect.'
+        );
+
+        $this->assertEquals(
+            3,
+            $children[0]->id,
+            'First child fetched incorrect.'
+        );
+
+        $this->assertEquals(
+            4,
+            $children[1]->id,
+            'First child fetched incorrect.'
+        );
+
+        $this->assertEquals(
+            5,
+            $children[2]->id,
+            'First child fetched incorrect.'
+        );
+    }
+
     public function testGetRelatedObjectSuccessFatherChild()
     {
         $father   = $this->session->load( 'MultiRelationTestPerson', 2 );
