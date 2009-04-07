@@ -86,6 +86,11 @@ abstract class ezcMvcRouter
             $routingInformation = $route->matches( $this->request );
             if ( $routingInformation !== null )
             {
+                // Add the router to the routing information struct, so that
+                // can be passed to the controllers for reversed route
+                // generation.
+                $routingInformation->router = $this;
+
                 return $routingInformation;
             }
         }
@@ -112,6 +117,29 @@ abstract class ezcMvcRouter
             $route->prefix( $prefix );
         }
         return $routes;
+    }
+
+    /**
+     * Generates an URL back out of a route, including possible arguments
+     *
+     * @param mixed $routeName
+     * @param array $arguments
+     */
+    public function generateUrl( $routeName, array $arguments = null )
+    {
+        $routes = $this->createRoutes();
+        if ( !isset( $routes[$routeName] ) )
+        {
+            throw new ezcMvcNoNamedRouteException( $routeName );
+        }
+        if ( $routes[$routeName] instanceof ezcMvcReversedRoute )
+        {
+            return $routes[$routeName]->generateUrl( $arguments );
+        }
+        else
+        {
+            throw new ezcMvcNamedRouteNotReversableException( $routeName, get_class( $routes[$routeName] ) );
+        }
     }
 }
 ?>

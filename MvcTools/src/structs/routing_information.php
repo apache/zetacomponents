@@ -40,17 +40,27 @@ class ezcMvcRoutingInformation extends ezcBaseStruct
     public $action;
 
     /**
+     * Contains a backlink to the router, so that the dispatcher can pass this
+     * on to the created controllers.
+     *
+     * @var ezcMvcRouter
+     */
+    public $router;
+
+    /**
      * Constructs a new ezcMvcRoutingInformation.
      *
      * @param string $matchedRoute
      * @param string $controllerClass
      * @param string $action
+     * @param ezcMvcRouter $router
      */
-    public function __construct( $matchedRoute = '', $controllerClass = '', $action = '' )
+    public function __construct( $matchedRoute = '', $controllerClass = '', $action = '', ezcMvcRouter $router = null )
     {
         $this->matchedRoute = $matchedRoute;
         $this->controllerClass = $controllerClass;
         $this->action = $action;
+        $this->router = $router;
     }
 
     /**
@@ -69,7 +79,7 @@ class ezcMvcRoutingInformation extends ezcBaseStruct
     static public function __set_state( array $array )
     {
         return new ezcMvcRoutingInformation( $array['matchedRoute'], 
-            $array['controllerClass'], $array['action'] );
+            $array['controllerClass'], $array['action'], $array['router'] );
     }
 }
 ?>

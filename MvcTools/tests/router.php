@@ -158,6 +158,47 @@ class ezcMvcToolsRouterTest extends ezcTestCase
         self::assertEquals( 'sample', $controller->action );
     }
 
+    function testNoNamedRoute()
+    {
+        $request = new ezcMvcRequest;
+        $request->uri = 'entry/get/89';
+        $router = new testNamedRouter( $request );
+        try
+        {
+            $foo = $router->generateUrl( 'list' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcMvcNoNamedRouteException $e )
+        {
+            self::assertEquals( "No route was found with the name 'list'.", $e->getMessage() );
+        }
+    }
+
+    function testNamedRouteThatDoesNotSupportReversedRoutes()
+    {
+        $request = new ezcMvcRequest;
+        $request->uri = 'entry/get/89';
+        $router = new testNamedRouter( $request );
+        try
+        {
+            $foo = $router->generateUrl( 'no-reverse' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcMvcNamedRouteNotReversableException $e )
+        {
+            self::assertEquals( "The route with name 'no-reverse' is of the 'testRegexpRoute' class, which does not support reversed route generation.", $e->getMessage() );
+        }
+        try
+        {
+            $foo = $router->generateUrl( 'catchall' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcMvcNamedRouteNotReversableException $e )
+        {
+            self::assertEquals( "The route with name 'catchall' is of the 'ezcMvcCatchAllRoute' class, which does not support reversed route generation.", $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcMvcToolsRouterTest" );

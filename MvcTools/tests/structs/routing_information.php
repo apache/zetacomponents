@@ -39,6 +39,7 @@ class ezcMvcRoutingInformationTest extends ezcTestCase
         'matchedRoute' => 'php',
         'controllerClass' => 'ezc',
         'action' => 'ezp',
+        'router' => null,
         );
         $struct = ezcMvcRoutingInformation::__set_state( $state );
         $this->assertEquals( 'php', $struct->matchedRoute, 'Property matchedRoute does not have the expected value' );

@@ -36,6 +36,13 @@ abstract class ezcMvcController
     protected $request;
 
     /**
+     * Holds the properties of this class.
+     *
+     * @var array(string=>mixed)
+     */
+    private $properties = array();
+
+    /**
      * Creates a new controller object and sets all the request variables as class variables.
      *
      * @throws ezcMvcControllerException if the action method is empty
@@ -53,6 +60,75 @@ abstract class ezcMvcController
     }
 
     /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @throws ezcBaseValueException if a the value for a property is out of
+     *         range.
+     * @param string $name
+     * @param mixed $value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'router':
+                if ( !$value instanceof ezcMvcRouter )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcMvcRouter' );
+                }
+                $this->properties[$name] = $value;
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
+    }
+
+    /**
+     * Returns the value of the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException if the property does not exist.
+     * @param string $name
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        switch ( $name )
+        {
+            case 'router':
+                return $this->properties[$name];
+            default:
+                if ( isset( $this->properties[$name] ) )
+                {
+                    return $this->properties[$name];
+                }
+        }
+        throw new ezcBasePropertyNotFoundException( $name );
+    }
+
+    /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'router':
+                return isset( $this->properties[$name] );
+
+            default:
+                return false;
+        }
+        // if there is no default case before:
+        return parent::__isset( $name );
+    }
+
+    /**
      * Loops over all the variables in the request, and sets them as object properties.
      *
      * @param ezcMvcRequest $request
@@ -61,7 +137,7 @@ abstract class ezcMvcController
     {
         foreach ( $request->variables as $key => $value )
         {
-            $this->$key = $value;
+            $this->properties[$key] = $value;
         }
         $this->request = $request;
     }

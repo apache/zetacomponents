@@ -65,6 +65,25 @@ class testSimpleRouter extends ezcMvcRouter
     }
 }
 
+class testNamedRouter extends ezcMvcRouter
+{
+    function createRoutes()
+    {
+        $routes = array();
+        $routes['get'] = new testRailsRoute( 'entry/get/:id', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes[] = new testRailsRoute( 'entry/list', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes[] = new testRailsRoute( 'entry/:id', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes['info'] = new testRailsRoute( 'entry/:id/info', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes['multiple1'] = new testRailsRoute( 'e/:person/:relation', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes['multiple2'] = new testRailsRoute( ':person/e/:relation', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes['multiple3'] = new testRailsRoute( ':person/:relation/e', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes['no-reverse'] = new testRegexpRoute( '@^entry/(?P<id>[0-9]+)$@', 'testController', 'sample', array( 'method' => 'show' ) );
+        $routes['catchall'] = new ezcMvcCatchAllRoute( 'testController', 'sample', array( 'method' => 'show' ) );
+
+        return $routes;
+    }
+}
+
 class testPrefixRouter extends ezcMvcRouter
 {
     function createRoutes()

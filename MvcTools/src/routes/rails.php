@@ -16,7 +16,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcMvcRailsRoute implements ezcMvcRoute
+class ezcMvcRailsRoute implements ezcMvcRoute, ezcMvcReversedRoute
 {
     /**
      * This property contains the pattern
@@ -145,6 +145,33 @@ class ezcMvcRailsRoute implements ezcMvcRoute
     public function prefix( $prefix )
     {
         $this->pattern = $prefix . $this->pattern;
+    }
+
+    /**
+     * Generates an URL back out of a route, including possible arguments
+     *
+     * @param mixed $routeName
+     * @param array $arguments
+     */
+    public function generateUrl( array $arguments = null )
+    {
+        $patternParts = explode( '/', $this->pattern );
+        foreach ( $patternParts as &$part )
+        {
+            if ( strlen( $part ) > 1 && $part[0] === ':' )
+            {
+                $paramName = substr( $part, 1 );
+                if ( !isset( $arguments[$paramName] ) )
+                {
+                    throw new ezcMvcMissingRouteArgumentException( $this->pattern, $paramName );
+                }
+                else
+                {
+                    $part = $arguments[$paramName];
+                }
+            }
+        }
+        return join( '/', $patternParts );
     }
 }
 ?>

@@ -118,6 +118,42 @@ class ezcMvcToolsRailsRouteTest extends ezcTestCase
         self::assertEquals( 'blog/entry/:id', $route->getPattern() );
     }
 
+    function testNamedRoutes()
+    {
+        $request = new ezcMvcRequest;
+        $request->uri = 'entry/get/89';
+        $router = new testNamedRouter( $request );
+        self::assertEquals( 'entry/get/42', $router->generateUrl( 'get', array( 'id' => 42 ) ) );
+        self::assertEquals( 'entry/42/info', $router->generateUrl( 'info', array( 'id' => 42 ) ) );
+        self::assertEquals( 'e/derick/yes', $router->generateUrl( 'multiple1', array( 'person' => 'derick', 'relation' => 'yes' ) ) );
+        self::assertEquals( 'derick/e/yes', $router->generateUrl( 'multiple2', array( 'person' => 'derick', 'relation' => 'yes' ) ) );
+        self::assertEquals( 'derick/yes/e', $router->generateUrl( 'multiple3', array( 'person' => 'derick', 'relation' => 'yes' ) ) );
+    }
+
+    function testNamedRoutesMissingArgument()
+    {
+        $request = new ezcMvcRequest;
+        $request->uri = 'entry/get/89';
+        $router = new testNamedRouter( $request );
+        try
+        {
+            $router->generateUrl( 'info', array() );
+            self::fail( "Expected exception not thrown." );
+        }
+        catch ( ezcMvcMissingRouteArgumentException $e )
+        {
+            self::assertEquals( "The argument 'id' was not specified while generating a URL out of the route with pattern 'entry/:id/info'.", $e->getMessage() );
+        }
+        try
+        {
+            $router->generateUrl( 'multiple1', array( 'person' => 'derick' ) );
+        }
+        catch ( ezcMvcMissingRouteArgumentException $e )
+        {
+            self::assertEquals( "The argument 'relation' was not specified while generating a URL out of the route with pattern 'e/:person/:relation'.", $e->getMessage() );
+        }
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcMvcToolsRailsRouteTest" );

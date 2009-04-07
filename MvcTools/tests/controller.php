@@ -46,6 +46,16 @@ class ezcMvcToolsControllerTest extends ezcTestCase
         self::assertEquals( 'bansai!', $f->var42 );
     }
 
+    public function testRoutingInformation()
+    {
+        $r = new ezcMvcRequest;
+        $r->variables = array( 'var1' => 42, 'var42' => 'bansai!' );
+        $f = new testControllerController( 'testAction', $r );
+        $f->router = new testSimpleRouter( $r );
+
+        self::assertEquals( new testSimpleRouter( $r ), $f->router );
+    }
+
     public function testCreateActionMethod()
     {
         $f = new testControllerController( 'test', new ezcMvcRequest() );

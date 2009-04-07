@@ -46,6 +46,7 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
     {
         $controllerClass = $routingInformation->controllerClass;
         $controller = new $controllerClass( $routingInformation->action, $request );
+        $controller->router = $routingInformation->router;
         return $controller;
     }
 
