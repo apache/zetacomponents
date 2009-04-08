@@ -951,8 +951,6 @@ class ezcPersistentIdentitySession
      * @param string $id 
      * @param array(ezcPersistentRelationFindDefinition) $relations 
      * @return object
-     *
-     * @TODO: The object extractor needs to be aware of re-fetching!
      */
     public function loadWithRelatedObjects( $class, $id, array $relations )
     {
@@ -975,7 +973,8 @@ class ezcPersistentIdentitySession
         {
             $this->objectExtractor = new ezcPersistentIdentityRelationObjectExtractor(
                 $this->properties['identityMap'],
-                $this->session->definitionManager
+                $this->session->definitionManager,
+                $this->properties['options']
             );
         }
 

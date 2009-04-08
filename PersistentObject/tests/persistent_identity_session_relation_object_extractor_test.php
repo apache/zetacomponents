@@ -24,6 +24,8 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
     protected $extractor;
 
+    protected $options;
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
@@ -45,9 +47,11 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
             $this->defManager
         );
 
+        $this->options   =  new ezcPersistentIdentitySessionOptions();
         $this->extractor = new ezcPersistentIdentityRelationObjectExtractor(
             $this->idMap,
-            $this->defManager
+            $this->defManager,
+            $this->options
         );
     }
 
@@ -140,6 +144,156 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
             $relatedObjectSet,
             $this->idMap->getRelatedObjectSet( $person, 'foo' )    
         );
+    }
+
+    public function testNoRefetch()
+    {
+        $relations = $this->getOneLevelOneRelationRelations();
+        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->extractor->extractObjects(
+            $stmt, 'RelationTestPerson', 2, $relations
+        );
+
+        $person = $this->idMap->getIdentity( 'RelationTestPerson', 2 );
+        $this->assertNotNull( $person );
+        $this->assertEquals(
+            $this->session->load( 'RelationTestPerson', 2 ),
+            $person
+        );
+
+        $employers = $this->idMap->getRelatedObjects(
+            $person, 'RelationTestEmployer'
+        );
+        
+        $this->assertNotNull( $employers );
+
+        $this->assertEquals( 1, count( $employers ) );
+
+        $this->assertEquals(
+            current( $employers ),
+            current( $this->session->getRelatedObjects( $person, 'RelationTestEmployer' ) )
+        );
+
+        // $this->options->refetch = true;
+
+        $relations = $this->getOneLevelOneRelationRelations();
+        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->extractor->extractObjects(
+            $stmt, 'RelationTestPerson', 2, $relations
+        );
+
+        $secPerson = $this->idMap->getIdentity( 'RelationTestPerson', 2 );
+        $this->assertNotNull( $secPerson );
+        $this->assertEquals(
+            $this->session->load( 'RelationTestPerson', 2 ),
+            $secPerson
+        );
+
+        $this->assertSame( $person, $secPerson );
+
+        $secEmployers = $this->idMap->getRelatedObjects(
+            $secPerson, 'RelationTestEmployer'
+        );
+        
+        $this->assertNotNull( $secEmployers );
+
+        $this->assertEquals( 1, count( $secEmployers ) );
+
+        $this->assertEquals(
+            current( $secEmployers ),
+            current( $this->session->getRelatedObjects( $secPerson, 'RelationTestEmployer' ) )
+        );
+
+        foreach ( $employers as $id => $employer )
+        {
+            $this->assertSame(
+                $employer,
+                $secEmployers[$id]
+            );
+        }
+    }
+
+    public function testRefetch()
+    {
+        $relations = $this->getOneLevelOneRelationRelations();
+        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->extractor->extractObjects(
+            $stmt, 'RelationTestPerson', 2, $relations
+        );
+
+        $person = $this->idMap->getIdentity( 'RelationTestPerson', 2 );
+        $this->assertNotNull( $person );
+        $this->assertEquals(
+            $this->session->load( 'RelationTestPerson', 2 ),
+            $person
+        );
+
+        $employers = $this->idMap->getRelatedObjects(
+            $person, 'RelationTestEmployer'
+        );
+        
+        $this->assertNotNull( $employers );
+
+        $this->assertEquals( 1, count( $employers ) );
+
+        $this->assertEquals(
+            current( $employers ),
+            current( $this->session->getRelatedObjects( $person, 'RelationTestEmployer' ) )
+        );
+
+        $this->options->refetch = true;
+
+        $relations = $this->getOneLevelOneRelationRelations();
+        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->extractor->extractObjects(
+            $stmt, 'RelationTestPerson', 2, $relations
+        );
+
+        $secPerson = $this->idMap->getIdentity( 'RelationTestPerson', 2 );
+        $this->assertNotNull( $secPerson );
+        $this->assertEquals(
+            $this->session->load( 'RelationTestPerson', 2 ),
+            $secPerson
+        );
+
+        $this->assertNotSame( $person, $secPerson );
+
+        $secEmployers = $this->idMap->getRelatedObjects(
+            $secPerson, 'RelationTestEmployer'
+        );
+        
+        $this->assertNotNull( $secEmployers );
+
+        $this->assertEquals( 1, count( $secEmployers ) );
+
+        $this->assertEquals(
+            current( $secEmployers ),
+            current( $this->session->getRelatedObjects( $secPerson, 'RelationTestEmployer' ) )
+        );
+
+        foreach ( $employers as $id => $employer )
+        {
+            $this->assertNotSame(
+                $employer,
+                $secEmployers[$id]
+            );
+        }
     }
 
     public function testOneLevelMultiRelationExtract()

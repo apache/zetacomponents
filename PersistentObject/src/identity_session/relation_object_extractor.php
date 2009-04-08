@@ -36,6 +36,13 @@ class ezcPersistentIdentityRelationObjectExtractor
     protected $idMap;
 
     /**
+     * Identity session options. 
+     * 
+     * @var ezcPersistentIdentitySessionOptions
+     */
+    protected $options;
+
+    /**
      * Creates a new object extractor for $idMap on basis of $defManager.
      *
      * Creates a new object extractor which gathers needed object definitions
@@ -45,10 +52,11 @@ class ezcPersistentIdentityRelationObjectExtractor
      * @param ezcPersistentIdentityMap $idMap
      * @param ezcPersistentDefinitionManager $defManager 
      */
-    public function __construct( ezcPersistentIdentityMap $idMap, ezcPersistentDefinitionManager $defManager )
+    public function __construct( ezcPersistentIdentityMap $idMap, ezcPersistentDefinitionManager $defManager, ezcPersistentIdentitySessionOptions $options )
     {
         $this->defManager = $defManager;
         $this->idMap      = $idMap;
+        $this->options    = $options;
     }
 
     /**
@@ -70,7 +78,7 @@ class ezcPersistentIdentityRelationObjectExtractor
 
         $def = $this->defManager->fetchDefinition( $class );
 
-        if ( $this->idMap->getIdentity( $class, $id ) === null )
+        if ( $this->options->refetch || $this->idMap->getIdentity( $class, $id ) === null )
         {
             $object = new $class();
             $this->setObjectState(
@@ -120,7 +128,7 @@ class ezcPersistentIdentityRelationObjectExtractor
 
             // Check if object was already extracted
             $object = $this->idMap->getIdentity( $relation->relatedClass, $id );
-            if ( $object === null )
+            if ( $this->options->refetch || $object === null )
             {
                 $object = $this->createObject(
                     $row,
@@ -145,7 +153,7 @@ class ezcPersistentIdentityRelationObjectExtractor
 
             // Check if relation itself is already recorded and only set the
             // identities if not
-            if ( !isset( $relatedObjects[$id] ) )
+            if ( $this->options->refetch || !isset( $relatedObjects[$id] ) )
             {
                 $relatedObjects[$id] = $object;
                 // This performs the full setting process on every new object,
