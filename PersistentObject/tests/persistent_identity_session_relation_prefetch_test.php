@@ -55,7 +55,7 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
     protected function getOneLevelOneRelationRelations()
     {
         return array(
-            new ezcPersistentRelationFindDefinition(
+            'employer' => new ezcPersistentRelationFindDefinition(
                 'RelationTestEmployer'
             ),
         );
@@ -73,10 +73,10 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
     protected function getOneLevelMultiRelationRelations()
     {
         return array(
-            new ezcPersistentRelationFindDefinition(
+            'employer' => new ezcPersistentRelationFindDefinition(
                 'RelationTestEmployer'
             ),
-            new ezcPersistentRelationFindDefinition(
+            'address' => new ezcPersistentRelationFindDefinition(
                 'RelationTestAddress'
             ),
         );
@@ -95,11 +95,11 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
     protected function getMultiLevelSingleRelationRelations()
     {
         return array(
-            new ezcPersistentRelationFindDefinition(
+            'addresses' => new ezcPersistentRelationFindDefinition(
                 'RelationTestAddress',
                 null,
                 array(
-                    new ezcPersistentRelationFindDefinition(
+                    'habitants' => new ezcPersistentRelationFindDefinition(
                         'RelationTestPerson'
                     )
                 )
@@ -120,28 +120,28 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
     protected function getMultiLevelMultiRelationRelations()
     {
         return array(
-            new ezcPersistentRelationFindDefinition(
+            'addresses' => new ezcPersistentRelationFindDefinition(
                 'RelationTestAddress',
                 null,
                 array(
-                    new ezcPersistentRelationFindDefinition(
+                    'habitants' => new ezcPersistentRelationFindDefinition(
                         'RelationTestPerson',
                         null,
                         array(
-                            new ezcPersistentRelationFindDefinition(
+                            'habitant_employer' => new ezcPersistentRelationFindDefinition(
                                 'RelationTestEmployer'
                             ),
-                            new ezcPersistentRelationFindDefinition(
+                            'habitant_birthday' => new ezcPersistentRelationFindDefinition(
                                 'RelationTestBirthday'
                             ),
                         )
                     )
                 )
             ),
-            new ezcPersistentRelationFindDefinition(
+            'employer' => new ezcPersistentRelationFindDefinition(
                 'RelationTestEmployer'
             ),
-            new ezcPersistentRelationFindDefinition(
+            'birthday' => new ezcPersistentRelationFindDefinition(
                 'RelationTestBirthday'
             ),
         );

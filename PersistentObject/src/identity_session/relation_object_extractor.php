@@ -111,12 +111,12 @@ class ezcPersistentIdentityRelationObjectExtractor
      */
     protected function extractObjectsRecursive( array $row, array $relations, $parentClass, $parentId )
     {
-        foreach ( $relations as $relation )
+        foreach ( $relations as $tableAlias => $relation )
         {
             $id = $row[
                 $this->getColumnAlias(
                     $relation->definition->idProperty->columnName,
-                    $relation->tableAlias
+                    $tableAlias
                 )
             ];
             
@@ -132,6 +132,7 @@ class ezcPersistentIdentityRelationObjectExtractor
             {
                 $object = $this->createObject(
                     $row,
+                    $tableAlias,
                     $relation
                 );
                 $this->idMap->setIdentityWithId( $object, $relation->relatedClass, $id );
@@ -189,14 +190,14 @@ class ezcPersistentIdentityRelationObjectExtractor
      * @param ezcPersistentRelationFindDefinition $relation 
      * @return ezcPersistentObject
      */
-    protected function createObject( array $result, ezcPersistentRelationFindDefinition $relation )
+    protected function createObject( array $result, $tableAlias, ezcPersistentRelationFindDefinition $relation )
     {
         $object = new $relation->relatedClass;
         $this->setObjectState(
             $object,
             $relation->definition,
             $result,
-            $relation->tableAlias
+            $tableAlias
         );
         return $object;
     }

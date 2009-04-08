@@ -207,16 +207,16 @@ class ezcPersistentIdentityRelationQueryCreator
      */
     protected function createSelects( ezcQuerySelect $q, array $relations )
     {
-        foreach ( $relations as $relation )
+        foreach ( $relations as $tableAlias => $relation )
         {
             $q->select(
                 $q->alias(
                     $this->getColumnName(
-                        $relation->tableAlias,
+                        $tableAlias,
                         $relation->definition->idProperty->columnName
                     ),
                     $this->getColumnAlias(
-                        $relation->tableAlias,
+                        $tableAlias,
                         $relation->definition->idProperty->columnName
                     )
                 )
@@ -225,8 +225,8 @@ class ezcPersistentIdentityRelationQueryCreator
             {
                 $q->select(
                     $q->alias(
-                        $this->getColumnName( $relation->tableAlias, $property->columnName ),
-                        $this->getColumnAlias( $relation->tableAlias, $property->columnName )
+                        $this->getColumnName( $tableAlias, $property->columnName ),
+                        $this->getColumnAlias( $tableAlias, $property->columnName )
                     )
                 );
             }
@@ -272,22 +272,22 @@ class ezcPersistentIdentityRelationQueryCreator
     }
     
     /**
-     * Creates the joins to select $relations from $srcTableName.
+     * Creates the joins to select $relations from $srcTableAlias.
      *
      * Creates the necessary JOIN statements in $q to select all related
-     * objects defined by $relations, seen from $srcTableName point of view.
-     * $srcTableName must already be the alias table name of the source table.
+     * objects defined by $relations, seen from $srcTableAlias point of view.
+     * $srcTableAlias must already be the alias table name of the source table.
      * 
      * @param ezcQuerySelect $q 
-     * @param string $srcTableName 
+     * @param string $srcTableAlias 
      * @param array(ezcPersistentRelationFindDefinition) $relations 
      */
-    protected function createJoins( ezcQuerySelect $q, $srcTableName, array $relations )
+    protected function createJoins( ezcQuerySelect $q, $srcTableAlias, array $relations )
     {
-        foreach ( $relations as $relation )
+        foreach ( $relations as $dstTableAlias => $relation )
         {
-            $this->createJoin( $q, $srcTableName, $relation );
-            $this->createJoins( $q, $relation->tableAlias, $relation->furtherRelations );
+            $this->createJoin( $q, $srcTableAlias, $dstTableAlias, $relation );
+            $this->createJoins( $q, $dstTableAlias, $relation->furtherRelations );
         }
     }
 
@@ -298,18 +298,18 @@ class ezcPersistentIdentityRelationQueryCreator
      * dispatches to the correct methods.
      * 
      * @param ezcQuerySelect $q 
-     * @param string $srcTableName 
+     * @param string $srcTableAlias 
      * @param ezcPersistentRelationFindDefinition $relation 
      */
-    protected function createJoin( ezcQuerySelect $q, $srcTableName, ezcPersistentRelationFindDefinition $relation )
+    protected function createJoin( ezcQuerySelect $q, $srcTableAlias, $dstTableAlias, ezcPersistentRelationFindDefinition $relation )
     {
         if ( $relation->relationDefinition instanceof ezcPersistentManyToManyRelation )
         {
-            $this->createComplexJoin( $q, $srcTableName, $relation );
+            $this->createComplexJoin( $q, $srcTableAlias, $dstTableAlias, $relation );
         }
         else
         {
-            $this->createSimpleJoin( $q, $srcTableName, $relation );
+            $this->createSimpleJoin( $q, $srcTableAlias, $dstTableAlias, $relation );
         }
     }
 
@@ -321,12 +321,13 @@ class ezcPersistentIdentityRelationQueryCreator
      * objects defined in $relation.
      * 
      * @param ezcQuerySelect $q 
-     * @param string $srcTableName 
+     * @param string $srcTableAlias 
      * @param ezcPersistentRelationFindDefinition $relation 
      */
-    protected function createComplexJoin( ezcQuerySelect $q, $srcTableName, ezcPersistentRelationFindDefinition $relation )
+    protected function createComplexJoin( ezcQuerySelect $q, $srcTableAlias, $dstTableAlias, ezcPersistentRelationFindDefinition $relation )
     {
         $relationDefinition = $relation->relationDefinition;
+        $relTableAlias = sprintf( '%s__%s', $srcTableAlias, $dstTableAlias );
 
         $first        = true;
         $srcJoinCond  = null;
@@ -336,19 +337,19 @@ class ezcPersistentIdentityRelationQueryCreator
         foreach ( $relationDefinition->columnMap as $mapping )
         {
             $srcColumn = $this->getColumnName(
-                $srcTableName,
+                $srcTableAlias,
                 $mapping->sourceColumn
             );
             $relSrcColumn = $this->getColumnName(
-                $relation->relationTableAlias,
+                $relTableAlias,
                 $mapping->relationSourceColumn
             );
             $relDestColumn = $this->getColumnName(
-                $relation->relationTableAlias,
+                $relTableAlias,
                 $mapping->relationDestinationColumn
             );
             $destColumn = $this->getColumnName(
-                $relation->tableAlias,
+                $dstTableAlias,
                 $mapping->destinationColumn
             );
 
@@ -375,14 +376,14 @@ class ezcPersistentIdentityRelationQueryCreator
         $q->leftJoin(
             $q->alias(
                 $this->db->quoteIdentifier( $relationDefinition->relationTable ),
-                $this->db->quoteIdentifier( $relation->relationTableAlias )
+                $this->db->quoteIdentifier( $relTableAlias )
             ),
             $srcJoinCond
         );
         $q->leftJoin(
             $q->alias(
                 $this->db->quoteIdentifier( $relationDefinition->destinationTable ),
-                $this->db->quoteIdentifier( $relation->tableAlias )
+                $this->db->quoteIdentifier( $dstTableAlias )
             ),
             $destJoinCond
         );
@@ -392,14 +393,14 @@ class ezcPersistentIdentityRelationQueryCreator
      * Creates a simple JOIN to fetch the objects defined by $relation.
      *
      * Creates a simple LEFT JOIN using the aliases defined in $relation and
-     * the $srcTableName, to fetch all objects defined by $relation, which are
-     * related to the source object, fetched by $srcTableName.
+     * the $srcTableAlias, to fetch all objects defined by $relation, which are
+     * related to the source object, fetched by $srcTableAlias.
      * 
      * @param ezcQuerySelect $q 
-     * @param string $srcTableName 
+     * @param string $srcTableAlias 
      * @param ezcPersistentRelationFindDefinition $relation 
      */
-    protected function createSimpleJoin( ezcQuerySelect $q, $srcTableName, ezcPersistentRelationFindDefinition $relation )
+    protected function createSimpleJoin( ezcQuerySelect $q, $srcTableAlias, $dstTableAlias, ezcPersistentRelationFindDefinition $relation )
     {
         $relationDefinition = $relation->relationDefinition;
 
@@ -407,8 +408,8 @@ class ezcPersistentIdentityRelationQueryCreator
         $joinCond = null;
         foreach ( $relationDefinition->columnMap as $mapping )
         {
-            $srcColumn  = $this->getColumnName( $srcTableName, $mapping->sourceColumn );
-            $destColumn = $this->getColumnName( $relation->tableAlias, $mapping->destinationColumn );
+            $srcColumn  = $this->getColumnName( $srcTableAlias, $mapping->sourceColumn );
+            $destColumn = $this->getColumnName( $dstTableAlias, $mapping->destinationColumn );
 
             if ( $first )
             {
@@ -426,7 +427,7 @@ class ezcPersistentIdentityRelationQueryCreator
         $q->leftJoin(
             $q->alias(
                 $this->db->quoteIdentifier( $relationDefinition->destinationTable ),
-                $this->db->quoteIdentifier( $relation->tableAlias )
+                $this->db->quoteIdentifier( $dstTableAlias )
             ),
             $joinCond
         );
