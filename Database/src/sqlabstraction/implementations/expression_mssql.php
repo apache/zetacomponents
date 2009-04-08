@@ -84,7 +84,8 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
     }
 
     /**
-     * Returns the current system date.
+     * Returns the current system date and time in the database internal
+     * format.
      *
      * @return string
      */

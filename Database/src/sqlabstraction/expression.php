@@ -813,7 +813,8 @@ class ezcQueryExpression
     }
 
     /**
-     * Returns the current system date and time.
+     * Returns the current system date and time in the database internal
+     * format.
      *
      * @return string
      */

@@ -76,7 +76,8 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
     }
 
     /**
-     * Returns the current system date and time.
+     * Returns the current system date and time in the database internal
+     * format.
      *
      * Note: The returned timestamp is a SYSDATE.
      * The format can be set after connecting with e.g.:
