@@ -959,7 +959,8 @@ class ezcPersistentIdentitySession
         if ( $this->queryCreator === null )
         {
             $this->queryCreator = new ezcPersistentIdentityRelationQueryCreator(
-                $this->session->definitionManager
+                $this->session->definitionManager,
+                $this->session->database
             );
         }
 

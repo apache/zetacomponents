@@ -32,6 +32,13 @@ class ezcPersistentIdentityRelationQueryCreator
     protected $defManager;
 
     /**
+     * Database handler. 
+     * 
+     * @var ezcDbHandler
+     */
+    protected $db;
+
+    /**
      * Creates a new query generator. 
      *
      * Creates a new query generator that will receive needed persistentence
@@ -39,9 +46,10 @@ class ezcPersistentIdentityRelationQueryCreator
      * 
      * @param ezcPersistentDefinitionManager $defManager 
      */
-    public function __construct( ezcPersistentDefinitionManager $defManager )
+    public function __construct( ezcPersistentDefinitionManager $defManager, ezcDbHandler $database )
     {
         $this->defManager = $defManager;
+        $this->db         = $database;
     }
 
     /**
@@ -67,7 +75,7 @@ class ezcPersistentIdentityRelationQueryCreator
         $q->select(
             $q->alias(
                 $this->getColumnName( $srcDef->table, $srcDef->idProperty->columnName ),
-                $srcDef->idProperty->columnName
+                $this->db->quoteIdentifier( $srcDef->idProperty->columnName )
             )
         );
         foreach ( $srcDef->properties as $property )
@@ -75,14 +83,14 @@ class ezcPersistentIdentityRelationQueryCreator
             $q->select(
                 $q->alias(
                     $this->getColumnName( $srcDef->table, $property->columnName ),
-                    $property->columnName
+                    $this->db->quoteIdentifier( $property->columnName )
                 )
             );
         }
         
         $this->createSelects( $q, $relations );
 
-        $q->from( $srcDef->table );
+        $q->from( $this->db->quoteIdentifier( $srcDef->table ) );
 
         $this->createJoins( $q, $srcDef->table, $relations );
 
@@ -240,10 +248,12 @@ class ezcPersistentIdentityRelationQueryCreator
      */
     protected function getColumnAlias( $table, $column )
     {
-        return sprintf(
-            '%s_%s',
-            $table,
-            $column
+        return $this->db->quoteIdentifier(
+            sprintf(
+                '%s_%s',
+                $table,
+                $column
+            )
         );
     }
 
@@ -258,8 +268,8 @@ class ezcPersistentIdentityRelationQueryCreator
     {
         return sprintf(
             '%s.%s',
-            $table,
-            $column
+            $this->db->quoteIdentifier( $table ),
+            $this->db->quoteIdentifier( $column )
         );
     }
     
@@ -365,11 +375,17 @@ class ezcPersistentIdentityRelationQueryCreator
 
         // Add 2 joins
         $q->leftJoin(
-            $q->alias( $relationDefinition->relationTable, $relation->relationTableAlias ),
+            $q->alias(
+                $this->db->quoteIdentifier( $relationDefinition->relationTable ),
+                $this->db->quoteIdentifier( $relation->relationTableAlias )
+            ),
             $srcJoinCond
         );
         $q->leftJoin(
-            $q->alias( $relationDefinition->destinationTable, $relation->tableAlias ),
+            $q->alias(
+                $this->db->quoteIdentifier( $relationDefinition->destinationTable ),
+                $this->db->quoteIdentifier( $relation->tableAlias )
+            ),
             $destJoinCond
         );
     }
@@ -410,7 +426,10 @@ class ezcPersistentIdentityRelationQueryCreator
             }
         }
         $q->leftJoin(
-            $q->alias( $relationDefinition->destinationTable, $relation->tableAlias ),
+            $q->alias(
+                $this->db->quoteIdentifier( $relationDefinition->destinationTable ),
+                $this->db->quoteIdentifier( $relation->tableAlias )
+            ),
             $joinCond
         );
     }

@@ -32,11 +32,20 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         $this->defManager = new ezcPersistentCodeManager(
             dirname( __FILE__ ) . '/data/'
         );
+
+        try
+        {
+            $this->db = ezcDbInstance::get();
+        }
+        catch ( Exception $e )
+        {
+            $this->markTestSkipped( 'There was no database configured' );
+        }
+
         $this->queryCreator = new ezcPersistentIdentityRelationQueryCreator(
-            $this->defManager
+            $this->defManager,
+            $this->db
         );
-        // Use hardcoded SQLite here, to create unified SQL statements
-        $this->db = ezcDbFactory::create( 'sqlite://:memory:' );
 
         // @TODO: This is currently needed to fix the attribute set in
         // ezcDbHandler. Should be removed as soon as this is fixed!
