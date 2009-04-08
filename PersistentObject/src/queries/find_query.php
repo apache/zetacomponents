@@ -93,15 +93,8 @@ class ezcPersistentFindQuery
             return $this->properties[$propertyName];
         }
 
-        switch ( $propertyName )
+        if ( !property_exists( $this->properties['query'], $propertyName ) )
         {
-            // @TODO: Known public properties of ezcQuerySelect. Any more?
-            case 'expr':
-                break;
-
-            default:
-                // @TODO ezcQuerySelect does not provide any properties, but uses
-                // public attributes. If this is changed, we can safely redirect here.
                 throw new ezcBasePropertyNotFoundException( $propertyName );
         }
         return $this->properties['query']->$propertyName;
@@ -137,15 +130,11 @@ class ezcPersistentFindQuery
                 }
                 $this->properties[$propertyName] = $properyValue;
                 return;
+        }
 
-            // @TODO: Known public properties of ezcQuerySelect. Any more?
-            case 'expr':
-                break;
-
-            default:
-                // @TODO ezcQuerySelect does not provide any properties, but uses
-                // public attributes. If this is changed, we can safely redirect here.
-                throw new ezcBasePropertyNotFoundException( $propertyName );
+        if ( !property_exists( $this->properties['query'], $propertyName ) )
+        {
+            throw new ezcBasePropertyNotFoundException( $propertyName );
         }
         $this->properties['query']->$propertyName = $properyValue;
     }
@@ -159,23 +148,10 @@ class ezcPersistentFindQuery
      */
     public function __isset( $propertyName )
     {
-        if ( array_key_exists( $propertyName, $this->properties ) )
-        {
-            return true;
-        }
-
-        switch ( $propertyName )
-        {
-            // @TODO: Known public properties of ezcQuerySelect. Any more?
-            case 'expr':
-                break;
-
-            default:
-                // @TODO ezcQuerySelect does not provide any properties, but uses
-                // public attributes. If this is changed, we can safely redirect here.
-                return false;
-        }
-        return true;
+        return (
+            array_key_exists( $propertyName, $this->properties )
+            || property_exists( $this->properties['query'], $propertyName )
+        );
     }
 }
 
