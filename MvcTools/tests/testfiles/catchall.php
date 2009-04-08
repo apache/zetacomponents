@@ -26,4 +26,12 @@ class myCatchAllRoute extends ezcMvcCatchAllRoute
         return $map[$index];
     }
 }
+
+class myCatchAllRouteForFullUri extends ezcMvcCatchAllRoute
+{
+    protected function getUriString( ezcMvcRequest $request )
+    {
+        return $request->requestId;
+    }
+}
 ?>

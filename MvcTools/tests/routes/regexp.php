@@ -190,6 +190,20 @@ class ezcMvcToolsRegexpRouteTest extends ezcTestCase
         }
     }
 
+    public function testMatchWithDifferentUriMatch()
+    {
+        $request = new ezcMvcRequest;
+        $request->host = 'test.host';
+        $request->uri = '/people/hawking';
+        $request->requestId = $request->host . $request->uri;
+
+        $route = new testRegexpRouteForFullUri( '@^(?P<site>[a-z]+).host/(?P<group>[a-z]+)/(?P<name>[a-z]+)$@', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertSame( '@^(?P<site>[a-z]+).host/(?P<group>[a-z]+)/(?P<name>[a-z]+)$@', $routeInfo->matchedRoute );
+        self::assertSame( 'testController', $routeInfo->controllerClass );
+        self::assertSame( array( 'site' => 'test', 'group' => 'people', 'name' => 'hawking' ), $request->variables );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcMvcToolsRegexpRouteTest" );

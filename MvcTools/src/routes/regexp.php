@@ -69,6 +69,18 @@ class ezcMvcRegexpRoute implements ezcMvcRoute
     }
 
     /**
+     * Returns the request information that the matches() method will match the
+     * pattern against.
+     *
+     * @param ezcMvcRequest $request
+     * @return string
+     */
+    protected function getUriString( ezcMvcRequest $request )
+    {
+        return $request->uri;
+    }
+
+    /**
      * Evaluates the URI against this route.
      *
      * The method first runs the match. If the regular expression matches, it
@@ -108,7 +120,7 @@ class ezcMvcRegexpRoute implements ezcMvcRoute
      */
     protected function pregMatch( $request, &$matches )
     {
-        return preg_match( $this->pattern, $request->uri, $matches );
+        return preg_match( $this->pattern, $this->getUriString( $request ), $matches );
     }
 
     /**

@@ -52,6 +52,18 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
     }
 
     /**
+     * Returns the request information that the matches() method will match the
+     * pattern against.
+     *
+     * @param ezcMvcRequest $request
+     * @return string
+     */
+    protected function getUriString( ezcMvcRequest $request )
+    {
+        return $request->uri;
+    }
+
+    /**
      * Returns routing information if the route matched, or null in case the
      * route did not match.
      *
@@ -60,7 +72,7 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
      */
     public function matches( ezcMvcRequest $request )
     {
-        $requestParts = explode( '/', $request->uri );
+        $requestParts = explode( '/', $this->getUriString( $request ) );
 
         if ( !$this->checkPrefixMatch( $requestParts ) )
         {
@@ -97,7 +109,7 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
                 return null;
             }
             $request->variables = array_merge( $request->variables, $params );
-            return new ezcMvcRoutingInformation( $request->uri, $controllerName, $this->action );
+            return new ezcMvcRoutingInformation( $this->getUriString( $request ), $controllerName, $this->action );
         }
         return null;
     }

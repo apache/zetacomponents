@@ -69,6 +69,18 @@ class ezcMvcRailsRoute implements ezcMvcRoute, ezcMvcReversedRoute
     }
 
     /**
+     * Returns the request information that the matches() method will match the
+     * pattern against.
+     *
+     * @param ezcMvcRequest $request
+     * @return string
+     */
+    protected function getUriString( ezcMvcRequest $request )
+    {
+        return $request->uri;
+    }
+
+    /**
      * Evaluates the URI against this route.
      *
      * The method first runs the match. If the pattern matches, it then creates
@@ -102,8 +114,8 @@ class ezcMvcRailsRoute implements ezcMvcRoute, ezcMvcReversedRoute
         $matches = array();
 
         // first we split the pattern and request ID per /
-        $patternParts = explode( '/', $this->pattern );
-        $requestParts = explode( '/', $request->uri );
+        $patternParts = preg_split( '@[/.]@', $this->pattern );
+        $requestParts = preg_split( '@[/.]@', $this->getUriString( $request ) );
 
         // if the number of / is not the same, it can not match
         if ( count( $patternParts ) != count( $requestParts ) )

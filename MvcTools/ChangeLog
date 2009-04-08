@@ -5,6 +5,8 @@
   abstract result and response objects.
 - Implemented issue #13844: Support reverse route generation: create an URL
   from an argument.
+- Implemented issue #14740: Make overriding the pattern to match in routes
+  easier.
 
 
 1.0 - Monday 05 January 2009

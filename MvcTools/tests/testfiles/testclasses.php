@@ -42,11 +42,27 @@ class testRegexpRoute extends ezcMvcRegexpRoute
     }
 }
 
+class testRegexpRouteForFullUri extends ezcMvcRegexpRoute
+{
+    function getUriString( ezcMvcRequest $request )
+    {
+        return $request->requestId;
+    }
+}
+
 class testRailsRoute extends ezcMvcRailsRoute
 {
     function getPattern()
     {
         return $this->pattern;
+    }
+}
+
+class testRailsRouteForFullUri extends ezcMvcRailsRoute
+{
+    function getUriString( ezcMvcRequest $request )
+    {
+        return $request->requestId;
     }
 }
 

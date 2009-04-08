@@ -105,6 +105,20 @@ class ezcMvcToolsCatchAllRouteTest extends ezcTestCase
         self::assertSame( 'action', $routeInfo->action );
     }
 
+    public function testMatchWithDifferentUriMatch()
+    {
+        $request = new ezcMvcRequest;
+        $request->host = 'test.host';
+        $request->uri = '/mytwee/action/value1/value2';
+        $request->requestId = $request->host . $request->uri;
+        $route = new myCatchAllRouteForFullUri();
+        $routeInfo = $route->matches( $request );
+        self::assertSame( array( 'param1' => 'value1', 'param2' => 'value2' ), $request->variables );
+        self::assertSame( 'test.host/mytwee/action/value1/value2', $routeInfo->matchedRoute );
+        self::assertSame( 'mytweeController', $routeInfo->controllerClass );
+        self::assertSame( 'action', $routeInfo->action );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcMvcToolsCatchAllRouteTest" );

@@ -154,6 +154,20 @@ class ezcMvcToolsRailsRouteTest extends ezcTestCase
         }
     }
 
+    public function testMatchWithDifferentUriMatch()
+    {
+        $request = new ezcMvcRequest;
+        $request->host = 'test.host';
+        $request->uri = '/people/hawking';
+        $request->requestId = $request->host . $request->uri;
+
+        $route = new testRailsRouteForFullUri( ':site.host/:group/:name', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertSame( ':site.host/:group/:name', $routeInfo->matchedRoute );
+        self::assertSame( 'testController', $routeInfo->controllerClass );
+        self::assertSame( array( 'site' => 'test', 'group' => 'people', 'name' => 'hawking' ), $request->variables );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcMvcToolsRailsRouteTest" );
