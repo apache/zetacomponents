@@ -90,6 +90,58 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         );
     }
 
+    public function testNamedSetNotOverwritten()
+    {
+        // Create fake named related set
+        $person = $this->session->load( 'RelationTestPerson', 2 );
+        $this->idMap->setIdentity( $person );
+
+        $birthday = new RelationTestBirthday();
+        $birthday->person = 2;
+        $relatedObjectSet = array(
+            '2' => $birthday
+        );
+
+        $this->idMap->setRelatedObjectSet(
+            $person, $relatedObjectSet, 'foo'
+        );
+
+        // Perform query and extraction
+        $relations = $this->getOneLevelOneRelationRelations();
+        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $this->extractor->extractObjects(
+            $stmt, 'RelationTestPerson', 2, $relations
+        );
+
+        $this->assertSame(
+            $person,
+            $this->idMap->getIdentity( 'RelationTestPerson', 2 )
+        );
+
+        $employers = $this->idMap->getRelatedObjects(
+            $person, 'RelationTestEmployer'
+        );
+        
+        $this->assertNotNull( $employers );
+
+        $this->assertEquals( 1, count( $employers ) );
+
+        $this->assertEquals(
+            current( $employers ),
+            current( $this->session->getRelatedObjects( $person, 'RelationTestEmployer' ) )
+        );
+
+        
+        $this->assertEquals(
+            $relatedObjectSet,
+            $this->idMap->getRelatedObjectSet( $person, 'foo' )    
+        );
+    }
+
     public function testOneLevelMultiRelationExtract()
     {
         $relations = $this->getOneLevelMultiRelationRelations();

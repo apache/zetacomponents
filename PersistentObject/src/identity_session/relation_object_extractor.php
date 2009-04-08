@@ -129,7 +129,8 @@ class ezcPersistentIdentityRelationObjectExtractor
                 $this->idMap->setIdentityWithId( $object, $relation->relatedClass, $id );
             }
 
-            // Check if relations from $parentClass to $relation->relatedClass were already recorded
+            // Check if relations from $parentClass to $relation->relatedClass
+            // were already recorded
             $relatedObjects = $this->idMap->getRelatedObjectsWithId(
                 $parentClass,
                 $parentId,
@@ -138,30 +139,24 @@ class ezcPersistentIdentityRelationObjectExtractor
             );
             if ( $relatedObjects === null )
             {
-                // Establish empty related objects to be able to add new later.
+                // No relation set recorded, create
                 $relatedObjects = array();
+            }
+
+            // Check if relation itself is already recorded and only set the
+            // identities if not
+            if ( !isset( $relatedObjects[$id] ) )
+            {
+                $relatedObjects[$id] = $object;
+                // This performs the full setting process on every new object,
+                // which is somewhat expensive but not really possible in a
+                // different way, since adding new related objects invalidates
+                // named related sets.
                 $this->idMap->setRelatedObjectsWithId(
                     $parentClass,
                     $parentId,
                     $relatedObjects,
                     $relation->relatedClass,
-                    $relation->relationName
-                );
-            }
-
-            // Check if relation itself is already recorded
-            if ( !isset( $relatedObjects[$id] ) )
-            {
-                // Add related object
-                // @TODO: This invalidates all named related sets, which is not
-                // a good idea as soon as we support finding restricted related
-                // sets.
-                $this->idMap->addRelatedObjectWithId(
-                    $parentClass,
-                    $parentId,
-                    $relation->relatedClass,
-                    $id,
-                    $object,
                     $relation->relationName
                 );
             }
