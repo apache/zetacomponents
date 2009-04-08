@@ -19,8 +19,6 @@
  * @package PersistentObject
  * @version //autogen//
  * @access private
- *
- * @TODO Quote identifiers!
  */
 class ezcPersistentIdentityRelationQueryCreator
 {
