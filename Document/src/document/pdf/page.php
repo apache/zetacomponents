@@ -131,26 +131,60 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         // Test all covered areas for intersections with the given bounding box
         foreach ( $this->covered as $covered )
         {
-            if ( ( ( ( $boundings->x > $covered->x ) &&
-                     ( $boundings->x < ( $covered->x + $covered->width ) ) ) ||
-                   ( ( ( $boundings->x + $boundings->width ) > $covered->x ) &&
-                     ( ( $boundings->x + $boundings->width ) < ( $covered->x + $covered->width ) ) ) ||
-                   ( ( $boundings->x < $covered->x ) &&
-                     ( ( $boundings->x + $boundings->width ) > ( $covered->x + $covered->width ) ) ) ) &&
-                 ( ( ( $boundings->y > $covered->y ) &&
-                     ( $boundings->y < ( $covered->y + $covered->height ) ) ) ||
-                   ( ( ( $boundings->y + $boundings->height ) > $covered->y ) &&
-                     ( ( $boundings->y + $boundings->height ) < ( $covered->y + $covered->height ) ) ) ||
-                   ( ( $boundings->y < $covered->y ) &&
-                     ( ( $boundings->y + $boundings->height ) > ( $covered->y + $covered->height ) ) ) ) )
+            $xOut = 0;
+            $yOut = 0;
+            if ( ( // Test for left coordinate in covering boundings
+                   ( $xOut |= ( ( $boundings->x > $covered->x ) &&
+                                ( $boundings->x < ( $covered->x + $covered->width ) ) ) << 1 ) ||
+                   // Test for right coordinate in covering boundings
+                   ( $xOut |= ( ( ( $boundings->x + $boundings->width ) > $covered->x ) &&
+                                ( ( $boundings->x + $boundings->width ) < ( $covered->x + $covered->width ) ) ) << 2 ) ||
+                   // Test if coordinates outer wrap coverings
+                   ( $xOut |= ( ( $boundings->x <= $covered->x ) &&
+                                ( ( $boundings->x + $boundings->width ) >= ( $covered->x + $covered->width ) ) ) << 3 )
+                 ) &&
+                 ( // Test for top coordinate in covering boundings
+                   ( $yOut |= ( ( $boundings->y > $covered->y ) &&
+                                ( $boundings->y < ( $covered->y + $covered->height ) ) ) << 1 ) ||
+                   // Test for bottom coordinate in covering boundings
+                   ( $yOut |= ( ( ( $boundings->y + $boundings->height ) > $covered->y ) &&
+                                ( ( $boundings->y + $boundings->height ) < ( $covered->y + $covered->height ) ) ) << 2 ) ||
+                   // Test if coordinates outer wrap coverings
+                   ( $yOut |= ( ( $boundings->y <= $covered->y ) &&
+                                ( ( $boundings->y + $boundings->height ) >= ( $covered->y + $covered->height ) ) ) << 3 )
+                 ) )
             {
                 if ( !$moveX && !$moveY )
                 {
                     return false;
                 }
-
-                // Do something.
+                elseif ( $moveX && $moveY )
+                {
+                    // Move in the direction where less movement is required.
+                    // This might be imporved by additionally checking already
+                    // reached page boundings...
+                    $xMovement = ( $covered->x + $covered->width  ) - $boundings->x;
+                    $yMovement = ( $covered->y + $covered->height ) - $boundings->y;
+                    $boundings->x += $xMovement > $yMovement ? 0 : $xMovement;
+                    $boundings->y += $yMovement > $xMovement ? 0 : $yMovement;
+                }
+                elseif ( $moveX )
+                {
+                    $boundings->x = $covered->x + $covered->width;
+                }
+                elseif ( $moveY )
+                {
+                    $boundings->y = $covered->y + $covered->height;
+                }
             }
+        }
+
+        // Recheck moved bounding box, to check if it still fits page
+        // boundings, and has not been moved into any covered areas at the
+        // bottom right side of the page.
+        if ( $moveX || $moveY )
+        {
+            return $this->testFitRectangle( $boundings->x, $boundings->y, $boundings->width, $boundings->height );
         }
 
         return $boundings;
