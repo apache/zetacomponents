@@ -239,7 +239,7 @@ class ezcDocumentPdfPageTests extends ezcTestCase
         );
     }
 
-    public function testCoveredAreaBidirectionalMove()
+    public function testCoveredAreaBidirectionalMove1()
     {
         $page = new ezcDocumentPdfPage( 100, 100 );
         $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 10, 10 ) );
@@ -258,6 +258,161 @@ class ezcDocumentPdfPageTests extends ezcTestCase
             new ezcDocumentPdfBoundingBox( 10, 10, 80, 80 ),
             $page->testFitRectangle( null, null, 80, 80 )
         );
+    }
+
+    public function testHorizontalFullPageExtension()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 0, 0, 100, 100 ),
+            $page->testFitRectangle( 0, 0, null, 100 )
+        );
+    }
+
+    public function testCoveredBoxHorizontalExtension1()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 90, 0, 10, 100 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 0, 0, 90, 100 ),
+            $page->testFitRectangle( 0, 0, null, 100 )
+        );
+    }
+
+    public function testCoveredBoxHorizontalExtension2()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 50, 0, 10, 100 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 0, 0, 50, 100 ),
+            $page->testFitRectangle( 0, 0, null, 100 )
+        );
+    }
+
+    public function testCoveredBoxHorizontalExtension3()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 90, 0, 10, 100 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 10, 10, 80, 80 ),
+            $page->testFitRectangle( 10, 10, null, 80 )
+        );
+    }
+
+    public function testCoveredBoxVerticalExtension1()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 90, 100, 10 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 0, 0, 100, 90 ),
+            $page->testFitRectangle( 0, 0, 100, null )
+        );
+    }
+
+    public function testCoveredBoxVerticalExtension2()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 50, 100, 10 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 0, 0, 100, 50 ),
+            $page->testFitRectangle( 0, 0, 100, null )
+        );
+    }
+
+    public function testCoveredBoxVerticalExtension3()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 90, 100, 10 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 10, 10, 80, 80 ),
+            $page->testFitRectangle( 10, 10, 80, null )
+        );
+    }
+
+    public function testCoveredBoxBiderectionalExtension1()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 90, 90, 10, 10 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 10, 10, 80, 80 ),
+            $page->testFitRectangle( 10, 10, null, null )
+        );
+    }
+
+    public function testCoveredBoxBiderectionalExtension2()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 90, 100, 10 ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 90, 0, 10, 100 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 10, 10, 80, 80 ),
+            $page->testFitRectangle( 10, 10, null, null )
+        );
+    }
+
+    public function testCoveredBoxExtensionAndOrthogonalMovement1()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 100, 10 ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 10, 100 ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 90, 100, 10 ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 90, 0, 10, 100 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 10, 10, 80, 80 ),
+            $page->testFitRectangle( 10, null, null, 80 )
+        );
+    }
+
+    public function testCoveredBoxExtensionAndOrthogonalMovement2()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 100, 10 ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 10, 100 ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 90, 100, 10 ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 90, 0, 10, 100 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 10, 10, 80, 80 ),
+            $page->testFitRectangle( null, 10, 80, null )
+        );
+    }
+
+    public function testMoveAndExtendInSameDirection1()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+
+        try
+        {
+            $page->testFitRectangle( null, 10, null, 10 );
+            $this->fail( 'Expected ezcBaseFunctionalityNotSupportedException' );
+        }
+        catch ( ezcBaseFunctionalityNotSupportedException $e )
+        { /* Expected */ }
+    }
+
+    public function testMoveAndExtendInSameDirection2()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+
+        try
+        {
+            $page->testFitRectangle( 10, null, 10, null );
+            $this->fail( 'Expected ezcBaseFunctionalityNotSupportedException' );
+        }
+        catch ( ezcBaseFunctionalityNotSupportedException $e )
+        { /* Expected */ }
+    }
+
+    public function testMoveAndExtendInSameDirection3()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+
+        try
+        {
+            $page->testFitRectangle( null, null, null, null );
+            $this->fail( 'Expected ezcBaseFunctionalityNotSupportedException' );
+        }
+        catch ( ezcBaseFunctionalityNotSupportedException $e )
+        { /* Expected */ }
     }
 }
 ?>

@@ -125,14 +125,43 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         $moveX        = ( $xPos === null );
         $moveY        = ( $yPos === null );
         $adjustWidth  = ( $width === null );
-        $adjustHeight = ( $width === null );
+        $adjustHeight = ( $height === null );
         $boundings    = new ezcDocumentPdfBoundingBox( $xPos, $yPos, $width, $height );
+
+        // We do not support moving and extending in the same direction yet,
+        // since this would require some sort of backtracking.
+        if ( ( $moveX && $adjustWidth ) ||
+             ( $moveY && $adjustHeight ) )
+        {
+            throw new ezcBaseFunctionalityNotSupportedException(
+                'Moving and extensions ins same direction',
+                'Backtracking would be required'
+            );
+        }
+
+        // Start width adjusting with full page width, will be reduced later
+        // based on found boxes.
+        if ( $adjustWidth )
+        {
+            $boundings->width = $this->width - $boundings->x;
+        }
+
+        // Start height adjusting with full page height, will be reduced later
+        // based on found boxes.
+        if ( $adjustHeight )
+        {
+            $boundings->height = $this->height - $boundings->y;
+        }
 
         // Test all covered areas for intersections with the given bounding box
         foreach ( $this->covered as $covered )
         {
+            // These variables indicate which bounding box checks evaluated to
+            // true, so we can handle bounding box modififactions according to
+            // this.
             $xOut = 0;
             $yOut = 0;
+            // Do NOT change the test order.
             if ( ( // Test for left coordinate in covering boundings
                    ( $xOut |= ( ( $boundings->x > $covered->x ) &&
                                 ( $boundings->x < ( $covered->x + $covered->width ) ) ) << 1 ) ||
@@ -154,8 +183,40 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
                                 ( ( $boundings->y + $boundings->height ) >= ( $covered->y + $covered->height ) ) ) << 3 )
                  ) )
             {
+                // Adjust bounding box width, if only the right coordinate hit
+                // the covered area.
+                if ( $adjustWidth && 
+                     ( $xOut & 12 ) )
+                {
+                    $boundings->width = $covered->x - $boundings->x;
+                }
+
+                // Adjust bounding box width, if only the right coordinate hit
+                // the covered area.
+                if ( $adjustHeight && 
+                     ( $yOut & 12 ) )
+                {
+                    $boundings->height = $covered->y - $boundings->y;
+                }
+
+                // If the width or height has been adjusted, we did not hit any
+                // covered area with the starting coordinates because of the
+                // test order in the if statement above. We can safely continue
+                // to check the next covering area. We cannot do the continue
+                // in one of the blocks above, because we might need to modify
+                // both.
+                if ( ( $adjustWidth && 
+                       ( $xOut & 12 ) ) ||
+                     ( $adjustHeight && 
+                       ( $yOut & 12 ) ) )
+                {
+                    continue;
+                }
+
                 if ( !$moveX && !$moveY )
                 {
+                    // We hit something and may not move or adjust the box -
+                    // break.
                     return false;
                 }
                 elseif ( $moveX && $moveY )
