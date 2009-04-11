@@ -88,6 +88,7 @@ class ezcDocumentPdfStyleInferencer
                     'font-size'   => '8mm',
                     'font-family' => 'serif',
                     'line-height' => '1.4',
+                    'text-align'  => 'left',
                 )
             ),
             new ezcDocumentPdfCssDirective(

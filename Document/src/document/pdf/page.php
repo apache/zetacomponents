@@ -33,14 +33,28 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     protected $covered = array();
 
     /**
-     * Width of current page - given in millimeters?
+     * Current horizontal rendering position on page
+     * 
+     * @var float
+     */
+    public $x;
+
+    /**
+     * Current vertical rendering position on page
+     * 
+     * @var float
+     */
+    public $y;
+
+    /**
+     * Width of current page - given in millimeters
      * 
      * @var float
      */
     protected $width;
 
     /**
-     * Height of current page - given in millimeters?
+     * Height of current page - given in millimeters
      * 
      * @var float
      */

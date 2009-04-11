@@ -42,15 +42,63 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         $tokens = $this->tokenize( $paragraph );
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $width );
 
-        // @TODO: Get this working
-        $space  = $page->testFitRectangle( null, null, $width, null );
+        // Ensure a current rendering position on page
+        if ( ( $page->x === null ) ||
+             ( $page->y === null ) )
+        {
+            $space = $page->testFitRectangle( null, null, $width, $tokens[0]['style']['font-size'] );
+            $page->x = $space->x;
+            $page->y = $space->y;
+        }
+
+        // Grap the maximum available vertical space
+        $space  = $page->testFitRectangle( $page->x, $page->y, $width, null );
 
         // Render token, respecting assigned styles
         // @TODO: Mind orphans and widows here.
-        // @TODO: Check four exceeding wvailable space.
+        $spaceWidth = $this->driver->calculateWordWidth( ' ' );
+        $style      = $this->styles->inferenceFormattingRules( $paragraph );
+        $yPos       = $space->y;
         foreach ( $lines as $line )
         {
-            // @TODO: Render
+            $lineWidth = 0;
+            foreach ( $line['tokens'] as $token )
+            {
+                $lineWidth += $token['width'];
+            }
+
+            // @TODO: Mind margin and padding
+            switch ( $style['text-align'] )
+            {
+                case 'center':
+                    // @TODO: Implement
+                    break;
+                case 'right':
+                    // @TODO: Implement
+                    break;
+                case 'justify':
+                    $spaceWidth = ( $width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
+                default:
+                    // Default to left alignement
+                    $xPos = $space->x;
+                    foreach ( $line['tokens'] as $token )
+                    {
+                        // Apply current styles
+                        foreach ( $token['style'] as $style => $value )
+                        {
+                            $this->driver->setTextFormatting( $style, $value );
+                        }
+
+                        // Render word 
+                        // @TODO: Align text baseline, if different font sizes are given
+                        $this->driver->drawWord( $xPos, $yPos, $token['word'] );
+                        $xPos += $token['width'] + $spaceWidth;
+                    }
+            }
+
+            // @TODO: Check four exceeding available space.
+            // -> Break to next column / page
+            $yPos += $line['height'];
         }
     }
 
