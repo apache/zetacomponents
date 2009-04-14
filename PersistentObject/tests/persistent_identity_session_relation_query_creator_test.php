@@ -393,11 +393,11 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
         )->leftJoin(
             $q->alias(
                 $this->qi( 'PO_persons_addresses' ),
-                $this->qi( 'habitants__addresses' )
+                $this->qi( 'addresses__habitants' )
             ),
             $q->expr->eq(
                 $this->qi( 'addresses' ) . '.' . $this->qi( 'id' ),
-                $this->qi( 'habitants__addresses' ) . '.' . $this->qi( 'address_id' )
+                $this->qi( 'addresses__habitants' ) . '.' . $this->qi( 'address_id' )
             )
         )->leftJoin(
             $q->alias(
@@ -405,7 +405,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
                 $this->qi( 'habitants' )
             ),
             $q->expr->eq(
-                $this->qi( 'habitants__addresses' ) . '.' . $this->qi( 'person_id' ),
+                $this->qi( 'addresses__habitants' ) . '.' . $this->qi( 'person_id' ),
                 $this->qi( 'habitants' ) . '.' . $this->qi( 'id' )
             )
         )->leftJoin(
