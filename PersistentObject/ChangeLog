@@ -1,6 +1,11 @@
 1.6alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Started implementation of #012473: PersistentObject has not an Identity Map
+  and a decorator for ezcPersistentSession, using this feature. In addition, a
+  first method is available here, which performs pre-fetching of related
+  objects.
+
 
 1.5.2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
