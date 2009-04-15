@@ -13,6 +13,7 @@ return array(
     'ezcMvcToolsException'                   => 'MvcTools/exceptions/exception.php',
     'ezcMvcActionNotFoundException'          => 'MvcTools/exceptions/action_not_found.php',
     'ezcMvcControllerException'              => 'MvcTools/exceptions/controller.php',
+    'ezcMvcFatalErrorLoopException'          => 'MvcTools/exceptions/fatal_error_loop.php',
     'ezcMvcFilterHasNoOptionsException'      => 'MvcTools/exceptions/filter_has_no_options.php',
     'ezcMvcInfiniteLoopException'            => 'MvcTools/exceptions/infinite_loop.php',
     'ezcMvcInvalidConfiguration'             => 'MvcTools/exceptions/invalid_configuration.php',

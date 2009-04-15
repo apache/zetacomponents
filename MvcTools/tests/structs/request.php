@@ -70,6 +70,7 @@ class ezcMvcRequestTest extends ezcTestCase
         'authentication' => 'oop',
         'raw' => 'random',
         'cookies' => 'foo',
+        'isFatal' => false,
         );
         $struct = ezcMvcRequest::__set_state( $state );
         $this->assertEquals( 'php', $struct->date, 'Property date does not have the expected value' );

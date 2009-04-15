@@ -135,6 +135,22 @@ class ezcMvcToolsConfigurableDispatcherTest extends ezcTestCase
         self::assertEquals( "BODY: Name: name, Vars: array ([CR]  'fatal' => 'Very fatal',[CR])", $config->store );
     }
 
+    function testFatalInFatal()
+    {
+        $config = new simpleConfiguration();
+        $config->route = 'FatalInfatal';
+        $dispatcher = new ezcMvcConfigurableDispatcher( $config );
+        try
+        {
+            $dispatcher->run();
+            self::fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcMvcFatalErrorLoopException $e )
+        {
+            self::assertEquals( 'The request "", "/fatal" () results in an infinite fatal error loop.', $e->getMessage() );
+        }
+    }
+
     // test for issue #13939
     public function testNoReturnedVariables()
     {

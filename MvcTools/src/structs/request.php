@@ -135,6 +135,13 @@ class ezcMvcRequest extends ezcBaseStruct
     public $cookies;
 
     /**
+     * Whether this is a fatal error request, or a normal one
+     *
+     * @var boolean
+     */
+    public $isFatal;
+
+    /**
      * Constructs a new ezcMvcRequest.
      *
      * @param DateTime $date
@@ -151,11 +158,12 @@ class ezcMvcRequest extends ezcBaseStruct
      * @param ezcMvcRequestAuthentication $authentication
      * @param ezcMvcRawRequest $raw
      * @param array(ezcMvcRequestCookie) $cookies
+     * @param boolean $isFatal
      */
     public function __construct( $date = null, $protocol = '', 
         $host = '', $uri = '', $requestId = '', $referrer = '', 
         $variables = array(), $body = '', $files = null, $accept = null, 
-        $agent = null, $authentication = null, $raw = null, $cookies = array() )
+        $agent = null, $authentication = null, $raw = null, $cookies = array(), $isFatal = false )
     {
         $this->date = $date;
         $this->protocol = $protocol;
@@ -192,7 +200,8 @@ class ezcMvcRequest extends ezcBaseStruct
             $array['host'], $array['uri'], $array['requestId'], 
             $array['referrer'], $array['variables'], $array['body'], 
             $array['files'], $array['accept'], $array['agent'], 
-            $array['authentication'], $array['raw'], $array['cookies'] );
+            $array['authentication'], $array['raw'], $array['cookies'],
+            $array['isFatal'] );
     }
 }
 ?>

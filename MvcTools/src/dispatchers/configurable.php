@@ -154,7 +154,12 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
      */
     protected function getFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $e )
     {
+        if ( $request->isFatal )
+        {
+            throw new ezcMvcFatalErrorLoopException( $request );
+        }
         $request = $this->configuration->createFatalRedirectRequest( $request, new ezcMvcResult, $e );
+        $request->isFatal = true;
         if ( ezcBase::inDevMode() && !$request instanceof ezcMvcRequest )
         {
             throw new ezcMvcInvalidConfiguration( 'request', $request, 'instance of ezcMvcRequest' );

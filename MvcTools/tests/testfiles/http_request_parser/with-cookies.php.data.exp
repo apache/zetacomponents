@@ -97,4 +97,5 @@ ezcMvcRequest::__set_state(array(
        'value' => 'om nom nom',
     )),
   ),
+   'isFatal' => NULL,
 ))

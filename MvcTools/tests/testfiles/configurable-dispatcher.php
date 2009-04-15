@@ -27,6 +27,8 @@ class simpleConfiguration implements ezcMvcDispatcherConfiguration
                 return new testFaultyActionRouter( $request );
             case 'ExceptionInAction':
                 return new testExceptionInActionRouter( $request );
+            case 'FatalInfatal':
+                return new testFatalInFatalRouter( $request );
             case 'EndlessIR':
                 return new testEndlessIRRouter( $request );
             case 'EmptyResultController':
@@ -191,6 +193,17 @@ class testExceptionInActionRouter extends ezcMvcRouter
         return array(
             new ezcMvcRegexpRoute( '@^/$@', 'testController', 'exception' ),
             new ezcMvcRegexpRoute( '@^/fatal$@', 'testFatalController', 'fatal' ),
+        );
+    }
+}
+
+class testFatalInFatalRouter extends ezcMvcRouter
+{
+    public function createRoutes()
+    {
+        return array(
+            new ezcMvcRegexpRoute( '@^/$@', 'testController', 'exception' ),
+//            new ezcMvcRegexpRoute( '@^/fatal$@', 'testFatalController', 'fatal' ),
         );
     }
 }
