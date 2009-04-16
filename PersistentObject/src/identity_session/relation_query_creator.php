@@ -59,9 +59,7 @@ class ezcPersistentIdentityRelationQueryCreator
      * @param string $class 
      * @param mixed $id 
      * @param array(string=>ezcPersistentRelationFindDefinition) $relations 
-     * @return ezcPersistentFindQuery
-     *
-     * @todo Should return ezcPersistentFindWithRelationsQuery
+     * @return ezcDbQuerySelect
      */
     public function createLoadQuery( $class, $id, array $relations )
     {
@@ -90,7 +88,7 @@ class ezcPersistentIdentityRelationQueryCreator
      * 
      * @param mixed $class 
      * @param array(string=> ezcPersistentRelationFindDefinition) $relations
-     * @return ezcPersistentFindQuery
+     * @return ezcDbQuerySelect
      *
      * @todo Should return ezcPersistentFindWithRelationsQuery
      */
