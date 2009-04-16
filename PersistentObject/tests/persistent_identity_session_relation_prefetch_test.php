@@ -61,13 +61,9 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         );
     }
 
-    protected function getOneLevelOneRelationQuery( $relations )
+    protected function getOneLevelOneRelationLoadQuery( $relations )
     {
-        $q = new ezcQuerySelect( $this->db );
-
-        $this->queryCreator->createQuery( $q, 'RelationTestPerson', 2, $relations );
-
-        return $q;
+        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
     }
 
     protected function getOneLevelMultiRelationRelations()
@@ -83,13 +79,9 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
 
     }
     
-    protected function getOneLevelMultiRelationQuery( $relations )
+    protected function getOneLevelMultiRelationLoadQuery( $relations )
     {
-        $q = new ezcQuerySelect( $this->db );
-
-        $this->queryCreator->createQuery( $q, 'RelationTestPerson', 2, $relations );
-
-        return $q;
+        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
     }
 
     protected function getMultiLevelSingleRelationRelations()
@@ -107,13 +99,9 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         );
     }
 
-    protected function getMultiLevelSingleRelationQuery( $relations )
+    protected function getMultiLevelSingleRelationLoadQuery( $relations )
     {
-        $q = new ezcQuerySelect( $this->db );
-
-        $this->queryCreator->createQuery( $q, 'RelationTestPerson', 2, $relations );
-
-        return $q;
+        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
     }
     
 
@@ -147,13 +135,9 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         );
     }
 
-    protected function getMultiLevelMultiRelationQuery( $relations )
+    protected function getMultiLevelMultiRelationLoadQuery( $relations )
     {
-        $q = new ezcQuerySelect( $this->db );
-
-        $this->queryCreator->createQuery( $q, 'RelationTestPerson', 2, $relations );
-        
-        return $q;
+        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
     }
 }
 

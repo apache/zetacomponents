@@ -63,7 +63,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
     public function testOneLevelOneRelationExtract()
     {
         $relations = $this->getOneLevelOneRelationRelations();
-        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        $q         = $this->getOneLevelOneRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -112,7 +112,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Perform query and extraction
         $relations = $this->getOneLevelOneRelationRelations();
-        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        $q         = $this->getOneLevelOneRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -149,7 +149,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
     public function testNoRefetch()
     {
         $relations = $this->getOneLevelOneRelationRelations();
-        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        $q         = $this->getOneLevelOneRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -181,7 +181,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         // $this->options->refetch = true;
 
         $relations = $this->getOneLevelOneRelationRelations();
-        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        $q         = $this->getOneLevelOneRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -224,7 +224,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
     public function testRefetch()
     {
         $relations = $this->getOneLevelOneRelationRelations();
-        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        $q         = $this->getOneLevelOneRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -256,7 +256,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $this->options->refetch = true;
 
         $relations = $this->getOneLevelOneRelationRelations();
-        $q         = $this->getOneLevelOneRelationQuery( $relations );
+        $q         = $this->getOneLevelOneRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -299,7 +299,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
     public function testOneLevelMultiRelationExtract()
     {
         $relations = $this->getOneLevelMultiRelationRelations();
-        $q         = $this->getOneLevelMultiRelationQuery( $relations );
+        $q         = $this->getOneLevelMultiRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -346,7 +346,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
     public function testMultiLevelSingleRelation()
     {
         $relations = $this->getMultiLevelSingleRelationRelations();
-        $q         = $this->getMultiLevelSingleRelationQuery( $relations );
+        $q         = $this->getMultiLevelSingleRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();
@@ -394,7 +394,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
     public function testMultiLevelMultiRelation()
     {
         $relations = $this->getMultiLevelMultiRelationRelations();
-        $q         = $this->getMultiLevelMultiRelationQuery( $relations );
+        $q         = $this->getMultiLevelMultiRelationLoadQuery( $relations );
         
         $stmt = $q->prepare();
         $stmt->execute();

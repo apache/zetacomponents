@@ -962,9 +962,7 @@ class ezcPersistentIdentitySession
             );
         }
 
-        $select = $this->session->database->createSelectQuery();
-
-        $this->queryCreator->createQuery( $select, $class, $id, $relations );
+        $select = $this->queryCreator->createLoadQuery( $class, $id, $relations );
 
         $stmt = $select->prepare();
         $stmt->execute();

@@ -51,20 +51,71 @@ class ezcPersistentIdentityRelationQueryCreator
     }
 
     /**
-     * Generates a relation pre-fetch query.
+     * Creates a load object query with relation pre-fetching.
      *
-     * This method generates a relation pre-fetch query on basis of $q. The
-     * query will fetch the object of $class with $id and all related objects
-     * defined in $relations.
+     * This method generates a query that loads the object of $class with $id
+     * and its related objects as specified by $relations.
      * 
-     * @param ezcQuerySelect $q 
      * @param string $class 
      * @param mixed $id 
-     * @param array $relations 
+     * @param array(string=>ezcPersistentRelationFindDefinition) $relations 
+     * @return ezcPersistentFindQuery
+     *
+     * @todo Should return ezcPersistentFindWithRelationsQuery
      */
-    public function createQuery( ezcQuerySelect $q, $class, $id, array $relations )
+    public function createLoadQuery( $class, $id, array $relations )
     {
         $srcDef = $this->defManager->fetchDefinition( $class );
+
+        $q = $this->createBasicFindQuery( $srcDef, $relations );
+
+        $q->where(
+            $q->expr->eq(
+                $this->getColumnName(
+                    $srcDef->table,
+                    $srcDef->idProperty->columnName
+                ),
+                $q->bindValue( $id )
+            )
+        );
+
+        return $q;
+    }
+
+    /**
+     * Creates a find object query with relation pre-fetching.
+     *
+     * This method generates a query that finds objects of $class together with
+     * their related objects as defined in $relations.
+     * 
+     * @param mixed $class 
+     * @param array(string=> ezcPersistentRelationFindDefinition) $relations
+     * @return ezcPersistentFindQuery
+     *
+     * @todo Should return ezcPersistentFindWithRelationsQuery
+     */
+    public function createFindQuery( $class, array $relations )
+    {
+        $srcDef = $this->defManager->fetchDefinition( $class );
+
+        return $this->createBasicFindQuery( $q, $srcDef, $relations );
+    }
+
+    /**
+     * Generates a basic find query with relation pre-fetching.
+     *
+     * This method generates a basic find query for the table/class defined in
+     * $srcDef, with relation pre-fetching for $relations.
+     * 
+     * @param ezcPersistentObjectDefinition $srcDef 
+     * @param array(string=> ezcPersistentRelationFindDefinition) $relations
+     * @return ezcPersistentFindQuery
+     *
+     * @todo Should return ezcPersistentFindWithRelationsQuery
+     */
+    protected function createBasicFindQuery( ezcPersistentObjectDefinition $srcDef, array $relations )
+    {
+        $q = $this->db->createSelectQuery();
 
         // Set aliases for all joins
         $this->createAliases( $srcDef, $relations );
@@ -92,15 +143,7 @@ class ezcPersistentIdentityRelationQueryCreator
 
         $this->createJoins( $q, $srcDef->table, $relations );
 
-        $q->where(
-            $q->expr->eq(
-                $this->getColumnName(
-                    $srcDef->table,
-                    $srcDef->idProperty->columnName
-                ),
-                $q->bindValue( $id )
-            )
-        );
+        return $q;
     }
 
     /**
