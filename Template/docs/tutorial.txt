@@ -1967,7 +1967,7 @@ The custom block could be implemented like::
                 {
                     foreach( $params["plus"] as $value )
                     {
-                        result += $value;
+                        $result += $value;
                     }
                 }
                 else
@@ -1982,7 +1982,7 @@ The custom block could be implemented like::
                 {
                     foreach( $params["minus"] as $value )
                     {
-                        result -= $value;
+                        $result -= $value;
                     }
                 }
                 else
