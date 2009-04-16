@@ -50,6 +50,9 @@ class ezcPersistentRelationFindDefinition extends ezcBaseStruct
 
     /**
      * Definition object for this $relatedClass. 
+     *
+     * This attribute may not be accessed by the user, but is used by {@link
+     * ezcPersistentIdentitySession} internally to transport information.
      * 
      * @var ezcPersistentObjectDefinition
      * @access private
@@ -58,30 +61,14 @@ class ezcPersistentRelationFindDefinition extends ezcBaseStruct
 
     /**
      * Definition of the relation from its parent class. 
+     *
+     * This attribute may not be accessed by the user, but is used by {@link
+     * ezcPersistentIdentitySession} internally to transport information.
      * 
      * @var ezcPersistentRelation
      * @access private
      */
     public $relationDefinition;
-
-    /**
-     * Table alias used to reference this relations table in the SQL query.
-     * 
-     * @var string
-     * @access private
-     */
-    public $tableAlias;
-
-    /**
-     * Relation table alias.
-     *
-     * If this relation defines a join for a many-to-many relation, this
-     * property stores the table alias of ist mapping table.
-     * 
-     * @var string
-     * @access private
-     */
-    public $relationTableAlias;
 
     /**
      * Creates a new relation find definition.
