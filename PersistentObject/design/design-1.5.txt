@@ -644,73 +644,57 @@ createFindQueryWithRelations( string $class, array $relations )
 This method works like ezcPersistentSession->createFindQuery() and returns a
 query object, that may be manipulated by the user. The returned instance is of
 type ezcPersistentFindWithRelationsQuery, which is a decorator for
-ezcQuerySelect, which extends ezcPersistentFindQuery, defined earlier in
-`Select query decorator`_. Aliases for $class are defined as known from
-createFindQuery().  For the related objects not aliases are set and the
-necessary JOINs are not yet part of the query.
+ezcQuerySelect, that extends ezcPersistentFindQuery, defined earlier in `Select
+query decorator`_.
+
+Aliases for $class are defined as known from createFindQuery(). In addition,
+for the related objects to fetch as defined in $relations aliases are generated
+in the for '<key>_<propertyName>', where <key> is the array key provided in
+$relations for the specific relation.
 
 The query objects contains additional information about the $relations to
 fetch, which will be used by the findWithRelations() method to define the
 necessary JOINs and parse the returned objects.
 
-The object can be handled like an instance of ezcPersistentFindQuery (aka
-ezcQuerySelect), except that is does not allow to perform additional JOIN
-operations. If the user tries to perform a JOIN, an exception is thrown. The
-use of the limit() method on this object can result in unexpected behavior,
-since it does not limit the number of persistent object of type $class, but the
-overall number of rows fetched. Therefore the use of limit() also throws na
-exception.
+The query object can be used like an instance of ezcPersistentFindQuery (aka
+ezcQuerySelect) in general, but does not allow the following operations:
 
-This behavioral change is necessary to avoid conflicts when adding the JOIN
-statements to find related objects and to avoid that the user limits the
-related object result sets. A query generated with this method will allways
-fetch **all** related objects for the persistent objects found for the query.
-To only fetch a subset of related objects, the method
-createFindQueryWithRelationSubset() must be used.
+- select()
+- selectDistinct()
+- from()
+- \*Join()
+- groupBy()
+- having()
+- limit()
+
+These operations throw an exception, since using them would break the query for
+extraction of the related objects. Calls to where() and orderBy() are still
+allowed. However, orderBy() should be avoided, since later re-fetching of
+related objects sets would result in potential inconsistencies in an
+application.
+
+The query decorator will detect, for which relations the user manipulates the
+WHERE condition. If the WHERE condition for a relation has been manipulated,
+findWithRelatedObjects() will store a named sub-set for this relation, instead
+of the normal related object set. This is necessary, since by adding a WHERE
+condition for a relation not the full set of related objects is fetched.
+
+The name of a named related object sub-set is determined by the key used in the
+$relations array for this relation.
 
 findWithRelations( ezcPersistentFindWithRelationsQuery $query )
 ---------------------------------------------------------------
 
 This method returns an array of objects exactly like
-ezcPersistentSession->find() does. In the background, it adds the necessary
-JOINs to the submitted $query object and fetches the related objects defined in
-the query.
+ezcPersistentSession->find() does. In the background, it also fetches the
+related objects as defined during createFindQueryWithRelations() and stores
+them in the identity map.
 
-The related objects are stored in the relation cache of the
-ezcPersistentIdentitySession and can be retrieved by the user through
-ezcPersistentIdentitySession->getRelatedObjects().
+The related objects can later be retreived from ezcPersistentIdentitySession by
+the user through ezcPersistentIdentitySession->getRelatedObjects() or
+->getRelatedObjectsSubset(). Names sub sets are created as described in the
+previous section, on basis of WHERE conditions.
 
-createFindQueryWithRelationSubset( string $class, array $relations )
---------------------------------------------------------------------
-
-This method behaves almost like createFindQueryWithRelations(). In contrast to
-this one, it returns a query object of type
-ezcPersistentFindWithRelationSubsetQuery. The instance of this class already
-has all JOINs defined. In addition it contains aliases for $class as well as
-the relations. The user can manipulate the WHERE condition (as well as ODER BY
-and LIMIT) on this object as he likes. This includes defining a subset of
-objects to fetch, which is not possible using the query object returned by
-createFindQueryWithRelations().
-
-The query object returned by this class can be used with the method
-findWithRelationSubset() to fetch the desired objects and their related
-objects.
-
-findWithRelationSubset( ezcPersistentFindWithRelationSubsetQuery $query, string $setName )
-------------------------------------------------------------------------------------------
-
-This method works similar to the findWithRelations() method, but on the query
-object created by createFindQueryWithRelationSubset(). The method fetches the
-objects defined by the $query ($class) as well as the related objects defined
-by the $query ($relations). Since the user can limit the related objects to be
-fetched by this query, he needs to provide a $setName to identify this specific
-subset of objects.
-
-Relation subsets fetched with this method will not be available via the
-getRelatedObjects() method directly. The reason for this is, that
-getRelatedObjects() is expected to return the full set of related objects and
-not just a subset. Instead the method getRelatedObjectsSubset() must be used to
-access the named subset.
 
 getRelatedObjectsSubset( object $object, string $relatedClass, string $setName, string $relationName = null )
 -------------------------------------------------------------------------------------------------------------
@@ -727,21 +711,13 @@ this section) require additions to the persistent session itself, too. The
 identity map must be extended to be capable of managing named subsets of
 related objects. The following methods are added:
 
-addRelationSubset( object $sourceObject, array $relatedObjects, string $setName, string $relationName = null )
+setRelationSet( object $sourceObject, array $relatedObjects, string $setName, string $relationName = null )
 --------------------------------------------------------------------------------------------------------------
 
 This method acts like addRelatedObjects() but adds the relation set as a named
 subset of relations. If the subset already exists, an exception is thrown.
 
-replaceRelationSubset( object $sourceObject, array $relatedObjects, string $setName, string $relationName = null )
-------------------------------------------------------------------------------------------------------------------
-
-Corresponding to addRelationSubset() this method acts like
-replaceRelatedObjects(). In case the relation subset does not exist, yet, it is
-added. If it already exists, the existing set is replaced. In both cases, the
-relation subset is returned.
-
-getRelationSubset( object $object, string $relatedClass, string $setName, string $relationName = null )
+getRelationSet( object $object, string $relatedClass, string $setName, string $relationName = null )
 -------------------------------------------------------------------------------------------------------
 
 Returns the relation subset defined by the parameters. In case the subset is
