@@ -113,16 +113,15 @@ class ezcPersistentIdentityRelationQueryCreator
      */
     protected function createBasicFindQuery( ezcPersistentObjectDefinition $srcDef, array $relations )
     {
-        $q = $this->db->createSelectQuery();
+        $this->fetchDefinitions( $srcDef, $relations );
 
-        // Set aliases for all joins
-        $this->createAliases( $srcDef, $relations );
+        $q = $this->db->createSelectQuery();
 
         // Select the desired object columns as main
         $q->select(
             $q->alias(
                 $this->getColumnName( $srcDef->table, $srcDef->idProperty->columnName ),
-                $this->db->quoteIdentifier( $srcDef->idProperty->columnName )
+                $this->db->quoteIdentifier( $srcDef->idProperty->propertyName )
             )
         );
         foreach ( $srcDef->properties as $property )
@@ -130,7 +129,7 @@ class ezcPersistentIdentityRelationQueryCreator
             $q->select(
                 $q->alias(
                     $this->getColumnName( $srcDef->table, $property->columnName ),
-                    $this->db->quoteIdentifier( $property->columnName )
+                    $this->db->quoteIdentifier( $property->propertyName )
                 )
             );
         }
@@ -145,27 +144,17 @@ class ezcPersistentIdentityRelationQueryCreator
     }
 
     /**
-     * Creates aliases for the given $relations for the $srcDef.
+     * Fetches the needed definitions for $relations and stores them there.
      *
-     * Creates aliases for the given $relations, based on $srcDef. $srcDef is
-     * the the object definition, where $relations related objects should be
-     * fetched for. The $aliasCounter is a global ArrayObject, that takes care
-     * of counting up table aliases, so that no alias is used twice.
+     * Fetches persistent object definitions and relation definition for all
+     * relations defined in $relations. $srcDef is the the object definition,
+     * where $relations related objects should be fetched for.
      *
-     * Returns the alias definitions generated recursively from $relations.
-     * 
      * @param ezcPersistentObjectDefinition $srcDef 
      * @param array(ezcPersistentRelationFindDefinition) $relations 
-     * @param ArrayObject(string=>count) $aliasCounter 
-     * @return array(string=>string)
      */
-    protected function createAliases( ezcPersistentObjectDefinition $srcDef, array $relations, ArrayObject $aliasCounter = null )
+    protected function fetchDefinitions( ezcPersistentObjectDefinition $srcDef, array $relations )
     {
-        if ( $aliasCounter === null )
-        {
-            $aliasCounter = new ArrayObject();
-        }
-
         foreach ( $relations as $relation )
         {
             if ( !isset( $srcDef->relations[$relation->relatedClass] ) )
@@ -183,56 +172,10 @@ class ezcPersistentIdentityRelationQueryCreator
 
             $relation->definition = $this->defManager->fetchDefinition( $relation->relatedClass );
             
-            $this->setTableAliases( $relation, $aliasCounter );
-
             if ( $relation->furtherRelations !== array() )
             {
-                $this->createAliases( $relation->definition, $relation->furtherRelations, $aliasCounter );
+                $this->fetchDefinitions( $relation->definition, $relation->furtherRelations );
             }
-        }
-    }
-
-    /**
-     * Sets aliases for the tables used by $relation.
-     *
-     * Generates new aliases for all tables affected by $relation and stores
-     * them in the struct for later re-use. In addition it returns a mapping
-     * array, reflecting the generated aliases.
-     * 
-     * @param ezcPersistentRelationFindDefinition $relation 
-     * @param ArrayObject(string=>int) $aliasCounter 
-     * @return array(string=>string)
-     */
-    protected function setTableAliases( ezcPersistentRelationFindDefinition $relation, ArrayObject $aliasCounter )
-    {
-        $relationDefinition = $relation->relationDefinition;
-
-        if ( !isset( $aliasCounter[$relationDefinition->destinationTable] ) )
-        {
-            $aliasCounter[$relationDefinition->destinationTable] = 0;
-        }
-        ++$aliasCounter[$relationDefinition->destinationTable];
-        $relation->tableAlias = sprintf(
-            '%s_%s',
-            $relationDefinition->destinationTable,
-            $aliasCounter[$relationDefinition->destinationTable]
-        );
-        $aliases[$relation->tableAlias] = $relationDefinition->destinationTable;
-
-        if ( $relationDefinition instanceof ezcPersistentManyToManyRelation )
-        {
-            if ( !isset( $aliasCounter[$relationDefinition->relationTable] ) )
-            {
-                $aliasCounter[$relationDefinition->relationTable] = 0;
-            }
-            ++$aliasCounter[$relationDefinition->relationTable];
-
-            $relation->relationTableAlias = sprintf(
-                '%s_%s',
-                $relationDefinition->relationTable,
-                $aliasCounter[$relationDefinition->relationTable]
-            );
-            $aliases[$relation->relationTableAlias] = $relationDefinition->relationTable;
         }
     }
 
@@ -258,7 +201,7 @@ class ezcPersistentIdentityRelationQueryCreator
                     ),
                     $this->getColumnAlias(
                         $tableAlias,
-                        $relation->definition->idProperty->columnName
+                        $relation->definition->idProperty->propertyName
                     )
                 )
             );
@@ -267,7 +210,7 @@ class ezcPersistentIdentityRelationQueryCreator
                 $q->select(
                     $q->alias(
                         $this->getColumnName( $tableAlias, $property->columnName ),
-                        $this->getColumnAlias( $tableAlias, $property->columnName )
+                        $this->getColumnAlias( $tableAlias, $property->propertyName )
                     )
                 );
             }
@@ -282,16 +225,16 @@ class ezcPersistentIdentityRelationQueryCreator
      * Returns an alias for $column from $table.
      * 
      * @param string $table 
-     * @param string $column 
+     * @param string $property
      * @return string
      */
-    protected function getColumnAlias( $table, $column )
+    protected function getColumnAlias( $table, $property )
     {
         return $this->db->quoteIdentifier(
             sprintf(
                 '%s_%s',
                 $table,
-                $column
+                $property
             )
         );
     }

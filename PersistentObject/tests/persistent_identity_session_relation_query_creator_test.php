@@ -348,7 +348,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             ),
             $q->alias(
                $this->qi( 'habitant_birthday' ) . '.' . $this->qi( 'person_id' ),
-               $this->qi( 'habitant_birthday_person_id' )
+               $this->qi( 'habitant_birthday_person' )
             ),
             $q->alias(
                $this->qi( 'habitant_birthday' ) . '.' . $this->qi( 'birthday' ),
@@ -364,7 +364,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             ),
             $q->alias(
                $this->qi( 'birthday' ) . '.' . $this->qi( 'person_id' ),
-               $this->qi( 'birthday_person_id' )
+               $this->qi( 'birthday_person' )
             ),
             $q->alias(
                $this->qi( 'birthday' ) . '.' . $this->qi( 'birthday' ),

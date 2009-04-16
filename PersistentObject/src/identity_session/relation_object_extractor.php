@@ -115,7 +115,7 @@ class ezcPersistentIdentityRelationObjectExtractor
         {
             $id = $row[
                 $this->getColumnAlias(
-                    $relation->definition->idProperty->columnName,
+                    $relation->definition->idProperty->propertyName,
                     $tableAlias
                 )
             ];
@@ -217,7 +217,7 @@ class ezcPersistentIdentityRelationObjectExtractor
         $state = array(
             $def->idProperty->propertyName => $result[
                 $this->getColumnAlias(
-                    $def->idProperty->columnName,
+                    $def->idProperty->propertyName,
                     $prefix
                 )
             ]
@@ -226,7 +226,7 @@ class ezcPersistentIdentityRelationObjectExtractor
         foreach ( $def->properties as $property )
         {
             $state[$property->propertyName] = $result[
-                $this->getColumnAlias( $property->columnName, $prefix )
+                $this->getColumnAlias( $property->propertyName, $prefix )
             ];
         }
 
