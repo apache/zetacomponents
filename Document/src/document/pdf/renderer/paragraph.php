@@ -52,14 +52,15 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         }
 
         // Grap the maximum available vertical space
+        // @TODO: Mind margin and padding
         $space  = $page->testFitRectangle( $page->x, $page->y, $width, null );
 
         // Render token, respecting assigned styles
         // @TODO: Mind orphans and widows here.
-        $spaceWidth = $this->driver->calculateWordWidth( ' ' );
-        $style      = $this->styles->inferenceFormattingRules( $paragraph );
-        $yPos       = $space->y;
-        foreach ( $lines as $line )
+        $spaceWidth     = $this->driver->calculateWordWidth( ' ' );
+        $paragraphStyle = $this->styles->inferenceFormattingRules( $paragraph );
+        $yPos           = $space->y;
+        foreach ( $lines as $nr => $line )
         {
             $lineWidth = 0;
             foreach ( $line['tokens'] as $token )
@@ -67,33 +68,48 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
                 $lineWidth += $token['width'];
             }
 
-            // @TODO: Mind margin and padding
-            switch ( $style['text-align'] )
+            switch ( $paragraphStyle['text-align'] )
             {
                 case 'center':
-                    // @TODO: Implement
+                    $offset     = ( $width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
                     break;
                 case 'right':
-                    // @TODO: Implement
+                    $offset     = $width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth );
                     break;
                 case 'justify':
-                    $spaceWidth = ( $width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
-                default:
-                    // Default to left alignement
-                    $xPos = $space->x;
-                    foreach ( $line['tokens'] as $token )
+                    $offset     = 0;
+                    switch ( true )
                     {
-                        // Apply current styles
-                        foreach ( $token['style'] as $style => $value )
-                        {
-                            $this->driver->setTextFormatting( $style, $value );
-                        }
-
-                        // Render word 
-                        // @TODO: Align text baseline, if different font sizes are given
-                        $this->driver->drawWord( $xPos, $yPos, $token['word'] );
-                        $xPos += $token['width'] + $spaceWidth;
+                        case $nr === ( count( $lines ) - 1 ):
+                            // Just default space width in last line of a
+                            // paragraph
+                            $spaceWidth = $this->driver->calculateWordWidth( ' ' );
+                            break;
+                        case count( $line['tokens'] ) <= 1:
+                            // Space width is irrelevant, if only one token is
+                            // in the line
+                            break;
+                        default:
+                            $spaceWidth = ( $width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
                     }
+                default:
+                    $offset     = 0;
+            }
+
+            // Default to left alignement
+            $xPos = $space->x + $offset;
+            foreach ( $line['tokens'] as $token )
+            {
+                // Apply current styles
+                foreach ( $token['style'] as $style => $value )
+                {
+                    $this->driver->setTextFormatting( $style, $value );
+                }
+
+                // Render word 
+                // @TODO: Align text baseline, if different font sizes are given
+                $this->driver->drawWord( $xPos, $yPos, $token['word'] );
+                $xPos += $token['width'] + $spaceWidth;
             }
 
             // @TODO: Check four exceeding available space.
@@ -141,7 +157,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
             {
                 // case XML_CDATA_SECTION_NODE:
                 case XML_TEXT_NODE:
-                    $words = preg_split( '(\\s+)', $child->textContent );
+                    $words = preg_split( '(\\s+)', trim( $child->textContent ) );
                     foreach ( $words as $word )
                     {
                         $tokens[] = array(
