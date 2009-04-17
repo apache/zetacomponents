@@ -32,11 +32,14 @@ abstract class ezcDocumentPdfHyphenator
      *
      * <code>
      *  array(
-     *      array( 'Zuk', 'kerstück' ),
-     *      array( 'Zucker', 'stück' ),
+     *      array( 'Zuk-', 'kerstück' ),
+     *      array( 'Zucker-', 'stück' ),
      *  )
      * </code>
-     * 
+     *
+     * You should always also include the concatenation character in the split
+     * words, since it might change depending on the used language.
+     *
      * @param mixed $word 
      * @return void
      */
