@@ -437,11 +437,11 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
 
         $q = $this->idSession->createRelationFindQuery( $person, 'RelationTestAddress' );
 
-        $this->assertFalse(
-            isset( $q->metaData['relationSetName'] )
+        $this->assertNull(
+            $q->relationSetName
         );
-        $this->assertFalse(
-            isset( $q->metaData['relationSource'] )
+        $this->assertNull(
+            $q->relationSource
         );
     }
 
@@ -460,19 +460,13 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
             'some set name'
         );
 
-        $this->assertTrue(
-            isset( $q->metaData['relationSetName'] )
-        );
         $this->assertEquals(
             'some set name',
-            $q->metaData['relationSetName']
-        );
-        $this->assertTrue(
-            isset( $q->metaData['relationSource'] )
+            $q->relationSetName
         );
         $this->assertSame(
             $person,
-            $q->metaData['relationSource']
+            $q->relationSource
         );
     }
 

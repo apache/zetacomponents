@@ -52,7 +52,6 @@ class ezcPersistentFindQuery
         $this->properties = array(
             'className' => $className,
             'query'     => $query,
-            'metaData'  => new ArrayObject(),
         );
     }
 
@@ -122,14 +121,6 @@ class ezcPersistentFindQuery
                     $propertyName,
                     ezcBasePropertyPermissionException::READ
                 );
-
-            case 'metaData':
-                if ( !( $properyValue instanceof ArrayObject ) )
-                {
-                    throw new ezcBaseValueException( $propertyName, $properyValue, 'ArrayObject' );
-                }
-                $this->properties[$propertyName] = $properyValue;
-                return;
         }
 
         if ( !property_exists( $this->properties['query'], $propertyName ) )

@@ -268,14 +268,14 @@ class ezcPersistentIdentitySession
      */
     public function find( $query, $class = null )
     {
-        $relQueryWithName = isset( $query->metaData ) && isset( $query->metaData['relationSetName'] );
-
-        if ( !$this->options->refetch && $relQueryWithName )
+        $isRelFindQueryWithSetName = $query instanceof ezcPersistentRelationFindQuery
+            && $query->relationSetName !== null;
+        if ( !$this->options->refetch && $isRelFindQueryWithSetName )
         {
             // Check if such a subset already exisist
             $objects = $this->identityMap->getRelatedObjectSet(
-                $query->metaData['relationSource'],
-                $query->metaData['relationSetName']
+                $query->relationSource,
+                $query->relationSetName
             );
             if ( $objects !== null )
             {
@@ -287,12 +287,12 @@ class ezcPersistentIdentitySession
 
         // Query for createRelationFindQuery() with sub-set name assigned
         // No refetch check needed anymore
-        if ( $relQueryWithName )
+        if ( $isRelFindQueryWithSetName )
         {
             $objects = $this->identityMap->setRelatedObjectSet(
-                $query->metaData['relationSource'],
+                $query->relationSource,
                 $objects,
-                $query->metaData['relationSetName']
+                $query->relationSetName
             );
         }
 
@@ -600,7 +600,7 @@ class ezcPersistentIdentitySession
      * @param string $relationName
      * @param string $setName
      *
-     * @return ezcPersistentFindQuery
+     * @return ezcPersistentRelationFindQuery
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
@@ -609,12 +609,17 @@ class ezcPersistentIdentitySession
      */
     public function createRelationFindQuery( $object, $relatedClass, $relationName = null, $setName = null )
     {
-        $q = $this->session->createRelationFindQuery( $object, $relatedClass, $relationName );
+        $originalQuery = $this->session->createRelationFindQuery( $object, $relatedClass, $relationName );
+
+        $q = new ezcPersistentRelationFindQuery(
+            $originalQuery->query,
+            $originalQuery->className
+        );
         
         if ( $setName !== null )
         {
-            $q->metaData['relationSetName'] = $setName;
-            $q->metaData['relationSource']  = $object;
+            $q->relationSetName = $setName;
+            $q->relationSource  = $object;
         }
 
         return $q;

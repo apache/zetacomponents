@@ -54,6 +54,7 @@ require_once 'persistent_object_test.php';
 require_once 'instance_delayed_init_test.php';
 
 require_once 'find_query_test.php';
+require_once 'relation_find_query_test.php';
 
 require_once 'basic_identity_map_test.php';
 require_once 'persistent_identity_session_relation_query_creator_test.php';
@@ -118,6 +119,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentObjectInstanceDelayedInitTest::suite() );
 
         $this->addTest( ezcPersistentFindQueryTest::suite() );
+        $this->addTest( ezcPersistentRelationFindQueryTest::suite() );
 
         $this->addTest( ezcPersistentBasicIdentityMapTest::suite() );
 
