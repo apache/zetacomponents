@@ -11,6 +11,7 @@
 
 require_once 'pdf_test.php';
 require_once 'pdf_mocked_driver.php';
+require_once 'pdf_test_hyphenator.php';
 
 /**
  * Test suite for class.
@@ -244,6 +245,64 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
+            $this->xpath->query( '//doc:para' )->item( 1 )
+        );
+    }
+
+    public function testRenderJustifiedParagraphWithHyphenator()
+    {
+        $styles = new ezcDocumentPdfStyleInferencer();
+
+        // Additional formatting
+        $styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'para' ),
+                array(
+                    'text-align' => 'justify',
+                )
+            ),
+            new ezcDocumentPdfCssDirective(
+                array( 'emphasis' ),
+                array(
+                    'font-weight' => 'bold',
+                )
+            )
+        ) );
+
+        $driver = $this->getMock( 'ezcTextDocumentPdfMockDriver', array(
+            'drawWord'
+        ) );
+
+        // Expectations
+        $driver->expects( $this->at( 0 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 0, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'Paragraphs' )
+        );
+        $driver->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 46, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'are' )
+        );
+        $driver->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 64, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'separ-' )
+        );
+        $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 0, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'ated' )
+        );
+        $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 31.3, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'by' )
+        );
+        $driver->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 50.6, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'blank' )
+        );
+        $driver->expects( $this->at( 6 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 88, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'l-' )
+        );
+        $driver->expects( $this->at( 7 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'ines' )
+        );
+
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $styles );
+        $renderer->render(
+            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcTestDocumentPdfHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 1 )
         );
     }

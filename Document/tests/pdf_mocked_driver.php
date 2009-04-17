@@ -88,7 +88,7 @@ abstract class ezcTextDocumentPdfMockDriver extends ezcDocumentPdfDriver
      */
     public function calculateWordWidth( $word )
     {
-        return strlen( $word ) * $this->size * .5 *
+        return iconv_strlen( $word, 'UTF-8' ) * $this->size * .5 *
             ( $this->style & self::FONT_BOLD ? 1.5 : 1 ) *
             ( $this->style & self::FONT_OBLIQUE ? 1.2 : 1 );
     }

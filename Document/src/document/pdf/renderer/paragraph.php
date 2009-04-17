@@ -199,7 +199,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         ) );
         $line     = 0;
         $consumed = 0;
-        foreach ( $tokens as $token )
+        while ( $token = array_shift( $tokens ) )
         {
             // Apply current styles
             foreach ( $token['style'] as $style => $value )
@@ -218,7 +218,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
             }
 
             // Try to hyphenate the current word
-            $hyphens = $hyphenator->splitWord( $token['word'] );
+            $hyphens = array_reverse( $hyphenator->splitWord( $token['word'] ) );
             foreach ( $hyphens as $hyphen )
             {
                 if ( ( $consumed + ( $width = $this->driver->calculateWordWidth( $hyphen[0] ) ) ) < $available )
@@ -232,7 +232,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
                     $lines[$line]['tokens'][] = $token;
                     $lines[$line]['height']   = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
                     $consumed                += $width + $this->driver->calculateWordWidth( ' ' );
-                    continue;
+                    continue 2;
                 }
             }
 
