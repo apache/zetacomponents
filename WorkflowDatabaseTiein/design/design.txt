@@ -1,5 +1,5 @@
-eZ publish Enterprise Component: WorkflowDatabaseTiein, Design
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eZ Component: WorkflowDatabaseTiein, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :Author: Sebastian Bergmann
 :Revision: $Revision$
 :Date: $Date$

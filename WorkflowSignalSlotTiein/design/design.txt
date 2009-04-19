@@ -1,5 +1,5 @@
-eZ publish Enterprise Component: WorkflowSignalSlotTiein, Design
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+eZ Component: WorkflowSignalSlotTiein, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :Author: Sebastian Bergmann
 :Revision: $Revision$
 :Date: $Date$
