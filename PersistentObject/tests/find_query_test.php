@@ -230,6 +230,19 @@ class ezcPersistentFindQueryTest extends ezcTestCase
         );
     }
 
+    public function testFluentInterface()
+    {
+        $q = $this->createFindQuery();
+
+        $q2 = $q->select( 'foo', 'bar' );
+
+        $this->assertSame( $q, $q2 );
+
+        $q3 = $q2->from( 'baz' );
+
+        $this->assertSame( $q, $q3 );
+    }
+
     protected function createFindQuery()
     {
         $q = new ezcQuerySelect( $this->db );

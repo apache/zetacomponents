@@ -66,13 +66,20 @@ class ezcPersistentFindQuery
      */
     public function __call( $methodName, $arguments )
     {
-        return call_user_func_array(
+        $res = call_user_func_array(
             array(
                 $this->properties['query'],
                 $methodName
             ),
             $arguments
         );
+
+        if ( $res === $this->properties['query'] )
+        {
+            // Fluent interface
+            return $this;
+        }
+        return $res;
     }
 
     /**
