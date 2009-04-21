@@ -1,0 +1,17 @@
+page {
+	text-columns: "1";
+	text-columns-spacing: "10mm";
+}
+
+article {
+	font-size: "12pt";
+	font-family: "serif";
+	line-height: "1.4";
+	text-align: "left";
+}
+
+title {
+	font-size: "16pt";
+	font-weight: "bold";
+}
+

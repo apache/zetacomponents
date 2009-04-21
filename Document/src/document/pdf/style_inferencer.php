@@ -72,11 +72,15 @@ class ezcDocumentPdfStyleInferencer
     /**
      * Construct style inference with default styles
      * 
+     * @param bool $loadDefault
      * @return void
      */
-    public function __construct()
+    public function __construct( $loadDefault = true )
     {
-        $this->setDefaultStyles();
+        if ( $loadDefault )
+        {
+            $this->loadDefaultStyles();
+        }
     }
 
     /**
@@ -86,35 +90,21 @@ class ezcDocumentPdfStyleInferencer
      * 
      * @return void
      */
-    protected function setDefaultStyles()
+    protected function loadDefaultStyles()
     {
-        $this->appendStyleDirectives( array(
-            // Set up base page layout
-            new ezcDocumentPdfCssDirective(
-                array( 'page' ),
-                array(
-                    'text-columns'        => 1,
-                    'text-column-spacing' => '10mm',
-                )
-            ),
-            // General text formatting
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'font-size'   => '8mm',
-                    'font-family' => 'serif',
-                    'line-height' => '1.4',
-                    'text-align'  => 'left',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'font-size'   => '10mm',
-                    'font-weight' => 'bold',
-                )
-            ),
-        ) );
+        if ( file_exists( $file = dirname( __FILE__ ) . '/style/default.php' ) )
+        {
+            $this->appendStyleDirectives( include $file );
+        }
+        
+        // If the file does not exist parse the PCSS style file
+        $parser     = new ezcDocumentPdfCssParser();
+        $directives = $parser->parseFile( dirname( __FILE__ ) . '/style/default.css' );
+
+        // Write parsed object tree back to file
+        /* file_put_contents( $file, "<?php\n\nreturn " . var_export( $directives, true ) . ";\n\n?>" ); // */
+
+        $this->appendStyleDirectives( $directives );
     }
 
     /**

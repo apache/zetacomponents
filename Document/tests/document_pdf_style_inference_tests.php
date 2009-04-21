@@ -38,7 +38,7 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
 
     public function testRootNodeWithoutFormats()
     {
-        $inferencer = new ezcDocumentPdfStyleInferencer();
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
         $element    = $this->xpath->query( '//doc:article' )->item( 0 );
 
         $this->assertEquals(
@@ -49,7 +49,7 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
 
     public function testRootNodeFormatting()
     {
-        $inferencer = new ezcDocumentPdfStyleInferencer();
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
         $element    = $this->xpath->query( '//doc:article' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
@@ -63,7 +63,7 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
 
         $this->assertEquals(
             array(
-                'foo' => 'bar',
+                'foo' => new ezcDocumentPdfStyleStringValue( 'bar' ),
             ),
             $inferencer->inferenceFormattingRules( $element )
         );
@@ -71,7 +71,7 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
 
     public function testRootNodeFormattingPartialOverwrite()
     {
-        $inferencer = new ezcDocumentPdfStyleInferencer();
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
         $element    = $this->xpath->query( '//doc:article' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
@@ -92,8 +92,8 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
 
         $this->assertEquals(
             array(
-                'foo' => 'blubb',
-                'baz' => 'bar',
+                'foo' => new ezcDocumentPdfStyleStringValue( 'blubb' ),
+                'baz' => new ezcDocumentPdfStyleStringValue( 'bar' ),
             ),
             $inferencer->inferenceFormattingRules( $element )
         );
@@ -101,7 +101,7 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
 
     public function testRootNodeFormattingRuleInheritance()
     {
-        $inferencer = new ezcDocumentPdfStyleInferencer();
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
         $element    = $this->xpath->query( '//doc:section' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
@@ -122,8 +122,8 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
 
         $this->assertEquals(
             array(
-                'foo' => 'blubb',
-                'baz' => 'bar',
+                'foo' => new ezcDocumentPdfStyleStringValue( 'blubb' ),
+                'baz' => new ezcDocumentPdfStyleStringValue( 'bar' ),
             ),
             $inferencer->inferenceFormattingRules( $element )
         );
