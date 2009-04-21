@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'rst_dummy_directives.php';
+require_once 'helper/rst_dummy_directives.php';
 
 /**
  * Test suite for class.

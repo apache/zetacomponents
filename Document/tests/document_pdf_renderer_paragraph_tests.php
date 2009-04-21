@@ -10,8 +10,8 @@
  */
 
 require_once 'pdf_test.php';
-require_once 'pdf_mocked_driver.php';
-require_once 'pdf_test_hyphenator.php';
+require_once 'helper/pdf_mocked_driver.php';
+require_once 'helper/pdf_test_hyphenator.php';
 
 /**
  * Test suite for class.

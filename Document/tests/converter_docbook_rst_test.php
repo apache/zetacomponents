@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once dirname( __FILE__ ) . '/docbook_rst_address_element.php';
+require_once 'helper/docbook_rst_address_element.php';
 
 /**
  * Test suite for class.
