@@ -116,6 +116,8 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
             // -> Break to next column / page
             $yPos += $line['height'];
         }
+
+        // @TODO: Mark covered space as used.
     }
 
     /**

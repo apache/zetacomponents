@@ -54,6 +54,22 @@ class ezcDocumentPdfStyleInferencer
     protected $styleDirectives = array();
 
     /**
+     * Special classes for style directive values
+     *
+     * If no class is given it will fall back to a generic string value.
+     * 
+     * @var array
+     */
+    protected $valueParserClasses = array(
+        'font-size'            => 'ezcDocumentPdfStyleMeasureValue', 
+        'line-height'          => 'ezcDocumentPdfStyleMeasureValue', 
+        'margin'               => 'ezcDocumentPdfStyleMeasureBoxValue', 
+        'padding'              => 'ezcDocumentPdfStyleMeasureBoxValue', 
+        'text-columns'         => 'ezcDocumentPdfStyleIntValue', 
+        'text-columns-spacing' => 'ezcDocumentPdfStyleMeasureValue', 
+    );
+
+    /**
      * Construct style inference with default styles
      * 
      * @return void
@@ -72,7 +88,7 @@ class ezcDocumentPdfStyleInferencer
      */
     protected function setDefaultStyles()
     {
-        $this->styleDirectives = array(
+        $this->appendStyleDirectives( array(
             // Set up base page layout
             new ezcDocumentPdfCssDirective(
                 array( 'page' ),
@@ -98,7 +114,7 @@ class ezcDocumentPdfStyleInferencer
                     'font-weight' => 'bold',
                 )
             ),
-        );
+        ) );
     }
 
     /**
@@ -113,6 +129,16 @@ class ezcDocumentPdfStyleInferencer
      */
     public function appendStyleDirectives( array $styleDirectives )
     {
+        // Convert values, depending on assigned value handler classes
+        foreach ( $styleDirectives as $nr => $directive )
+        {
+            foreach ( $directive->formats as $name => $value )
+            {
+                $valueHandler = isset( $this->valueParserClasses[$name] ) ? $this->valueParserClasses[$name] : 'ezcDocumentPdfStyleStringValue';
+                $styleDirectives[$nr]->formats[$name] = new $valueHandler( $value );
+            }
+        }
+
         $this->styleDirectives = array_merge(
             $this->styleDirectives,
             $styleDirectives

@@ -18,7 +18,7 @@ require_once 'helper/pdf_mocked_driver.php';
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
+class ezcDocumentPdfMeasureTests extends ezcDocumentPdfTestCase
 {
     public static function suite()
     {
@@ -51,10 +51,10 @@ class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
      */
     public function testValueConversion( $input, $unit, $expected )
     {
-        $driver = new ezcTextDocumentPdfMockDriver();
+        $measure = new ezcDocumentPdfMeasure( $input );
         $this->assertEquals(
             $expected,
-            $driver->convertValue( $input, $unit ),
+            $measure->get( $unit ),
             "Converting $input to $unit lead to unexpected result.",
             .1
         );
@@ -62,10 +62,8 @@ class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testUnparsableValue()
     {
-        $driver = new ezcTextDocumentPdfMockDriver();
-
         try {
-            $driver->convertValue( '10 mm' );
+            ezcDocumentPdfMeasure::create( '10 mm' )->get();
             $this->fail( 'Expected ezcDocumentParserException.' );
         }
         catch ( ezcDocumentParserException $e )
@@ -77,7 +75,7 @@ class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver = new ezcTextDocumentPdfMockDriver();
 
         try {
-            $driver->convertValue( '10foo' );
+            ezcDocumentPdfMeasure::create( '10foo' )->get();
             $this->fail( 'Expected ezcDocumentParserException.' );
         }
         catch ( ezcDocumentParserException $e )
@@ -89,7 +87,7 @@ class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver = new ezcTextDocumentPdfMockDriver();
 
         try {
-            $driver->convertValue( '10mm', 'foo' );
+            ezcDocumentPdfMeasure::create( '10mm' )->get( 'foo' );
             $this->fail( 'Expected ezcDocumentParserException.' );
         }
         catch ( ezcDocumentParserException $e )

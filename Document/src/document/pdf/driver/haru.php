@@ -178,8 +178,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     {
         $this->pages[] = $this->currentPage = $this->document->addPage();
 
-        $this->currentPage->setWidth( $this->convertValue( $width, 'pt' ) );
-        $this->currentPage->setHeight( $this->convertValue( $height, 'pt' ) );
+        $this->currentPage->setWidth( ezcDocumentPdfMeasure::create( $width )->get( 'pt' ) );
+        $this->currentPage->setHeight( ezcDocumentPdfMeasure::create( $height )->get( 'pt' ) );
     }
 
     /**
@@ -280,7 +280,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
                 break;
 
             case 'font-size':
-                $this->currentFont['size'] = $this->convertValue( $value, 'pt' );
+                $this->currentFont['size'] = ezcDocumentPdfMeasure::create( $value )->get( 'pt' );
 
                 if ( $this->currentFont['font'] !== null )
                 {
@@ -315,7 +315,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
         }
 
-        return $this->convertValue( $this->currentPage->getTextWidth( $word ) . 'pt' );
+        return ezcDocumentPdfMeasure::create( $this->currentPage->getTextWidth( $word ) . 'pt' )->get();
     }
 
     /**
@@ -328,7 +328,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function getCurrentLineHeight()
     {
-        return $this->convertValue( $this->currentFont['size'] . 'pt' );
+        return ezcDocumentPdfMeasure::create( $this->currentFont['size'] . 'pt' )->get();
     }
 
     /**
@@ -352,8 +352,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         $this->currentPage->beginText();
         $this->currentPage->textOut( 
-            $this->convertValue( $x, 'pt' ),
-            $this->currentPage->getHeight() - $this->convertValue( $y, 'pt' ) - $this->currentFont['size'],
+            ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
+            $this->currentPage->getHeight() - ezcDocumentPdfMeasure::create( $y )->get( 'pt' ) - $this->currentFont['size'],
             $word
         );
         $this->currentPage->endText();
