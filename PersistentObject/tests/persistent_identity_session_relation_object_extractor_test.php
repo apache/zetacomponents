@@ -373,7 +373,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         
         $realAddresses = $this->session->getRelatedObjects( $person, 'RelationTestAddress' );
 
-        $this->assertObjectSetsEqual( $realAddresses, $addresses );
+        $this->assertEquals( $realAddresses, $addresses );
 
         foreach ( $addresses as $address )
         {
@@ -387,7 +387,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
                 $address, 'RelationTestPerson'
             );
 
-            $this->assertObjectSetsEqual( $realPersons, $persons );
+            $this->assertEquals( $realPersons, $persons );
         }
     }
 
@@ -421,7 +421,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         
         $realAddresses = $this->session->getRelatedObjects( $person, 'RelationTestAddress' );
 
-        $this->assertObjectSetsEqual( $realAddresses, $addresses );
+        $this->assertEquals( $realAddresses, $addresses );
 
         foreach ( $addresses as $address )
         {
@@ -435,14 +435,14 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
                 $address, 'RelationTestPerson'
             );
 
-            $this->assertObjectSetsEqual( $realPersons, $persons );
+            $this->assertEquals( $realPersons, $persons );
 
             foreach ( $persons as $relPerson )
             {
                 $employers = $this->idMap->getRelatedObjects( $relPerson, 'RelationTestEmployer' );
                 $this->assertNotNull( $employers );
                 $realEmployers = $this->session->getRelatedObjects( $relPerson, 'RelationTestEmployer' );
-                $this->assertObjectSetsEqual( $realEmployers, $employers );
+                $this->assertEquals( $realEmployers, $employers );
 
                 $birthdays = $this->idMap->getRelatedObjects( $relPerson, 'RelationTestBirthday' );
 
@@ -455,7 +455,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
                 {
                     $this->assertNotNull( $birthdays );
                     $realBirthdays = $this->session->getRelatedObjects( $relPerson, 'RelationTestBirthday' );
-                    $this->assertObjectSetsEqual( $realBirthdays, $birthdays );
+                    $this->assertEquals( $realBirthdays, $birthdays );
                 }
             }
         }
@@ -463,39 +463,14 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $employers = $this->idMap->getRelatedObjects( $person, 'RelationTestEmployer' );
         $this->assertNotNull( $employers );
         $realEmployers = $this->session->getRelatedObjects( $person, 'RelationTestEmployer' );
-        $this->assertObjectSetsEqual( $realEmployers, $employers );
+        $this->assertEquals( $realEmployers, $employers );
 
         $birthdays = $this->idMap->getRelatedObjects( $person, 'RelationTestBirthday' );
         $this->assertNotNull( $birthdays );
         $realBirthdays = $this->session->getRelatedObjects( $person, 'RelationTestBirthday' );
-        $this->assertObjectSetsEqual( $realBirthdays, $birthdays );
+        $this->assertEquals( $realBirthdays, $birthdays );
     }
 
-    protected function assertObjectSetsEqual( $realObjects, $identityObjects )
-    {
-        reset( $identityObjects );
-        reset( $realObjects );
-
-        do
-        {
-            $this->assertEquals(
-                current( $realObjects ),
-                current( $identityObjects ),
-                'Object set differs.'
-            );
-            next( $identityObjects );
-            next( $realObjects );
-        } while ( current( $realObjects ) !== false && current( $identityObjects ) !== false );
-
-        $this->assertFalse(
-            current( $realObjects ),
-            'Real object set has more elements than identity object set.'
-        );
-        $this->assertFalse(
-            current( $identityObjects ),
-            'Identity object set has more elements than real object set.'
-        );
-    }
 }
 
 ?>
