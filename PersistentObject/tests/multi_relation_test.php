@@ -315,7 +315,7 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
 
         $q = $this->session->database->createSelectQuery();
         $q->select( '*' )
-          ->from( 'PO_sibling' )
+          ->from( $this->session->database->quoteIdentifier( 'PO_sibling' ) )
           ->where(
             $q->expr->eq(
                 $this->session->database->quoteIdentifier( 'sibling' ),
@@ -431,7 +431,7 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
 
         $q = $this->session->database->createSelectQuery();
         $q->select( '*' )
-          ->from( 'PO_sibling' )
+          ->from( $this->session->database->quoteIdentifier( 'PO_sibling' ) )
           ->where(
             $q->expr->eq(
                 $this->session->database->quoteIdentifier( 'person' ),
@@ -508,7 +508,7 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
 
         $q = $this->session->database->createSelectQuery();
         $q->select( '*' )
-          ->from( 'PO_sibling' )
+          ->from( $this->session->database->quoteIdentifier( 'PO_sibling' ) )
           ->where(
             $q->expr->eq(
                 $this->session->database->quoteIdentifier( 'person' ),

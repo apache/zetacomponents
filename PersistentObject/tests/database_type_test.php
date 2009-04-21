@@ -87,7 +87,7 @@ class ezcPersistentDatabaseTypeTest extends ezcTestCase
             '1',
             $obj->id
         );
-        $this->assertSame(
+        $this->assertEquals(
             23,
             $obj->int
         );
@@ -150,7 +150,7 @@ class ezcPersistentDatabaseTypeTest extends ezcTestCase
             false,
             $obj->bool
         );
-        $this->assertSame(
+        $this->assertEquals(
             -42,
             $obj->int
         );
@@ -395,13 +395,13 @@ class ezcPersistentDatabaseTypeTest extends ezcTestCase
             )
         );
         $objs = $this->session->find( $q, 'DatabaseTypeTestObject' );
-        $obj  = $objs[0];
+        $obj  = $objs[1];
 
         $this->assertEquals(
             '1',
             $obj->id
         );
-        $this->assertSame(
+        $this->assertEquals(
             23,
             $obj->int
         );
