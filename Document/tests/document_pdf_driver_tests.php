@@ -30,6 +30,8 @@ class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         return array(
             array( '10', 'mm', 10 ),
             array( '10mm', 'mm', 10 ),
+            array( 10, 'mm', 10 ),
+            array( .1, 'mm', .1 ),
             array( '.1in', 'mm', 2.54 ),
             array( '10pt', 'mm', 3.53 ),
             array( '10px', 'mm', 3.53 ),
