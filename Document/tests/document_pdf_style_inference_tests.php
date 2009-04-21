@@ -255,6 +255,33 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
             'Invalid box measures read.', .1
         );
     }
+
+    public function testExceptionPostDecoration()
+    {
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
+        $element    = $this->xpath->query( '//doc:article' )->item( 0 );
+
+        try
+        {
+            $inferencer->appendStyleDirectives( array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'font-size' => 'unparseable',
+                    ),
+                    'my.css', 23, 42
+                ),
+            ) );
+            $this->fail( 'Expected ezcDocumentParserException.' );
+        }
+        catch ( ezcDocumentParserException $e )
+        {
+            $this->assertEquals(
+                'Parse error: Fatal error: \'Could not parse \'unparseable\' as size value.\' in file \'my.css\' in line 23 at position 42.',
+                $e->getMessage()
+            );
+        }
+    }
 }
 
 ?>

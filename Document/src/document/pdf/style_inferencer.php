@@ -124,8 +124,21 @@ class ezcDocumentPdfStyleInferencer
         {
             foreach ( $directive->formats as $name => $value )
             {
-                $valueHandler = isset( $this->valueParserClasses[$name] ) ? $this->valueParserClasses[$name] : 'ezcDocumentPdfStyleStringValue';
-                $styleDirectives[$nr]->formats[$name] = new $valueHandler( $value );
+                try
+                {
+                    $valueHandler = isset( $this->valueParserClasses[$name] ) ? $this->valueParserClasses[$name] : 'ezcDocumentPdfStyleStringValue';
+                    $styleDirectives[$nr]->formats[$name] = new $valueHandler( $value );
+                }
+                catch ( ezcDocumentParserException $e )
+                {
+                    // Annotate parser exceptions with additional information
+                    // from directive context
+                    throw new ezcDocumentParserException(
+                        E_PARSE, $e->parseError,
+                        $directive->file, $directive->line, $directive->position,
+                        $e
+                    );
+                }
             }
         }
 

@@ -38,6 +38,13 @@ class ezcDocumentConversionException extends ezcDocumentException
     protected $errorString = 'Conversion error';
 
     /**
+     * Original exception message
+     * 
+     * @var string
+     */
+    public $parseError;
+
+    /**
      * Construct exception from errnous string and current position
      * 
      * @param int $level 
@@ -47,17 +54,23 @@ class ezcDocumentConversionException extends ezcDocumentException
      * @param int $position 
      * @return void
      */
-    public function __construct( $level, $message, $file = null, $line = null, $position = null )
+    public function __construct( $level, $message, $file = null, $line = null, $position = null, Exception $exception = null )
     {
-        parent::__construct( 
-            sprintf( "%s: %s: '%s' in line %d at position %d.",
-                $this->errorString,
-                $this->levelMapping[$level],
-                $message,
-                $line,
-                $position
-            )
-        );
+        $this->parseError = $message;
+
+        $message = "{$this->errorString}: {$this->levelMapping[$level]}: '$message'";
+
+        if ( $file !== null )
+        {
+            $message .= " in file '$file'";
+        }
+
+        if ( $line !== null )
+        {
+            $message .= " in line $line at position $position";
+        }
+
+        parent::__construct( $message . '.', 0, $exception );
     }
 }
 
