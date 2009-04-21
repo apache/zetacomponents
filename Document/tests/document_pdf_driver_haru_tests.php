@@ -59,6 +59,19 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
         );
     }
 
+    public function testEstimateWordWidthDifferentSizeAndUnit()
+    {
+        $driver = new ezcDocumentPdfHaruDriver();
+        $driver->createPage( 210, 297 );
+        $driver->setTextFormatting( 'font-size', '14pt' );
+
+        $this->assertEquals(
+            11.3,
+            $driver->calculateWordWidth( 'Hello' ),
+            'Wrong word width estimation', .1
+        );
+    }
+
     public function testEstimateBoldWordWidth()
     {
         $driver = new ezcDocumentPdfHaruDriver();

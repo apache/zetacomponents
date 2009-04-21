@@ -178,8 +178,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     {
         $this->pages[] = $this->currentPage = $this->document->addPage();
 
-        $this->currentPage->setWidth( $this->mmToPixel( $width ) );
-        $this->currentPage->setHeight( $this->mmToPixel( $height ) );
+        $this->currentPage->setWidth( $this->convertValue( $width, 'pt' ) );
+        $this->currentPage->setHeight( $this->convertValue( $height, 'pt' ) );
     }
 
     /**
@@ -280,7 +280,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
                 break;
 
             case 'font-size':
-                $this->currentFont['size'] = $this->mmToPixel( (float) $value );
+                $this->currentFont['size'] = $this->convertValue( $value, 'pt' );
 
                 if ( $this->currentFont['font'] !== null )
                 {
@@ -315,7 +315,20 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
         }
 
-        return $this->pixelToMm( $this->currentPage->getTextWidth( $word ) );
+        return $this->convertValue( $this->currentPage->getTextWidth( $word ) . 'pt' );
+    }
+
+    /**
+     * Get current line height
+     *
+     * Return the current line height in millimeter based on the current font
+     * and text rendering settings.
+     * 
+     * @return float
+     */
+    public function getCurrentLineHeight()
+    {
+        return $this->convertValue( $this->currentFont['size'] . 'pt' );
     }
 
     /**
@@ -339,8 +352,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         $this->currentPage->beginText();
         $this->currentPage->textOut( 
-            $this->mmToPixel( $x ),
-            $this->currentPage->getHeight() - $this->mmToPixel( $y ) - $this->currentFont['size'],
+            $this->convertValue( $x, 'pt' ),
+            $this->currentPage->getHeight() - $this->convertValue( $y, 'pt' ) - $this->currentFont['size'],
             $word
         );
         $this->currentPage->endText();
