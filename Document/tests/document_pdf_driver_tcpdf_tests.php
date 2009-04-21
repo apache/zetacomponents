@@ -53,7 +53,7 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->createPage( 210, 297 );
 
         $this->assertEquals(
-            22.9,
+            9.4,
             $driver->calculateWordWidth( 'Hello' ),
             'Wrong word width estimation', .1
         );
@@ -66,7 +66,20 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->setTextFormatting( 'font-size', '14' );
 
         $this->assertEquals(
-            31.9,
+            31.1,
+            $driver->calculateWordWidth( 'Hello' ),
+            'Wrong word width estimation', .1
+        );
+    }
+
+    public function testEstimateWordWidthDifferentSizeAndUnit()
+    {
+        $driver = new ezcDocumentPdfTcpdfDriver();
+        $driver->createPage( 210, 297 );
+        $driver->setTextFormatting( 'font-size', '14pt' );
+
+        $this->assertEquals(
+            11.0,
             $driver->calculateWordWidth( 'Hello' ),
             'Wrong word width estimation', .1
         );
@@ -79,7 +92,7 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->setTextFormatting( 'font-weight', 'bold' );
 
         $this->assertEquals(
-            24.6,
+            9.6,
             $driver->calculateWordWidth( 'Hello' ),
             'Wrong word width estimation', .1
         );
@@ -108,7 +121,7 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->setTextFormatting( 'font-style', 'italic' );
 
         $this->assertEquals(
-            38.8,
+            16.3,
             $driver->calculateWordWidth( 'Hello' ),
             'Wrong word width estimation', .1
         );
@@ -120,7 +133,7 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->createPage( 210, 297 );
 
         $this->assertEquals(
-            36,
+            10.6,
             $driver->calculateWordWidth( 'ℋℇℒℒΩ' ),
             'Wrong word width estimation', .1
         );
@@ -185,9 +198,6 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->setTextFormatting( 'font-weight', 'bold' );
         $driver->setTextFormatting( 'font-style', 'italic' );
         $driver->drawWord( 0, 110, 'The quick brown fox jumps over the lazy dog' );
-
-        $filename = $this->tempDir . __METHOD__ . '.pdf';
-        file_put_contents( $filename, $pdf = $driver->save() );
 
         $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
     }

@@ -249,7 +249,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
                 break;
 
             case 'font-size':
-                $this->currentFont['size'] = $this->mmToPixel( (float) $value );
+                $this->currentFont['size'] = $this->convertValue( $value, 'pt' );
                 $this->document->setFontSize( $this->currentFont['size'] );
                 break;
 
@@ -273,6 +273,19 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
     }
 
     /**
+     * Get current line height
+     *
+     * Return the current line height in millimeter based on the current font
+     * and text rendering settings.
+     * 
+     * @return float
+     */
+    public function getCurrentLineHeight()
+    {
+        return $this->convertValue( $this->currentFont['size'] . 'pt' );
+    }
+
+    /**
      * Draw word at given position
      *
      * Draw the given word at the given position using the currently set text
@@ -287,7 +300,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
     {
         $this->document->setXY( $x, $y );
         $this->document->Write(
-            $this->pixelToMm( $this->currentFont['size'] ),
+            $this->convertValue( $this->currentFont['size'] . 'pt' ),
             $word
         );
     }
