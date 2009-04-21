@@ -1,7 +1,7 @@
 1.6alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Started implementation of #012473: PersistentObject now supports basic
+- Started implementation of #12473: PersistentObject now supports basic
   identity management.
 
 
