@@ -10,6 +10,9 @@ return array (
      'formats' => 
     array (
     ),
+     'file' => 's_004_empty_rule.pcss',
+     'line' => 1,
+     'position' => 4,
      'regularExpression' => NULL,
   )),
 );

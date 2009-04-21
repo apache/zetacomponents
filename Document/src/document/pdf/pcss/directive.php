@@ -33,6 +33,27 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
     public $formats;
 
     /**
+     * File, directive has been extracted from
+     * 
+     * @var string
+     */
+    public $file;
+
+    /**
+     * Line of directive
+     * 
+     * @var int
+     */
+    public $line;
+
+    /**
+     * Position of directive
+     * 
+     * @var int
+     */
+    public $position;
+
+    /**
      * Regular expression compiled from directive address
      * 
      * @var string
@@ -46,10 +67,13 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
      * @param array $formats 
      * @return void
      */
-    public function __construct( array $address, array $formats )
+    public function __construct( array $address, array $formats, $file = null, $line = null, $position = null )
     {
-        $this->address = $address;
-        $this->formats = $formats;
+        $this->address  = $address;
+        $this->formats  = $formats;
+        $this->file     = $file;
+        $this->line     = $line;
+        $this->position = $position;
     }
 
     /**
@@ -151,7 +175,10 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
     {
         return new ezcDocumentPdfCssDirective(
             $properties['address'],
-            $properties['formats']
+            $properties['formats'],
+            $properties['file'],
+            $properties['line'],
+            $properties['position']
         );
     }
 }

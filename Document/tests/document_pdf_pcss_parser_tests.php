@@ -58,10 +58,17 @@ class ezcDocumentPdfCssParserTests extends ezcTestCase
         $parser     = new ezcDocumentPdfCssParser();
         $directives = $parser->parseFile( $from );
 
+        // Change file locations to something not depending on the current test
+        // env
+        foreach ( $directives as $directive )
+        {
+            $directive->file = basename( $directive->file );
+        }
+
         $expected = include $to;
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'rst_parser_' ) . '/';
+        $tempDir = $this->createTempDir( 'pcss_parser_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), "<?php\n\nreturn " . var_export( $directives, true ) . ";\n\n" );
 
         $this->assertEquals(

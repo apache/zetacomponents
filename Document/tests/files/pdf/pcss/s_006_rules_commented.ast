@@ -12,6 +12,9 @@ return array (
     array (
       'font-size' => '9pt',
     ),
+     'file' => 's_006_rules_commented.pcss',
+     'line' => 5,
+     'position' => 10,
      'regularExpression' => NULL,
   )),
   1 => 
@@ -25,6 +28,9 @@ return array (
     array (
       'margin' => '0em',
     ),
+     'file' => 's_006_rules_commented.pcss',
+     'line' => 19,
+     'position' => 8,
      'regularExpression' => NULL,
   )),
 );

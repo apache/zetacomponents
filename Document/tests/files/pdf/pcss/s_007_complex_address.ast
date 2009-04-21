@@ -15,6 +15,9 @@ return array (
      'formats' => 
     array (
     ),
+     'file' => 's_007_complex_address.pcss',
+     'line' => 1,
+     'position' => 44,
      'regularExpression' => NULL,
   )),
 );

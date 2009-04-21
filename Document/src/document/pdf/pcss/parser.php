@@ -383,7 +383,8 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
             // Create successfully read directive
             $directives[] = new ezcDocumentPdfCssDirective(
                 $address,
-                $formats
+                $formats,
+                $this->file, $addressToken['line'], $addressToken['position']
             );
         }
 
