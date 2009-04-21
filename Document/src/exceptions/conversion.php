@@ -47,7 +47,7 @@ class ezcDocumentConversionException extends ezcDocumentException
      * @param int $position 
      * @return void
      */
-    public function __construct( $level, $message, $file, $line, $position )
+    public function __construct( $level, $message, $file = null, $line = null, $position = null )
     {
         parent::__construct( 
             sprintf( "%s: %s: '%s' in line %d at position %d.",

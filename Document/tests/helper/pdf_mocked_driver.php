@@ -12,10 +12,29 @@
 /**
  * Test implemenation of PDF driver mocking actual driver behaviour
  */
-abstract class ezcTextDocumentPdfMockDriver extends ezcDocumentPdfDriver
+class ezcTextDocumentPdfMockDriver extends ezcDocumentPdfDriver
 {
     protected $style;
     protected $size;
+
+    /**
+     * Convert values
+     *
+     * Convert measure values from the PCSS input file into another unit. The
+     * input unit is read from the passed value and defaults to milli meters.
+     * The output unit can be specified as the second parameter and also
+     * default to milli meters.
+     *
+     * Supported units currently are: mm, px, pt, in
+     * 
+     * @param mixed $input 
+     * @param string $format 
+     * @return void
+     */
+    public function convertValue( $input, $format = 'mm' )
+    {
+        return parent::convertValue( $input, $format );
+    }
 
     /**
      * Create a new page
@@ -106,8 +125,21 @@ abstract class ezcTextDocumentPdfMockDriver extends ezcDocumentPdfDriver
         return $this->size;
     }
 
-    // This one should be mocked, keep it abstract.
-    // abstract public function drawWord( $x, $y, $word );
+    /**
+     * Draw word at given position
+     *
+     * Draw the given word at the given position using the currently set text
+     * formatting options.
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param string $word 
+     * @return void
+     */
+    public function drawWord( $x, $y, $word )
+    {
+        // Mock this one.
+    }
 
     /**
      * Generate and return PDF

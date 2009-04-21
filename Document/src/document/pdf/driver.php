@@ -59,31 +59,61 @@ abstract class ezcDocumentPdfDriver
     protected $resolution = 72;
 
     /**
-     * Convert mm to pixel
+     * Get unit factor
      *
-     * Method to convert values provided in mm to pixels given the configured
-     * resolution of the document specified in the $resolution property.
-     *
-     * @param float $value
-     * @return float
+     * Get the factor for the given unit, so values can be transformed from the
+     * passed unit into milli meters.
+     * 
+     * @param string $unit 
+     * @return void
      */
-    protected function mmToPixel( $value )
+    protected function getUnitFactor( $unit )
     {
-        return $value * self::MM_IN_INCH * $this->resolution;
+        switch ( $unit )
+        {
+            case 'mm':
+                return 1;
+            case 'in':
+                return self::MM_IN_INCH;
+            case 'px':
+                // The pixel transformation depends on the current resolution
+                return self::MM_IN_INCH * $this->resolution;
+            case 'pt':
+                // Points are defined as 72 points per inch
+                return self::MM_IN_INCH * 72;
+            default:
+                throw new ezcDocumentParserException( E_PARSE, "Unknown unit '$unit'." );
+        }
     }
 
     /**
-     * Convert pixel to mm
+     * Convert values
      *
-     * Method to convert values provided in pixels to mm given the configured
-     * resolution of the document specified in the $resolution property.
+     * Convert measure values from the PCSS input file into another unit. The
+     * input unit is read from the passed value and defaults to milli meters.
+     * The output unit can be specified as the second parameter and also
+     * default to milli meters.
      *
-     * @param float $value
-     * @return float
+     * Supported units currently are: mm, px, pt, in
+     * 
+     * @param mixed $input 
+     * @param string $format 
+     * @return void
      */
-    protected function pixelToMm( $value )
+    protected function convertValue( $input, $format = 'mm' )
     {
-        return $value / self::MM_IN_INCH / $this->resolution;
+        if ( !preg_match( '(^\s*(?P<value>[+-]?\s*(?:\d*\.)?\d+)(?P<unit>[A-Za-z]+)?\s*$)', $input, $match ) )
+        {
+            throw new ezcDocumentParserException( E_PARSE, "Could not parse '$input' as size value." );
+        }
+
+        $value = (float) $match['value'];
+        $input = isset( $match['unit'] ) ? strtolower( $match['unit'] ) : 'mm';
+
+        $inputFactor  = $this->getUnitFactor( $input );
+        $outputFactor = $this->getUnitFactor( $format );
+
+        return $value / $inputFactor * $outputFactor;
     }
 
     /**
