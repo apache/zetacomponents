@@ -193,6 +193,7 @@ return array(
     'ezcDocumentPdfRendererDispatcher'                   => 'Document/document/pdf/renderer_dispatcher.php',
     'ezcDocumentPdfStyleInferencer'                      => 'Document/document/pdf/style_inferencer.php',
     'ezcDocumentPdfStyleIntValue'                        => 'Document/document/pdf/style/int_value.php',
+    'ezcDocumentPdfStyleMeasureBoxValue'                 => 'Document/document/pdf/style/measure_box_value.php',
     'ezcDocumentPdfStyleMeasureValue'                    => 'Document/document/pdf/style/measure_value.php',
     'ezcDocumentPdfStyleStringValue'                     => 'Document/document/pdf/style/string_value.php',
     'ezcDocumentPdfTcpdfDriver'                          => 'Document/document/pdf/driver/tcpdf.php',

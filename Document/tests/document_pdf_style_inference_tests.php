@@ -128,6 +128,133 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
             $inferencer->inferenceFormattingRules( $element )
         );
     }
+
+    public function testIntValueHandler()
+    {
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
+        $element    = $this->xpath->query( '//doc:article' )->item( 0 );
+
+        $inferencer->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'text-columns' => '1',
+                )
+            ),
+        ) );
+
+        $this->assertEquals(
+            array(
+                'text-columns' => new ezcDocumentPdfStyleIntValue( '1' ),
+            ),
+            $inferencer->inferenceFormattingRules( $element )
+        );
+    }
+
+    public function testMeasureValueHandler()
+    {
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
+        $element    = $this->xpath->query( '//doc:article' )->item( 0 );
+
+        $inferencer->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'font-size' => '10',
+                )
+            ),
+        ) );
+
+        $this->assertEquals(
+            array(
+                'font-size' => new ezcDocumentPdfStyleMeasureValue( '10mm' ),
+            ),
+            $inferencer->inferenceFormattingRules( $element )
+        );
+    }
+
+    public static function getMeasureBoxValues()
+    {
+        return array(
+            array(
+                "11",
+                array(
+                    'top'    => 11.,
+                    'right'  => 11.,
+                    'bottom' => 11.,
+                    'left'   => 11.,
+                ),
+            ),
+            array(
+                "11pt",
+                array(
+                    'top'    => 3.9,
+                    'right'  => 3.9,
+                    'bottom' => 3.9,
+                    'left'   => 3.9,
+                ),
+            ),
+            array(
+                "11 12",
+                array(
+                    'top'    => 11.,
+                    'right'  => 12.,
+                    'bottom' => 11.,
+                    'left'   => 12.,
+                ),
+            ),
+            array(
+                "11\t \r \n \t12",
+                array(
+                    'top'    => 11.,
+                    'right'  => 12.,
+                    'bottom' => 11.,
+                    'left'   => 12.,
+                ),
+            ),
+            array(
+                "11 12 13",
+                array(
+                    'top'    => 11.,
+                    'right'  => 12.,
+                    'bottom' => 13.,
+                    'left'   => 12.,
+                ),
+            ),
+            array(
+                "11 12 13 14",
+                array(
+                    'top'    => 11.,
+                    'right'  => 12.,
+                    'bottom' => 13.,
+                    'left'   => 14.,
+                ),
+            ),
+            array(
+                "11mm 12in 13px 14pt",
+                array(
+                    'top'    => 11.,
+                    'right'  => 304.8,
+                    'bottom' => 4.6,
+                    'left'   => 4.94,
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getMeasureBoxValues
+     */
+    public function testMeasureBoxValueHandler( $input, $expectation )
+    {
+        $value = new ezcDocumentPdfStyleMeasureBoxValue( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Invalid box measures read.', .1
+        );
+    }
 }
 
 ?>
