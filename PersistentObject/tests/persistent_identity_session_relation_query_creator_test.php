@@ -25,6 +25,46 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
 
     public function testCreateOneLevelOneRelationLoadQuery()
     {
+        $this->assertEquals(
+            $this->getOneLevelOneRelationLoadQueryDummy()->getQuery(),
+            $this->getLoadQuery(
+                $this->getOneLevelOneRelationRelations()
+            )->getQuery()
+        );
+    }
+
+    public function testCreateOneLevelMultiRelationLoadQuery()
+    {
+        $this->assertEquals(
+            $this->getOneLevelMultiRelationLoadQueryDummy()->getQuery(),
+            $this->getLoadQuery(
+                $this->getOneLevelMultiRelationRelations()
+            )->getQuery()
+        );
+    }
+
+    public function testCreateMultiLevelSingleRelationLoadQuery()
+    {
+        $this->assertEquals(
+            $this->getMultiLevelSingleRelationLoadQueryDummy()->getQuery(),
+            $this->getLoadQuery(
+                $this->getMultiLevelSingleRelationRelations()
+            )->getQuery()
+        );
+    }
+
+    public function testCreateMultiLevelMultiRelationLoadQuery()
+    {
+        $this->assertEquals(
+            $this->getMultiLevelMultiRelationLoadQueryDummy()->getQuery(),
+            $this->getLoadQuery(
+                $this->getMultiLevelMultiRelationRelations()
+            )->getQuery()
+        );
+    }
+
+    protected function getOneLevelOneRelationLoadQueryDummy()
+    {
         $q = $this->db->createSelectQuery();
 
         $q->select(
@@ -69,16 +109,10 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
                 $q->bindValue( 1 )
             )
         );
-
-        $this->assertEquals(
-            $q->getQuery(),
-            $this->getOneLevelOneRelationLoadQuery(
-                $this->getOneLevelOneRelationRelations()
-            )->getQuery()
-        );
+        return $q;
     }
 
-    public function testCreateOneLevelMultiRelationLoadQuery()
+    protected function getOneLevelMultiRelationLoadQueryDummy()
     {
         $q = $this->db->createSelectQuery();
 
@@ -162,16 +196,10 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
                 $q->bindValue( 1 )
             )
         );
-
-        $this->assertEquals(
-            $q->getQuery(),
-            $this->getOneLevelMultiRelationLoadQuery(
-                $this->getOneLevelMultiRelationRelations()
-            )->getQuery()
-        );
+        return $q;
     }
 
-    public function testCreateMultiLevelSingleRelationLoadQuery()
+    protected function getMultiLevelSingleRelationLoadQueryDummy()
     {
         $q = $this->db->createSelectQuery();
 
@@ -273,15 +301,10 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             )
         );
 
-        $this->assertEquals(
-            $q->getQuery(),
-            $this->getMultiLevelSingleRelationLoadQuery(
-                $this->getMultiLevelSingleRelationRelations()
-            )->getQuery()
-        );
+        return $q;
     }
 
-    public function testCreateMultiLevelMultiRelationLoadQuery()
+    protected function getMultiLevelMultiRelationLoadQueryDummy()
     {
         $q = $this->db->createSelectQuery();
 
@@ -450,12 +473,8 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
                 $q->bindValue( 1 )
             )
         );
-        $this->assertEquals(
-            $q->getQuery(),
-            $this->getMultiLevelMultiRelationLoadQuery(
-                $this->getMultiLevelMultiRelationRelations()
-            )->getQuery()
-        );
+
+        return $q;
     }
 
     protected function qi( $identifier )
