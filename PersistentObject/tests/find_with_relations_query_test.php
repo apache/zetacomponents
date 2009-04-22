@@ -82,7 +82,7 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
         try
         {
             $q->select( 'foo' );
-            $this->fail( 'Exception not thrown on call to forbidden metho select().' );
+            $this->fail( 'Exception not thrown on call to forbidden method select().' );
         }
         catch ( RuntimeException $e ) {}
 
