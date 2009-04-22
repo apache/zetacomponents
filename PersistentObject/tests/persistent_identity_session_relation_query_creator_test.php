@@ -23,7 +23,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public function testCreateOneLevelOneRelationQuery()
+    public function testCreateOneLevelOneRelationLoadQuery()
     {
         $q = $this->db->createSelectQuery();
 
@@ -78,7 +78,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
         );
     }
 
-    public function testCreateOneLevelMultiRelationQuery()
+    public function testCreateOneLevelMultiRelationLoadQuery()
     {
         $q = $this->db->createSelectQuery();
 
@@ -171,7 +171,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
         );
     }
 
-    public function testCreateMultiLevelSingleRelationQuery()
+    public function testCreateMultiLevelSingleRelationLoadQuery()
     {
         $q = $this->db->createSelectQuery();
 
@@ -281,7 +281,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
         );
     }
 
-    public function testCreateMultiLevelMultiRelationQuery()
+    public function testCreateMultiLevelMultiRelationLoadQuery()
     {
         $q = $this->db->createSelectQuery();
 
