@@ -65,6 +65,19 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
 
     protected function getOneLevelOneRelationLoadQueryDummy()
     {
+        $q = $this->getOneLevelOneRelationQueryDummy();
+
+        $q->where(
+            $q->expr->eq(
+                $this->qi( 'PO_persons' ) . '.' . $this->qi( 'id' ),
+                $q->bindValue( 1 )
+            )
+        );
+        return $q;
+    }
+
+    protected function getOneLevelOneRelationQueryDummy()
+    {
         $q = $this->db->createSelectQuery();
 
         $q->select(
@@ -103,7 +116,16 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
                 $this->qi( 'PO_persons' ) . '.' . $this->qi( 'employer' ),
                 $this->qi( 'employer' ) . '.' . $this->qi( 'id' )
             )
-        )->where(
+        );
+
+        return $q;
+    }
+
+    protected function getOneLevelMultiRelationLoadQueryDummy()
+    {
+        $q = $this->getOneLevelMultiRelationQueryDummy();
+
+        $q->where(
             $q->expr->eq(
                 $this->qi( 'PO_persons' ) . '.' . $this->qi( 'id' ),
                 $q->bindValue( 1 )
@@ -112,7 +134,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
         return $q;
     }
 
-    protected function getOneLevelMultiRelationLoadQueryDummy()
+    protected function getOneLevelMultiRelationQueryDummy()
     {
         $q = $this->db->createSelectQuery();
 
@@ -190,16 +212,26 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
                 $this->qi( 'PO_persons__address' ) . '.' . $this->qi( 'address_id' ),
                 $this->qi( 'address' ) . '.' . $this->qi( 'id' )
             )
-        )->where(
+        );
+
+        return $q;
+    }
+
+    protected function getMultiLevelSingleRelationLoadQueryDummy()
+    {
+        $q = $this->getMultiLevelSingleRelationQueryDummy();
+
+        $q->where(
             $q->expr->eq(
                 $this->qi( 'PO_persons' ) . '.' . $this->qi( 'id' ),
                 $q->bindValue( 1 )
             )
         );
+
         return $q;
     }
 
-    protected function getMultiLevelSingleRelationLoadQueryDummy()
+    protected function getMultiLevelSingleRelationQueryDummy()
     {
         $q = $this->db->createSelectQuery();
 
@@ -294,7 +326,16 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
                 $this->qi( 'addresses__habitants' ) . '.' . $this->qi( 'person_id' ),
                 $this->qi( 'habitants' ) . '.' . $this->qi( 'id' )
             )
-        )->where(
+        );
+
+        return $q;
+    }
+
+    protected function getMultiLevelMultiRelationLoadQueryDummy()
+    {
+        $q = $this->getMultiLevelMultiRelationQueryDummy();
+
+        $q->where(
             $q->expr->eq(
                 $this->qi( 'PO_persons' ) . '.' . $this->qi( 'id' ),
                 $q->bindValue( 1 )
@@ -304,7 +345,7 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
         return $q;
     }
 
-    protected function getMultiLevelMultiRelationLoadQueryDummy()
+    protected function getMultiLevelMultiRelationQueryDummy()
     {
         $q = $this->db->createSelectQuery();
 
@@ -466,11 +507,6 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
             $q->expr->eq(
                 $this->qi( 'PO_persons' ) . '.' . $this->qi( 'id' ),
                 $this->qi( 'birthday' ) . '.' . $this->qi( 'person_id' )
-            )
-        )->where(
-            $q->expr->eq(
-                $this->qi( 'PO_persons' ) . '.' . $this->qi( 'id' ),
-                $q->bindValue( 1 )
             )
         );
 
