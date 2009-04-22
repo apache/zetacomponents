@@ -88,15 +88,17 @@ class ezcPersistentIdentityRelationQueryCreator
      * 
      * @param mixed $class 
      * @param array(string=> ezcPersistentRelationFindDefinition) $relations
-     * @return ezcDbQuerySelect
-     *
-     * @todo Should return ezcPersistentFindWithRelationsQuery
+     * @return ezcPersistentFindWithRelationsQuery
      */
     public function createFindQuery( $class, array $relations )
     {
         $srcDef = $this->defManager->fetchDefinition( $class );
 
-        return $this->createBasicFindQuery( $q, $srcDef, $relations );
+        return new ezcPersistentFindWithRelationsQuery(
+            $this->createBasicFindQuery( $q, $srcDef, $relations ),
+            $class,
+            $relations
+        );
     }
 
     /**
