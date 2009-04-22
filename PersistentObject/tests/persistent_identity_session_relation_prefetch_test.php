@@ -52,6 +52,16 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
         $this->db->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
     }
 
+    protected function getLoadQuery( $relations )
+    {
+        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
+    }
+
+    protected function getFindQuery( $relations )
+    {
+        return $this->queryCreator->createFindQuery( 'RelationTestPerson', $relations );
+    }
+
     protected function getOneLevelOneRelationRelations()
     {
         return array(
@@ -59,11 +69,6 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
                 'RelationTestEmployer'
             ),
         );
-    }
-
-    protected function getOneLevelOneRelationLoadQuery( $relations )
-    {
-        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
     }
 
     protected function getOneLevelMultiRelationRelations()
@@ -77,11 +82,6 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
             ),
         );
 
-    }
-    
-    protected function getOneLevelMultiRelationLoadQuery( $relations )
-    {
-        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
     }
 
     protected function getMultiLevelSingleRelationRelations()
@@ -98,12 +98,6 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
             ),
         );
     }
-
-    protected function getMultiLevelSingleRelationLoadQuery( $relations )
-    {
-        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
-    }
-    
 
     protected function getMultiLevelMultiRelationRelations()
     {
@@ -133,11 +127,6 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
                 'RelationTestBirthday'
             ),
         );
-    }
-
-    protected function getMultiLevelMultiRelationLoadQuery( $relations )
-    {
-        return $this->queryCreator->createLoadQuery( 'RelationTestPerson', 2, $relations );
     }
 }
 
