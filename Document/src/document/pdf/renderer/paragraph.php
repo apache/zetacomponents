@@ -26,11 +26,14 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
      * All markup inside of the given string is considered inline markup (in
      * CSS terms). Inline markup should be given as common docbook inline
      * markup, like <emphasis>.
-     * 
+     *
+     * Returns a boolean indicator whether the rendering of the full paragraph
+     * in the available space succeeded or not.
+     *
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfInferencableDomElement $paragraph 
-     * @return void
+     * @return bool
      */
     public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $paragraph )
     {
@@ -56,7 +59,6 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         $space  = $page->testFitRectangle( $page->x, $page->y, $width, null );
 
         // Render token, respecting assigned styles
-        // @TODO: Mind orphans and widows here.
         $spaceWidth     = $this->driver->calculateWordWidth( ' ' );
         $paragraphStyle = $this->styles->inferenceFormattingRules( $paragraph );
         $yPos           = $space->y;
@@ -112,12 +114,22 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
                 $xPos += $token['width'] + $spaceWidth;
             }
 
-            // @TODO: Check four exceeding available space.
             // -> Break to next column / page
             $yPos += $line['height'];
+
+            // Check if we run out of vertical space
+            if ( $yPos > ( $space->y + $space->height ) )
+            {
+                // @TODO: Handle paragraph splitting, minding orphans and widows.
+                return false;
+            }
         }
 
-        // @TODO: Mark covered space as used.
+        // Mark used space covored and exit with success return code
+        $page->setCovered(
+            new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $yPos )
+        );
+        return true;
     }
 
     /**

@@ -79,11 +79,11 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
-        $renderer->render(
+        $this->assertTrue( $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 0 )
-        );
+        ) );
     }
 
     public function testRenderJustifiedParagraphWithoutMarkup()
@@ -120,11 +120,11 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
-        $renderer->render(
+        $this->assertTrue( $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 0 )
-        );
+        ) );
     }
 
     public function testRenderCenteredParagraphWithoutMarkup()
@@ -161,11 +161,11 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
-        $renderer->render(
+        $this->assertTrue( $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 0 )
-        );
+        ) );
     }
 
     public function testRenderRightAlignedParagraphWithoutMarkup()
@@ -202,11 +202,11 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
-        $renderer->render(
+        $this->assertTrue( $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 0 )
-        );
+        ) );
     }
 
     public function testRenderParagraphWithBoldMarkup()
@@ -243,11 +243,11 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
-        $renderer->render(
+        $this->assertTrue( $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 1 )
-        );
+        ) );
     }
 
     public function testRenderJustifiedParagraphWithHyphenator()
@@ -299,11 +299,38 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
-        $renderer->render(
+        $this->assertTrue( $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcTestDocumentPdfHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 1 )
-        );
+        ) );
+    }
+
+    public function testRenderFailure()
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'font-size' => '20',
+                )
+            ),
+        ) );
+
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'drawWord'
+        ) );
+
+        // Expectations
+        $driver->expects( $this->exactly( 8 ) )->method( 'drawWord' );
+
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
+        $this->assertFalse( $renderer->render(
+            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcDocumentPdfDefaultHyphenator(),
+            $this->xpath->query( '//doc:para' )->item( 1 )
+        ) );
     }
 }
 
