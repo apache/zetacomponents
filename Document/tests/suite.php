@@ -45,10 +45,17 @@ require 'document_xhtml_validation_tests.php';
 
 require 'document_ezxml_tests.php';
 
-require 'document_pdf_pcss_parser_tests.php';
+require 'document_pdf_driver_haru_tests.php';
+require 'document_pdf_driver_tcpdf_tests.php';
+require 'document_pdf_driver_transactions_tests.php';
 require 'document_pdf_hyphenator_tests.php';
 require 'document_pdf_location_id_tests.php';
 require 'document_pdf_match_location_id_tests.php';
+require 'document_pdf_measure_tests.php';
+require 'document_pdf_page_tests.php';
+require 'document_pdf_pcss_parser_tests.php';
+require 'document_pdf_renderer_paragraph_tests.php';
+require 'document_pdf_style_inference_tests.php';
 
 require 'converter_docbook_html_test.php';
 require 'converter_docbook_html_xsl_test.php';
@@ -96,10 +103,17 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentEzXmlTests::suite() );
 
-        $this->addTest( ezcDocumentPdfCssParserTests::suite() );
+        $this->addTest( ezcDocumentPdfDriverHaruTests::suite() );
+        $this->addTest( ezcDocumentPdfDriverTcpdfTests::suite() );
+        $this->addTest( ezcDocumentPdfTransactionalDriverProxyTests::suite() );
         $this->addTest( ezcDocumentPdfHyphenatorTests::suite() );
         $this->addTest( ezcDocumentPdfLocationIdTests::suite() );
         $this->addTest( ezcDocumentPdfMatchLocationIdTests::suite() );
+        $this->addTest( ezcDocumentPdfMeasureTests::suite() );
+        $this->addTest( ezcDocumentPdfPageTests::suite() );
+        $this->addTest( ezcDocumentPdfCssParserTests::suite() );
+        $this->addTest( ezcDocumentPdfParagraphRendererTests::suite() );
+        $this->addTest( ezcDocumentPdfStyleInferenceTests::suite() );
 
         $this->addTest( ezcDocumentConverterDocbookToHtmlTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );

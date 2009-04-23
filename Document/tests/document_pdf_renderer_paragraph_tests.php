@@ -23,6 +23,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 {
     protected $document;
     protected $xpath;
+    protected $styles;
 
     public static function suite()
     {
@@ -40,15 +41,23 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $this->xpath = new DOMXPath( $this->document );
         $this->xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
+
+        $this->styles = new ezcDocumentPdfStyleInferencer();
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'font-size' => '8mm',
+                )
+            )
+        ) );
     }
 
     public function testRenderParagraphWithoutMarkup()
     {
-        $styles = new ezcDocumentPdfStyleInferencer();
-
         // Additional formatting
 
-        $driver = $this->getMock( 'ezcTextDocumentPdfMockDriver', array(
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
             'drawWord'
         ) );
 
@@ -69,7 +78,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 12, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'blank' )
         );
 
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $styles );
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
@@ -79,10 +88,8 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderJustifiedParagraphWithoutMarkup()
     {
-        $styles = new ezcDocumentPdfStyleInferencer();
-
         // Additional formatting
-        $styles->appendStyleDirectives( array(
+        $this->styles->appendStyleDirectives( array(
             new ezcDocumentPdfCssDirective(
                 array( 'para' ),
                 array(
@@ -91,7 +98,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             )
         ) );
 
-        $driver = $this->getMock( 'ezcTextDocumentPdfMockDriver', array(
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
             'drawWord'
         ) );
 
@@ -112,7 +119,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 14, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'blank' )
         );
 
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $styles );
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
@@ -122,10 +129,8 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderCenteredParagraphWithoutMarkup()
     {
-        $styles = new ezcDocumentPdfStyleInferencer();
-
         // Additional formatting
-        $styles->appendStyleDirectives( array(
+        $this->styles->appendStyleDirectives( array(
             new ezcDocumentPdfCssDirective(
                 array( 'para' ),
                 array(
@@ -134,7 +139,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             )
         ) );
 
-        $driver = $this->getMock( 'ezcTextDocumentPdfMockDriver', array(
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
             'drawWord'
         ) );
 
@@ -155,7 +160,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 16, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'blank' )
         );
 
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $styles );
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
@@ -165,10 +170,8 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderRightAlignedParagraphWithoutMarkup()
     {
-        $styles = new ezcDocumentPdfStyleInferencer();
-
         // Additional formatting
-        $styles->appendStyleDirectives( array(
+        $this->styles->appendStyleDirectives( array(
             new ezcDocumentPdfCssDirective(
                 array( 'para' ),
                 array(
@@ -177,7 +180,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             )
         ) );
 
-        $driver = $this->getMock( 'ezcTextDocumentPdfMockDriver', array(
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
             'drawWord'
         ) );
 
@@ -198,7 +201,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 20, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'blank' )
         );
 
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $styles );
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
@@ -208,10 +211,8 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderParagraphWithBoldMarkup()
     {
-        $styles = new ezcDocumentPdfStyleInferencer();
-
         // Additional formatting
-        $styles->appendStyleDirectives( array(
+        $this->styles->appendStyleDirectives( array(
             new ezcDocumentPdfCssDirective(
                 array( 'emphasis' ),
                 array(
@@ -220,7 +221,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             )
         ) );
 
-        $driver = $this->getMock( 'ezcTextDocumentPdfMockDriver', array(
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
             'drawWord'
         ) );
 
@@ -241,7 +242,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
         );
 
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $styles );
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
@@ -251,10 +252,8 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderJustifiedParagraphWithHyphenator()
     {
-        $styles = new ezcDocumentPdfStyleInferencer();
-
         // Additional formatting
-        $styles->appendStyleDirectives( array(
+        $this->styles->appendStyleDirectives( array(
             new ezcDocumentPdfCssDirective(
                 array( 'para' ),
                 array(
@@ -269,7 +268,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             )
         ) );
 
-        $driver = $this->getMock( 'ezcTextDocumentPdfMockDriver', array(
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
             'drawWord'
         ) );
 
@@ -299,7 +298,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'ines' )
         );
 
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $styles );
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $renderer->render(
             new ezcDocumentPdfPage( 100, 100 ),
             new ezcTestDocumentPdfHyphenator(),

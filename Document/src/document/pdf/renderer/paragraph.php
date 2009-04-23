@@ -46,7 +46,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         if ( ( $page->x === null ) ||
              ( $page->y === null ) )
         {
-            $space = $page->testFitRectangle( null, null, $width, $tokens[0]['style']['font-size'] );
+            $space = $page->testFitRectangle( null, null, $width, $tokens[0]['style']['font-size']->value );
             $page->x = $space->x;
             $page->y = $space->y;
         }
@@ -68,7 +68,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
                 $lineWidth += $token['width'];
             }
 
-            switch ( $paragraphStyle['text-align'] )
+            switch ( $paragraphStyle['text-align']->value )
             {
                 case 'center':
                     $offset     = ( $width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
@@ -103,7 +103,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
                 // Apply current styles
                 foreach ( $token['style'] as $style => $value )
                 {
-                    $this->driver->setTextFormatting( $style, $value );
+                    $this->driver->setTextFormatting( $style, $value->value );
                 }
 
                 // Render word 
@@ -131,8 +131,8 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         // Inference page styles
         $rules = $this->styles->inferenceFormattingRules( $page );
 
-        return $page->innerWidth() / $rules['text-columns'] -
-            ( $rules['text-column-spacing'] * ( $rules['text-columns'] - 1 ) );
+        return $page->innerWidth() / $rules['text-columns']->value -
+            ( $rules['text-column-spacing']->value * ( $rules['text-columns']->value - 1 ) );
     }
 
     /**
@@ -206,7 +206,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
             // Apply current styles
             foreach ( $token['style'] as $style => $value )
             {
-                $this->driver->setTextFormatting( $style, $value );
+                $this->driver->setTextFormatting( $style, $value->value );
             }
             
             if ( ( $consumed + ( $width = $this->driver->calculateWordWidth( $token['word'] ) ) ) < $available )

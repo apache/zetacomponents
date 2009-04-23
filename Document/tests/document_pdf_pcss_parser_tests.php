@@ -88,27 +88,27 @@ class ezcDocumentPdfCssParserTests extends ezcTestCase
         return array(
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_001_missing_address.pcss',
-                'Parse error: Fatal error: \'Expected one of: T_ADDRESS (CSS element addressing queries), T_DESC_ADDRESS (CSS element addressing queries), T_ADDRESS_ID (CSS element addressing queries), T_ADDRESS_CLASS (CSS element addressing queries), found T_START ("{").\' in line 1 at position 2.',
+                'Parse error: Fatal error: \'Expected one of: T_ADDRESS (CSS element addressing queries), T_DESC_ADDRESS (CSS element addressing queries), T_ADDRESS_ID (CSS element addressing queries), T_ADDRESS_CLASS (CSS element addressing queries), found T_START ("{").\' in file \'$file\' in line 1 at position 2.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_002_invalid_address.pcss',
-                "Parse error: Fatal error: 'Could not parse string: 0123\n' in line 1 at position 1.",
+                "Parse error: Fatal error: 'Could not parse string: 0123\n' in file '\$file' in line 1 at position 1.",
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_003_missing_start.pcss',
-                'Parse error: Fatal error: \'Expected one of: T_ADDRESS (CSS element addressing queries), T_DESC_ADDRESS (CSS element addressing queries), T_ADDRESS_ID (CSS element addressing queries), T_ADDRESS_CLASS (CSS element addressing queries), found T_FORMATTING (formatting specification).\' in line 2 at position 18.',
+                'Parse error: Fatal error: \'Expected one of: T_ADDRESS (CSS element addressing queries), T_DESC_ADDRESS (CSS element addressing queries), T_ADDRESS_ID (CSS element addressing queries), T_ADDRESS_CLASS (CSS element addressing queries), found T_FORMATTING (formatting specification).\' in file \'$file\' in line 2 at position 18.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_004_missing_end.pcss',
-                'Parse error: Fatal error: \'Expected one of: T_FORMATTING (formatting specification), found T_EOF (end of file).\' in line 3 at position 1.',
+                'Parse error: Fatal error: \'Expected one of: T_FORMATTING (formatting specification), found T_EOF (end of file).\' in file \'$file\' in line 3 at position 1.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_005_missing_end_2.pcss',
-                'Parse error: Fatal error: \'Expected one of: T_FORMATTING (formatting specification), found T_ADDRESS (CSS element addressing queries).\' in line 4 at position 5.',
+                'Parse error: Fatal error: \'Expected one of: T_FORMATTING (formatting specification), found T_ADDRESS (CSS element addressing queries).\' in file \'$file\' in line 4 at position 5.',
             ),
             array(
                 dirname( __FILE__ ) . '/files/pdf/pcss/e_006_invalid_rule.pcss',
-                "Parse error: Fatal error: 'Could not parse string: ;\n}\n' in line 2 at position 8.",
+                "Parse error: Fatal error: 'Could not parse string: ;\n}\n' in file '\$file' in line 2 at position 8.",
             ),
         );
     }
@@ -129,7 +129,7 @@ class ezcDocumentPdfCssParserTests extends ezcTestCase
         {
             $this->assertSame(
                 $message,
-                $e->getMessage(),
+                preg_replace( '(in file \'[^\']+\')', 'in file \'$file\'', $e->getMessage() ),
                 'Different parse error expected.'
             );
         }

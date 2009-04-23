@@ -43,7 +43,7 @@ class ezcDocumentPdfStyleStringValue extends ezcBaseStruct
      */
     public function __toString()
     {
-        return $value;
+        return $this->value;
     }
 }
 ?>

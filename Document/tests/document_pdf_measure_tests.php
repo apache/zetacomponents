@@ -72,7 +72,7 @@ class ezcDocumentPdfMeasureTests extends ezcDocumentPdfTestCase
 
     public function testUnhandledUnit1()
     {
-        $driver = new ezcTextDocumentPdfMockDriver();
+        $driver = new ezcTestDocumentPdfMockDriver();
 
         try {
             ezcDocumentPdfMeasure::create( '10foo' )->get();
@@ -84,7 +84,7 @@ class ezcDocumentPdfMeasureTests extends ezcDocumentPdfTestCase
 
     public function testUnhandledUnit2()
     {
-        $driver = new ezcTextDocumentPdfMockDriver();
+        $driver = new ezcTestDocumentPdfMockDriver();
 
         try {
             ezcDocumentPdfMeasure::create( '10mm' )->get( 'foo' );
