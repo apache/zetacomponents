@@ -75,9 +75,9 @@
  *           Factor to darken border of data elements, like lines, bars and 
  *           pie segments.
  * @property float $barMargin
- *           Procentual distance between bar blocks.
+ *           Percentual distance between bar blocks.
  * @property float $barPadding
- *           Procentual distance between bars.
+ *           Percentual distance between bars.
  * @property float $pieChartOffset
  *           Offset for starting with first pie chart segment in degrees.
  * @property float $legendSymbolGleam
