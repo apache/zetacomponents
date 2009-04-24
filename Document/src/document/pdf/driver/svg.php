@@ -99,6 +99,8 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
 
         $this->currentPage = $this->document->createElement( 'page' );
         $this->currentPage = $this->pages->appendChild( $this->currentPage );
+        $this->currentPage->setAttribute( 'width', $width . 'mm' );
+        $this->currentPage->setAttribute( 'height', $height . 'mm' );
     }
 
     /**

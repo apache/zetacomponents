@@ -10,12 +10,19 @@ article {
 	text-columns: "1";
 	text-column-spacing: "10mm";
 
-	page-size: "A4";
-	page-orientation: "portrait";
+	// Initilize general properties
+	padding: "0mm";
+	margin: "0mm";
 }
 
 page {
+	page-size: "A4";
+	page-orientation: "portrait";
 	padding: "22mm 16mm";
+
+	// Margin for pages specifies an additional outer border, which can be used
+	// to cut if off later, f.e. in printing
+	margin: "0mm";
 }
 
 para {
@@ -28,8 +35,35 @@ emphasis {
 
 title {
 	font-family: "sans-serif";
-	font-size: "16pt";
 	font-weight: "bold";
 	color: "#000000";
+}
+
+title {
+	font-size: "32pt";
+}
+
+section > title {
+	font-size: "24pt";
+}
+
+section > section > title {
+	font-size: "20pt";
+}
+
+section > section > section > title {
+	font-size: "18";
+}
+
+section > section > section > section > title {
+	font-size: "16pt";
+}
+
+section > section > section > section > section > title {
+	font-size: "14pt";
+}
+
+section > section > section > section > section > section > title {
+	font-size: "12pt";
 }
 

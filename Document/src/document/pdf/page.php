@@ -25,7 +25,7 @@
 class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
 {
     /**
-     * Already covered areas, given as an arrays of ezcDocumentPdfPageRectangle
+     * Already covered areas, given as an arrays of ezcDocumentPdfBoundingBox
      * objects.
      * 
      * @var array
@@ -59,6 +59,20 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      * @var float
      */
     protected $height;
+
+    /**
+     * Inner width of current page - given in millimeters
+     * 
+     * @var float
+     */
+    protected $innerWidth;
+
+    /**
+     * Inner height of current page - given in millimeters
+     * 
+     * @var float
+     */
+    protected $innerHeight;
 
     /**
      * Array of pages sizes
@@ -125,10 +139,12 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      * @param float $height 
      * @return void
      */
-    public function __construct( $width, $height )
+    public function __construct( $width, $height, $innerWidth, $innerHeight )
     {
-        $this->width  = (float) $width;
-        $this->height = (float) $height;
+        $this->width       = (float) $width;
+        $this->height      = (float) $height;
+        $this->innerWidth  = (float) $innerWidth;
+        $this->innerHeight = (float) $innerHeight;
     }
 
     /**
@@ -137,32 +153,59 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      * Create page from common page size abbreviations, like "A4" and page
      * orientation.
      * 
-     * @param string $size 
-     * @param string $orientation 
+     * @param mixed $size 
+     * @param mixed $orientation 
+     * @param array $margin 
+     * @param array $padding 
      * @return ezcDocumentPdfPage
      */
-    public static function createFromSpecification( $size, $orientation )
+    public static function createFromSpecification( $size, $orientation, array $margin, array $padding )
     {
         if ( !isset( self::$pageSizes[$size] ) )
         {
             throw new ezcBaseValueException( "page-size", $size, implode( ', ', self::$pageSizes ) );
         }
 
+        // Calculate border sizes, depending on assigned margin and
+        // padding
+        $topBorder    = $margin['top'] + $padding['top'];
+        $leftBorder   = $margin['left'] + $padding['left'];
+        $bottomBorder = $margin['bottom'] + $padding['bottom'];
+        $rightBorder  = $margin['right'] + $padding['right'];
+
         switch ( $orientation )
         {
             case 'landscape':
-                return new ezcDocumentPdfPage(
-                    self::$pageSizes[$size][1],
-                    self::$pageSizes[$size][0]
+                $page = new ezcDocumentPdfPage(
+                    $width  = self::$pageSizes[$size][1] + $margin['left'] + $margin['right'],
+                    $height = self::$pageSizes[$size][0] + $margin['top'] + $margin['bottom'],
+                    $width - $leftBorder - $rightBorder,
+                    $height - $topBorder - $bottomBorder
                 );
+                break;
             case 'portrait':
-                return new ezcDocumentPdfPage(
-                    self::$pageSizes[$size][0],
-                    self::$pageSizes[$size][1]
+                $page = new ezcDocumentPdfPage(
+                    $width  = self::$pageSizes[$size][0] + $margin['left'] + $margin['right'],
+                    $height = self::$pageSizes[$size][1] + $margin['top'] + $margin['bottom'],
+                    $width - $leftBorder - $rightBorder,
+                    $height - $topBorder - $bottomBorder
                 );
+                break;
             default:
                 throw new ezcBaseValueException( "page-orientation", $orientation, 'landscape or portrait' );
         }
+
+        // Set cover boxes for areas covered by padding and margin
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, $width, $topBorder ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, $leftBorder, $height ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, $height - $bottomBorder, $width, $bottomBorder ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( $width - $rightBorder, 0, $rightBorder, $height ) );
+
+        // Update rendering start position
+        $page->x = $leftBorder;
+        $page->y = $topBorder;
+        
+        return $page;
     }
 
     /**
@@ -180,9 +223,9 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
             case 'height':
                 return $this->height;
             case 'innerWidth':
-                return $this->width;
+                return $this->innerWidth;
             case 'innerHeight':
-                return $this->height;
+                return $this->innerHeight;
         }
     }
 
@@ -226,8 +269,6 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      */
     public function testFitRectangle( $xPos = null, $yPos = null, $width = null, $height = null )
     {
-        var_dump( func_get_args(), $this->covered );
-
         // Ensure requested area is within the page boundings
         if ( ( $xPos < 0 ) ||
              ( $yPos < 0 ) ||

@@ -29,7 +29,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public function testRenderMainWithoutMarkup()
+    public function testRenderMainSinglePage()
     {
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/paragraph.xml' );
@@ -37,6 +37,41 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
             new ezcDocumentPdfStyleInferencer()
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        file_put_contents(
+            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
+            $pdf
+        );
+    
+        $this->assertXmlFileEqualsXmlFile(
+            $this->basePath . 'renderer/' . $fileName,
+            $this->tempDir . $fileName
+        );
+    }
+
+    public function testRenderMainMulticolumnLayout()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/paragraph.xml' );
+
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'text-columns' => '3',
+                )
+            ),
+        ) );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            $style
         );
         $pdf = $renderer->render(
             $docbook,

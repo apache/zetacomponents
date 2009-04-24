@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" streamable="true" width="210mm" height="297mm">
+  <pageSet>
+    <page width="210mm" height="297mm">
+      <text x="16.0000mm" y="24.0000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">Paragraphs</text>
+      <text x="36.0237mm" y="24.0000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">are</text>
+      <text x="16.0000mm" y="28.2333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">separated</text>
+      <text x="34.2033mm" y="28.2333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">by</text>
+      <text x="39.6643mm" y="28.2333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">blank</text>
+      <text x="16.0000mm" y="32.4667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">lines</text>
+      <text x="26.9220mm" y="32.4667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">and</text>
+      <text x="34.2033mm" y="32.4667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">are</text>
+      <text x="16.0000mm" y="36.7000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">left-aligned.</text>
+      <text x="16.0000mm" y="45.9333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">Paragraphs</text>
+      <text x="36.0237mm" y="45.9333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">are</text>
+      <text x="16.0000mm" y="50.1667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">separated</text>
+      <text x="34.2033mm" y="50.1667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">by</text>
+      <text x="39.6643mm" y="50.1667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">blank</text>
+      <text x="16.0000mm" y="54.4000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">lines</text>
+      <text x="26.9220mm" y="54.4000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">and</text>
+      <text x="34.2033mm" y="54.4000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">are</text>
+      <text x="16.0000mm" y="58.6333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">left-aligned.</text>
+      <text x="16.0000mm" y="67.8667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">Paragraphs</text>
+      <text x="36.0237mm" y="67.8667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">contain</text>
+      <text x="16.0000mm" y="72.1000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">text</text>
+      <text x="25.1017mm" y="72.1000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">and</text>
+      <text x="32.3830mm" y="72.1000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">may</text>
+      <text x="39.6643mm" y="72.1000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">contain</text>
+      <text x="16.0000mm" y="76.3333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">inline</text>
+      <text x="28.7423mm" y="76.3333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">markup:</text>
+      <text x="16.0000mm" y="80.5667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">emphasis</text>
+      <text x="32.3830mm" y="80.5667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">,</text>
+      <text x="36.0237mm" y="80.5667mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">strong</text>
+      <text x="16.0000mm" y="84.8000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">emphasis</text>
+      <text x="32.3830mm" y="84.8000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">,</text>
+      <text x="36.0237mm" y="84.8000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">or</text>
+      <text x="41.4847mm" y="84.8000mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">both</text>
+      <text x="16.0000mm" y="89.0333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">stacked.</text>
+      <text x="32.3830mm" y="89.0333mm" style="font-size: 11pt; font-family: 'serif'; stroke: none;">.</text>
+    </page>
+  </pageSet>
+</svg>

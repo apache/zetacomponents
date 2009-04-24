@@ -129,10 +129,12 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     protected function createPage( ezcDocumentPdfInferencableDomElement $element )
     {
-        $styles = $this->styles->inferenceFormattingRules( $element );
+        $styles = $this->styles->inferenceFormattingRules( new ezcDocumentPdfPage( 0, 0, 0, 0 ) );
         $this->pages[] = $page = ezcDocumentPdfPage::createFromSpecification(
             $styles['page-size']->value,
-            $styles['page-orientation']->value
+            $styles['page-orientation']->value,
+            $styles['margin']->value,
+            $styles['padding']->value
         );
 
         // Tell driver about new page

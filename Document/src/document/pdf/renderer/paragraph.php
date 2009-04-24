@@ -57,7 +57,6 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         // Grap the maximum available vertical space
         // @TODO: Mind margin and padding
         $space  = $page->testFitRectangle( $page->x, $page->y, $width, null );
-        var_dump( $space );
 
         // Render token, respecting assigned styles
         $spaceWidth     = $this->driver->calculateWordWidth( ' ' );
