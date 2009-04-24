@@ -158,6 +158,7 @@ class ezcDocumentPdfTransactionalDriverProxy extends ezcDocumentPdfDriver
      */
     protected function recordCall( $name, array $parameters )
     {
+        echo "$name( ", @implode( ", ", $parameters ), " )\n";
         $this->transactions[$this->currentTransaction][] = array( $name, $parameters );
     }
 

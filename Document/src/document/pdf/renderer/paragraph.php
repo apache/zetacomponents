@@ -38,7 +38,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
     public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $paragraph )
     {
         // Calculate paragraph width from page layout settings
-        $width = $this->calculateParagraphWidth( $page );
+        $width = $this->calculateParagraphWidth( $page, $paragraph );
 
         // Iterate over tokens and try to fit them in the current line, use
         // hyphenator to split words.
@@ -57,11 +57,12 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
         // Grap the maximum available vertical space
         // @TODO: Mind margin and padding
         $space  = $page->testFitRectangle( $page->x, $page->y, $width, null );
+        var_dump( $space );
 
         // Render token, respecting assigned styles
         $spaceWidth     = $this->driver->calculateWordWidth( ' ' );
         $paragraphStyle = $this->styles->inferenceFormattingRules( $paragraph );
-        $yPos           = $space->y;
+        $yPos           = $space->y + $paragraphStyle['margin']->value['top'];
         foreach ( $lines as $nr => $line )
         {
             $lineWidth = 0;
@@ -114,7 +115,6 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
                 $xPos += $token['width'] + $spaceWidth;
             }
 
-            // -> Break to next column / page
             $yPos += $line['height'];
 
             // Check if we run out of vertical space
@@ -127,8 +127,9 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
 
         // Mark used space covored and exit with success return code
         $page->setCovered(
-            new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $yPos )
+            new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $yPos - $space->y )
         );
+        $page->y = $yPos + $paragraphStyle['margin']->value['bottom'];
         return true;
     }
 
@@ -138,12 +139,12 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfRenderer
      * Calculate the available horizontal space for paragraphs depending on the
      * page layout settings.
      */
-    protected function calculateParagraphWidth( ezcDocumentPdfPage $page )
+    protected function calculateParagraphWidth( ezcDocumentPdfPage $page, ezcDocumentPdfInferencableDomElement $paragraph )
     {
         // Inference page styles
-        $rules = $this->styles->inferenceFormattingRules( $page );
+        $rules = $this->styles->inferenceFormattingRules( $paragraph );
 
-        return $page->innerWidth() / $rules['text-columns']->value -
+        return $page->innerWidth / $rules['text-columns']->value -
             ( $rules['text-column-spacing']->value * ( $rules['text-columns']->value - 1 ) );
     }
 

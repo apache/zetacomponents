@@ -61,6 +61,64 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     protected $height;
 
     /**
+     * Array of pages sizes
+     *
+     * Associates known page size identifiers the actual size in millimeters.
+     *
+     * @var array
+     */
+    protected static $pageSizes = array(
+        'A0'        => array( 841, 1189 ),
+        'A1'        => array( 594, 841 ),
+        'A2'        => array( 420, 594 ),
+        'A3'        => array( 297, 420 ),
+        'A4'        => array( 210, 297 ),
+        'A5'        => array( 148, 210 ),
+        'A6'        => array( 105, 148 ),
+        'A7'        => array( 74, 105 ),
+        'A8'        => array( 52, 74 ),
+        'A9'        => array( 37, 52 ),
+        'A10'       => array( 26, 37 ),
+        'B0'        => array( 1000, 1414 ),
+        'B1'        => array( 707, 1000 ),
+        'B2'        => array( 500, 707 ),
+        'B3'        => array( 353, 500 ),
+        'B4'        => array( 250, 353 ),
+        'B5'        => array( 176, 250 ),
+        'B6'        => array( 125, 176 ),
+        'B7'        => array( 88, 125 ),
+        'B8'        => array( 62, 88 ),
+        'B9'        => array( 44, 62 ),
+        'B10'       => array( 31, 44 ),
+        'C0'        => array( 917, 1297 ),
+        'C1'        => array( 648, 917 ),
+        'C2'        => array( 458, 648 ),
+        'C3'        => array( 324, 458 ),
+        'C4'        => array( 229, 324 ),
+        'C5'        => array( 162, 229 ),
+        'C6'        => array( 114, 162 ),
+        'C7'        => array( 81, 114 ),
+        'C8'        => array( 57, 81 ),
+        'C9'        => array( 40, 57 ),
+        'C10'       => array( 28, 40 ),
+        'RA0'       => array( 860, 1220 ),
+        'RA1'       => array( 610, 860 ),
+        'RA2'       => array( 430, 610 ),
+        'RA3'       => array( 305, 430 ),
+        'RA4'       => array( 215, 305 ),
+        'SRA0'      => array( 900, 1280 ),
+        'SRA1'      => array( 640, 900 ),
+        'SRA2'      => array( 450, 640 ),
+        'SRA3'      => array( 320, 450 ),
+        'SRA4'      => array( 225, 320 ),
+        'LETTER'    => array( 215.9, 279.4 ),
+        'LEGAL'     => array( 215.9, 355.6 ),
+        'EXECUTIVE' => array( 184.1, 266.7 ),
+        'FOLIO'     => array( 215.9, 330.2 ),
+    );
+
+
+    /**
      * Construct new fresh page from its dimensions
      * 
      * @param float $width 
@@ -74,16 +132,58 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     }
 
     /**
-     * Return the inner width of the page
+     * Create from user readable soze specification
      *
-     * Return the inner width of the page, calculated using the absolute page
-     * width and the assigned padding.
+     * Create page from common page size abbreviations, like "A4" and page
+     * orientation.
      * 
-     * @return float
+     * @param string $size 
+     * @param string $orientation 
+     * @return ezcDocumentPdfPage
      */
-    public function innerWidth()
+    public static function createFromSpecification( $size, $orientation )
     {
-        return $this->width;
+        if ( !isset( self::$pageSizes[$size] ) )
+        {
+            throw new ezcBaseValueException( "page-size", $size, implode( ', ', self::$pageSizes ) );
+        }
+
+        switch ( $orientation )
+        {
+            case 'landscape':
+                return new ezcDocumentPdfPage(
+                    self::$pageSizes[$size][1],
+                    self::$pageSizes[$size][0]
+                );
+            case 'portrait':
+                return new ezcDocumentPdfPage(
+                    self::$pageSizes[$size][0],
+                    self::$pageSizes[$size][1]
+                );
+            default:
+                throw new ezcBaseValueException( "page-orientation", $orientation, 'landscape or portrait' );
+        }
+    }
+
+    /**
+     * Wrapper for virtual property access
+     * 
+     * @param string $property 
+     * @return mixed
+     */
+    public function __get( $property )
+    {
+        switch ( $property )
+        {
+            case 'width':
+                return $this->width;
+            case 'height':
+                return $this->height;
+            case 'innerWidth':
+                return $this->width;
+            case 'innerHeight':
+                return $this->height;
+        }
     }
 
     /**
@@ -126,6 +226,8 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      */
     public function testFitRectangle( $xPos = null, $yPos = null, $width = null, $height = null )
     {
+        var_dump( func_get_args(), $this->covered );
+
         // Ensure requested area is within the page boundings
         if ( ( $xPos < 0 ) ||
              ( $yPos < 0 ) ||

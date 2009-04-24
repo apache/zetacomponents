@@ -1,17 +1,35 @@
-page {
-	text-columns: "1";
-	text-column-spacing: "10mm";
-}
-
 article {
+	// Basic font style definitions
 	font-size: "12pt";
 	font-family: "serif";
 	line-height: "1.4";
 	text-align: "left";
+	color: "#2e3436";
+
+	// Basic page layout definitions
+	text-columns: "1";
+	text-column-spacing: "10mm";
+
+	page-size: "A4";
+	page-orientation: "portrait";
+}
+
+page {
+	padding: "22mm 16mm";
+}
+
+para {
+	margin: "2mm 0mm 3mm 0mm";
+}
+
+emphasis {
+	font-weight: "bold";
 }
 
 title {
+	font-family: "sans-serif";
 	font-size: "16pt";
 	font-weight: "bold";
+	color: "#000000";
 }
 

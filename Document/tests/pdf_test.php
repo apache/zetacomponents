@@ -26,7 +26,7 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
     {
         static $i = 0;
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
-        $this->basePath = dirname( __FILE__ ) . '/files/pdf/driver/';
+        $this->basePath = dirname( __FILE__ ) . '/files/pdf/';
     }
 
     public function tearDown()
@@ -52,7 +52,7 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
         // Store file for manual inspection if the test case fails
         file_put_contents( $this->tempDir . $baseName, $content );
 
-        $this->assertFileExists( $compare = $this->basePath . $baseName );
+        $this->assertFileExists( $compare = $this->basePath . 'driver/' . $baseName );
         $this->assertEquals(
             file_get_contents( $compare ),
             $content,

@@ -17,6 +17,8 @@ class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfDriver
     protected $style;
     protected $size;
 
+    public $calls = array();
+
     /**
      * Convert values
      *
@@ -47,7 +49,7 @@ class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfDriver
      */
     public function createPage( $width, $height )
     {
-        // Do nothing
+        $this->calls[] = array( __FUNCTION__, func_get_args() );
     }
 
     /**
@@ -138,7 +140,7 @@ class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfDriver
      */
     public function drawWord( $x, $y, $word )
     {
-        // Mock this one.
+        $this->calls[] = array( __FUNCTION__, func_get_args() );
     }
 
     /**
@@ -150,7 +152,7 @@ class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfDriver
      */
     public function save()
     {
-        // Do nothing
+        $this->calls[] = array( __FUNCTION__, func_get_args() );
     }
 }
 ?>
