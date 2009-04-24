@@ -137,14 +137,16 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      * 
      * @param float $width 
      * @param float $height 
+     * @param mixed $innerWidth 
+     * @param mixed $innerHeight 
      * @return void
      */
-    public function __construct( $width, $height, $innerWidth, $innerHeight )
+    public function __construct( $width, $height, $innerWidth = null, $innerHeight = null )
     {
         $this->width       = (float) $width;
         $this->height      = (float) $height;
-        $this->innerWidth  = (float) $innerWidth;
-        $this->innerHeight = (float) $innerHeight;
+        $this->innerWidth  = $innerWidth === null ? $this->width : (float) $innerWidth;
+        $this->innerHeight = $innerHeight === null ? $this->height : (float) $innerHeight;
     }
 
     /**
