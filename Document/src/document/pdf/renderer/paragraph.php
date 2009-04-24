@@ -41,6 +41,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
         $width = $this->calculateParagraphWidth( $page, $paragraph );
 
         // Ensure a current rendering position on page
+        $tokens = $this->tokenize( $paragraph );
         if ( ( $page->x === null ) ||
              ( $page->y === null ) )
         {
@@ -69,7 +70,6 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
 
         // Iterate over tokens and try to fit them in the current line, use
         // hyphenator to split words.
-        $tokens = $this->tokenize( $paragraph );
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
 
         // Try to render text into evaluated box

@@ -49,7 +49,13 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
                 array(
                     'font-size' => '8mm',
                 )
-            )
+            ),
+            new ezcDocumentPdfCssDirective(
+                array( 'para' ),
+                array(
+                    'margin' => '0mm',
+                )
+            ),
         ) );
     }
 
@@ -80,7 +86,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 0 )
         ) );
@@ -121,7 +127,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 0 )
         ) );
@@ -162,7 +168,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 0 )
         ) );
@@ -203,7 +209,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 0 )
         ) );
@@ -244,7 +250,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 1 )
         ) );
@@ -300,7 +306,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
             new ezcTestDocumentPdfHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 1 )
         ) );
@@ -323,11 +329,11 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         ) );
 
         // Expectations
-        $driver->expects( $this->exactly( 8 ) )->method( 'drawWord' );
+        $driver->expects( $this->exactly( 6 ) )->method( 'drawWord' );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertFalse( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100 ),
+            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
             new ezcDocumentPdfDefaultHyphenator(),
             $this->xpath->query( '//doc:para' )->item( 1 )
         ) );

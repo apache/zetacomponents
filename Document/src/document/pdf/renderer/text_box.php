@@ -51,10 +51,10 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             switch ( $styles['text-align']->value )
             {
                 case 'center':
-                    $offset     = ( $width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
+                    $offset     = ( $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
                     break;
                 case 'right':
-                    $offset     = $width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth );
+                    $offset     = $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth );
                     break;
                 case 'justify':
                     $offset     = 0;
@@ -70,7 +70,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                             // in the line
                             break;
                         default:
-                            $spaceWidth = ( $width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
+                            $spaceWidth = ( $space->width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
                     }
                 default:
                     $offset     = 0;
