@@ -50,6 +50,44 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
     protected $currentpage;
 
     /**
+     * Array with fonts, and their equivalents for bold and italic markup. This
+     * array will be extended when loading new fonts, but contains the builtin
+     * fonts by default.
+     *
+     * The fourth value for each font is bold + oblique, the index is the
+     * bitwise and combination of the repective combinations. Each font MUST
+     * have at least a value for FONT_PLAIN assigned.
+     * 
+     * @var array
+     */
+    protected $fonts = array(
+        'sans-serif' => array(
+            self::FONT_PLAIN   => 'Bitstream Vera Sans',
+            self::FONT_BOLD    => 'Bitstream Vera Sans',
+            self::FONT_OBLIQUE => 'Bitstream Vera Sans',
+            3                  => 'Bitstream Vera Sans',
+        ),
+        'serif' => array(
+            self::FONT_PLAIN   => 'Bitstream Vera Serif',
+            self::FONT_BOLD    => 'Bitstream Vera Serif',
+            self::FONT_OBLIQUE => 'Bitstream Vera Serif',
+            3                  => 'Bitstream Vera Serif',
+        ),
+        'monospace' => array(
+            self::FONT_PLAIN   => 'Bitstream Vera Sans Mono',
+            self::FONT_BOLD    => 'Bitstream Vera Sans Mono',
+            self::FONT_OBLIQUE => 'Bitstream Vera Sans Mono',
+            3                  => 'Bitstream Vera Sans Mono',
+        ),
+        'Symbol' => array(
+            self::FONT_PLAIN   => 'Symbol',
+        ),
+        'ZapfDingbats' => array(
+            self::FONT_PLAIN   => 'ZapfDingbats',
+        ),
+    );
+
+    /**
      * Name and style of default font / currently used font
      * 
      * @var array
@@ -204,9 +242,11 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $textNode->setAttribute( 
             'style', 
             sprintf(
-                'font-size: %dpt; font-family: \'%s\'; stroke: none;',
+                'font-size: %dpt; font-family: %s; font-style: %s; font-weight: %s; stroke: none;',
                 $this->currentFont['size'],
-                $this->currentFont['name']
+                $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
+                ( $this->currentFont['style'] & self::FONT_OBLIQUE ) ? 'oblique' : 'normal',
+                ( $this->currentFont['style'] & self::FONT_BOLD )    ? 'bold'    : 'normal'
             )
         );
         $this->currentPage->appendChild( $textNode );
