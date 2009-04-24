@@ -95,7 +95,7 @@ class ezcPersistentIdentityRelationQueryCreator
         $srcDef = $this->defManager->fetchDefinition( $class );
 
         return new ezcPersistentFindWithRelationsQuery(
-            $this->createBasicFindQuery( $q, $srcDef, $relations ),
+            $this->createBasicFindQuery( $srcDef, $relations ),
             $class,
             $relations
         );

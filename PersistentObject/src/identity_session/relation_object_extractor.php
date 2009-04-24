@@ -72,7 +72,7 @@ class ezcPersistentIdentityRelationObjectExtractor
      * @param mixed $id 
      * @param array $relations 
      */
-    public function extractObjects( PDOStatement $stmt, $class, $id, array $relations )
+    public function extractObjectWithRelatedObjects( PDOStatement $stmt, $class, $id, array $relations )
     {
         $results = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
@@ -93,6 +93,51 @@ class ezcPersistentIdentityRelationObjectExtractor
         {
             $this->extractObjectsRecursive( $row, $relations, $class, $id );
         }
+    }
+
+    /**
+     * extractObjectsWithRelatedObjects 
+     * 
+     * @param PDOStatement $stmt 
+     * @param mixed $class 
+     * @param array $relations 
+     * @return void
+     */
+    public function extractObjectsWithRelatedObjects( PDOStatement $stmt, ezcPersistentFindWithRelationsQuery $q, array $relations )
+    {
+        $class = $q->class;
+
+        $results = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
+        $def = $this->defManager->fetchDefinition( $class );
+
+        $extractedBaseObjects = array();
+
+        foreach ( $results as $row )
+        {
+            $baseObjId = $row[$def->idProperty->propertyName];
+
+            if ( !isset( $extractedBaseObjects[$baseObjId] ) )
+            {
+                $object = new $class();
+                $this->setObjectState(
+                    $object,
+                    $def,
+                    $row
+                );
+                $this->idMap->setIdentityWithId( $object, $class, $baseObjId );
+                $extractedBaseObjects[$baseObjId] = $object;
+            }
+
+            $this->extractObjectsRecursive(
+                $row,
+                $relations,
+                $class,
+                $baseObjId
+            );
+        }
+        
+        return $extractedBaseObjects;
     }
 
     /**

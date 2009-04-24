@@ -69,7 +69,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt->execute();
 
         // Actual test
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 
@@ -117,7 +117,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt = $q->prepare();
         $stmt->execute();
 
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 
@@ -154,7 +154,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt = $q->prepare();
         $stmt->execute();
 
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 
@@ -186,7 +186,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt = $q->prepare();
         $stmt->execute();
 
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 
@@ -229,7 +229,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt = $q->prepare();
         $stmt->execute();
 
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 
@@ -261,7 +261,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt = $q->prepare();
         $stmt->execute();
 
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 
@@ -305,7 +305,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt->execute();
 
         // Actual test
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 
@@ -352,7 +352,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt->execute();
 
         // Actual test
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 
@@ -400,7 +400,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $stmt->execute();
 
         // Actual test
-        $this->extractor->extractObjects(
+        $this->extractor->extractObjectWithRelatedObjects(
             $stmt, 'RelationTestPerson', 2, $relations
         );
 

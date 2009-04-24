@@ -981,7 +981,12 @@ class ezcPersistentIdentitySession
             );
         }
 
-        $this->objectExtractor->extractObjects( $stmt, $class, $id, $relations );
+        $this->objectExtractor->extractObjectWithRelatedObjects(
+            $stmt,
+            $class,
+            $id,
+            $relations
+        );
 
         return $this->identityMap->getIdentity( $class, $id );
     }
