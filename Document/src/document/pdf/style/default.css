@@ -45,10 +45,13 @@ title {
 
 section > title {
 	font-size: "24pt";
+	text-columns: "1";
+	margin: "5mm 0mm 10mm 0mm";
 }
 
 section > section > title {
 	font-size: "20pt";
+	text-columns: "1";
 }
 
 section > section > section > title {

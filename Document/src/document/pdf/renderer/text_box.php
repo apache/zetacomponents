@@ -21,6 +21,48 @@
 abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
 {
     /**
+     * Evaluate available bounding box
+     * 
+     * Returns false, if not enough space is available on current
+     * page, and a bounding box otherwise.
+     * 
+     * @param ezcDocumentPdfPage $page 
+     * @param array $styles 
+     * @param float $width
+     * @return mixed
+     */
+    protected function evaluateAvailableBoundingBox( ezcDocumentPdfPage $page, array $styles, $width )
+    {
+        // Ensure a current rendering position on page
+        if ( ( $page->x === null ) ||
+             ( $page->y === null ) )
+        {
+            $space = $page->testFitRectangle( null, null, $width, $styles['font-size']->value );
+            $page->x = $space->x;
+            $page->y = $space->y;
+        }
+
+        // Grap the maximum available vertical space
+        $space = $page->testFitRectangle( $page->x, $page->y, $width, null );
+        if ( $space === false )
+        {
+            // Could not allocate space, required for even one line
+            return false;
+        }
+
+        // Render token, respecting assigned styles
+        $spaceWidth     = $this->driver->calculateWordWidth( ' ' );
+
+        // Apply padding to title
+        $space->x      += $styles['padding']->value['left'];
+        $space->width  -= $styles['padding']->value['left'] + $styles['padding']->value['right'];
+        $space->y      += $styles['padding']->value['top'];
+        $space->height -= $styles['padding']->value['top'] + $styles['padding']->value['bottom'];
+
+        return $space;
+    }
+
+    /**
      * Render text box
      *
      * Render a single text box, specified by the given lines array,

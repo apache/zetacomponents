@@ -52,9 +52,11 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     protected $handlerMapping = array(
         'http://docbook.org/ns/docbook' => array(
-            'article' => 'initializeDocument',
-            'section' => 'process',
-            'para'    => 'renderParagraph',
+            'article'     => 'initializeDocument',
+            'section'     => 'process',
+            'para'        => 'renderParagraph',
+            'title'       => 'renderTitle',
+            'sectioninfo' => 'ignore',
         ),
     );
 
@@ -143,6 +145,17 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
+     * Ignore elements, which should not be rendered
+     * 
+     * @param ezcDocumentPdfInferencableDomElement $element 
+     * @return void
+     */
+    protected function ignore( ezcDocumentPdfInferencableDomElement $element )
+    {
+        // Just do nothing.
+    }
+
+    /**
      * Initialize document according to detected root node
      * 
      * @param ezcDocumentPdfInferencableDomElement $element 
@@ -165,6 +178,28 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     protected function renderParagraph( ezcDocumentPdfInferencableDomElement $element )
     {
         $renderer = new ezcDocumentPdfParagraphRenderer( $this->driver, $this->styles );
+
+        // Just try to render at current position first
+        $trans = $this->driver->startTransaction();
+        if ( !$renderer->render( end( $this->pages ), $this->hypenator, $element ) )
+        {
+            $this->driver->revert( $trans );
+        }
+
+        // Then try to move paragraph into next column
+
+        // Then try to move paragraph to next page
+    }
+
+    /**
+     * Handle calls to paragraph renderer
+     * 
+     * @param ezcDocumentPdfInferencableDomElement $element 
+     * @return void
+     */
+    protected function renderTitle( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $renderer = new ezcDocumentPdfTitleRenderer( $this->driver, $this->styles );
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();

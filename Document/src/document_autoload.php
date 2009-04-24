@@ -199,6 +199,7 @@ return array(
     'ezcDocumentPdfStyleStringValue'                     => 'Document/document/pdf/style/string_value.php',
     'ezcDocumentPdfSvgDriver'                            => 'Document/document/pdf/driver/svg.php',
     'ezcDocumentPdfTcpdfDriver'                          => 'Document/document/pdf/driver/tcpdf.php',
+    'ezcDocumentPdfTitleRenderer'                        => 'Document/document/pdf/renderer/title.php',
     'ezcDocumentPdfTransactionalDriverProxy'             => 'Document/document/pdf/driver/transactional_proxy.php',
     'ezcDocumentRst'                                     => 'Document/document/rst.php',
     'ezcDocumentRstAnonymousLinkNode'                    => 'Document/document/rst/nodes/link_anonymous.php',
