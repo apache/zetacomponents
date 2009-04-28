@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.2" streamable="true" width="210mm" height="297mm">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" streamable="true">
   <pageSet>
-    <page width="210mm" height="297mm">
+    <g>
+      <rect x="0mm" y="0mm" width="210mm" height="297mm" style="fill: #ffffff; stroke: #000000; stroke-width: 1px; fill-opacity: 1; stroke-opacity: 1;"/>
       <text x="16.0000mm" y="27.0000mm" style="font-size: 24pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Paragraphs</text>
       <text x="56.0473mm" y="27.0000mm" style="font-size: 24pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">with</text>
       <text x="74.2507mm" y="27.0000mm" style="font-size: 24pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">inline</text>
@@ -41,6 +42,6 @@
       <text x="174.3690mm" y="65.9333mm" style="font-size: 11pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">both</text>
       <text x="16.0000mm" y="70.1667mm" style="font-size: 11pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">stacked.</text>
       <text x="32.3830mm" y="70.1667mm" style="font-size: 11pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">.</text>
-    </page>
+    </g>
   </pageSet>
 </svg>

@@ -50,6 +50,20 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
     protected $currentpage;
 
     /**
+     * Current inner document offset
+     * 
+     * @var float
+     */
+    protected $offset = 0;
+
+    /**
+     * Next inner document offset after page creation
+     * 
+     * @var float
+     */
+    protected $nextOffset = 0;
+
+    /**
      * Array with fonts, and their equivalents for bold and italic markup. This
      * array will be extended when loading new fonts, but contains the builtin
      * fonts by default.
@@ -132,13 +146,20 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      */
     public function createPage( $width, $height )
     {
-        $this->svg->setAttribute( 'width', $width . 'mm' );
-        $this->svg->setAttribute( 'height', $height . 'mm' );
+        $this->offset      = $this->nextOffset;
+        $this->nextOffset += $width + 10;
 
-        $this->currentPage = $this->document->createElement( 'page' );
+        $this->currentPage = $this->document->createElement( 'g' );
         $this->currentPage = $this->pages->appendChild( $this->currentPage );
-        $this->currentPage->setAttribute( 'width', $width . 'mm' );
-        $this->currentPage->setAttribute( 'height', $height . 'mm' );
+
+        // Render a containing box visually representing a page in the box
+        $page = $this->document->createElement( 'rect' );
+        $page = $this->currentPage->appendChild( $page );
+        $page->setAttribute( 'x', $this->offset . 'mm' );
+        $page->setAttribute( 'y', '0mm' );
+        $page->setAttribute( 'width', $width . 'mm' );
+        $page->setAttribute( 'height', $height . 'mm' );
+        $page->setAttribute( 'style', 'fill: #ffffff; stroke: #000000; stroke-width: 1px; fill-opacity: 1; stroke-opacity: 1;' );
     }
 
     /**
@@ -237,7 +258,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
     public function drawWord( $x, $y, $word )
     {
         $textNode = $this->document->createElement( 'text', htmlspecialchars( $word,  ENT_QUOTES, 'UTF-8' ) );
-        $textNode->setAttribute( 'x', sprintf( '%.4Fmm', $x ) );
+        $textNode->setAttribute( 'x', sprintf( '%.4Fmm', $x + $this->offset ) );
         $textNode->setAttribute( 'y', sprintf( '%.4Fmm', $y ) );
         $textNode->setAttribute( 
             'style', 
