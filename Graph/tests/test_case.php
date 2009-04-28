@@ -1,6 +1,28 @@
 <?php
 class ezcGraphTestCase extends ezcTestImageCase
 {
+    /**
+     * Normalize given PHP code for flash generation
+     * 
+     * @param string $code 
+     * @return string
+     */
+    protected function normalizeFlashCode( $code )
+    {
+        return preg_replace(
+            array(
+                '/\$[sf]\d+/',
+                '[/\\*.*\\*/]i',
+                '(BitmapID:.*?,SWFFILL_RADIAL_GRADIENT\\);)s',
+            ),
+            array(
+                '$var',
+                '/* Comment irrelevant */',
+                '/* Inserted bitmap fill */',
+            ),
+            $code
+        );
+    }
 
     /**
      * Compares to flash files comparing the output of `swftophp`
@@ -28,25 +50,13 @@ class ezcGraphTestCase extends ezcTestImageCase
             $this->markTestSkipped( 'Could not find swftophp executeable to compare flash files. Please check your $PATH.' );
         }
 
-        $generatedCode = shell_exec( $executeable . ' ' . escapeshellarg( $generated ) );
-        $compareCode = shell_exec( $executeable . ' ' . escapeshellarg( $compare ) );
-
-        foreach ( 
-            array(
-                'generatedCode' => $generatedCode,
-                'compareCode' => $compareCode,
-            ) as $var => $content )
-        {
-            $content = preg_replace( '/\$[sf]\d+/', '$var', $content );
-            $content = preg_replace( '[/\\*.*\\*/]i', '/* Comment irrelevant */', $content );
-            $content = preg_replace( '(BitmapID:.*?,SWFFILL_RADIAL_GRADIENT\\);)s', '/* Inserted bitmap fill */', $content );
-
-            $$var = $content;
-        }
-
         $this->assertEquals(
-            $generatedCode,
-            $compareCode,
+            $this->normalizeFlashCode( 
+                shell_exec( $executeable . ' ' . escapeshellarg( $compare ) )
+            ),
+            $this->normalizeFlashCode( 
+                shell_exec( $executeable . ' ' . escapeshellarg( $generated ) )
+            ),
             'Rendered image is not correct.'
         );
     }
