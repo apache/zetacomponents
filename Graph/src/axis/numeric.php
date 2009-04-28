@@ -393,7 +393,10 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
 
         // Check that the minor step size matches up with major step size on
         // the axis.
-        if ( ( ( $quotient = $this->properties['majorStep'] / $this->properties['minorStep'] ) - floor( $quotient ) ) > .00001 )
+        $quotient = $this->properties['majorStep'] / $this->properties['minorStep'];
+        $quotient = abs( $quotient - floor( $quotient ) );
+        if ( ( $quotient >= .00001 ) &&
+             ( abs( $quotient - 1 ) >=  .00001 ) )
         {
             throw new ezcGraphInvalidStepSizeException( "The major step size value is not a multiplier of the minor step size." );
         }
