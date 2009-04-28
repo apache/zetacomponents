@@ -21,6 +21,53 @@
 abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
 {
     /**
+     * Render a single text box
+     *
+     * All markup inside of the given string is considered inline markup (in
+     * CSS terms). Inline markup should be given as common docbook inline
+     * markup, like <emphasis>.
+     *
+     * Returns a boolean indicator whether the rendering of the full text
+     * in the available space succeeded or not.
+     *
+     * @param ezcDocumentPdfPage $page 
+     * @param ezcDocumentPdfHyphenator $hyphenator 
+     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @return bool
+     */
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
+    {
+        // Inference page styles
+        $styles = $this->styles->inferenceFormattingRules( $text );
+        $width  = $page->innerWidth / $styles['text-columns']->value -
+            ( $styles['text-column-spacing']->value * ( $styles['text-columns']->value - 1 ) );
+
+        // Evaluate available space
+        if ( ( $space = $this->evaluateAvailableBoundingBox( $page, $styles, $width ) ) === false )
+        {
+            return false;
+        }
+
+        // Iterate over tokens and try to fit them in the current line, use
+        // hyphenator to split words.
+        $tokens = $this->tokenize( $text );
+        $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
+
+        // Try to render text into evaluated box
+        if ( ( $covered = $this->renderTextBox( $lines, $space, $styles ) ) === false )
+        {
+            return false;
+        }
+
+        // Mark used space covered and exit with success return code
+        $page->setCovered(
+            new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $covered )
+        );
+        $page->y += $covered + $styles['margin']->value['bottom'];
+        return true;
+    }
+
+    /**
      * Evaluate available bounding box
      * 
      * Returns false, if not enough space is available on current
@@ -33,15 +80,6 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      */
     protected function evaluateAvailableBoundingBox( ezcDocumentPdfPage $page, array $styles, $width )
     {
-        // Ensure a current rendering position on page
-        if ( ( $page->x === null ) ||
-             ( $page->y === null ) )
-        {
-            $space = $page->testFitRectangle( null, null, $width, $styles['font-size']->value );
-            $page->x = $space->x;
-            $page->y = $space->y;
-        }
-
         // Grap the maximum available vertical space
         $space = $page->testFitRectangle( $page->x, $page->y, $width, null );
         if ( $space === false )
@@ -63,6 +101,25 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
+     * Calculate text width
+     *
+     * Calculate the available horizontal space for texts depending on the
+     * page layout settings.
+     * 
+     * @param ezcDocumentPdfPage $page 
+     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @return float
+     */
+    protected function calculateTextWidth( ezcDocumentPdfPage $page, ezcDocumentPdfInferencableDomElement $text )
+    {
+        // Inference page styles
+        $rules = $this->styles->inferenceFormattingRules( $text );
+
+        return $page->innerWidth / $rules['text-columns']->value -
+            ( $rules['text-column-spacing']->value * ( $rules['text-columns']->value - 1 ) );
+    }
+
+    /**
      * Render text box
      *
      * Render a single text box, specified by the given lines array,
@@ -81,60 +138,9 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     {
         // Evaluate horizontal starting position
         $yPos = $space->y + $styles['margin']->value['top'];
-        $spaceWidth = $this->driver->calculateWordWidth( ' ' );
         foreach ( $lines as $nr => $line )
         {
-            $lineWidth = 0;
-            foreach ( $line['tokens'] as $token )
-            {
-                $lineWidth += $token['width'];
-            }
-
-            switch ( $styles['text-align']->value )
-            {
-                case 'center':
-                    $offset     = ( $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
-                    break;
-                case 'right':
-                    $offset     = $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth );
-                    break;
-                case 'justify':
-                    $offset     = 0;
-                    switch ( true )
-                    {
-                        case $nr === ( count( $lines ) - 1 ):
-                            // Just default space width in last line of a
-                            // paragraph
-                            $spaceWidth = $this->driver->calculateWordWidth( ' ' );
-                            break;
-                        case count( $line['tokens'] ) <= 1:
-                            // Space width is irrelevant, if only one token is
-                            // in the line
-                            break;
-                        default:
-                            $spaceWidth = ( $space->width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
-                    }
-                default:
-                    $offset     = 0;
-            }
-
-            // Default to left alignement
-            $xPos = $space->x + $offset;
-            foreach ( $line['tokens'] as $token )
-            {
-                // Apply current styles
-                foreach ( $token['style'] as $style => $value )
-                {
-                    $this->driver->setTextFormatting( $style, $value->value );
-                }
-
-                // Render word 
-                // @TODO: Align text baseline, if different font sizes are given
-                $this->driver->drawWord( $xPos, $yPos, $token['word'] );
-                $xPos += $token['width'] + $spaceWidth;
-            }
-
-            $yPos += $line['height'];
+            $yPos += $this->renderLine( $yPos, $line, $space, $styles );
 
             // Check if we run out of vertical space
             if ( $yPos > ( $space->y + $space->height ) )
@@ -144,6 +150,70 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         }
 
         return $yPos - $space->y;
+    }
+
+    /**
+     * Render a single line and return the used height
+     * 
+     * @param array $line 
+     * @param ezcDocumentPdfBoundingBox $space 
+     * @param array $styles 
+     * @return float
+     */
+    protected function renderLine( $position, array $line, ezcDocumentPdfBoundingBox $space, array $styles )
+    {
+        $spaceWidth = $this->driver->calculateWordWidth( ' ' );
+        $lineWidth = 0;
+        foreach ( $line['tokens'] as $token )
+        {
+            $lineWidth += $token['width'];
+        }
+
+        switch ( $styles['text-align']->value )
+        {
+            case 'center':
+                $offset     = ( $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
+                break;
+            case 'right':
+                $offset     = $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth );
+                break;
+            case 'justify':
+                $offset     = 0;
+                switch ( true )
+                {
+                    case $nr === ( count( $lines ) - 1 ):
+                        // Just default space width in last line of a
+                        // paragraph
+                        $spaceWidth = $this->driver->calculateWordWidth( ' ' );
+                        break;
+                    case count( $line['tokens'] ) <= 1:
+                        // Space width is irrelevant, if only one token is
+                        // in the line
+                        break;
+                    default:
+                        $spaceWidth = ( $space->width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
+                }
+            default:
+                $offset     = 0;
+        }
+
+        // Default to left alignement
+        $xPos = $space->x + $offset;
+        foreach ( $line['tokens'] as $token )
+        {
+            // Apply current styles
+            foreach ( $token['style'] as $style => $value )
+            {
+                $this->driver->setTextFormatting( $style, $value->value );
+            }
+
+            // Render word 
+            // @TODO: Align text baseline, if different font sizes are given
+            $this->driver->drawWord( $xPos, $position, $token['word'] );
+            $xPos += $token['width'] + $spaceWidth;
+        }
+
+        return $line['height'];
     }
 
     /**

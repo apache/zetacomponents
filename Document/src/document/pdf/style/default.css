@@ -15,6 +15,10 @@ article {
 	// Initilize general properties
 	padding: "0mm";
 	margin: "0mm";
+
+	// General text layout options
+	orphans: "3";
+	widows:  "3";
 }
 
 page {
@@ -28,7 +32,7 @@ page {
 }
 
 para {
-	margin: "2mm 0mm 3mm 0mm";
+	margin: "3mm 0mm 1mm 0mm";
 }
 
 emphasis {
@@ -48,7 +52,7 @@ title {
 section > title {
 	font-size: "24pt";
 	text-columns: "1";
-	margin: "5mm 0mm 10mm 0mm";
+	margin: "10mm 0mm 4mm 0mm";
 }
 
 section > section > title {

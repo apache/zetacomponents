@@ -131,8 +131,9 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $this->svg->setAttribute( 'version', '1.2' );
         $this->svg->setAttribute( 'streamable', 'true' );
 
-        $this->pages = $this->document->createElement( 'pageSet' );
+        $this->pages = $this->document->createElement( 'g' );
         $this->pages = $this->svg->appendChild( $this->pages );
+        $this->pages->setAttribute( 'id', 'pages' );
     }
 
     /**
@@ -268,6 +269,39 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
                 $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
                 ( $this->currentFont['style'] & self::FONT_OBLIQUE ) ? 'oblique' : 'normal',
                 ( $this->currentFont['style'] & self::FONT_BOLD )    ? 'bold'    : 'normal'
+            )
+        );
+        $this->currentPage->appendChild( $textNode );
+    }
+
+    /**
+     * Draw rectangle
+     *
+     * Draw rectangle of specified dimensions in specified color. The last
+     * parameter defined, if only an outline should be renderer, or if a filled
+     * rectangle should be rendered.
+     *
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $heigt 
+     * @param mixed $color 
+     * @param bool $filled 
+     * @return void
+     */
+    public function drawRectangle( $x, $y, $width, $height, $color, $filled = true )
+    {
+        $textNode = $this->document->createElement( 'rect' );
+        $textNode->setAttribute( 'x', sprintf( '%.4Fmm', $x + $this->offset ) );
+        $textNode->setAttribute( 'y', sprintf( '%.4Fmm', $y ) );
+        $textNode->setAttribute( 'width', sprintf( '%.4Fmm', $width ) );
+        $textNode->setAttribute( 'height', sprintf( '%.4Fmm', $height ) );
+        $textNode->setAttribute( 
+            'style', 
+            sprintf(
+                'fill: %s; stroke: %s; stroke-width: 1px; fill-opacity: .3; stroke-opacity: 0;',
+                $color,
+                '#000000'
             )
         );
         $this->currentPage->appendChild( $textNode );

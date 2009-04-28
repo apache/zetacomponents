@@ -18,6 +18,8 @@
  * one PDF page, and offers methods to check if a new content block fits on the
  * page an, where it does fir on the page.
  *
+   @TODO: Make page transactional
+ *
  * @package Document
  * @access private
  * @version //autogen//
@@ -408,6 +410,23 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         }
 
         return $boundings;
+    }
+
+    /**
+     * Show covered areas
+     *
+     * Only for debugging purpose.
+     * 
+     * @param ezcDocumentPdfDriver $driver 
+     * @access private
+     * @return void
+     */
+    public function showCoveredAreas( ezcDocumentPdfDriver $driver )
+    {
+        foreach ( $this->covered as $box )
+        {
+            $driver->drawRectangle( $box->x, $box->y, $box->width, $box->height, '#729fcf' );
+        }
     }
 
     /**

@@ -97,6 +97,40 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
+     * Get next rendering position
+     *
+     * If the current space has been exceeded this method calculates
+     * a new rendering position, optionally creates a new page for
+     * this, or switches to the next column. The new rendering
+     * position is set on the returned page object.
+     *
+     * As the parameter you need to pass the required width for the object to
+     * place on the page.
+     * 
+     * @param float $width
+     * @return ezcDocumentPdfPage
+     */
+    public function getNextRenderingPosition( $width )
+    {
+        // Then move paragraph into next column / page
+        $trans = $this->driver->startTransaction();
+        $page  = end( $this->pages );
+        if ( ( ( $newX = $page->x + $width ) < $page->innerWidth ) &&
+             ( ( $space = $page->testFitRectangle( $newX, null, $width, 2 ) ) !== false ) )
+        {
+            // Another column fits on the current page, find starting Y
+            // position
+            $page->x = $space->x;
+            $page->y = $space->y;
+
+            return $page;
+        }
+
+        // If there is no space for a new column, create a new page
+        return $this->createPage();
+    }
+
+    /**
      * Recurse into DOMDocument tree and call appropriate element handlers
      * 
      * @param DOMNode $element 
@@ -126,10 +160,9 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     /**
      * Create a new page
      * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
-     * @return void
+     * @return ezcDocumentPdfPage
      */
-    protected function createPage( ezcDocumentPdfInferencableDomElement $element )
+    protected function createPage()
     {
         $styles = $this->styles->inferenceFormattingRules( new ezcDocumentPdfPage( 0, 0, 0, 0 ) );
         $this->pages[] = $page = ezcDocumentPdfPage::createFromSpecification(
@@ -142,6 +175,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         // Tell driver about new page
         $this->driver->startTransaction();
         $this->driver->createPage( $page->width, $page->height );
+
+        return $page;
     }
 
     /**
@@ -163,7 +198,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     protected function initializeDocument( ezcDocumentPdfInferencableDomElement $element )
     {
-        $this->createPage( $element );
+        $this->createPage();
 
         // Continiue processing sub nodes
         $this->process( $element );
@@ -178,17 +213,19 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     protected function renderParagraph( ezcDocumentPdfInferencableDomElement $element )
     {
         $renderer = new ezcDocumentPdfParagraphRenderer( $this->driver, $this->styles );
+        $page     = end( $this->pages );
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
-        if ( !$renderer->render( end( $this->pages ), $this->hypenator, $element ) )
+        if ( $renderer->render( $page, $this->hypenator, $element, $this ) )
         {
-            $this->driver->revert( $trans );
+            return true;
         }
+        $this->driver->revert( $trans );
 
-        // Then try to move paragraph into next column
-
-        // Then try to move paragraph to next page
+        // If that did not work, switch to the next possible location and start
+        // there.
+        // @TODO: Implement
     }
 
     /**
@@ -200,17 +237,34 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     protected function renderTitle( ezcDocumentPdfInferencableDomElement $element )
     {
         $renderer = new ezcDocumentPdfTitleRenderer( $this->driver, $this->styles );
+        $page     = end( $this->pages );
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
-        if ( !$renderer->render( end( $this->pages ), $this->hypenator, $element ) )
+        if ( $renderer->render( $page, $this->hypenator, $element, $this ) )
         {
-            $this->driver->revert( $trans );
+            return true;
         }
+        $this->driver->revert( $trans );
 
-        // Then try to move paragraph into next column
+        // Then move paragraph into next column / page
+        $trans = $this->driver->startTransaction();
+        if ( ( $newX = $renderer->getNextColumnPosition( $page, $element, $page->x ) ) !== false )
+        {
+            $page->showCoveredAreas( $this->driver );
 
-        // Then try to move paragraph to next page
+            // Find new y position
+            $space = $page->testFitRectangle( $newX, null, 1, 1 );
+            $page->x = $space->x;
+            $page->y = $space->y;
+
+            return $this->renderParagraph( $element );
+        }
+        $this->driver->revert( $trans );
+
+        // If there is no space for a new column, create a new page
+        $this->createPage();
+        $this->renderTitle( $element );
     }
 }
 
