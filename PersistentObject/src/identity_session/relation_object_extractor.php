@@ -134,7 +134,7 @@ class ezcPersistentIdentityRelationObjectExtractor
                 $relations,
                 $class,
                 $baseObjId,
-                $q->restrictedRelations
+                $q->isRestricted
             );
         }
         
@@ -148,16 +148,16 @@ class ezcPersistentIdentityRelationObjectExtractor
      * the case, the objects will be extracted and added as related objects of
      * their class for the object of $parentClass with $parentId. If
      * sub-sequent relations exist for an extracted object, this method is
-     * called recursively. Relation keys that occur in $restrictedRelations
-     * will be set as named related sets instead of normal related sets.
+     * called recursively. If $restricted is set to true, named related object
+     * sets will be created instead of normal related object sets.
      * 
      * @param array $row 
      * @param array $relations 
      * @param string $parentClass 
      * @param mixed $parentId 
-     * @param array $restrictedRelations
+     * @param bool $restricted
      */
-    protected function extractObjectsRecursive( array $row, array $relations, $parentClass, $parentId, array $restrictedRelations )
+    protected function extractObjectsRecursive( array $row, array $relations, $parentClass, $parentId, $restricted = false )
     {
         foreach ( $relations as $tableAlias => $relation )
         {
@@ -172,7 +172,7 @@ class ezcPersistentIdentityRelationObjectExtractor
             {
                 // Related object not present, check if a relation is recorded
                 // in general, to potentially add an empty set
-                if ( isset( $restrictedRelations[$tableAlias] ) )
+                if ( $restricted )
                 {
                     $relatedObjects = $this->idMap->getRelatedObjectSetWithId(
                         $parentClass,
@@ -226,7 +226,7 @@ class ezcPersistentIdentityRelationObjectExtractor
 
             // Check if relations from $parentClass to $relation->relatedClass
             // were already recorded
-            if ( isset( $restrictedRelations[$tableAlias] ) )
+            if ( $restricted )
             {
                 $relatedObjects = $this->idMap->getRelatedObjectSetWithId(
                     $parentClass,
@@ -258,7 +258,7 @@ class ezcPersistentIdentityRelationObjectExtractor
                 // which is somewhat expensive but not really possible in a
                 // different way, since adding new related objects invalidates
                 // named related sets.
-                if ( isset( $restrictedRelations[$tableAlias] ) )
+                if ( $restricted )
                 {
                     $this->idMap->setRelatedObjectSetWithId(
                         $parentClass,
@@ -285,7 +285,7 @@ class ezcPersistentIdentityRelationObjectExtractor
                 $relation->furtherRelations,
                 $relation->relatedClass,
                 $id,
-                $restrictedRelations
+                $restricted
             );
         }
     }

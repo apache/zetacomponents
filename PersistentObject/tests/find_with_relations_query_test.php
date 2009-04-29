@@ -22,18 +22,6 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public function testRelationsInCtor()
-    {
-        $q = new ezcQuerySelect( $this->db );
-        $relations = array(
-            'bars' => new ezcPersistentRelationFindDefinition( 'BarClass' ),
-        );
-
-        $findQuery = new ezcPersistentFindWithRelationsQuery( $q, 'FooClass', $relations );
-
-        $this->assertSame( $relations, $findQuery->relations );
-    }
-
     public function testSetOwnPropertiesFailure()
     {
         parent::testSetOwnPropertiesFailure();
@@ -46,7 +34,7 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
         );
         $this->assertSetPropertyFails(
             $findQuery,
-            'restrictedRelations',
+            'isRestricted',
             array( 23, 42.23, true, array(), 'foo' )
         );
     }
@@ -61,8 +49,7 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
             'bars' => new ezcPersistentRelationFindDefinition( 'BarClass' ),
         );
 
-        $this->assertEquals( $relations, $findQuery->relations );
-        $this->assertEquals( array(), $findQuery->restrictedRelations );
+        $this->assertFalse( $findQuery->isRestricted );
     }
 
     public function testIssetOwnPropertiesSuccess()
@@ -71,8 +58,7 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
 
         $findQuery = $this->createFindQuery();
 
-        $this->assertTrue( isset( $findQuery->relations ) );
-        $this->assertTrue( isset( $findQuery->restrictedRelations ) );
+        $this->assertTrue( isset( $findQuery->isRestricted ) );
     }
 
     public function testFluentInterface()
@@ -104,9 +90,8 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
             $q->expr->eq( 'bars_id', $q->bindValue( 23 ) )
         );
         
-        $this->assertEquals(
-            array( 'bars' => true ),
-            $q->restrictedRelations
+        $this->assertTrue(
+            $q->isRestricted
         );
     }
 
@@ -119,9 +104,8 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
             $q->expr->eq( 'bars_id', $q->bindValue( 23 ) )
         );
         
-        $this->assertEquals(
-            array( 'bars' => true ),
-            $q->restrictedRelations
+        $this->assertTrue(
+            $q->isRestricted
         );
     }
 

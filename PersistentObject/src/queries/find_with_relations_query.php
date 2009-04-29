@@ -9,6 +9,10 @@
  */
 /**
  * Find query object for pre-fetching queries in ezcPersistentIdentitySession.
+ *
+ * @property-read bool $isRestricted
+ *                Whether the query has been restricted using a {@link where()}
+ *                condition.
  * 
  * @package PersistentObject
  * @version //autogen//
@@ -24,12 +28,10 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
      * @param ezcQuerySelect $query
      * @param string $className
      */
-    public function __construct( ezcQuerySelect $query, $className, array $relations )
+    public function __construct( ezcQuerySelect $query, $className )
     {
         parent::__construct( $query, $className );
-        
-        $this->properties['relations']           = $relations;
-        $this->properties['restrictedRelations'] = array();
+        $this->properties['isRestricted'] = false;
     }
 
     /**
@@ -47,12 +49,9 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
      * $q->select( '*' )->from( 'table' )->where( $q->expr->eq( 'id', 1 ) );
      * </code>
      *
-     * Note, that whenever you restrict a set of related objects by a custom
-     * WHERE expression using this function, this restriction is recorded. For
-     * relations that have a WHERE restriction applied, the found related
-     * object set is not registered as the main related object set itself, but
-     * as a named related object sub-set under the alias name you registered in
-     * the relation definition.
+     * Note, if you add a WHERE clause to this query, the fetched related
+     * objects will not be fetched into the {@link ezcPersistentIdentityMap}
+     * used as a typical related object set, but as a named set.
      *
      * @TODO Example!
      *
@@ -65,7 +64,7 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
     {
         $args = func_get_args();
 
-        $this->registerWhereConditions( $args );
+        $this->properties['isRestricted'] = true;
 
         $this->query->where( $args );
 
@@ -174,7 +173,7 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
     {
         switch ( $propertyName )
         {
-            case 'relations':
+            case 'isRestricted':
                 throw new ezcBasePropertyPermissionException(
                     $propertyName,
                     ezcBasePropertyPermissionException::READ
