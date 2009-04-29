@@ -128,6 +128,11 @@ class ezcPersistentIdentitySessionRelationPrefetchTest extends ezcTestCase
             ),
         );
     }
+
+    protected function qi( $identifier )
+    {
+        return $this->db->quoteIdentifier( $identifier );
+    }
 }
 
 ?>

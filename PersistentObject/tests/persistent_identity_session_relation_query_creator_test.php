@@ -518,11 +518,6 @@ class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistent
 
         return $q;
     }
-
-    protected function qi( $identifier )
-    {
-        return $this->db->quoteIdentifier( $identifier );
-    }
 }
 
 ?>
