@@ -296,7 +296,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         }
     }
 
-    public function testOneLevelMultiRelationExtract()
+    public function testLoadOneLevelMultiRelationExtract()
     {
         $relations = $this->getOneLevelMultiRelationRelations();
         $q         = $this->getLoadQuery( $relations );
@@ -343,7 +343,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         );
     }
 
-    public function testMultiLevelSingleRelation()
+    public function testLoadMultiLevelSingleRelation()
     {
         $relations = $this->getMultiLevelSingleRelationRelations();
         $q         = $this->getLoadQuery( $relations );
@@ -391,7 +391,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         }
     }
 
-    public function testMultiLevelMultiRelation()
+    public function testLoadMultiLevelMultiRelation()
     {
         $relations = $this->getMultiLevelMultiRelationRelations();
         $q         = $this->getLoadQuery( $relations );
