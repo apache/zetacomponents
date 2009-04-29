@@ -60,7 +60,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         RelationTestEmployer::cleanup( $this->db );
     }
 
-    public function testLoadOneLevelOneRelationExtract()
+    public function testLoadOneLevelOneRelation()
     {
         $relations = $this->getOneLevelOneRelationRelations();
         $q         = $this->getLoadQuery( $relations );
@@ -94,7 +94,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         );
     }
 
-    public function testFindOneLevelOneRelationNoRestrictionsExtract()
+    public function testFindOneLevelOneRelationNoRestrictions()
     {
         $relations = $this->getOneLevelOneRelationRelations();
         $q         = $this->getFindQuery( $relations );
@@ -328,7 +328,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         }
     }
 
-    public function testLoadOneLevelMultiRelationExtract()
+    public function testLoadOneLevelMultiRelation()
     {
         $relations = $this->getOneLevelMultiRelationRelations();
         $q         = $this->getLoadQuery( $relations );
@@ -375,7 +375,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         );
     }
 
-    public function testFindOneLevelMultiRelationNoRestrictionExtract()
+    public function testFindOneLevelMultiRelationNoRestriction()
     {
         $relations = $this->getOneLevelMultiRelationRelations();
         $q         = $this->getFindQuery( $relations );
