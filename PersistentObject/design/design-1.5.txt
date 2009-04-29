@@ -673,35 +673,37 @@ allowed. However, orderBy() should be avoided, since later re-fetching of
 related objects sets would result in potential inconsistencies in an
 application.
 
-The query decorator will detect, for which relations the user manipulates the
-WHERE condition. If the WHERE condition for a relation has been manipulated,
-findWithRelatedObjects() will store a named sub-set for this relation, instead
-of the normal related object set. This is necessary, since by adding a WHERE
-condition for a relation not the full set of related objects is fetched.
+The query decorator will detect if the user manipulates the WHERE condition. If
+the WHERE condition for a relation has been manipulated (a query restriction
+takes effect), find() will store a named sub-set for the related objects,
+instead of the normal related object set. This is necessary, since by adding a
+WHERE condition for a relation not the full set of related objects is fetched.
 
 The name of a named related object sub-set is determined by the key used in the
 $relations array for this relation.
 
-findWithRelations( ezcPersistentFindWithRelationsQuery $query )
----------------------------------------------------------------
+find( ezcPersistentFindWithRelationsQuery $query )
+---------------------------------------------------
 
-This method returns an array of objects exactly like
-ezcPersistentSession->find() does. In the background, it also fetches the
+The find() method (originally defined by ezcPersistentSession) is extended to
+allow finding objects and related objects with an instance of
+ezcPersistentFindWithRelationsQuery. In the background, it also fetches the
 related objects as defined during createFindQueryWithRelations() and stores
 them in the identity map.
 
 The related objects can later be retreived from ezcPersistentIdentitySession by
 the user through ezcPersistentIdentitySession->getRelatedObjects() or
-->getRelatedObjectsSubset(). Names sub sets are created as described in the
+->getRelatedObjectsSubset(). Named sub sets are created as described in the
 previous section, on basis of WHERE conditions.
 
 
-getRelatedObjectsSubset( object $object, string $relatedClass, string $setName, string $relationName = null )
--------------------------------------------------------------------------------------------------------------
+getRelatedObjectsSubset( object $object, string $setName )
+----------------------------------------------------------
 
 This method works similar to getRelatedObjects(), but allows to access a subset
-of related objects, fetched using findWithRelationSubset(). If the set
-identified by $setName does not exist, null is returned.
+of related objects, fetched using find() with a restricted
+ezcPersistentFindWithRelationQuery object. If the set identified by $setName
+does not exist, null is returned.
 
 API additions for ezcPersistentIdentityMap
 ==========================================
