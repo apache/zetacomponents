@@ -357,6 +357,8 @@ class ezcPersistentIdentitySessionFindTest extends ezcPersistentIdentitySessionT
         );
     }
 
+    // helpers
+
     protected function assertIteratorsSame( Iterator $expected, Iterator $actual, $message = null )
     {
         $expected->rewind();

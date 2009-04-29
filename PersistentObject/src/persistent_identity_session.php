@@ -268,6 +268,51 @@ class ezcPersistentIdentitySession
      */
     public function find( $query, $class = null )
     {
+        if ( $query instanceof ezcPersistentFindWithRelationsQuery )
+        {
+            return $this->findWithRelations( $query );
+        }
+        else
+        {
+            return $this->findDefault( $query, $class );
+        }
+    }
+
+    /**
+     * Performs a find with related objects.
+     *
+     * Performs the find operation and also registeres the related objects in
+     * the {@link ezcPersistentIdentityMap} as defined by the query.
+     * 
+     * @param ezcPersistentFindWithRelationsQuery $query 
+     * @param string $class 
+     * @return array(object)
+     */
+    private function findWithRelations( ezcPersistentFindWithRelationsQuery $query )
+    {
+        $this->initializeObjectExtractor();
+
+        $stmt = $query->prepare();
+        $stmt->execute();
+
+        return $this->objectExtractor->extractObjectsWithRelatedObjects(
+            $stmt,
+            $query
+        );
+    }
+
+    /**
+     * Performs the default find behaviour.
+     *
+     * Warps around {@link ezcPersistentSession::find()} and registeres found
+     * objects with the {@link ezcPersistentIdentityMap}.
+     * 
+     * @param ezcQuerySelect|ezcFindQuery $query 
+     * @param string $class 
+     * @return array(object($class))
+     */
+    private function findDefault( $query, $class )
+    {
         $isRelFindQueryWithSetName = $query instanceof ezcPersistentRelationFindQuery
             && $query->relationSetName !== null;
         if ( !$this->options->refetch && $isRelFindQueryWithSetName )
@@ -299,6 +344,13 @@ class ezcPersistentIdentitySession
         return $objects;
     }
 
+    /**
+     * Performs the actual find.
+     * 
+     * @param ezcQuerySelect|ezcPersistentFindQuery $query 
+     * @param string $class 
+     * @return array(object($class))
+     */
     private function performFind( $query, $class = null )
     {
         $objects = $this->session->find( $query, $class );
@@ -551,6 +603,30 @@ class ezcPersistentIdentitySession
     }
 
     /**
+     * Returns the named related objects subset with $setName for $object.
+     *
+     * This method is used to retrieve named subsets of related objects created
+     * by using {@link find()} with a restricted {@link
+     * ezcPersistentFindWithRelationsQuery} created by {@link
+     * createFindQueryWithRelations()}.
+     *
+     * @see ezcPersistentFindWithRelationsQuery
+     * @see find()
+     * @see createFindQueryWithRelations()
+     * 
+     * @param mixed $object 
+     * @param mixed $setName 
+     * @return void
+     */
+    public function getRelatedObjectSubset( $object, $setName )
+    {
+        return $this->identityMap->getRelatedObjectSet(
+            $object,
+            $setName
+        );
+    }
+
+    /**
      * Returns a select query for the given persistent object $class.
      *
      * The query is initialized to fetch all columns from the correct table and
@@ -573,6 +649,90 @@ class ezcPersistentIdentitySession
     public function createFindQuery( $class )
     {
         return $this->session->createFindQuery( $class );
+    }
+
+    /**
+     * Returns a select query for the given $class and its related objects as
+     * defined in $relations.
+     *
+     * This method creates an instance of {@link
+     * ezcPersistentFindWithRelationsQuery}, which can basically be used like
+     * {@link ezcPersistentFindQuery} aka {@link ezcQuerySelect}. The query
+     * object is configured to load objects of $class and has JOIN statements
+     * to load related objects as defined in $relations in addition. You can
+     * use the {@link find()} method to perform the actual find operation. This
+     * one will return the objects of $class. The related objects can simply be
+     * obtained using {@link getRelatedObjects()}, {@link getRelatedObject()}
+     * or {@link getRelatedObjectSet()} (see below). This works then without
+     * issuing a new database connection, since the desired objects are already
+     * stored in the {@link ezcPersistentIdentityMap}.
+     *
+     * The $relations array has the following structure:
+     *
+     * <code>
+     * <?php
+     *  array(
+     *      'relationAlias_1' => new ezcPersistentRelationFindDefinition(
+     *          'relatedClass_1',
+     *          null,
+     *          array(
+     *              'deeperAlias_1' => new ezcPersistentRelationFindDefinition(
+     *                  'deeperRelatedClass_1'
+     *              )
+     *          )
+     *      ),
+     *      'relationAlias_2' => new ezcPersistentRelationFindDefinition(
+     *          'relatedClass_2'
+     *      )
+     *  );
+     * ?>
+     * </code>
+     *
+     * The keys of the array define aliases for relations to be used in the
+     * local context. Each key has an object of {@link
+     * ezcPersistentRelationFindDefinition} assigned, that defines which
+     * relation is meant to be fetched. The first entry above assignes the
+     * alias 'relationAlias_1' to the related class 'relatedClass_1'. The
+     * second parameter to the constructor of {@linke
+     * ezcPersistentRelationFindDefinition} can be a relation name, if multiple
+     * relations to the same class exist. The third parameter defines deeper
+     * relations.
+     *
+     * A call to this method with $class set to 'myClass' and $relations
+     * defined as the array above would create a find query that would by
+     * default find:
+     *
+     * - All objects of myClass
+     * - Foreach object of myClass, all related objects of relatedClass_1
+     * - Foreach object of myClass, all related objects of relatedClass_2
+     * - Foreach object of relatedClass_1, all related objects of deeperRelatedClass_1
+     *
+     * The aliases defined as the keys of the $relations array can be used to
+     * add where() conditions to the created query. Properties of the objects
+     * of relatedClass_1 can be accessed by prefixing their name with
+     * 'relationAlias_1_'.
+     *
+     * NOTE: If you restrict the objects to be found by a WHERE condition, not
+     * the full set of related objects might be returned. To avoid
+     * inconsistencies, the extracted sets of related objects will then not be
+     * registered as usual, but as named related sets. You can then retrieve
+     * them using the {@link getRelatedObjectSet()} method instead of using
+     * {@link getRelatedObjects()}, with the chosen relation alias as the
+     * set name.
+     *
+     * @see find()
+     * @see ezcPersistentFindWithRelationsQuery
+     * @see ezcPersistentRelationFindDefinition
+     * @see ezcPersistentIdentityMap
+     * 
+     * @param string $class 
+     * @param array(ezcPersistentRelationFindDefinition) $relations 
+     * @return ezcPersistentFindWithRelationsQuery
+     */
+    public function createFindQueryWithRelations( $class, array $relations )
+    {
+        $this->initializeQueryCreator();
+        return $this->queryCreator->createFindQuery( $class, $relations );
     }
 
     /**
@@ -959,27 +1119,14 @@ class ezcPersistentIdentitySession
      */
     public function loadWithRelatedObjects( $class, $id, array $relations )
     {
-        if ( $this->queryCreator === null )
-        {
-            $this->queryCreator = new ezcPersistentIdentityRelationQueryCreator(
-                $this->session->definitionManager,
-                $this->session->database
-            );
-        }
+        $this->initializeQueryCreator();
 
         $select = $this->queryCreator->createLoadQuery( $class, $id, $relations );
 
         $stmt = $select->prepare();
         $stmt->execute();
 
-        if ( $this->objectExtractor === null )
-        {
-            $this->objectExtractor = new ezcPersistentIdentityRelationObjectExtractor(
-                $this->properties['identityMap'],
-                $this->session->definitionManager,
-                $this->properties['options']
-            );
-        }
+        $this->initializeObjectExtractor();
 
         $this->objectExtractor->extractObjectWithRelatedObjects(
             $stmt,
@@ -989,6 +1136,43 @@ class ezcPersistentIdentitySession
         );
 
         return $this->identityMap->getIdentity( $class, $id );
+    }
+
+    /**
+     * Initializes the global query creator for this session.
+     *
+     * Checks if the query creator already exists and instantiates it, if not.
+     * 
+     * @return void
+     */
+    private function initializeQueryCreator()
+    {
+        if ( $this->queryCreator === null )
+        {
+            $this->queryCreator = new ezcPersistentIdentityRelationQueryCreator(
+                $this->session->definitionManager,
+                $this->session->database
+            );
+        }
+    }
+
+    /**
+     * Initializes the global object extractor for this session.
+     *
+     * Checks if the object extractor already exists and instantiates it, if not.
+     * 
+     * @return void
+     */
+    private function initializeObjectExtractor()
+    {
+        if ( $this->objectExtractor === null )
+        {
+            $this->objectExtractor = new ezcPersistentIdentityRelationObjectExtractor(
+                $this->properties['identityMap'],
+                $this->session->definitionManager,
+                $this->properties['options']
+            );
+        }
     }
 
     /**

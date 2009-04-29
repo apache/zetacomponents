@@ -564,6 +564,65 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
 
         $this->assertSame( $addresses1, $addresses2 );
     }
+
+    public function testFindWithRelationsUnrestricted()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+       
+        $q = $this->idSession->createFindQueryWithRelations(
+            'RelationTestPerson',
+            array(
+                'addresses' => new ezcPersistentRelationFindDefinition(
+                    'RelationTestAddress'
+                ),
+            )
+        );
+
+        $persons = $this->idSession->find( $q );
+
+        $this->assertNotNull( $persons );
+        $this->assertTrue( count( $persons ) > 0 );
+
+        $this->assertNotNull(
+            $this->idMap->getRelatedObjects( current( $persons ), 'RelationTestAddress' )
+        );
+    }
+
+    public function testFindWithRelationsRestricted()
+    {
+        // @TODO: This is currently needed to fix the attribute set in
+        // ezcDbHandler. Should be removed as soon as this is fixed!
+        $this->session->database->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+       
+        $q = $this->idSession->createFindQueryWithRelations(
+            'RelationTestPerson',
+            array(
+                'addresses' => new ezcPersistentRelationFindDefinition(
+                    'RelationTestAddress'
+                ),
+            )
+        );
+        $q->where(
+            $q->expr->gt(
+                $this->session->database->quoteIdentifier( 'addresses_id' ),
+                $q->bindValue( 2 )
+            )
+        );
+
+        $persons = $this->idSession->find( $q );
+
+        $this->assertNotNull( $persons );
+        $this->assertTrue( count( $persons ) > 0 );
+
+        $this->assertNull(
+            $this->idMap->getRelatedObjects( current( $persons ), 'RelationTestAddress' )
+        );
+        $this->assertNotNull(
+            $this->idMap->getRelatedObjectSet( current( $persons ), 'addresses' )
+        );
+    }
 }
 
 ?>
