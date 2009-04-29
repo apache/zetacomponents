@@ -103,7 +103,7 @@ class ezcPersistentIdentityRelationObjectExtractor
      * @param array $relations 
      * @return void
      */
-    public function extractObjectsWithRelatedObjects( PDOStatement $stmt, ezcPersistentFindWithRelationsQuery $q, array $relations )
+    public function extractObjectsWithRelatedObjects( PDOStatement $stmt, ezcPersistentFindWithRelationsQuery $q )
     {
         $class = $q->className;
 
@@ -131,7 +131,7 @@ class ezcPersistentIdentityRelationObjectExtractor
 
             $this->extractObjectsRecursive(
                 $row,
-                $relations,
+                $q->relations,
                 $class,
                 $baseObjId,
                 $q->isRestricted

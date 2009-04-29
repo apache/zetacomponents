@@ -105,7 +105,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Actual test
         $persons = $this->extractor->extractObjectsWithRelatedObjects(
-            $stmt, $q, $relations
+            $stmt, $q
         );
 
         $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
@@ -143,7 +143,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Actual test
         $persons = $this->extractor->extractObjectsWithRelatedObjects(
-            $stmt, $q, $relations
+            $stmt, $q
         );
 
         $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
@@ -425,7 +425,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Actual test
         $persons = $this->extractor->extractObjectsWithRelatedObjects(
-            $stmt, $q, $relations
+            $stmt, $q
         );
 
         $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
@@ -467,7 +467,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Actual test
         $persons = $this->extractor->extractObjectsWithRelatedObjects(
-            $stmt, $q, $relations
+            $stmt, $q
         );
 
         $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
@@ -555,7 +555,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Actual test
         $persons = $this->extractor->extractObjectsWithRelatedObjects(
-            $stmt, $q, $relations
+            $stmt, $q
         );
 
         $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
@@ -601,7 +601,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Actual test
         $persons = $this->extractor->extractObjectsWithRelatedObjects(
-            $stmt, $q, $relations
+            $stmt, $q
         );
 
         $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
@@ -721,7 +721,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Actual test
         $persons = $this->extractor->extractObjectsWithRelatedObjects(
-            $stmt, $q, $relations
+            $stmt, $q
         );
 
         $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
@@ -793,7 +793,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
 
         // Actual test
         $persons = $this->extractor->extractObjectsWithRelatedObjects(
-            $stmt, $q, $relations
+            $stmt, $q
         );
 
         $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
