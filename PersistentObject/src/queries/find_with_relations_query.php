@@ -28,10 +28,11 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
      * @param ezcQuerySelect $query
      * @param string $className
      */
-    public function __construct( ezcQuerySelect $query, $className )
+    public function __construct( ezcQuerySelect $query, $className, array $relations )
     {
         parent::__construct( $query, $className );
         $this->properties['isRestricted'] = false;
+        $this->properties['relations']    = $relations;
     }
 
     /**
@@ -69,58 +70,6 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
         $this->query->where( $args );
 
         return $this;
-    }
-
-    /**
-     * Registers all WHERE conditions in $whereArgs.
-     *
-     * Checks through all WHERE conditions in $whereArgs, if they contain
-     * restriction on relation fetches. Restricted relation names are
-     * registered in the $restrictedRelations property for later fetching.
-     * 
-     * @param array $whereArgs 
-     * @return void
-     */
-    private function registerWhereConditions( array $whereArgs )
-    {
-        foreach ( $whereArgs as $condition )
-        {
-            if ( is_array( $condition ) )
-            {
-                $this->registerWhere( $condition );
-            }
-            else
-            {
-                // Condition is a string
-                $this->registerWhereCondition( $condition, $this->relations );
-            }
-        }
-    }
-
-    /**
-     * Checks for relation alias occurances in $condition.
-     * 
-     * Checks which aliases for $relations occur in the given $condition and
-     * registers them to be restricted fetches in the property
-     * $restrictedRelations.
-     *
-     * @param string $condition 
-     * @param array(ezcPersistentRelationFindDefinition) $relations 
-     * @return void
-     */
-    private function registerWhereCondition( $condition, array $relations )
-    {
-        foreach ( $relations as $alias => $relation )
-        {
-            if ( strpos( $condition, $alias ) !== false )
-            {
-                $this->properties['restrictedRelations'][$alias] = true;
-            }
-            $this->registerWhereCondition(
-                $condition,
-                $relation->furtherRelations
-            );
-        }
     }
 
     /**
@@ -174,6 +123,7 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
         switch ( $propertyName )
         {
             case 'isRestricted':
+            case 'relations':
                 throw new ezcBasePropertyPermissionException(
                     $propertyName,
                     ezcBasePropertyPermissionException::READ

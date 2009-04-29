@@ -50,6 +50,7 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
         );
 
         $this->assertFalse( $findQuery->isRestricted );
+        $this->assertEquals( $relations, $findQuery->relations );
     }
 
     public function testIssetOwnPropertiesSuccess()
@@ -59,6 +60,7 @@ class ezcPersistentFindWithRelationsQueryTest extends ezcPersistentFindQueryTest
         $findQuery = $this->createFindQuery();
 
         $this->assertTrue( isset( $findQuery->isRestricted ) );
+        $this->assertTrue( isset( $findQuery->relations ) );
     }
 
     public function testFluentInterface()
