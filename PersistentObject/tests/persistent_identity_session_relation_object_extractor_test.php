@@ -60,7 +60,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         RelationTestEmployer::cleanup( $this->db );
     }
 
-    public function testOneLevelOneRelationExtract()
+    public function testLoadOneLevelOneRelationExtract()
     {
         $relations = $this->getOneLevelOneRelationRelations();
         $q         = $this->getLoadQuery( $relations );
@@ -92,6 +92,38 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
             current( $employers ),
             current( $this->session->getRelatedObjects( $person, 'RelationTestEmployer' ) )
         );
+    }
+
+    public function testFindOneLevelOneRelationNoRestrictionsExtract()
+    {
+        $relations = $this->getOneLevelOneRelationRelations();
+        $q         = $this->getFindQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+
+        // Actual test
+        $persons = $this->extractor->extractObjectsWithRelatedObjects(
+            $stmt, $q, $relations
+        );
+
+        $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
+        $fakeRes = $this->session->find( $fakeFind );
+
+        $this->assertEquals(
+            $fakeRes,
+            $persons,
+            'Returned extracted object set incorrect.'
+        );
+
+        foreach ( $persons as $person )
+        {
+            $this->assertEquals(
+                $this->session->getRelatedObjects( $person, 'RelationTestEmployer' ),
+                $this->idMap->getRelatedObjects( $person, 'RelationTestEmployer' )
+            );
+        }
     }
 
     public function testNamedSetNotOverwritten()
@@ -343,6 +375,41 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         );
     }
 
+    public function testFindOneLevelMultiRelationNoRestrictionExtract()
+    {
+        $relations = $this->getOneLevelMultiRelationRelations();
+        $q         = $this->getFindQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        // Actual test
+        $persons = $this->extractor->extractObjectsWithRelatedObjects(
+            $stmt, $q, $relations
+        );
+
+        $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
+        $fakeRes = $this->session->find( $fakeFind );
+
+        $this->assertEquals(
+            $fakeRes,
+            $persons,
+            'Returned extracted object set incorrect.'
+        );
+
+        foreach ( $persons as $person )
+        {
+            $this->assertEquals(
+                $this->session->getRelatedObjects( $person, 'RelationTestEmployer' ),
+                $this->idMap->getRelatedObjects( $person, 'RelationTestEmployer' )
+            );
+            $this->assertEquals(
+                $this->session->getRelatedObjects( $person, 'RelationTestAddress' ),
+                $this->idMap->getRelatedObjects( $person, 'RelationTestAddress' )
+            );
+        }
+    }
+
     public function testLoadMultiLevelSingleRelation()
     {
         $relations = $this->getMultiLevelSingleRelationRelations();
@@ -388,6 +455,45 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
             );
 
             $this->assertEquals( $realPersons, $persons );
+        }
+    }
+
+    public function testFindMultiLevelSingleRelationNoRestrictions()
+    {
+        $relations = $this->getMultiLevelSingleRelationRelations();
+        $q         = $this->getFindQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        // Actual test
+        $persons = $this->extractor->extractObjectsWithRelatedObjects(
+            $stmt, $q, $relations
+        );
+
+        $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
+        $fakeRes = $this->session->find( $fakeFind );
+
+        $this->assertEquals(
+            $fakeRes,
+            $persons,
+            'Returned extracted object set incorrect.'
+        );
+
+        foreach ( $persons as $person )
+        {
+            $addresses = $this->idMap->getRelatedObjects( $person, 'RelationTestAddress' );
+            $this->assertEquals(
+                $this->session->getRelatedObjects( $person, 'RelationTestAddress' ),
+                $addresses
+            );
+            foreach( $addresses as $address )
+            {
+                $this->assertEquals(
+                    $this->session->getRelatedObjects( $address, 'RelationTestPerson' ),
+                    $this->idMap->getRelatedObjects( $address, 'RelationTestPerson' )
+                );
+            }
         }
     }
 
@@ -449,7 +555,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
                 if ( $relPerson->id == 3 )
                 {
                     // Person with ID 3 has no birthday assigned
-                    $this->assertNull( $birthdays );
+                    $this->assertEquals( array(), $birthdays );
                 }
                 else
                 {
@@ -469,6 +575,67 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
         $this->assertNotNull( $birthdays );
         $realBirthdays = $this->session->getRelatedObjects( $person, 'RelationTestBirthday' );
         $this->assertEquals( $realBirthdays, $birthdays );
+    }
+
+    public function testFindMultiLevelMultiRelationNoRestrictions()
+    {
+        $relations = $this->getMultiLevelMultiRelationRelations();
+        $q         = $this->getFindQuery( $relations );
+        
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        // Actual test
+        $persons = $this->extractor->extractObjectsWithRelatedObjects(
+            $stmt, $q, $relations
+        );
+
+        $fakeFind = $this->session->createFindQuery( 'RelationTestPerson' );
+        $fakeRes = $this->session->find( $fakeFind );
+
+        $this->assertEquals(
+            $fakeRes,
+            $persons,
+            'Returned extracted object set incorrect.'
+        );
+
+        foreach ( $persons as $person )
+        {
+            $addresses = $this->idMap->getRelatedObjects( $person, 'RelationTestAddress' );
+            $this->assertEquals(
+                $this->session->getRelatedObjects( $person, 'RelationTestAddress' ),
+                $addresses
+            );
+            foreach ( $addresses as $address )
+            {
+                $habitants = $this->idMap->getRelatedObjects( $address, 'RelationTestPerson' );
+                $this->assertEquals(
+                    $this->session->getRelatedObjects( $address, 'RelationTestPerson' ),
+                    $habitants
+                );
+                foreach ( $habitants as $habitant )
+                {
+                    $habitantEmployers = $this->idMap->getRelatedObjects( $habitant, 'RelationTestEmployer' );
+                    $this->assertEquals(
+                        $this->session->getRelatedObjects( $habitant, 'RelationTestEmployer' ),
+                        $habitantEmployers
+                    );
+                    $habitantBirthdays = $this->idMap->getRelatedObjects( $habitant, 'RelationTestBirthday' );
+                    $this->assertEquals(
+                        $this->session->getRelatedObjects( $habitant, 'RelationTestBirthday' ),
+                        $habitantBirthdays
+                    );
+                }
+            }
+            $this->assertEquals(
+                $this->session->getRelatedObjects( $person, 'RelationTestEmployer' ),
+                $this->idMap->getRelatedObjects( $person, 'RelationTestEmployer' )
+            );
+            $this->assertEquals(
+                $this->session->getRelatedObjects( $person, 'RelationTestBirthday' ),
+                $this->idMap->getRelatedObjects( $person, 'RelationTestBirthday' )
+            );
+        }
     }
 
 }
