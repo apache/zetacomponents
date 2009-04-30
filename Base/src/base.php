@@ -639,5 +639,18 @@ class ezcBase
     {
         return self::$runMode == ezcBase::MODE_DEVELOPMENT;
     }
+
+    /**
+     * Returns the installation method
+     *
+     * Possible return values are 'custom', 'devel', 'tarball' and 'pear'. Only
+     * 'tarball' and 'pear' are returned for user-installed versions.
+     *
+     * @return string
+     */
+    public static function getInstallMethod()
+    {
+        return self::$libraryMode;
+    }
 }
 ?>

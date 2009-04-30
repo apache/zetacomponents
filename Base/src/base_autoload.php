@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the Base component.
  *
- * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -37,6 +37,8 @@ return array(
     'ezcBaseFile'                                 => 'Base/file.php',
     'ezcBaseFileFindContext'                      => 'Base/structs/file_find_context.php',
     'ezcBaseInit'                                 => 'Base/init.php',
+    'ezcBaseMetaData'                             => 'Base/metadata.php',
+    'ezcBaseMetaDataTarballReader'                => 'Base/metadata/tarball.php',
     'ezcBasePersistable'                          => 'Base/interfaces/persistable.php',
     'ezcBaseRepositoryDirectory'                  => 'Base/structs/repository_directory.php',
 );

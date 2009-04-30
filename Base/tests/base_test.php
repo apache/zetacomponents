@@ -502,6 +502,11 @@ class ezcBaseTest extends ezcTestCase
         self::assertEquals( true, ezcBase::inDevMode() );
     }
 
+    public function testGetInstallMethod()
+    {
+        self::assertEquals( 'devel', ezcBase::getInstallMethod() );
+    }
+
     public function setup()
     {
         $options = new ezcBaseAutoloadOptions;
