@@ -290,6 +290,7 @@ class ezcBaseFeatures
             case 'MacOS':
             case 'Darwin':
             case 'Linux':
+            case 'SunOS':
                 if ( $envPath )
                 {
                     $dirs = explode( ':', $envPath );
