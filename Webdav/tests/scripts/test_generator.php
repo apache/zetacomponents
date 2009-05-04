@@ -197,6 +197,13 @@ class ezcWebdavClientTestGenerator
     protected $storeBackends;
 
     /**
+     * Server base URI.
+     * 
+     * @var string
+     */
+    protected $baseUri;
+
+    /**
      * Current test number.
      * 
      * @var int
@@ -216,66 +223,56 @@ class ezcWebdavClientTestGenerator
      */
     public function __construct( $baseUri = '', $storeBackends = false, $ie = false, $testCaseNoDigits = 3, $lockPlugin = false )
     {
-        /*
-        $this->lock = TMP_DIR . '/test_generator.lock';
-
-        // Lock for exclusive access
-        while ( ( $fp = @fopen( $this->lock, 'x' ) ) === false )
-        {
-            usleep( 100 );
-        }
-        fwrite( $fp, microtime() );
-        fclose( $fp );
-        */
-
-        $this->storeBackends = $storeBackends;
+        $this->storeBackends    = $storeBackends;
         $this->testCaseNoDigits = $testCaseNoDigits;
+        $this->baseUri          = $baseUri;
 
         $this->filterServerVars();
-
-        // Restore backend from previous request or setup new
-        $this->backend = ( file_exists( ( $this->backendFile = TMP_DIR . '/backend.ser' ) )
-            ? unserialize( file_get_contents( $this->backendFile ) )
-            : $this->getBackend()
-        );
-        $this->backend->options->lockFile = TMP_DIR . '/backend.lock';
 
         // Basic path factory, use mod_rewrite!
         try
         {
-            $pathFactory = new ezcWebdavBasicPathFactory( 'http://' . $_SERVER['HTTP_HOST'] . $baseUri );
-            $this->initServer( $pathFactory, $ie, $lockPlugin );
+            $this->initBackend();
+            $this->initServer( $ie, $lockPlugin );
         }
         catch ( Exception $e )
         {
             $this->exceptions[] = $e;
         }
-
-        $this->server->auth->tokenAssignement = ( file_exists( $this->tokenFile = TMP_DIR . '/tokens.ser' )
-            ? unserialize( file_get_contents( $this->tokenFile ) )
-            : array()
-        );
         
         // Get current test number and store it for next request
         $this->testNo = ( file_exists( ( $this->testNoFile = TMP_DIR . '/testno.txt' ) )
             ? (int) file_get_contents( $this->testNoFile )
             : 1
         );
+
         // The captured data will be stored here.
         $this->logFileBase = sprintf( "%s/%0{$this->testCaseNoDigits}s_%s",
             LOG_DIR,
             $this->testNo,
-            strtr(
-                $_SERVER['REQUEST_METHOD'],
-                array(
-                    ' ' => '_',
-                    ':' => '_',
-                    '(' => '',
-                    ')' => '',
-                )
+            $this->escapeRequestMethod( $_SERVER['REQUEST_METHOD'] )
+        );
+
+        file_put_contents( $this->testNoFile, ++$this->testNo );
+    }
+
+    /**
+     * Escape special request methods (Litmus).
+     * 
+     * @param string $requestMethod 
+     * @return string
+     */
+    protected function escapeRequestMethod( $requestMethod )
+    {
+        return strtr(
+            $requestMethod,
+            array(
+                ' ' => '_',
+                ':' => '_',
+                '(' => '',
+                ')' => '',
             )
         );
-        file_put_contents( $this->testNoFile, ++$this->testNo );
     }
 
     /**
@@ -445,8 +442,9 @@ class ezcWebdavClientTestGenerator
      * @param ezcWebdavPathFactory $pathFactory 
      * @return void
      */
-    protected function initServer( ezcWebdavPathFactory $pathFactory, $ie, $lockPlugin )
+    protected function initServer( $ie, $lockPlugin )
     {
+        $pathFactory = new ezcWebdavBasicPathFactory( 'http://' . $_SERVER['HTTP_HOST'] . $this->baseUri );
         $this->server = ezcWebdavServer::getInstance();
         
         foreach ( $this->server->configurations as $id => $transportCfg )
@@ -476,6 +474,30 @@ class ezcWebdavClientTestGenerator
                 )
             );
         }
+
+        $this->server->auth->tokenAssignement = (
+            file_exists( $this->tokenFile = TMP_DIR . '/tokens.ser' )
+                ? unserialize( file_get_contents( $this->tokenFile ) )
+                : array()
+        );
+    }
+
+    /**
+     * Initializes the back end.
+     *
+     * Reads a serialized back end or creates the default one, if no serialized
+     * version is found.
+     *
+     * @return void
+     */
+    protected function initBackend()
+    {
+        // Restore backend from previous request or setup new
+        $this->backend = ( file_exists( ( $this->backendFile = TMP_DIR . '/backend.ser' ) )
+            ? unserialize( file_get_contents( $this->backendFile ) )
+            : $this->getBackend()
+        );
+        $this->backend->options->lockFile = TMP_DIR . '/backend.lock';
     }
 }
 
