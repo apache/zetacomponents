@@ -240,20 +240,8 @@ class ezcWebdavClientTestGenerator
             $this->exceptions[] = $e;
         }
         
-        // Get current test number and store it for next request
-        $this->testNo = ( file_exists( ( $this->testNoFile = TMP_DIR . '/testno.txt' ) )
-            ? (int) file_get_contents( $this->testNoFile )
-            : 1
-        );
-
-        // The captured data will be stored here.
-        $this->logFileBase = sprintf( "%s/%0{$this->testCaseNoDigits}s_%s",
-            LOG_DIR,
-            $this->testNo,
-            $this->escapeRequestMethod( $_SERVER['REQUEST_METHOD'] )
-        );
-
-        file_put_contents( $this->testNoFile, ++$this->testNo );
+        $this->determinTestNo();
+        $this->initializeLogDir();
     }
 
     /**
@@ -273,6 +261,29 @@ class ezcWebdavClientTestGenerator
                 ')' => '',
             )
         );
+    }
+
+    protected function initializeLogDir()
+    {
+        // The captured data will be stored here.
+        $this->logFileBase = sprintf( "%s/%0{$this->testCaseNoDigits}s_%s",
+            LOG_DIR,
+            $this->testNo,
+            $this->escapeRequestMethod( $_SERVER['REQUEST_METHOD'] )
+        );
+    }
+
+    protected function determineTestNo()
+    {
+        $testNoFile = $testNoFile = TMP_DIR . '/testno.txt';
+
+        // Get current test number and store it for next request
+        $this->testNo = ( file_exists( $testNoFile )
+            ? (int) file_get_contents( $testNoFile )
+            : 1
+        );
+
+        file_put_contents( $testNoFile, ++$this->testNo );
     }
 
     /**
