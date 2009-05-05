@@ -13,6 +13,7 @@ require_once( "features_unix_test.php");
 require_once( "features_windows_test.php");
 require_once( "base_options_test.php");
 require_once( "struct_test.php");
+require_once 'metadata_pear_test.php';
 require_once 'file_find_recursive_test.php';
 require_once 'file_is_absolute_path.php';
 require_once 'file_copy_recursive_test.php';
@@ -36,6 +37,7 @@ class ezcBaseSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcBaseFeaturesWindowsTest::suite() );
         $this->addTest( ezcBaseOptionsTest::suite() );
         $this->addTest( ezcBaseStructTest::suite() );
+        $this->addTest( ezcBaseMetaDataPearTest::suite() );
         $this->addTest( ezcBaseFileCalculateRelativePathTest::suite() );
         $this->addTest( ezcBaseFileFindRecursiveTest::suite() );
         $this->addTest( ezcBaseFileIsAbsoluteTest::suite() );

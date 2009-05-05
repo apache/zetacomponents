@@ -1,8 +1,11 @@
-1.6.2 - [RELEASEDATE]
+1.7alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added 'SunOS' to the list of Unices to make finding binaries work on Solaris
   as well.
+- Implemented issue #13718: Include metadata about installed components that
+  can be queried to figure out required PHP versions, dependencies and
+  component versions.
 
 
 1.6.1 - Monday 09 February 2009
