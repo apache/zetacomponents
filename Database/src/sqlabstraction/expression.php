@@ -605,6 +605,12 @@ class ezcQueryExpression
             throw new ezcQueryVariableParameterException( 'in', count( $args ), 2 );
         }
 
+        // Special handling of sub selects to avoid double braces
+        if ( count( $values ) === 1 && $values[0] instanceof ezcQuerySubSelect )
+        {
+            return "{$column} IN " . $values[0]->getQuery();
+        }
+
         if ( $this->quoteValues )
         {
             foreach ( $values as $key => $value )
