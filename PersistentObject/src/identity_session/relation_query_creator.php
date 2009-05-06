@@ -110,8 +110,6 @@ class ezcPersistentIdentityRelationQueryCreator
      * @param ezcPersistentObjectDefinition $srcDef 
      * @param array(string=> ezcPersistentRelationFindDefinition) $relations
      * @return ezcPersistentFindQuery
-     *
-     * @todo Should return ezcPersistentFindWithRelationsQuery
      */
     protected function createBasicFindQuery( ezcPersistentObjectDefinition $srcDef, array $relations )
     {
