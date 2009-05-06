@@ -12,6 +12,9 @@
   supports relation names.
 - Fixed issue #14863: ezcPersistentSessionInstance::reset() is now static and
   does work correctly.
+- Fixed issue #14690: Extracted duplicated code into methods and avoided to
+  instantiate a new generator object for each save/update (based on a patch by
+  Benjamin Eberlei).
 
 
 1.5.1 - Monday 30 March 2009

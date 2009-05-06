@@ -21,6 +21,16 @@
 class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
 {
     /**
+     * Registry for {@link ezcPersistentIdentifierGenerator} objects.
+     *
+     * Caches ID generators so that of every generator class only 1 object
+     * exists.
+     * 
+     * @var array(string=>ezcPersistentIdentifierGenerator)
+     */
+    private $idGeneratorRegistry = array();
+
+    /**
      * Saves a new persistent $object to the database using an INSERT query.
      *
      * The correct ID is set to $object after it has been saved, as described
@@ -87,20 +97,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         $def   = $this->definitionManager->fetchDefinition( $class );
         $state = $this->session->getObjectState( $object );
 
-        // Fetch the id generator
-        $idGenerator = null;
-        // @todo: Missing else part! Should throw exception!
-        if ( ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
-        {
-            $idGenerator = new $def->idProperty->generator->class;
-            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
-            {
-                throw new ezcPersistentIdentifierGenerationException( 
-                    $class,
-                    "Could not initialize identifier generator: {$def->idProperty->generator->class}."
-                );
-            }
-        }
+        $idGenerator = $this->getIdGenerator( $def );
 
         if ( !$idGenerator->checkPersistence( $def, $this->database, $state ) )
         {
@@ -295,21 +292,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         );
         $idValue = $castedState[$def->idProperty->propertyName];
 
-        // Fetch the id generator.
-        if ( $idGenerator === null 
-             && ezcBaseFeatures::classExists( $def->idProperty->generator->class )
-        )
-        // @todo: Missing else part, should throw an exception!
-        {
-            $idGenerator = new $def->idProperty->generator->class;
-            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
-            {
-                throw new ezcPersistentIdentifierGenerationException(
-                    $class,
-                    "Could not initialize identifier generator: {$def->idProperty->generator->class}."
-                );
-            }
-        }
+        $idGenerator = $this->getIdGenerator( $def );
 
         if ( $doPersistenceCheck == true
              && $idGenerator->checkPersistence( $def, $this->database, $castedState )
@@ -319,21 +302,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         }
 
         // Set up and execute the query.
-        $q = $this->database->createInsertQuery();
-        $q->insertInto( $this->database->quoteIdentifier( $def->table ) );
-        foreach ( $castedState as $name => $value )
-        {
-            if ( $name !== $def->idProperty->propertyName )
-            {
-                // Set each of the properties.
-                $q->set(
-                    $this->database->quoteIdentifier(
-                        $def->properties[$name]->columnName
-                    ), 
-                    $q->bindValue( $value, null, $def->properties[$name]->databaseType )
-                );
-            }
-        }
+        $q = $this->buildInsertQuery($def, $castedState);
 
         // Atomic operation
         $this->database->beginTransaction();
@@ -395,19 +364,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         );
         $idValue = $state[$def->idProperty->propertyName];
 
-        // Fetch the id generator
-        $idGenerator = null;
-        if ( ezcBaseFeatures::classExists( $def->idProperty->generator->class ) )
-        {
-            $idGenerator = new $def->idProperty->generator->class;
-            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
-            {
-                throw new ezcPersistentIdentifierGenerationException(
-                    $class,
-                    "Could not initialize identifier generator: {$def->idProperty->generator->class}."
-                );
-            }
-        }
+        $idGenerator = $this->getIdGenerator( $def );
 
         if ( $doPersistenceCheck == true
              && !$idGenerator->checkPersistence( $def, $this->database, $state )
@@ -417,21 +374,124 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
         }
 
         // Set up and execute the query
-        $q = $this->database->createUpdateQuery();
-        $q->update( $this->database->quoteIdentifier( $def->table ) );
+        $q = $this->buildUpdateQuery($def, $state);
+
+        $this->session->performQuery( $q, true );
+    }
+
+    /**
+     * Returns the ID generator object defined in $def.
+     *
+     * Checks {@link $idGeneratorRegistry} for a generator object of the {@link
+     * ezcPersistentIdentifierGenerator} class defined in $def. If a
+     * corresponding object does not exist, it is created and stored. The
+     * fitting generator object is then returned.
+     * 
+     * @param ezcPersistentObjectDefinition $def 
+     * @return ezcPersistentIdentifierGenerator
+     */
+    private function getIdGenerator( ezcPersistentObjectDefinition $def )
+    {
+        $genClass = $def->idProperty->generator->class;
+        if ( !isset( $this->idGeneratorRegistry[$genClass] ) )
+        {
+            $idGenerator = new $genClass;
+            if ( !( $idGenerator instanceof ezcPersistentIdentifierGenerator ) )
+            {
+                throw new ezcPersistentIdentifierGenerationException(
+                    $def->class,
+                    "Could not initialize identifier generator: {$genClass}."
+                );
+            }
+            $this->idGeneratorRegistry[$genClass] = $idGenerator;
+        }
+        return $this->idGeneratorRegistry[$genClass];
+    }
+
+    /**
+     * Returns insert query based on a definition and a state.
+     *
+     * Creates and returns an instance of {@link ezcQueryInsert} and binds the
+     * values stored in $state as defined in $def to the query.
+     *
+     * @param  ezcPersistentObjectDefinition $def
+     * @param  array $state
+     * @return ezcQueryInsert
+     */
+    private function buildInsertQuery( ezcPersistentObjectDefinition $def, array $state )
+    {
+        $q = $this->database->createInsertQuery();
+        $q->insertInto( $this->database->quoteIdentifier( $def->table ) );
+
+        $this->bindNonIdPropertyValuesToQuery($q, $def, $state);
+
+        return $q;
+    }
+
+    /**
+     * Bind all non-id properties to the given query $q.
+     *
+     * Binds all property values contained in $state to the given query $q, as
+     * defined by $def.
+     * 
+     * @param ezcQueryUpdate|ezcQueryInsert $q
+     * @param ezcPersistentObjectDefinition $def
+     * @param array $state
+     * @return ezcQueryUpdate|ezcQueryInsert
+     */
+    private function bindNonIdPropertyValuesToQuery( $q, ezcPersistentObjectDefinition $def, array $state )
+    {
         foreach ( $state as $name => $value )
         {
-            // Skip the id field.
-            if ( $name != $def->idProperty->propertyName )
+            if ( $name !== $def->idProperty->propertyName )
             {
                 // Set each of the properties.
                 $q->set(
                     $this->database->quoteIdentifier(
-                        $def->properties[$name]->columnName ),
-                        $q->bindValue( $value, null, $def->properties[$name]->databaseType )
-                    );
+                        $def->properties[$name]->columnName
+                    ),
+                    $q->bindValue( $value, null, $def->properties[$name]->databaseType )
+                );
             }
         }
+    }
+
+    /**
+     * Returns an Update query given a $def and a $state.
+     *
+     * Creates and returns an {@link ezcQueryUpdate} for the object defined by
+     * $def, using all of the property values contained in $state.
+     *
+     * @param ezcPersistentObjectDefinition $def
+     * @param array $state
+     * @return ezcQueryUpdate
+     */
+    private function buildUpdateQuery( ezcPersistentObjectDefinition $def, array $state )
+    {
+        // Set up and execute the query
+        $q = $this->database->createUpdateQuery();
+        $q->update( $this->database->quoteIdentifier( $def->table ) );
+
+        $this->bindNonIdPropertyValuesToQuery( $q, $def, $state );
+        $this->buildUpdateWhere( $q, $def, $state );
+
+        return $q;
+    }
+
+    /**
+     * Creates WHERE clause for the given update query $q.
+     *
+     * Creates the WHERE clause to update the object defined by $def with the
+     * property values given in $state into the update query $q.
+     *
+     * @param ezcQueryUpdate $q
+     * @param ezcPersistentObjectDefinition $def
+     * @param array $state
+     */
+    private function buildUpdateWhere( $q, ezcPersistentObjectDefinition $def, array $state )
+    {
+        $idValue = $state[$def->idProperty->propertyName];
+
         $q->where(
             $q->expr->eq(
                 $this->database->quoteIdentifier(
@@ -440,8 +500,6 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                 $q->bindValue( $idValue, null, $def->idProperty->databaseType )
             )
         );
-
-        $this->session->performQuery( $q, true );
     }
 
     /**
