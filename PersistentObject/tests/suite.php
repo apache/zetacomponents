@@ -32,6 +32,8 @@ require_once 'persistent_session_identity_decorator/relation_test.php';
 require_once 'persistent_session_identity_decorator/relation_query_creator_test.php';
 require_once 'persistent_session_identity_decorator/relation_object_extractor_test.php';
 
+require_once 'persistent_session_identity_decorator/instance_test.php';
+
 require_once 'find_iterator_test.php';
 require_once 'manual_generator_test.php';
 require_once 'native_generator_test.php';
@@ -91,6 +93,8 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentSessionIdentityDecoratorLoadTest::suite() );
         $this->addTest( ezcPersistentSessionIdentityDecoratorSaveTest::suite() );
         $this->addTest( ezcPersistentSessionIdentityDecoratorRelationTest::suite() );
+
+        $this->addTest( ezcPersistentSessionIdentityDecoratorInstanceTest::suite() );
 
         $this->addTest( ezcPersistentFindIteratorTest::suite() );
 
