@@ -24,7 +24,7 @@
  * @version //autogen//
  * @mainclass
  */
-class ezcPersistentSession
+class ezcPersistentSession implements ezcPersistentSessionFoundation
 {
     /**
      * Holds the properties of this class.

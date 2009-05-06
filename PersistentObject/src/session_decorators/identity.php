@@ -20,10 +20,8 @@
  * @package PersistentObject
  * @version //autogen//
  * @mainclass
- *
- * @TODO: Should this extend ezcPersistentSession to suite instanceof checks?
  */
-class ezcPersistentSessionIdentityDecorator
+class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFoundation
 {
     /**
      * Holds the properties of this class.

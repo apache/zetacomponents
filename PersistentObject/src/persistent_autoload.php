@@ -69,6 +69,7 @@ return array(
     'ezcPersistentSaveHandler'                                 => 'PersistentObject/handlers/save_handler.php',
     'ezcPersistentSequenceGenerator'                           => 'PersistentObject/generators/sequence_generator.php',
     'ezcPersistentSession'                                     => 'PersistentObject/persistent_session.php',
+    'ezcPersistentSessionFoundation'                           => 'PersistentObject/interfaces/persistent_session_foundation.php',
     'ezcPersistentSessionIdentityDecorator'                    => 'PersistentObject/session_decorators/identity.php',
     'ezcPersistentSessionIdentityDecoratorOptions'             => 'PersistentObject/options/identity_session.php',
     'ezcPersistentSessionInstance'                             => 'PersistentObject/persistent_session_instance.php',
