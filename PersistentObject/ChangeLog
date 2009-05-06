@@ -10,6 +10,8 @@
 
 - Fixed issue #14736: ezcPersistentSession->createRelationFindQuery() now
   supports relation names.
+- Fixed issue #14863: ezcPersistentSessionInstance::reset() is now static and
+  does work correctly.
 
 
 1.5.1 - Monday 30 March 2009

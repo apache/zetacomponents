@@ -95,11 +95,11 @@ class ezcPersistentSessionInstance
      * retrieved later using the same identifier. If $identifier is ommited
      * the default instance will be set.
      *
-     * @param ezcPersistentSession $session
+     * @param ezcPersistentSessionFoundation $session
      * @param string $identifier the identifier of the database handler
      * @return void
      */
-    public static function set( ezcPersistentSession $session, $identifier = null )
+    public static function set( ezcPersistentSessionFoundation $session, $identifier = null )
     {
         if ( $identifier === null )
         {
@@ -135,14 +135,14 @@ class ezcPersistentSessionInstance
     }
 
     /**
-     * Resets this object to its initial state.
+     * Resets the complete class.
      *
      * @return void
      */
-    public function reset()
+    public static function reset()
     {
-        $this->defaultInstanceIdentifier = false;
-        $this->instances = array();
+        self::$defaultInstanceIdentifier = null;
+        self::$instances = array();
     }
 }
 ?>
