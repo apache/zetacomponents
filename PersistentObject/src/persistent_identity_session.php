@@ -614,9 +614,13 @@ class ezcPersistentIdentitySession
      * @see find()
      * @see createFindQueryWithRelations()
      * 
-     * @param mixed $object 
-     * @param mixed $setName 
-     * @return void
+     * @param ezcPersistentObject $object 
+     * @param string $setName 
+     * @return array(ezcPersistentObject)|null
+     *
+     * @apichange This method does not require ezcPersistentObject as a type
+     *            hint for BC reasons. In the next major version, this type
+     *            hint will be added.
      */
     public function getRelatedObjectSubset( $object, $setName )
     {
@@ -764,8 +768,6 @@ class ezcPersistentIdentitySession
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if the given $object does not have a relation to $relatedClass.
-     *
-     * @TODO: Implement {@link getRelatedObjectSubset()}.
      */
     public function createRelationFindQuery( $object, $relatedClass, $relationName = null, $setName = null )
     {
