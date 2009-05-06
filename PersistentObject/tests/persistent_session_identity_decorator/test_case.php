@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require_once 'persistent_session_test.php';
+require_once 'PersistentObject/tests/persistent_session/test_case.php';
 
 /**
  * Tests the code manager.

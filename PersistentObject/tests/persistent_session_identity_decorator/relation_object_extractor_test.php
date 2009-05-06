@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require_once dirname( __FILE__ ) . '/persistent_identity_session_relation_prefetch_test.php';
+require_once dirname( __FILE__ ) . '/relation_prefetch_test.php';
 
 /**
  * Tests ezcPersistentManyToOneRelation class.

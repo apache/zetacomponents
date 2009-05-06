@@ -299,7 +299,7 @@ class ezcPersistentObjectDefinitionTest extends ezcTestCase
     public function testMissingReverseColumnLookup()
     {
         // Load def without def manager
-        $def = require dirname( __FILE__ ) . '/data/persistenttestobject.php';
+        $def = require dirname( __FILE__ ) . '/../data/persistenttestobject.php';
         
         try
         {

@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require_once dirname( __FILE__ ) . "/data/multi_relation_test_person.php";
+require_once dirname( __FILE__ ) . "/../data/multi_relation_test_person.php";
 
 /**
  * Tests ezcPersistentManyToManyRelation class.
@@ -40,7 +40,7 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
         MultiRelationTestPerson::insertData();
         $this->session = new ezcPersistentSession(
             ezcDbInstance::get(),
-            new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" )
+            new ezcPersistentCodeManager( dirname( __FILE__ ) . "/../data/" )
         );
     }
 

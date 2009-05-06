@@ -42,7 +42,7 @@ class ezcPersistentSessionInstanceTest extends ezcTestCase
 
     public function testGetWithIdentifierValid()
     {
-        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/PersistentObject/tests/data/" );
         $session1 = new ezcPersistentSession( ezcDbInstance::get(), $manager );
         $manager2 = clone( $manager );
         $manager2->a = "something";
@@ -57,7 +57,7 @@ class ezcPersistentSessionInstanceTest extends ezcTestCase
     public function testChooseDefault()
     {
 
-        $manager1 = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $manager1 = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/PersistentObject/tests/data/" );
         $session1 = new ezcPersistentSession( ezcDbInstance::get(), $manager1 );
         $manager2 = clone( $manager1 );
         $session2 = new ezcPersistentSession( ezcDbInstance::get(), $manager2 );
@@ -80,7 +80,7 @@ class ezcPersistentSessionInstanceTest extends ezcTestCase
 
     public function testWith2IdentifiersInvalid()
     {
-        $manager1 = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $manager1 = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/PersistentObject/tests/data/" );
         $session1 = new ezcPersistentSession( ezcDbInstance::get(), $manager1 );
         
         $manager2 = clone( $manager1 );

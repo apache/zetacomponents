@@ -8,15 +8,15 @@
  * @subpackage Tests
  */
 
-require_once 'data/persistent_test_object.php';
-require_once 'data/persistent_test_object_no_id.php';
-require_once 'data/persistent_test_object_converter.php';
-require_once 'data/persistent_test_object_invalid_state.php';
+require_once dirname( __FILE__ ) . '/../data/persistent_test_object.php';
+require_once dirname( __FILE__ ) . '/../data/persistent_test_object_no_id.php';
+require_once dirname( __FILE__ ) . '/../data/persistent_test_object_converter.php';
+require_once dirname( __FILE__ ) . '/../data/persistent_test_object_invalid_state.php';
 
-require_once 'data/relation_test_address.php';
-require_once 'data/relation_test_person.php';
-require_once 'data/relation_test_birthday.php';
-require_once 'data/relation_test_employer.php';
+require_once dirname( __FILE__ ) . '/../data/relation_test_address.php';
+require_once dirname( __FILE__ ) . '/../data/relation_test_person.php';
+require_once dirname( __FILE__ ) . '/../data/relation_test_birthday.php';
+require_once dirname( __FILE__ ) . '/../data/relation_test_employer.php';
 
 /**
  * Tests the code manager.
@@ -46,7 +46,7 @@ class ezcPersistentSessionTest extends ezcTestCase
         // PersistentTestObject::saveSqlSchemas();
         $this->session = new ezcPersistentSession(
             ezcDbInstance::get(),
-            new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" )
+            new ezcPersistentCodeManager( dirname( __FILE__ ) . "/../data/" )
         );
     }
 

@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require_once 'persistent_session_test.php';
+require_once 'test_case.php';
 
 /**
  * Misc tests for ezcPersistentSession.
@@ -29,7 +29,7 @@ class ezcPersistentSessionMiscTest extends ezcPersistentSessionTest
     {
         $db = ezcDbInstance::get();
         $session = new ezcPersistentSession( $db,
-                                             new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" ) );
+                                             new ezcPersistentCodeManager( dirname( __FILE__ ) . "/PersistentObject/tests/data/" ) );
         $this->assertSame( $db, $session->database );
         try
         {
@@ -44,7 +44,7 @@ class ezcPersistentSessionMiscTest extends ezcPersistentSessionTest
     public function testDefinitionManagerProperty()
     {
         $db = ezcDbInstance::get();
-        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/PersistentObject/tests/data/" );
         $session = new ezcPersistentSession( $db, $manager );
         $this->assertSame( $manager, $session->definitionManager );
         try
@@ -62,7 +62,7 @@ class ezcPersistentSessionMiscTest extends ezcPersistentSessionTest
     public function testGetAccessFailure()
     {
         $db = ezcDbInstance::get();
-        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/PersistentObject/tests/data/" );
         $session = new ezcPersistentSession( $db, $manager );
 
         try
@@ -79,7 +79,7 @@ class ezcPersistentSessionMiscTest extends ezcPersistentSessionTest
     public function testSetAccessFailure()
     {
         $db = ezcDbInstance::get();
-        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/PersistentObject/tests/data/" );
         $session = new ezcPersistentSession( $db, $manager );
 
         try

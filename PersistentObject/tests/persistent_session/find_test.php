@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require_once 'persistent_session_test.php';
+require_once 'test_case.php';
 
 /**
  * Tests the load facilities of ezcPersistentSession.

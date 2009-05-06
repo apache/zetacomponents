@@ -15,42 +15,47 @@ require_once 'managers/code_manager_test.php';
 require_once 'managers/cache_manager_test.php';
 require_once 'managers/multi_manager_test.php';
 
-require_once 'persistent_session_delete_test.php';
-require_once 'persistent_session_find_test.php';
-require_once 'persistent_session_load_test.php';
-require_once 'persistent_session_misc_test.php';
-require_once 'persistent_session_save_test.php';
+require_once 'persistent_session/delete_test.php';
+require_once 'persistent_session/find_test.php';
+require_once 'persistent_session/load_test.php';
+require_once 'persistent_session/misc_test.php';
+require_once 'persistent_session/save_test.php';
+require_once 'persistent_session/instance_test.php';
 
-require_once 'persistent_identity_session_options_test.php';
-require_once 'persistent_identity_session_delete_test.php';
-require_once 'persistent_identity_session_find_test.php';
-require_once 'persistent_identity_session_load_test.php';
-require_once 'persistent_identity_session_save_test.php';
-require_once 'persistent_identity_session_relation_test.php';
+require_once 'persistent_session_identity_decorator/options_test.php';
+require_once 'persistent_session_identity_decorator/delete_test.php';
+require_once 'persistent_session_identity_decorator/find_test.php';
+require_once 'persistent_session_identity_decorator/load_test.php';
+require_once 'persistent_session_identity_decorator/save_test.php';
+require_once 'persistent_session_identity_decorator/relation_test.php';
+
+require_once 'persistent_session_identity_decorator/relation_query_creator_test.php';
+require_once 'persistent_session_identity_decorator/relation_object_extractor_test.php';
 
 require_once 'find_iterator_test.php';
 require_once 'manual_generator_test.php';
 require_once 'native_generator_test.php';
-require_once 'persistent_session_instance_test.php';
-require_once 'one_to_many_relation_test.php';
-require_once 'many_to_one_relation_test.php';
-require_once 'one_to_one_relation_test.php';
-require_once 'many_to_many_relation_test.php';
-require_once 'multi_relation_test.php';
+
+require_once 'relations/one_to_many_relation_test.php';
+require_once 'relations/many_to_one_relation_test.php';
+require_once 'relations/one_to_one_relation_test.php';
+require_once 'relations/many_to_many_relation_test.php';
+require_once 'relations/multi_relation_test.php';
 
 require_once 'keyword_test.php';
 require_once 'string_identifier_test.php';
-require_once 'object_property_test.php';
-require_once 'object_id_property_test.php';
-require_once 'object_definition_test.php';
-require_once 'object_relations_test.php';
-require_once 'object_properties_test.php';
-require_once 'object_columns_test.php';
-require_once 'property_date_time_converter_test.php';
+
+require_once 'object/object_test.php';
+require_once 'object/property_test.php';
+require_once 'object/id_property_test.php';
+require_once 'object/definition_test.php';
+require_once 'object/relations_test.php';
+require_once 'object/properties_test.php';
+require_once 'object/columns_test.php';
+require_once 'object/property_date_time_converter_test.php';
 
 require_once 'database_type_test.php';
 
-require_once 'persistent_object_test.php';
 require_once 'instance_delayed_init_test.php';
 
 require_once 'find_query_test.php';
@@ -58,8 +63,6 @@ require_once 'relation_find_query_test.php';
 require_once 'find_with_relations_query_test.php';
 
 require_once 'basic_identity_map_test.php';
-require_once 'persistent_identity_session_relation_query_creator_test.php';
-require_once 'persistent_identity_session_relation_object_extractor_test.php';
 
 /**
  * @package PersistentObject
