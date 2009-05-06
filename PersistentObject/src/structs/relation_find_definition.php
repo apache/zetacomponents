@@ -10,9 +10,9 @@
 /**
  * Struct class representing a relation find definition.
  *
- * This struct class is used in ezcPersistentIdentitySession to define a tree
+ * This struct class is used in ezcPersistentSessionIdentityDecorator to define a tree
  * of relations to be fetched from the database in one go. This struct is used
- * with {@link ezcPersistentIdentitySession::loadWithRelatedObjects()}.
+ * with {@link ezcPersistentSessionIdentityDecorator::loadWithRelatedObjects()}.
  *
  * The $relatedClass referes to a class name that is related by the original
  * class to load. If this relation consists of a collection of named relations,
@@ -52,7 +52,7 @@ class ezcPersistentRelationFindDefinition extends ezcBaseStruct
      * Definition object for this $relatedClass. 
      *
      * This attribute may not be accessed by the user, but is used by {@link
-     * ezcPersistentIdentitySession} internally to transport information.
+     * ezcPersistentSessionIdentityDecorator} internally to transport information.
      * 
      * @var ezcPersistentObjectDefinition
      * @access private
@@ -63,7 +63,7 @@ class ezcPersistentRelationFindDefinition extends ezcBaseStruct
      * Definition of the relation from its parent class. 
      *
      * This attribute may not be accessed by the user, but is used by {@link
-     * ezcPersistentIdentitySession} internally to transport information.
+     * ezcPersistentSessionIdentityDecorator} internally to transport information.
      * 
      * @var ezcPersistentRelation
      * @access private

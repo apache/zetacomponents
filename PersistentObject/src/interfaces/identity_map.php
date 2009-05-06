@@ -11,7 +11,7 @@
  * Identity map interface.
  *
  * An instance of a class implementing this interface is used in {@link
- * ezcPersistentIdentitySession} and performs the internal work of storing and
+ * ezcPersistentSessionIdentityDecorator} and performs the internal work of storing and
  * retrieving object identities.
  * 
  * @package PersistentObject

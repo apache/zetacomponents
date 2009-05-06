@@ -16,7 +16,7 @@ require_once dirname( __FILE__ ) . '/persistent_identity_session_relation_prefet
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentitySessionRelationQueryCreatorTest extends ezcPersistentIdentitySessionRelationPrefetchTest
+class ezcPersistentSessionIdentityDecoratorRelationQueryCreatorTest extends ezcPersistentSessionIdentityDecoratorRelationPrefetchTest
 {
     public static function suite()
     {

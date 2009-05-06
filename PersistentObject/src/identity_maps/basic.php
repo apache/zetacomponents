@@ -8,9 +8,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Default identity map used in ezcPersistentIdentitySession.
+ * Default identity map used in ezcPersistentSessionIdentityDecorator.
  *
- * An instance of this class is used in {@link ezcPersistentIdentitySession}
+ * An instance of this class is used in {@link ezcPersistentSessionIdentityDecorator}
  * and performs the internal work of storing and retrieving object identities.
  * 
  * @package PersistentObject

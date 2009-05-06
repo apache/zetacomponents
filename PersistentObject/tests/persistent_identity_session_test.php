@@ -16,7 +16,7 @@ require_once 'persistent_session_test.php';
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentitySessionTest extends ezcPersistentSessionTest
+class ezcPersistentSessionIdentityDecoratorTest extends ezcPersistentSessionTest
 {
     protected $idMap;
 
@@ -30,7 +30,7 @@ class ezcPersistentIdentitySessionTest extends ezcPersistentSessionTest
             $this->session->definitionManager
         );
 
-        $this->idSession = new ezcPersistentIdentitySession(
+        $this->idSession = new ezcPersistentSessionIdentityDecorator(
             $this->session,
             $this->idMap
         );

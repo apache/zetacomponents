@@ -82,12 +82,12 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentSessionMiscTest::suite() );
         $this->addTest( ezcPersistentSessionSaveTest::suite() );
 
-        $this->addTest( ezcPersistentIdentitySessionOptionsTest::suite() );
-        $this->addTest( ezcPersistentIdentitySessionDeleteTest::suite() );
-        $this->addTest( ezcPersistentIdentitySessionFindTest::suite() );
-        $this->addTest( ezcPersistentIdentitySessionLoadTest::suite() );
-        $this->addTest( ezcPersistentIdentitySessionSaveTest::suite() );
-        $this->addTest( ezcPersistentIdentitySessionRelationTest::suite() );
+        $this->addTest( ezcPersistentSessionIdentityDecoratorOptionsTest::suite() );
+        $this->addTest( ezcPersistentSessionIdentityDecoratorDeleteTest::suite() );
+        $this->addTest( ezcPersistentSessionIdentityDecoratorFindTest::suite() );
+        $this->addTest( ezcPersistentSessionIdentityDecoratorLoadTest::suite() );
+        $this->addTest( ezcPersistentSessionIdentityDecoratorSaveTest::suite() );
+        $this->addTest( ezcPersistentSessionIdentityDecoratorRelationTest::suite() );
 
         $this->addTest( ezcPersistentFindIteratorTest::suite() );
 
@@ -125,8 +125,8 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcPersistentBasicIdentityMapTest::suite() );
 
-        $this->addTest( ezcPersistentIdentitySessionRelationQueryCreatorTest::suite() );
-        $this->addTest( ezcPersistentIdentitySessionRelationObjectExtractorTest::suite() );
+        $this->addTest( ezcPersistentSessionIdentityDecoratorRelationQueryCreatorTest::suite() );
+        $this->addTest( ezcPersistentSessionIdentityDecoratorRelationObjectExtractorTest::suite() );
     }
 
     public static function suite()

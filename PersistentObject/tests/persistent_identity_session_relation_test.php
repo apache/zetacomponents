@@ -18,7 +18,7 @@ require_once dirname( __FILE__ ) . "/data/relation_test_address.php";
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
+class ezcPersistentSessionIdentityDecoratorRelationTest extends ezcTestCase
 {
     protected $session;
 
@@ -53,7 +53,7 @@ class ezcPersistentIdentitySessionRelationTest extends ezcTestCase
             $this->session->definitionManager
         );
 
-        $this->idSession = new ezcPersistentIdentitySession(
+        $this->idSession = new ezcPersistentSessionIdentityDecorator(
             $this->session,
             $this->idMap
         );

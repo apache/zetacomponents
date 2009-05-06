@@ -8,10 +8,10 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Find query object to be used with ezcPersistentIdentitySession.
+ * Find query object to be used with ezcPersistentSessionIdentityDecorator.
  *
  * This special find query is returned by {@link
- * ezcPersistentIdentitySession::createRelationFindQuery()}. It fulfills the
+ * ezcPersistentSessionIdentityDecorator::createRelationFindQuery()}. It fulfills the
  * same purpose as its parent class, but can store the $relationSource object
  * and a $relationSetName in addition.
  *
@@ -27,7 +27,7 @@ class ezcPersistentRelationFindQuery extends ezcPersistentFindQuery
      * given $className. Optionally, a $relationSetName and the $relationSource
      * object can be given. Providing these results in the creation of a named
      * related object set when objects are found using {@link
-     * ezcPersistentIdentitySession::find()}.
+     * ezcPersistentSessionIdentityDecorator::find()}.
      * 
      * @param ezcQuerySelect $query
      * @param string $className

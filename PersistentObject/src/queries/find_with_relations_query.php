@@ -8,7 +8,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Find query object for pre-fetching queries in ezcPersistentIdentitySession.
+ * Find query object for pre-fetching queries in ezcPersistentSessionIdentityDecorator.
  *
  * @property-read bool $isRestricted
  *                Whether the query has been restricted using a {@link where()}

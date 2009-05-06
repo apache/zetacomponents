@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentIdentitySessionOptions class.
+ * File containing the ezcPersistentSessionIdentityDecoratorOptions class.
  *
  * @package PersistentObject
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Options class for ezcPersistentIdentitySession.
+ * Options class for ezcPersistentSessionIdentityDecorator.
  *
  * @property bool refetch
  *                If this option is set to true, the identity session will
@@ -21,7 +21,7 @@
  * @package PersistentObject
  * @version //autogen//
  */
-class ezcPersistentIdentitySessionOptions extends ezcBaseOptions
+class ezcPersistentSessionIdentityDecoratorOptions extends ezcBaseOptions
 {
     /**
      * Construct a new options object.

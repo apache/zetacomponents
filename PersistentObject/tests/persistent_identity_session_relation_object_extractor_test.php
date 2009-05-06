@@ -16,7 +16,7 @@ require_once dirname( __FILE__ ) . '/persistent_identity_session_relation_prefet
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersistentIdentitySessionRelationPrefetchTest
+class ezcPersistentSessionIdentityDecoratorRelationObjectExtractorTest extends ezcPersistentSessionIdentityDecoratorRelationPrefetchTest
 {
     protected $sesstion;
 
@@ -47,7 +47,7 @@ class ezcPersistentIdentitySessionRelationObjectExtractorTest extends ezcPersist
             $this->defManager
         );
 
-        $this->options   =  new ezcPersistentIdentitySessionOptions();
+        $this->options   =  new ezcPersistentSessionIdentityDecoratorOptions();
         $this->extractor = new ezcPersistentIdentityRelationObjectExtractor(
             $this->idMap,
             $this->defManager,

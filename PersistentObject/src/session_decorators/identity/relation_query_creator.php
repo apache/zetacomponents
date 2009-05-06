@@ -11,7 +11,7 @@
 /**
  * Creates JOIN queries to fetch related objects for a given object.
  *
- * An instance of this class is used in {@link ezcPersistentIdentitySession} to
+ * An instance of this class is used in {@link ezcPersistentSessionIdentityDecorator} to
  * generate a {@link ezcQuerySelect} object to fetch related objects for a
  * certain object. The results of the generated query are then extracted using
  * {@link ezcPersistentIdentityRelationObjectExtractor}.

@@ -52,7 +52,7 @@ class ezcPersistentIdentityFindIterator extends ezcPersistentFindIterator
     /**
      * Identity session options 
      * 
-     * @var ezcPersistentIdentitySessionOptions
+     * @var ezcPersistentSessionIdentityDecoratorOptions
      */
     protected $options;
 
@@ -74,7 +74,7 @@ class ezcPersistentIdentityFindIterator extends ezcPersistentFindIterator
         PDOStatement $stmt,
         ezcPersistentObjectDefinition $def,
         ezcPersistentIdentityMap $idMap,
-        ezcPersistentIdentitySessionOptions $options
+        ezcPersistentSessionIdentityDecoratorOptions $options
     )
     {
         parent::__construct( $stmt, $def );

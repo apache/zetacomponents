@@ -14,7 +14,7 @@
  * @package PersistentObject
  * @subpackage Tests
  */
-class ezcPersistentIdentitySessionOptionsTest extends ezcTestCase
+class ezcPersistentSessionIdentityDecoratorOptionsTest extends ezcTestCase
 {
     public static function suite()
     {
@@ -23,7 +23,7 @@ class ezcPersistentIdentitySessionOptionsTest extends ezcTestCase
 
     public function testCtorNoArgs()
     {
-        $opts = new ezcPersistentIdentitySessionOptions();
+        $opts = new ezcPersistentSessionIdentityDecoratorOptions();
 
         $this->assertFalse(
             $opts->refetch
@@ -32,7 +32,7 @@ class ezcPersistentIdentitySessionOptionsTest extends ezcTestCase
 
     public function testCtorArgs()
     {
-        $opts = new ezcPersistentIdentitySessionOptions(
+        $opts = new ezcPersistentSessionIdentityDecoratorOptions(
             array( 'refetch' => true )
         );
 
@@ -43,7 +43,7 @@ class ezcPersistentIdentitySessionOptionsTest extends ezcTestCase
 
     public function testGetAccessSuccess()
     {
-        $opts = new ezcPersistentIdentitySessionOptions();
+        $opts = new ezcPersistentSessionIdentityDecoratorOptions();
 
         $this->assertFalse(
             $opts->refetch
@@ -52,7 +52,7 @@ class ezcPersistentIdentitySessionOptionsTest extends ezcTestCase
 
     public function testGetAccessFailure()
     {
-        $opts = new ezcPersistentIdentitySessionOptions();
+        $opts = new ezcPersistentSessionIdentityDecoratorOptions();
 
         try
         {
@@ -63,7 +63,7 @@ class ezcPersistentIdentitySessionOptionsTest extends ezcTestCase
 
     public function testIssetAccess()
     {
-        $opts = new ezcPersistentIdentitySessionOptions();
+        $opts = new ezcPersistentSessionIdentityDecoratorOptions();
 
         $this->assertTrue( isset( $opts->refetch ) );
         $this->assertFalse( isset( $opts->fooBar ) );
@@ -71,7 +71,7 @@ class ezcPersistentIdentitySessionOptionsTest extends ezcTestCase
     
     public function testSetAccessSuccess()
     {
-        $opts = new ezcPersistentIdentitySessionOptions();
+        $opts = new ezcPersistentSessionIdentityDecoratorOptions();
 
         $this->assertSetProperty(
             $opts,
@@ -82,7 +82,7 @@ class ezcPersistentIdentitySessionOptionsTest extends ezcTestCase
     
     public function testSetAccessFailure()
     {
-        $opts = new ezcPersistentIdentitySessionOptions();
+        $opts = new ezcPersistentSessionIdentityDecoratorOptions();
 
         $this->assertSetPropertyFails(
             $opts,
