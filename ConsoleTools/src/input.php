@@ -997,7 +997,7 @@ class ezcConsoleInput
      * Property isset access.
      * 
      * @param string $propertyName Name of the property.
-     * @return bool True is the property is set, otherwise false.
+     * @return bool True if the property is set, otherwise false.
      * @ignore
      */
     public function __isset( $propertyName )
