@@ -414,5 +414,46 @@ class ezcDocumentPdfPageTests extends ezcTestCase
         catch ( ezcBaseFunctionalityNotSupportedException $e )
         { /* Expected */ }
     }
+
+    public function testCoveredAreasInDifferentTransactions()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->startTransaction( 1 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 80, 0, 20, 100 ) );
+        $page->startTransaction( 2 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 20, 100 ) );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 20, 10, 60, 80 ),
+            $page->testFitRectangle( null, 10, 60, 80 )
+        );
+    }
+
+    public function testCoveredAreasWithRevertedTransaction()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->startTransaction( 1 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 80, 0, 20, 100 ) );
+        $page->startTransaction( 2 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 20, 100 ) );
+        $page->revert( 2 );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 0, 10, 60, 80 ),
+            $page->testFitRectangle( null, 10, 60, 80 )
+        );
+    }
+
+    public function testCoveredAreasWithMultipleRevertedTransactions()
+    {
+        $page = new ezcDocumentPdfPage( 100, 100 );
+        $page->startTransaction( 1 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 80, 0, 20, 100 ) );
+        $page->startTransaction( 2 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 20, 100 ) );
+        $page->revert( 1 );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 0, 10, 100, 80 ),
+            $page->testFitRectangle( null, 10, 100, 80 )
+        );
+    }
 }
 ?>

@@ -35,6 +35,13 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     protected $covered = array();
 
     /**
+     * Current transaction
+     * 
+     * @var mixed
+     */
+    protected $transaction = 0;
+
+    /**
      * Current horizontal rendering position on page
      * 
      * @var float
@@ -234,6 +241,55 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     }
 
     /**
+     * Start a new transaction sequence
+     *
+     * Start a new transaction, which will group all covered areas, until the
+     * next transaction is started. This methods takes and returns an
+     * identifier for this transaction, which can be used to commit this
+     * transaction, or revert everything since (including) this this
+     * transaction.
+     *
+     * @return mixed
+     */
+    public function startTransaction( $transaction )
+    {
+        $this->covered[$this->transaction = $transaction] = array();
+        return $this->transaction;
+    }
+
+    /**
+     * Revert transaction
+     *
+     * Revert all transactions after the specified (including the specified)
+     * transaction.
+     * 
+     * @param mixed $transaction 
+     * @return void
+     */
+    public function revert( $transaction )
+    {
+        if ( !isset( $this->covered[$transaction] ) )
+        {
+            return false;
+        }
+
+        $remove = false;
+        foreach ( $this->covered as $id => $areas )
+        {
+            if ( !$remove &&
+                 ( $id !== $transaction ) )
+            {
+                continue;
+            }
+
+            $remove = true;
+            unset( $this->covered[$id] );
+        }
+
+        return true;
+    }
+
+    /**
      * Set space covored
      *
      * Append a rectangle of already covered space. This space will then not be
@@ -247,7 +303,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      */
     public function setCovered( ezcDocumentPdfBoundingBox $rectangle )
     {
-        $this->covered[] = $rectangle;
+        $this->covered[$this->transaction][] = $rectangle;
     }
 
     /**
@@ -315,88 +371,91 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         }
 
         // Test all covered areas for intersections with the given bounding box
-        foreach ( $this->covered as $covered )
+        foreach ( $this->covered as $transaction => $areas )
         {
-            // These variables indicate which bounding box checks evaluated to
-            // true, so we can handle bounding box modififactions according to
-            // this.
-            $xOut = 0;
-            $yOut = 0;
-            // Do NOT change the test order.
-            if ( ( // Test for left coordinate in covering boundings
-                   ( $xOut |= ( ( $boundings->x > $covered->x ) &&
-                                ( $boundings->x < ( $covered->x + $covered->width ) ) ) << 1 ) ||
-                   // Test for right coordinate in covering boundings
-                   ( $xOut |= ( ( ( $boundings->x + $boundings->width ) > $covered->x ) &&
-                                ( ( $boundings->x + $boundings->width ) < ( $covered->x + $covered->width ) ) ) << 2 ) ||
-                   // Test if coordinates outer wrap coverings
-                   ( $xOut |= ( ( $boundings->x <= $covered->x ) &&
-                                ( ( $boundings->x + $boundings->width ) >= ( $covered->x + $covered->width ) ) ) << 3 )
-                 ) &&
-                 ( // Test for top coordinate in covering boundings
-                   ( $yOut |= ( ( $boundings->y > $covered->y ) &&
-                                ( $boundings->y < ( $covered->y + $covered->height ) ) ) << 1 ) ||
-                   // Test for bottom coordinate in covering boundings
-                   ( $yOut |= ( ( ( $boundings->y + $boundings->height ) > $covered->y ) &&
-                                ( ( $boundings->y + $boundings->height ) < ( $covered->y + $covered->height ) ) ) << 2 ) ||
-                   // Test if coordinates outer wrap coverings
-                   ( $yOut |= ( ( $boundings->y <= $covered->y ) &&
-                                ( ( $boundings->y + $boundings->height ) >= ( $covered->y + $covered->height ) ) ) << 3 )
-                 ) )
+            foreach ( $areas as $covered )
             {
-                // Adjust bounding box width, if only the right coordinate hit
-                // the covered area.
-                if ( $adjustWidth && 
-                     ( $xOut & 12 ) )
+                // These variables indicate which bounding box checks evaluated to
+                // true, so we can handle bounding box modififactions according to
+                // this.
+                $xOut = 0;
+                $yOut = 0;
+                // Do NOT change the test order.
+                if ( ( // Test for left coordinate in covering boundings
+                       ( $xOut |= ( ( $boundings->x > $covered->x ) &&
+                                    ( $boundings->x < ( $covered->x + $covered->width ) ) ) << 1 ) ||
+                       // Test for right coordinate in covering boundings
+                       ( $xOut |= ( ( ( $boundings->x + $boundings->width ) > $covered->x ) &&
+                                    ( ( $boundings->x + $boundings->width ) < ( $covered->x + $covered->width ) ) ) << 2 ) ||
+                       // Test if coordinates outer wrap coverings
+                       ( $xOut |= ( ( $boundings->x <= $covered->x ) &&
+                                    ( ( $boundings->x + $boundings->width ) >= ( $covered->x + $covered->width ) ) ) << 3 )
+                     ) &&
+                     ( // Test for top coordinate in covering boundings
+                       ( $yOut |= ( ( $boundings->y > $covered->y ) &&
+                                    ( $boundings->y < ( $covered->y + $covered->height ) ) ) << 1 ) ||
+                       // Test for bottom coordinate in covering boundings
+                       ( $yOut |= ( ( ( $boundings->y + $boundings->height ) > $covered->y ) &&
+                                    ( ( $boundings->y + $boundings->height ) < ( $covered->y + $covered->height ) ) ) << 2 ) ||
+                       // Test if coordinates outer wrap coverings
+                       ( $yOut |= ( ( $boundings->y <= $covered->y ) &&
+                                    ( ( $boundings->y + $boundings->height ) >= ( $covered->y + $covered->height ) ) ) << 3 )
+                     ) )
                 {
-                    $boundings->width = $covered->x - $boundings->x;
-                }
+                    // Adjust bounding box width, if only the right coordinate hit
+                    // the covered area.
+                    if ( $adjustWidth && 
+                         ( $xOut & 12 ) )
+                    {
+                        $boundings->width = $covered->x - $boundings->x;
+                    }
 
-                // Adjust bounding box width, if only the right coordinate hit
-                // the covered area.
-                if ( $adjustHeight && 
-                     ( $yOut & 12 ) )
-                {
-                    $boundings->height = $covered->y - $boundings->y;
-                }
+                    // Adjust bounding box width, if only the right coordinate hit
+                    // the covered area.
+                    if ( $adjustHeight && 
+                         ( $yOut & 12 ) )
+                    {
+                        $boundings->height = $covered->y - $boundings->y;
+                    }
 
-                // If the width or height has been adjusted, we did not hit any
-                // covered area with the starting coordinates because of the
-                // test order in the if statement above. We can safely continue
-                // to check the next covering area. We cannot do the continue
-                // in one of the blocks above, because we might need to modify
-                // both.
-                if ( ( $adjustWidth && 
-                       ( $xOut & 12 ) ) ||
-                     ( $adjustHeight && 
-                       ( $yOut & 12 ) ) )
-                {
-                    continue;
-                }
+                    // If the width or height has been adjusted, we did not hit any
+                    // covered area with the starting coordinates because of the
+                    // test order in the if statement above. We can safely continue
+                    // to check the next covering area. We cannot do the continue
+                    // in one of the blocks above, because we might need to modify
+                    // both.
+                    if ( ( $adjustWidth && 
+                           ( $xOut & 12 ) ) ||
+                         ( $adjustHeight && 
+                           ( $yOut & 12 ) ) )
+                    {
+                        continue;
+                    }
 
-                if ( !$moveX && !$moveY )
-                {
-                    // We hit something and may not move or adjust the box -
-                    // break.
-                    return false;
-                }
-                elseif ( $moveX && $moveY )
-                {
-                    // Move in the direction where less movement is required.
-                    // This might be imporved by additionally checking already
-                    // reached page boundings...
-                    $xMovement = ( $covered->x + $covered->width  ) - $boundings->x;
-                    $yMovement = ( $covered->y + $covered->height ) - $boundings->y;
-                    $boundings->x += $xMovement > $yMovement ? 0 : $xMovement;
-                    $boundings->y += $yMovement > $xMovement ? 0 : $yMovement;
-                }
-                elseif ( $moveX )
-                {
-                    $boundings->x = $covered->x + $covered->width;
-                }
-                elseif ( $moveY )
-                {
-                    $boundings->y = $covered->y + $covered->height;
+                    if ( !$moveX && !$moveY )
+                    {
+                        // We hit something and may not move or adjust the box -
+                        // break.
+                        return false;
+                    }
+                    elseif ( $moveX && $moveY )
+                    {
+                        // Move in the direction where less movement is required.
+                        // This might be imporved by additionally checking already
+                        // reached page boundings...
+                        $xMovement = ( $covered->x + $covered->width  ) - $boundings->x;
+                        $yMovement = ( $covered->y + $covered->height ) - $boundings->y;
+                        $boundings->x += $xMovement > $yMovement ? 0 : $xMovement;
+                        $boundings->y += $yMovement > $xMovement ? 0 : $yMovement;
+                    }
+                    elseif ( $moveX )
+                    {
+                        $boundings->x = $covered->x + $covered->width;
+                    }
+                    elseif ( $moveY )
+                    {
+                        $boundings->y = $covered->y + $covered->height;
+                    }
                 }
             }
         }
@@ -423,9 +482,12 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      */
     public function showCoveredAreas( ezcDocumentPdfDriver $driver )
     {
-        foreach ( $this->covered as $box )
+        foreach ( $this->covered as $transaction => $areas )
         {
-            $driver->drawRectangle( $box->x, $box->y, $box->width, $box->height, '#729fcf' );
+            foreach ( $areas as $box )
+            {
+                $driver->drawRectangle( $box->x, $box->y, $box->width, $box->height, '#729fcf' );
+            }
         }
     }
 
