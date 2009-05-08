@@ -247,24 +247,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         }
         $this->driver->revert( $trans );
 
-        // Then move paragraph into next column / page
-        $trans = $this->driver->startTransaction();
-        if ( ( $newX = $renderer->getNextColumnPosition( $page, $element, $page->x ) ) !== false )
-        {
-            $page->showCoveredAreas( $this->driver );
-
-            // Find new y position
-            $space = $page->testFitRectangle( $newX, null, 1, 1 );
-            $page->x = $space->x;
-            $page->y = $space->y;
-
-            return $this->renderParagraph( $element );
-        }
-        $this->driver->revert( $trans );
-
-        // If there is no space for a new column, create a new page
-        $this->createPage();
-        $this->renderTitle( $element );
+        $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
+        return $this->renderTitle( $element );
     }
 }
 

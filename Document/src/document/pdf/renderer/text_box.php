@@ -110,7 +110,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfInferencableDomElement $text 
      * @return float
      */
-    protected function calculateTextWidth( ezcDocumentPdfPage $page, ezcDocumentPdfInferencableDomElement $text )
+    public function calculateTextWidth( ezcDocumentPdfPage $page, ezcDocumentPdfInferencableDomElement $text )
     {
         // Inference page styles
         $rules = $this->styles->inferenceFormattingRules( $text );

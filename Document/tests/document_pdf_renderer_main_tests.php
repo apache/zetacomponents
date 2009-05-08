@@ -135,6 +135,55 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
             $this->tempDir . $fileName
         );
     }
+
+    public function testRenderMainSplitParagraphHandleOrphans()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/long_text.xml' );
+
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'text-columns' => '2',
+                    'font-size'    => '11.5pt',
+                    'widows'       => '0',
+                )
+            ),
+            new ezcDocumentPdfCssDirective(
+                array( 'title' ),
+                array(
+                    'text-columns' => '2',
+                )
+            ),
+            new ezcDocumentPdfCssDirective(
+                array( 'page' ),
+                array(
+                    'page-size'    => 'A5',
+                )
+            ),
+        ) );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            $style
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        file_put_contents(
+            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
+            $pdf
+        );
+    
+        $this->assertXmlFileEqualsXmlFile(
+            $this->basePath . 'renderer/' . $fileName,
+            $this->tempDir . $fileName
+        );
+    }
 }
 
 ?>

@@ -54,13 +54,24 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
 
         // Evaluate horizontal starting position
-        $yPos = $space->y + $styles['margin']->value['top'];
-        foreach ( $lines as $nr => $line )
+        $trans     = $this->driver->startTransaction();
+        $current   = 0;
+        $lineCount = count( $lines );
+        $yPos      = $space->y + $styles['margin']->value['top'];
+        for ( $line = 0; $line < $lineCount; ++$line )
         {
-            // @TODO: Implement backtracking for orphans and widows
             // Check if we will run out of vertical space
             if ( ( $yPos + $line['height'] ) > ( $space->y + $space->height ) )
             {
+                // Check for orphans on the just closed paragraph part, if
+                // orphans occur omve paragraph part to next page.
+                if ( $current < $styles['orphans']->value )
+                {
+                    $this->driver->revert( $trans );
+                    $line   -= $current;
+                    $current = 0;
+                }
+
                 // Set already used space covered
                 $page->setCovered(
                     new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $yPos - $space->y )
@@ -77,7 +88,10 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
                 $yPos  = $space->y + $styles['margin']->value['top'];
             }
 
-            $yPos += $this->renderLine( $yPos, $line, $space, $styles );
+            $yPos += $this->renderLine( $yPos, $lines[$line], $space, $styles );
+            ++$current;
+
+            // Check for widows
         }
 
         $page->setCovered(

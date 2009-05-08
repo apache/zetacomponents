@@ -264,7 +264,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $textNode->setAttribute( 
             'style', 
             sprintf(
-                'font-size: %dpt; font-family: %s; font-style: %s; font-weight: %s; stroke: none;',
+                'font-size: %.2Fpt; font-family: %s; font-style: %s; font-weight: %s; stroke: none;',
                 $this->currentFont['size'],
                 $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
                 ( $this->currentFont['style'] & self::FONT_OBLIQUE ) ? 'oblique' : 'normal',
