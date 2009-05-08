@@ -1311,7 +1311,7 @@ class ezcConsoleInput
         {
             return true;
         }
-        $values = $this->getOptionValues();
+        $values = $this->getAllSubmittedOptions();
         foreach ( $this->options as $id => $option )
         {
             // Mandatory
@@ -1336,39 +1336,54 @@ class ezcConsoleInput
             // Dependencies
             foreach ( $option->getDependencies() as $dep )
             {
-                if ( !isset( $values[$dep->option->short] ) || $values[$dep->option->short] === false )
+                if ( !isset( $values[$dep->option->short] ) && !isset( $values[$dep->option->long] ) )
                 {
                     throw new ezcConsoleOptionDependencyViolationException( $option, $dep->option );
                 }
-                $depVals = $dep->values;
-                if ( count( $depVals ) > 0 )
+                $depOptVal = ( isset( $values[$dep->option->short] ) ? $values[$dep->option->short] : $values[$dep->option->long] );
+                $depVals   = $dep->values;
+                if ( $depVals !== array() )
                 {
-                    $checkVals =  is_array( $values[$dep->option->short] ) ? $values[$dep->option->short] : array( $values[$dep->option->short] );
-                    foreach ( $checkVals as $checkVal )
+                    $depOptVals       = is_array( $depOptVal ) ? $depOptVal : array( $depOptVal );
+                    $unrecognizedVals = array_diff( $depOptVals, $depVals );
+                    if ( $unrecognizedVals !== array() )
                     {
-                        if ( !in_array( $checkVal, $depVals ) )
-                        {
-                            throw new ezcConsoleOptionDependencyViolationException( $option, $dep->option, implode( ', ', $depVals )  );
-                        }
+                        throw new ezcConsoleOptionDependencyViolationException(
+                            $option,
+                            $dep->option,
+                            implode( ', ', $depVals )
+                        );
                     }
                 }
             }
             // Exclusions
             foreach ( $option->getExclusions() as $exc )
             {
-                if ( isset( $values[$exc->option->short] ) && $values[$exc->option->short] !== false && count( $exc->values ) === 0 )
+                if ( isset( $values[$exc->option->short] ) || isset( $values[$exc->option->long] ) )
                 {
-                    throw new ezcConsoleOptionExclusionViolationException( $option, $exc->option );
-                }
-                if ( count( $exc->values ) > 0 )
-                {
-                    $checkVals =  is_array( $values[$exc->option->short] ) ? $values[$exc->option->short] : array( $values[$exc->option->short] );
-                    foreach ( $checkVals as $checkVal )
+                    if ( $exc->values === array() )
                     {
-                        if ( in_array( $checkVal, $exc->values ) )
-                        {
-                            throw new ezcConsoleOptionExclusionViolationException( $option, $exc->option, $option->value );
-                        }
+                        throw new ezcConsoleOptionExclusionViolationException( $option, $exc->option );
+                    }
+                }
+                else
+                {
+                    // Excluded option not set at all, no checks needed
+                    continue;
+                }
+                $excOptVal = ( isset( $values[$exc->option->short] ) ? $values[$exc->option->short] : $values[$exc->option->long] );
+                $excVals   = $exc->values;
+                if ( $excVals !== array() )
+                {
+                    $excOptVals     = is_array( $excOptVal ) ? $excOptVal : array( $excOptVal );
+                    $disallowedVals = array_intersect( $excOptVals, $excVals );
+                    if ( $disallowedVals !== array() )
+                    {
+                        throw new ezcConsoleOptionExclusionViolationException(
+                            $option,
+                            $exc->option,
+                            implode( ', ', $excVals )
+                        );
                     }
                 }
             }
@@ -1428,6 +1443,34 @@ class ezcConsoleInput
             $parts = explode( '=', $args[$i], 2 );
             array_splice( $args, $i, 1, $parts );
         }
+    }
+
+    /**
+     * Returns an array of all submitted options.
+     *
+     * Returns an array which has the short and long names of all submitted
+     * options as its keys, assigned to the submitted values.
+     * 
+     * @return array(string=>mixed)
+     */
+    private function getAllSubmittedOptions()
+    {
+        $res = array();
+        foreach ( $this->options as $option )
+        {
+            if ( $option->value !== false ) 
+            {
+                if ( !empty( $option->short ) )
+                {
+                    $res[$option->short] = $option->value;
+                }
+                if ( !empty( $option->long ) )
+                {
+                    $res[$option->long] = $option->value;
+                }
+            }
+        }
+        return $res;
     }
 }
 ?>

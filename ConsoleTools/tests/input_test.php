@@ -2605,6 +2605,183 @@ EOF;
         $this->commonProcessTestSuccess( $args, $res );
         $this->assertTrue( $this->input->helpOptionSet(), "Help option seems not to be set, algthough it was." );
     }
+
+    public function testDependOptionNoShortName()
+    {
+        $inputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'input' )
+        );
+        $outputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'output' )
+        );
+
+        $inputOpt->addDependency(
+            new ezcConsoleOptionRule( $outputOpt )
+        );
+        $outputOpt->addDependency(
+            new ezcConsoleOptionRule( $inputOpt )
+        );
+        
+        $args = array( 'somescript', '--input' );
+
+        try
+        {
+            $this->input->process( $args );
+            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+        } catch ( ezcConsoleOptionDependencyViolationException $e ) {}
+        
+        $args = array( 'somescript', '--output' );
+
+        try
+        {
+            $this->input->process( $args );
+            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+        } catch ( ezcConsoleOptionDependencyViolationException $e ) {}
+    }
+
+    // Issue #014803: Problem with ezcConsoleOption when short option name is empty
+    public function testExcludeOptionNoShortName()
+    {
+        $inputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'input' )
+        );
+        $outputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'output' )
+        );
+
+        $inputOpt->addExclusion(
+            new ezcConsoleOptionRule( $outputOpt )
+        );
+        $outputOpt->addExclusion(
+            new ezcConsoleOptionRule( $inputOpt )
+        );
+        
+        $args = array( 'somescript', '--input' );
+
+        // Should not throw an exception
+        $this->input->process( $args );
+        
+        $args = array( 'somescript', '--output' );
+
+        // Should not throw an exception
+        $this->input->process( $args );
+    }
+
+    public function testDependOptionValueNotSetNoShortName()
+    {
+        $inputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'input' )
+        );
+        $outputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'output' )
+        );
+
+        $inputOpt->addDependency(
+            new ezcConsoleOptionRule( $outputOpt, array( 'foo', 'bar' ) )
+        );
+        $outputOpt->addDependency(
+            new ezcConsoleOptionRule( $inputOpt, array( 'foo', 'bar' ) )
+        );
+        
+        $args = array( 'somescript', '--input' );
+
+        try
+        {
+            $this->input->process( $args );
+            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+        } catch ( ezcConsoleOptionDependencyViolationException $e ) {}
+        
+        $args = array( 'somescript', '--output' );
+
+        try
+        {
+            $this->input->process( $args );
+            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+        } catch ( ezcConsoleOptionDependencyViolationException $e ) {}
+
+    }
+
+    public function testDependOptionValueWrongValueNoShortName()
+    {
+        $inputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'input', ezcConsoleInput::TYPE_STRING )
+        );
+        $outputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'output', ezcConsoleInput::TYPE_STRING )
+        );
+
+        $inputOpt->addDependency(
+            new ezcConsoleOptionRule( $outputOpt, array( 'foo', 'bar' ) )
+        );
+        $outputOpt->addDependency(
+            new ezcConsoleOptionRule( $inputOpt, array( 'foo', 'bar' ) )
+        );
+        
+        $args = array( 'somescript', '--output=lala', '--input=lala' );
+
+        try
+        {
+            $this->input->process( $args );
+            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+        } catch ( ezcConsoleOptionDependencyViolationException $e ) {}
+        
+        $args = array( 'somescript', '--input=lala', '--output=lala' );
+
+        try
+        {
+            $this->input->process( $args );
+            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+        } catch ( ezcConsoleOptionDependencyViolationException $e ) {}
+
+    }
+
+    public function testExcludeOptionValueWrongValueNoShortName()
+    {
+        $inputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'input', ezcConsoleInput::TYPE_STRING )
+        );
+        $outputOpt = $this->input->registerOption(
+            new ezcConsoleOption( '', 'output', ezcConsoleInput::TYPE_STRING )
+        );
+
+        $inputOpt->addExclusion(
+            new ezcConsoleOptionRule( $outputOpt, array( 'foo', 'bar' ) )
+        );
+        $outputOpt->addExclusion(
+            new ezcConsoleOptionRule( $inputOpt, array( 'foo', 'bar' ) )
+        );
+        
+        $args = array( 'somescript', '--output=foo', '--input=lala' );
+
+        try
+        {
+            $this->input->process( $args );
+            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+        }
+        catch ( ezcConsoleOptionExclusionViolationException $e )
+        {
+            $this->assertEquals(
+                "The option 'input' excludes the option 'output' to have a value in 'foo, bar' but this one was submitted.",
+                $e->getMessage()
+            );
+        }
+        
+        $args = array( 'somescript', '--output=lala', '--input=bar' );
+
+        try
+        {
+            $this->input->process( $args );
+            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+        }
+        catch ( ezcConsoleOptionExclusionViolationException $e )
+        {
+            $this->assertEquals(
+                "The option 'output' excludes the option 'input' to have a value in 'foo, bar' but this one was submitted.",
+                $e->getMessage()
+            );
+        }
+
+    }
     
     private function commonProcessTestSuccess( $args, $res )
     {
