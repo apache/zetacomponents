@@ -214,6 +214,28 @@ class ezcQuerySubSelectTest extends ezcTestCase
         $this->assertEquals( "DELETE FROM quiz WHERE question IN ( SELECT id FROM question WHERE quiz = :ezcValue1 )", $q->getQuery() );
     }
 
+    // Verifies issue #11784 is fixed. Code taken from there.
+    public function testSubselectNotQuotedInInExpr()
+    {
+        $db = ezcDbInstance::get();
+        $q = $db->createSelectQuery();
+        $q->select( 'somecol' )->from( 'quiz' );
+
+        $qQuestions = $q->subSelect();
+        $qQuestions->select( 'id' )->from( 'question' )->where(
+            $qQuestions->expr->eq( 'quiz', $qQuestions->bindValue( 1 ) )
+        );
+
+        $q->where(
+            $q->expr->in( 'question', $qQuestions )
+        );
+
+        $this->assertEquals(
+            'SELECT somecol FROM quiz WHERE question IN ( SELECT id FROM question WHERE quiz = :ezcValue1 )',
+            $q->getQuery()
+        );
+    }
+
 
     public static function suite()
     {
