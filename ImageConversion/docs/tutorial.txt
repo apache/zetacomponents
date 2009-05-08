@@ -234,6 +234,34 @@ Converted image (thumbnail):
 .. image:: img/imageconversion_example_05_after.jpg
    :alt: Converted JPEG image with watermark.
 
+Troubleshooting
+===============
+
+In some cases, you might experience troubles, which result from PHP or one of
+the drivers. Common problems and solutions are presented below.
+
+Corrupt JPEG files
+------------------
+
+Some JPEG files contain small amounts of corrupt data, which might not result
+in problems when viewing these images with your favorite image viewer. However,
+GD and ImageMagick by default issue errors for these images. The
+ImageConversion component throws an ezcImageFileNotProcessable exception in
+this case.
+
+You can avoid this issue in the GD driver, by setting the php.ini directive
+"gd.jpeg_ignore_warning" to true. This can either happen in your php.ini
+directly or by using the following code in your application, before you attempt
+to load any image::
+
+    <?php
+        ini_set( "gd.jpeg_ignore_warning", true );
+    ?>
+
+However, it is not recommended to deal with corrupt images like this, since the
+results are unpredictable. There is a good chance that the converted image will
+be OK, but it is not guaranteed.
+
 
 ..
    Local Variables:

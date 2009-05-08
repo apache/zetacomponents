@@ -96,6 +96,26 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         $this->fail( "Required exception not thrown on not existing file." );
     }
 
+    public function testLoadCorruptJpegFailure()
+    {
+        $origPath = $this->testFiles['corrupt_jpeg'];
+        $tmpPath  = $this->getTempPath();
+
+        copy( $origPath, $tmpPath );
+
+        $ref = $this->handler->load( $tmpPath );
+
+        unlink( $tmpPath );
+        
+        try
+        {
+            $this->handler->save( $ref );
+            $this->fail( 'Exception not thrown on processing corrupt JPEG.' );
+        } catch ( ezcImageFileNotProcessableException $e ) {}
+
+        $this->handler->close( $ref );
+    }
+
     public function testCloseSuccess()
     {
         $srcPath = $this->testFiles["jpeg"];

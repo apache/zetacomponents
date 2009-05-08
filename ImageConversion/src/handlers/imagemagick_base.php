@@ -221,12 +221,13 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         }
         $return = proc_close( $imageProcess );
         
-    // Process potential errors
-    // Exit code may be messed up with -1, especially on Windoze
+        // Process potential errors
+        // Exit code may be messed up with -1, especially on Windoze
         if ( ( $status['exitcode'] != 0 && $status['exitcode'] != -1 ) || strlen( $errorString ) > 0 )
         {
-            throw new Exception(
-                "The command '{$command}' resulted in an error ({$status['exitcode']})): '{$errorString}'. Output: '{$outputString}'"
+            throw new ezcImageFileNotProcessableException(
+                $this->getReferenceData( $image, 'resource' ),
+                "The command '{$command}' resulted in an error ({$status['exitcode']}): '{$errorString}'. Output: '{$outputString}'"
             );
         }
         // Finish atomic file operation

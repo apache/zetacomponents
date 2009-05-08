@@ -11,8 +11,13 @@
 
 /**
  * ezcImageHandler implementation for the GD2 extension of PHP, including filters.
- * This ezcImageHandler is used when you want to manipulate images using
- * ext/GD in your application.
+ *
+ * This ezcImageHandler is used when you want to manipulate images using ext/GD
+ * in your application.
+ *
+ * Note: If you experience problems with loading some JPEG files that work in
+ * your image viewer, please set the php.ini directive 'gd.jpeg_ignore_warning'
+ * to true (possible via {@link ini_set()}).
  *
  * @see ezcImageConverter
  * @see ezcImageHandler

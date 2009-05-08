@@ -74,7 +74,7 @@ class ezcImageGdBaseHandler extends ezcImageMethodcallHandler
         $this->checkFileName( $file );
         $ref = $this->loadCommon( $file, isset( $mime ) ? $mime : null );
         $loadFunction = $this->getLoadFunction( $this->getReferenceData( $ref, 'mime' ) );
-        if ( !ezcBaseFeatures::hasFunction( $loadFunction ) || ( $handle = @$loadFunction( $file ) ) === '' )
+        if ( !ezcBaseFeatures::hasFunction( $loadFunction ) || ( $handle = @$loadFunction( $file ) ) === false )
         {
             throw new ezcImageFileNotProcessableException( $file, "File could not be opened using $loadFunction." );
         }

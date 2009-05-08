@@ -108,6 +108,38 @@ class ezcImageConversionHandlerGdTest extends ezcImageConversionHandlerTest
         $this->fail( "Required exception not thrown on not existing file." );
     }
 
+    public function testLoadCorruptJpegFailure()
+    {
+        $origPath = $this->testFiles['corrupt_jpeg'];
+
+        try
+        {
+            $ref = $this->handler->load( $origPath );
+            $this->fail( 'Exception not thrown on loading corrupt JPEG.' );
+        }
+        catch ( ezcImageFileNotProcessableException $e ) {}
+    }
+
+    public function testLoadCorruptJpegSuccess()
+    {
+        $origPath = $this->testFiles['corrupt_jpeg'];
+        $tmpPath  = $this->getTempPath();
+
+        copy( $origPath, $tmpPath );
+
+        ini_set( "gd.jpeg_ignore_warning", true );
+
+        $ref = $this->handler->load( $tmpPath );
+
+        unlink( $tmpPath );
+        
+        $this->handler->save( $ref );
+
+        ini_set( "gd.jpeg_ignore_warning", false );
+
+        $ref = $this->handler->load( $tmpPath );
+    }
+
     public function testSaveOldfileNoconvert()
     {
         $srcPath = $this->testFiles["jpeg"];
