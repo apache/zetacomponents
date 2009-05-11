@@ -3,6 +3,7 @@
 
 - Fixed issue #14810: Exceptions are now thrown correctly with corrupt JPEGs.
 
+
 1.3.5 - Monday 16 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

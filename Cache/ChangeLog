@@ -1,9 +1,10 @@
 1.4.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #14685: Corrected tutorial regarding ezcCacheStackConfigurator.
 - Fixed issue #14684: Exception on invalid cache location now contains the
   location it results from it.
+- Fixed issue #14685: Corrected tutorial regarding ezcCacheStackConfigurator.
+
 
 1.4 - Monday 16 June 2008
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

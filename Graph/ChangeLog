@@ -6,6 +6,7 @@
   step evaluation
 - Fixed #14655: A full circle sector is not drawn at all in GD driver.
 
+
 1.4.1 - Monday 09 February 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
