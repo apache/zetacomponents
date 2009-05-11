@@ -14,7 +14,7 @@
   identity management.
 
 
-1.5.2 - [RELEASEDATE]
+1.5.2 - Monday 11 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14736: ezcPersistentSession->createRelationFindQuery() now
