@@ -1,4 +1,4 @@
-1.4.5 - [RELEASEDATE]
+1.4.5 - Monday 11 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #14855 (IN with subselects generates excessive braces).
