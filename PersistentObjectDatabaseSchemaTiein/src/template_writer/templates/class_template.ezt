@@ -2,7 +2,7 @@
 <?php
 {var $indent = '', $className = $classPrefix . underScoreToCamelCase( $tableName ), $propertyNames = array(), $propertyTypes = array()}
 {include 'generate_property_names.ezt' send $schema receive $propertyNames}
-{include 'generate_property_types.ezt' send $schema receive $propertyTypes}
+{include 'generate_php_property_types.ezt' send $schema receive $propertyTypes}
 {include 'file_doc_block.ezt' send $className}
 {include 'class_doc_block.ezt' send $className, $propertyNames, $propertyTypes}
 class {$className} implements ezcPersistentObject
