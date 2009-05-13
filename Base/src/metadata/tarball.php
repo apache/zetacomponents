@@ -85,13 +85,13 @@ class ezcBaseMetaDataTarballReader
      */
     public function getComponentVersion( $componentName )
     {
-        $root = $this->xml->deps->packages;
+        $root = $this->xml->deps->packages->package;
 
-        foreach ( $root as $packages )
+        foreach ( $root as $package )
         {
-            if ( (string) $packages->package['name'] == $componentName )
+            if ( (string) $package['name'] == $componentName )
             {
-                return (string) $packages->package['version'];
+                return (string) $package['version'];
             }
         }
         return false;
