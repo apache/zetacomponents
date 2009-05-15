@@ -272,7 +272,7 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
 
         if ( $dsn === null || $type === null || $dsn === "sqlite://:memory:" )
         {
-            $this->markTestSkipped( "DSN or database type not set or DSN not supported." );
+            $this->markTestSkipped( "DSN or database type not set or DSN not supported. Sqlite memory database does not work for this test." );
         }
 
         // setup this test
@@ -312,7 +312,7 @@ class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
 
         if ( $dsn === null || $type === null || $type === 'sqlite' )
         {
-            $this->markTestSkipped( "DSN or database type not set" );
+            $this->markTestSkipped( "DSN or database type not set or DSN not supported. Sqlite does not work for this test." );
         }
 
         // manipulate DSN
