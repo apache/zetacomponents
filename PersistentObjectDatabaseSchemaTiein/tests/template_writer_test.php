@@ -22,7 +22,7 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 
     protected function tearDown()
     {
-        // $this->removeTempDir();
+        $this->removeTempDir();
     }
 
     public function getSchema()
@@ -206,8 +206,6 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
         );
     }
     
-    /*
-
     public function testPersistentTemplateConfigGenerationWithPrefixSuccess()
     {
         $dirs = $this->setUpDirs();
@@ -227,13 +225,13 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 
         $schemaWriter->write(
             $schema,
-            'class_template.ezt',
-            $dirs['classDir']
+            'config_template.ezt',
+            $dirs['configDir']
         );
-        
+
         $this->assertFilesEqual(
-            $this->dataDir . '/template_class_prefix',
-            $dirs['classDir']
+            $this->dataDir . '/template_config_prefix',
+            $dirs['configDir']
         );
     }
 
@@ -256,16 +254,16 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 
         $schemaWriter->write(
             $schema,
-            'class_template.ezt',
-            $dirs['classDir']
+            'config_template.ezt',
+            $dirs['configDir']
         );
 
         try
         {
             $schemaWriter->write(
                 $schema,
-                'class_template.ezt',
-                $dirs['classDir']
+                'config_template.ezt',
+                $dirs['configDir']
             );
             $this->fail( 'Exception not thrown on existing files and disabled overwrite.' );
         }
@@ -289,28 +287,28 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
             )
         );
 
-        $d = dir( $this->dataDir . '/template_class_prefix' );
+        $d = dir( $this->dataDir . '/template_config_prefix' );
         while ( ( $entry = $d->read() ) !== false )
         {
             if ( $entry[0] === '.' )
             {
                 continue;
             }
-            if ( !touch ( $dirs['classDir'] . '/' . $entry, 12345 ) )
+            if ( !touch ( $dirs['configDir'] . '/' . $entry, 12345 ) )
             {
-                $this->markTestIncomplete( "Could not touch '$entry' in class dir '{$dirs['classDir']}.'" );
+                $this->markTestIncomplete( "Could not touch '$entry' in config dir '{$dirs['configDir']}.'" );
             }
         }
 
         $schemaWriter->write(
             $schema,
-            'class_template.ezt',
-            $dirs['classDir']
+            'config_template.ezt',
+            $dirs['configDir']
         );
 
         clearstatcache();
 
-        $d = dir( $dirs['classDir'] );
+        $d = dir( $dirs['configDir'] );
         while ( ( $entry = $d->read() ) !== false )
         {
             if ( $entry[0] === '.' )
@@ -319,12 +317,10 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
             }
             $this->assertGreaterThan(
                 12345,
-                filemtime( $dirs['classDir'] . '/' . $entry )
+                filemtime( $dirs['configDir'] . '/' . $entry )
             );
         }
     }
-
-    */
 
     protected function assertFilesEqual( $refDir, $dir )
     {
