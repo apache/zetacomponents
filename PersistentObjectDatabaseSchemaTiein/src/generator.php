@@ -148,6 +148,71 @@ class ezcPersistentObjectSchemaGenerator
 
         $this->input->registerOption(
             new ezcConsoleOption(
+                "t",        // short
+                "template",   // long
+                ezcConsoleInput::TYPE_NONE,
+                null,       // default
+                false,      // multiple
+                "Use template rendering.",
+                "Switch on template rendering. Use --class-template, --definition-template, --template-path to customize.",
+                array(),    // dependencies
+                array(),    // exclusions
+                true,       // arguments
+                false       // mandatory
+            )
+        );
+
+
+        $this->input->registerOption(
+            new ezcConsoleOption(
+                "ct",       // short
+                "class-template",   // long
+                ezcConsoleInput::TYPE_STRING,
+                'class_template.ezt',   // default
+                false,      // multiple
+                "Class template.",
+                "Template file to use for writing class stubs, defaults to eZ Components style classes. Look at default template to customize.",
+                array(),    // dependencies
+                array(),    // exclusions
+                true,       // arguments
+                false       // mandatory
+            )
+        );
+
+        $this->input->registerOption(
+            new ezcConsoleOption(
+                "dt",       // short
+                "definition-template",   // long
+                ezcConsoleInput::TYPE_STRING,
+                'definition_template.ezt',       // default
+                false,      // multiple
+                "Definition template.",
+                "Template file to use for writing definition stubs, defaults configs fitting the default class template. Look at default template to customize.",
+                array(),    // dependencies
+                array(),    // exclusions
+                true,       // arguments
+                false       // mandatory
+            )
+        );
+
+        $this->input->registerOption(
+            new ezcConsoleOption(
+                "tp",       // short
+                "template-path",   // long
+                ezcConsoleInput::TYPE_STRING,
+                dirname( __FILE__ ) . '/template_writer/templates',       // default
+                false,      // multiple
+                "Base template path.",
+                "Path where templates are located. Will also by used as the path to compile templates to.",
+                array(),    // dependencies
+                array(),    // exclusions
+                true,       // arguments
+                false       // mandatory
+            )
+        );
+
+        $this->input->registerOption(
+            new ezcConsoleOption(
                 "h",        // short
                 "help",     // long
                 ezcConsoleInput::TYPE_NONE,
@@ -161,6 +226,18 @@ class ezcPersistentObjectSchemaGenerator
                 false,      // mandatory
                 true        // help option
             )
+        );
+
+        $this->input->getOption( 'template-path' )->addDependency(
+            new ezcConsoleOptionRule( $this->input->getOption( 'template' ) )
+        );
+
+        $this->input->getOption( 'definition-template' )->addDependency(
+            new ezcConsoleOptionRule( $this->input->getOption( 'template' ) )
+        );
+
+        $this->input->getOption( 'class-template' )->addDependency(
+            new ezcConsoleOptionRule( $this->input->getOption( 'template' ) )
         );
 
         $this->input->argumentDefinition = new ezcConsoleArguments();
@@ -211,25 +288,12 @@ class ezcPersistentObjectSchemaGenerator
         $defDir   = $this->input->argumentDefinition["def dir"]->value;
         $classDir = $this->input->argumentDefinition["class dir"]->value;
 
-        $schema = null;
         try
         {
-            $readerClass = ezcDbSchemaHandlerManager::getReaderByFormat( $this->input->getOption( "format" )->value );
-            $reader = new $readerClass();
-
-            switch ( true )
-            {
-                case ( $reader instanceof ezcDbSchemaDbReader ):
-                    $db = ezcDbFactory::create( $this->input->getOption( "source" )->value );
-                    $schema = ezcDbSchema::createFromDb( $db );
-                    break;
-                case ( $reader instanceof ezcDbSchemaFileReader ):
-                    $schema = ezcDbSchema::createFromFile( $this->input->getOption( "format" )->value, $this->input->getOption( "source" )->value );
-                    break;
-                default:
-                    $this->raiseError( "Reader class not supported: '{$readerClass}'." );
-                    break;
-            }
+            $schema = $this->getSchema(
+                $this->input->getOption( "format" )->value,
+                $this->input->getOption( "source" )->value
+            );
         }
         catch ( Exception $e )
         {
@@ -238,30 +302,129 @@ class ezcPersistentObjectSchemaGenerator
 
         try
         {
-            $writer = new ezcDbSchemaPersistentWriter(
-                $this->input->getOption( "overwrite" )->value,
-                    $this->input->getOption( "prefix" )->value
-            );
-            $writer->saveToFile( $defDir, $schema );
-            if ( $classDir !== null )
+            $this->writeConfigFiles( $defDir, $schema );
+            if ( $classDir !== null)
             {
-                $writer = new ezcDbSchemaPersistentClassWriter(
-                    $this->input->getOption( "overwrite" )->value,
-                    $this->input->getOption( "prefix" )->value
-                );
-                $writer->saveToFile( $classDir, $schema );
+                $this->writeClassFiles( $classDir, $schema );
             }
         }
-        catch ( ezcBaseException $e )
+        catch ( Exception $e )
         {
             $this->raiseError( "Error writing schema: {$e->getMessage()}" );
         }
 
-        $this->output->outputLine( "PersistentObject definition successfully written to {$defDir}.", 'info' );
+        $this->output->outputLine(
+            "PersistentObject definition successfully written to {$defDir}.",
+            'info'
+        );
         if ( $classDir !== null )
         {
-            $this->output->outputLine( "Class files successfully written to {$classDir}.", 'info' );
+            $this->output->outputLine(
+                "Class files successfully written to {$classDir}.",
+                'info'
+            );
         }
+    }
+
+    private function writeConfigFiles( $defDir, $schema )
+    {
+        if ( $this->input->getOption( 'template' )->value !== false )
+        {
+            $this->writeFromTemplate(
+                $defDir,
+                $schema,
+                $this->input->getOption( 'definition-template' )
+            );
+        }
+        else
+        {
+            $this->writeConfigTraditional( $defDir, $schema );
+        }
+    }
+
+    private function writeConfigTraditional( $defDir, $schema )
+    {
+        $writer = new ezcDbSchemaPersistentWriter(
+            $this->input->getOption( "overwrite" )->value,
+                $this->input->getOption( "prefix" )->value
+        );
+        $writer->saveToFile( $defDir, $schema );
+    }
+
+    private function writeClassFiles( $classDir, $schema )
+    {
+        if ( $this->input->getOption( 'template' )->value !== false )
+        {
+            $this->writeFromTemplate(
+                $classDir,
+                $schema,
+                $this->input->getOption( 'class-template' )
+            );
+        }
+        else
+        {
+            $this->writeClassesTraditional( $classDir, $schema );
+        }
+    }
+
+    private function writeClassesTraditional(  $classDir, $schema )
+    {
+        $writer = new ezcDbSchemaPersistentClassWriter(
+            $this->input->getOption( "overwrite" )->value,
+            $this->input->getOption( "prefix" )->value
+        );
+        $writer->saveToFile( $classDir, $schema );
+    }
+
+    private function writeFromTemplate( $dir, $schema, $tpl )
+    {
+        $writer = new ezcPersistentObjectTemplateSchemaWriter();
+
+        if ( ( $tplPath = $this->input->getOption( 'template-path' )->value ) !== false )
+        {
+            $writer->options->templatePath = $tplPath;
+        }
+        if ( ( $prefix = $this->input->getOption( 'prefix' )->value ) !== false )
+        {
+            $writer->options->classPrefix = $prefix;
+        }
+        if ( ( $overwrite = $this->input->getOption( 'overwrite' )->value ) !== false )
+        {
+            $writer->options->overwrite = $overwrite;
+        }
+
+        $writer->saveToFile( $schema, $tpl, $dir );
+    }
+
+    /**
+     * Returns an {@link ezcDbSchema} created from $source which is of $format.
+     * 
+     * @param string $format 
+     * @param string $source 
+     * @return ezcDbSchema
+     */
+    private function getSchema( $format, $source )
+    {
+        $readerClass = ezcDbSchemaHandlerManager::getReaderByFormat(
+            $format
+        );
+        $reader = new $readerClass();
+
+        $schema = null;
+
+        switch ( true )
+        {
+            case ( $reader instanceof ezcDbSchemaDbReader ):
+                $db     = ezcDbFactory::create( $source );
+                $schema = ezcDbSchema::createFromDb( $db );
+                break;
+            case ( $reader instanceof ezcDbSchemaFileReader ):
+            default:
+                $schema = ezcDbSchema::createFromFile( $format, $source );
+                break;
+        }
+
+        return $schema;
     }
 
     /**
