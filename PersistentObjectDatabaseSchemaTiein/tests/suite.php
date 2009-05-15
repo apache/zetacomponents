@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once dirname( __FILE__ ) . "/test.php";
+require_once dirname( __FILE__ ) . "/generator_test.php";
 
 require_once dirname( __FILE__ ) . "/template_functions_test.php";
 require_once dirname( __FILE__ ) . "/template_writer_options_test.php";
@@ -27,7 +27,7 @@ class ezcPersistentObjectDatabaseSchemaTieinSuite extends PHPUnit_Framework_Test
 	{
 		parent::__construct();
         $this->setName( "PersistentObjectDatabaseSchemaTiein" );
-		$this->addTest( ezcPersistentObjectDatabaseSchemaTieinTest::suite() );
+		$this->addTest( ezcPersistentObjectSchemaGeneratorTest::suite() );
 		$this->addTest( ezcPersistentObjectSchemaTemplateFunctionsTest::suite() );
 		$this->addTest( ezcPersistentObjectTemplateSchemaWriterOptionsTest::suite() );
 		$this->addTest( ezcPersistentObjectTemplateSchemaWriterTest::suite() );

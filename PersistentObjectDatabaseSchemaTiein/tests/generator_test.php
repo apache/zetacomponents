@@ -15,7 +15,7 @@
  * @package PersistentObjectDatabaseSchemaTiein
  * @subpackage Tests
  */
-class ezcPersistentObjectDatabaseSchemaTieinTest extends ezcTestCase
+class ezcPersistentObjectSchemaGeneratorTest extends ezcTestCase
 {
     private $results;
 
