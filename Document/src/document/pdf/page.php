@@ -42,6 +42,13 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     protected $transaction = 0;
 
     /**
+     * Stored drawing positions for each transaction.
+     * 
+     * @var array
+     */
+    protected $storedPositions = array();
+
+    /**
      * Current horizontal rendering position on page
      * 
      * @var float
@@ -254,6 +261,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     public function startTransaction( $transaction )
     {
         $this->covered[$this->transaction = $transaction] = array();
+        $this->storedPositions[$this->transaction] = array( $this->x, $this->y );
         return $this->transaction;
     }
 
@@ -285,6 +293,8 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
             $remove = true;
             unset( $this->covered[$id] );
         }
+
+        list( $this->x, $this->y ) = $this->storedPositions[$transaction];
 
         return true;
     }

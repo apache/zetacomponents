@@ -106,7 +106,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentPdfDriverHaruTests::suite() );
         $this->addTest( ezcDocumentPdfDriverTcpdfTests::suite() );
-        $this->addTest( ezcDocumentPdfTransactionalDriverProxyTests::suite() );
+        $this->addTest( ezcDocumentPdfTransactionalDriverWrapperTests::suite() );
         $this->addTest( ezcDocumentPdfHyphenatorTests::suite() );
         $this->addTest( ezcDocumentPdfLocationIdTests::suite() );
         $this->addTest( ezcDocumentPdfMatchLocationIdTests::suite() );

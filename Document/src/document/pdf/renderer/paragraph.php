@@ -54,23 +54,30 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
 
         // Evaluate horizontal starting position
-        $trans     = $this->driver->startTransaction();
-        $current   = 0;
-        $lineCount = count( $lines );
-        $yPos      = $space->y + $styles['margin']->value['top'];
+        $transactions[] = $this->driver->startTransaction();
+        $rendered       = array();
+        $current        = 0;
+        $lineCount      = count( $lines );
+        $lineLimit      = -1;
+        $yPos           = $space->y + $styles['margin']->value['top'];
         for ( $line = 0; $line < $lineCount; ++$line )
         {
             // Check if we will run out of vertical space
-            if ( ( $yPos + $line['height'] ) > ( $space->y + $space->height ) )
+            if ( ( $lineLimit === 0 ) ||
+                 ( $yPos + $line['height'] ) > ( $space->y + $space->height ) )
             {
                 // Check for orphans on the just closed paragraph part, if
                 // orphans occur omve paragraph part to next page.
                 if ( $current < $styles['orphans']->value )
                 {
-                    $this->driver->revert( $trans );
-                    $line   -= $current;
-                    $current = 0;
+                    $this->driver->revert( array_pop( $transactions ) );
+                    $line     -= $current;
+                    $current   = 0;
+                    $lineLimit = -1;
                 }
+
+                // Start a new transaction for the next block
+                $transactions[] = $this->driver->startTransaction();
 
                 // Set already used space covered
                 $page->setCovered(
@@ -84,14 +91,33 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
                 );
 
                 // Calculate newly available space
-                $space = $this->evaluateAvailableBoundingBox( $page, $styles, $width );
-                $yPos  = $space->y + $styles['margin']->value['top'];
+                $space      = $this->evaluateAvailableBoundingBox( $page, $styles, $width );
+                $yPos       = $space->y + $styles['margin']->value['top'];
+                $rendered[] = $current;
+                $current    = 0;
+                $lineLimit  = -1;
             }
 
             $yPos += $this->renderLine( $yPos, $lines[$line], $space, $styles );
             ++$current;
+            --$lineLimit;
 
             // Check for widows
+            if ( ( $line === ( $lineCount - 1 ) ) &&
+                 ( $current < $styles['widows']->value ) &&
+                 ( $lineCount > $styles['widows']->value ) )
+            {
+                // Revert two last rendering calls and limit number of rendered lines
+                $line     -= $current + ( $lastParagraph = array_pop( $rendered ) );
+                $lineLimit = $lastParagraph - ( $styles['widows']->value - $current );
+                $current   = 0;
+
+                // Revert the two last transactions
+                array_pop( $transactions );
+                $this->driver->revert( array_pop( $transactions ) );
+                $space      = $this->evaluateAvailableBoundingBox( $page, $styles, $width );
+                $yPos       = $space->y + $styles['margin']->value['top'];
+            }
         }
 
         $page->setCovered(

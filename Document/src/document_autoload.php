@@ -200,7 +200,7 @@ return array(
     'ezcDocumentPdfSvgDriver'                            => 'Document/document/pdf/driver/svg.php',
     'ezcDocumentPdfTcpdfDriver'                          => 'Document/document/pdf/driver/tcpdf.php',
     'ezcDocumentPdfTitleRenderer'                        => 'Document/document/pdf/renderer/title.php',
-    'ezcDocumentPdfTransactionalDriverProxy'             => 'Document/document/pdf/driver/transactional_proxy.php',
+    'ezcDocumentPdfTransactionalDriverWrapper'           => 'Document/document/pdf/driver/wrapper.php',
     'ezcDocumentRst'                                     => 'Document/document/rst.php',
     'ezcDocumentRstAnonymousLinkNode'                    => 'Document/document/rst/nodes/link_anonymous.php',
     'ezcDocumentRstAnonymousReferenceNode'               => 'Document/document/rst/nodes/anon_reference.php',

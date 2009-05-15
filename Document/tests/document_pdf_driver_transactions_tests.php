@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcDocumentPdfTransactionalDriverProxyTests
+ * ezcDocumentPdfTransactionalDriverWrapperTests
  * 
  * @package Document
  * @version //autogen//
@@ -17,7 +17,7 @@ require_once 'pdf_test.php';
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfTransactionalDriverProxyTests extends ezcDocumentPdfTestCase
+class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCase
 {
     protected $driver;
 
@@ -32,7 +32,7 @@ class ezcDocumentPdfTransactionalDriverProxyTests extends ezcDocumentPdfTestCase
     {
         parent::setUp();
 
-        $this->driver = new ezcDocumentPdfTransactionalDriverProxy();
+        $this->driver = new ezcDocumentPdfTransactionalDriverWrapper();
         $this->driver->setDriver(
             $this->mock = $this->getMock( 'ezcDocumentPdfDriver', array(
                 'createPage',

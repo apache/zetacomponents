@@ -22,13 +22,6 @@
 class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 {
     /**
-     * Pages of the rendered document
-     * 
-     * @var array
-     */
-    protected $pages;
-
-    /**
      * Hyphenator used to split up words
      * 
      * @var ezcDocumentPdfHyphenator
@@ -68,10 +61,9 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles )
     {
-        $this->driver = new ezcDocumentPdfTransactionalDriverProxy();
+        $this->driver = new ezcDocumentPdfTransactionalDriverWrapper();
         $this->driver->setDriver( $driver );
         $this->styles = $styles;
-        $this->pages  = array();
     }
 
     /**
@@ -112,9 +104,9 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     public function getNextRenderingPosition( $width )
     {
-        // Then move paragraph into next column / page
+        // Then move paragraph into next column / page;
         $trans = $this->driver->startTransaction();
-        $page  = end( $this->pages );
+        $page  = $this->driver->currentPage();
         if ( ( ( $newX = $page->x + $width ) < $page->innerWidth ) &&
              ( ( $space = $page->testFitRectangle( $newX, null, $width, 2 ) ) !== false ) )
         {
@@ -127,7 +119,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         }
 
         // If there is no space for a new column, create a new page
-        return $this->createPage();
+        return $this->driver->appendPage( $this->styles );
     }
 
     /**
@@ -158,28 +150,6 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
-     * Create a new page
-     * 
-     * @return ezcDocumentPdfPage
-     */
-    protected function createPage()
-    {
-        $styles = $this->styles->inferenceFormattingRules( new ezcDocumentPdfPage( 0, 0, 0, 0 ) );
-        $this->pages[] = $page = ezcDocumentPdfPage::createFromSpecification(
-            $styles['page-size']->value,
-            $styles['page-orientation']->value,
-            $styles['margin']->value,
-            $styles['padding']->value
-        );
-
-        // Tell driver about new page
-        $this->driver->startTransaction();
-        $this->driver->createPage( $page->width, $page->height );
-
-        return $page;
-    }
-
-    /**
      * Ignore elements, which should not be rendered
      * 
      * @param ezcDocumentPdfInferencableDomElement $element 
@@ -198,7 +168,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     protected function initializeDocument( ezcDocumentPdfInferencableDomElement $element )
     {
-        $this->createPage();
+        $this->driver->appendPage( $this->styles );
 
         // Continiue processing sub nodes
         $this->process( $element );
@@ -213,7 +183,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     protected function renderParagraph( ezcDocumentPdfInferencableDomElement $element )
     {
         $renderer = new ezcDocumentPdfParagraphRenderer( $this->driver, $this->styles );
-        $page     = end( $this->pages );
+        $page     = $this->driver->currentPage();
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
@@ -225,7 +195,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
         // If that did not work, switch to the next possible location and start
         // there.
-        // @TODO: Implement
+        $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
+        return $this->renderParagraph( $element );
     }
 
     /**
@@ -237,7 +208,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     protected function renderTitle( ezcDocumentPdfInferencableDomElement $element )
     {
         $renderer = new ezcDocumentPdfTitleRenderer( $this->driver, $this->styles );
-        $page     = end( $this->pages );
+        $page     = $this->driver->currentPage();
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
