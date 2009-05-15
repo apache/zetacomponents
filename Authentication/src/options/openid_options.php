@@ -23,6 +23,7 @@
  * $options->requestSource = $_POST;
  * $options->immediate = true;
  * $options->returnUrl = 'http://example.com';
+ * $options->openidVersion = ezcAuthenticationOpenidFilter::VERSION_2_0;
  *
  * // use the options object when creating a new OpenID filter
  * $filter = new ezcAuthenticationOpenidFilter( $options );
@@ -70,6 +71,9 @@
  *           OpenID provider. Default value is null, in which case the OpenID
  *           provider will return to the current URL (the URL that initiated
  *           the authentication, from HTTP_HOST + REQUEST_URI server variables).
+ * @property string $openidVersion
+ *           Which OpenID protocol version to try. Default is "1.1". Other
+ *           possible values are "1.0" and "2.0".
  *
  * @package Authentication
  * @version //autogen//
@@ -97,6 +101,7 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
         $this->requestSource = ( $_GET !== null ) ? $_GET : array();
         $this->immediate = false;
         $this->returnUrl = null; // default = return to the currently called URL
+        $this->openidVersion = ezcAuthenticationOpenidFilter::VERSION_1_1;
 
         parent::__construct( $options );
     }
@@ -172,6 +177,14 @@ class ezcAuthenticationOpenidOptions extends ezcAuthenticationFilterOptions
                 break;
 
             case 'returnUrl':
+                if ( !is_string( $value ) && !is_null( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'string' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'openidVersion':
                 if ( !is_string( $value ) && !is_null( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'string' );

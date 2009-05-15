@@ -10,7 +10,8 @@
  */
 
 /**
- * Filter to authenticate against OpenID. Currently supporting OpenID 1.0 and 1.1.
+ * Filter to authenticate against OpenID. Currently supporting OpenID 1.0, 1.1
+ * and 2.0.
  *
  * The filter takes an identifier (URL) as credentials, and performs these steps
  * (by default, with redirection of the user agent to the OpenID provider):
@@ -73,8 +74,23 @@
  * Specifications:
  *  - OpenID 1.0: {@link http://openid.net/specs/openid-simple-registration-extension-1_0.html}
  *  - OpenID 1.1: {@link http://openid.net/specs/openid-authentication-1_1.html}
- *  - OpenID 2.0: {@link http://openid.net/specs/openid-authentication-2_0-11.html}
+ *  - OpenID 2.0: {@link http://openid.net/specs/openid-authentication-2_0.html}
  *  - Yadis  1.0: {@link http://yadis.org}
+ *  - XRDS discovery: {@link http://docs.oasis-open.org/xri/2.0/specs/cd02/xri-resolution-V2.0-cd-02.html}
+ *
+ * To specify which OpenID version to authenticate against, use the
+ * openidVersion option (default is '1.1'):
+ *
+ * <code>
+ * $options = new ezcAuthenticationOpenidOptions();
+ * $options->version = ezcAuthenticationOpenidFilter::VERSION_2_0;
+ * $filter = new ezcAuthenticationOpenidFilter( $options );
+ * </code>
+ *
+ * OpenID 2.0 will use XRDS discovery by default instead of Yadis. If XRDS
+ * discovery fails (or if the specified version is not '2.0') then Yadis
+ * discovery will be performed, and if Yadis fails then HTML discovery
+ * will be performed.
  *
  * Example of use (authentication code + login form + logout support) - stateless ('dumb'):
  * <code>
@@ -198,13 +214,12 @@
  * Note: if using the checkid_immediate mode (by setting the option immediate to
  * true), then retrieval of extra data is not possible.
  *
- * @todo add support for fetching extra data as in OpenID attribute exchange?
- *       (if needed) - {@link http://openid.net/specs.bml}
+ * @todo add support for fetching extra data as in OpenID attribute exchange
+ *       {@link http://issues.ez.no/14847}
  * @todo add support for multiple URLs in each category at discovery
- * @todo add support for OpenID 2.0 (openid.ns=http://specs.openid.net/auth/2.0),
- *       and add support for XRI identifiers and discovery
- *       Question: is 2.0 already out or is it still a draft?
+ * @todo add support for XRI identifiers and discovery
  * @todo check if the nonce handling is correct (openid.response_nonce?)
+ * @todo check return_to in the response
  *
  * @package Authentication
  * @version //autogen//
@@ -263,6 +278,21 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
     const MODE_SMART = 2;
 
     /**
+     * OpenID version 1.0.
+     */
+    const VERSION_1_0 = '1.0';
+
+    /**
+     * OpenID version 1.1.
+     */
+    const VERSION_1_1 = '1.1';
+
+    /**
+     * OpenID version 2.0.
+     */
+    const VERSION_2_0 = '2.0';
+
+    /**
      * The default value for p used in the Diffie-Hellman exchange.
      *
      * It is a confirmed prime number.
@@ -277,6 +307,16 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      * @ignore
      */
     const DEFAULT_Q = '2';
+
+    /**
+     * Holds the setup URL retrieved during the checkid_immediate OpenID request.
+     *
+     * This URL can be used by the application to authenticate the user in a
+     * pop-up window or iframe (or similar techniques).
+     *
+     * @var string
+     */
+    protected $setupUrl = false;
 
     /**
      * Holds the attributes which will be requested during the authentication
@@ -306,16 +346,6 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      * @var array(string=>mixed)
      */
     protected $data = array();
-
-    /**
-     * Holds the setup URL retrieved during the checkid_immediate OpenID request.
-     *
-     * This URL can be used by the application to authenticate the user in a
-     * pop-up window or iframe (or similar techniques).
-     *
-     * @var string
-     */
-    protected $setupUrl = false;
 
     /**
      * Creates a new object of this class.
@@ -351,99 +381,12 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                 $providers = $this->discover( $credentials->id );
 
                 // @todo add support for multiple URLs in each category
-                if ( !isset( $providers['openid.server'][0] ) )
+                if ( !$provider = $this->getProvider( $providers ) )
                 {
                     return self::STATUS_URL_INCORRECT;
                 }
 
-                $provider = $providers['openid.server'][0];
-
-                // if a delegate is found, it is used instead of the credentials
-                $identity = isset( $providers['openid.delegate'][0] ) ? $providers['openid.delegate'][0] :
-                                                                        $credentials->id;
-                $host = isset( $_SERVER["HTTP_HOST"] ) ? $_SERVER["HTTP_HOST"] : null;
-                $path = isset( $_SERVER["REQUEST_URI"] ) ? $_SERVER["REQUEST_URI"] : null;
-
-                if ( $this->options->mode === self::MODE_SMART )
-                {
-                    $store = $this->options->store;
-                    if ( $store !== null )
-                    {
-                        $association = $store->getAssociation( $provider );
-                        if ( $association === false ||
-                             time() - $association->issued > $association->validity
-                           )
-                        {
-                            $lib = ezcAuthenticationMath::createBignumLibrary();
-                            $p = self::DEFAULT_P;
-                            $q = self::DEFAULT_Q;
-
-                            $private = $lib->rand( $p );
-                            $public = $lib->powmod( $q, $private, $p );
-                            $params = array(
-                                'openid.mode' => 'associate',
-                                'openid.assoc_type' => 'HMAC-SHA1',
-
-                                // @todo add support for DH-SHA1 (is it needed if the connection is SSL?)
-                                // 'openid.session_type' => 'DH-SHA1', // not supported yet
-                                'openid.dh_modulus' => urlencode( base64_encode( $lib->btwoc( $p ) ) ),
-                                'openid.dh_gen' => 2, urlencode( base64_encode( $lib->btwoc( $q ) ) ),
-                                'openid.dh_consumer_public' => urlencode( base64_encode( $lib->btwoc( $public ) ) )
-                                );
-
-                            $result = $this->associate( $provider, $params );
-                            $secret = isset( $result['enc_mac_key'] ) ? $result['enc_mac_key'] : $result['mac_key'];
-                            $association = new ezcAuthenticationOpenidAssociation( $result['assoc_handle'],
-                                                                                   $secret,
-                                                                                   time(),
-                                                                                   $result['expires_in'],
-                                                                                   $result['assoc_type'] );
-                            $store->storeAssociation( $provider, $association );
-                        }
-                    }
-                }
-
-                $nonce = $this->generateNonce( $this->options->nonceLength );
-
-                $returnUrl = $this->options->returnUrl;
-                if ( $returnUrl === null )
-                {
-                    $returnUrl = "http://{$host}{$path}";
-                }
-
-                $returnTo = ezcAuthenticationUrl::appendQuery( $returnUrl, $this->options->nonceKey, $nonce );
-                $trustRoot = "http://{$host}";
-
-                if ( $this->options->store !== null )
-                {
-                    $this->options->store->storeNonce( $nonce );
-                }
-
-                $params = array(
-                    'openid.return_to' => urlencode( $returnTo ),
-                    'openid.trust_root' => urlencode( $trustRoot ),
-                    'openid.identity' => urlencode( $identity )
-                    );
-
-                if ( count( $this->requestedData ) > 0 )
-                {
-                    $params['openid.sreg.optional'] = implode( ',', $this->requestedData );
-                }
-
-                if ( $this->options->mode === self::MODE_SMART )
-                {
-                    $store = $this->options->store;
-                    if ( $store !== null )
-                    {
-                        $association = $store->getAssociation( $provider );
-                        if ( $association !== false &&
-                             time() - $association->issued <= $association->validity
-                           )
-                        {
-                            $params['openid.assoc_handle'] = urlencode( $association->handle );
-                        }
-                    }
-                }
+                $params = $this->createCheckidRequest( $credentials->id, $providers );
 
                 if ( $this->options->immediate === true )
                 {
@@ -473,6 +416,9 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                 $sig = isset( $source['openid_sig'] ) ? $source['openid_sig'] : null;
                 $signed = isset( $source['openid_signed'] ) ? $source['openid_signed'] : null;
                 $returnTo = isset( $source['openid_return_to'] ) ? $source['openid_return_to'] : null;
+                $claimedId = isset( $source['openid_claimed_id'] ) ? $source['openid_claimed_id'] : null;
+
+                // @todo add verification of openid_identity and openid_claimed_id to the initial openid_identifier
 
                 if ( $this->options->store !== null )
                 {
@@ -497,7 +443,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                 $signed = explode( ',', $signed );
                 for ( $i = 0; $i < count( $signed ); $i++ )
                 {
-                    $s = str_replace( 'sreg.', 'sreg_', $signed[$i] );
+                    $s = str_replace( '.', '_', $signed[$i] );
                     $c = $source['openid_' . $s];
                     $params['openid.' . $signed[$i]] = isset( $params['openid.' . $s] ) ? $params['openid.' . $s] : $c;
                     if ( strpos( $s, 'sreg_' ) !== false )
@@ -510,16 +456,19 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
                 {
                     // if the endpoint is available then use it, otherwise discover it
                     $provider = $source['openid_op_endpoint'];
+
+                    // @todo check how to detect OpenID version from id_res response
                 }
                 else
                 {
                     // @todo cache this somewhere (in the request URL for example)
                     $providers = $this->discover( $credentials->id );
-                    if ( !isset( $providers['openid.server'][0] ) )
+
+                    // @todo add support for multiple URLs in each category
+                    if ( !$provider = $this->getProvider( $providers ) )
                     {
                         return self::STATUS_URL_INCORRECT;
                     }
-                    $provider = $providers['openid.server'][0];
                 }
 
                 if ( $this->options->mode === self::MODE_SMART )
@@ -546,10 +495,17 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
 
                 // if smart mode didn't succeed continue with the dumb mode as usual
                 $params['openid.mode'] = 'check_authentication';
+
+                if ( $this->options->openidVersion === self::VERSION_2_0 )
+                {
+                    $params['openid.ns'] = 'http://specs.openid.net/auth/2.0';
+                }
+
                 foreach ( $params as $key => $value )
                 {
                     $params[$key] = urlencode( $value );
                 }
+
                 if ( $this->checkSignature( $provider, $params ) )
                 {
                     return self::STATUS_OK;
@@ -569,10 +525,130 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
     }
 
     /**
+     * Returns an array of parameters for use in an OpenID check_id request.
+     *
+     * @param string $id The OpenID identifier from the user
+     * @param array(string) $providers OpenID providers retrieved during discovery
+     * @return array(string=>array)
+     */
+    public function createCheckidRequest( $id, array $providers )
+    {
+        $provider = $providers['openid.server'][0];
+
+        // if a delegate is found, it is used instead of the credentials
+        $identity = isset( $providers['openid.delegate'][0] ) ? $providers['openid.delegate'][0] :
+                                                                $id;
+
+        $host = isset( $_SERVER["HTTP_HOST"] ) ? $_SERVER["HTTP_HOST"] : null;
+        $path = isset( $_SERVER["REQUEST_URI"] ) ? $_SERVER["REQUEST_URI"] : null;
+
+        if ( $this->options->mode === self::MODE_SMART )
+        {
+            $store = $this->options->store;
+            if ( $store !== null )
+            {
+                $association = $store->getAssociation( $provider );
+                if ( $association === false ||
+                     time() - $association->issued > $association->validity
+                   )
+                {
+                    $params = $this->createAssociateRequest();
+                    $result = $this->associate( $provider, $params );
+
+                    $secret = isset( $result['enc_mac_key'] ) ? $result['enc_mac_key'] : $result['mac_key'];
+                    $association = new ezcAuthenticationOpenidAssociation( $result['assoc_handle'],
+                                                                           $secret,
+                                                                           time(),
+                                                                           $result['expires_in'],
+                                                                           $result['assoc_type'] );
+                    $store->storeAssociation( $provider, $association );
+                }
+            }
+        }
+
+        $returnUrl = $this->options->returnUrl;
+        if ( $returnUrl === null )
+        {
+            $returnUrl = "http://{$host}{$path}";
+        }
+
+        $nonce = $this->generateNonce( $this->options->nonceLength );
+        $returnTo = ezcAuthenticationUrl::appendQuery( $returnUrl, $this->options->nonceKey, $nonce );
+        $trustRoot = "http://{$host}";
+
+        if ( $this->options->mode === self::MODE_SMART && $store !== null )
+        {
+            $store->storeNonce( $nonce );
+        }
+
+        $params = array(
+            'openid.return_to' => urlencode( $returnTo ),
+            'openid.trust_root' => urlencode( $trustRoot ),
+            'openid.identity' => urlencode( $id ),
+            );
+
+        if ( $this->options->openidVersion === self::VERSION_2_0 )
+        {
+            $params['openid.identity' ] = urlencode( 'http://specs.openid.net/auth/2.0/identifier_select' );
+            $params['openid.claimed_id' ] = urlencode( 'http://specs.openid.net/auth/2.0/identifier_select' );
+            $params['openid.realm'] = urlencode( $trustRoot );
+            $params['openid.ns'] = urlencode( 'http://specs.openid.net/auth/2.0' );
+        }
+
+        if ( count( $this->requestedData ) > 0 )
+        {
+            $params['openid.sreg.optional'] = implode( ',', $this->requestedData );
+            $params['openid.ns.sreg'] = urlencode( 'http://openid.net/sreg/1.0' );
+        }
+
+        if ( $this->options->mode === self::MODE_SMART && $store !== null )
+        {
+            $association = $store->getAssociation( $provider );
+            if ( $association !== false &&
+                 time() - $association->issued <= $association->validity
+               )
+            {
+                $params['openid.assoc_handle'] = urlencode( $association->handle );
+            }
+        }
+
+        return $params;
+    }
+
+    /**
+     * Returns an array of parameters for use in an OpenID associate request.
+     *
+     * @return array(string=>array)
+     */
+    protected function createAssociateRequest()
+    {
+        $lib = ezcAuthenticationMath::createBignumLibrary();
+        $p = self::DEFAULT_P;
+        $q = self::DEFAULT_Q;
+
+        $private = $lib->rand( $p );
+        $public = $lib->powmod( $q, $private, $p );
+        $params = array(
+            'openid.mode' => 'associate',
+            'openid.assoc_type' => 'HMAC-SHA1',
+
+            // @todo add support for DH-SHA1 (is it needed if the connection is SSL?)
+            // 'openid.session_type' => 'DH-SHA1', // not supported yet
+            'openid.dh_modulus' => urlencode( base64_encode( $lib->btwoc( $p ) ) ),
+            'openid.dh_gen' => 2, urlencode( base64_encode( $lib->btwoc( $q ) ) ),
+            'openid.dh_consumer_public' => urlencode( base64_encode( $lib->btwoc( $public ) ) )
+            );
+
+        return $params;
+    }
+
+    /**
      * Discovers the OpenID server information from the provided URL.
      *
-     * First the Yadis discovery is tried. If it doesn't succeed, then the HTML
-     * discovery is tried.
+     * First the XRDS discovery is tried, if the openidVersion option is
+     * "2.0". If XRDS discovery fails, or if the openidVersion option is
+     * not "2.0", Yadis discovery is tried. If it doesn't succeed, then the
+     * HTML discovery is tried.
      *
      * The format of the returned array is (example):
      * <code>
@@ -581,19 +657,94 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      *        );
      * </code>
      *
-     * @throws ezcAuthenticationOpenidException
+     * @throws ezcAuthenticationOpenidConnectionException
      *         if connection to the URL could not be opened
      * @param string $url URL to connect to and discover the OpenID information
      * @return array(string=>array)
      */
     protected function discover( $url )
     {
-        $providers = $this->discoverYadis( $url );
+        $providers = array();
+
+        if ( $this->options->openidVersion === self::VERSION_2_0 )
+        {
+            $providers = $this->discoverXrds( $url );
+        }
+
         if ( count( $providers ) === 0 )
         {
-            $providers = $this->discoverHtml( $url );
+            $providers = $this->discoverYadis( $url );
+            if ( count( $providers ) === 0 )
+            {
+                $providers = $this->discoverHtml( $url );
+            }
+        }
+
+        foreach ( $providers as $key => $provider )
+        {
+            // normalize array keys
+            if ( $key === 'openid2.provider' )
+            {
+                unset( $providers[$key] );
+                $providers['openid.server'] = $provider;
+            }
+
+            if ( $key === 'openid2.local_id' )
+            {
+                unset( $providers[$key] );
+                $providers['openid.delegate'] = $provider;
+            }
         }
         return $providers;
+    }
+
+    /**
+     * Discovers the OpenID server information from the provided URL using XRDS.
+     *
+     * The format of the returned array is (example):
+     * <code>
+     *   array( 'openid.server' => array( 0 => 'http://www.example-provider.com' ),
+     *          'openid.delegate' => array( 0 => 'http://www.example-delegate.com' )
+     *        );
+     * </code>
+     *
+     * @throws ezcAuthenticationOpenidConnectionException
+     *         if connection to the URL could not be opened
+     * @param string $url URL to connect to and discover the OpenID information
+     * @return array(string=>array)
+     */
+    protected function discoverXrds( $url )
+    {
+        $url = ezcAuthenticationUrl::normalize( $url );
+
+        $src = ezcAuthenticationUrl::getUrl( $url, 'HEAD', 'application/xrds+xml' );
+
+        preg_match( '@X-XRDS-Location:\s(.*)@', $src, $matches );
+        if ( isset( $matches[1] ) )
+        {
+            // get the XRDS document from the X-XRDS-Location URL
+            $url = $matches[1];
+            $src = ezcAuthenticationUrl::getUrl( $url, 'GET', 'application/xrds+xml' );
+        }
+        else
+        {
+            // get the XRDS document from the original location (provided $url)
+            $src = ezcAuthenticationUrl::getUrl( $url, 'GET', 'application/xrds+xml' );
+        }
+        $result = array();
+
+        // @todo check the regexp in this function, maybe they should be rewritten
+
+        // get the OpenID servers
+        $pattern = "#<URI[^>]*>(.*?)</URI>#si";
+        preg_match_all( $pattern, $src, $matches );
+        $count = count( $matches[0] );
+        for ( $i = 0; $i < $count; $i++ )
+        {
+            // force OpenID 2.0
+            $result['openid2.provider'][] = $matches[1][$i];
+        }
+        return $result;
     }
 
     /**
@@ -606,7 +757,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      *        );
      * </code>
      *
-     * @throws ezcAuthenticationOpenidException
+     * @throws ezcAuthenticationOpenidConnectionException
      *         if connection to the URL could not be opened
      * @param string $url URL to connect to and discover the OpenID information
      * @return array(string=>array)
@@ -615,25 +766,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
     {
         $url = ezcAuthenticationUrl::normalize( $url );
 
-        $parts = parse_url( $url );
-        $host = isset( $parts['host'] ) ? $parts['host'] : null;
-        $path = isset( $parts['path'] ) ? $parts['path'] : '/';
-        $port = isset( $parts['port'] ) ? $parts['port'] : 80;
-
-        // suppress warnings caused by fsockopen() if $host is not a valid domain
-        $connection = @fsockopen( $host, $port, $errno, $errstr, $this->options->timeoutOpen );
-        if ( $connection === false )
-        {
-            throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
-        }
-
-        stream_set_timeout( $connection, $this->options->timeout );
-        $headers = array( "GET {$path} HTTP/1.0", "HOST: {$host}", "Accept: application/xrds+xml", "Connection: Close" );
-        fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
-
-        $src = stream_get_contents( $connection );
-        fclose( $connection );
-
+        $src = ezcAuthenticationUrl::getUrl( $url, 'GET', 'application/xrds+xml' );
         $result = array();
 
         // @todo check the regexp in this function, maybe they should be rewritten
@@ -642,16 +775,17 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
         $pattern = "#<URI[^>]*>(.*?)</URI>#si";
         preg_match_all( $pattern, $src, $matches );
         $count = count( $matches[0] );
-        for ( $i = 0; $i ^ $count; ++$i )
+        for ( $i = 0; $i < $count; $i++ )
         {
             $result['openid.server'][] = $matches[1][$i];
         }
 
         // get the OpenID delegates
+        // @todo Add support for OpenID 2.0 <openid:LocalID> tags
         $pattern = "#<openid:Delegate[^>]*>(.*?)</openid:Delegate>#si";
         preg_match_all( $pattern, $src, $matches );
         $count = count( $matches[0] );
-        for ( $i = 0; $i ^ $count; ++$i )
+        for ( $i = 0; $i < $count; $i++ )
         {
             $result['openid.delegate'][] = $matches[1][$i];
         }
@@ -669,7 +803,7 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
      *        );
      * </code>
      *
-     * @throws ezcAuthenticationOpenidException
+     * @throws ezcAuthenticationOpenidConnectionException
      *         if connection to the URL could not be opened
      * @param string $url URL to connect to and discover the OpenID information
      * @return array(string=>array)
@@ -678,31 +812,14 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
     {
         $url = ezcAuthenticationUrl::normalize( $url );
 
-        $parts = parse_url( $url );
-        $host = isset( $parts['host'] ) ? $parts['host'] : null;
-        $path = isset( $parts['path'] ) ? $parts['path'] : '/';
-        $port = isset( $parts['port'] ) ? $parts['port'] : 80;
-
-        // suppress warnings caused by fsockopen() if $host is not a valid domain
-        $connection = @fsockopen( $host, $port, $errno, $errstr, $this->options->timeoutOpen );
-        if ( $connection === false )
-        {
-            throw new ezcAuthenticationOpenidException( "Could not connect to host {$host}:{$port}: {$errstr}." );
-        }
-
-        stream_set_timeout( $connection, $this->options->timeout );
-        $headers = array( "GET {$path} HTTP/1.0", "HOST: {$host}", "Connection: Close" );
-        fputs( $connection, implode( "\r\n", $headers ) . "\r\n\r\n" );
-
-        $src = stream_get_contents( $connection );
-        fclose( $connection );
-
+        $src = ezcAuthenticationUrl::getUrl( $url, 'GET', 'text/html' );
         $result = array();
+
         $pattern = "%<\w.*rel\=[\s\"'`]*([\w:?=@&\/#._;-]+)[\s\"'`]*[^>]*>%i";
         preg_match_all( $pattern, $src, $matches );
         $count = count( $matches[0] );
 
-        for ( $i = 0; $i ^ $count; ++$i )
+        for ( $i = 0; $i < $count; $i++ )
         {
             if ( stristr( $matches[1][$i], 'openid' ) !== false )
             {
@@ -751,6 +868,23 @@ class ezcAuthenticationOpenidFilter extends ezcAuthenticationFilter implements e
 
         // Normally the user should not see the following error because he was redirected
         throw new ezcAuthenticationOpenidRedirectException( $redirect );
+    }
+
+    /**
+     * Returns the first provider in the $providers array if exists, otherwise
+     * returns false.
+     *
+     * @param array(string=>array) $providers OpenID providers discovered during OpenID discovery
+     * @return bool|string
+     */
+    protected function getProvider( array $providers )
+    {
+        if ( isset( $providers['openid.server'][0] ) )
+        {
+            return $providers['openid.server'][0];
+        }
+
+        return false;
     }
 
     /**

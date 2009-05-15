@@ -470,6 +470,14 @@ this example or database store as shown in the OpenID example in
 `AuthenticationDatabaseTiein`_) which will hold the associations. In addition
 the store will also hold the nonces which are used to prevent replay attacks.
 
+The example also introduces the OpenID 2.0 version features, namely the
+possibility to use a common URL for all users of an OpenID provider (for
+example using *http://yahoo.com* in the login box), and then being redirected
+to the OpenID provider to enter the provider credentials, and in the end
+being redirected back with the unique user OpenID URL in the response from
+the OpenID provider (in the **$url** variable in the example above). See
+the section `OpenID 2.0`_ below for more information.
+
 
 OpenID immediate mode
 `````````````````````
@@ -582,6 +590,44 @@ For the previous example, the $data array will be something like this: ::
 
 Note: when using the immediate OpenID mode (by setting the option immediate to
 true), extra data cannot be fetched during authentication.
+
+
+OpenID 2.0
+``````````
+
+OpenID 2.0 introduced XRDS discovery of OpenID providers. The user can enter
+a short URL (same for all users) and by using XRDS discovery the provider can
+be extracted and the user will be redirected to it, where he will authenticate
+using his username and password for that provider.
+
+Here is a list with common OpenID providers and the corresponding OpenID
+provider URLs::
+
+  Google       https://www.google.com/accounts/o8/id
+  Yahoo        http://yahoo.com/
+  AOL          http://openid.aol.com/{username}
+  myopenid.com http://{username}.myopenid.com/
+  flickr       http://flickr.com/{username}/
+  technorati   http://technorati.com/people/technorati/{username}/
+  wordpress    http://{username}.wordpress.com
+  blogspot     http://{username}.blogspot.com/
+  livejournal  http://{username}.livejournal.com
+  claimid      http://claimid.com/{username}
+  myvidoop     http://{username}.myvidoop.com/
+  verisignlabs http://{username}.pip.verisignlabs.com/
+
+So for example a user can login to a website by entering only
+*http://yahoo.com*, and the website will redirect the user to this OpenID
+provider where the user will enter his credentials, and then being redirected
+to the initial website with the user's unique OpenID URL in the redirect URL.
+The user's unique OpenID URL will be used by the website to identify the
+user. See the example in the `OpenID "smart" (stateful) mode`_ section.
+
+Technically the login box can be made up of buttons, one for each OpenID
+provider, and the user would click the one that he/she is using.
+
+For OpenID providers which do not support this feature yet, the only
+possibility is to use the user's unique OpenID URL from the start.
 
 
 Token

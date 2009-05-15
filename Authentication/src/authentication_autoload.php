@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the Authentication component.
  *
- * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -15,6 +15,7 @@ return array(
     'ezcAuthenticationTypekeyException'                  => 'Authentication/exceptions/typekey_exception.php',
     'ezcAuthenticationGroupException'                    => 'Authentication/exceptions/group_exception.php',
     'ezcAuthenticationLdapException'                     => 'Authentication/exceptions/ldap_exception.php',
+    'ezcAuthenticationOpenidConnectionException'         => 'Authentication/exceptions/openid_connection_exception.php',
     'ezcAuthenticationOpenidModeNotSupportedException'   => 'Authentication/exceptions/openid_mode_exception.php',
     'ezcAuthenticationOpenidRedirectException'           => 'Authentication/exceptions/openid_redirect_exception.php',
     'ezcAuthenticationTypekeyPublicKeysInvalidException' => 'Authentication/exceptions/typekey_invalid_exception.php',

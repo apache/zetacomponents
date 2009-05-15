@@ -19,7 +19,7 @@ include_once( 'data/openid_wrapper.php' );
  */
 class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 {
-    public static $url = "http://ezc.myopenid.com";
+    public static $url = "http://ezc.myopenid.com/";
     public static $urlIncomplete = "ezc.myopenid.com";
     public static $urlNonexistent = "xxx";
     public static $urlEmpty = null;
@@ -31,6 +31,14 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         'openid.return_to' => 'http://localhost',
         'openid.trust_root' => 'http://ezc.myopenid.com',
         'openid.identity' => 'http://ezc.myopenid.com',
+        'openid.mode' => 'checkid_immediate',
+        );
+
+    public static $requestCheckImmediateGoogle = array(
+        // uses OpenID 2.0
+        'openid.return_to' => 'http://localhost',
+        'openid.trust_root' => 'https://www.google.com/accounts/o8/ud', // this is the endpoint actually
+        'openid.identity' => 'https://www.google.com/accounts/o8/id?id=AItOawl5aAXS9Ue7hH2Nrs5LpIquof19wRCTwN4', // ezcomponents at gmail.com
         'openid.mode' => 'checkid_immediate',
         );
 
@@ -168,9 +176,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationOpenidException $e )
         {
             $result = $e->getMessage();
-            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
-            $this->assertEquals( substr( $expected, 0, 192 ), substr( $result, 0, 192 ) );
-            $this->assertEquals( substr( $expected, 198 ), substr( $result, 198 ) );
+            $result = preg_replace( '@nonce%3D.{6}@', 'nonce%3Dxxxxxx', $result );
+
+            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3Dxxxxxx&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
+
+            $this->assertEquals( $expected, $result );
         }
     }
 
@@ -220,7 +230,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationOpenidException $e )
         {
             $result = $e->getMessage();
-            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.sreg.optional=fullname,gender,country,language&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
+            $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.sreg.optional=fullname,gender,country,language&openid.ns.sreg=http%3A%2F%2Fopenid.net%2Fsreg%2F1.0&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
             $this->assertEquals( substr( $expected, 0, 192 ), substr( $result, 0, 192 ) );
             $this->assertEquals( substr( $expected, 198 ), substr( $result, 198 ) );
         }
@@ -305,8 +315,8 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         }
         catch ( ezcAuthenticationOpenidException $e )
         {
-            $expected = "Could not connect to host xxx:80:";
-            $this->assertEquals( $expected, substr( $e->getMessage(), 0, strlen( $expected ) ) );
+            $expected = "Could not connect to http://xxx. Type 'text/html' not supported.";
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -362,8 +372,59 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         }
         catch ( ezcAuthenticationOpenidException $e )
         {
-            $expected = "Could not connect to host xxx:80:";
-            $this->assertEquals( $expected, substr( $e->getMessage(), 0, strlen( $expected ) ) );
+            $expected = "Could not connect to http://xxx. Type 'application/xrds+xml' not supported.";
+            $this->assertEquals( $expected, $e->getMessage() );
+        }
+    }
+
+    public function testOpenidWrapperDiscoverXrdsUrl()
+    {
+        $filter = new ezcAuthenticationOpenidWrapper();
+        $result = $filter->discoverXrds( self::$url );
+        $expected = array(
+            'openid2.provider' => array( 'http://www.myopenid.com/server',
+                                         'http://www.myopenid.com/server',
+                                         'http://www.myopenid.com/server'
+                                    ),
+                         );
+        $this->assertEquals( $expected, $result );
+    }
+
+    public function testOpenidWrapperDiscoverXrdsUrlIncomplete()
+    {
+        $filter = new ezcAuthenticationOpenidWrapper();
+        $result = $filter->discoverXrds( self::$urlIncomplete );
+        $expected = array(
+            'openid2.provider' => array( 'http://www.myopenid.com/server',
+                                         'http://www.myopenid.com/server',
+                                         'http://www.myopenid.com/server'
+                                    ),
+                         );
+        $this->assertEquals( $expected, $result );
+    }
+
+    public function testOpenidWrapperDiscoverXrdsUrlNoOpenid()
+    {
+        $filter = new ezcAuthenticationOpenidWrapper();
+        $result = $filter->discoverXrds( self::$urlNoOpenid );
+        $expected = array();
+        $this->assertEquals( $expected, $result );
+    }
+
+    public function testOpenidWrapperDiscoverXrdsUrlNonexistent()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$urlNonexistent );
+        $filter = new ezcAuthenticationOpenidWrapper();
+
+        try
+        {
+            $result = $filter->discoverXrds( self::$urlNonexistent );
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcAuthenticationOpenidException $e )
+        {
+            $expected = "Could not connect to http://xxx. Type 'application/xrds+xml' not supported.";
+            $this->assertEquals( $expected, $e->getMessage() );
         }
     }
 
@@ -608,7 +669,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         catch ( ezcAuthenticationOpenidException $e )
         {
             $result = $e->getMessage();
-            $expected = "Could not connect to host xxx:80:";
+            $expected = "Could not connect to http://xxx. Type 'application/xrds+xml' not supported.";
             $this->assertEquals( $expected, substr( $result, 0, strlen( $expected ) ) );
         }
     }
@@ -624,6 +685,24 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
         $filter = new ezcAuthenticationOpenidWrapper( $options );
 
         $setupUrl = $filter->checkImmediate( self::$provider, self::$requestCheckImmediate );
+
+        $setupUrl = $filter->getSetupUrl();
+        $this->assertEquals( false, $setupUrl );
+        $this->assertEquals( true, is_bool( $setupUrl ) );
+    }
+
+    public function testOpenidWrapperImmediateCheckImmediateUrlNoOpenidGoogle()
+    {
+        $credentials = new ezcAuthenticationIdCredentials( self::$urlNoOpenid );
+        $authentication = new ezcAuthentication( $credentials );
+        $options = new ezcAuthenticationOpenidOptions();
+
+        $options->immediate = true;
+        $options->openidVersion = ezcAuthenticationOpenidFilter::VERSION_2_0;
+
+        $filter = new ezcAuthenticationOpenidWrapper( $options );
+
+        $setupUrl = $filter->checkImmediate( self::$provider, self::$requestCheckImmediateGoogle );
 
         $setupUrl = $filter->getSetupUrl();
         $this->assertEquals( false, $setupUrl );

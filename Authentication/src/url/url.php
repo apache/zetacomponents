@@ -190,5 +190,42 @@ class ezcAuthenticationUrl
 
         return $params;
     }
+
+    /**
+     * Retrieves the headers and contents of $url using the HTTP method
+     * $method (GET, HEAD, POST), with an optional Accept $type
+     * (default 'text/html').
+     *
+     * @param string $url Then URL to retrieve
+     * @param string $method HTTP method to use, default GET
+     * @param string $type Accept type to use, eg. 'application/xrds+xml'
+     *
+     */
+    public static function getUrl( $url, $method = 'GET', $type = 'text/html' )
+    {
+        $opts = array( 'http' =>
+            array(
+                'method'  => $method,
+                'header'  => "Accept: {$type}"
+            )
+        );
+
+        $context  = stream_context_create( $opts );
+
+        if ( !$file = @fopen( $url, 'r', false, $context ) )
+        {
+            throw new ezcAuthenticationOpenidConnectionException( $url, $type );
+        }
+
+        // get the HTTP headers
+        $metadata = stream_get_meta_data( $file );
+        $headers = implode( "\n", $metadata['wrapper_data'] );
+
+        // get the contents of the $url
+        $contents = file_get_contents( $url, false, $context );
+
+        // append the contents to the headers
+        return $headers . "\n" . $contents;
+    }
 }
 ?>

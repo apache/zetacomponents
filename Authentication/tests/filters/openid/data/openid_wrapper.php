@@ -46,6 +46,26 @@ class ezcAuthenticationOpenidWrapper extends ezcAuthenticationOpenidFilter
     }
 
     /**
+     * Discovers the OpenID server information from the provided URL using XRDS.
+     *
+     * The format of the returned array is (example):
+     * <code>
+     *   array( 'openid.server' => array( 0 => 'http://www.example-provider.com' ),
+     *          'openid.delegate' => array( 0 => 'http://www.example-delegate.com' )
+     *        );
+     * </code>
+     *
+     * @throws ezcAuthenticationOpenidException
+     *         if connection to the URL could not be opened
+     * @param string $url URL to connect to and discover the OpenID information
+     * @return array(string=>array)
+     */
+    public function discoverXrds( $url )
+    {
+        return parent::discoverXrds( $url );
+    }
+
+    /**
      * Discovers the OpenID server information from the provided URL using Yadis.
      *
      * The format of the returned array is (example):
