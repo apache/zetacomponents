@@ -13,7 +13,7 @@ $def->class = "{$className}";
 		{* Little complicated, but seems to be the only way to get the first element of a hash *}
 		{$hashKeys = hash_keys( $index->indexFields )}
 		{$primaryKey = $hashKeys[0]}
-		{include 'config_id_property.ezt'
+		{include 'definition_id_property.ezt'
 			send $tableName,
 				 $primaryKey as $fieldName,
 			     $propertyNames[$primaryKey] as $propertyName}

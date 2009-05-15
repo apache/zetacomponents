@@ -196,7 +196,7 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 
         $schemaWriter->write(
             $schema,
-            'config_template.ezt',
+            'definition_template.ezt',
             $dirs['configDir']
         );
 
@@ -225,7 +225,7 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 
         $schemaWriter->write(
             $schema,
-            'config_template.ezt',
+            'definition_template.ezt',
             $dirs['configDir']
         );
 
@@ -254,7 +254,7 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 
         $schemaWriter->write(
             $schema,
-            'config_template.ezt',
+            'definition_template.ezt',
             $dirs['configDir']
         );
 
@@ -262,7 +262,7 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
         {
             $schemaWriter->write(
                 $schema,
-                'config_template.ezt',
+                'definition_template.ezt',
                 $dirs['configDir']
             );
             $this->fail( 'Exception not thrown on existing files and disabled overwrite.' );
@@ -302,7 +302,7 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 
         $schemaWriter->write(
             $schema,
-            'config_template.ezt',
+            'definition_template.ezt',
             $dirs['configDir']
         );
 
