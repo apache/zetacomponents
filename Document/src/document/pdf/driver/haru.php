@@ -137,7 +137,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      * 
      * @var haruPage
      */
-    protected $currentpage;
+    protected $currentPage;
 
     /**
      * Name and style of default font / currently used font
@@ -212,7 +212,6 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         // Create and use font on current page
         $font = $this->document->getFont( $this->fonts[$name][$style] );
-
         $this->currentPage->setFontAndSize( $font, $this->currentFont['size'] );
 
         $this->currentFont = array(
@@ -357,6 +356,29 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             $word
         );
         $this->currentPage->endText();
+    }
+
+    /**
+     * Draw rectangle
+     *
+     * Draw rectangle of specified dimensions in specified color. The last
+     * parameter defined, if only an outline should be renderer, or if a filled
+     * rectangle should be rendered.
+     *
+       @TODO: Requires proper color specification
+       @TODO: Requires border width specification
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param mixed $color 
+     * @param bool $filled 
+     * @return void
+     */
+    public function drawRectangle( $x, $y, $width, $height, $color, $filled = true )
+    {
+        
     }
 
     /**

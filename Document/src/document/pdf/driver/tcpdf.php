@@ -111,6 +111,25 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
 
         // Sorry for this, but we need it to prevent from warnings in TCPDF:
         $GLOBALS['utf8tolatin'] = array();
+
+        // Create the basic document, which dimensions should not matter, since
+        // we specify this at each page creation separetely.
+        $this->document = new TCPDF(
+            'P',  // Portrait size, which should notter sinc we provide the exact size
+            'mm', // Units used for all values, except font sizes
+            array( 1000, 1000 ),
+            true,   // Use unicode
+            'UTF-8'
+        );
+
+        // We do this ourselves
+        $this->document->SetAutoPageBreak( false );
+
+        $this->document->setFont(
+            $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
+            '', // Style
+            $this->currentFont['size']
+        );
     }
 
     /**
@@ -124,26 +143,6 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function createPage( $width, $height )
     {
-        if ( $this->document === null )
-        {
-            $this->document = new TCPDF(
-                'P',  // Portrait size, which should notter sinc we provide the exact size
-                'mm', // Units used for all values, except font sizes
-                array( $width, $height ),
-                true,   // Use unicode
-                'UTF-8'
-            );
-
-            // We do this ourselves
-            $this->document->SetAutoPageBreak( false );
-
-            $this->document->setFont(
-                $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
-                '', // Style
-                $this->currentFont['size']
-            );
-        }
-
         // Create a new page, and create a reference in the pages array
         $this->document->AddPage( 'P', array( $width, $height ) );
         $this->pages[] = $this->document->getPage();
@@ -303,6 +302,29 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
             ezcDocumentPdfMeasure::create( $this->currentFont['size'] . 'pt' )->get(),
             $word
         );
+    }
+
+    /**
+     * Draw rectangle
+     *
+     * Draw rectangle of specified dimensions in specified color. The last
+     * parameter defined, if only an outline should be renderer, or if a filled
+     * rectangle should be rendered.
+     *
+       @TODO: Requires proper color specification
+       @TODO: Requires border width specification
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param mixed $color 
+     * @param bool $filled 
+     * @return void
+     */
+    public function drawRectangle( $x, $y, $width, $height, $color, $filled = true )
+    {
+        
     }
 
     /**
