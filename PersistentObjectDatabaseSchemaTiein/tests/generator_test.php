@@ -21,7 +21,7 @@ class ezcPersistentObjectSchemaGeneratorTest extends ezcTestCase
 
 	public static function suite()
 	{
-		return new PHPUnit_Framework_TestSuite( "ezcPersistentObjectDatabaseSchemaTieinTest" );
+		return new PHPUnit_Framework_TestSuite( __CLASS__ );
 	}
 
     /**
@@ -329,6 +329,140 @@ class ezcPersistentObjectSchemaGeneratorTest extends ezcTestCase
             preg_match( '(Error\sreading\sschema)s', $res ),
             'No success error found in generated output.'
         );
+
+        $this->removeTempDir();
+    }
+
+
+    // Template writing
+
+    public function testWriteDefinitionFromDefaultTemplateNoPrefix()
+    {
+        $source = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
+        $destination = $this->createTempDir( "PersObjDatSchemTemplate" );
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source -t $destination`;
+        // file_put_contents( __FUNCTION__, $res );
+        
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/template_config_noprefix/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $destination . "/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file '$file'."
+            );
+        }
+
+        $this->removeTempDir();
+    }
+
+    public function testWriteDefinitionFromDefaultTemplatePrefix()
+    {
+        $source = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
+        $destination = $this->createTempDir( "PersObjDatSchemTemplate" );
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source -t -p 'test' $destination`;
+        // file_put_contents( __FUNCTION__, $res );
+        
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/template_config_prefix/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $destination . "/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file '$file'."
+            );
+        }
+
+        $this->removeTempDir();
+    }
+
+    public function testWriteDefinitionClassesFromDefaultTemplateNoPrefix()
+    {
+        $source = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
+        $destination = $this->createTempDir( "PersObjDatSchemTemplate" );
+
+        $classDest   = $destination . '/classes';
+        $configDest  = $destination . '/config';
+
+        mkdir( $classDest );
+        mkdir( $configDest );
+
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source -t -- "$configDest" "$classDest"`;
+        // file_put_contents( __FUNCTION__, $res );
+        
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/template_config_noprefix/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $configDest . "/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file '$file'."
+            );
+        }
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/template_class_noprefix/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $classDest . "/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file '$file'."
+            );
+        }
+
+        $this->removeTempDir();
+    }
+
+    public function testWriteDefinitionClassesFromDefaultTemplatePrefix()
+    {
+        $source      = dirname( __FILE__ ) . "/data/webbuilder.schema.xml";
+        $destination = $this->createTempDir( "PersObjDatSchemTemplate" );
+        $classDest   = $destination . '/classes';
+        $configDest  = $destination . '/config';
+
+        mkdir( $classDest );
+        mkdir( $configDest );
+
+        $res = `php PersistentObjectDatabaseSchemaTiein/src/rungenerator.php -f xml -s $source -t -p 'test' "$configDest" "$classDest"`;
+        // file_put_contents( __FUNCTION__, $res );
+        
+        $this->assertEquals(
+            1,
+            preg_match( '(PersistentObject\sdefinition\ssuccessfully\swritten\sto)s', $res ),
+            'No success message found in generated output.'
+        );
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/template_config_prefix/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $configDest . "/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object definition file '$file'."
+            );
+        }
+
+        foreach ( glob( dirname( __FILE__ ) . "/data/template_class_prefix/*.php" ) as $file )
+        {
+            $this->assertEquals(
+                file_get_contents( $file ),
+                file_get_contents( $classDest . "/" . basename( $file ) ),
+                "Geneator generated an invalid persistent object class file '$file'."
+            );
+        }
 
         $this->removeTempDir();
     }

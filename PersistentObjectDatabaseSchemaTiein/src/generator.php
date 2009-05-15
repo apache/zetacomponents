@@ -333,7 +333,7 @@ class ezcPersistentObjectSchemaGenerator
             $this->writeFromTemplate(
                 $defDir,
                 $schema,
-                $this->input->getOption( 'definition-template' )
+                $this->input->getOption( 'definition-template' )->value
             );
         }
         else
@@ -358,7 +358,7 @@ class ezcPersistentObjectSchemaGenerator
             $this->writeFromTemplate(
                 $classDir,
                 $schema,
-                $this->input->getOption( 'class-template' )
+                $this->input->getOption( 'class-template' )->value
             );
         }
         else
@@ -393,7 +393,7 @@ class ezcPersistentObjectSchemaGenerator
             $writer->options->overwrite = $overwrite;
         }
 
-        $writer->saveToFile( $schema, $tpl, $dir );
+        $writer->write( $schema, $tpl, $dir );
     }
 
     /**
