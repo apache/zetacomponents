@@ -70,18 +70,11 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
                 // orphans occur move paragraph part to next page.
                 if ( $current < $styles['orphans']->value )
                 {
-                    if ( !$mainRenderer->checkSkipPrerequisites(
-                            $this->calculateTextWidth( $page, $text ) +
-                            $styles['text-column-spacing']->value
-                       ) )
-                    {
-                        return false;
-                    }
-                    
-                    $this->driver->revert( array_pop( $transactions ) );
-                    $line     -= $current;
-                    $current   = 0;
-                    $lineLimit = -1;
+                    $mainRenderer->checkSkipPrerequisites(
+                        $this->calculateTextWidth( $page, $text ) +
+                        $styles['text-column-spacing']->value
+                    );
+                    return false;
                 }
 
                 // Start a new transaction for the next block
@@ -123,8 +116,8 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
                 // Revert the two last transactions
                 array_pop( $transactions );
                 $this->driver->revert( array_pop( $transactions ) );
-                $space      = $this->evaluateAvailableBoundingBox( $page, $styles, $width );
-                $yPos       = $space->y + $styles['margin']->value['top'];
+                $space = $this->evaluateAvailableBoundingBox( $page, $styles, $width );
+                $yPos  = $space->y + $styles['margin']->value['top'];
             }
         }
 

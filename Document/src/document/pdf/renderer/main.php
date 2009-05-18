@@ -250,11 +250,13 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     {
         $renderer = new ezcDocumentPdfParagraphRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
+        $styles   = $this->styles->inferenceFormattingRules( $element );
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
         if ( $renderer->render( $page, $this->hypenator, $element, $this ) )
         {
+            $this->titleTransaction = null;
             return true;
         }
         $this->driver->revert( $trans );
@@ -262,14 +264,20 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         // Check if something requested a rendering restart at a prior point,
         // only continue otherwise.
         if ( ( $this->restart !== false ) ||
-             ( !$this->checkSkipPrerequisites( $renderer->calculateTextWidth( $page, $element ) ) ) )
+             ( !$this->checkSkipPrerequisites(
+                    $renderer->calculateTextWidth( $page, $element ) +
+                    $styles['text-column-spacing']->value
+                ) ) )
         {
             return false;
         }
 
         // If that did not work, switch to the next possible location and start
         // there.
-        $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
+        $this->getNextRenderingPosition(
+            $renderer->calculateTextWidth( $page, $element ) +
+            $styles['text-column-spacing']->value
+        );
         return $this->renderParagraph( $element );
     }
 
