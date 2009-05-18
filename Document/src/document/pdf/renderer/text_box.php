@@ -140,7 +140,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         $yPos = $space->y + $styles['margin']->value['top'];
         foreach ( $lines as $nr => $line )
         {
-            $yPos += $this->renderLine( $yPos, $line, $space, $styles );
+            $yPos += $this->renderLine( $yPos, $nr, $line, $space, $styles );
 
             // Check if we run out of vertical space
             if ( $yPos > ( $space->y + $space->height ) )
