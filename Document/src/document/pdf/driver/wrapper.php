@@ -39,7 +39,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * 
      * @var array
      */
-    protected $pages;
+    protected $pages = array();
 
     /**
      * Logs created pages for current transaction, to revert page creations, if
@@ -91,7 +91,11 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     {
         $this->transactions[++$this->currentTransaction] = array();
         $this->pageCreations[$this->currentTransaction]  = array();
-        $this->currentPage()->startTransaction( $this->currentTransaction );
+        
+        if ( $page = $this->currentPage() )
+        {
+            $page->startTransaction( $this->currentTransaction );
+        }
         return $this->currentTransaction;
     }
 
@@ -180,8 +184,10 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
         }
 
         // Revert state in last page, it might contain additional modifications
-        $lastPage = $this->currentPage();
-        $lastPage->revert( $transaction );
+        if ( $page = $this->currentPage() )
+        {
+            $page->revert( $transaction );
+        }
 
         return true;
     }
@@ -209,8 +215,9 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function appendPage( ezcDocumentPdfStyleInferencer $inferencer )
     {
-        $styles = $inferencer->inferenceFormattingRules( new ezcDocumentPdfPage( 0, 0, 0, 0 ) );
+        $styles = $inferencer->inferenceFormattingRules( new ezcDocumentPdfPage( 0, 0, 0, 0, 0 ) );
         $page = ezcDocumentPdfPage::createFromSpecification(
+            count( $this->pages ) + 1,
             $styles['page-size']->value,
             $styles['page-orientation']->value,
             $styles['margin']->value,
