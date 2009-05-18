@@ -40,6 +40,7 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
                 'calculateWordWidth',
                 'setTextFormatting',
                 'drawWord',
+                'drawRectangle',
                 'save',
             ) )
         );
