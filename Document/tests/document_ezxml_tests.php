@@ -67,7 +67,7 @@ class ezcDocumentEzXmlTests extends ezcTestCase
         {
             $this->assertSame(
                 $e->getMessage(),
-                'Conversion error: Warning: \'Unhandled link type.\' in line 0 at position 0.'
+                'Conversion error: Warning: \'Unhandled link type.\'.'
             );
         }
     }
