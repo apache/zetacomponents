@@ -24,6 +24,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
     protected $document;
     protected $xpath;
     protected $styles;
+    protected $page;
 
     public static function suite()
     {
@@ -57,6 +58,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
                 )
             ),
         ) );
+
+        $this->page = new ezcDocumentPdfPage( 1, 100, 100, 100, 100 );
+        $this->page->x = 0;
+        $this->page->y = 0;
     }
 
     public function testRenderParagraphWithoutMarkup()
@@ -86,9 +91,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
+            $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
-            $this->xpath->query( '//doc:para' )->item( 0 )
+            $this->xpath->query( '//doc:para' )->item( 0 ),
+            new ezcDocumentPdfMainRenderer( $driver, $this->styles )
         ) );
     }
 
@@ -127,9 +133,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
+            $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
-            $this->xpath->query( '//doc:para' )->item( 0 )
+            $this->xpath->query( '//doc:para' )->item( 0 ),
+            new ezcDocumentPdfMainRenderer( $driver, $this->styles )
         ) );
     }
 
@@ -168,9 +175,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
+            $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
-            $this->xpath->query( '//doc:para' )->item( 0 )
+            $this->xpath->query( '//doc:para' )->item( 0 ),
+            new ezcDocumentPdfMainRenderer( $driver, $this->styles )
         ) );
     }
 
@@ -209,9 +217,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
+            $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
-            $this->xpath->query( '//doc:para' )->item( 0 )
+            $this->xpath->query( '//doc:para' )->item( 0 ),
+            new ezcDocumentPdfMainRenderer( $driver, $this->styles )
         ) );
     }
 
@@ -236,23 +245,24 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 0, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'Paragraphs' )
         );
         $driver->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 46, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'are' )
+            $this->equalTo( 44, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'are' )
         );
         $driver->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
             $this->equalTo( 0, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'separated' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 60, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 58, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 70, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'blank' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
+            $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
-            $this->xpath->query( '//doc:para' )->item( 1 )
+            $this->xpath->query( '//doc:para' )->item( 1 ),
+            new ezcDocumentPdfMainRenderer( $driver, $this->styles )
         ) );
     }
 
@@ -292,50 +302,21 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 0, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'ated' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 31.3, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 29, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 50.6, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 42, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'blank' )
         );
         $driver->expects( $this->at( 6 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 88, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'l-' )
-        );
-        $driver->expects( $this->at( 7 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'ines' )
+            $this->equalTo( 67, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'lines' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
         $this->assertTrue( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
+            $this->page,
             new ezcTestDocumentPdfHyphenator(),
-            $this->xpath->query( '//doc:para' )->item( 1 )
-        ) );
-    }
-
-    public function testRenderFailure()
-    {
-        // Additional formatting
-        $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'font-size' => '20',
-                )
-            ),
-        ) );
-
-        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
-            'drawWord'
-        ) );
-
-        // Expectations
-        $driver->expects( $this->exactly( 6 ) )->method( 'drawWord' );
-
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
-        $this->assertFalse( $renderer->render(
-            new ezcDocumentPdfPage( 100, 100, 100, 100 ),
-            new ezcDocumentPdfDefaultHyphenator(),
-            $this->xpath->query( '//doc:para' )->item( 1 )
+            $this->xpath->query( '//doc:para' )->item( 1 ),
+            new ezcDocumentPdfMainRenderer( $driver, $this->styles )
         ) );
     }
 }

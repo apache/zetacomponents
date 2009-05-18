@@ -155,12 +155,14 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     /**
      * Render a single line and return the used height
      * 
+     * @param float $position 
+     * @param int $number 
      * @param array $line 
      * @param ezcDocumentPdfBoundingBox $space 
      * @param array $styles 
-     * @return float
+     * @return void
      */
-    protected function renderLine( $position, array $line, ezcDocumentPdfBoundingBox $space, array $styles )
+    protected function renderLine( $position, $number, array $line, ezcDocumentPdfBoundingBox $space, array $styles )
     {
         $spaceWidth = $this->driver->calculateWordWidth( ' ' );
         $lineWidth = 0;
@@ -172,16 +174,16 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         switch ( $styles['text-align']->value )
         {
             case 'center':
-                $offset     = ( $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
+                $offset = ( $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
                 break;
             case 'right':
-                $offset     = $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth );
+                $offset = $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth );
                 break;
             case 'justify':
-                $offset     = 0;
+                $offset = 0;
                 switch ( true )
                 {
-                    case $nr === ( count( $lines ) - 1 ):
+                    case $number === ( count( $line['tokens'] ) - 1 ):
                         // Just default space width in last line of a
                         // paragraph
                         $spaceWidth = $this->driver->calculateWordWidth( ' ' );

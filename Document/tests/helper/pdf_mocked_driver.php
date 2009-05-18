@@ -12,7 +12,7 @@
 /**
  * Test implemenation of PDF driver mocking actual driver behaviour
  */
-class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfDriver
+class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfTransactionalDriverWrapper
 {
     protected $style;
     protected $size;

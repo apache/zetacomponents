@@ -49,6 +49,13 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     protected $storedPositions = array();
 
     /**
+     * Page number
+     * 
+     * @var int
+     */
+    protected $pageNumber;
+
+    /**
      * Current horizontal rendering position on page
      * 
      * @var float
@@ -147,18 +154,19 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         'FOLIO'     => array( 215.9, 330.2 ),
     );
 
-
     /**
      * Construct new fresh page from its dimensions
      * 
+     * @param int $pageNumber
      * @param float $width 
      * @param float $height 
      * @param mixed $innerWidth 
      * @param mixed $innerHeight 
      * @return void
      */
-    public function __construct( $width, $height, $innerWidth = null, $innerHeight = null )
+    public function __construct( $pageNumber, $width, $height, $innerWidth = null, $innerHeight = null )
     {
+        $this->pageNumber  = (int) $pageNumber;
         $this->width       = (float) $width;
         $this->height      = (float) $height;
         $this->innerWidth  = $innerWidth === null ? $this->width : (float) $innerWidth;
@@ -171,13 +179,14 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      * Create page from common page size abbreviations, like "A4" and page
      * orientation.
      * 
+     * @param int $pageNumber
      * @param mixed $size 
      * @param mixed $orientation 
      * @param array $margin 
      * @param array $padding 
      * @return ezcDocumentPdfPage
      */
-    public static function createFromSpecification( $size, $orientation, array $margin, array $padding )
+    public static function createFromSpecification( $pageNumber, $size, $orientation, array $margin, array $padding )
     {
         if ( !isset( self::$pageSizes[$size] ) )
         {
@@ -195,6 +204,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         {
             case 'landscape':
                 $page = new ezcDocumentPdfPage(
+                    $pageNumber,
                     $width  = self::$pageSizes[$size][1] + $margin['left'] + $margin['right'],
                     $height = self::$pageSizes[$size][0] + $margin['top'] + $margin['bottom'],
                     $width - $leftBorder - $rightBorder,
@@ -203,6 +213,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
                 break;
             case 'portrait':
                 $page = new ezcDocumentPdfPage(
+                    $pageNumber,
                     $width  = self::$pageSizes[$size][0] + $margin['left'] + $margin['right'],
                     $height = self::$pageSizes[$size][1] + $margin['top'] + $margin['bottom'],
                     $width - $leftBorder - $rightBorder,
@@ -513,7 +524,9 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     {
         // @TODO: Maybe include the page number or similar additional
         // information here.
-        return '/page';
+        return '/page' .
+            '.' . ( $this->pageNumber % 2 ? 'left' : 'right' ) .
+            '#page_' . $this->pageNumber;
     }
 }
 ?>
