@@ -67,9 +67,17 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
                  ( $yPos + $line['height'] ) > ( $space->y + $space->height ) )
             {
                 // Check for orphans on the just closed paragraph part, if
-                // orphans occur omve paragraph part to next page.
+                // orphans occur move paragraph part to next page.
                 if ( $current < $styles['orphans']->value )
                 {
+                    if ( !$mainRenderer->checkSkipPrerequisites(
+                            $this->calculateTextWidth( $page, $text ) +
+                            $styles['text-column-spacing']->value
+                       ) )
+                    {
+                        return false;
+                    }
+                    
                     $this->driver->revert( array_pop( $transactions ) );
                     $line     -= $current;
                     $current   = 0;

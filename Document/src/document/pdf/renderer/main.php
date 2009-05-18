@@ -36,6 +36,23 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     protected $document;
 
     /**
+     * Last transactions started before rendering a new title. This is used to
+     * determine, if a title is positioned as a single item in a column or on a
+     * page and switch it to the next page in this case.
+     * 
+     * @var mixed
+     */
+    protected $titleTransaction = null;
+
+    /**
+     * Indicator to restart rendering with an earlier item on the same level in
+     * the DOM document tree.
+     * 
+     * @var mixed
+     */
+    protected $restart = false;
+
+    /**
      * Maps document elements to handler functions
      *
      * Maps each document element of the associated namespace to its handler
@@ -89,6 +106,43 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
+     * Check column or page skip prerequisite
+     *
+     * If no content has been rendered any more in the current column, this
+     * method should be called to check prerequisite for the skip, which is
+     * especially important for already rendered items, which impose
+     * assumptions on following contents.
+     *
+     * One example for this are titles, which should always be followed by at
+     * least some content in the same column.
+     *
+     * Returns false, if prerequisite are not fulfileld and rendering should be
+     * aborted.
+     * 
+     * @param float $width
+     * @return bool
+     */
+    public function checkSkipPrerequisites( $width )
+    {
+        // Ensure the paragraph is on the same page / in the same column
+        // like a title, of it is the first paragraph
+        if ( $this->titleTransaction === null )
+        {
+            return true;
+        }
+
+        $this->driver->revert( $this->titleTransaction['transaction'] );
+
+        // The rendering should now start again with the title on the
+        // next column / page.
+        $this->getNextRenderingPosition( $width );
+        $this->restart = $this->titleTransaction['position'] - 1;
+
+        $this->titleTransaction = null;
+        return false;
+    }
+
+    /**
      * Get next rendering position
      *
      * If the current space has been exceeded this method calculates
@@ -130,8 +184,12 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     protected function process( DOMNode $element )
     {
-        foreach ( $element->childNodes as $child )
+        $childNodes = $element->childNodes;
+        $nodeCount  = $childNodes->length;
+
+        for ( $i = 0; $i < $nodeCount; ++$i )
         {
+            $child = $childNodes->item( $i );
             if ( $child->nodeType !== XML_ELEMENT_NODE )
             {
                 continue;
@@ -145,7 +203,15 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
             }
 
             $method = $this->handlerMapping[$child->namespaceURI][$child->tagName];
-            $this->$method( $child );
+            $this->$method( $child, $i );
+
+            // Check if the rendering process should be restarted at an earlier
+            // point
+            if ( $this->restart !== false )
+            {
+                $i = $this->restart;
+                $this->restart = false;
+            }
         }
     }
 
@@ -170,7 +236,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     {
         $this->driver->appendPage( $this->styles );
 
-        // Continiue processing sub nodes
+        // Continue processing sub nodes
         $this->process( $element );
     }
 
@@ -193,6 +259,14 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         }
         $this->driver->revert( $trans );
 
+        // Check if something requested a rendering restart at a prior point,
+        // only continue otherwise.
+        if ( ( $this->restart !== false ) ||
+             ( !$this->checkSkipPrerequisites( $renderer->calculateTextWidth( $page, $element ) ) ) )
+        {
+            return false;
+        }
+
         // If that did not work, switch to the next possible location and start
         // there.
         $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
@@ -205,21 +279,26 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfInferencableDomElement $element 
      * @return void
      */
-    protected function renderTitle( ezcDocumentPdfInferencableDomElement $element )
+    protected function renderTitle( ezcDocumentPdfInferencableDomElement $element, $position )
     {
         $renderer = new ezcDocumentPdfTitleRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
 
         // Just try to render at current position first
-        $trans = $this->driver->startTransaction();
+        $this->titleTransaction = array(
+            'transaction' => $this->driver->startTransaction(),
+            'page'        => $page,
+            'xPos'        => $page->x,
+            'position'    => $position,
+        );
         if ( $renderer->render( $page, $this->hypenator, $element, $this ) )
         {
             return true;
         }
-        $this->driver->revert( $trans );
+        $this->driver->revert( $this->titleTransaction['transaction'] );
 
         $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
-        return $this->renderTitle( $element );
+        return $this->renderTitle( $element, $position );
     }
 }
 
