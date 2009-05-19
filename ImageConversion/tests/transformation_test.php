@@ -824,7 +824,6 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
 
     public function testApplyTransformationFailureDestinationNotOverwriteable()
     {
-        xdebug_break();
         $tmpDir  = $this->createTempDir( __CLASS__ );
         $dstFile = "$tmpDir/non_writeable_png.png";
 
