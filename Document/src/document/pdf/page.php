@@ -247,6 +247,8 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     {
         switch ( $property )
         {
+            case 'number':
+                return $this->pageNumber;
             case 'width':
                 return $this->width;
             case 'height':

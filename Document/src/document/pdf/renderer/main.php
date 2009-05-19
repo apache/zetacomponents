@@ -71,6 +71,13 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     );
 
     /**
+     * Additional PDF parts.
+     * 
+     * @var array
+     */
+    protected $parts = array();
+
+    /**
      * Construct renderer from driver to use
      * 
      * @param ezcDocumentPdfDriver $driver 
@@ -81,6 +88,20 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         $this->driver = new ezcDocumentPdfTransactionalDriverWrapper();
         $this->driver->setDriver( $driver );
         $this->styles = $styles;
+    }
+
+    /**
+     * Register an additional PDF part
+     *
+     * Register additional parts, like footnotes, headers or title pages.
+     * 
+     * @param ezcDocumentPdfPart $part 
+     * @return void
+     */
+    public function registerPdfPart( ezcDocumentPdfPart $part )
+    {
+        $this->parts[] = $part;
+        $part->registerContext( $this, $this->driver, $this->styles );
     }
 
     /**
@@ -173,7 +194,12 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         }
 
         // If there is no space for a new column, create a new page
-        return $this->driver->appendPage( $this->styles );
+        $page = $this->driver->appendPage( $this->styles );
+        foreach ( $this->parts as $part )
+        {
+            $part->hookPageCreation( $page );
+        }
+        return $page;
     }
 
     /**
@@ -234,10 +260,27 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     protected function initializeDocument( ezcDocumentPdfInferencableDomElement $element )
     {
-        $this->driver->appendPage( $this->styles );
+        // Call hooks for started document
+        foreach ( $this->parts as $part )
+        {
+            $part->hookDocumentCreation( $element );
+        }
+
+        $page = $this->driver->appendPage( $this->styles );
+        // Call hooks for fresh new first page
+        foreach ( $this->parts as $part )
+        {
+            $part->hookPageCreation( $page );
+        }
 
         // Continue processing sub nodes
         $this->process( $element );
+
+        // Call hooks for finished document
+        foreach ( $this->parts as $part )
+        {
+            $part->hookDocumentRendering( $element );
+        }
     }
 
     /**
