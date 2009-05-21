@@ -52,6 +52,7 @@ require 'document_pdf_hyphenator_tests.php';
 require 'document_pdf_location_id_tests.php';
 require 'document_pdf_match_location_id_tests.php';
 require 'document_pdf_measure_tests.php';
+require 'document_pdf_image_handler.php';
 require 'document_pdf_page_tests.php';
 require 'document_pdf_pcss_parser_tests.php';
 require 'document_pdf_renderer_paragraph_tests.php';
@@ -112,6 +113,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfLocationIdTests::suite() );
         $this->addTest( ezcDocumentPdfMatchLocationIdTests::suite() );
         $this->addTest( ezcDocumentPdfMeasureTests::suite() );
+        $this->addTest( ezcDocumentPdfImageHandlerTests::suite() );
         $this->addTest( ezcDocumentPdfPageTests::suite() );
         $this->addTest( ezcDocumentPdfCssParserTests::suite() );
         $this->addTest( ezcDocumentPdfParagraphRendererTests::suite() );
