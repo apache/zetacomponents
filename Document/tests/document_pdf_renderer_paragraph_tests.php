@@ -38,7 +38,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
         $this->document = new DOMDocument();
         $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
 
-        $this->document->load( dirname( __FILE__ ) . '/files/pdf/renderer/paragraph.xml' );
+        $this->document->load( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
 
         $this->xpath = new DOMXPath( $this->document );
         $this->xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
