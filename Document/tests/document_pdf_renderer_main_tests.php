@@ -31,7 +31,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainSinglePage()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/paragraph.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
 
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
@@ -56,7 +56,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainMulticolumnLayout()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/paragraph.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
@@ -91,7 +91,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainSplitParagraph()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/long_text.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
@@ -139,7 +139,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainSplitParagraphHandleOrphans()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/orphans.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/orphans.xml' );
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
@@ -187,7 +187,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainSplitParagraphHandleShortOrphans()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/orphans_short.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/orphans_short.xml' );
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
@@ -235,7 +235,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainSplitParagraphHandleWidows()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/widows.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/widows.xml' );
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
@@ -283,7 +283,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainSplitParagraphHandleOrphansAndWidows()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/orphans_widows.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/orphans_widows.xml' );
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
@@ -331,7 +331,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainShiftTitleNotFollowedByParagraph()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/renderer/long_text.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
