@@ -18,8 +18,6 @@
  * one PDF page, and offers methods to check if a new content block fits on the
  * page an, where it does fir on the page.
  *
-   @TODO: Make page transactional
- *
  * @package Document
  * @access private
  * @version //autogen//
