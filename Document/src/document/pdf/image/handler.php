@@ -37,7 +37,7 @@ abstract class ezcDocumentPdfImageHandler
      * Get image dimensions
      *
      * Return an array with the image dimensions. The array will look like:
-     * array( width, height ).
+     * array( ezcDocumentPdfMeasure $width, ezcDocumentPdfMeasure $height ).
      * 
      * @param string $file 
      * @return array
