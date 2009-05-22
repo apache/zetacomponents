@@ -59,6 +59,7 @@ require 'document_pdf_renderer_paragraph_tests.php';
 require 'document_pdf_renderer_main_tests.php';
 require 'document_pdf_renderer_footer_part_tests.php';
 require 'document_pdf_style_inference_tests.php';
+require 'document_pdf_renderer_mediaobject_tests.php';
 
 require 'converter_docbook_html_test.php';
 require 'converter_docbook_html_xsl_test.php';
@@ -120,6 +121,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfMainRendererTests::suite() );
         $this->addTest( ezcDocumentPdfRendererFooterPartTests::suite() );
         $this->addTest( ezcDocumentPdfStyleInferenceTests::suite() );
+        $this->addTest( ezcDocumentPdfMediaObjectRendererTests::suite() );
 
         $this->addTest( ezcDocumentConverterDocbookToHtmlTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );

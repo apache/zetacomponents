@@ -66,6 +66,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
             'section'     => 'process',
             'para'        => 'renderParagraph',
             'title'       => 'renderTitle',
+            'mediaobject' => 'renderMediaObject',
             'sectioninfo' => 'ignore',
         ),
     );
@@ -88,6 +89,30 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         $this->driver = new ezcDocumentPdfTransactionalDriverWrapper();
         $this->driver->setDriver( $driver );
         $this->styles = $styles;
+    }
+
+    /**
+     * Tries to locate a file
+     *
+     * Tries to locate a file, referenced in a docbook document. If available
+     * the document path is used a base for relative paths.
+     * 
+     * @param string $file 
+     * @return string
+     */
+    public function locateFile( $file )
+    {
+        if ( !ezcBaseFile::isAbsolutePath( $file ) )
+        {
+            $file = $this->document->getPath() . $file;
+        }
+
+        if ( !is_file( $file ) )
+        {
+            throw new ezcBaseFileNotFoundException( $file );
+        }
+
+        return $file;
     }
 
     /**
@@ -119,10 +144,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         $this->document  = $document;
 
         // Inject custom element class, for style inferencing
-        $this->document = $document->getDomDocument();
-        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
+        $dom = $document->getDomDocument();
+        $dom->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
 
-        $this->process( $this->document );
+        $this->process( $dom );
         return $this->driver->save();
     }
 
@@ -325,7 +350,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
-     * Handle calls to paragraph renderer
+     * Handle calls to title renderer
      * 
      * @param ezcDocumentPdfInferencableDomElement $element 
      * @return void
@@ -350,6 +375,31 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
         $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
         return $this->renderTitle( $element, $position );
+    }
+
+    /**
+     * Handle calls to media object renderer
+     * 
+     * @param ezcDocumentPdfInferencableDomElement $element 
+     * @return void
+     */
+    protected function renderMediaObject( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $renderer = new ezcDocumentPdfMediaObjectRenderer( $this->driver, $this->styles );
+        $page     = $this->driver->currentPage();
+
+        // Just try to render at current position first
+        $trans = $this->driver->startTransaction();
+        if ( $renderer->render( $page, $this->hypenator, $element, $this ) )
+        {
+            return true;
+        }
+        $this->driver->revert( $trans );
+
+//        $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
+//        $return = $this->renderTitle( $element, $position );
+//        $this->driver->setPageActive( $page );
+//        return $return;
     }
 }
 

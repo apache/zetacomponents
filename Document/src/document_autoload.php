@@ -207,6 +207,7 @@ return array(
     'ezcDocumentPdfStyleStringValue'                     => 'Document/document/pdf/style/string_value.php',
     'ezcDocumentPdfSvgDriver'                            => 'Document/document/pdf/driver/svg.php',
     'ezcDocumentPdfTcpdfDriver'                          => 'Document/document/pdf/driver/tcpdf.php',
+    'ezcDocumentPdfTextBlockRenderer'                    => 'Document/document/pdf/renderer/text_block.php',
     'ezcDocumentPdfTitleRenderer'                        => 'Document/document/pdf/renderer/title.php',
     'ezcDocumentPdfTransactionalDriverWrapper'           => 'Document/document/pdf/driver/wrapper.php',
     'ezcDocumentRst'                                     => 'Document/document/rst.php',

@@ -117,6 +117,10 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
 
         return $page->innerWidth / $rules['text-columns']->value -
             ( $rules['text-column-spacing']->value * ( $rules['text-columns']->value - 1 ) );
+        // @TODO: This should be more correct
+        return ( $page->innerWidth -
+                ( $rules['text-column-spacing']->value * ( $rules['text-columns']->value - 1 ) )
+            ) / $rules['text-columns']->value;
     }
 
     /**

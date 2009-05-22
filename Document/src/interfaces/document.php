@@ -77,6 +77,16 @@ abstract class ezcDocument
     }
 
     /**
+     * Get document base path
+     * 
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
      * Return document compiled to the docbook format
      * 
      * The internal document structure is compiled to the docbook format and

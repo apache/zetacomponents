@@ -359,6 +359,33 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     }
 
     /**
+     * Draw image
+     *
+     * Draw image at the defined position. The first parameter is the
+     * (absolute) path to the image file, and the second defines the type of
+     * the image. If the driver cannot handle this aprticular image type, it
+     * should throw an exception.
+     *
+     * The further parameters define the location where the image should be
+     * rendered and the dimensions of the image in the rendered output. The
+     * dimensions do not neccesarily match the real image dimensions, and might
+     * require some kind of scaling inside the driver depending on the used
+     * backend.
+     * 
+     * @param string $file 
+     * @param string $type 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @return void
+     */
+    public function drawImage( $file, $type, $x, $y, $width, $height )
+    {
+        
+    }
+
+    /**
      * Draw rectangle
      *
      * Draw rectangle of specified dimensions in specified color. The last
