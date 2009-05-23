@@ -45,11 +45,13 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
 
         // Get available height with the estimated width
         $dimensions = $this->scaleImage( $styles, $image, $page, $width );
+        $switchBack = false;
         if ( ( $space = $page->testFitRectangle( $page->x, $page->y, $dimensions[0], $dimensions[1] ) ) === false )
         {
             // Image with estimated dimensions does not fit on current page any
             // more.
-            return false;
+            $page = $mainRenderer->getNextRenderingPosition( $width->get() );
+            $switchBack = true;
         }
 
         // Get maximum available space
@@ -104,6 +106,13 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
             )
         );
         $page->y = $space->y;
+
+        // Go back to previous page, if requested
+        if ( $switchBack )
+        {
+            $this->driver->goBackOnePage();
+        }
+
         return true;
     }
 
@@ -115,7 +124,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfImage $image 
      * @return ezcDocumentPdfMeasure
      */
-    protected function getMediaBoxWidth( array $styles, ezcDocumentPdfPage $page, ezcDocumentPdfImage $image )
+    public function getMediaBoxWidth( array $styles, ezcDocumentPdfPage $page, ezcDocumentPdfImage $image )
     {
         if ( $styles['text-columns']->value <= 1 )
         {
@@ -139,7 +148,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
             ++$spanning;
         }
 
-        return new ezcDocumentPdfMeasure( $width );
+        return $this->width = new ezcDocumentPdfMeasure( $width );
     }
 
     /**

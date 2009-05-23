@@ -100,6 +100,56 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
             $this->tempDir . $fileName
         );
     }
+
+    public function testRenderLargeImage()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image_large.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            new ezcDocumentPdfStyleInferencer()
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        file_put_contents(
+            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
+            $pdf
+        );
+    
+        $this->assertXmlFileEqualsXmlFile(
+            $this->basePath . 'renderer/' . $fileName,
+            $this->tempDir . $fileName
+        );
+    }
+
+    public function testRenderHighImage()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image_high.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            new ezcDocumentPdfStyleInferencer()
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        file_put_contents(
+            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
+            $pdf
+        );
+    
+        $this->assertXmlFileEqualsXmlFile(
+            $this->basePath . 'renderer/' . $fileName,
+            $this->tempDir . $fileName
+        );
+    }
 }
 
 ?>

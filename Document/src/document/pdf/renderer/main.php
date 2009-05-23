@@ -390,16 +390,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
-        if ( $renderer->render( $page, $this->hypenator, $element, $this ) )
-        {
-            return true;
-        }
-        $this->driver->revert( $trans );
-
-//        $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
-//        $return = $this->renderTitle( $element, $position );
-//        $this->driver->setPageActive( $page );
-//        return $return;
+        $renderer->render( $page, $this->hypenator, $element, $this );
     }
 }
 
