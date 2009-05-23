@@ -42,6 +42,13 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     protected $pages = array();
 
     /**
+     * Currently active page
+     * 
+     * @var int
+     */
+    protected $currentPage = 0;
+
+    /**
      * Logs created pages for current transaction, to revert page creations, if
      a transaction gets reverted.
      * 
@@ -89,7 +96,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function startTransaction()
     {
-        $this->transactions[++$this->currentTransaction] = array();
+        $this->transactions[$this->currentPage][++$this->currentTransaction] = array();
         $this->pageCreations[$this->currentTransaction]  = array();
         
         if ( $page = $this->currentPage() )
@@ -113,22 +120,25 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     public function commit( $transaction = null )
     {
         if ( ( $transaction !== null ) &&
-             !isset( $this->transactions[$transaction] ) )
+             !isset( $this->pageCreations[$transaction] ) )
         {
             return false;
         }
 
-        foreach ( $this->transactions as $id => $calls )
+        foreach ( $this->transactions as $page => $transactions )
         {
-            foreach ( $calls as $call )
+            foreach ( $transactions as $id => $calls )
             {
-                call_user_func_array( array( $this->driver, $call[0] ), $call[1] );
-            }
+                foreach ( $calls as $call )
+                {
+                    call_user_func_array( array( $this->driver, $call[0] ), $call[1] );
+                }
             
-            unset( $this->transactions[$id] );
-            if ( $id === $transaction )
-            {
-                return true;
+                unset( $this->transactions[$id] );
+                if ( $id === $transaction )
+                {
+                    return true;
+                }
             }
         }
 
@@ -146,26 +156,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function revert( $transaction )
     {
-        if ( !isset( $this->transactions[$transaction] ) )
-        {
-            return false;
-        }
-
-        // Revert all calls to the driver backend
-        $remove = false;
-        foreach ( $this->transactions as $id => $calls )
-        {
-            if ( !$remove &&
-                 ( $id !== $transaction ) )
-            {
-                continue;
-            }
-
-            $remove = true;
-            unset( $this->transactions[$id] );
-        }
-
-        // Revert all page creations
+        // Revert all page creations and associated transactions
         $remove = false;
         foreach ( $this->pageCreations as $id => $pageNumbers )
         {
@@ -176,14 +167,32 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
             }
 
             $remove = true;
-            unset( $this->transactions[$id] );
             foreach ( $pageNumbers as $pageNumber )
             {
                 unset( $this->pages[$pageNumber] );
+                unset( $this->transactions[$pageNumber] );
+            }
+        }
+
+        // Revert all remaining calls to the driver backend
+        foreach ( $this->transactions as $page => $transactions )
+        {
+            $remove = false;
+            foreach ( $transactions as $id => $calls )
+            {
+                if ( !$remove &&
+                     ( $id !== $transaction ) )
+                {
+                    continue;
+                }
+
+                $remove = true;
+                unset( $this->transactions[$page][$id] );
             }
         }
 
         // Revert state in last page, it might contain additional modifications
+        $this->currentPage = count( $this->pages );
         if ( $page = $this->currentPage() )
         {
             $page->revert( $transaction );
@@ -204,7 +213,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     protected function recordCall( $name, array $parameters )
     {
-        $this->transactions[$this->currentTransaction][] = array( $name, $parameters );
+        $this->transactions[$this->currentPage][$this->currentTransaction][] = array( $name, $parameters );
     }
 
     /**
@@ -215,6 +224,13 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function appendPage( ezcDocumentPdfStyleInferencer $inferencer )
     {
+        // Check if the next page already exists
+        if ( isset( $this->pages[$this->currentPage + 1] ) )
+        {
+            ++$this->currentPage;
+            return $this->pages[$this->currentPage];
+        }
+
         $styles = $inferencer->inferenceFormattingRules( new ezcDocumentPdfPage( 0, 0, 0, 0, 0 ) );
         $page = ezcDocumentPdfPage::createFromSpecification(
             count( $this->pages ) + 1,
@@ -224,12 +240,12 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
             $styles['padding']->value
         );
 
+        // Store in which transaction the page has been created
+        $this->pages[++$this->currentPage]                = $page;
+        $this->pageCreations[$this->currentTransaction][] = $this->currentPage;
+
         // Tell driver about new page
         $this->createPage( $page->width, $page->height );
-
-        // Store in which transaction the page has been created
-        $this->pages[$new = count( $this->pages )] = $page;
-        $this->pageCreations[$this->currentTransaction][] = $new;
 
         return $page;
     }
@@ -243,7 +259,26 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function currentPage()
     {
-        return end( $this->pages );
+        if ( !isset( $this->pages[$this->currentPage] ) )
+        {
+            return null;
+        }
+
+        return $this->pages[$this->currentPage];
+    }
+
+    /**
+     * Go back one page
+     *
+     * If something has been rendered on the next page, but the actual pointer
+     * should stay at the current page, this function can be used to revert the
+     * pointer to the last page.
+     * 
+     * @return void
+     */
+    public function goBackOnePage()
+    {
+        --$this->currentPage;
     }
 
     /**

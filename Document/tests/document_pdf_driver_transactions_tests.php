@@ -251,6 +251,122 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
         );
         $this->driver->save();
     }
+
+    public function testPageLevelTransactions1()
+    {
+        $this->mock->expects( $this->never() )->method( 'drawWord' );
+
+        // Cause and record calls
+        $transaction = $this->driver->startTransaction();
+        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->drawWord( 0, 0, 'Paragraphs' );
+
+        $this->assertSame( $page1, $this->driver->currentPage() );
+
+        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->drawWord( 44, 0, 'are' );
+
+        $this->assertNotSame( $page1, $page2 );
+        $this->assertSame( $page2, $this->driver->currentPage() );
+
+        $this->driver->revert( $transaction );
+        $this->driver->commit();
+
+        $this->assertSame( null, $this->driver->currentPage() );
+    }
+
+    public function testPageLevelTransactions2()
+    {
+        $this->mock->expects( $this->once() )->method( 'drawWord' );
+        $this->mock->expects( $this->once() )->method( 'createPage' );
+
+        // Cause and record calls
+        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->drawWord( 0, 0, 'Paragraphs' );
+
+        $this->assertSame( $page1, $this->driver->currentPage() );
+
+        $transaction = $this->driver->startTransaction();
+        $this->driver->drawWord( 44, 0, 'are' );
+        $this->driver->revert( $transaction );
+        $this->driver->commit();
+
+        $this->assertSame( $page1, $this->driver->currentPage() );
+    }
+
+    public function testPageLevelTransactions3()
+    {
+        $this->mock->expects( $this->once() )->method( 'drawWord' );
+        $this->mock->expects( $this->once() )->method( 'createPage' );
+
+        // Cause and record calls
+        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->drawWord( 0, 0, 'Paragraphs' );
+
+        $this->assertSame( $page1, $this->driver->currentPage() );
+
+        $transaction = $this->driver->startTransaction();
+        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->drawWord( 44, 0, 'are' );
+
+        $this->assertNotSame( $page1, $page2 );
+        $this->assertSame( $page2, $this->driver->currentPage() );
+
+        $this->driver->revert( $transaction );
+        $this->driver->commit();
+
+        $this->assertSame( $page1, $this->driver->currentPage() );
+    }
+
+    public function testPageLevelTransactions4()
+    {
+        $this->mock->expects( $this->once() )->method( 'drawWord' );
+
+        // Cause and record calls
+        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->drawWord( 0, 0, 'Paragraphs' );
+
+        $this->assertSame( $page1, $this->driver->currentPage() );
+
+        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+
+        $this->assertNotSame( $page1, $page2 );
+        $this->assertSame( $page2, $this->driver->currentPage() );
+
+        $transaction = $this->driver->startTransaction();
+        $this->driver->drawWord( 44, 0, 'are' );
+        $this->driver->revert( $transaction );
+        $this->driver->commit();
+
+        $this->assertSame( $page2, $this->driver->currentPage() );
+    }
+
+    public function testPageLevelTransactionsGoBack1()
+    {
+        $this->mock->expects( $this->at( 0 ) )->method( 'createPage' )->with(
+            $this->equalTo( 210, 1. ), $this->equalTo( 297, 1. )
+        );
+        $this->mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 0, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'Paragraphs' )
+        );
+        $this->mock->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 44, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'are' )
+        );
+        $this->mock->expects( $this->at( 3 ) )->method( 'createPage' )->with(
+            $this->equalTo( 210, 1. ), $this->equalTo( 297, 1. )
+        );
+
+        // Cause and record calls
+        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->drawWord( 0, 0, 'Paragraphs' );
+        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->goBackOnePage();
+
+        $this->assertSame( $page1, $this->driver->currentPage() );
+
+        $this->driver->drawWord( 44, 0, 'are' );
+        $this->driver->commit();
+    }
 }
 
 ?>
