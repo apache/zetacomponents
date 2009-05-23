@@ -36,6 +36,7 @@ abstract class ezcDocumentPdfRenderer
      * Construct renderer from driver to use
      * 
      * @param ezcDocumentPdfDriver $driver 
+     * @param ezcDocumentPdfStyleInferencer $styles 
      * @return void
      */
     public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles )
