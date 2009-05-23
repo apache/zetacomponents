@@ -53,7 +53,7 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
         );
     }
 
-    public function testRenderMainSplitParagraph()
+    public function testRenderInMultipleColumns()
     {
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image.xml' );
