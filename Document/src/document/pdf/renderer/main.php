@@ -327,7 +327,6 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
             $this->titleTransaction = null;
             return true;
         }
-        $this->driver->revert( $trans );
 
         // Check if something requested a rendering restart at a prior point,
         // only continue otherwise.
@@ -342,6 +341,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
         // If that did not work, switch to the next possible location and start
         // there.
+        $this->driver->revert( $trans );
         $this->getNextRenderingPosition(
             $renderer->calculateTextWidth( $page, $element ) +
             $styles['text-column-spacing']->value
