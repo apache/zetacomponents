@@ -239,7 +239,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     protected function tokenize( ezcDocumentPdfInferencableDomElement $element )
     {
         $tokens = array();
-        $rules  = $this->styles->inferenceFormattingRules( $element );
+        $rules  = $this->styles->inferenceFormattingRules( $element, ezcDocumentPdfStyleInferencer::TEXT );
         foreach ( $element->childNodes as $child )
         {
             switch ( $child->nodeType )

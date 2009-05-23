@@ -70,6 +70,53 @@ class ezcDocumentPdfStyleInferencer
     );
 
     /**
+     * Text category of style directives 
+     */
+    const TEXT   = 1;
+
+    /**
+     * Layout category of style directives 
+     */
+    const LAYOUT = 2;
+
+    /**
+     * Page category of style directives 
+     */
+    const PAGE   = 4;
+
+    /**
+     * CSS property categories, used to minimize the amount of returned
+     * properties
+     * 
+     * @var array
+     */
+    protected $categories = array(
+        self::TEXT => array(
+            'text-align',
+            'font-size',
+            'font-family',
+            'font-weight',
+            'font-style',
+            'color',
+        ),
+        self::LAYOUT => array(
+            'line-height',
+            'text-columns',
+            'text-column-spacing',
+            'margin',
+            'padding',
+            'orphans',
+            'widows',
+        ),
+        self::PAGE => array(
+            'page-size',
+            'page-orientation',
+            'margin',
+            'padding',
+        ),
+    );
+
+    /**
      * Construct style inference with default styles
      * 
      * @param bool $loadDefault
@@ -185,7 +232,7 @@ class ezcDocumentPdfStyleInferencer
      * @param ezcDocumentPdfLocateable $element 
      * @return array
      */
-    public function inferenceFormattingRules( ezcDocumentPdfLocateable $element )
+    public function inferenceFormattingRules( ezcDocumentPdfLocateable $element, $types = -1 )
     {
         // Check style cache early, to speed things up.
         $locationId = $element->getLocationId();
@@ -214,7 +261,31 @@ class ezcDocumentPdfStyleInferencer
             }
         }
 
-        return $formats;
+        if ( $types === -1 )
+        {
+            return $formats;
+        }
+
+        // Filter formats to only include formats matching the given category
+        $filtered = array();
+        foreach ( $this->categories as $type => $properties )
+        {
+            if ( !( $type & $types ) )
+            {
+                continue;
+            }
+
+            foreach ( $formats as $name => $value )
+            {
+                if ( in_array( $name, $properties, true ) )
+                {
+                    $filtered[$name] = $value;
+                    unset( $formats[$name] );
+                }
+            }
+        }
+
+        return $filtered;
     }
 }
 ?>
