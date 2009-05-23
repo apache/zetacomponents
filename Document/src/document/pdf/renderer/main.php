@@ -165,10 +165,11 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      * Returns false, if prerequisite are not fulfileld and rendering should be
      * aborted.
      * 
+     * @param float $move
      * @param float $width
      * @return bool
      */
-    public function checkSkipPrerequisites( $width )
+    public function checkSkipPrerequisites( $move, $width )
     {
         // Ensure the paragraph is on the same page / in the same column
         // like a title, of it is the first paragraph
@@ -181,7 +182,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
         // The rendering should now start again with the title on the
         // next column / page.
-        $this->getNextRenderingPosition( $width );
+        $this->getNextRenderingPosition( $move, $width );
         $this->restart = $this->titleTransaction['position'] - 1;
 
         $this->titleTransaction = null;
@@ -199,15 +200,16 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      * As the parameter you need to pass the required width for the object to
      * place on the page.
      * 
+     * @param float $move
      * @param float $width
      * @return ezcDocumentPdfPage
      */
-    public function getNextRenderingPosition( $width )
+    public function getNextRenderingPosition( $move, $width )
     {
         // Then move paragraph into next column / page;
         $trans = $this->driver->startTransaction();
         $page  = $this->driver->currentPage();
-        if ( ( ( $newX = $page->x + $width ) < $page->innerWidth ) &&
+        if ( ( ( $newX = $page->x + $move ) < ( $page->startX + $page->innerWidth ) ) &&
              ( ( $space = $page->testFitRectangle( $newX, null, $width, 2 ) ) !== false ) )
         {
             // Another column fits on the current page, find starting Y
@@ -332,8 +334,9 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         // only continue otherwise.
         if ( ( $this->restart !== false ) ||
              ( !$this->checkSkipPrerequisites(
-                    $renderer->calculateTextWidth( $page, $element ) +
-                    $styles['text-column-spacing']->value
+                    ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+                    $styles['text-column-spacing']->value,
+                    $pWidth
                 ) ) )
         {
             return false;
@@ -343,8 +346,9 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         // there.
         $this->driver->revert( $trans );
         $this->getNextRenderingPosition(
-            $renderer->calculateTextWidth( $page, $element ) +
-            $styles['text-column-spacing']->value
+            ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+            $styles['text-column-spacing']->value,
+            $pWidth
         );
         return $this->renderParagraph( $element );
     }
@@ -357,6 +361,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      */
     protected function renderTitle( ezcDocumentPdfInferencableDomElement $element, $position )
     {
+        $styles   = $this->styles->inferenceFormattingRules( $element );
         $renderer = new ezcDocumentPdfTitleRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
 
@@ -373,7 +378,11 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
         }
         $this->driver->revert( $this->titleTransaction['transaction'] );
 
-        $this->getNextRenderingPosition( $renderer->calculateTextWidth( $page, $element ) );
+        $this->getNextRenderingPosition(
+            ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+            $styles['text-column-spacing']->value,
+            $pWidth
+        );
         return $this->renderTitle( $element, $position );
     }
 

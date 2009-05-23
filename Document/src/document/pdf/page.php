@@ -68,6 +68,20 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     public $y;
 
     /**
+     * X coordinate of rendering start position
+     * 
+     * @var float
+     */
+    public $startX;
+
+    /**
+     * Y coordinate of rendering start position
+     * 
+     * @var float
+     */
+    public $startY;
+
+    /**
      * Width of current page - given in millimeters
      * 
      * @var float
@@ -229,8 +243,8 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         $page->setCovered( new ezcDocumentPdfBoundingBox( $width - $rightBorder, 0, $rightBorder, $height ) );
 
         // Update rendering start position
-        $page->x = $leftBorder;
-        $page->y = $topBorder;
+        $page->x = $page->startX = $leftBorder;
+        $page->y = $page->startY = $topBorder;
         
         return $page;
     }
@@ -247,6 +261,10 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         {
             case 'number':
                 return $this->pageNumber;
+            case 'startX':
+                return $this->startX;
+            case 'startY':
+                return $this->startY;
             case 'width':
                 return $this->width;
             case 'height':

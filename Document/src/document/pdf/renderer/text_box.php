@@ -115,9 +115,6 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         // Inference page styles
         $rules = $this->styles->inferenceFormattingRules( $text );
 
-        return $page->innerWidth / $rules['text-columns']->value -
-            ( $rules['text-column-spacing']->value * ( $rules['text-columns']->value - 1 ) );
-        // @TODO: This should be more correct
         return ( $page->innerWidth -
                 ( $rules['text-column-spacing']->value * ( $rules['text-columns']->value - 1 ) )
             ) / $rules['text-columns']->value;

@@ -50,7 +50,10 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
         {
             // Image with estimated dimensions does not fit on current page any
             // more.
-            $page = $mainRenderer->getNextRenderingPosition( $width->get() );
+            $page = $mainRenderer->getNextRenderingPosition(
+                ( $pWidth = $width->get() ) + $styles['text-column-spacing']->value,
+                $pWidth
+            );
             $switchBack = true;
         }
 

@@ -71,8 +71,9 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
                 if ( $current < $styles['orphans']->value )
                 {
                     $mainRenderer->checkSkipPrerequisites(
-                        $this->calculateTextWidth( $page, $text ) +
-                        $styles['text-column-spacing']->value
+                        ( $pWidth = $this->calculateTextWidth( $page, $text ) ) +
+                        $styles['text-column-spacing']->value,
+                        $pWidth
                     );
                     return false;
                 }
@@ -87,8 +88,9 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
 
                 // Evaluate new starting position
                 $page = $mainRenderer->getNextRenderingPosition(
-                    $this->calculateTextWidth( $page, $text ) +
-                    $styles['text-column-spacing']->value
+                    ( $pWidth = $this->calculateTextWidth( $page, $text ) ) +
+                    $styles['text-column-spacing']->value,
+                    $pWidth
                 );
 
                 // Calculate newly available space
