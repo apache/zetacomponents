@@ -85,7 +85,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
         // Render image
         $this->driver->drawImage(
             $imageFile, $image->getMimeType(),
-            $space->x + ( $space->width - $dimensions[1] ) / 2, $space->y,
+            $space->x + ( $space->width - $dimensions[0] ) / 2, $space->y,
             $dimensions[0], $dimensions[1]
         );
         $space->y += $dimensions[1];
