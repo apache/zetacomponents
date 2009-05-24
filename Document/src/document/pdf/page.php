@@ -511,26 +511,6 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     }
 
     /**
-     * Show covered areas
-     *
-     * Only for debugging purpose.
-     * 
-     * @param ezcDocumentPdfDriver $driver 
-     * @access private
-     * @return void
-     */
-    public function showCoveredAreas( ezcDocumentPdfDriver $driver )
-    {
-        foreach ( $this->covered as $transaction => $areas )
-        {
-            foreach ( $areas as $box )
-            {
-                $driver->drawRectangle( $box->x, $box->y, $box->width, $box->height, '#729fcf' );
-            }
-        }
-    }
-
-    /**
      * Get elements location ID
      *
      * Return the elements location ID, based on the factors described in the

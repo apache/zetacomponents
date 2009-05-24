@@ -394,28 +394,6 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     }
 
     /**
-     * Draw rectangle
-     *
-     * Draw rectangle of specified dimensions in specified color. The last
-     * parameter defined, if only an outline should be renderer, or if a filled
-     * rectangle should be rendered.
-     *
-     * 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $heigt 
-     * @param mixed $color 
-     * @param bool $filled 
-     * @return void
-     */
-    public function drawRectangle( $x, $y, $width, $height, $color, $filled = true )
-    {
-        // Just record this write call
-        $this->recordCall( __FUNCTION__, array( $x, $y, $width, $height, $color, $filled ) );
-    }
-
-    /**
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.

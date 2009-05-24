@@ -130,26 +130,6 @@ abstract class ezcDocumentPdfDriver
     abstract public function drawImage( $file, $type, $x, $y, $width, $height );
 
     /**
-     * Draw rectangle
-     *
-     * Draw rectangle of specified dimensions in specified color. The last
-     * parameter defined, if only an outline should be renderer, or if a filled
-     * rectangle should be rendered.
-     *
-       @TODO: Requires proper color specification
-       @TODO: Requires border width specification
-     * 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
-     * @param mixed $color 
-     * @param bool $filled 
-     * @return void
-     */
-    abstract public function drawRectangle( $x, $y, $width, $height, $color, $filled = true );
-
-    /**
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.
