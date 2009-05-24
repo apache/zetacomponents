@@ -47,6 +47,17 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         parent::tearDown();
     }
 
+    public function testEstimateDefaultWordWidthWithoutPageCreation()
+    {
+        $driver = new ezcDocumentPdfTcpdfDriver();
+
+        $this->assertEquals(
+            9.4,
+            $driver->calculateWordWidth( 'Hello' ),
+            'Wrong word width estimation', .1
+        );
+    }
+
     public function testEstimateDefaultWordWidth()
     {
         $driver = new ezcDocumentPdfTcpdfDriver();

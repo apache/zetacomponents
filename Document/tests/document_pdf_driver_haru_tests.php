@@ -34,6 +34,17 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
         parent::setUp();
     }
 
+    public function testEstimateDefaultWordWidthWithoutPageCreation()
+    {
+        $driver = new ezcDocumentPdfHaruDriver();
+
+        $this->assertEquals(
+            22.9,
+            $driver->calculateWordWidth( 'Hello' ),
+            'Wrong word width estimation', .1
+        );
+    }
+
     public function testEstimateDefaultWordWidth()
     {
         $driver = new ezcDocumentPdfHaruDriver();

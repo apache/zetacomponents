@@ -26,6 +26,14 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     protected $document;
 
     /**
+     * Dummy document to provide font width estimations, before we actually
+     * know what kind of pages will be rendered.
+     * 
+     * @var HaruDoc
+     */
+    protected $dummyDoc;
+
+    /**
      * Page instances, given as an array, indexed by their page number starting
      * with 0.
      * 
@@ -163,6 +171,9 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         $this->document = new HaruDoc();
         $this->document->setPageMode( HaruDoc::PAGE_MODE_USE_THUMBS );
         $this->pages = array();
+
+        $this->dummyDoc = new HaruDoc();
+        $this->dummyDoc->addPage();
     }
 
     /**
@@ -211,8 +222,16 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         }
 
         // Create and use font on current page
-        $font = $this->document->getFont( $this->fonts[$name][$style] );
-        $this->currentPage->setFontAndSize( $font, $this->currentFont['size'] );
+        if ( $this->currentPage )
+        {
+            $font = $this->document->getFont( $this->fonts[$name][$style] );
+            $this->currentPage->setFontAndSize( $font, $this->currentFont['size'] );
+        }
+        else
+        {
+            $font = $this->dummyDoc->getFont( $this->fonts[$name][$style] );
+            $this->dummyDoc->getCurrentPage()->setFontAndSize( $font, $this->currentFont['size'] );
+        }
 
         $this->currentFont = array(
             'name'  => $name,
@@ -314,7 +333,14 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
         }
 
-        return ezcDocumentPdfMeasure::create( $this->currentPage->getTextWidth( $word ) . 'pt' )->get();
+        if ( $this->currentPage )
+        {
+            return ezcDocumentPdfMeasure::create( $this->currentPage->getTextWidth( $word ) . 'pt' )->get();
+        }
+        else
+        {
+            return ezcDocumentPdfMeasure::create( $this->dummyDoc->getCurrentPage()->getTextWidth( $word ) . 'pt' )->get();
+        }
     }
 
     /**
