@@ -9,12 +9,6 @@
  * @access private
  */
 
-// Include TCPDF library.
-// @TODO: Fix this to point to a generic location, but TCPDF seems not to be
-// installable using PEAR; so that the user might be required to include this
-// himself.
-require dirname( __FILE__ ) . '/tcpdf/tcpdf.php';
-
 /**
  * Pdf driver based on pecl/haru
  *

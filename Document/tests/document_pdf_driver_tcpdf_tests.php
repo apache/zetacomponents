@@ -11,6 +11,13 @@
 
 require_once 'pdf_test.php';
 
+// Try to include TCPDF class from external/tcpdf.
+// @TODO: Maybe also search the include path...
+if ( file_exists( $path = dirname( __FILE__ ) . '/external/tcpdf/tcpdf.php' ) )
+{
+    include $path;
+}
+
 /**
  * Test suite for class.
  * 
@@ -28,9 +35,9 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
 
     public function setUp()
     {
-        if ( !ezcBaseFeatures::hasExtensionSupport( 'haru' ) )
+        if ( !class_exists( 'TCPDF' ) )
         {
-            $this->markTestSkipped( 'This test requires pecl/haru installed.' );
+            $this->markTestSkipped( 'This test requires the TCPDF class.' );
         }
 
         parent::setUp();
