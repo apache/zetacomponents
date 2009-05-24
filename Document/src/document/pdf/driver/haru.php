@@ -408,7 +408,26 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function drawImage( $file, $type, $x, $y, $width, $height )
     {
-        
+        switch ( $type )
+        {
+            case 'image/png':
+                $image = $this->document->loadPNG( $file );
+                break;
+            case 'image/jpeg':
+                $image = $this->document->loadJPEG( $file );
+                break;
+            default:
+                throw new ezcBaseFunctionalityNotSupportedException( $type, 'Image type not supported by pecl/haru' );
+        }
+
+        $this->currentPage->drawImage(
+            $image,
+            ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
+            $this->currentPage->getHeight() - ezcDocumentPdfMeasure::create( $y )->get( 'pt' ) -
+                ( $height = ezcDocumentPdfMeasure::create( $height )->get( 'pt' ) ),
+            ezcDocumentPdfMeasure::create( $width )->get( 'pt' ),
+            $height
+        );
     }
 
     /**

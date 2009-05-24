@@ -211,6 +211,37 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfTestCase
 
         $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
     }
+
+    public function testRenderPngImage()
+    {
+        $driver = new ezcDocumentPdfHaruDriver();
+        $driver->createPage( 210, 297 );
+
+        $driver->drawImage(
+            dirname( __FILE__ ) . '/files/pdf/images/logo-white.png', 'image/png',
+            50, 50,
+            ezcDocumentPdfMeasure::create( '113px' )->get(),
+            ezcDocumentPdfMeasure::create( '57px' )->get()
+        );
+        $pdf = $driver->save();
+
+        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
+    }
+
+    public function testRenderResizedJpegImage()
+    {
+        $driver = new ezcDocumentPdfHaruDriver();
+        $driver->createPage( 210, 297 );
+
+        $driver->drawImage(
+            dirname( __FILE__ ) . '/files/pdf/images/large.jpeg', 'image/jpeg',
+            50, 50,
+            110, 100
+        );
+        $pdf = $driver->save();
+
+        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
+    }
 }
 
 ?>

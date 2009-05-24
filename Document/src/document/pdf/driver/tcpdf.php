@@ -328,7 +328,19 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function drawImage( $file, $type, $x, $y, $width, $height )
     {
-        
+        switch ( $type )
+        {
+            case 'image/png':
+                $type = 'PNG';
+                break;
+            case 'image/jpeg':
+                $type = 'JPEG';
+                break;
+            default:
+                throw new ezcBaseFunctionalityNotSupportedException( $type, 'Image type not supported by TCPDF' );
+        }
+
+        $this->document->Image( $file, $x, $y, $width, $height, $type );
     }
 
     /**
