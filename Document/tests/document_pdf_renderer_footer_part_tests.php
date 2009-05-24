@@ -116,7 +116,7 @@ class ezcDocumentPdfRendererFooterPartTests extends ezcDocumentPdfTestCase
                 'showDocumentTitle'  => false,
                 'showDocumentAuthor' => false,
                 'pageNumberOffset'   => 7,
-                'height'             => '5mm',
+                'height'             => '10mm',
             ) ) )
         );
 

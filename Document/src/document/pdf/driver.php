@@ -97,6 +97,8 @@ abstract class ezcDocumentPdfDriver
      *
      * Draw the given word at the given position using the currently set text
      * formatting options.
+     *
+     * The coordinate specifies the left bottom edge of the words bounding box.
      * 
      * @param float $x 
      * @param float $y 

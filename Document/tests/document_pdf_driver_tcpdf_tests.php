@@ -157,8 +157,8 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '10' );
 
-        $driver->drawWord( 0, 0, 'The quick brown fox jumps over the lazy dog' );
-        $driver->drawWord( 0, 297 - 10, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 297, 'The quick brown fox jumps over the lazy dog' );
         $pdf = $driver->save();
 
         $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
@@ -171,8 +171,8 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '4' );
 
-        $driver->drawWord( 0, 0, 'The quick brown fox jumps over the lazy dog' );
-        $driver->drawWord( 0, 297 - 4, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 4, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 297, 'The quick brown fox jumps over the lazy dog' );
         $pdf = $driver->save();
 
         $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
@@ -184,31 +184,31 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-size', '8' );
 
-        $driver->drawWord( 0, 0, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 8, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-weight', 'bold' );
         $driver->setTextFormatting( 'font-style', 'italic' );
-        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 18, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-style', 'normal' );
-        $driver->drawWord( 0, 20, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 28, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-weight', 'normal' );
-        $driver->drawWord( 0, 30, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 38, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-weight', 'bold' );
-        $driver->drawWord( 0, 40, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 48, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-family', 'serif' );
-        $driver->drawWord( 0, 50, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 58, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-weight', 'normal' );
-        $driver->drawWord( 0, 60, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 68, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-family', 'Symbol' );
-        $driver->drawWord( 0, 70, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 78, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-weight', 'bold' );
-        $driver->drawWord( 0, 80, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 88, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-style', 'italic' );
-        $driver->drawWord( 0, 90, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 98, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-family', 'monospace' );
-        $driver->drawWord( 0, 100, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 108, 'The quick brown fox jumps over the lazy dog' );
         $driver->setTextFormatting( 'font-weight', 'bold' );
         $driver->setTextFormatting( 'font-style', 'italic' );
-        $driver->drawWord( 0, 110, 'The quick brown fox jumps over the lazy dog' );
+        $driver->drawWord( 0, 118, 'The quick brown fox jumps over the lazy dog' );
 
         $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
     }

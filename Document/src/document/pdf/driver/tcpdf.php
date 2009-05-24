@@ -289,6 +289,8 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      *
      * Draw the given word at the given position using the currently set text
      * formatting options.
+     *
+     * The coordinate specifies the left bottom edge of the words bounding box.
      * 
      * @param float $x 
      * @param float $y 
@@ -297,11 +299,9 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function drawWord( $x, $y, $word )
     {
-        $this->document->setXY( $x, $y );
-        $this->document->Write(
-            ezcDocumentPdfMeasure::create( $this->currentFont['size'] . 'pt' )->get(),
-            $word
-        );
+        $size = ezcDocumentPdfMeasure::create( $this->currentFont['size'] . 'pt' )->get();
+        $this->document->setXY( $x, (float) round( $y - $size, 4 ) );
+        $this->document->Write( $size, $word );
     }
 
     /**

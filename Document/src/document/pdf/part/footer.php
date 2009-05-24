@@ -107,7 +107,7 @@ class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart
             $width = $this->driver->calculateWordWidth( $this->documentTitle );
             $this->driver->drawWord(
                 $space->x + ( $page->innerWidth - $width ) / 2,
-                $space->y + $offset,
+                $space->y + $offset + $this->driver->getCurrentLineHeight(),
                 $this->documentTitle
             );
             $offset += 1.1 * $this->driver->getCurrentLineHeight();
@@ -123,7 +123,7 @@ class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart
             $width = $this->driver->calculateWordWidth( $this->documentAuthor );
             $this->driver->drawWord(
                 $space->x + ( $page->innerWidth - $width ) / 2,
-                $space->y + $offset,
+                $space->y + $offset + $this->driver->getCurrentLineHeight(),
                 $this->documentAuthor
             );
             $offset += 1.1 * $this->driver->getCurrentLineHeight();
@@ -136,7 +136,8 @@ class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart
             $postion = $pageNumber % 2 ? $space->width - $this->driver->calculateWordWidth( $pageNumber ) : 0;
             $this->driver->drawWord(
                 $space->x + $postion,
-                $space->y + ( $space->height - $this->driver->getCurrentLineHeight() ) / 2,
+                $space->y + ( $space->height - $this->driver->getCurrentLineHeight() ) / 2
+                    + $this->driver->getCurrentLineHeight(),
                 $pageNumber
             );
         }

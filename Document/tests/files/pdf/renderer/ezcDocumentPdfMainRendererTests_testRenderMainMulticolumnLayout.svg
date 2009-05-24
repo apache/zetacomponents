@@ -3,45 +3,45 @@
   <g id="pages">
     <g>
       <rect x="0mm" y="0mm" width="210mm" height="297mm" style="fill: #ffffff; stroke: #000000; stroke-width: 1px; fill-opacity: 1; stroke-opacity: 1;"/>
-      <text x="16.0000mm" y="32.0000mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Paragraphs</text>
-      <text x="56.0473mm" y="32.0000mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">with</text>
-      <text x="74.2507mm" y="32.0000mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">inline</text>
-      <text x="99.7353mm" y="32.0000mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">markup</text>
-      <text x="16.0000mm" y="47.4667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Paragraphs</text>
-      <text x="36.0237mm" y="47.4667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">are</text>
-      <text x="16.0000mm" y="51.7000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">separated</text>
-      <text x="34.2033mm" y="51.7000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">by</text>
-      <text x="39.6643mm" y="51.7000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">blank</text>
-      <text x="16.0000mm" y="55.9333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">lines</text>
-      <text x="26.9220mm" y="55.9333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">and</text>
-      <text x="34.2033mm" y="55.9333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">are</text>
-      <text x="16.0000mm" y="60.1667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">left-aligned.</text>
-      <text x="16.0000mm" y="68.4000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Paragraphs</text>
-      <text x="36.0237mm" y="68.4000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">are</text>
-      <text x="16.0000mm" y="72.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">separated</text>
-      <text x="34.2033mm" y="72.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">by</text>
-      <text x="39.6643mm" y="72.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">blank</text>
-      <text x="16.0000mm" y="76.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">lines</text>
-      <text x="26.9220mm" y="76.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">and</text>
-      <text x="34.2033mm" y="76.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">are</text>
-      <text x="16.0000mm" y="81.1000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">left-aligned.</text>
-      <text x="16.0000mm" y="89.3333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Paragraphs</text>
-      <text x="36.0237mm" y="89.3333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">contain</text>
-      <text x="16.0000mm" y="93.5667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">text</text>
-      <text x="25.1017mm" y="93.5667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">and</text>
-      <text x="32.3830mm" y="93.5667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">may</text>
-      <text x="39.6643mm" y="93.5667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">contain</text>
-      <text x="16.0000mm" y="97.8000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">inline</text>
-      <text x="28.7423mm" y="97.8000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">markup:</text>
-      <text x="16.0000mm" y="102.0333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">emphasis</text>
-      <text x="32.3830mm" y="102.0333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">,</text>
-      <text x="36.0237mm" y="102.0333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">strong</text>
+      <text x="16.0000mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Paragraphs</text>
+      <text x="56.0473mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">with</text>
+      <text x="74.2507mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">inline</text>
+      <text x="99.7353mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">markup</text>
+      <text x="16.0000mm" y="51.7000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Paragraphs</text>
+      <text x="36.0237mm" y="51.7000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">are</text>
+      <text x="16.0000mm" y="55.9333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">separated</text>
+      <text x="34.2033mm" y="55.9333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">by</text>
+      <text x="39.6643mm" y="55.9333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">blank</text>
+      <text x="16.0000mm" y="60.1667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">lines</text>
+      <text x="26.9220mm" y="60.1667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">and</text>
+      <text x="34.2033mm" y="60.1667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">are</text>
+      <text x="16.0000mm" y="64.4000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">left-aligned.</text>
+      <text x="16.0000mm" y="72.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Paragraphs</text>
+      <text x="36.0237mm" y="72.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">are</text>
+      <text x="16.0000mm" y="76.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">separated</text>
+      <text x="34.2033mm" y="76.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">by</text>
+      <text x="39.6643mm" y="76.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">blank</text>
+      <text x="16.0000mm" y="81.1000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">lines</text>
+      <text x="26.9220mm" y="81.1000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">and</text>
+      <text x="34.2033mm" y="81.1000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">are</text>
+      <text x="16.0000mm" y="85.3333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">left-aligned.</text>
+      <text x="16.0000mm" y="93.5667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Paragraphs</text>
+      <text x="36.0237mm" y="93.5667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">contain</text>
+      <text x="16.0000mm" y="97.8000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">text</text>
+      <text x="25.1017mm" y="97.8000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">and</text>
+      <text x="32.3830mm" y="97.8000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">may</text>
+      <text x="39.6643mm" y="97.8000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">contain</text>
+      <text x="16.0000mm" y="102.0333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">inline</text>
+      <text x="28.7423mm" y="102.0333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">markup:</text>
       <text x="16.0000mm" y="106.2667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">emphasis</text>
       <text x="32.3830mm" y="106.2667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">,</text>
-      <text x="36.0237mm" y="106.2667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">or</text>
-      <text x="41.4847mm" y="106.2667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">both</text>
-      <text x="16.0000mm" y="110.5000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">stacked.</text>
-      <text x="32.3830mm" y="110.5000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">.</text>
+      <text x="36.0237mm" y="106.2667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">strong</text>
+      <text x="16.0000mm" y="110.5000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">emphasis</text>
+      <text x="32.3830mm" y="110.5000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">,</text>
+      <text x="36.0237mm" y="110.5000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">or</text>
+      <text x="41.4847mm" y="110.5000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">both</text>
+      <text x="16.0000mm" y="114.7333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">stacked.</text>
+      <text x="32.3830mm" y="114.7333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">.</text>
     </g>
   </g>
 </svg>

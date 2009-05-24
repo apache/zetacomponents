@@ -361,6 +361,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      *
      * Draw the given word at the given position using the currently set text
      * formatting options.
+     *
+     * The coordinate specifies the left bottom edge of the words bounding box.
      * 
      * @param float $x 
      * @param float $y 
@@ -378,7 +380,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         $this->currentPage->beginText();
         $this->currentPage->textOut( 
             ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
-            $this->currentPage->getHeight() - ezcDocumentPdfMeasure::create( $y )->get( 'pt' ) - $this->currentFont['size'],
+            $this->currentPage->getHeight() - ezcDocumentPdfMeasure::create( $y )->get( 'pt' ),
             $word
         );
         $this->currentPage->endText();

@@ -197,7 +197,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                         $spaceWidth = ( $space->width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
                 }
             default:
-                $offset     = 0;
+                $offset = 0;
         }
 
         // Default to left alignement
@@ -211,8 +211,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             }
 
             // Render word 
-            // @TODO: Align text baseline, if different font sizes are given
-            $this->driver->drawWord( $xPos, $position, $token['word'] );
+            $this->driver->drawWord( $xPos, $position + $line['height'], $token['word'] );
             $xPos += $token['width'] + $spaceWidth;
         }
 
