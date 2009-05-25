@@ -3,8 +3,9 @@
 
 - Renamed ezcPersistentIdentitySession to
   ezcPersistentSessionIdentityDecorator.
-- Introduced new ezcPersistentSessionFoundation.
-- Finalized implementation of identity management and relation pre-fetching,
+- Introduced new ezcPersistentSessionFoundation interface, for
+  ezcPersistentSession and its decorators.
+- Finalized implementation of identity management and relation pre-fetching.
 
 
 1.6alpha1 - Tuesday 21 April 2009
