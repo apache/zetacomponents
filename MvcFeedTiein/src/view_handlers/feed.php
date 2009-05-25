@@ -87,31 +87,6 @@ class ezcMvcFeedViewHandler implements ezcMvcViewHandler
     }
 
     /**
-     * Maps between variable names and feed element names and returns the
-     * variable name.
-     *
-     * @param string $var
-     * @param mixed &$elementValue
-     * @return string
-     */
-    function map( $var, &$elementValue )
-    {
-        switch ( $var )
-        {
-            case 'fullname':
-                return 'authorName';
-            case 'status':
-                return 'title';
-            case 'date':
-                return 'published';
-            case 'id':
-                $elementValue = 'http://dev.thewire/updates/' . $elementValue;
-                return 'link';
-        }
-        return $var;
-    }
-
-    /**
      * Processes the template with the variables added by the send() method.
      * The result of this action should be retrievable through the getResult() method.
      *
