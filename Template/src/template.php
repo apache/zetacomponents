@@ -114,6 +114,7 @@ class ezcTemplate
                                  'stream'  => false,
                                  'streamStack' => false,
                                  'output' => "",
+                                 'trimWhitespace' => true,
                                );
 
     /**
@@ -138,6 +139,7 @@ class ezcTemplate
             case 'usedConfiguration':
 
             case 'output':
+            case 'trimWhitespace':
                 return $this->properties[$name];
 
             case 'configuration':
@@ -178,6 +180,7 @@ class ezcTemplate
             case 'stream':
             case 'streamStack':
             case 'output':
+            case 'trimWhitespace':
                 return isset( $this->properties[$name] );
             default:
                 return false;
@@ -274,6 +277,7 @@ class ezcTemplate
         $this->properties["tstTree"] = false;
         $this->properties["astTree"] = false;
         $this->properties["stream"] = $location;
+        $this->properties['trimWhitespace'] = $config->trimWhitespace;
 
         if ( $location instanceof ezcTemplateLocation || $location instanceof ezcTemplateLocationInterface )
         {

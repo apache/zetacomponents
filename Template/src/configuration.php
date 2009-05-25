@@ -62,6 +62,8 @@
  *           Charset of the literals in the original template file.
  * @property string                                     $targetCharset
  *           Desired charset of literals in the compiled.
+ * @property bool                                       $trimWhitespace
+ *           Whether the parser should strip whitespace from the templates.
  * @package Template
  * @version //autogen//
  * @mainclass
@@ -99,6 +101,8 @@ class ezcTemplateConfiguration
                                   'sourceCharset' => "UTF-8",
                                   'targetCharset' => "UTF-8",
                                   'translation' => null,
+
+                                  'trimWhitespace' => true,
                               );
     /**
      * Returns the value of the property $name.
@@ -127,6 +131,7 @@ class ezcTemplateConfiguration
             case 'translation':
             case 'checkModifiedTemplates':
             case 'executeTemplate':
+            case 'trimWhitespace':
                 return $this->properties[$name];
             case 'customBlocks':
             case 'customFunctions':
@@ -200,6 +205,7 @@ class ezcTemplateConfiguration
             case 'customBlocks': 
             case 'customFunctions': 
             case 'disableCache':
+            case 'trimWhitespace':
                 $this->properties[$name] = $value;
                 break;
 
@@ -224,6 +230,7 @@ class ezcTemplateConfiguration
             case 'sourceCharset':
             case 'targetCharset':
             case 'translation':
+            case 'trimWhitespace':
                 return true;
 
             case 'cacheManager': 

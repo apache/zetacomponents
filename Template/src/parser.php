@@ -69,7 +69,7 @@ class ezcTemplateParser
         $this->source = $source;
         $this->template = $template;
         $this->textElements = array();
-        $this->trimWhitespace = true;
+        $this->trimWhitespace = $template->trimWhitespace;
 
         $this->symbolTable = ezcTemplateSymbolTable::getInstance();
         $this->symbolTable->reset();
