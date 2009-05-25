@@ -37,6 +37,13 @@ class ezcPersistentIdentityRelationQueryCreator
     protected $db;
 
     /**
+     * Aliases to be registered in query objects. 
+     * 
+     * @var array(string=>string)
+     */
+    protected $aliases = array();
+
+    /**
      * Creates a new query generator. 
      *
      * Creates a new query generator that will receive needed persistentence
@@ -94,8 +101,11 @@ class ezcPersistentIdentityRelationQueryCreator
     {
         $srcDef = $this->defManager->fetchDefinition( $class );
 
+        $q = $this->createBasicFindQuery( $srcDef, $relations );
+        $q->setAliases( $this->aliases );
+
         return new ezcPersistentFindWithRelationsQuery(
-            $this->createBasicFindQuery( $srcDef, $relations ),
+            $q,
             $class,
             $relations
         );
@@ -205,6 +215,13 @@ class ezcPersistentIdentityRelationQueryCreator
                     )
                 )
             );
+
+            $this->registerAlias(
+                $this->getColumnName( $tableAlias, $relation->definition->idProperty->columnName ),
+                // Register unquoted alias in query object!
+                $this->getColumnAlias( $tableAlias, $relation->definition->idProperty->propertyName, true )
+            );
+
             foreach ( $relation->definition->properties as $property )
             {
                 $q->select(
@@ -213,7 +230,14 @@ class ezcPersistentIdentityRelationQueryCreator
                         $this->getColumnAlias( $tableAlias, $property->propertyName )
                     )
                 );
+
+                $this->registerAlias(
+                    $this->getColumnName( $tableAlias, $property->columnName ),
+                    // Register unquoted alias in query object!
+                    $this->getColumnAlias( $tableAlias, $property->propertyName, true )
+                );
             }
+
             if ( $relation->furtherRelations !== array() )
             {
                 $this->createSelects( $q, $relation->furtherRelations );
@@ -228,15 +252,20 @@ class ezcPersistentIdentityRelationQueryCreator
      * @param string $property
      * @return string
      */
-    protected function getColumnAlias( $table, $property )
+    protected function getColumnAlias( $table, $property, $quote = true )
     {
-        return $this->db->quoteIdentifier(
-            sprintf(
-                '%s_%s',
-                $table,
-                $property
-            )
+        $alias = sprintf(
+            '%s_%s',
+            $table,
+            $property
         );
+
+        if ( $quote )
+        {
+            $alias = $this->db->quoteIdentifier( $alias );
+        }
+
+        return $alias;
     }
 
     /**
@@ -415,6 +444,18 @@ class ezcPersistentIdentityRelationQueryCreator
             ),
             $joinCond
         );
+    }
+
+    /**
+     * Register an alias to be used in {@link ezcPersistentFindQuery}.
+     * 
+     * @param string $identifier 
+     * @param string $alias 
+     * @return void
+     */
+    protected function registerAlias( $identifier, $alias )
+    {
+        $this->aliases[$alias] = $identifier;
     }
 }
 
