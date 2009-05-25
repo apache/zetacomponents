@@ -22,7 +22,6 @@ require_once 'source_code_test.php';
 require_once 'compiled_code_test.php';
 require_once 'configuration_test.php';
 require_once 'template_test.php';
-require_once 'parser_test.php';
 require_once 'cache_test.php';
 require_once 'regression_test.php';
 require_once 'cache_test.php';
@@ -41,7 +40,6 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         $this->setName( 'Template' );
 
         $this->addTest( ezcTemplateRegressionTest::suite() );
-        $this->addTest( ezcTemplateParserTest::suite() );
         $this->addTest( ezcTemplateFileExceptionTest::suite() );
         $this->addTest( ezcTemplateVariableCollectionTest::suite() );
         $this->addTest( ezcTemplateValidationItemTest::suite() );
