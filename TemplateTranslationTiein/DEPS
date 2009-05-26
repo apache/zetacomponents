@@ -1,3 +1,3 @@
-Template: 1.3
-Translation: 1.2
+Template: 1.4alpha1
+Translation: 1.3alpha1
 ConsoleTools: 1.5
