@@ -1,4 +1,4 @@
-1.3alpha1 - [RELEASEDATE]
+1.3alpha1 - Tuesday 26 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Added the getContextNames() method to the TsBackend.
