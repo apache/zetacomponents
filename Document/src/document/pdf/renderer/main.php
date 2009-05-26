@@ -69,6 +69,16 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
             'mediaobject' => 'renderMediaObject',
             'sectioninfo' => 'ignore',
         ),
+        // @TODO: This works for non-namespaced elements, but the fallback
+        // should be implemented in the process method.
+        '' => array(
+            'article'     => 'initializeDocument',
+            'section'     => 'process',
+            'para'        => 'renderParagraph',
+            'title'       => 'renderTitle',
+            'mediaobject' => 'renderMediaObject',
+            'sectioninfo' => 'ignore',
+        ),
     );
 
     /**
