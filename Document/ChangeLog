@@ -1,7 +1,8 @@
-1.2 - [RELEASEDATE]
+1.2alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented CSS based PDF rendering for basic docbook markup
+- Implemented CSS based PDF rendering for basic docbook markup.
+
 
 1.1.2 - Monday 30 March 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
