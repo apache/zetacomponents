@@ -1,4 +1,4 @@
-1.4alpha1 - [RELEASEDATE]
+1.4alpha1 - Tuesday 26 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented feature #14104: Stack writer to store log messages in memory.
