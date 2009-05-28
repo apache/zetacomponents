@@ -1552,6 +1552,8 @@ class ezcGraphRenderer3d
      * @param ezcGraphColor $markLines
      * @param int $xOffset
      * @param int $yOffset
+     * @param float $stepSize
+     * @param int $type
      * @return void
      */
     public function drawDataHighlightText(
@@ -1566,7 +1568,9 @@ class ezcGraphRenderer3d
         $size,
         ezcGraphColor $markLines = null,
         $xOffset = 0,
-        $yOffset = 0 )
+        $yOffset = 0,
+        $stepSize = 0.,
+        $type = ezcGraph::LINE )
     {
         $this->driver->options->font = $font;
         $width = $this->dataBoundings->width / $dataCount;

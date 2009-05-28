@@ -253,6 +253,8 @@ abstract class ezcGraphRenderer
      * @param ezcGraphColor $markLines
      * @param int $xOffset
      * @param int $yOffset
+     * @param float $stepSize
+     * @param int $type
      * @return void
      */
     abstract public function drawDataHighlightText(
@@ -267,7 +269,9 @@ abstract class ezcGraphRenderer
         $size,
         ezcGraphColor $markLines = null,
         $xOffset = 0,
-        $yOffset = 0
+        $yOffset = 0,
+        $stepSize = 0.,
+        $type = ezcGraph::LINE
     );
     
     /**

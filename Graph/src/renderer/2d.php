@@ -532,7 +532,7 @@ class ezcGraphRenderer2d
         $margin = $stepSize * $this->options->barMargin;
         $padding = $stepSize * $this->options->barPadding;
         $barWidth = ( $stepSize - $margin ) / $dataCount - $padding;
-        $offset = - $stepSize / 2 + $margin / 2 + ( $dataCount - $dataNumber -1 ) * ( $padding + $barWidth ) + $padding / 2;
+        $offset = - $stepSize / 2 + $margin / 2 + ( $dataCount - $dataNumber - 1 ) * ( $padding + $barWidth ) + $padding / 2;
 
         $barPointArray = array(
             new ezcGraphCoordinate(
@@ -948,6 +948,8 @@ class ezcGraphRenderer2d
      * @param ezcGraphColor $markLines
      * @param int $xOffset
      * @param int $yOffset
+     * @param float $stepSize
+     * @param int $type
      * @return void
      */
     public function drawDataHighlightText(
@@ -962,13 +964,25 @@ class ezcGraphRenderer2d
         $size,
         ezcGraphColor $markLines = null,
         $xOffset = 0,
-        $yOffset = 0 )
+        $yOffset = 0,
+        $stepSize = 0.,
+        $type = ezcGraph::LINE )
     {
+        // Bar specific calculations
+        if ( $type !== ezcGraph::LINE )
+        {
+            $margin = $stepSize * $this->options->barMargin;
+            $padding = $stepSize * $this->options->barPadding;
+            $barWidth = ( $stepSize - $margin ) / $dataCount - $padding;
+            $offset = -( $dataNumber +  ( $dataCount - 1 ) / -2 ) * ( $barWidth + $padding );
+        }
+
         $this->driver->options->font = $font;
         $width = $boundings->width / $dataCount;
         
         $dataPoint = new ezcGraphCoordinate(
-            $boundings->x0 + ( $boundings->width ) * $end->x + $xOffset,
+            $boundings->x0 + ( $boundings->width ) * $end->x + $xOffset +
+                ( $type === ezcGraph::LINE ? 0 : $offset ),
             $boundings->y0 + ( $boundings->height ) * $end->y + $yOffset
         );
 

@@ -302,6 +302,27 @@ class ezcGraphLineChart extends ezcGraphChart
                             $yAxisNullPosition,
                             ( $data->lineThickness->default ? $data->lineThickness->default : $this->options->lineThickness )
                         );
+
+                        // Render highlight string if requested
+                        if ( $data->highlight[$key] )
+                        {
+                            $renderer->drawDataHighlightText(
+                                $boundings,
+                                new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
+                                $point,
+                                $yAxisNullPosition,
+                                $nr[$data->displayType->default],
+                                $count[$data->displayType->default],
+                                $this->options->highlightFont,
+                                ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
+                                $this->options->highlightSize + $this->options->highlightFont->padding * 2,
+                                ( $this->options->highlightLines ? $data->color[$key] : null ),
+                                ( $this->options->highlightXOffset ? $this->options->highlightXOffset : 0 ),
+                                ( $this->options->highlightYOffset ? $this->options->highlightYOffset : 0 ),
+                                0.,
+                                ezcGraph::LINE
+                            );
+                        }
                         break;
                     case ( $data->displayType->default === ezcGraph::BAR ) &&
                          $this->options->stackBars :
@@ -356,6 +377,27 @@ class ezcGraphLineChart extends ezcGraphChart
                             $stackedSymbol[(int) ( $point->x * 10000 )],
                             $yAxisNullPosition
                         );
+
+                        // Render highlight string if requested
+                        if ( $data->highlight[$key] )
+                        {
+                            $renderer->drawDataHighlightText(
+                                $boundings,
+                                new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
+                                $point,
+                                $yAxisNullPosition,
+                                $nr[$data->displayType->default],
+                                $count[$data->displayType->default],
+                                $this->options->highlightFont,
+                                ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
+                                $this->options->highlightSize + $this->options->highlightFont->padding * 2,
+                                ( $this->options->highlightLines ? $data->color[$key] : null ),
+                                ( $this->options->highlightXOffset ? $this->options->highlightXOffset : 0 ),
+                                ( $this->options->highlightYOffset ? $this->options->highlightYOffset : 0 ),
+                                0.,
+                                ezcGraph::LINE
+                            );
+                        }
                         break;
                     case $data->displayType->default === ezcGraph::BAR:
                         $renderer->drawBar(
@@ -369,29 +411,31 @@ class ezcGraphLineChart extends ezcGraphChart
                             $data->symbol[$key],
                             $yAxisNullPosition
                         );
+
+                        // Render highlight string if requested
+                        if ( $data->highlight[$key] )
+                        {
+                            $renderer->drawDataHighlightText(
+                                $boundings,
+                                new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
+                                $point,
+                                $yAxisNullPosition,
+                                $nr[$data->displayType->default],
+                                $count[$data->displayType->default],
+                                $this->options->highlightFont,
+                                ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
+                                $this->options->highlightSize + $this->options->highlightFont->padding * 2,
+                                ( $this->options->highlightLines ? $data->color[$key] : null ),
+                                ( $this->options->highlightXOffset ? $this->options->highlightXOffset : 0 ),
+                                ( $this->options->highlightYOffset ? $this->options->highlightYOffset : 0 ),
+                                $width,
+                                $data->displayType->default
+                            );
+                        }
                         break;
                     default:
                         throw new ezcGraphInvalidDisplayTypeException( $data->displayType->default );
                         break;
-                }
-
-                // Render highlight string if requested
-                if ( $data->highlight[$key] )
-                {
-                    $renderer->drawDataHighlightText(
-                        $boundings,
-                        new ezcGraphContext( $datasetName, $key, $data->url[$key] ),
-                        $point,
-                        $yAxisNullPosition,
-                        $nr[$data->displayType->default],
-                        $count[$data->displayType->default],
-                        $this->options->highlightFont,
-                        ( $data->highlightValue[$key] ? $data->highlightValue[$key] : $value ),
-                        $this->options->highlightSize + $this->options->highlightFont->padding * 2,
-                        ( $this->options->highlightLines ? $data->color[$key] : null ),
-                        ( $this->options->highlightXOffset ? $this->options->highlightXOffset : 0 ),
-                        ( $this->options->highlightYOffset ? $this->options->highlightYOffset : 0 )
-                    );
                 }
     
                 // Store last point, used to connect lines in line chart.
