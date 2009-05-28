@@ -1246,6 +1246,36 @@ class ezcGraphSvgDriverTest extends ezcGraphTestCase
         );
     }
 
+    public function testDrawStringWithUtf8SpecialChars()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+
+        $this->driver->drawPolygon(
+            array(
+                new ezcGraphCoordinate( 47, 54 ),
+                new ezcGraphCoordinate( 47, 84 ),
+                new ezcGraphCoordinate( 99, 84 ),
+                new ezcGraphCoordinate( 99, 54 ),
+            ),
+            ezcGraphColor::fromHex( '#DDDDDD' ),
+            true
+        );
+        $this->driver->drawTextBox(
+            'ÄÖÜäöüß',
+            new ezcGraphCoordinate( 47, 54 ),
+            52,
+            30,
+            ezcGraph::LEFT
+        );
+
+        $this->driver->render( $filename );
+
+        $this->compare( 
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testDrawChartInTemplate()
     {
         $filename = $this->tempDir . __FUNCTION__ . '.svg';
