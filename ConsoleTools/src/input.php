@@ -862,6 +862,28 @@ class ezcConsoleInput
      * provided program description and the selected parameter help
      * as also provided by {@link ezcConsoleInput::getHelp()}. The returned
      * string can directly be printed to the console.
+     *
+     * The $paramGrouping option can be used to group options in the help
+     * output. The structure of this array parameter is as follows:
+     *
+     * <code>
+     *  array(
+     *      'First section' => array(
+     *          'input',
+     *          'output'
+     *          'overwrite',
+     *      ),
+     *      'Second section' => array(
+     *          'v',
+     *          'h',
+     *      ),
+     *  )
+     * </code>
+     *
+     * As can be seen, short option names are possible as well as long ones.
+     * The key of the first array level is the name of the section, which is
+     * assigned to an array of options to group under this section. The $params
+     * parameter still influences if an option as displayed at all.
      * 
      * @param string $programDesc        The description of your program.
      * @param int $width                 The width to adjust the output text to.
