@@ -69,16 +69,6 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
             'mediaobject' => 'renderMediaObject',
             'sectioninfo' => 'ignore',
         ),
-        // @TODO: This works for non-namespaced elements, but the fallback
-        // should be implemented in the process method.
-        '' => array(
-            'article'     => 'initializeDocument',
-            'section'     => 'process',
-            'para'        => 'renderParagraph',
-            'title'       => 'renderTitle',
-            'mediaobject' => 'renderMediaObject',
-            'sectioninfo' => 'ignore',
-        ),
     );
 
     /**
@@ -258,14 +248,17 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
                 continue;
             }
 
-            if ( !isset( $this->handlerMapping[$child->namespaceURI] ) ||
-                 !isset( $this->handlerMapping[$child->namespaceURI][$child->tagName] ) )
+            // Default to docbook namespace, if no namespace is defined
+            $namespace = $child->namespaceURI === null ? 'http://docbook.org/ns/docbook' : $child->namespaceURI;
+
+            if ( !isset( $this->handlerMapping[$namespace] ) ||
+                 !isset( $this->handlerMapping[$namespace][$child->tagName] ) )
             {
-                echo "Unknown: {$child->namespaceURI}:{$child->tagName}\n";
+                echo "Unknown: {$namespace}:{$child->tagName}\n";
                 continue;
             }
 
-            $method = $this->handlerMapping[$child->namespaceURI][$child->tagName];
+            $method = $this->handlerMapping[$namespace][$child->tagName];
             $this->$method( $child, $i );
 
             // Check if the rendering process should be restarted at an earlier

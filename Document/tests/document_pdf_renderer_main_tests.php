@@ -53,6 +53,31 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         );
     }
 
+    public function testRenderMainSinglePageNotNamespaced()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph_nons.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            new ezcDocumentPdfStyleInferencer()
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        file_put_contents(
+            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
+            $pdf
+        );
+    
+        $this->assertXmlFileEqualsXmlFile(
+            $this->basePath . 'renderer/' . $fileName,
+            $this->tempDir . $fileName
+        );
+    }
+
     public function testRenderMainMulticolumnLayout()
     {
         $docbook = new ezcDocumentDocbook();
