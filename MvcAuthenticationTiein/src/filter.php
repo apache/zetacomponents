@@ -361,7 +361,7 @@ class ezcMvcAuthenticationFilter
      */
     protected function hashPassword( $password )
     {
-        return md5( $clearPassword );
+        return md5( $password );
     }
 
     /**
