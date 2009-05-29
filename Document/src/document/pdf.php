@@ -32,6 +32,13 @@ class ezcDocumentPdf extends ezcDocument
     protected $content;
 
     /**
+     * List of PDF parts to append to documents
+     * 
+     * @var array(ezcDocumentPdfPart)
+     */
+    protected $pdfParts = array();
+
+    /**
      * Construct RST document.
      * 
      * @ignore
@@ -79,6 +86,20 @@ class ezcDocumentPdf extends ezcDocument
     }
 
     /**
+     * Append a PDF part
+     *
+     * Register additional PDF parts to be included in the rendering process,
+     * like headers and footers.
+     * 
+     * @param ezcDocumentPdfPart $part
+     * @return void
+     */
+    public function registerPdfPart( ezcDocumentPdfPart $part )
+    {
+        $this->pdfParts[] = $part;
+    }
+
+    /**
      * Return document compiled to the docbook format
      * 
      * The internal document structure is compiled to the docbook format and
@@ -118,6 +139,11 @@ class ezcDocumentPdf extends ezcDocument
             $this->options->driver,
             $this->styles
         );
+
+        foreach ( $this->pdfParts as $part )
+        {
+            $renderer->registerPdfPart( $part );
+        }
 
         $this->content = $renderer->render( $document, $this->options->hyphenator );
     }
