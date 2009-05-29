@@ -240,7 +240,7 @@ class ezcWebdavClientTestGenerator
             $this->exceptions[] = $e;
         }
         
-        $this->determinTestNo();
+        $this->determineTestNo();
         $this->initializeLogDir();
     }
 
