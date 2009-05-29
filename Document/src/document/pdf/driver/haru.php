@@ -189,6 +189,9 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         $this->currentPage->setWidth( ezcDocumentPdfMeasure::create( $width )->get( 'pt' ) );
         $this->currentPage->setHeight( ezcDocumentPdfMeasure::create( $height )->get( 'pt' ) );
+
+        // The current font might need to be recreated for the new page.
+        $this->currentFont['font'] = null;
     }
 
     /**
@@ -300,10 +303,20 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
                 if ( $this->currentFont['font'] !== null )
                 {
-                    $this->currentPage->setFontAndSize(
-                        $this->currentFont['font'],
-                        $this->currentFont['size']
-                    );
+                    if ( $this->currentPage )
+                    {
+                        $this->currentPage->setFontAndSize(
+                            $this->currentFont['font'],
+                            $this->currentFont['size']
+                        );
+                    }
+                    else
+                    {
+                        $this->dummyDoc->getCurrentPage()->setFontAndSize(
+                            $this->currentFont['font'],
+                            $this->currentFont['size']
+                        );
+                    }
                 }
                 break;
 
