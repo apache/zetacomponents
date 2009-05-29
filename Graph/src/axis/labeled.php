@@ -69,13 +69,19 @@
  */
 class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
 {
-    
     /**
      * Array with labeles for data 
      * 
      * @var array
      */
     protected $labels = array();
+
+    /**
+     * Labels indexed by thei name as key for faster lookups
+     * 
+     * @var array
+     */
+    protected $labelsIndexed = array();
 
     /**
      * Reduced amount of labels which will be displayed in the chart
@@ -219,6 +225,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
             }
         }
         ksort( $this->labels );
+        $this->labelsIndexed = array_flip( $this->labels );
 
         $this->properties['initialized'] = true;
     }
@@ -415,9 +422,9 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
      */
     public function getCoordinate( $value )
     {
-        if ( $value === false || 
-             $value === null  ||
-             ( $key = array_search( $value, $this->labels ) ) === false )
+        if ( ( $value === false ) || 
+             ( $value === null ) ||
+             ( !isset( $this->labelsIndexed[$value] ) ) )
         {
             switch ( $this->position )
             {
@@ -431,6 +438,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
         }
         else
         {
+            $key = $this->labelsIndexed[$value];
             switch ( $this->position )
             {
                 case ezcGraph::LEFT:

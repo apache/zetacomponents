@@ -1,6 +1,7 @@
 1.4.3 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed #14538: Performance degration for very high numbers of data points.
 - Fixed #14857: Highlight text misplaced in charts with multiple bar data
   sets.
 

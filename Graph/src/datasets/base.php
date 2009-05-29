@@ -67,6 +67,13 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
     protected $pallet;
 
     /**
+     * Array keys
+     * 
+     * @var array
+     */
+    protected $keys;
+
+    /**
      * Constructor
      * 
      * @return void
@@ -219,13 +226,13 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
      */
     public function current()
     {
-        $keys = array_keys( $this->data );
         if ( !isset( $this->current ) )
         {
+            $this->keys    = array_keys( $this->data );
             $this->current = 0;
         }
 
-        return $this->data[$keys[$this->current]];
+        return $this->data[$this->keys[$this->current]];
     }
 
     /**
@@ -239,14 +246,13 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
      */
     public function next()
     {
-        $keys = array_keys( $this->data );
-        if ( ++$this->current >= count( $keys ) )
+        if ( ++$this->current >= count( $this->keys ) )
         {
             return false;
         }
         else 
         {
-            return $this->data[$keys[$this->current]];
+            return $this->data[$this->keys[$this->current]];
         }
     }
 
@@ -261,8 +267,7 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
      */
     public function key()
     {
-        $keys = array_keys( $this->data );
-        return $keys[$this->current];
+        return $this->keys[$this->current];
     }
 
     /**
@@ -276,8 +281,7 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
      */
     public function valid()
     {
-        $keys = array_keys( $this->data );
-        return isset( $keys[$this->current] );
+        return isset( $this->keys[$this->current] );
     }
 
     /**
@@ -290,6 +294,7 @@ abstract class ezcGraphDataSet implements ArrayAccess, Iterator, Countable
      */
     public function rewind()
     {
+        $this->keys    = array_keys( $this->data );
         $this->current = 0;
     }
 }
