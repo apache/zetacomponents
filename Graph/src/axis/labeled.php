@@ -77,7 +77,7 @@ class ezcGraphChartElementLabeledAxis extends ezcGraphChartElementAxis
     protected $labels = array();
 
     /**
-     * Labels indexed by thei name as key for faster lookups
+     * Labels indexed by their name as key for faster lookups
      * 
      * @var array
      */
