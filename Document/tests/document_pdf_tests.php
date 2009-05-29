@@ -45,6 +45,29 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
             $this->tempDir . $fileName
         );
     }
+
+    public function testRenderCustomStyle()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
+
+        $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
+            'driver' => new ezcDocumentPdfSvgDriver(),
+        ) ) );
+        $pdfDoc->loadStyles( dirname( __FILE__ ) . '/files/pdf/custom.css' );
+        $pdfDoc->createFromDocbook( $docbook );
+        $pdf = (string) $pdfDoc;
+
+        file_put_contents(
+            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
+            $pdf
+        );
+    
+        $this->assertXmlFileEqualsXmlFile(
+            $this->basePath . 'renderer/' . $fileName,
+            $this->tempDir . $fileName
+        );
+    }
 }
 
 ?>

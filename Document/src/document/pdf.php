@@ -72,7 +72,10 @@ class ezcDocumentPdf extends ezcDocument
      */
     public function loadStyles( $file )
     {
-        return;
+        $parser = new ezcDocumentPdfCssParser();
+        $this->styles->appendStyleDirectives(
+            $parser->parseFile( $file )
+        );
     }
 
     /**
