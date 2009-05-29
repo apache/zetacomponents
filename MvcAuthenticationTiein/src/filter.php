@@ -174,7 +174,7 @@ class ezcMvcAuthenticationFilter
             $password = null;
         }
 
-        $credentials = new ezcAuthenticationPasswordCredentials( $user, md5( $password ) );
+        $credentials = new ezcAuthenticationPasswordCredentials( $user, $this->hashPassword( $password ) );
         $authentication = new ezcAuthentication( $credentials );
         $authentication->session = $session; 
         $authentication->addFilter( $databaseFilter );
@@ -354,6 +354,17 @@ class ezcMvcAuthenticationFilter
     }
 
     /**
+     * Returns the hashed version of the clear text password
+     *
+     * @param string $password
+     * @return string
+     */
+    protected function hashPassword( $password )
+    {
+        return md5( $clearPassword );
+    }
+
+    /**
      * Creates an entry in the user database table for $username and $password.
      *
      * This method creates a user in the configured user table (through the
@@ -370,7 +381,7 @@ class ezcMvcAuthenticationFilter
         $q = ezcDbInstance::get()->createInsertQuery();
         $q->insertInto( $this->options->tableName )
           ->set( $this->options->userIdField, $q->bindValue( $username ) )
-          ->set( $this->options->passwordField, $q->bindValue( md5( $password ) ) );
+          ->set( $this->options->passwordField, $q->bindValue( $this->hashPassword( $password ) ) );
         foreach ( $extraInfo as $key => $value )
         {
             $q->set( $key, $q->bindValue( $value ) );
