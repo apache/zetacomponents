@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed: Invalid font creation in haru driver.
+- Fixed: Implementation of PDF wrapper class, to call correct renderer.
 
 
 1.2alpha1 - Tuesday 26 May 2009

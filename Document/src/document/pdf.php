@@ -25,6 +25,13 @@ class ezcDocumentPdf extends ezcDocument
     protected $styles;
 
     /**
+     * The generated PDF
+     * 
+     * @var string
+     */
+    protected $content;
+
+    /**
      * Construct RST document.
      * 
      * @ignore
@@ -104,14 +111,12 @@ class ezcDocumentPdf extends ezcDocument
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
-        // @TODO: Should the used renderer be configurable? ... One can still
-        // just inherit from this class to change it.
-        $renderer = new ezcDocumentPdfRendererDispatcher(
-            $this->options,
+        $renderer = new ezcDocumentPdfMainRenderer(
+            $this->options->driver,
             $this->styles
         );
 
-        $this->content = $renderer->render();
+        $this->content = $renderer->render( $document, $this->options->hyphenator );
     }
 
     /**
@@ -123,7 +128,7 @@ class ezcDocumentPdf extends ezcDocument
      */
     public function save()
     {
-        return $this->contents;
+        return $this->content;
     }
 }
 

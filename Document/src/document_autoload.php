@@ -199,7 +199,6 @@ return array(
     'ezcDocumentPdfPage'                                 => 'Document/document/pdf/page.php',
     'ezcDocumentPdfParagraphRenderer'                    => 'Document/document/pdf/renderer/paragraph.php',
     'ezcDocumentPdfPhpImageHandler'                      => 'Document/document/pdf/image/php.php',
-    'ezcDocumentPdfRendererDispatcher'                   => 'Document/document/pdf/renderer_dispatcher.php',
     'ezcDocumentPdfStyleInferencer'                      => 'Document/document/pdf/style_inferencer.php',
     'ezcDocumentPdfStyleIntValue'                        => 'Document/document/pdf/style/int_value.php',
     'ezcDocumentPdfStyleMeasureBoxValue'                 => 'Document/document/pdf/style/measure_box_value.php',
