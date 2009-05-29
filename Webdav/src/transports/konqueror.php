@@ -47,5 +47,35 @@ class ezcWebdavKonquerorCompatibleTransport extends ezcWebdavTransport
         }
         return $xmlDisplayInfo;
     }
+
+    /**
+     * Returns display information for a error response object.
+     *
+     * When receiving 'HTTP/1.1 404 Not Found', Konqueror (versions 3.5.8 and up)
+     * requires a body. Normally the processErrorResponse functions does not
+     * return a body for 404 messages, so this override method sets a body
+     * for Konqueror.
+     *
+     * @param ezcWebdavErrorResponse $response 
+     * @param bool $xml DOMDocument in result only generated of true.
+     * @return ezcWebdavXmlDisplayInformation|ezcWebdavEmptyDisplayInformation
+     */
+    protected function processErrorResponse( ezcWebdavErrorResponse $response, $xml = false )
+    {
+        if ( $response->status === 404 )
+        {
+            $response->responseDescription = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+                <html><head>
+                <title>404 Not Found</title>
+                </head><body>
+                <h1>Not Found</h1>
+                <p>The requested URL was not found on this server.</p>
+                <hr>
+                </body></html>';
+        }
+
+        $xmlDisplayInfo = parent::processErrorResponse( $response, $xml );
+        return $xmlDisplayInfo;
+    }
 }
 ?>
