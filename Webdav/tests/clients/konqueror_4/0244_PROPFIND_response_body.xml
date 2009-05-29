@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response>
+    <D:href>http://webdav/secure_collection/subdir/collection</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:creationdate>2003-05-27T11:27:00+0000</D:creationdate>
+        <D:displayname>collection</D:displayname>
+        <D:getcontentlanguage>en</D:getcontentlanguage>
+        <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
+        <D:getetag>082f894be3770c1d4a37d15032a3b493</D:getetag>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat>
+      <D:prop>
+        <D:source/>
+        <D:executable/>
+        <D:supportedlock/>
+        <D:lockdiscovery/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
