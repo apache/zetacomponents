@@ -137,7 +137,6 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
     {
         if ( isset( $this->identities[$class][$id] ) )
         {
-            // First remove all references to this object
             $this->removeIdentityReferences( $this->identities[$class][$id] );
             unset( $this->identities[$class][$id] );
         }
@@ -188,17 +187,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
         $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
         $srcState = $sourceObject->getState();
         $srcId    = $srcState[$srcDef->idProperty->propertyName];
-
-        // Sanity checks
-
-        if ( !isset( $srcDef->relations[$relatedClass] ) )
-        {
-            throw new ezcPersistentRelationNotFoundException(
-                $srcClass,
-                $relatedClass,
-                $relationName
-            );
-        }
+        $relDef   = $this->definitionManager->fetchDefinition( $relatedClass );
 
         if ( !isset( $this->identities[$srcClass][$srcId] ) )
         {
@@ -207,16 +196,20 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
                 $srcId
             );
         }
-        
-        $relDef = $this->definitionManager->fetchDefinition( $relatedClass );
 
-        $relationStoreName = $relatedClass
-            . ( $relationName !== null ? "__{$relationName}" : '' );
+        $srcIdentity = $this->identities[$srcClass][$srcId];
+
+        // Sanity checks already performed while loading related objects
+
+        $relationStoreName = $this->createRelationStoreName(
+            $relatedClass,
+            $relationName
+        );
 
         // Remove references before replacing a set
-        if ( isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relationStoreName] ) )
+        if ( isset( $srcIdentity->relatedObjects[$relationStoreName] ) )
         {
-            $this->removeReferences( $this->identities[$srcClass][$srcId]->relatedObjects[$relationStoreName] );
+            $this->removeReferences( $srcIdentity->relatedObjects[$relationStoreName] );
         }
 
         $relStore = new ArrayObject();
@@ -262,9 +255,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             $this->identities[$relatedClass][$relId]->references->attach( $relStore );
         }
         
-        $this->identities[$srcClass][$srcId]->relatedObjects[$relationStoreName] = $relStore;
+        $srcIdentity->relatedObjects[$relationStoreName] = $relStore;
 
-        // Return to avoid another call to getRelatedObjcts()
         return $relStore->getArrayCopy();
     }
 
@@ -319,12 +311,12 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             );
         }
 
-        $identity = $this->identities[$srcClass][$srcId];
+        $srcIdentity = $this->identities[$srcClass][$srcId];
 
         // Remove references before replacing a set
-        if ( isset( $identity->namedRelatedObjectSets[$setName] ) )
+        if ( isset( $srcIdentity->namedRelatedObjectSets[$setName] ) )
         {
-            $this->removeReferences( $identity->namedRelatedObjectSets[$setName] );
+            $this->removeReferences( $srcIdentity->namedRelatedObjectSets[$setName] );
         }
 
         $relDefs  = array();
@@ -369,7 +361,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             $this->identities[$relClass][$relId]->references->attach( $relStore );
         }
         
-        $identity->namedRelatedObjectSets[$setName] = $relStore;
+        $srcIdentity->namedRelatedObjectSets[$setName] = $relStore;
+
         return $relStore->getArrayCopy();
     }
 
@@ -410,14 +403,6 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
         $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
         $relDef   = $this->definitionManager->fetchDefinition( $relClass );
 
-        if ( !isset( $srcDef->relations[$relClass] ) )
-        {
-            throw new ezcPersistentRelationNotFoundException(
-                $srcClass,
-                $relClass
-            );
-        }
-
         $srcState = $sourceObject->getState();
         $srcId    = $srcState[$srcDef->idProperty->propertyName];
 
@@ -428,6 +413,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
                 $srcId
             );
         }
+
+        $srcIdentity = $this->identities[$srcClass][$srcId];
 
         $relState = $relatedObject->getState();
         $relId    = $relState[$relDef->idProperty->propertyName];
@@ -440,34 +427,38 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             );
         }
 
-        $relationStoreName = $relClass
-            . ( $relationName !== null ? "__{$relationName}" : '' );
+        $relStoreName = $this->createRelationStoreName(
+            $relClass,
+            $relationName
+        );
 
-        if ( !isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relationStoreName] ) )
+        if ( !isset( $srcIdentity->relatedObjects[$relStoreName] ) )
         {
             // Ignore call, since related objects for $relClass have not been stored, yet
             return null;
         }
 
-        if ( isset( $this->identities[$srcClass][$srcId]->relatedObjects[$relationStoreName][$relId] ) )
+        $relStore = $srcIdentity->relatedObjects[$relStoreName];
+
+        if ( isset( $relStore[$relId] ) )
         {
             throw new ezcPersistentIdentityRelatedObjectsAlreadyExistException(
                 $srcClass, $srcId, $relClass
             );
         }
 
-        $this->identities[$srcClass][$srcId]->relatedObjects[$relationStoreName][$relId] = $relatedObject;
+        $relStore[$relId] = $relatedObject;
 
         // Store new reference
         $this->identities[$relClass][$relId]->references->attach(
-            $this->identities[$srcClass][$srcId]->relatedObjects[$relationStoreName]
+            $relStore
         );
         
         // Invalidate all named sets, since they might be inconsistent now
         $this->removeAllReferences( 
-            $this->identities[$srcClass][$srcId]->namedRelatedObjectSets
+            $srcIdentity->namedRelatedObjectSets
         );
-        $this->identities[$srcClass][$srcId]->namedRelatedObjectSets = array();
+        $srcIdentity->namedRelatedObjectSets = array();
     }
 
     /**
@@ -512,8 +503,10 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             return null;
         }
 
-        $relationStoreName = $relClass
-            . ( $relationName !== null ? "__{$relationName}" : '' );
+        $relationStoreName = $this->createRelationStoreName(
+            $relClass,
+            $relationName
+        );
 
         $srcIdentity = $this->identities[$srcClass][$srcId];
         $relIdentity = $this->identities[$relClass][$relId];
@@ -569,8 +562,10 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             );
         }
 
-        $relationStoreName = $relatedClass
-            . ( $relationName !== null ? "__{$relationName}" : '' );
+        $relationStoreName = $this->createRelationStoreName(
+            $relatedClass,
+            $relationName
+        );
 
         // Sanity checks
 
@@ -580,12 +575,12 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
             return null;
         }
 
-        $identity = $this->identities[$srcClass][$srcId];
+        $srcIdentity = $this->identities[$srcClass][$srcId];
 
-        if ( isset( $identity->relatedObjects[$relationStoreName] ) )
+        if ( isset( $srcIdentity->relatedObjects[$relationStoreName] ) )
         {
             // Return a real array here, not the ArrayObject stored
-            return $identity->relatedObjects[$relationStoreName]->getArrayCopy();
+            return $srcIdentity->relatedObjects[$relationStoreName]->getArrayCopy();
         }
         return null;
     }
@@ -630,6 +625,22 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
     public function reset()
     {
         $this->identities = array();
+    }
+
+    /**
+     * Creates the related object set identifier for $relatedClass and $relationName.
+     *
+     * Determines the unique name for relations of $relatedClass with
+     * $relationName (can be null).
+     * 
+     * @param string $relatedClass 
+     * @param string $relationName 
+     * @return string
+     */
+    protected function createRelationStoreName( $relatedClass, $relationName )
+    {
+        return $relatedClass
+            . ( $relationName !== null ? "__{$relationName}" : '' );
     }
 
     /**
