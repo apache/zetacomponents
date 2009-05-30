@@ -410,20 +410,11 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
         $srcDef   = $this->definitionManager->fetchDefinition( $srcClass );
         $relDef   = $this->definitionManager->fetchDefinition( $relClass );
 
-        // @TODO: Duplication
         if ( !isset( $srcDef->relations[$relClass] ) )
         {
             throw new ezcPersistentRelationNotFoundException(
                 $srcClass,
                 $relClass
-            );
-        }
-        if ( $relationName !== null && !isset( $srcDef->relations[$relClass] ) )
-        {
-            throw new ezcPersistentRelationNotFoundException(
-                $srcClass,
-                $relClass,
-                $relationName
             );
         }
 
@@ -693,9 +684,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * 
      * @param ezcPersistentIdentity $oldIdentity 
      * @param ezcPersistentIdentity $newIdentity 
-     * @todo Type hints
      */
-    protected function replaceIdentityReferences( $oldIdentity, $newIdentity )
+    protected function replaceIdentityReferences( ezcPersistentIdentity $oldIdentity, ezcPersistentIdentity $newIdentity )
     {
         foreach( $oldIdentity->references as $refList )
         {
@@ -727,7 +717,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * @param ezcPersistentIdentity $identity 
      * @todo Type hints
      */
-    protected function removeIdentityReferences( $identity )
+    protected function removeIdentityReferences( ezcPersistentIdentity $identity )
     {
         foreach( $identity->references as $refList )
         {
