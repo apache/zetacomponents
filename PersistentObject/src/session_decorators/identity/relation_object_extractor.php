@@ -78,7 +78,8 @@ class ezcPersistentIdentityRelationObjectExtractor
 
         $def = $this->defManager->fetchDefinition( $class );
 
-        if ( $this->options->refetch || $this->idMap->getIdentity( $class, $id ) === null )
+        $object = $this->idMap->getIdentity( $class, $id );
+        if ( $this->options->refetch || $object === null )
         {
             $object = new $class();
             $this->setObjectState(
@@ -86,12 +87,12 @@ class ezcPersistentIdentityRelationObjectExtractor
                 $def,
                 reset( $results )
             );
-            $this->idMap->setIdentityWithId( $object, $class, $id );
+            $this->idMap->setIdentity( $object );
         }
         
         foreach ( $results as $row )
         {
-            $this->extractObjectsRecursive( $row, $relations, $class, $id, array() );
+            $this->extractObjectsRecursive( $row, $relations, $object, array() );
         }
     }
 
@@ -125,15 +126,14 @@ class ezcPersistentIdentityRelationObjectExtractor
                     $def,
                     $row
                 );
-                $this->idMap->setIdentityWithId( $object, $class, $baseObjId );
+                $this->idMap->setIdentity( $object );
                 $extractedBaseObjects[$baseObjId] = $object;
             }
 
             $this->extractObjectsRecursive(
                 $row,
                 $q->relations,
-                $class,
-                $baseObjId,
+                $extractedBaseObjects[$baseObjId],
                 $q->isRestricted
             );
         }
@@ -153,11 +153,10 @@ class ezcPersistentIdentityRelationObjectExtractor
      * 
      * @param array $row 
      * @param array $relations 
-     * @param string $parentClass 
-     * @param mixed $parentId 
+     * @param object $parent
      * @param bool $restricted
      */
-    protected function extractObjectsRecursive( array $row, array $relations, $parentClass, $parentId, $restricted = false )
+    protected function extractObjectsRecursive( array $row, array $relations, $parent, $restricted = false )
     {
         foreach ( $relations as $tableAlias => $relation )
         {
@@ -174,16 +173,14 @@ class ezcPersistentIdentityRelationObjectExtractor
                 // in general, to potentially add an empty set
                 if ( $restricted )
                 {
-                    $relatedObjects = $this->idMap->getRelatedObjectSetWithId(
-                        $parentClass,
-                        $parentId,
+                    $relatedObjects = $this->idMap->getRelatedObjectSet(
+                        $parent,
                         $tableAlias
                     );
                     if ( $relatedObjects === null )
                     {
-                        $this->idMap->setRelatedObjectSetWithId(
-                            $parentClass,
-                            $parentId,
+                        $this->idMap->setRelatedObjectSet(
+                            $parent,
                             array(),
                             $tableAlias
                         );
@@ -191,17 +188,15 @@ class ezcPersistentIdentityRelationObjectExtractor
                 }
                 else
                 {
-                    $relatedObjects = $this->idMap->getRelatedObjectsWithId(
-                        $parentClass,
-                        $parentId,
+                    $relatedObjects = $this->idMap->getRelatedObjects(
+                        $parent,
                         $relation->relatedClass,
                         $relation->relationName
                     );
                     if ( $relatedObjects === null )
                     {
-                        $this->idMap->setRelatedObjectsWithId(
-                            $parentClass,
-                            $parentId,
+                        $this->idMap->setRelatedObjects(
+                            $parent,
                             array(),
                             $relation->relatedClass,
                             $relation->relationName
@@ -221,24 +216,22 @@ class ezcPersistentIdentityRelationObjectExtractor
                     $tableAlias,
                     $relation
                 );
-                $this->idMap->setIdentityWithId( $object, $relation->relatedClass, $id );
+                $this->idMap->setIdentity( $object );
             }
 
             // Check if relations from $parentClass to $relation->relatedClass
             // were already recorded
             if ( $restricted )
             {
-                $relatedObjects = $this->idMap->getRelatedObjectSetWithId(
-                    $parentClass,
-                    $parentId,
+                $relatedObjects = $this->idMap->getRelatedObjectSet(
+                    $parent,
                     $tableAlias
                 );
             }
             else
             {
-                $relatedObjects = $this->idMap->getRelatedObjectsWithId(
-                    $parentClass,
-                    $parentId,
+                $relatedObjects = $this->idMap->getRelatedObjects(
+                    $parent,
                     $relation->relatedClass,
                     $relation->relationName
                 );
@@ -260,18 +253,16 @@ class ezcPersistentIdentityRelationObjectExtractor
                 // named related sets.
                 if ( $restricted )
                 {
-                    $this->idMap->setRelatedObjectSetWithId(
-                        $parentClass,
-                        $parentId,
+                    $this->idMap->setRelatedObjectSet(
+                        $parent,
                         $relatedObjects,
                         $tableAlias
                     );
                 }
                 else
                 {
-                    $this->idMap->setRelatedObjectsWithId(
-                        $parentClass,
-                        $parentId,
+                    $this->idMap->setRelatedObjects(
+                        $parent,
                         $relatedObjects,
                         $relation->relatedClass,
                         $relation->relationName
@@ -283,8 +274,7 @@ class ezcPersistentIdentityRelationObjectExtractor
             $this->extractObjectsRecursive(
                 $row,
                 $relation->furtherRelations,
-                $relation->relatedClass,
-                $id,
+                $object,
                 $restricted
             );
         }

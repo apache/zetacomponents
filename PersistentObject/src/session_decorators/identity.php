@@ -105,7 +105,7 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
         }
 
         $identity = $this->session->load( $class, $id );
-        $idMap->setIdentityWithId( $identity, $class, $id );
+        $idMap->setIdentity( $identity );
         
         return $identity;
     }
@@ -141,7 +141,7 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
 
         if ( $identity !== null )
         {
-            $idMap->setIdentityWithId( $identity, $class, $id );
+            $idMap->setIdentity( $identity );
         }
         
         return $identity;
@@ -188,7 +188,7 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
 
         $this->session->loadIntoObject( $object, $id );
 
-        $idMap->setIdentityWithId( $object, $class, $id );
+        $idMap->setIdentity( $object );
     }
 
     /**
@@ -385,10 +385,8 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
             }
             else
             {
-                $this->properties['identityMap']->setIdentityWithId(
-                    $object,
-                    $class,
-                    $id
+                $this->properties['identityMap']->setIdentity(
+                    $object
                 );
             }
         }
@@ -881,7 +879,7 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
 
         if ( $this->properties['options']->refetch || $this->identityMap->getIdentity( $class, $id ) === null )
         {
-            $this->identityMap->setIdentityWithId( $object, $class, $id );
+            $this->identityMap->setIdentity( $object );
         }
     }
 
