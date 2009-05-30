@@ -11,8 +11,8 @@
  * Identity map interface.
  *
  * An instance of a class implementing this interface is used in {@link
- * ezcPersistentSessionIdentityDecorator} and performs the internal work of storing and
- * retrieving object identities.
+ * ezcPersistentSessionIdentityDecorator} to performs the internal work of
+ * storing and retrieving object identities.
  * 
  * @package PersistentObject
  * @version //autogen//
@@ -20,34 +20,35 @@
 interface ezcPersistentIdentityMap
 {
     /**
-     * Sets the identity of $object.
+     * Records the identity of $object.
      *
-     * Records the identity for $object. If an identity is already recorded for
-     * this object, it is silently replaced. The using object must take care to
-     * check for already recorded identity itself.
+     * Records the identity of $object. If an identity is already recorded for
+     * this object, it is silently replaced. The user of this method must take
+     * care of checking for already recorded identities of the given $object
+     * itself.
      *
      * @param ezcPersistentObject $object 
      */
     public function setIdentity( $object );
 
     /**
-     * Returns the identity of the object with $class and $id.
+     * Returns the object of $class with $id or null.
      *
      * Returns the object of $class with $id, if its identity has already been
-     * recorded. Otherwise, null is returned.
+     * recorded. Otherwise null is returned.
      * 
      * @param string $class 
      * @param mixed $id 
-     * @return object|null
+     * @return object($class)|null
      */
     public function getIdentity( $class, $id );
 
     /**
-     * Removes the identity identitfied by $class and $id from the map. 
+     * Removes the object of $class width $id from the map.
      *
-     * Removes the object identified by $class and $id from the map and deletes
-     * all references of it. If the identity does not exist, the call is
-     * silently ignored.
+     * Removes the identity of the object of $class with $id from the map and
+     * deletes all references of it. If the identity does not exist, the call
+     * is silently ignored.
      * 
      * @param string $class 
      * @param mixed $id 
@@ -55,23 +56,31 @@ interface ezcPersistentIdentityMap
     public function removeIdentity( $class, $id );
 
     /**
-     * Stores a set of $relatedObjects to $sourceObject.
+     * Records a set of $relatedObjects to $sourceObject.
      *
-     * Stores the given set of $relatedObjects for $sourceObject. If
-     * $relationName is specified, $relatedObjects is not stored as the main
-     * related object set, but as a named subset.
+     * Records the given set of $relatedObjects for $sourceObject.
+     * $relationName is the optional name of the relation, which must be
+     * provided, if multiple relations from $sourceObject to the class of the
+     * objects in $relatedObjects exist.
      *
      * In case a set of related objects has already been recorded for
      * $sourceObject and the class of the objects in $relatedObjects (and
-     * optionally $relationName), an exception is thrown.
+     * optionally $relationName), the existing set is silently replaced and all
+     * references to it are removed.
      *
-     * If for any of the $relatedObjects no identity is recorded, yet, it will
-     * be recorded. Otherwise, the object will be replaced by its existing
-     * identity. Except if $replaceIdentities is set to true: In this case a
-     * new identity will be recorded for every object in $relatedObjects.
+     * If for any object in $relatedObjects no identity is recorded, yet, it
+     * will be recorded. Otherwise, the object will be replaced by its existing
+     * identity in the set. Except for if the $replaceIdentities parameter is
+     * set to true: In this case a new identity will be recorded for every
+     * object in $relatedObjects, replacing potentially existing ones silently.
      *
-     * The method returns the newly added set of related objects, to avoid
-     * another call to {@link getRelatedObjects()} by the using object.
+     * If the given array of $relatedObjects is inconsistent (any contained
+     * object is not of $relatedClass), an {@link
+     * ezcPersistentIdentityRelatedObjectsInconsistentException} is thrown.
+     *
+     * To avoid a call to {@link getRelatedObjects()} after this method has
+     * been called, the recorded set of related objects (including potentially
+     * replaced identities) is returned.
      * 
      * @param ezcPersistentObject $sourceObject
      * @param array(ezcPersistentObject) $relatedObjects 
@@ -79,7 +88,7 @@ interface ezcPersistentIdentityMap
      * @param string $relationName 
      * @param bool $replaceIdentities
      *
-     * @return array(ezcPersistentObject)
+     * @return array(mixed=>object($relatedClass))
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
      *         if an object in $relatedObjects is not of $relatedClass.
@@ -88,18 +97,25 @@ interface ezcPersistentIdentityMap
     public function setRelatedObjects( $sourceObject, array $relatedObjects, $relatedClass, $relationName = null, $replaceIdentities = false );
 
     /**
-     * Stores a named set of $relatedObjects to $sourceObject.
+     * Records a named set of $relatedObjects for $sourceObject.
      *
-     * Stores the given set of $relatedObjects with name $setName for
-     * $sourceObject.
+     * Records the given array of $relatedObjects with as a "named related
+     * object sub-set" for $sourceObject, using $setName. A named "named
+     * related object sub-set" contains only objects related to $sourceObject,
+     * but not necessarily all such objects of a certain class. Such a set is
+     * the result of {@link ezcPersistentSessionIdentityDecorator::find()} with
+     * a find query generated by {@link
+     * ezcPersistentSessionIdentityDecorator::createFindQueryWithRelations()}
+     * and manipulated using a WHERE clause.
      *
-     * In case a set of related objects has already been recorded for
-     * $sourceObject with $setName, this set is silently overwritten.
+     * In case a named set of related objects with $setName has already been
+     * recorded for $sourceObject, this set is silently replaced.
      *
-     * If for any of the $relatedObjects no identity is recorded, yet, it will
-     * be recorded. Otherwise, the object will be replaced by its existing
-     * identity. Except if $replaceIdentities is set to true: In this case a
-     * new identity will be recorded for every object in $relatedObjects.
+     * If for any of the objects in $relatedObjects no identity is recorded,
+     * yet, it will be recorded. Otherwise, the object will be replaced by its
+     * existing identity in the set. Except for if $replaceIdentities is set to
+     * true: In this case a new identity will be recorded for every object in
+     * $relatedObjects.
      *
      * The method returns the created set of related objects to avoid another
      * call to {@link getRelatedObjectSet()} by the using objct.
@@ -108,6 +124,7 @@ interface ezcPersistentIdentityMap
      * @param array(ezcPersistentObject) $relatedObjects 
      * @param string $setName 
      * @param bool $replaceIdentities
+     *
      * @return array(ezcPersistentObject)
      *
      * @throws ezcPersistentIdentityRelatedObjectsInconsistentException
@@ -116,33 +133,50 @@ interface ezcPersistentIdentityMap
     public function setRelatedObjectSet( $sourceObject, array $relatedObjects, $setName, $replaceIdentities = false );
 
     /**
-     * Appends a new $relatedObject to the relation set of $sourceObject.
+     * Appends a new $relatedObject to a related object set of $sourceObject.
      *
-     * In case no relations have been recorded for $object, yet, the call is
-     * ignored and related objects are newly fetched whenever {@link
-     * getRelatedObjects()} is called.
+     * Appends the given $relatedObject to the set of related objects for
+     * $sourceObject with the class of $relatedObject and optionally
+     * $relationName.
      *
-     * Note: All named sets for $relatedObject are automatically invalidated,
-     * if this method is called, to avoid inconsistencies.
+     * In case that no set of related objects with the specific class has been
+     * recorded for $object, yet, the call is ignored and related objects are
+     * newly fetched whenever {@link getRelatedObjects()} is called.
+     *
+     * Note: All named related object sub-sets for $relatedObject are
+     * automatically invalidated by a call to the method. The identity map can
+     * not determine, to which named related object sub-set the $relatedObject
+     * might be added.
      *
      * @param ezcPersistentObject $sourceObject 
      * @param ezcPersistentObject $relatedObject 
      * @param string $relationName
+     *
+     * @throws ezcPersistentRelationNotFoundException
+     *         if no relation from $sourceObject to $relatedObject is defined.
+     * @throws ezcPersistentIdentityMissingException
+     *         if no identity has been recorded for $sourceObject or
+     *         $relatedObject, yet.
+     * @throws ezcPersistentIdentityRelatedObjectsAlreadyExistException
+     *         if the given $relatedObject is already part of the set of
+     *         related objects it should be added to.
      */
     public function addRelatedObject( $sourceObject, $relatedObject, $relationName = null );
 
     /**
-     * Removes a $relatedObject from the relation set of $sourceObject.
+     * Removes a $relatedObject from the sets of related objects of $sourceObject.
      *
-     * Removes the $relatedObject from all recorded relation sets for
-     * $sourceObject. This also includes named sets.
-     *
-     * Note: In contrast to {@link addRelatedObject()} a call to this method
-     * does not invalidate all named related sets to $sourceObject.
+     * Removes the $relatedObject from all recorded sets of related objects
+     * (named and unnamed) for $sourceObject. This method (in contrast to
+     * {@link addRelatedObject()}) does not invalidate named related object
+     * sets, but simply removes the $relatedObject from them.
      * 
      * @param ezcPersistentObject $sourceObject 
      * @param ezcPersistentObject $relatedObject 
      * @param string $relationName
+     *
+     * @throws ezcPersistentIdentityMissingException
+     *         if no identity for $sourceObject has been recorded, yet.
      */
     public function removeRelatedObject( $sourceObject, $relatedObject, $relationName = null );
 
@@ -150,32 +184,39 @@ interface ezcPersistentIdentityMap
      * Returns the set of related objects of $relatedClass for $sourceObject.
      *
      * Returns the set of related objects of $relatedClass for $sourceObject.
-     * This might also be an empty set (empty array returned). In case no
-     * related objects are recorded, yet, null is returned.
+     * This might also be an empty set (empty array). In case no related
+     * objects are recorded, yet, null is returned.
      * 
      * @param ezcPersistentObject $sourceObject 
      * @param string $relatedClass 
      * @param string $relationName
+     *
+     * @returns array(object($relatedClass))|null
+     *
+     * @throws ezcPersistentRelationNotFoundException
+     *         if not relation between the class of $sourceObject and
+     *         $relatedClass (with optionally $relationName) is defined.
      */
     public function getRelatedObjects( $sourceObject, $relatedClass, $relationName = null );
 
     /**
-     * Returns a named set of related objects for $sourceObject.
+     * Returns the named set of related objects for $sourceObject with $setName.
      *
      * Returns the named set of related objects for $sourceObject identified by
-     * $setName. This might also be an empty set (empty array returned). In
-     * case no related objects with this name are recorded, yet, null is
-     * returned.
+     * $setName. This might also be an empty set (empty array). In case no
+     * related objects with this name are recorded, yet, null is returned.
      * 
      * @param ezcPersistentObject $sourceObject 
      * @param string $setName 
+     * @returns array(object($relatedClass))|null
      */
     public function getRelatedObjectSet( $sourceObject, $setName );
 
     /**
      * Resets the complete identity map.
      *
-     * Removes all stored identities from the map.
+     * Removes all stored identities from the map and resets it into its
+     * initial state.
      */
     public function reset();
 }
