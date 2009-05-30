@@ -8,10 +8,14 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Exception thrown if the same identity is added twice to the identity map.
+ * Exception thrown if an identity is duplicated.
  *
- * {@link ezcPersistentIdentityMap::addIdentity()} will throw this exception,
- * if the same identity is added twice.
+ * In case {@link ezcPersistentSessionIdentityDecorator::loadIntoObject()} is
+ * used to load an already recorded identity into a second object or if {@link
+ * ezcPersistentSessionIdentityDecorator::save()} is used to save a second
+ * object with an already recorded identity. The latter case is only possible,
+ * if {@link ezcPersistentManualGenerator} is used to create the objects
+ * identifier.
  *
  * @package PersistentObject
  * @version //autogen//
@@ -23,7 +27,7 @@ class ezcPersistentIdentityAlreadyExistsException extends ezcPersistentObjectExc
      * Creates a new ezcPersistentIdentityAlreadyExistsException.
      *
      * Creates a new ezcPersistentIdentityAlreadyExistsException for the object
-     * of $class with ID $id.
+     * identified by $class and $id.
      *
      * @param string $class
      * @param mixed $id
