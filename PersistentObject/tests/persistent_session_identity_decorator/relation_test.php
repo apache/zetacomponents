@@ -617,10 +617,10 @@ class ezcPersistentSessionIdentityDecoratorRelationTest extends ezcTestCase
         $this->assertTrue( count( $persons ) > 0 );
 
         $this->assertNull(
-            $this->idMap->getRelatedObjects( current( $persons ), 'RelationTestAddress' )
+            $this->idSession->getRelatedObjects( current( $persons ), 'RelationTestAddress' )
         );
         $this->assertNotNull(
-            $this->idMap->getRelatedObjectSet( current( $persons ), 'addresses' )
+            $this->idSession->getRelatedObjectSubset( current( $persons ), 'addresses' )
         );
     }
 }
