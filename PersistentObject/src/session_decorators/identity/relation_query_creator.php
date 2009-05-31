@@ -85,6 +85,8 @@ class ezcPersistentIdentityRelationQueryCreator
             )
         );
 
+        $this->aliases = array();
+
         return $q;
     }
 
@@ -104,6 +106,8 @@ class ezcPersistentIdentityRelationQueryCreator
 
         $q = $this->createBasicFindQuery( $srcDef, $relations );
         $q->setAliases( $this->aliases );
+
+        $this->aliases = array();
 
         return new ezcPersistentFindWithRelationsQuery(
             $q,
@@ -137,6 +141,10 @@ class ezcPersistentIdentityRelationQueryCreator
                 $this->db->quoteIdentifier( $srcDef->idProperty->propertyName )
             )
         );
+        $this->registerAlias(
+            $this->getColumnName( $srcDef->table, $srcDef->idProperty->columnName ),
+            $srcDef->idProperty->propertyName
+        );
         foreach ( $srcDef->properties as $property )
         {
             $q->select(
@@ -144,6 +152,10 @@ class ezcPersistentIdentityRelationQueryCreator
                     $this->getColumnName( $srcDef->table, $property->columnName ),
                     $this->db->quoteIdentifier( $property->propertyName )
                 )
+            );
+            $this->registerAlias(
+                $this->getColumnName( $srcDef->table, $property->columnName ),
+                $property->propertyName
             );
         }
         
@@ -225,7 +237,7 @@ class ezcPersistentIdentityRelationQueryCreator
             $this->registerAlias(
                 $this->getColumnName( $tableAlias, $relation->definition->idProperty->columnName ),
                 // Register unquoted alias in query object!
-                $this->getColumnAlias( $tableAlias, $relation->definition->idProperty->propertyName, true )
+                $this->getColumnAlias( $tableAlias, $relation->definition->idProperty->propertyName, false )
             );
 
             foreach ( $relation->definition->properties as $property )
@@ -240,7 +252,7 @@ class ezcPersistentIdentityRelationQueryCreator
                 $this->registerAlias(
                     $this->getColumnName( $tableAlias, $property->columnName ),
                     // Register unquoted alias in query object!
-                    $this->getColumnAlias( $tableAlias, $property->propertyName, true )
+                    $this->getColumnAlias( $tableAlias, $property->propertyName, false )
                 );
             }
 
