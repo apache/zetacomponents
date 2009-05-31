@@ -726,7 +726,6 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * or named related set anymore.
      * 
      * @param ezcPersistentIdentity $identity 
-     * @todo Type hints
      */
     protected function removeIdentityReferences( ezcPersistentIdentity $identity )
     {
