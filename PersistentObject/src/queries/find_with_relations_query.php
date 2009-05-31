@@ -59,11 +59,9 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
      * objects will not be fetched into the {@link ezcPersistentIdentityMap}
      * used as a typical related object set, but as a named set.
      *
-     * @TODO Example!
-     *
      * @throws ezcQueryVariableParameterException if called with no parameters.
      * @param string|array(string) $... Either a string with a logical expression name
-     * or an array with logical expressions.
+     *                                  or an array with logical expressions.
      * @return ezcQuerySelect
      */
     public function where()
