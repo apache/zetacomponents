@@ -1265,14 +1265,12 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
 
         $this->initializeObjectExtractor();
 
-        $this->objectExtractor->extractObjectWithRelatedObjects(
+        return $this->objectExtractor->extractObjectWithRelatedObjects(
             $stmt,
             $class,
             $id,
             $relations
         );
-
-        return $this->identityMap->getIdentity( $class, $id );
     }
 
     /**

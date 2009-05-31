@@ -65,12 +65,15 @@ class ezcPersistentIdentityRelationObjectExtractor
      * Extracts the object of $class with $id from the result set in $stmt and
      * all of its related objects defined in $relations. The extracted relation
      * sets can be received from the {@link ezcPersistentIdentityMap} given to
-     * {@link __construct()}, after this method has finished.
+     * {@link __construct()}, after this method has finished. The method
+     * returns the object of $class with $id.
      * 
      * @param PDOStatement $stmt 
      * @param string $class 
      * @param mixed $id 
      * @param array(string=>ezcPersistentRelationFindDefinition) $relations 
+     *
+     * @return ezcPersistentObject
      */
     public function extractObjectWithRelatedObjects( PDOStatement $stmt, $class, $id, array $relations )
     {
@@ -94,7 +97,8 @@ class ezcPersistentIdentityRelationObjectExtractor
         {
             $this->extractObjectsRecursive( $row, $relations, $object, array() );
         }
-        // @TODO: Return object!
+
+        return $object;
     }
 
     /**
