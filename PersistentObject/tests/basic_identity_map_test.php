@@ -1605,7 +1605,7 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
             $idMap->addRelatedObject( $obj, $newRelatedObject );
             $this->fail( 'Exception not thrown on double add of same new related object.' );
         }
-        catch( ezcPersistentIdentityRelatedObjectsAlreadyExistException $e ) {}
+        catch( ezcPersistentIdentityRelatedObjectAlreadyExistsException $e ) {}
 
         $identities = $this->readAttribute(
             $idMap, 'identities'

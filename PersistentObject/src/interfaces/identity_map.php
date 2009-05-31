@@ -157,7 +157,7 @@ interface ezcPersistentIdentityMap
      * @throws ezcPersistentIdentityMissingException
      *         if no identity has been recorded for $sourceObject or
      *         $relatedObject, yet.
-     * @throws ezcPersistentIdentityRelatedObjectsAlreadyExistException
+     * @throws ezcPersistentIdentityRelatedObjectAlreadyExistsException
      *         if the given $relatedObject is already part of the set of
      *         related objects it should be added to.
      */

@@ -8,10 +8,12 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
- * Exception thrown if an identity is expected to exist, but was not found.
+ * Exception thrown if an identity is expected to be recorded, but is not found.
  *
- * {@link ezcPersistentIdentityMap::addRelatedObjects()} will throw this
- * exception, if an identity of a related object does not exist.
+ * {@link ezcPersistentIdentityMap::addRelatedObject()} will throw this
+ * exception, if the identity of the source or of the related object does not
+ * exist. In addition {@link ezcPersistentIdentityMap::removeRelatedObject()}
+ * if its source object identity is not found.
  *
  * @package PersistentObject
  * @version //autogen//
@@ -33,7 +35,7 @@ class ezcPersistentIdentityMissingException extends ezcPersistentObjectException
     public function __construct( $class, $id )
     {
         parent::__construct(
-            "The identity of the object of class {$class} with ID {$id} was expected to exists, but not found."
+            "The identity of the object of class '{$class}' with ID '{$id}' was expected to exists, but not found in the identity map."
         );
     }
 }

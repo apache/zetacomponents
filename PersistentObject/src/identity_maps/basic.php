@@ -391,7 +391,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * @throws ezcPersistentIdentityMissingException
      *         if no identity has been recorded for $sourceObject or
      *         $relatedObject, yet.
-     * @throws ezcPersistentIdentityRelatedObjectsAlreadyExistException
+     * @throws ezcPersistentIdentityRelatedObjectAlreadyExistsException
      *         if the given $relatedObject is already part of the set of
      *         related objects it should be added to.
      */
@@ -442,8 +442,8 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
 
         if ( isset( $relStore[$relId] ) )
         {
-            throw new ezcPersistentIdentityRelatedObjectsAlreadyExistException(
-                $srcClass, $srcId, $relClass
+            throw new ezcPersistentIdentityRelatedObjectAlreadyExistsException(
+                $srcClass, $srcId, $relClass, $relId, $relationName
             );
         }
 

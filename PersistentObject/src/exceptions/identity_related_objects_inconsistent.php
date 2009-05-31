@@ -10,8 +10,10 @@
 /**
  * Exception thrown if a set of related objects is inconsistent. 
  *
- * {@link ezcPersistentIdentityMap::addRelatedObjects()} will throw this
- * exception, if one relation set contains 2 or more different classes.
+ * {@link ezcPersistentIdentityMap::setRelatedObjects()} and {@link
+ * ezcPersistentIdentityMap::setRelatedObjectSet()}  will throw this exception,
+ * if any of the objects in the set of related objects is not of the given
+ * related class.
  *
  * @package PersistentObject
  * @version //autogen//
@@ -22,19 +24,25 @@ class ezcPersistentIdentityRelatedObjectsInconsistentException extends ezcPersis
     /**
      * Creates a new ezcPersistentIdentityRelatedObjectsInconsistentException.
      *
-     * Creates a new ezcPersistentIdentityRelatedObjectsInconsistentException
-     * for the object of $class with ID $id where $firstClass and $secondClass were
-     * both found in the same relation set.
+     * Creates a new ezcPersistentIdentityRelatedObjectsInconsistentException.
+     * The source object is of $class with $id, the related objects are
+     * expected to be of $expectedClass, but the $actualClass was found.
      *
      * @param string $class
      * @param mixed $id
-     * @param string $firstClass
-     * @param string $secondClass
+     * @param string $expectedClass
+     * @param string $actualClass
      */
-    public function __construct( $class, $id, $firstClass, $secondClass )
+    public function __construct( $class, $id, $expectedClass, $actualClass )
     {
         parent::__construct(
-            "Inconsistent relation set for object of class {$class} with ID {$id}. {$firstClass} and {$secondClass} occured in the same relation set."
+            sprintf(
+                "Inconsistent relation set for object of class '%s' with ID '%s'. '%s' was expected, but '%s' was found.",
+                $class,
+                $id,
+                $expectedClass,
+                $actualClass
+            )
         );
     }
 }

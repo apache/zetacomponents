@@ -35,7 +35,7 @@ class ezcPersistentIdentityAlreadyExistsException extends ezcPersistentObjectExc
     public function __construct( $class, $id )
     {
         parent::__construct(
-            "An identity for the object of {$class} with ID {$id} already exists in the identity map."
+            "An identity for the object of '{$class}' with ID '{$id}' already exists in the identity map."
         );
     }
 }
