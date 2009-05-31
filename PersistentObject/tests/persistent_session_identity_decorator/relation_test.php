@@ -616,10 +616,17 @@ class ezcPersistentSessionIdentityDecoratorRelationTest extends ezcTestCase
         $this->assertNotNull( $persons );
         $this->assertTrue( count( $persons ) > 0 );
 
+        // None stored in id map, session would query db!
         $this->assertNull(
-            $this->idSession->getRelatedObjects( current( $persons ), 'RelationTestAddress' )
+            $this->idMap->getRelatedObjects( current( $persons ), 'RelationTestAddress' )
         );
+        // Accessible over id session
         $this->assertNotNull(
+            $this->idSession->getRelatedObjectSubset( current( $persons ), 'addresses' )
+        );
+        // Session and id map result equals
+        $this->assertEquals(
+            $this->idMap->getRelatedObjectSet( current( $persons ), 'addresses' ),
             $this->idSession->getRelatedObjectSubset( current( $persons ), 'addresses' )
         );
     }
