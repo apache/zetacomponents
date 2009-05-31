@@ -125,8 +125,6 @@ class ezcPersistentIdentityRelationQueryCreator
      * @param ezcPersistentObjectDefinition $srcDef 
      * @param array(string=>ezcPersistentRelationFindDefinition) $relations
      * @return ezcQuerySelect
-     *
-     * @TODO Register aliases in query, too!
      */
     protected function createBasicFindQuery( ezcPersistentObjectDefinition $srcDef, array $relations )
     {
