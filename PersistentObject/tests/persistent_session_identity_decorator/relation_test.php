@@ -606,7 +606,7 @@ class ezcPersistentSessionIdentityDecoratorRelationTest extends ezcTestCase
         );
         $q->where(
             $q->expr->gt(
-                $this->session->database->quoteIdentifier( 'addresses_id' ),
+                'addresses_id',
                 $q->bindValue( 2 )
             )
         );
