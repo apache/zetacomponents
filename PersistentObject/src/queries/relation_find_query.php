@@ -15,6 +15,17 @@
  * same purpose as its parent class, but can store the $relationSource object
  * and a $relationSetName in addition.
  *
+ * An instance of this object can simply be used like an {@link
+ * ezcPersistentFindQuery}.
+ *
+ * @property-read string $relationSetName
+ *                Name of the named related object set to be stored in the
+ *                identity map.
+ * @property-read object $relationSource
+ *                Source objects to which related objects should be found.
+ *
+ * @see ezcPersistentFindWithRelationsQuery
+ *
  * @package PersistentObject
  * @version //autogen//
  */
@@ -32,7 +43,7 @@ class ezcPersistentRelationFindQuery extends ezcPersistentFindQuery
      * @param ezcQuerySelect $query
      * @param string $className
      * @param string $relationSetName
-     * @param object $relationSource
+     * @param ezcPersistentObject $relationSource
      */
     public function __construct( ezcQuerySelect $query, $className, $relationSetName = null, $relationSource = null )
     {

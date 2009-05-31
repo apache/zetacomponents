@@ -9,12 +9,13 @@
  */
 
 /**
- * This class provides functionality to iterate over a database
- * result set in the form of persistent objects.
+ * Iterator class with identity mapping facilities.
  *
- * ezcPersistentFindIterator only instantiates one object which
- * is reused for each iteration. This saves memory and is faster
- * than fetching and instantiating the result set in one go.
+ * {@link ezcPersistentFindIterator} only instantiates one object which is
+ * reused for each iteration. This saves memory and is faster than fetching and
+ * instantiating the result set in one go. This class in addition performs
+ * identity mapping and does not re-created objects that already exist in the
+ * application scope.
  *
  * You must loop over the complete resultset of the iterator or
  * flush it before executing new queries.
@@ -36,6 +37,8 @@
  *     }
  *  }
  * </code>
+ *
+ * @see ezcPersistentSessionIdentityDecorator
  *
  * @version //autogen//
  * @package PersistentObject

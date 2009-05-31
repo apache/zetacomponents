@@ -10,6 +10,11 @@
 /**
  * Find query object for pre-fetching queries in ezcPersistentSessionIdentityDecorator.
  *
+ * This query class extends {@link ezcPersistentFindQuery} with the possibility
+ * to define related objects to be pre-fretched. Do not instantiate this class
+ * directly, but use {@link
+ * ezcPersistentIdentityDecorator::createFindQueryWithRelations()} instead.
+ *
  * @property-read bool $isRestricted
  *                Whether the query has been restricted using a {@link where()}
  *                condition.

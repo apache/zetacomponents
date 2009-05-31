@@ -60,17 +60,17 @@ class ezcPersistentIdentityRelationObjectExtractor
     }
 
     /**
-     * Extracts all objects and relations from $stmt.
+     * Extracts a single object and its related objects from $stmt.
      *
      * Extracts the object of $class with $id from the result set in $stmt and
      * all of its related objects defined in $relations. The extracted relation
      * sets can be received from the {@link ezcPersistentIdentityMap} given to
-     * {@link __construct()}, after this method has been called.
+     * {@link __construct()}, after this method has finished.
      * 
      * @param PDOStatement $stmt 
      * @param string $class 
      * @param mixed $id 
-     * @param array $relations 
+     * @param array(string=>ezcPersistentRelationFindDefinition) $relations 
      */
     public function extractObjectWithRelatedObjects( PDOStatement $stmt, $class, $id, array $relations )
     {
@@ -94,15 +94,19 @@ class ezcPersistentIdentityRelationObjectExtractor
         {
             $this->extractObjectsRecursive( $row, $relations, $object, array() );
         }
+        // @TODO: Return object!
     }
 
     /**
-     * extractObjectsWithRelatedObjects 
+     * Extracts all objects and their related objects from $stmt.
+     *
+     * Extracts all objects of the $class defined in $q from $stmt, including
+     * all related objects as defined in the $relations property of $q. Returns
+     * the set of base objects found by $q.
      * 
      * @param PDOStatement $stmt 
-     * @param mixed $class 
-     * @param array $relations 
-     * @return void
+     * @param ezcPersistentFindWithRelationsQuery $q
+     * @return array(ezcPersistentObject)
      */
     public function extractObjectsWithRelatedObjects( PDOStatement $stmt, ezcPersistentFindWithRelationsQuery $q )
     {
@@ -151,9 +155,9 @@ class ezcPersistentIdentityRelationObjectExtractor
      * called recursively. If $restricted is set to true, named related object
      * sets will be created instead of normal related object sets.
      * 
-     * @param array $row 
-     * @param array $relations 
-     * @param object $parent
+     * @param array(string=>string) $row 
+     * @param array(ezcPersistentRelationFindDefinition) $relations 
+     * @param ezcPersistentObject $parent
      * @param bool $restricted
      */
     protected function extractObjectsRecursive( array $row, array $relations, $parent, $restricted = false )
@@ -286,7 +290,7 @@ class ezcPersistentIdentityRelationObjectExtractor
      * Creates a new object of the class defined in $relation->relatedClass and
      * sets its state from the given $result row, as defined in $relation.
      * 
-     * @param array $result 
+     * @param array(string=>string) $result 
      * @param ezcPersistentRelationFindDefinition $relation 
      * @return ezcPersistentObject
      */

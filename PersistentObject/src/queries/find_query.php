@@ -11,18 +11,15 @@
  * Find query object to be used with ezcPersistentSession.
  *
  * An instance of this class is returned by {@link
- * ezcPersistentSession->createFindQuery()} since PersistentObject 1.5, instead
- * of a pure {@link ezcQuerySelect} object. The this class deals as a decorator
- * for {@link ezcQuerySelect} and offers the very same API. In addition, it
- * allows PersistentObject to store and determine the class for objects to
- * fetch from the query object. This deprecates the second parameter to {@link
+ * ezcPersistentSession->createFindQuery()} since PersistentObject 1.6, instead
+ * of a pure {@link ezcQuerySelect} object. This class deals as a decorator for
+ * {@link ezcQuerySelect} and offers the very same API. In addition, it allows
+ * PersistentObject to store and determine the class for objects to fetch from
+ * the query object. This deprecates the second parameter to {@link
  * ezcPersistentSession->find()}.
  * 
  * @package PersistentObject
  * @version //autogen//
- *
- * @todo To maintain BC completely, this class should actually extend
- *       ezcQuerySelect, although this is code overhead. Needs to be discussed.
  */
 class ezcPersistentFindQuery
 {
