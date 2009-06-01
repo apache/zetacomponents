@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the $className class.
+ * File containing the CamelCaseLetters class.
  */
 /**
  * CamelCaseLetters

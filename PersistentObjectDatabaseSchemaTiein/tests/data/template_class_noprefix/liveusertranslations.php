@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the $className class.
+ * File containing the LiveuserTranslations class.
  */
 /**
  * LiveuserTranslations
