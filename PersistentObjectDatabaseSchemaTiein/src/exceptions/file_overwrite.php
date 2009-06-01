@@ -24,7 +24,7 @@ class ezcPersistentObjectSchemaOverwriteException extends ezcBaseFileException
      */
     public function __construct( $file )
     {
-        parent::__construct( "The file '$file' exists, but overwriting is diabled." );
+        parent::__construct( "The file '$file' exists, but overwriting is disabled." );
     }
 }
 
