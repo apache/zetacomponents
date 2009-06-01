@@ -50,7 +50,7 @@ class LiveuserTranslations implements ezcPersistentObject
      *
      * @access private
      */
-    public function setProperties( array $properties )
+    public function setState( array $properties )
     {
         foreach ( $properties as $name => $value )
         {
@@ -65,7 +65,7 @@ class LiveuserTranslations implements ezcPersistentObject
      *
      * @access private
      */
-    public function getProperties()
+    public function getState()
     {
         return $this->properties;
     }
