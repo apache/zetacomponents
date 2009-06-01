@@ -14,6 +14,14 @@
  */
 class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 {
+    protected $classNameMap = array(
+        'camelcaseletters.php'     => 'CamelCaseLetters',
+        'cebadword.php'            => 'CeBadWord',
+        'cemessagecategoryrel.php' => 'CeMessageCategoryRel',
+        'debugger.php'             => 'Debugger',
+        'liveusertranslations.php' => 'LiveuserTranslations',
+    );
+
     protected function setUp()
     {
         $this->tempDir = $this->createTempDir( 'ezcDatabasePersistentTest' );
@@ -60,6 +68,10 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
             $this->dataDir . '/template_class_noprefix',
             $dirs['classDir']
         );
+
+        $this->assertClassesWorking(
+            $dirs['classDir']
+        );
     }
 
     public function testPersistentTemplateClassGenerationWithPrefixSuccess()
@@ -88,6 +100,11 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
         $this->assertFilesEqual(
             $this->dataDir . '/template_class_prefix',
             $dirs['classDir']
+        );
+
+        $this->assertClassesWorking(
+            $dirs['classDir'],
+            'test'
         );
     }
 
@@ -359,6 +376,65 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
         ezcBaseFile::copyRecursive( $origTplDir, $dirs['tplDir'] );
 
         return $dirs;
+    }
+
+    protected function assertClassesWorking( $classDir, $prefix = '' )
+    {
+        $d = dir( $classDir );
+        while ( ( $entry = $d->read() ) !== false )
+        {
+            if ( $entry[0] === '.' )
+            {
+                continue;
+            }
+            $className = $prefix . $this->classNameMap[substr( $entry, strlen( $prefix ) )];
+
+            require "{$classDir}/{$entry}";
+
+            $this->assertClassWorking( $className );
+        }
+    }
+
+    protected function assertClassWorking( $className )
+    {
+        $obj = new $className();
+
+        $props = $this->getObjectAttribute(
+            $obj,
+            'properties'
+        );
+
+        // Check property get with defaults
+        $setProps = $this->assertPropertiesEqual( $obj, $props );
+        
+        $obj->setState( $setProps );
+
+        // Check propretries set with setState()
+        $this->assertPropertiesEqual( $obj, $setProps );
+
+        $this->assertEquals(
+            $setProps,
+            $this->getObjectAttribute(
+                $obj,
+                'properties'
+            )
+        );
+    }
+
+    protected function assertPropertiesEqual( $obj, array $props )
+    {
+        $i        = 0;
+        $setProps = array();
+        foreach ( $props as $propName => $propValue )
+        {
+            $this->assertEquals(
+                $obj->$propName,
+                $propValue
+            );
+
+            $setProps[$propName] = $i++;
+        }
+        return $setProps;
     }
 
     public static function suite()
