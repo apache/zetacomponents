@@ -25,8 +25,9 @@ Class overview
 ==============
 
 ezcPersistentSession is the main API for interacting with the persistent
-objects. Loading, saving and deleting persistent objects is done through
-this class.
+objects. Loading, saving and deleting persistent objects is done through this
+class. ezcPersistentSessionIdentityDecorator can be used to add identity
+mapping support to it (see `Identity mapping`_).
 
 Basic usage
 ===========
@@ -215,7 +216,7 @@ when it is really used in your application. This mechanism saves time for
 parsing the classes and configuration, when the component is not used at all
 during one request. You can find a description how you can use it for your 
 own components and how it works in the `ezcBase tutorial`__. The keyword for
-the database component is *ezcInitPersistentSessionInstance*.
+the database component is ezcInitPersistentSessionInstance.
 
 __ introduction_Base.html#lazy-initialization
 
@@ -1151,6 +1152,423 @@ below::
     // Make relation changes take effect
     $this->session->save( $newChild );
     ?>
+
+Identity mapping
+================
+
+The `identity map pattern`__, as described by Martin Fowler, ensures that only
+1 PHP object with the same identity exists. That means, if you load an object
+from the database a second time, the originally created instance is re-used
+instead of creating a new instance. In addition to that, identity mapping can
+potentially save SQL queries and therefore reduce database load.
+
+Note that with identity mapping, the methods *updateFromQuery()* and
+*deleteFromQuery()* will result in a complete reset of the identity map.
+Further details on that can be found under `Effects of identity mapping`_.
+
+.. __: http://martinfowler.com/eaaCatalog/identityMap.html
+
+Activate identity mapping
+-------------------------
+
+Identity mapping is activated by wrapping an instance of
+ezcPersistentSessionIdentityDecorator around your existing
+ezcPersistentSession::
+
+    <?php
+    // $originalSession contains a valid ezcPersistentSession
+
+    $identityMap = new ezcPersistentBasicIdentityMap(
+        $originalSession->definitionManager
+    );
+    $session = new ezcPersistentSessionIdentityDecorator(
+        $originalSession,
+        $identityMap
+    );
+    ?>
+
+You can transparently exchange ezcPersistentSession and
+ezcPersistentSessionIdentityDecorator inside your application, since their APIs
+do not differ.
+
+One point where you might experience problems are *instanceof* checks for
+ezcPersistentSession. Just replace these with checks for
+ezcPersistentSessionFoundation.
+
+Effects of identity mapping
+---------------------------
+
+Identity mapping avoids that you have 2 different PHP objects with the same
+database identity in your application. For example::
+
+    <?php
+    // $identitySession is an ezcPersistentSessionIdentityDecorator
+
+    $person = $identitySession->load( 'Person', 23 );
+
+    // ... somewhere else in your app ...
+
+    $samePerson = $identitySession->load( 'Person', 23 );
+    ?>
+
+The variables *$person* and *$samePerson* are both references to the very same
+object. In fact, the second call to *$identitySession->load()* does not issue a
+database query at all, but just returns the existing instance of the desired
+*Person* object, since this has already been loaded before.
+
+Identity mapping also affects finding of persistent objects::
+
+    <?php
+    // $identitySession is an ezcPersistentSessionIdentityDecorator
+
+    $person = $identitySession->load( 'Person', 23 );
+
+    $person->name = 'New Name';
+
+    // ... somewhere else in your app ...
+
+    $query = $identitySession->createFindQuery( 'Person' );
+    $persons = $identitySession->find( $query );
+    ?>
+
+The call to *$identitySession->find()* fetches all *Person* objects from the
+database. This includes the *Person* with ID 23, which has already been loaded
+before. Due to that, there is not a second instance of this object in
+*$persons*, but the existing instance is re-used. This does not save you an SQL
+query, but avoids inconsistencies. The change of the *$name* property of the
+*Person* object with ID 23 is reflected in the found objects, although the
+object has not been saved, yet.
+
+**Note:** You should not use the methods *updateFromQuery()* and
+*deleteFromQuery()* with ezcPersistentSessionIdentityDecorator. If you use any
+of these methods, all cached objects will automatically be removed from the
+identity map, because the effects of these methods can not be traced by the
+mechanism. The reset of the identity map might result in unexpected
+inconsistencies, which should originally be avoided by the mechanism.
+
+Related objects
+---------------
+
+Identity mapping also affects the loading of related objects::
+
+    <?php
+    // $identitySession is an ezcPersistentSessionIdentityDecorator
+
+    $person = $identitySession->load( 'Person', 23 );
+    $addresses = $identitySession->getRelatedObjects(
+        $person,
+        'Address'
+    );
+
+    // ... somewhere else in your app ...
+
+    $sameAddresses = $identitySession->getRelatedObjects(
+        $person,
+        'Address'
+    );
+
+    ?>
+
+The variable *$sameAddresses* contains the very same array of *Address* objects
+as *$addresses*. In fact, no second database call is issued, to fetch the
+related objects, since they have already been loaded before.
+
+This also works, if you add or delete related objects::
+
+    <?php
+    // $identitySession is an ezcPersistentSessionIdentityDecorator
+
+    $person = $identitySession->load( 'Person', 23 );
+    $addresses = $identitySession->getRelatedObjects(
+        $person,
+        'Address'
+    );
+
+    // Add a new address
+    $newAddress = new Address();
+    $identitySession->addRelatedObject(
+        $person,
+        $newAddress
+    );
+
+    // Remove an address
+    $identitySession->removeRelatedObject(
+        $person,
+        $addresses[42]
+    );
+
+    // ... somewhere else in your app ...
+
+    $sameAddresses = $identitySession->getRelatedObjects(
+        $person,
+        'Address'
+    );
+
+    ?>
+
+There is no additional database query performed on the second call to
+*$identitySession->getRelatedObjects()* here, too. Still, the *$sameAddresses*
+reflects the operations of adding a new *Address* to and removing the *Address*
+with ID *42* from the list of related objects. Even if these operations have
+not been reflected in the database, yet. 
+
+Pre-fetching of related objects
+-------------------------------
+
+Using the identity map decorator allows you to pre-fetch related objects, using
+a JOIN. There are 2 different methods that
+ezcPersistentSessionIdentityDecorator has in addition to ezcPersistentSession.
+The first one allows you to load a certain object together with related
+objects::
+
+    <?php
+    // $identitySession is an ezcPersistentSessionIdentityDecorator
+
+    $prefetchRelations = array(
+        'addresses' => new ezcPersistentRelationFindDefinition(
+            'Address',
+            null,
+            array(
+                'cities' => new ezcPersistentRelationFindDefinition(
+                    'City'
+                )
+            )
+        ),
+        'purchases' => new ezcPersistentRelationFindDefinition(
+            'Purchase'
+        )
+    );
+
+    $person = $identitySession->loadWithRelatedObjects(
+        'Person',
+        23,
+        $prefetchRelations
+    );
+
+    // ... somewhere else in your app ...
+
+    $addresses = $identitySession->getRelatedObjects(
+        $person,
+        'Address'
+    );
+
+    foreach ( $addresses as $address )
+    {
+        $city = $identitySession->getRelatedObjects(
+            $address,
+            'City'
+        );
+    }
+
+    // ... somewhere else in your app ...
+
+    $purchases = $identitySession->getRelatedObjects(
+        $person,
+        'Purchase'
+    );
+
+    ?>
+
+The method *$idSession->loadWithRelatedObjects()* allows you to load a certain
+object and its related objects (included nesting).
+
+The array *$prefetchRelations* defines, which related objects are fetched. The
+first ezcPersistentRelationFindDefinition in the array instructs to load
+related objects of type *Address*. The second parameter to the constructor of
+ezcPersistentRelationFindDefinition can be used to specify the relation name,
+if you use multiple relations to the same PHP class. The third parameter is
+used to define deeper relations. In the example above, it defines that for each
+loaded *Address* object, the related object of class *City* is loaded.
+
+The second element of the *$prefetchRelations* array defines that for the
+object to load, also all related objects of the *Purchase* class are loaded.
+This loading happens in a single SQL statement, using multiple JOIN statements.
+
+After defining the relations to fetch, the *Person* with ID *23* is loaded,
+including the defined related objects. Therefore, none of the latter calls to
+*$idSession->getRelatedObjects()* results in a database query, since all of
+these related object sets have already been loaded in a single SQL query.
+
+In a similar way, you can find a set of objects including their related
+objects. Assume that *$prefetchRelations* is defined in the same way as in the
+last example::
+
+    <?php
+    // $identitySession is an ezcPersistentSessionIdentityDecorator
+
+    // $prefetchRelations = array( ... );
+
+    $query = $identitySession->createFindQueryWithRelations(
+        'Person',
+        $prefetchRelations
+    );
+    $persons = $identitySession->find( $query );
+
+    // ... somewhere else in your app ...
+
+    foreach ( $persons as $person )
+    {
+        $addresses = $identitySession->getRelatedObjects(
+            $person,
+            'Address'
+        );
+
+        foreach ( $addresses as $address )
+        {
+            $city = $identitySession->getRelatedObjects(
+                $address,
+                'City'
+            );
+        }
+
+        $purchases = $identitySession->getRelatedObjects(
+            $person,
+            'Purchase'
+        );
+    }
+
+    ?>
+
+In this case, all *Person* objects are loaded from the database, including
+their related objects as defined. Therefore, none of the calls to
+*$identitySession->getRelatedObjects()* leads to a database query, but just
+returns the pre-fetched set of related objects.
+
+Related object sub-sets
+-----------------------
+
+In many cases it is not desirable to load all objects of a certain class and
+their related objects. Therefore it is possible, to restrict the loaded
+objects, using the typical query manipulations. However, this might often mean,
+that the set of related objects fetched for an object does not contain all
+related objects of a type, but only a sub-set.
+
+To work around this potential inconsistencies, the concept of *named related
+object sub-sets* was introduced::
+
+    <?php
+    // $identitySession is an ezcPersistentSessionIdentityDecorator
+
+    $prefetchRelations = array(
+        'custom_addresses' => new ezcPersistentRelationFindDefinition(
+            'Address'
+        ),
+    );
+
+    $query = $identitySession->createFindQueryWithRelations(
+        'Person',
+        $prefetchRelations
+    );
+    $query->where(
+        $query->expr->gte(
+            'custom_addresses_zip',
+            40000
+        ),
+        $query->expr->lte(
+            'custom_addresses_zip',
+            50000
+        ),
+    );
+
+    $persons = $identitySession->find( $query );
+
+    // ... somewhere else in your app ...
+
+    foreach ( $persons as $person )
+    {
+        $addresses = $identitySession->getRelatedObjectSubset(
+            $person,
+            'custom_addresses'
+        );
+    }
+
+    ?>
+
+In this example the query to fetch *Person* objects and their related *Address*
+objects has been restricted by a WHERE clause: Only the persons of which the
+*Address* lies between ZIP code *40000* and *50000* are fetched and only these
+addresses are loaded as related objects. A person that has two addresses, one
+with ZIP code *42235* and the other with *12345*, will be loaded with this
+query, but only one of its addresses is loaded. This is obviously not the full
+set of related objects of type *Address* for this person. Storing this set of
+*Address* objects in the identity map as usual would lead to inconsistencies.
+
+Therefore, whenever you use a WHERE condition to restrict the set of loaded
+objects, a *named related object sub-set* is created. As can be seen in the
+example above, to fetch the pre-loaded *Address* objects for a *Person*, the
+method *$identity->getRelatedObjectSubset()* is used instead of
+*getRelatedObjects()*. This method receives the alias you have chosen before
+for a certain sub-set in the *$prefetchRelations* array. *'custom_addresses'*
+is the array key used to define the pre-fetching of *Address* objects.
+
+For this reasons, the array keys used in the *$prefetchRelations* array must be
+unique on all levels, if you want to restrict the pre-fetching query using a
+WHERE condition. As shown in the example above, the keys used to define related
+objects to be loaded, are also used, to access these specific relations in the
+query. *'custom_addresses_zip'* is used to restrict on the property *$zip* of
+the *Address* objects to be fetched in the set *custom_addresses*.
+
+**Note:** Normal sets of related objects and named sub-sets can exist beside
+each other in the identity map. Whenever you use *addRelatedObject()*, all
+named related objects sub-sets will be removed from the identity map, since the
+mechanism can not detect to which of these the object must be added and to
+which not. However, using *removeRelatedObject()* and *delete()* do not have
+this side-effect, and will simply be reflected in the named sets, too.
+
+Creating named sub-sets of related objects also works with the
+*createRelationFindQuery()* method, which already exists in
+ezcPersistentSession. This method optionally receives a 4th parameter
+*$setName* on ezcPersistentSessionIdentityDecorator, to define the set to store
+related objects found::
+
+    <?php
+    // $identitySession is an ezcPersistentSessionIdentityDecorator
+
+    $person = $identitySession->load( 'Person', 23 );
+
+    $query = $identitySession->createRelationFindQuery(
+        $person,
+        'Address',
+        null,
+        'custom_addresses'
+    );
+
+    $query->where(
+        $query->expr->gte(
+            'zip',
+            40000
+        ),
+        $query->expr->lte(
+            'zip',
+            50000
+        ),
+    );
+
+    $customAddresses = $identitySession->find( $query );
+
+    // ... some where else in your app ...
+
+    $sameCustomAddresses = $identitySession->getRelatedObjectSubset(
+        $person,
+        'custom_addresses'
+    );
+
+    ?>
+
+Retrieving the named sub-set of related objects works the same way before. 
+
+Note that there is no need to prefix the property names in the WHERE condition
+in this case. Since only one level of related objects can be loaded here, it is
+not necessary. Note also, that in this case, *Address* objects are only loaded
+for one specific *Person* and are not pre-fetched for any other *Person*
+object. Trying to access the created named related object sub-set for another
+*Person* will return *null* since these to do not exist.
+
+You can also access the named related object sub-set just created, by using an
+equaling relation find query (which uses the same set name!). The identity
+mapping mechanism detects that you want to load this specific named set,
+determines that this is already loaded and simply returns it, instead of
+issuing another database query.
 
 
 ..
