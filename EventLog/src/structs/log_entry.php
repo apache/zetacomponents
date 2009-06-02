@@ -72,7 +72,7 @@ class ezcLogEntry extends ezcBaseStruct
      * @param array $optional
      * @param int $timestamp
      */
-    public function __construct( $message = '', $severity = 0, 
+    public function __construct( $message = '', $severity = 0,
         $source = '', $category = '', $optional = array(), $timestamp = null )
     {
         $this->message = $message;
@@ -98,8 +98,8 @@ class ezcLogEntry extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcLogEntry( $array['message'], $array['severity'], 
-            $array['source'], $array['category'], $array['optional'], 
+        return new ezcLogEntry( $array['message'], $array['severity'],
+            $array['source'], $array['category'], $array['optional'],
             $array['timestamp'] );
     }
 }

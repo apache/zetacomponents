@@ -15,7 +15,7 @@
  * The container contains the value bound to the filter.
  *
  * {@link __construct()}
- * 
+ *
  * @package EventLog
  * @version //autogentag//
  */
@@ -28,10 +28,10 @@ class ezcLogFilterRule
      */
     private $filter;
 
-    /** 
+    /**
      * Should continue to the next filter if this rule matches?
      *
-     * @var bool 
+     * @var bool
      */
     private $continueProcessing;
 
@@ -69,7 +69,7 @@ class ezcLogFilterRule
      * @var array(string=>mixed)
      */
     private $structure;
-    
+
     /**
      * Creates an ezcLogFilterRule.
      *
@@ -86,18 +86,18 @@ class ezcLogFilterRule
     {
         $this->filter = clone( $filter );
 
-        if ( $this->filter->severity  == 0 ) 
+        if ( $this->filter->severity  == 0 )
         {
             $this->severityStar = true;
         }
 
-        if ( sizeof( $this->filter->source ) == 0 ) 
+        if ( sizeof( $this->filter->source ) == 0 )
         {
             $this->filter->source = array( "*" );
             $this->sourceStar = true;
         }
 
-        if ( sizeof( $this->filter->category ) == 0 ) 
+        if ( sizeof( $this->filter->category ) == 0 )
         {
             $this->filter->category = array( "*" );
             $this->categoryStar = true;
@@ -110,8 +110,8 @@ class ezcLogFilterRule
     }
 
     /**
-     * Creates an internal structure, to quickly lookup the combination of severity, source, and 
-     * categories. 
+     * Creates an internal structure, to quickly lookup the combination of severity, source, and
+     * categories.
      */
     protected function createStructure()
     {
@@ -137,7 +137,7 @@ class ezcLogFilterRule
 
     /**
      * Returns true when the given $severity, $source, and $category matches with this filter rule.
-     * 
+     *
      * @param int $severity
      * @param string $source
      * @param string $category
@@ -145,17 +145,17 @@ class ezcLogFilterRule
      */
     public function isMatch( $severity, $source, $category )
     {
-     if ( $this->severityStar ) 
+     if ( $this->severityStar )
         {
             $severity = "*";
         }
 
-     if ( $this->sourceStar ) 
+     if ( $this->sourceStar )
         {
             $source = "*";
         }
 
-     if ( $this->categoryStar ) 
+     if ( $this->categoryStar )
         {
             $category = "*";
         }
@@ -166,7 +166,7 @@ class ezcLogFilterRule
 
     /**
      * Returns the container, containing the result.
-     * 
+     *
      * @return mixed
      */
     public function getContainer()
@@ -176,7 +176,7 @@ class ezcLogFilterRule
 
     /**
      * Returns true if, after matching, should proceeded to the next filter rule.
-     * 
+     *
      * @return bool
      */
 

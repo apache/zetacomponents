@@ -17,18 +17,18 @@
  * - {@link ezcLogDatabaseWriter Database} writer
  *
  * Extra writers can be added by implementing the {@link ezcLogWriter} interface.
- * 
+ *
  * Use the {@link getMapper()} method to get an instance of the ezcLogMapper.
  * The ezcLogMapper classes specifies incoming log messages with the {@link ezcLogFilter}.
- * Log messages that are accepted, match with the filter, are sent to the 
+ * Log messages that are accepted, match with the filter, are sent to the
  * {@link ezcLogWriter}.
  *
- * The following example demonstrates how all log messages, except for the 
+ * The following example demonstrates how all log messages, except for the
  * audit trailing and debug messages, are written to a file.
  * <code>
  * $filter = new ezcLogFilter();
  * $filter->severity = ezcLog::INFO | ezcLog::NOTICE | ezcLog::WARNING | ezcLog::ERROR | ezcLog::FATAL;
- * 
+ *
  * $log = ezcLog::getInstance();
  * $log->getMapper()->appendRule( new ezcLogFilterRule( $filter, new ezcLogUnixFileWriter( "/tmp/logs/", "error.log" ), true ) );
  * </code>
@@ -41,7 +41,7 @@
  * <code>
  * $filter = new ezcLogFilter();
  * $filter->severity = ezcLog::SUCCESS_AUDIT | ezcLog::FAILED_AUDIT;
- * 
+ *
  * $log = ezcLog::getInstance();
  * $log->getMapper()->appendRule( new ezcLogFilterRule( $filter, new ezcLogDatabaseWriter( "audits" ), true ) );
  * </code>
@@ -52,35 +52,35 @@
  *
  * Use the {@link log()} method to log messages at the specified writers. This
  * method expects a:
- * - Message, contains a single log message. 
- * - Severity, indicates the level of importance. 
+ * - Message, contains a single log message.
+ * - Severity, indicates the level of importance.
  * - Extra attributes (optional).
  *
- * Although the interpretation of the severity levels are up to the programmer, 
+ * Although the interpretation of the severity levels are up to the programmer,
  * the most common interpretations are:
- * - DEBUG: Records information about the progress in the program and references 
+ * - DEBUG: Records information about the progress in the program and references
  *   source code functions. Knowledge of the source code is needed to interpret
  *   this log message.
  * - INFO: Informative logging at a detailed level. This logging method produces a
  *   high level of logging, which is unmanageable on a production environment.
- *   Usually INFO logging is only enabled to help by analysing a problem. 
+ *   Usually INFO logging is only enabled to help by analysing a problem.
  * - NOTICE: Informative logging at a lower detail level than INFO logging.
  *   Only major stages are recorded and is useful to monitor a low volume system.
  * - WARNING: Something unexpected happened, but did not cause any loss of service.
  * - ERROR: An error occured, which may cause partial loss of service. Usually the
  *   system can recover.
- * - FATAL: An serious error occured and the system is unlikely to recover. 
+ * - FATAL: An serious error occured and the system is unlikely to recover.
  * - SUCCESS_AUDIT: Informative logging about a successful completion of work by
- *   a module completed. Useful to trace system changes directly or indirectly 
+ *   a module completed. Useful to trace system changes directly or indirectly
  *   done by a user.
  * - FAILED_AUDIT: Informative logging about an action from a module
  *   with a negative result. A failed login will most likely added to this severity.
- *   
+ *
  * The next example logs a fatal error and has no extra attributes:
  * <code>
  * ezcLog::getInstance()->log( "Cannot open ini file: <$file>", ezcLog::FATAL );
  * </code>
- * 
+ *
  * The log message will get by default the category and source: "default". The
  * default values can be modified by changing, respectively, the properties
  * $category and $source.
@@ -95,11 +95,11 @@
  *
  * if ( !$eZPay->receivedAmount() != $requiredAmount )
  * {
- *     $log->log( "Received amount: <".$eZPay->receivedAmount()."> expected: <$requiredAmount>.", 
+ *     $log->log( "Received amount: <".$eZPay->receivedAmount()."> expected: <$requiredAmount>.",
  *                 ezcLog::DEBUG,
  *                 array( "category" => "shop", "file" => __FILE__, "line" => __LINE )
  *              );
- * 
+ *
  *     $log->log( "Insufficient amount.",
  *                ezcLog::FAILED_AUDIT,
  *                array( "UserName" => getCurrentUser(), category => "Payment" )
@@ -111,16 +111,16 @@
  * </code>
  *
  * Sometimes information repeats for specific severities or categories. For example that
- * for the audit trails an username is required. Convenience methods like: 
- * {@link setSeverityAttributes()} and {@link setSourceAttributes()} exist to append 
+ * for the audit trails an username is required. Convenience methods like:
+ * {@link setSeverityAttributes()} and {@link setSourceAttributes()} exist to append
  * information automatically to the log message.
- *   
+ *
  * The ezcLog class provides a {@link trigger_error()} log handler: {@link ezcLog::logHandler()}.
- * Using the trigger_error method makes your code less Log package dependent and 
+ * Using the trigger_error method makes your code less Log package dependent and
  * produces less overhead when logging is disabled.
  *
- * See the {@link ezcLog::logHandler()} method for more information about how to set up the 
- * trigger_error functionality. 
+ * See the {@link ezcLog::logHandler()} method for more information about how to set up the
+ * trigger_error functionality.
  *
  * See the {@link ezcDebug} package for more detailed information about writing DEBUG
  * messages.
@@ -258,9 +258,9 @@ class ezcLog
     {
         switch ( $name )
         {
-            case "source":   
-            case "category": 
-                $this->properties[$name] = $value; 
+            case "source":
+            case "category":
+                $this->properties[$name] = $value;
                 return;
         }
 
@@ -281,7 +281,7 @@ class ezcLog
         switch ( $name )
         {
             case "source":
-            case "category": 
+            case "category":
                 return $this->properties[$name];
         }
 
@@ -335,7 +335,7 @@ class ezcLog
         $this->writers = $mapper;
     }
 
-    /** 
+    /**
      * Returns an instance of the current ezcLogMapper.
      *
      * @return ezcLogMapper
@@ -373,59 +373,59 @@ class ezcLog
      * Write the message $message with additional information to one or multiple log writers.
      *
      * The log message $message, severity $severity, and extra attributes $attributes are sent to
-     * the writers that matches with the {@link ezcLogFilter}. The following parameters are 
+     * the writers that matches with the {@link ezcLogFilter}. The following parameters are
      * taken in the comparation with the ezcLogFilter:
      * - $severity: the severity of the log message.
      * - $attributes[ "source" ]: the source from where the log message comes.
      * - $attributes[ "category" ]: the category of the log message.
      *
-     * See for more information about filter matching the classes {@link ezcLog} and 
-     * {@link ezcLogFilter}. 
+     * See for more information about filter matching the classes {@link ezcLog} and
+     * {@link ezcLogFilter}.
      *
      * The message $message describes what happened. The severity $severity is one of the ezcLog constants:
-     * - DEBUG: Records information about the progress in the program and references 
+     * - DEBUG: Records information about the progress in the program and references
      *   source code functions. Knowledge of the source code is needed to interpret
      *   this log message.
      * - INFO: Informative logging at a detailed level. This logging method produces a
      *   high level of logging, which is unmanageable on a production environment.
-     *   Usually INFO logging is only enabled to help by analysing a problem. 
+     *   Usually INFO logging is only enabled to help by analysing a problem.
      * - NOTICE: Informative logging at a lower detail level than INFO logging.
      *   Only major stages are recorded and is useful to monitor a low volume system.
      * - WARNING: Something unexpected happened, but did not cause any loss of service.
      * - ERROR: An error occured, which may cause partial loss of service. Usually the
      *   system can recover.
-     * - FATAL: An serious error occured and the system is unlikely to recover. 
+     * - FATAL: An serious error occured and the system is unlikely to recover.
      * - SUCCESS_AUDIT: Informative logging about a successful completion of work by
-     *   a module completed. Useful to trace system changes directly or indirectly 
+     *   a module completed. Useful to trace system changes directly or indirectly
      *   done by a user.
      * - FAILED_AUDIT: Informative logging about an action from a module
      *   with a negative result. A failed login will most likely added to this severity.
      *
      * The attributes array $attributes can have one or multiple attributes that will
      * be added to the log. If source and category are given, they will override the default
-     * source or category given as property to this object. Further more it is up to the 
+     * source or category given as property to this object. Further more it is up to the
      * application what to include in the log. It may be useful to add the
      * file and linenumber to the attributes array. Use the magic PHP constants: {@link __FILE__}
      * and {@link __LINE__}  for this purpose. The next example adds an warning to the log.
      *
      * <code>
      * ezcLog::getInstance()->source = "templateEngine"; // Set the default source.
-     * ezcLog::getInstance()->log( "ezcPersistentObject <$obj> does not exist.", 
-     *     ezcLog::WARNING, 
+     * ezcLog::getInstance()->log( "ezcPersistentObject <$obj> does not exist.",
+     *     ezcLog::WARNING,
      *     array( "category" => "Database", "line" => __LINE__, "file" => __FILE__, "code" => 123 )
      *     );
      * </code>
-     * 
+     *
      * The methods {@link setSeverityAttributes()} and {@link setSourceAttributes()} can automatically
      * add attributes to log messages based on, respectively, the severity and source.
      *
      * See also {@link logHandler()} on how to use {@link trigger_error()} to write log messages.
      *
-     * @throws ezcLogWriterException if {@link throwWriterExceptions} are enabled and a log entry 
-     *                               could not be written. 
+     * @throws ezcLogWriterException if {@link throwWriterExceptions} are enabled and a log entry
+     *                               could not be written.
      *
      * @param string $message
-     * @param int $severity  One of the following severity constants: 
+     * @param int $severity  One of the following severity constants:
      *                       DEBUG, SUCCES_AUDIT, FAIL_AUDIT, INFO, NOTICE, WARNING, ERROR, or FATAL.
      * @param array(string=>string) $attributes
      */
@@ -457,7 +457,7 @@ class ezcLog
     }
 
     /**
-     * Sets the attributes $attributes for a group of severities $severityMask. 
+     * Sets the attributes $attributes for a group of severities $severityMask.
      *
      * The severities are specified with a bit mask. These attributes will be
      * added to the log message when the log severity is the same as specified
@@ -465,16 +465,16 @@ class ezcLog
      *
      * Example:
      * <code>
-     * ezcLog::getInstance()->setSeverityAttributes( 
+     * ezcLog::getInstance()->setSeverityAttributes(
      *     ezcLog::SUCCESS_AUDIT | ezcLog::FAILED_AUDIT
      *     array( "username" => "Jan K. Doodle" )
      * );
      * </code>
      *
-     * Every log message that has the severity SUCCESS_AUDIT or FAILED_AUDIT 
+     * Every log message that has the severity SUCCESS_AUDIT or FAILED_AUDIT
      * includes the user name: "Jan K. Doodle".
      *
-     * @param integer $severityMask Multiple severities are specified with a logic-or. 
+     * @param integer $severityMask Multiple severities are specified with a logic-or.
      * @param array(string=>string) $attributes
      */
     public function setSeverityAttributes( $severityMask, $attributes )
@@ -483,21 +483,21 @@ class ezcLog
     }
 
     /**
-     * Sets the attributes $attributes for a group of sources $sources. 
+     * Sets the attributes $attributes for a group of sources $sources.
      *
      * The sources are specified in an array. These attributes will be added to the
      * log message when it matches with the given $sources.
      *
      * Example:
      * <code>
-     * ezcLog::getInstance()->setSourceAttributes( 
+     * ezcLog::getInstance()->setSourceAttributes(
      *     array( "Paynet", "Bibit", "Paypal" ),
      *     array( "MerchantID" => $merchantID )
      * );
      * </code>
      *
      * Every log message that comes from the payment module: Paynet, Bibit, or Paypal
-     * includes the Merchant ID. 
+     * includes the Merchant ID.
      *
      * @param array(string) $sources
      * @param array(string=>string) $attributes
@@ -512,13 +512,13 @@ class ezcLog
      *
      * This method can be assigned with the {@link set_error_handler()} to handle the
      * trigger_error calls. This method will get the log instance and forward the
-     * message. But includes the following information: 
-     * - The file and linenumber are automatically added. 
+     * message. But includes the following information:
+     * - The file and linenumber are automatically added.
      * - Source and category can be 'encoded' in the message.
      *
      * The message format is as follows:
      * <pre>
-     * [ source, category ] Message 
+     * [ source, category ] Message
      * </pre>
      *
      * When one name is given between the brackets, the category will be set and the message has a default source:
@@ -530,9 +530,9 @@ class ezcLog
      * <pre>
      * Message
      * </pre>
-     * 
-     * The following example creates manually an error handler and forwards the 
-     * ERROR, WARNING and NOTICE severities. 
+     *
+     * The following example creates manually an error handler and forwards the
+     * ERROR, WARNING and NOTICE severities.
      * <code>
      * function myLogHandler($errno, $errstr, $errfile, $errline)
      * {
@@ -542,17 +542,17 @@ class ezcLog
      *         case E_USER_WARNING:
      *         case E_USER_NOTICE:
      *             if ( $loggingEnabled )
-     *             {   // Forward the message to the log handler. 
+     *             {   // Forward the message to the log handler.
      *                 ezcLog::LogHandler( $errno, $errstr, $errfile, $errline );
      *             }
      *             break;
      *
      *         default:
-     *             print( "$errstr in $errfile on line $errline\n" ); 
+     *             print( "$errstr in $errfile on line $errline\n" );
      *             break;
      *     }
      * }
-     * 
+     *
      * // Register myLogHandler
      * set_error_handler( "myLogHandler" );
      *
@@ -563,7 +563,7 @@ class ezcLog
      * trigger_error( "Getting paynet status information", E_USER_NOTICE );
      *
      * </code>
-     * 
+     *
      * Notice that the ezcLog component is not loaded at all when the logging is disabled.
      *
      * @param int $errno

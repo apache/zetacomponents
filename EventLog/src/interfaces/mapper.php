@@ -11,18 +11,18 @@
 /**
  * The ezcLogMapper provides a public interface to implement a mapper.
  *
- * The ezcLogMapper interface has one method that must be implemented. 
- * This method returns a writer (or in some cases a string) that matches the 
- * incoming message. 
+ * The ezcLogMapper interface has one method that must be implemented.
+ * This method returns a writer (or in some cases a string) that matches the
+ * incoming message.
  *
- * An implementation of ezcLogMapper is the {@link ezcLogFilterSet}. 
- * 
+ * An implementation of ezcLogMapper is the {@link ezcLogFilterSet}.
+ *
  * @package EventLog
  * @version //autogentag//
  */
 interface ezcLogMapper
 {
-    /** 
+    /**
      * Returns the containers (results) that are mapped to this $severity, $source, and $category.
      *
      * @param int $severity

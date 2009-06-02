@@ -32,20 +32,20 @@ class ezcLogUnixFileWriter extends ezcLogFileWriter
      * - HH: The hour.
      * - mm: The minutes.
      * - ss: The seconds.
-     * 
+     *
      * Example:
      * <pre>
-     * Jan 24 15:32:56 [Debug] [Paynet] [Shop] Connecting to the paynet server (file: paynet_server.php, line: 224). 
-     * Jan 24 15:33:01 [Debug] [Paynet] [Shop] Connected with the server (file: paynet_server.php, line: 710). 
+     * Jan 24 15:32:56 [Debug] [Paynet] [Shop] Connecting to the paynet server (file: paynet_server.php, line: 224).
+     * Jan 24 15:33:01 [Debug] [Paynet] [Shop] Connected with the server (file: paynet_server.php, line: 710).
      * </pre>
-     * 
+     *
      * This method will be called by the {@link ezcLog} class.  The $eventSource and $eventCategory are either given
-     * in the {@link ezcLog::log()} method or are the defaults from the {@link ezcLog} class. 
-     * 
-     * @param string $message 
-     * @param int $eventType 
-     * @param string $eventSource 
-     * @param string $eventCategory 
+     * in the {@link ezcLog::log()} method or are the defaults from the {@link ezcLog} class.
+     *
+     * @param string $message
+     * @param int $eventType
+     * @param string $eventSource
+     * @param string $eventCategory
      * @param array(string=>string) $extraInfo
      */
     public function writeLogMessage( $message, $eventType, $eventSource, $eventCategory, $extraInfo = array() )
@@ -72,7 +72,7 @@ class ezcLogUnixFileWriter extends ezcLogFileWriter
     }
 
     /**
-     * Returns a string from the hash $data. 
+     * Returns a string from the hash $data.
      *
      * The string $splitEntry specifies the string that will be inserted between the pairs.
      * The string $splitKeyVal specifies the string that will be inserted in each pair.
@@ -86,12 +86,12 @@ class ezcLogUnixFileWriter extends ezcLogFileWriter
      * <pre>
      * Car: red, Curtains: blue
      * </pre>
-     * 
+     *
      * @param string $splitEntry
      * @param string $splitKeyVal
      * @param array(mixed=>mixed) $data
      * @return string
-     */ 
+     */
     protected function implodeWithKey( $splitEntry, $splitKeyVal, $data)
     {
         $total = "";

@@ -9,12 +9,12 @@
  */
 
 /**
- * Mapping of an eventType, eventSource and eventCategory to a mixed variable 
+ * Mapping of an eventType, eventSource and eventCategory to a mixed variable
  * using a filter set.
  *
  * The ezcLogFilterSet is an implementation of the ezcLogMapper. The
  * ezcLogFilterSet contains a set of ezcLogFilterRules. These rules are
- * processed sequentially. The rule assigned first will be processed first.  
+ * processed sequentially. The rule assigned first will be processed first.
  * Each rule determines whether the log message matches with the filter rule. If the
  * log message matches, it calls the writer and decide whether the filter set
  * stops processing.
@@ -69,7 +69,7 @@ class ezcLogFilterSet implements ezcLogMapper
     }
 
     /**
-     * Returns the variable assigned to the combination of a severity $severity, source $source, 
+     * Returns the variable assigned to the combination of a severity $severity, source $source,
      * and category $category.
      *
      * @param int $severity
@@ -94,7 +94,7 @@ class ezcLogFilterSet implements ezcLogMapper
             {
                 $total = array_merge( $total, $rule->getContainer() );
 
-                if ( !$rule->shouldContinueProcessing() ) 
+                if ( !$rule->shouldContinueProcessing() )
                 {
                     break;
                 }

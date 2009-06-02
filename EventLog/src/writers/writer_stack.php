@@ -21,7 +21,7 @@ class ezcLogStackWriter implements ezcLogWriter, IteratorAggregate
 {
     /**
      * Stores all entries received by this writer.
-     * 
+     *
      * @var array(int=>ezcLogEntry)
      */
     protected $entries = array();
@@ -59,7 +59,7 @@ class ezcLogStackWriter implements ezcLogWriter, IteratorAggregate
      * @see entries
      * @return ArrayObject
      */
-    public function getIterator() 
+    public function getIterator()
     {
         return new ArrayObject( $this->entries );
     }

@@ -9,13 +9,13 @@
  */
 
 /**
- * The ezcLogFileWriter class provides functionality to write log files to the file 
+ * The ezcLogFileWriter class provides functionality to write log files to the file
  * system.
  *
- * The main purpose is to keep track of the various log files and support 
+ * The main purpose is to keep track of the various log files and support
  * log rotation, although log rotation can also be disabled. The file format of
  * the log should be implemented in a subclass.
- * 
+ *
  * The following example implements a new log writer that writes the output in
  * ({@link print_r()} format) to a file:
  * <code>
@@ -32,7 +32,7 @@
  *    {
  *        // Create a message
  *        $res = print_r( array( "message" => $message, "type" => $type, "source" => $source, "category" => $category ), true );
- *        
+ *
  *        // And call the parent class
  *        $this->write( $type, $source, $category, $res );
  *    }
@@ -88,14 +88,14 @@ abstract class ezcLogFileWriter implements ezcLogWriter
     /**
      * Constructs an ezcLogFileWriter.
      *
-     * The log files will be placed in the directory $logDirectory. 
-     * 
+     * The log files will be placed in the directory $logDirectory.
+     *
      * If the file $defaultFile is not null, log messages that are not {@link map() mapped}
      * to any file are written to this $defaultFile. If $defaultFile is null, then
      * log messages are discarded.
      *
      * Set $maxLogRotationSize to specify the maximum size of a logfile. When the
-     * maximum size is reached, the log will be rotated. $maxLogFiles sets the maximum 
+     * maximum size is reached, the log will be rotated. $maxLogFiles sets the maximum
      * number of rotated log files. The oldest rotated log will be removed when the
      * $maxLogFiles exceeds. Log rotation can be disabled by setting
      * $maxLogRotationSize to false.
@@ -258,9 +258,9 @@ abstract class ezcLogFileWriter implements ezcLogWriter
     /**
      * Maps the filename $fileName to the messages specified by the {@link ezcLogFilter} $logFilter.
      *
-     * Log messages that matches with the filter are written to the file $fileName. 
+     * Log messages that matches with the filter are written to the file $fileName.
      *
-     * @param ezcLogFilter $logFilter 
+     * @param ezcLogFilter $logFilter
      * @param string $fileName
      */
     public function setFile( ezcLogFilter $logFilter, $fileName )
@@ -269,19 +269,5 @@ abstract class ezcLogFileWriter implements ezcLogWriter
         $this->fileMap->appendRule( new ezcLogFilterRule( $logFilter, $fh, true ) );
 
     }
-//
-//    /**
-//     * Unmaps the filename $fileName from the messages specified by the {@link ezcLogFilter} $logFilter.
-//     *
-//     * Log messages that matches with the filter are no longer written to the file $fileName. 
-//     *
-//     * @param ezcLogFilter $logFilter 
-//     * @param string $fileName
-//     */
-//    public function unmap( $logFilter, $fileName )
-//    {
-//        $this->fileMap->unmap( $logFilter->severity, $logFilter->source, $logFilter->category, $this->openFiles[ $fileName ] );
-//    }
-
 }
 ?>

@@ -13,7 +13,7 @@
  * their log writer.
  *
  * See the ezcLogFileWriter for an example of creating your own log writer.
- *  
+ *
  * @package EventLog
  * @version //autogentag//
  */
@@ -34,7 +34,7 @@ interface ezcLogWriter
      *
      * @param string $message
      * @param int $severity
-     *        ezcLog::DEBUG, ezcLog::SUCCESS_AUDIT, ezcLog::FAILED_AUDIT, ezcLog::INFO, ezcLog::NOTICE, 
+     *        ezcLog::DEBUG, ezcLog::SUCCESS_AUDIT, ezcLog::FAILED_AUDIT, ezcLog::INFO, ezcLog::NOTICE,
      *        ezcLog::WARNING, ezcLog::ERROR or ezcLog::FATAL.
      * @param string $source
      * @param string $category

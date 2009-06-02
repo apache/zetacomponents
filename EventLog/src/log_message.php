@@ -13,17 +13,17 @@
  * Holds a log message and provides convenience methods to read the information.
  *
  * The ezclogMessage class is used for subtracting the information from the message
- * parameter from {@link trigger_error()}. See the {@link ezcLog::logHandler} for 
- * more information. 
+ * parameter from {@link trigger_error()}. See the {@link ezcLog::logHandler} for
+ * more information.
  *
- * The message formats that can be parsed are: 
+ * The message formats that can be parsed are:
  *
  * <pre>
  * [ source, category, error_type ] Message
  * </pre>
  *
  * <pre>
- * [ source, category ] Message 
+ * [ source, category ] Message
  * </pre>
  *
  * When one name is given between the brackets, the category will be set and the message has a default source:
@@ -35,14 +35,14 @@
  * <pre>
  * Message
  * </pre>
- * 
+ *
  * The following properties are set after construction or after calling {@link parseMessage()}:
  * - message, contains the message without extra the additional information.
  * - source, contains either the default source or the source set in the incoming message.
  * - category, contains either the default category or the category set in the incoming message.
  * - error_type, any severity without the leading "ezcLog::" (see {@link ezcLogMessage::parseMessage}); which are:
  *   ezcLog::DEBUG, ezcLog::INFO, ezcLog::NOTICE, ezcLog::WARNING, ezcLog::ERROR, ezcLog::FATAL, ezcLog::FAILED_AUDIT, ezcLog::SUCCESS_AUDIT.
- * - severity, if error_type is not set: severity of the error. Which is ezcLog::NOTICE, ezcLog::WARNING, or ezcLog::ERROR. 
+ * - severity, if error_type is not set: severity of the error. Which is ezcLog::NOTICE, ezcLog::WARNING, or ezcLog::ERROR.
  *
  * @package EventLog
  * @version //autogentag//
@@ -142,9 +142,9 @@ class ezcLogMessage
     }
 
     /**
-     * Parses the message $message and sets the properties. 
+     * Parses the message $message and sets the properties.
      *
-     * See the general class documentation for message format. 
+     * See the general class documentation for message format.
      * The severity $severity can be a E_USER_* PHP constant. The values will be translated accordingly:
      * - E_USER_NOTICE -> ezcLog::NOTICE
      * - E_USER_WARNING -> ezcLog::WARNING
@@ -162,7 +162,7 @@ class ezcLogMessage
      *
      * @param string $message
      * @param int $severity
-     * @param string $defaultSource 
+     * @param string $defaultSource
      * @param string $defaultCategory
      */
     public function parseMessage( $message, $severity, $defaultSource, $defaultCategory )
