@@ -145,7 +145,7 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
     function getTranslation()
     {
         $ret = array();
-        foreach( $this->strings as $context => $data )
+        foreach ( $this->strings as $context => $data )
         {
             $ret[$context] = new ezcTranslation( $data );
         }
@@ -160,10 +160,10 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
     function getStrings()
     {
         $ret = array();
-        foreach( $this->strings as $context => $data )
+        foreach ( $this->strings as $context => $data )
         {
             $ret[$context] = array();
-            foreach( $data as $translation )
+            foreach ( $data as $translation )
             {
                 $ret[$context][$translation->original] = $translation;
             }

@@ -73,7 +73,7 @@ class ezcTemplateTranslationConfiguration
                 break;
 
             case 'manager':
-                if ( (!$value instanceof ezcTranslationManager) && $value !== null )
+                if ( ( !$value instanceof ezcTranslationManager) && $value !== null )
                 {
                     throw new ezcBaseValueException( $name, $value, 'instance of ezcTranslationManager or null' );
                 }
