@@ -96,7 +96,7 @@ class ezcBaseMetaData
     }
 
     /**
-     * Returns a list of components that $componentName depends on. 
+     * Returns a list of components that $componentName depends on.
      *
      * If $componentName is left empty, all installed components are returned.
      *

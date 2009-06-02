@@ -18,7 +18,7 @@ interface ezcBasePersistable
 {
     /**
      * The constructor for the object needs to be able to accept no arguments.
-     * 
+     *
      * The data is later set through the setState() method.
      */
     public function __construct();

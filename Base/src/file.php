@@ -14,7 +14,7 @@
  * This example shows how to use the findRecursive method:
  * <code>
  * <?php
- * // lists all the files under /etc (including subdirectories) that end in 
+ * // lists all the files under /etc (including subdirectories) that end in
  * // .conf
  * $confFiles = ezcBaseFile::findRecursive( "/etc", array( '@\.conf$@' ) );
  *
@@ -204,7 +204,7 @@ class ezcBaseFile
      *
      * If you pass an empty array to the $statistics argument, the function
      * will in details about the number of files found into the 'count' array
-     * element, and the total filesize in the 'size' array element. Because this 
+     * element, and the total filesize in the 'size' array element. Because this
      * argument is passed by reference, you *have* to pass a variable and you
      * can not pass a constant value such as "array()".
      *
@@ -418,7 +418,7 @@ class ezcBaseFile
         {
             array_unshift( $path, $pathPart );
         }
-        if ( $basePart != null ) 
+        if ( $basePart != null )
         {
             array_unshift( $base, $basePart );
         }
@@ -470,7 +470,7 @@ class ezcBaseFile
                 {
                     return true;
                 }
- 
+
                 // Absolute paths with network paths: \\server\share\
                 if ( preg_match( '@^\\\\\\\\[A-Z]+\\\\[^\\\\]@i', $path ) )
                 {

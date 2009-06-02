@@ -25,7 +25,7 @@ class ezcBaseMetaDataTarballReader
 
     /**
      * Creates the reader object and opens the release-info file.
-     */     
+     */
     public function __construct()
     {
         $filename = dirname( __FILE__ ) . '/../../../release-info.xml';
@@ -98,7 +98,7 @@ class ezcBaseMetaDataTarballReader
     }
 
     /**
-     * Returns a list of components that $componentName depends on. 
+     * Returns a list of components that $componentName depends on.
      *
      * If $componentName is left empty, all installed components are returned.
      *

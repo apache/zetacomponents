@@ -35,7 +35,7 @@ class ezcBase
      * Denotes the development mode
      */
     const MODE_DEVELOPMENT = 1;
-    
+
     /**
      * Indirectly it determines the path where the autoloads are stored.
      *
@@ -136,7 +136,7 @@ class ezcBase
 
             return true;
         }
-        
+
         // Check whether the classname is already in the cached autoloadArray
         // for external repositories.
         if ( array_key_exists( $className, ezcBase::$externalAutoloadArray ) )
@@ -200,7 +200,7 @@ class ezcBase
         if ( $realPath == '' )
         {
             // Can not be tested, because if this happens, then the autoload
-            // environment has not been set-up correctly. 
+            // environment has not been set-up correctly.
             trigger_error( "Couldn't find autoload directory '$path'", E_USER_ERROR );
         }
 
@@ -269,7 +269,7 @@ class ezcBase
     protected static function requireFile( $fileName, $className, $prefix )
     {
         $autoloadDir = ezcBase::$packageDir . "autoload/";
-        
+
         // We need the full path to the fileName. The method file_exists() doesn't
         // automatically check the (php.ini) library paths. Therefore:
         // file_exists( "ezc/autoload/$fileName" ) doesn't work.
@@ -315,8 +315,8 @@ class ezcBase
 
                 // Building paths.
                 // Resulting path to class definition file consists of:
-                // path to extra directory with autoload file + 
-                // basePath provided for current extra directory + 
+                // path to extra directory with autoload file +
+                // basePath provided for current extra directory +
                 // path to class definition file stored in autoload file.
                 foreach ( $originalArray as $class => $classPath )
                 {
@@ -373,7 +373,7 @@ class ezcBase
                 break;
         }
 
-        if ( file_exists( ezcBase::$packageDir . $file ) ) 
+        if ( file_exists( ezcBase::$packageDir . $file ) )
         {
             require( ezcBase::$packageDir . $file );
         }
@@ -446,7 +446,7 @@ class ezcBase
 
     /**
      * Return the list of directories that contain class repositories.
-     * 
+     *
      * The path to the eZ components directory is always included in the result
      * array. Each element in the returned array has the format of:
      * packageDirectory => ezcBaseRepositoryDirectory
@@ -465,13 +465,13 @@ class ezcBase
             $repositoryDirectory = new ezcBaseRepositoryDirectory( ezcBaseRepositoryDirectory::TYPE_EXTERNAL, realpath( $extraDirArray['basePath'] ), realpath( $extraDirArray['autoloadDirPath'] ) );
             $autoloadDirs[$extraDirKey] = $repositoryDirectory;
         }
-        
+
         return $autoloadDirs;
     }
 
     /**
      * Adds an additional class repository.
-     * 
+     *
      * Used for adding class repositoryies outside the eZ components to be
      * loaded by the autoload system.
      *
@@ -482,8 +482,8 @@ class ezcBase
      * argument. I.e. class definition file will be searched at location
      * $basePath + path to the class definition file as stored in the autoload
      * file.
-     * 
-     * addClassRepository() should be called somewhere in code before external classes 
+     *
+     * addClassRepository() should be called somewhere in code before external classes
      * are used.
      *
      * Example:
@@ -539,7 +539,7 @@ class ezcBase
      * $myVar = new erMyClass2();
      * ?>
      * </code>
-     * 
+     *
      * @throws ezcBaseFileNotFoundException if $autoloadDirPath or $basePath do not exist.
      * @param string $basePath
      * @param string $autoloadDirPath
@@ -548,7 +548,7 @@ class ezcBase
     public static function addClassRepository( $basePath, $autoloadDirPath = null, $prefix = null )
     {
         // check if base path exists
-        if ( !is_dir( $basePath ) ) 
+        if ( !is_dir( $basePath ) )
         {
             throw new ezcBaseFileNotFoundException( $basePath, 'base directory' );
         }
@@ -560,7 +560,7 @@ class ezcBase
         }
 
         // check if autoload dir exists
-        if ( !is_dir( $autoloadDirPath ) ) 
+        if ( !is_dir( $autoloadDirPath ) )
         {
             throw new ezcBaseFileNotFoundException( $autoloadDirPath, 'autoload directory' );
         }

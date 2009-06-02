@@ -33,27 +33,27 @@ class ezcBaseFeatures
 {
     /**
       * Used to store the path of the ImageMagick convert utility.
-      * 
+      *
       * It is initialized in the {@link getImageConvertExecutable()} function.
-      * 
+      *
       * @var string
       */
     private static $imageConvert = null;
 
     /**
       * Used to store the path of the ImageMagick identify utility.
-      * 
+      *
       * It is initialized in the {@link getImageIdentifyExecutable()} function.
-      * 
+      *
       * @var string
       */
     private static $imageIdentify = null;
 
     /**
       * Used to store the operating system.
-      * 
+      *
       * It is initialized in the {@link os()} function.
-      * 
+      *
       * @var string
       */
     private static $os = null;
@@ -194,7 +194,7 @@ class ezcBaseFeatures
      * Returns if a given class exists.
      * Checks for a given class name and returns if this class exists or not.
      * Catches the ezcBaseAutoloadException and returns false, if it was thrown.
-     * 
+     *
      * @param string $className The class to check for.
      * @param bool $autoload True to use __autoload(), otherwise false.
      * @return bool True if the class exists. Otherwise false.

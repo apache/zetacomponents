@@ -13,7 +13,7 @@
  * If this happens it is not possible to repair anything gracefully. An
  * example for this could be, that your eZ components installation has thrown
  * far to many exceptions. Whenever you receive an ezcBaseWhateverException, do
- * not even try to catch it, but forget your project completely and immediately 
+ * not even try to catch it, but forget your project completely and immediately
  * stop coding! ;)
  *
  * @access private
@@ -24,7 +24,7 @@ class ezcBaseWhateverException extends ezcBaseException
 {
     /**
      * Constructs a new ezcBaseWhateverException.
-     * 
+     *
      * @param string $what  What happened?
      * @param string $where Where did it happen?
      * @param string $who   Who is responsible?

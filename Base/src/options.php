@@ -26,9 +26,9 @@ abstract class ezcBaseOptions implements ArrayAccess
     /**
      * Construct a new options object.
      * Options are constructed from an option array by default. The constructor
-     * automatically passes the given options to the __set() method to set them 
+     * automatically passes the given options to the __set() method to set them
      * in the class.
-     * 
+     *
      * @throws ezcBasePropertyNotFoundException
      *         If trying to access a non existent property.
      * @throws ezcBaseValueException
@@ -46,7 +46,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     /**
      * Merge an array into the actual options object.
      * This method merges an array of new options into the actual options object.
-     * 
+     *
      * @throws ezcBasePropertyNotFoundException
      *         If trying to access a non existent property.
      * @throws ezcBaseValueException
@@ -60,11 +60,11 @@ abstract class ezcBaseOptions implements ArrayAccess
             $this->__set( $key, $value );
         }
     }
-    
+
     /**
      * Property get access.
      * Simply returns a given option.
-     * 
+     *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
      * @param string $propertyName The name of the option to get.
@@ -84,11 +84,11 @@ abstract class ezcBaseOptions implements ArrayAccess
         }
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
-    
+
     /**
      * Sets an option.
      * This method is called when an option is set.
-     * 
+     *
      * @param string $propertyName  The name of the option to set.
      * @param mixed $propertyValue The option value.
      * @ignore
@@ -104,7 +104,7 @@ abstract class ezcBaseOptions implements ArrayAccess
 
     /**
      * Returns if a option exists.
-     * 
+     *
      * @param string $propertyName Option name to check for.
      * @return bool Whether the option exists.
      * @ignore
@@ -117,7 +117,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     /**
      * Returns if an option exists.
      * Allows isset() using ArrayAccess.
-     * 
+     *
      * @param string $propertyName The name of the option to get.
      * @return bool Whether the option exists.
      */
@@ -129,7 +129,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     /**
      * Returns an option value.
      * Get an option value by ArrayAccess.
-     * 
+     *
      * @throws ezcBasePropertyNotFoundException
      *         If $propertyName is not a key in the $properties array.
      * @param string $propertyName The name of the option to get.
@@ -143,7 +143,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     /**
      * Set an option.
      * Sets an option using ArrayAccess.
-     * 
+     *
      * @throws ezcBasePropertyNotFoundException
      *         If $propertyName is not a key in the $properties array.
      * @throws ezcBaseValueException
@@ -159,7 +159,7 @@ abstract class ezcBaseOptions implements ArrayAccess
     /**
      * Unset an option.
      * Unsets an option using ArrayAccess.
-     * 
+     *
      * @throws ezcBasePropertyNotFoundException
      *         If $propertyName is not a key in the $properties array.
      * @throws ezcBaseValueException
