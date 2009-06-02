@@ -19,13 +19,13 @@ class ezcDocumentRstMissingDirectiveHandlerException extends ezcDocumentExceptio
 {
     /**
      * Construct exception from directive name
-     * 
-     * @param string $name 
+     *
+     * @param string $name
      * @return void
      */
     public function __construct( $name )
     {
-        parent::__construct( 
+        parent::__construct(
             "No directive handler registered for directive '{$name}'."
         );
     }

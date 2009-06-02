@@ -10,7 +10,7 @@
 
 /**
  * Tokenizer for RST documents
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -40,7 +40,7 @@ class ezcDocumentRstTokenizer
      * List with tokens and a regular expression matching the given token.
      *
      * The tokens are matched in the given order.
-     * 
+     *
      * @var array
      */
     protected $tokens = array();
@@ -50,7 +50,7 @@ class ezcDocumentRstTokenizer
      *
      * Create token array with regular repression matching the respective
      * token.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -78,13 +78,13 @@ class ezcDocumentRstTokenizer
 
     /**
      * Tokenize the given file
-     * 
+     *
      * The method tries to tokenize the passed files and returns an array of
      * ezcDocumentRstToken struct on succes, or throws a
      * ezcDocumentTokenizerException, if something could not be matched by any
      * token.
      *
-     * @param string $file 
+     * @param string $file
      * @return array
      */
     public function tokenizeFile( $file )
@@ -102,8 +102,8 @@ class ezcDocumentRstTokenizer
      *
      * Convert all tabs to spaces, as defined in:
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#whitespace
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @return void
      */
     protected function convertTabs( ezcDocumentRstToken $token )
@@ -119,13 +119,13 @@ class ezcDocumentRstTokenizer
 
     /**
      * Tokenize the given string
-     * 
+     *
      * The method tries to tokenize the passed strings and returns an array of
      * ezcDocumentRstToken struct on succes, or throws a
      * ezcDocumentTokenizerException, if something could not be matched by any
      * token.
      *
-     * @param string $string 
+     * @param string $string
      * @return array
      */
     public function tokenizeString( $string )

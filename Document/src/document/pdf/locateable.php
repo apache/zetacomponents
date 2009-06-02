@@ -24,7 +24,7 @@ interface ezcDocumentPdfLocateable
      *
      * Return the elements location ID, based on the factors described in the
      * class header.
-     * 
+     *
      * @return string
      */
     public function getLocationId();

@@ -15,7 +15,7 @@
  *           Error reporting level. All errors with a severity greater or equel
  *           then the defined level are converted to exceptions. All other
  *           errors are just stored in errors property of the parser class.
- * 
+ *
  * @package Document
  * @version //autogen//
  */

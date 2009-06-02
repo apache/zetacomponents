@@ -14,7 +14,7 @@
  * The sectioninfo elements contain metadata about the document or
  * sections, which are transformed into the respective metadata in the HTML
  * header.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -23,7 +23,7 @@ class ezcDocumentDocbookToHtmlHeadHandler extends ezcDocumentDocbookToHtmlBaseHa
     /**
      * Element name mapping for meta information in the docbook document to
      * HTML meta element names.
-     * 
+     *
      * @var array
      */
     protected $headerMapping = array(
@@ -39,7 +39,7 @@ class ezcDocumentDocbookToHtmlHeadHandler extends ezcDocumentDocbookToHtmlBaseHa
      * Element name mapping for meta information in the docbook document to
      * HTML meta element names, using the dublin core extensions for meta
      * elements.
-     * 
+     *
      * @var array
      */
     protected $dcHeaderMapping = array(
@@ -57,17 +57,17 @@ class ezcDocumentDocbookToHtmlHeadHandler extends ezcDocumentDocbookToHtmlBaseHa
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $headerMapping = $converter->options->dublinCoreMetadata ? $this->dcHeaderMapping : $this->headerMapping;
         $head = $this->getHead( $root );
-       
+
         foreach ( $headerMapping as $tagName => $metaName )
         {
             if ( ( $nodes = $node->getElementsBytagName( $tagName ) ) &&

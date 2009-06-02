@@ -13,7 +13,7 @@
  *
  * Emphasis markup is used to emphasize text inside a paragraph and is
  * rendered, depending on the assigned role, as strong or em tags in HTML.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,17 +24,17 @@ class ezcDocumentEzXmlToDocbookEmphasisHandler extends ezcDocumentElementVisitor
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         $element = $root->ownerDocument->createElement( 'emphasis' );
         $root->appendChild( $element );
-            
+
         if ( $node->tagName === 'strong' )
         {
             $element->setAttribute( 'Role', 'strong' );

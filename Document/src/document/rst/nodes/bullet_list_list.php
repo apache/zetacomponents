@@ -11,7 +11,7 @@
 
 /**
  * An aggregating AST node for bullet list items nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,8 +20,8 @@ class ezcDocumentRstBulletListListNode extends ezcDocumentRstNode
 {
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token )
@@ -33,8 +33,8 @@ class ezcDocumentRstBulletListListNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

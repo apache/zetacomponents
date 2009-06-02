@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document text line tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,8 +18,8 @@ class ezcDocumentWikiTextLineToken extends ezcDocumentWikiToken
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

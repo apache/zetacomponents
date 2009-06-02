@@ -10,7 +10,7 @@
 
 /**
  * Visitor for RST contents directives
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -21,9 +21,9 @@ class ezcDocumentRstContentsDirective extends ezcDocumentRstDirective implements
      *
      * Create a docbook XML structure at the directives position in the
      * document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
@@ -41,10 +41,10 @@ class ezcDocumentRstContentsDirective extends ezcDocumentRstDirective implements
      * Recursively generate a XHtml table of contents from the given section
      * with the specified depth. Use -1 as depth to display the complete
      * section tree.
-     * 
-     * @param ezcDocumentRstSectionNode $node 
-     * @param DOMElement $root 
-     * @param int $depth 
+     *
+     * @param ezcDocumentRstSectionNode $node
+     * @param DOMElement $root
+     * @param int $depth
      * @return void
      */
     protected function generateTocList( ezcDocumentRstNode $node, DOMElement $root, $depth )
@@ -86,9 +86,9 @@ class ezcDocumentRstContentsDirective extends ezcDocumentRstDirective implements
      * Transform directive to HTML
      *
      * Create a XHTML structure at the directives position in the document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toXhtml( DOMDocument $document, DOMElement $root )

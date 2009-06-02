@@ -17,7 +17,7 @@
  * Also visits title elements, which are commonly the first element in sections
  * and define section titles, which are converted to HTML header elements of
  * the respective level of indentation
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -25,7 +25,7 @@ class ezcDocumentDocbookToRstSectionHandler extends ezcDocumentDocbookToRstBaseH
 {
     /**
      * Current level of indentation in the docbook document.
-     * 
+     *
      * @var int
      */
     protected $level = -1;
@@ -35,10 +35,10 @@ class ezcDocumentDocbookToRstSectionHandler extends ezcDocumentDocbookToRstBaseH
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

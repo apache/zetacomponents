@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml blockquotes and blockquote attributions
- * 
+ *
  * The sematic meaning of the cite XHtml element is sometimes referenced as
  * blockquote attribution, and sometimes as inline quotes. We decide its
  * meaning depending on the parent node type.
@@ -24,8 +24,8 @@ class ezcDocumentXhtmlBlockquoteElementFilter extends ezcDocumentXhtmlElementBas
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -61,8 +61,8 @@ class ezcDocumentXhtmlBlockquoteElementFilter extends ezcDocumentXhtmlElementBas
      *
      * Returns a boolean value, indicating whether this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

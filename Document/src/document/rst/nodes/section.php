@@ -11,7 +11,7 @@
 
 /**
  * The document section AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,29 +20,29 @@ class ezcDocumentRstSectionNode extends ezcDocumentRstNode
 {
     /**
      * Section title
-     * 
+     *
      * @var string
      */
     public $title;
 
     /**
      * Depth of section nesting
-     * 
+     *
      * @var int
      */
     public $depth;
 
     /**
      * Title reference name
-     * 
+     *
      * @var string
      */
     public $reference;
 
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @param ezcDocumentRstTitleNode $title
      * @param int $depth
      * @return void
@@ -57,7 +57,7 @@ class ezcDocumentRstSectionNode extends ezcDocumentRstNode
 
     /**
      * Return node content, if available somehow
-     * 
+     *
      * @return string
      */
     protected function content()
@@ -67,8 +67,8 @@ class ezcDocumentRstSectionNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

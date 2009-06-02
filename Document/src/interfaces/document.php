@@ -10,7 +10,7 @@
 
 /**
  * A base class for document type handlers.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,14 +18,14 @@ abstract class ezcDocument
 {
     /**
      * XML document base options.
-     * 
+     *
      * @var ezcDocumentXmlOptions
      */
     protected $options;
 
     /**
      * Current document path, where the operations happen.
-     * 
+     *
      * @var string
      */
     protected $path = './';
@@ -40,15 +40,15 @@ abstract class ezcDocument
         $this->options = ( $options === null ?
             new ezcDocumentOptions() :
             $options );
-    }   
+    }
 
     /**
      * Create document from input string
-     * 
+     *
      * Create a document of the current type handler class and parse it into a
      * usable internal structure.
      *
-     * @param string $string 
+     * @param string $string
      * @return void
      */
     abstract public function loadString( $string );
@@ -59,8 +59,8 @@ abstract class ezcDocument
      * Create a document of the current type handler class and parse it into a
      * usable internal structure. The default implementation just calls
      * loadString(), but you may want to provide an optimized implementation.
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return void
      */
     public function loadFile( $file )
@@ -78,7 +78,7 @@ abstract class ezcDocument
 
     /**
      * Get document base path
-     * 
+     *
      * @return string
      */
     public function getPath()
@@ -88,7 +88,7 @@ abstract class ezcDocument
 
     /**
      * Return document compiled to the docbook format
-     * 
+     *
      * The internal document structure is compiled to the docbook format and
      * the resulting docbook document is returned.
      *
@@ -113,15 +113,15 @@ abstract class ezcDocument
      * an intermediate format.
      *
      * You may of course just call an existing converter for this conversion.
-     * 
-     * @param ezcDocumentDocbook $document 
+     *
+     * @param ezcDocumentDocbook $document
      * @return void
      */
     abstract public function createFromDocbook( ezcDocumentDocbook $document );
 
     /**
      * Return document as string
-     * 
+     *
      * Serialize the document to a string an return it.
      *
      * @return string
@@ -130,7 +130,7 @@ abstract class ezcDocument
 
     /**
      * Magic wrapper for save()
-     * 
+     *
      * @ignore
      * @return string
      */

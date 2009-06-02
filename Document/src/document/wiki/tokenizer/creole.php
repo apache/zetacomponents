@@ -18,7 +18,7 @@
  *
  * For the basic workings of the tokenizer see the class level documentation in
  * the ezcDocumentWikiTokenizer class.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -46,7 +46,7 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
      *
      * Create token array with regular repression matching the respective
      * token.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -154,7 +154,7 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
                 'class' => 'ezcDocumentWikiPluginToken',
                 'match' => '(\\A<<(?P<value>.*?)>>)Ss' ),
 
-            // Match text except 
+            // Match text except
             array(
                 'class' => 'ezcDocumentWikiTextLineToken',
                 'match' => '(\\A(?P<value>[^' . self::TEXT_END_CHARS . ']+))S' ),
@@ -174,8 +174,8 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
      * should not be passed through the normal wiki parser. So we fetch its
      * contents completely and let each tokinzer extract names and parameters
      * from the complete token itself.
-     * 
-     * @param ezcDocumentWikiPluginToken $plugin 
+     *
+     * @param ezcDocumentWikiPluginToken $plugin
      * @return void
      */
     protected function parsePluginContents( ezcDocumentWikiPluginToken $plugin )
@@ -205,8 +205,8 @@ class ezcDocumentWikiCreoleTokenizer extends ezcDocumentWikiTokenizer
      * filter should extract additional information from tokens, which are not
      * generally available yet, like the depth of a title depending on the
      * title markup.
-     * 
-     * @param array $tokens 
+     *
+     * @param array $tokens
      * @return array
      */
     protected function filterTokens( array $tokens )

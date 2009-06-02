@@ -18,7 +18,7 @@
  * using the full docbook you might prefer to use the
  * ezcDocumentEzXmlToDocbookXsltConverter with the default stylesheet from
  * Welsh.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -29,7 +29,7 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
      *
      * If no namespace has been explicitely declared in the source document
      * assume this as the defalt namespace.
-     * 
+     *
      * @var string
      */
     protected $defaultNamespace = 'ezxml';
@@ -38,13 +38,13 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
-     * 
+     *
      * @param ezcDocumentEzXmlToDocbookConverterOptions $options
      * @return void
      */
     public function __construct( ezcDocumentEzXmlToDocbookConverterOptions $options = null )
     {
-        parent::__construct( 
+        parent::__construct(
             $options === null ?
                 new ezcDocumentEzXmlToDocbookConverterOptions() :
                 $options
@@ -75,7 +75,7 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
 
     /**
      * Initialize destination document
-     * 
+     *
      * Initialize the structure which the destination document could be build
      * with. This may be an initial DOMDocument with some default elements, or
      * a string, or something else.
@@ -101,7 +101,7 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
      * Build a ezcDocumentDocument object from the structure created during the
      * visiting process.
      *
-     * @param mixed $content 
+     * @param mixed $content
      * @return ezcDocumentDocbook
      */
     protected function createDocument( $content )
@@ -118,9 +118,9 @@ class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConver
      *
      * Visit a text node in the source document and transform it to the
      * destination result
-     * 
-     * @param DOMText $node 
-     * @param mixed $root 
+     *
+     * @param DOMText $node
+     * @param mixed $root
      * @return mixed
      */
     protected function visitText( DOMText $node, $root )

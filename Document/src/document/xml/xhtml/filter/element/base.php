@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml elements.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,8 +20,8 @@ abstract class ezcDocumentXhtmlElementBaseFilter
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     abstract public function filterElement( DOMElement $element );
@@ -31,8 +31,8 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     abstract public function handles( DOMElement $element );
@@ -42,8 +42,8 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      *
      * Returns true, if the element is a block level element in XHtml, and
      * false otherwise.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return boolean
      */
     protected function isBlockLevelElement( DOMElement $element )
@@ -83,14 +83,14 @@ abstract class ezcDocumentXhtmlElementBaseFilter
             )
         );
     }
-    
+
     /**
      * Check if node is an inline element
      *
      * Check if the passed node is an inline element, eg. may occur inside a
      * text block, like a paragraph.
-     * 
-     * @param DOMNode $node 
+     *
+     * @param DOMNode $node
      * @return bool
      */
     protected function isInlineElement( DOMNode $node )
@@ -146,8 +146,8 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      * Checks if the current element is placed inline, which means, it is
      * either a descendant of some other inline element, or part of a
      * paragraph.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     protected function isInline( DOMElement $element )
@@ -163,17 +163,17 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      *
      * Check if element has the given class in its class attribute. Returns
      * true, if it is contained, or false, if not.
-     * 
-     * @param DOMElement $element 
-     * @param string $class 
+     *
+     * @param DOMElement $element
+     * @param string $class
      * @return bool
      */
     protected function hasClass( DOMElement $element, $class )
     {
         return ( $element->hasAttribute( 'class' ) &&
-                 preg_match( 
-                    '((?:^|\s)' . preg_quote( $class ) . '(?:\s|$))', 
-                    $element->getAttribute( 'class' ) 
+                 preg_match(
+                    '((?:^|\s)' . preg_quote( $class ) . '(?:\s|$))',
+                    $element->getAttribute( 'class' )
                  )
         );
     }

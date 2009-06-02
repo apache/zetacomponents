@@ -10,7 +10,7 @@
 
 /**
  * HTML visitor for the RST AST.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,7 +18,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 {
     /**
      * Mapping of class names to internal visitors for the respective nodes.
-     * 
+     *
      * @var array
      */
     protected $complexVisitMapping = array(
@@ -45,7 +45,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Direct mapping of AST node class names to docbook element names.
-     * 
+     *
      * @var array
      */
     protected $simpleVisitMapping = array(
@@ -70,7 +70,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     /**
      * Array with nodes, which can be ignored during the transformation
      * process, they only provide additional information during preprocessing.
-     * 
+     *
      * @var array
      */
     protected $skipNodes = array(
@@ -82,36 +82,36 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * DOM document
-     * 
+     *
      * @var DOMDocument
      */
     protected $document;
 
     /**
      * Reference to head node
-     * 
+     *
      * @var DOMElement
      */
     protected $head;
 
     /**
      * Current depth in document.
-     * 
+     *
      * @var int
      */
     protected $depth = 0;
 
     /**
      * HTML rendering options
-     * 
+     *
      * @var ezcDocumentHtmlConverterOptions
      */
     protected $options;
 
     /**
      * Create visitor from RST document handler.
-     * 
-     * @param ezcDocumentRst $document 
+     *
+     * @param ezcDocumentRst $document
      * @param string $path
      * @return void
      */
@@ -124,7 +124,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     /**
      * Property get access.
      * Simply returns a given option.
-     * 
+     *
      * @throws ezcBasePropertyNotFoundException
      *         If a the value for the property options is not an instance of
      * @param string $propertyName The name of the option to get.
@@ -143,11 +143,11 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
         throw new ezcBasePropertyNotFoundException( $propertyName );
     }
-    
+
     /**
      * Sets an option.
      * This method is called when an option is set.
-     * 
+     *
      * @param string $propertyName  The name of the option to set.
      * @param mixed $propertyValue The option value.
      * @ignore
@@ -178,7 +178,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Returns if a option exists.
-     * 
+     *
      * @param string $propertyName Option name to check for.
      * @return bool Whether the option exists.
      * @ignore
@@ -192,8 +192,8 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      * Docarate RST AST
      *
      * Visit the RST abstract syntax tree.
-     * 
-     * @param ezcDocumentRstDocumentNode $ast 
+     *
+     * @param ezcDocumentRstDocumentNode $ast
      * @return mixed
      */
     public function visit( ezcDocumentRstDocumentNode $ast )
@@ -242,7 +242,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
             $footnoteList->setAttribute( 'class', 'footnotes' );
             $body->appendChild( $footnoteList );
 
-            foreach( $footnotes as $footnote )
+            foreach ( $footnotes as $footnote )
             {
                 $this->visitFootnote( $footnoteList, $footnote );
             }
@@ -264,9 +264,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      * Visit a single AST node, may be called for each node found anywhere
      * as child. The current position in the DOMDocument is passed by a
      * reference to the current DOMNode, which is operated on.
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitNode( DOMNode $root, ezcDocumentRstNode $node )
@@ -317,8 +317,8 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Add stylesheets to header
-     * 
-     * @param DOMElement $head 
+     *
+     * @param DOMElement $head
      * @return void
      */
     protected function addStylesheets( DOMElement $head )
@@ -344,9 +344,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit section node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
@@ -390,8 +390,8 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      * Helper function for URL escaping
      *
      * Escapes and returns the first value in a match array
-     * 
-     * @param array $values 
+     *
+     * @param array $values
      * @ignore
      * @return string
      */
@@ -402,8 +402,8 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Escape all special characters in URIs
-     * 
-     * @param string $url 
+     *
+     * @param string $url
      * @return string
      */
     public function escapeUrl( $url )
@@ -417,9 +417,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit interpreted text node markup
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitInterpretedTextNode( DOMNode $root, ezcDocumentRstNode $node )
@@ -456,9 +456,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit external reference node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitExternalReference( DOMNode $root, ezcDocumentRstNode $node )
@@ -489,9 +489,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit internal reference node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitInternalFootnoteReference( DOMNode $root, ezcDocumentRstNode $node )
@@ -509,9 +509,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit inline target node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitInlineTarget( DOMNode $root, ezcDocumentRstNode $node )
@@ -528,9 +528,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit anonomyous reference node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitAnonymousReference( DOMNode $root, ezcDocumentRstNode $node )
@@ -549,9 +549,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit blockquotes
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitBlockquote( DOMNode $root, ezcDocumentRstNode $node )
@@ -581,9 +581,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit bullet lists
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitBulletList( DOMNode $root, ezcDocumentRstNode $node )
@@ -611,9 +611,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit enumerated lists
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitEnumeratedList( DOMNode $root, ezcDocumentRstNode $node )
@@ -657,9 +657,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
      * Generate an internal target name out of the footnote name, which may
      * contain special characters, which are not allowed for URL anchors and
      * are converted to alphanumeric strings by this method.
-     * 
-     * @param string $name 
-     * @param string $number 
+     *
+     * @param string $name
+     * @param string $number
      * @return string
      */
     protected function generateFootnoteReferenceLink( $name, $number )
@@ -684,9 +684,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit footnote
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitFootnote( DOMNode $root, ezcDocumentRstNode $node )
@@ -706,9 +706,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit line block
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitLineBlock( DOMNode $root, ezcDocumentRstNode $node )
@@ -733,9 +733,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit line block line
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitLineBlockLine( DOMNode $root, ezcDocumentRstNode $node )
@@ -751,9 +751,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit comment
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitComment( DOMNode $root, ezcDocumentRstNode $node )
@@ -765,9 +765,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit definition list item
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitDefinitionListItem( DOMNode $root, ezcDocumentRstNode $node )
@@ -786,9 +786,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit table cell
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitTableCell( DOMNode $root, ezcDocumentRstNode $node )
@@ -814,9 +814,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit field list item
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitFieldListItem( DOMNode $root, ezcDocumentRstNode $node )
@@ -830,9 +830,9 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit directive
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitDirective( DOMNode $root, ezcDocumentRstNode $node )

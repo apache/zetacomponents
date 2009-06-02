@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document image tag open marker tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,33 +18,33 @@ class ezcDocumentWikiImageStartToken extends ezcDocumentWikiInlineMarkupToken
 {
     /**
      * Image width
-     * 
+     *
      * @var int
      */
     public $width      = null;
-                    
+
     /**
      * Image height
-     * 
+     *
      * @var int
      */
     public $height     = null;
-                    
+
     /**
      * Image alignement
-     * 
+     *
      * @var string
      */
     public $alignement = null;
 
     /**
      * Get image parameter order
-     * 
+     *
      * Images may have any amount of parameters and the order may not be the
      * same for each amount. This method should return an ordered list of
      * parameter names for the given amount of parameters.
      *
-     * @param int $count 
+     * @param int $count
      * @return array
      */
     public function getImageParameterOrder( $count )
@@ -60,8 +60,8 @@ class ezcDocumentWikiImageStartToken extends ezcDocumentWikiInlineMarkupToken
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

@@ -41,21 +41,21 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
 {
     /**
      * Currently parsed file, stored for additional error context
-     * 
+     *
      * @var string
      */
     protected $file;
 
     /**
      * Expressions for tokenizing the strings.
-     * 
+     *
      * @var array
      */
     protected $expressions = array();
 
     /**
      * Tokens irrelevant to the parser, which will bee thrown away immediately
-     * 
+     *
      * @var array
      */
     protected $ignoreTokens = array(
@@ -65,7 +65,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
 
     /**
      * Names for the known tokens, for nicer error messages
-     * 
+     *
      * @var array
      */
     protected $tokenNames = array(
@@ -84,7 +84,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
     /**
      * Regular expression for characters a XML name may start with, as defined
      * at:
-     * 
+     *
      * http://www.w3.org/TR/REC-xml/#NT-NameStartChar
      */
     const XML_NAME_STARTCHAR = '(?:[:A-Za-z_])';
@@ -92,7 +92,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
 
     /**
      * Regular expression for characters a XML name may contain, as defined at:
-     * 
+     *
      * http://www.w3.org/TR/REC-xml/#NT-NameChar
      *
      * We exclude the dot (.) from the name, since this one is used to specify
@@ -156,7 +156,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      * Construct parser
      *
      * Creates the regualr expressions for tokenizing the PCSS file.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -205,7 +205,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      * Try to parse the given PCSS file and return the AST containing the file
      * contents.
      *
-     * @param string $file 
+     * @param string $file
      * @return void
      */
     public function parseFile( $file )
@@ -221,8 +221,8 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      *
      * Try to parse the given PCSS string and return the AST containing the
      * string contents.
-     * 
-     * @param string $string 
+     *
+     * @param string $string
      * @return void
      */
     public function parseString( $string )
@@ -240,7 +240,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      *
      * Returns an array of arrays representing the tokens.
      *
-     * @param string $string 
+     * @param string $string
      * @return array
      */
     protected function tokenize( $string )
@@ -314,7 +314,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      * removed fromt he token array and returned.
      *
      * @param array $types
-     * @param array $tokens 
+     * @param array $tokens
      * @return array
      */
     private function read( array $types, array &$tokens )
@@ -343,8 +343,8 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
      *
      * Parse the given token array, and create an array of directive objects
      * from it, if the token array specifies a valid PCSS file.
-     * 
-     * @param array $tokens 
+     *
+     * @param array $tokens
      * @return array
      */
     protected function parse( array $tokens )

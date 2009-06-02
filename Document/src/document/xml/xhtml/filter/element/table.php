@@ -14,7 +14,7 @@
  *
  * Tables, where the rows are nor structured into a tbody and thead are
  * restructured into those by this filter.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -23,8 +23,8 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -104,8 +104,8 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
      * Estimate, if a row in a table is a header or a footer row. This
      * estiamtion checks if there are more th elements, the td elements and
      * returns either 'thead' or 'tbody' as the row type on base of that.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return string
      */
     protected function getType( DOMElement $element )
@@ -121,8 +121,8 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

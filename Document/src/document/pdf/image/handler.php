@@ -27,8 +27,8 @@ abstract class ezcDocumentPdfImageHandler
      *
      * Returns a boolean value indicatin whether the current handler can handle
      * the passed image file.
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return bool
      */
     abstract public function canHandle( $file );
@@ -38,8 +38,8 @@ abstract class ezcDocumentPdfImageHandler
      *
      * Return an array with the image dimensions. The array will look like:
      * array( ezcDocumentPdfMeasure $width, ezcDocumentPdfMeasure $height ).
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return array
      */
     abstract public function getDimensions( $file );
@@ -49,8 +49,8 @@ abstract class ezcDocumentPdfImageHandler
      *
      * Return a string with the image mime type, identifying the type of the
      * image.
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return string
      */
     abstract public function getMimeType( $file );

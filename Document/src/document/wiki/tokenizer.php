@@ -60,7 +60,7 @@
  *
  * If the wiki markup language supports plugins you may also want to "parse"
  * the plugin contents to extract type, parameters and its text here.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -70,7 +70,7 @@ abstract class ezcDocumentWikiTokenizer
      * List with tokens and a regular expression matching the given token.
      *
      * The tokens are matched in the given order.
-     * 
+     *
      * @var array
      */
     protected $tokens = array();
@@ -80,20 +80,20 @@ abstract class ezcDocumentWikiTokenizer
      *
      * Create token array with regular repression matching the respective
      * token.
-     * 
+     *
      * @return void
      */
     abstract public function __construct();
 
     /**
      * Tokenize the given file
-     * 
+     *
      * The method tries to tokenize the passed files and returns an array of
      * ezcDocumentWikiToken struct on succes, or throws a
      * ezcDocumentTokenizerException, if something could not be matched by any
      * token.
      *
-     * @param string $file 
+     * @param string $file
      * @return array
      */
     public function tokenizeFile( $file )
@@ -111,8 +111,8 @@ abstract class ezcDocumentWikiTokenizer
      *
      * Convert all tabs to spaces, as defined in:
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#whitespace
-     * 
-     * @param ezcDocumentWikiToken $token 
+     *
+     * @param ezcDocumentWikiToken $token
      * @return void
      */
     protected function convertTabs( ezcDocumentWikiToken $token )
@@ -133,21 +133,21 @@ abstract class ezcDocumentWikiTokenizer
      * filter should extract additional information from tokens, which are not
      * generally available yet, like the depth of a title depending on the
      * title markup.
-     * 
-     * @param array $tokens 
+     *
+     * @param array $tokens
      * @return array
      */
     abstract protected function filterTokens( array $tokens );
 
     /**
      * Tokenize the given string
-     * 
+     *
      * The method tries to tokenize the passed strings and returns an array of
      * ezcDocumentWikiToken struct on succes, or throws a
      * ezcDocumentTokenizerException, if something could not be matched by any
      * token.
      *
-     * @param string $string 
+     * @param string $string
      * @return array
      */
     public function tokenizeString( $string )

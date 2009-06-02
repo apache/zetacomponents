@@ -59,7 +59,7 @@
  *  $document->createFromDocbook( $docbook );
  *  echo $document->save();
  * </code>
- * 
+ *
  * @package Document
  * @version //autogen//
  * @mainclass

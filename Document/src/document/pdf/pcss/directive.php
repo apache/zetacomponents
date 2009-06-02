@@ -20,51 +20,51 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
 {
     /**
      * Directive address
-     * 
+     *
      * @var array
      */
     public $address;
 
     /**
      * Array of formatting rules
-     * 
+     *
      * @var array
      */
     public $formats;
 
     /**
      * File, directive has been extracted from
-     * 
+     *
      * @var string
      */
     public $file;
 
     /**
      * Line of directive
-     * 
+     *
      * @var int
      */
     public $line;
 
     /**
      * Position of directive
-     * 
+     *
      * @var int
      */
     public $position;
 
     /**
      * Regular expression compiled from directive address
-     * 
+     *
      * @var string
      */
     protected $regularExpression = null;
 
     /**
-     * Construct directive from address and formats 
-     * 
-     * @param string $address 
-     * @param array $formats 
+     * Construct directive from address and formats
+     *
+     * @param string $address
+     * @param array $formats
      * @return void
      */
     public function __construct( array $address, array $formats, $file = null, $line = null, $position = null )
@@ -81,7 +81,7 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
      *
      * Compiles the address of this style directive into a PCRE regular
      * expression, which then can be matched against location IDs.
-     * 
+     *
      * @return void
      */
     protected function compileRegularExpression()
@@ -152,7 +152,7 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
      * the directive, intended to match location IDs representing
      * the docbook element nodes.
      *
-     * @param string $locationId 
+     * @param string $locationId
      * @return string
      */
     public function getRegularExpression()
@@ -167,8 +167,8 @@ class ezcDocumentPdfCssDirective extends ezcBaseStruct
 
     /**
      * Recreate directive from var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return ezcDocumentPdfCssDirective
      */
     public static function __set_state( $properties )

@@ -10,7 +10,7 @@
 
 /**
  * Visitor for RST include directives
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -21,8 +21,8 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective implements 
      *
      * Check for the files location, and return the absolute path to the file,
      * or thorw an exception, if the file could not be found.
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return string
      */
     protected function getFile( $file )
@@ -52,9 +52,9 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective implements 
      *
      * Create a docbook XML structure at the directives position in the
      * document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
@@ -99,9 +99,9 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective implements 
      * Transform directive to HTML
      *
      * Create a XHTML structure at the directives position in the document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toXhtml( DOMDocument $document, DOMElement $root )

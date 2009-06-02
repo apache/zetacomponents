@@ -88,7 +88,7 @@ class ezcDocumentXsltConverterOptions extends ezcDocumentConverterOptions
                 }
 
                 $this->properties[$name] = (bool) $value;
-                break; 
+                break;
 
             default:
                 parent::__set( $name, $value );

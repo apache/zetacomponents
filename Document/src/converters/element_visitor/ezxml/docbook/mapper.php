@@ -14,7 +14,7 @@
  * Special visitor for elements which just need trivial mapping of element
  * tag names. It ignores all attributes of the input element and just
  * converts the tag name.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -25,7 +25,7 @@ class ezcDocumentEzXmlToDocbookMappingHandler extends ezcDocumentElementVisitorH
      *
      * Element tag name mapping for elements, which just require trivial
      * mapping used by the visitWithMapper() method.
-     * 
+     *
      * @var array
      */
     protected $mapping = array(
@@ -39,10 +39,10 @@ class ezcDocumentEzXmlToDocbookMappingHandler extends ezcDocumentElementVisitorH
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

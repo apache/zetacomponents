@@ -12,7 +12,7 @@
  * Visit eZXml line elements
  *
  * Line elements are used to enforce breakes inside text.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -23,10 +23,10 @@ class ezcDocumentEzXmlToDocbookLineHandler extends ezcDocumentElementVisitorHand
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
@@ -65,7 +65,7 @@ class ezcDocumentEzXmlToDocbookLineHandler extends ezcDocumentElementVisitorHand
         if ( $node->nextSibling )
         {
             $newParagraph = $node->ownerDocument->createElement( 'paragraph' );
-            
+
             do {
                 $newParagraph->appendChild( $node->nextSibling->cloneNode( true ) );
                 $node->parentNode->removeChild( $node->nextSibling );

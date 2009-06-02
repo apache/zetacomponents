@@ -12,7 +12,7 @@
 /**
  * Filter for XHtml elements, which just do require some plain mapping to
  * semantic docbook elements.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -21,7 +21,7 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
 {
     /**
      * Mapping of XHtml elements to their semantic meanings.
-     * 
+     *
      * @var array
      */
     protected $nameMapping = array(
@@ -53,13 +53,13 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
 
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
     {
-        $element->setProperty( 
+        $element->setProperty(
             'type',
             $this->nameMapping[$element->tagName]
         );
@@ -70,8 +70,8 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

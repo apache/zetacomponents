@@ -13,7 +13,7 @@
  *
  * All literal elements are considered literal blocks, and though are moved
  * outside of the paragraph.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,10 +24,10 @@ class ezcDocumentEzXmlToDocbookLiteralHandler extends ezcDocumentElementVisitorH
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
@@ -40,7 +40,7 @@ class ezcDocumentEzXmlToDocbookLiteralHandler extends ezcDocumentElementVisitorH
         if ( $node->nextSibling )
         {
             $newParagraph = $node->ownerDocument->createElement( 'paragraph' );
-            
+
             do {
                 $newParagraph->appendChild( $node->nextSibling->cloneNode( true ) );
                 $node->parentNode->removeChild( $node->nextSibling );

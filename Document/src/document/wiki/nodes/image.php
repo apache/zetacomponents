@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document inline image syntax tree nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,43 +18,43 @@ class ezcDocumentWikiImageNode extends ezcDocumentWikiInlineNode
 {
     /**
      * Image resource description
-     * 
+     *
      * @var array
      */
     public $resource = array();
 
     /**
      * Image title
-     * 
+     *
      * @var array
      */
     public $title = array();
 
     /**
      * Image alignement
-     * 
+     *
      * @var string
      */
     public $alignement;
 
     /**
      * Image width
-     * 
+     *
      * @var int
      */
     public $width;
 
     /**
      * Image height
-     * 
+     *
      * @var int
      */
     public $height;
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

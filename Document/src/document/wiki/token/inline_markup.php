@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document nline markup tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */

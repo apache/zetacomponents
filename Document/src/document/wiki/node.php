@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document document abstract syntax tree nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,37 +18,37 @@ abstract class ezcDocumentWikiNode extends ezcBaseStruct
 {
     /**
      * Line of node in source file.
-     * 
+     *
      * @var int
      */
     public $line;
 
     /**
      * Character position of node in source file.
-     * 
+     *
      * @var int
      */
     public $position;
 
     /**
      * Child nodes
-     * 
+     *
      * @var mixed
      */
     public $nodes = array();
 
     /**
      * Optional reference to token, not available for all nodes.
-     * 
+     *
      * @var ezcDocumentWikiToken
      */
     public $token = null;
 
     /**
      * Construct Wiki node
-     * 
+     *
      * @param ezcDocumentWikiToken $token
-     * @param int $type 
+     * @param int $type
      * @return void
      */
     public function __construct( ezcDocumentWikiToken $token )
@@ -60,8 +60,8 @@ abstract class ezcDocumentWikiNode extends ezcBaseStruct
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

@@ -22,7 +22,7 @@ abstract class ezcDocumentEzXmlLinkConverter
      *
      * Return an array of the attributes, which should be set for the link.
      *
-     * @param string $url 
+     * @param string $url
      * @return array
      */
     abstract public function getUrlProperties( $url );

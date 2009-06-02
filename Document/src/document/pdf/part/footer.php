@@ -23,35 +23,35 @@ class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart
 {
     /**
      * Options of footer
-     * 
+     *
      * @var ezcDocumentPdfFooterOptions
      */
     protected $options;
 
     /**
      * Reference to rendered document
-     * 
+     *
      * @var DOMDocument
      */
     protected $document;
 
     /**
      * Extracted title information
-     * 
+     *
      * @var mixed
      */
     protected $documentTitle;
 
     /**
      * Extracted author information
-     * 
+     *
      * @var mixed
      */
     protected $documentAuthor;
 
     /**
      * Create a new footer PDF part
-     * 
+     *
      * @return void
      */
     public function __construct( ezcDocumentPdfFooterOptions $options = null )
@@ -66,8 +66,8 @@ class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart
      *
      * Hook called on page creation, so that certain areas might be reserved or
      * it already may render stuff on the frshly created page.
-     * 
-     * @param ezcDocumentPdfPage $page 
+     *
+     * @param ezcDocumentPdfPage $page
      * @return void
      */
     public function hookPageCreation( ezcDocumentPdfPage $page )
@@ -153,8 +153,8 @@ class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart
      * Hook on document creation
      *
      * Hook called when a new document is created.
-     * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
      * @return void
      */
     public function hookDocumentCreation( ezcDocumentPdfInferencableDomElement $element )

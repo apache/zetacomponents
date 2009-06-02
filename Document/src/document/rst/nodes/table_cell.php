@@ -11,7 +11,7 @@
 
 /**
  * The table cell AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,21 +20,21 @@ class ezcDocumentRstTableCellNode extends ezcDocumentRstNode
 {
     /**
      * Table cell colspan
-     * 
+     *
      * @var int
      */
     public $colspan = 1;
 
     /**
      * Table cell rowspan
-     * 
+     *
      * @var int
      */
     public $rowspan = 1;
 
     /**
      * Construct RST document node
-     * 
+     *
      * @param ezcDocumentRstToken $token
      * @return void
      */
@@ -47,7 +47,7 @@ class ezcDocumentRstTableCellNode extends ezcDocumentRstNode
 
     /**
      * Return node content, if available somehow
-     * 
+     *
      * @return string
      */
     protected function content()
@@ -57,8 +57,8 @@ class ezcDocumentRstTableCellNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

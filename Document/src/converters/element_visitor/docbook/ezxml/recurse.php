@@ -11,7 +11,7 @@
 /**
  * Handler for elements, which are self to ignore itself, and just should rbe
  * recursed into.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -22,10 +22,10 @@ class ezcDocumentDocbookToEzXmlRecurseHandler extends ezcDocumentElementVisitorH
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

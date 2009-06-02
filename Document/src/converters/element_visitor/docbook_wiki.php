@@ -35,13 +35,13 @@ class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConvert
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
-     * 
+     *
      * @param ezcDocumentDocbookToWikiConverterOptions $options
      * @return void
      */
     public function __construct( ezcDocumentDocbookToWikiConverterOptions $options = null )
     {
-        parent::__construct( 
+        parent::__construct(
             $options === null ?
                 new ezcDocumentDocbookToWikiConverterOptions() :
                 $options
@@ -91,7 +91,7 @@ class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConvert
 
     /**
      * Initialize destination document
-     * 
+     *
      * Initialize the structure which the destination document could be build
      * with. This may be an initial DOMDocument with some default elements, or
      * a string, or something else.
@@ -111,7 +111,7 @@ class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConvert
      * Build a ezcDocumentDocument object from the structure created during the
      * visiting process.
      *
-     * @param mixed $content 
+     * @param mixed $content
      * @return ezcDocumentDocument
      */
     protected function createDocument( $content )
@@ -130,9 +130,9 @@ class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConvert
      *
      * Wrap the given text to the line width specified in the converter
      * options, with an optional indentation.
-     * 
-     * @param string $text 
-     * @param int $indentation 
+     *
+     * @param string $text
+     * @param int $indentation
      * @return string
      */
     public static function wordWrap( $text, $indentation = 0 )
@@ -151,8 +151,8 @@ class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConvert
 
     /**
      * Escape RST text
-     * 
-     * @param string $string 
+     *
+     * @param string $string
      * @return string
      */
     public static function escapeWikiText( $string )
@@ -167,9 +167,9 @@ class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConvert
      *
      * Visit a text node in the source document and transform it to the
      * destination result
-     * 
-     * @param DOMText $node 
-     * @param mixed $root 
+     *
+     * @param DOMText $node
+     * @param mixed $root
         * @return mixed
      */
     protected function visitText( DOMText $node, $root )
@@ -189,8 +189,8 @@ class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConvert
      * footnotes are embedded directly in the text in docbook, aggregated
      * during the processing of the document, and displayed at the bottom
      * of the RST document.
-     * 
-     * @param string $root 
+     *
+     * @param string $root
      * @return string
      */
     protected function finishDocument( $root )

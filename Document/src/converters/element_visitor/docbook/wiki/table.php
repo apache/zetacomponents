@@ -23,7 +23,7 @@
  * The initial table cell estiation happens inside the function
  * estimateColumnWidths() which you might want to extend to fit your needs
  * better.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -34,10 +34,10 @@ class ezcDocumentDocbookToWikiTableHandler extends ezcDocumentDocbookToWikiBaseH
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
@@ -50,7 +50,7 @@ class ezcDocumentDocbookToWikiTableHandler extends ezcDocumentDocbookToWikiBaseH
             $cells = $row->getElementsByTagName( 'entry' );
             foreach ( $cells as $cell )
             {
-                $root .= ( $header ? '|= ' : '| ' ) . 
+                $root .= ( $header ? '|= ' : '| ' ) .
                     preg_replace( '(\s+)', ' ', trim( $converter->visitChildren( $cell, '' ) ) );
                 $root .= ' ';
             }

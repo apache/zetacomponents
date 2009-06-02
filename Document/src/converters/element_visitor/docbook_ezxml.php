@@ -17,7 +17,7 @@
  * using the full docbook you might prefer to use the
  * ezcDocumentDocbookToEzXmlXsltConverter with the default stylesheet from
  * Welsh.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -25,7 +25,7 @@ class ezcDocumentDocbookToEzXmlConverter extends ezcDocumentElementVisitorConver
 {
     /**
      * Reference to the HTML header section
-     * 
+     *
      * @var DOMElement
      */
     protected $head;
@@ -33,14 +33,14 @@ class ezcDocumentDocbookToEzXmlConverter extends ezcDocumentElementVisitorConver
     /**
      * Array for footnotes aggregated during the processing of the document.
      * Will be rendered at the end of the HTML document.
-     * 
+     *
      * @var array
      */
     protected $footnotes = array();
 
     /**
      * Autoincrementing number for footnotes.
-     * 
+     *
      * @var int
      */
     protected $footnoteNumber = 0;
@@ -49,13 +49,13 @@ class ezcDocumentDocbookToEzXmlConverter extends ezcDocumentElementVisitorConver
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
-     * 
+     *
      * @param ezcDocumentDocbookToEzXmlConverterOptions $options
      * @return void
      */
     public function __construct( ezcDocumentDocbookToEzXmlConverterOptions $options = null )
     {
-        parent::__construct( 
+        parent::__construct(
             $options === null ?
                 new ezcDocumentDocbookToEzXmlConverterOptions() :
                 $options
@@ -104,7 +104,7 @@ class ezcDocumentDocbookToEzXmlConverter extends ezcDocumentElementVisitorConver
 
     /**
      * Initialize destination document
-     * 
+     *
      * Initialize the structure which the destination document could be build
      * with. This may be an initial DOMDocument with some default elements, or
      * a string, or something else.
@@ -131,7 +131,7 @@ class ezcDocumentDocbookToEzXmlConverter extends ezcDocumentElementVisitorConver
      * Build a ezcDocumentDocument object from the structure created during the
      * visiting process.
      *
-     * @param mixed $content 
+     * @param mixed $content
      * @return ezcDocumentDocument
      */
     protected function createDocument( $content )
@@ -149,9 +149,9 @@ class ezcDocumentDocbookToEzXmlConverter extends ezcDocumentElementVisitorConver
      *
      * Visit a text node in the source document and transform it to the
      * destination result
-     * 
-     * @param DOMText $node 
-     * @param mixed $root 
+     *
+     * @param DOMText $node
+     * @param mixed $root
      * @return mixed
      */
     protected function visitText( DOMText $node, $root )
@@ -172,8 +172,8 @@ class ezcDocumentDocbookToEzXmlConverter extends ezcDocumentElementVisitorConver
      * embedded directly in the text in docbook, aggregated during the
      * processing of the document, and displayed at the bottom of the HTML
      * document.
-     * 
-     * @param DOMElement $root 
+     *
+     * @param DOMElement $root
      * @return void
      */
     protected function appendFootnotes( DOMElement $root )
@@ -216,8 +216,8 @@ class ezcDocumentDocbookToEzXmlConverter extends ezcDocumentElementVisitorConver
      * Append a footnote to the document, which then will be visited at the end
      * of the document processing. Returns a numeric identifier for the
      * footnote.
-     * 
-     * @param DOMElement $node 
+     *
+     * @param DOMElement $node
      * @return int
      */
     public function appendFootnote( DOMElement $node )

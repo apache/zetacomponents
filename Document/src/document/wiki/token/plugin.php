@@ -14,7 +14,7 @@
  * The most complex token, just contains the full plugin contents. May be post
  * process by the tokenizer to extract its type, parameters and text values.
  * Otherwise it will be ignored, and not handled properly by the parser.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -22,29 +22,29 @@ class ezcDocumentWikiPluginToken extends ezcDocumentWikiBlockMarkupToken
 {
     /**
      * Plugin type / name.
-     * 
+     *
      * @var string
      */
     public $type;
 
     /**
      * Plugin parameters
-     * 
+     *
      * @var array
      */
     public $parameters;
 
     /**
      * Plugin content
-     * 
+     *
      * @var string
      */
     public $text;
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

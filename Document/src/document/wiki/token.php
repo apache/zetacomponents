@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document document tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,32 +18,32 @@ abstract class ezcDocumentWikiToken extends ezcBaseStruct
 {
     /**
      * Token content
-     * 
+     *
      * @var mixed
      */
     public $content;
 
     /**
      * Line of the token in the source file
-     * 
+     *
      * @var int
      */
     public $line;
 
     /**
      * Position of the token in its line.
-     * 
+     *
      * @var int
      */
     public $position;
 
     /**
      * Construct Wiki token
-     * 
+     *
      * @ignore
-     * @param string $content 
-     * @param int $line 
-     * @param int $position 
+     * @param string $content
+     * @param int $line
+     * @param int $position
      * @return void
      */
     public function __construct( $content, $line, $position = 0 )
@@ -55,8 +55,8 @@ abstract class ezcDocumentWikiToken extends ezcBaseStruct
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

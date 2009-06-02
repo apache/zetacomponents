@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document abstract syntax tree table item nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,8 +18,8 @@ class ezcDocumentWikiTableNode extends ezcDocumentWikiBlockLevelNode
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

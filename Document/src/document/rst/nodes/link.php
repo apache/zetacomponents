@@ -11,7 +11,7 @@
 
 /**
  * The base link AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,7 +20,7 @@ abstract class ezcDocumentRstLinkNode extends ezcDocumentRstNode
 {
     /**
      * The target the link points too.
-     * 
+     *
      * @var string
      */
     public $target = false;

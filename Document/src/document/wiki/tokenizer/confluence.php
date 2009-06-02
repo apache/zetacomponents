@@ -20,7 +20,7 @@
  *
  * For the basic workings of the tokenizer see the class level documentation in
  * the ezcDocumentWikiTokenizer class.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -46,7 +46,7 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
     /**
      * Mapping of confluence image attribute names to image start token
      * properties.
-     * 
+     *
      * @var array
      */
     protected $imageAttributeMapping = array(
@@ -60,7 +60,7 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
      *
      * Create token array with regular repression matching the respective
      * token.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -160,7 +160,7 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
                 'class' => 'ezcDocumentWikiImageEndToken',
                 'match' => '(\\A(?P<value>!))S' ),
 
-            // Match text except 
+            // Match text except
             array(
                 'class' => 'ezcDocumentWikiTextLineToken',
                 'match' => '(\\A(?P<value>[^' . self::TEXT_END_CHARS . ']+))S' ),
@@ -180,8 +180,8 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
      * should not be passed through the normal wiki parser. So we fetch its
      * contents completely and let each tokinzer extract names and parameters
      * from the complete token itself.
-     * 
-     * @param ezcDocumentWikiPluginToken $plugin 
+     *
+     * @param ezcDocumentWikiPluginToken $plugin
      * @return void
      */
     protected function parsePluginContents( ezcDocumentWikiPluginToken $plugin )
@@ -226,8 +226,8 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
      * other wiki languages, so that they cannot be handled by the default
      * parser.
      *
-     * @param ezcDocumentWikiImageStartToken $token 
-     * @param mixed $descriptor 
+     * @param ezcDocumentWikiImageStartToken $token
+     * @param mixed $descriptor
      * @return void
      */
     protected function parseImageDescriptor( ezcDocumentWikiImageStartToken $token, $descriptor )
@@ -256,8 +256,8 @@ class ezcDocumentWikiConfluenceTokenizer extends ezcDocumentWikiTokenizer
      * filter should extract additional information from tokens, which are not
      * generally available yet, like the depth of a title depending on the
      * title markup.
-     * 
-     * @param array $tokens 
+     *
+     * @param array $tokens
      * @return array
      */
     protected function filterTokens( array $tokens )

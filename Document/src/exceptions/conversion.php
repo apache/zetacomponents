@@ -18,7 +18,7 @@ class ezcDocumentConversionException extends ezcDocumentException
 {
     /**
      * Mapping of error levels to strings
-     * 
+     *
      * @var array
      */
     protected $levelMapping = array(
@@ -32,26 +32,26 @@ class ezcDocumentConversionException extends ezcDocumentException
      * Error string
      *
      * String describing the general type of this error
-     * 
+     *
      * @var string
      */
     protected $errorString = 'Conversion error';
 
     /**
      * Original exception message
-     * 
+     *
      * @var string
      */
     public $parseError;
 
     /**
      * Construct exception from errnous string and current position
-     * 
-     * @param int $level 
-     * @param string $message 
-     * @param string $file 
-     * @param int $line 
-     * @param int $position 
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
      * @return void
      */
     public function __construct( $level, $message, $file = null, $line = null, $position = null, Exception $exception = null )

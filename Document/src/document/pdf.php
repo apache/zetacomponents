@@ -10,7 +10,7 @@
 
 /**
  * Document handler for PDF documents.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @mainclass
@@ -19,28 +19,28 @@ class ezcDocumentPdf extends ezcDocument
 {
     /**
      * Container for style directives.
-     * 
+     *
      * @var ezcDocumentPdfStyleInferencer
      */
     protected $styles;
 
     /**
      * The generated PDF
-     * 
+     *
      * @var string
      */
     protected $content;
 
     /**
      * List of PDF parts to append to documents
-     * 
+     *
      * @var array(ezcDocumentPdfPart)
      */
     protected $pdfParts = array();
 
     /**
      * Construct RST document.
-     * 
+     *
      * @ignore
      * @param ezcDocumentPdfOptions $options
      * @return void
@@ -56,11 +56,11 @@ class ezcDocumentPdf extends ezcDocument
 
     /**
      * Create document from input string
-     * 
+     *
      * Create a document of the current type handler class and parse it into a
      * usable internal structure.
      *
-     * @param string $string 
+     * @param string $string
      * @return void
      */
     public function loadString( $string )
@@ -73,8 +73,8 @@ class ezcDocumentPdf extends ezcDocument
      *
      * Parse and load a PCSS file and use the resulting style definitions for
      * rendering.
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return void
      */
     public function loadStyles( $file )
@@ -90,7 +90,7 @@ class ezcDocumentPdf extends ezcDocument
      *
      * Register additional PDF parts to be included in the rendering process,
      * like headers and footers.
-     * 
+     *
      * @param ezcDocumentPdfPart $part
      * @return void
      */
@@ -101,7 +101,7 @@ class ezcDocumentPdf extends ezcDocument
 
     /**
      * Return document compiled to the docbook format
-     * 
+     *
      * The internal document structure is compiled to the docbook format and
      * the resulting docbook document is returned.
      *
@@ -129,8 +129,8 @@ class ezcDocumentPdf extends ezcDocument
      * an intermediate format.
      *
      * You may of course just call an existing converter for this conversion.
-     * 
-     * @param ezcDocumentDocbook $document 
+     *
+     * @param ezcDocumentDocbook $document
      * @return void
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
@@ -150,7 +150,7 @@ class ezcDocumentPdf extends ezcDocument
 
     /**
      * Return document as string
-     * 
+     *
      * Serialize the document to a string an return it.
      *
      * @return string

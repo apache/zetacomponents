@@ -28,21 +28,21 @@ class ezcDocumentPdfImage
 
     /**
      * Path to image file
-     * 
+     *
      * @var string
      */
     protected $file;
 
     /**
      * Handler used for the current image file.
-     * 
+     *
      * @var ezcDocumentPdfImageHandler
      */
     protected $currentHandler;
 
     /**
      * Construct new image handler
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -54,8 +54,8 @@ class ezcDocumentPdfImage
 
     /**
      * Create image handler object from file
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return ezcDocumentPdfImage
      */
     public static function createFromFile( $file )
@@ -67,19 +67,19 @@ class ezcDocumentPdfImage
 
     /**
      * Register additional image handler
-     * 
-     * @param ezcDocumentPdfImageHandler $handler 
+     *
+     * @param ezcDocumentPdfImageHandler $handler
      * @return void
      */
     public static function registerImageHander( ezcDocumentPdfImageHandler $handler )
     {
         self::$handler[] = $handler;
     }
-    
+
     /**
      * Load image file
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return void
      */
     public function loadFile( $file )
@@ -104,7 +104,7 @@ class ezcDocumentPdfImage
      *
      * Return an array with the image dimensions. The array will look like:
      * array( ezcDocumentPdfMeasure $width, ezcDocumentPdfMeasure $height ).
-     * 
+     *
      * @return array
      */
     public function getDimensions()
@@ -117,7 +117,7 @@ class ezcDocumentPdfImage
      *
      * Return a string with the image mime type, identifying the type of the
      * image.
-     * 
+     *
      * @return string
      */
     public function getMimeType()

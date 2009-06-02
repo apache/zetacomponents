@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml literals.
- * 
+ *
  * Literal blocks in HTML are not really differentiated between inline
  * literals and literal blocks, so we decide on the actual semantics based
  * on the parent node. If the parent node is a block level element, but not
@@ -25,8 +25,8 @@ class ezcDocumentXhtmlLiteralElementFilter extends ezcDocumentXhtmlElementBaseFi
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -46,8 +46,8 @@ class ezcDocumentXhtmlLiteralElementFilter extends ezcDocumentXhtmlElementBaseFi
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

@@ -15,7 +15,7 @@
  *           Classname of the XHTML visitor to use.
  * @property string $xhtmlVisitorOptions
  *           Options class conatining the options of the XHtml visitor.
- * 
+ *
  * @package Document
  * @version //autogen//
  */

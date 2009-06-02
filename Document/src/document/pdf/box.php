@@ -22,39 +22,39 @@ class ezcDocumentPdfBoundingBox extends ezcBaseStruct
 {
     /**
      * Vertical box position
-     * 
+     *
      * @var float
      */
     public $x;
 
     /**
      * Horizontal box position
-     * 
+     *
      * @var float
      */
     public $y;
 
     /**
-     * Box width 
-     * 
+     * Box width
+     *
      * @var float
      */
     public $width;
 
     /**
      * Box height
-     * 
+     *
      * @var float
      */
     public $height;
 
     /**
      * Construct a bounding box from its dimensions
-     * 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param float $x
+     * @param float $y
+     * @param float $width
+     * @param float $height
      * @return void
      */
     public function __construct( $x, $y, $width, $height )

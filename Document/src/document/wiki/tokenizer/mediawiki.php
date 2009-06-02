@@ -16,7 +16,7 @@
  * Wikipedia. The markup has a lot extension, but the basics are defined at:
  *
  * http://www.mediawiki.org/wiki/Markup_spec
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -50,7 +50,7 @@ class ezcDocumentWikiMediawikiTokenizer extends ezcDocumentWikiTokenizer
      *
      * Create token array with regular repression matching the respective
      * token.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -168,7 +168,7 @@ class ezcDocumentWikiMediawikiTokenizer extends ezcDocumentWikiTokenizer
                 'match' => '(\\A<<(?P<value>.*?)>>)Ss' ),
         */
 
-            // Match text except 
+            // Match text except
             array(
                 'class' => 'ezcDocumentWikiTextLineToken',
                 'match' => '(\\A(?P<value>[^' . self::TEXT_END_CHARS . ']+))S' ),
@@ -177,13 +177,13 @@ class ezcDocumentWikiMediawikiTokenizer extends ezcDocumentWikiTokenizer
 
     /**
      * Tokenize the given string
-     * 
+     *
      * The method tries to tokenize the passed strings and returns an array of
      * ezcDocumentWikiToken struct on succes, or throws a
      * ezcDocumentTokenizerException, if something could not be matched by any
      * token.
      *
-     * @param string $string 
+     * @param string $string
      * @return array
      */
     public function tokenizeString( $string )
@@ -202,8 +202,8 @@ class ezcDocumentWikiMediawikiTokenizer extends ezcDocumentWikiTokenizer
      * filter should extract additional information from tokens, which are not
      * generally available yet, like the depth of a title depending on the
      * title markup.
-     * 
-     * @param array $tokens 
+     *
+     * @param array $tokens
      * @return array
      */
     protected function filterTokens( array $tokens )

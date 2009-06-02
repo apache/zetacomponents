@@ -19,12 +19,12 @@ class ezcDocumentVisitException extends ezcDocumentException
 {
     /**
      * Construct exception from errnous string and current position
-     * 
-     * @param int $level 
-     * @param string $message 
-     * @param string $file 
-     * @param int $line 
-     * @param int $position 
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
      * @return void
      */
     public function __construct( $level, $message, $file, $line, $position )
@@ -36,7 +36,7 @@ class ezcDocumentVisitException extends ezcDocumentException
             E_PARSE   => 'Fatal error',
         );
 
-        parent::__construct( 
+        parent::__construct(
             sprintf( "Visitor error: %s: '%s' in line %d at position %d.",
                 $levelMapping[$level],
                 $message,

@@ -18,7 +18,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
 {
     /**
      * Tcpdf Document instance
-     * 
+     *
      * @var Tcpdf
      */
     protected $document;
@@ -26,7 +26,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
     /**
      * Page instances, given as an array, indexed by their page number starting
      * with 0.
-     * 
+     *
      * @var array
      */
     protected $pages;
@@ -39,7 +39,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * The fourth value for each font is bold + oblique, the index is the
      * bitwise and combination of the repective combinations. Each font MUST
      * have at least a value for FONT_PLAIN assigned.
-     * 
+     *
      * @var array
      */
     protected $fonts = array(
@@ -71,14 +71,14 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
 
     /**
      * Reference to the page currently rendered on
-     * 
+     *
      * @var haruPage
      */
     protected $currentpage;
 
     /**
      * Name and style of default font / currently used font
-     * 
+     *
      * @var array
      */
     protected $currentFont = array(
@@ -91,7 +91,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * Construct driver
      *
      * Creates a new document instance maintaining all document context.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -128,9 +128,9 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * Create a new page
      *
      * Create a new page in the PDF document with the given width and height.
-     * 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param float $width
+     * @param float $height
      * @return void
      */
     public function createPage( $width, $height )
@@ -148,9 +148,9 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * If the font does not support the given style, it falls back to the style
      * used beforehand, and if this is also not support the plain style will be
      * used.
-     * 
-     * @param string $name 
-     * @param int $style 
+     *
+     * @param string $name
+     * @param int $style
      * @return void
      */
     public function trySetFont( $name, $style )
@@ -191,8 +191,8 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * backend calls.
      *
      *
-     * @param string $type 
-     * @param mixed $value 
+     * @param string $type
+     * @param mixed $value
      * @return void
      */
     public function setTextFormatting( $type, $value )
@@ -254,8 +254,8 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      *
      * Calculate the width of the passed word, using the currently set text
      * formatting options.
-     * 
-     * @param string $word 
+     *
+     * @param string $word
      * @return float
      */
     public function calculateWordWidth( $word )
@@ -268,7 +268,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      *
      * Return the current line height in millimeter based on the current font
      * and text rendering settings.
-     * 
+     *
      * @return float
      */
     public function getCurrentLineHeight()
@@ -283,10 +283,10 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * formatting options.
      *
      * The coordinate specifies the left bottom edge of the words bounding box.
-     * 
-     * @param float $x 
-     * @param float $y 
-     * @param string $word 
+     *
+     * @param float $x
+     * @param float $y
+     * @param string $word
      * @return void
      */
     public function drawWord( $x, $y, $word )
@@ -309,13 +309,13 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * dimensions do not neccesarily match the real image dimensions, and might
      * require some kind of scaling inside the driver depending on the used
      * backend.
-     * 
-     * @param string $file 
-     * @param string $type 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param string $file
+     * @param string $type
+     * @param float $x
+     * @param float $y
+     * @param float $width
+     * @param float $height
      * @return void
      */
     public function drawImage( $file, $type, $x, $y, $width, $height )
@@ -339,7 +339,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.
-     * 
+     *
      * @return string
      */
     public function save()

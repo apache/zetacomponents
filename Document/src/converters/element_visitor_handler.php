@@ -11,7 +11,7 @@
 /**
  * Abstract base handler class for conversions done by converters extending
  * from ezcDocumentDocbookElementVisitorConverter.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -22,10 +22,10 @@ abstract class ezcDocumentElementVisitorHandler
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentDocbookElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentDocbookElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     abstract public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root );

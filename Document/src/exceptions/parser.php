@@ -20,7 +20,7 @@ class ezcDocumentParserException extends ezcDocumentConversionException
      * Error string
      *
      * String describing the general type of this error
-     * 
+     *
      * @var string
      */
     protected $errorString = 'Parse error';

@@ -11,7 +11,7 @@
 
 /**
  * The table AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,7 +20,7 @@ class ezcDocumentRstTableNode extends ezcDocumentRstBlockNode
 {
     /**
      * Construct RST document node
-     * 
+     *
      * @param ezcDocumentRstToken $token
      * @return void
      */
@@ -33,8 +33,8 @@ class ezcDocumentRstTableNode extends ezcDocumentRstBlockNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

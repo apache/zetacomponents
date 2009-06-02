@@ -11,7 +11,7 @@
 
 /**
  * The footnote AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,14 +20,14 @@ class ezcDocumentRstFootnoteNode extends ezcDocumentRstNode
 {
     /**
      * Footnote target name
-     * 
+     *
      * @var array
      */
     public $name;
 
     /**
      * Footnote number
-     * 
+     *
      * @var int
      */
     public $number;
@@ -35,7 +35,7 @@ class ezcDocumentRstFootnoteNode extends ezcDocumentRstNode
     /**
      * Type of footnote. May be either a normal footnote, or a citation
      * reference.
-     * 
+     *
      * @var int
      */
     public $footnoteType = self::NUMBERED;
@@ -51,7 +51,7 @@ class ezcDocumentRstFootnoteNode extends ezcDocumentRstNode
     const AUTO_NUMBERED = 2;
 
     /**
-     * Labeled auto numbered footnote 
+     * Labeled auto numbered footnote
      */
     const LABELED = 4;
 
@@ -67,10 +67,10 @@ class ezcDocumentRstFootnoteNode extends ezcDocumentRstNode
 
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
-     * @param array $name 
-     * @param int $footnoteType 
+     *
+     * @param ezcDocumentRstToken $token
+     * @param array $name
+     * @param int $footnoteType
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token, array $name, $footnoteType = self::NUMBERED )
@@ -85,8 +85,8 @@ class ezcDocumentRstFootnoteNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

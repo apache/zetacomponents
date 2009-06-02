@@ -18,14 +18,14 @@ class ezcDocumentWikiParser extends ezcDocumentParser
 {
     /**
      * Array containing simplified shift ruleset
-     * 
+     *
      * We cannot express the Wiki syntax as a usual grammar using a BNF. With
      * the pumping lemma for context free grammars [1] you can easily prove,
      * that the word a^n b c^n d e^n is not a context free grammar, and this is
      * what the title definitions are.
      *
      * This structure contains an array with callbacks implementing the shift
-     * rules for all tokens. There may be multiple rules for one single token. 
+     * rules for all tokens. There may be multiple rules for one single token.
      *
      * The callbacks itself create syntax elements and push them to the
      * document stack. After each push the reduction callbacks will be called
@@ -73,7 +73,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      *      ...
      *  )
      * </code>
-     * 
+     *
      * @var array
      */
     protected $reductions = array(
@@ -129,14 +129,14 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Each element in the stack has to be an object extending from
      * ezcDocumentRstNode, which may again contain any amount such objects.
      * This way an abstract syntax tree is constructed.
-     * 
+     *
      * @var array
      */
     protected $documentStack = array();
 
     /**
      * Flag if we are inside a line level node
-     * 
+     *
      * @var bool
      */
     protected $insideLineToken = false;
@@ -147,7 +147,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Token to node conversions are used for tokens, which do not require any
      * additional checking of the tokens context. This is especially useful,
      * because the wiki tokenizer already implement a lot of this logic.
-     * 
+     *
      * @var array
      */
     protected $conversionsArray = array(
@@ -155,7 +155,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiTextLineToken'             => 'ezcDocumentWikiTextNode',
         'ezcDocumentWikiWhitespaceToken'           => 'ezcDocumentWikiTextNode',
         'ezcDocumentWikiSpecialCharsToken'         => 'ezcDocumentWikiTextNode',
-                                            
+
         'ezcDocumentWikiTitleToken'                => 'ezcDocumentWikiTitleNode',
         'ezcDocumentWikiParagraphIndentationToken' => 'ezcDocumentWikiBlockquoteNode',
         'ezcDocumentWikiQuoteToken'                => 'ezcDocumentWikiBlockquoteNode',
@@ -165,7 +165,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
         'ezcDocumentWikiLiteralBlockToken'         => 'ezcDocumentWikiLiteralBlockNode',
         'ezcDocumentWikiTableRowToken'             => 'ezcDocumentWikiTableRowNode',
         'ezcDocumentWikiPluginToken'               => 'ezcDocumentWikiPluginNode',
-                                            
+
         'ezcDocumentWikiBoldToken'                 => 'ezcDocumentWikiBoldNode',
         'ezcDocumentWikiItalicToken'               => 'ezcDocumentWikiItalicNode',
         'ezcDocumentWikiUnderlineToken'            => 'ezcDocumentWikiUnderlineNode',
@@ -199,8 +199,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      *
      * Parse an array of ezcDocumentWikiToken objects into a wiki abstract
      * syntax tree.
-     * 
-     * @param array &$tokens 
+     *
+     * @param array &$tokens
      * @return ezcDocumentWikiDocumentNode
      */
     public function parse( array $tokens )
@@ -236,7 +236,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             // If the node is still null there was not matching shift rule.
             if ( $node === false )
             {
-                return $this->triggerError( E_PARSE, 
+                return $this->triggerError( E_PARSE,
                     "Could not find shift rule for token '" . get_class( $token ) . "'.",
                     $token->line, $token->position
                 );
@@ -304,7 +304,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
              ( !( $document = reset( $this->documentStack ) ) instanceof ezcDocumentWikiDocumentNode ) )
         {
             $node = isset( $document ) ? $document : reset( $this->documentStack );
-            $this->triggerError(    
+            $this->triggerError(
                 E_PARSE,
                 'Expected end of file, got: ' . get_class( $this->documentStack[1] ) . ".",
                 $this->documentStack[1]->token->line, $this->documentStack[1]->token->position
@@ -320,9 +320,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Escape tokens will cause that the following token is ignored in his
      * common meaning. The following token is converted to plain text, while
      * the escape token will be removed.
-     * 
-     * @param ezcDocumentWikiToken $token 
-     * @param array &$tokens 
+     *
+     * @param ezcDocumentWikiToken $token
+     * @param array &$tokens
      * @return mixed
      */
     protected function shiftEscapeToken( ezcDocumentWikiToken $token, array &$tokens )
@@ -346,9 +346,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Some wiki markup languages use a second title token at the end of the
      * line instead of just a line break. In the case we are already inside a
      * line token, just shift an invisible line break.
-     * 
-     * @param ezcDocumentWikiToken $token 
-     * @param array &$tokens 
+     *
+     * @param ezcDocumentWikiToken $token
+     * @param array &$tokens
      * @return mixed
      */
     protected function shiftTitleToken( ezcDocumentWikiToken $token, array &$tokens )
@@ -375,9 +375,9 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Paragraphs are always indicated by multiple new line tokens. When
      * detected we just shift a paragraph node, which the will be reduced with
      * prior inline nodes.
-     * 
-     * @param ezcDocumentWikiToken $token 
-     * @param array &$tokens 
+     *
+     * @param ezcDocumentWikiToken $token
+     * @param array &$tokens
      * @return mixed
      */
     protected function shiftNewLineToken( ezcDocumentWikiToken $token, array &$tokens )
@@ -444,7 +444,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
 
     /**
      * Shift with token conversion
-     * 
+     *
      * Token to node conversions are used for tokens, which do not require any
      * additional checking of the tokens context. This is especially useful,
      * because the wiki tokenizer already implement a lot of this logic.
@@ -452,8 +452,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * The actual conversions are specified in the class property
      * $conversionsArray.
      *
-     * @param ezcDocumentWikiToken $token 
-     * @param array &$tokens 
+     * @param ezcDocumentWikiToken $token
+     * @param array &$tokens
      * @return mixed
      */
     protected function shiftWithTokenConversion( ezcDocumentWikiToken $token, array &$tokens )
@@ -483,8 +483,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Reduce texts into single nodes, if the prior node is also a text node.
      * This reduces the number of AST nodes required to represent texts
      * drastically.
-     * 
-     * @param ezcDocumentWikiTextNode $node 
+     *
+     * @param ezcDocumentWikiTextNode $node
      * @return mixed
      */
     protected function reduceText( ezcDocumentWikiTextNode $node )
@@ -505,8 +505,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Paragraphs are reduce with all inline tokens, which have been added to
      * the document stack before. If there are no inline nodes, the paragraph
      * will be ommitted.
-     * 
-     * @param ezcDocumentWikiParagraphNode $node 
+     *
+     * @param ezcDocumentWikiParagraphNode $node
      * @return mixed
      */
     protected function reduceParagraph( ezcDocumentWikiParagraphNode $node )
@@ -562,8 +562,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * If a new section has been found all sections with a higher depth level
      * can be closed, and all items fitting into sections may be aggregated by
      * the respective sections as well.
-     * 
-     * @param ezcDocumentWikiSectionNode $node 
+     *
+     * @param ezcDocumentWikiSectionNode $node
      * @return void
      */
     protected function reduceSection( ezcDocumentWikiSectionNode $node )
@@ -592,7 +592,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             {
                 if ( $child->level <= $node->level )
                 {
-                    $child->nodes = array_merge( 
+                    $child->nodes = array_merge(
                         $child->nodes,
                         $collected
                     );
@@ -622,7 +622,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
                     /* DEBUG
                     echo "   -> Reduce section {$child->level}.\n";
                     // /DEBUG */
-                    $child->nodes = array_merge( 
+                    $child->nodes = array_merge(
                         $child->nodes,
                         $collected
                     );
@@ -646,8 +646,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
 
     /**
      * Reduce all elements to one document node.
-     * 
-     * @param ezcDocumentWikiTitleNode $node 
+     *
+     * @param ezcDocumentWikiTitleNode $node
      * @return void
      */
     protected function reduceTitleToSection( ezcDocumentWikiTitleNode $node )
@@ -669,8 +669,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      *
      * Reduction rule for inline markup which is intended to have a matching
      * counterpart in the same block level element.
-     * 
-     * @param ezcDocumentWikiMatchingInlineNode $node 
+     *
+     * @param ezcDocumentWikiMatchingInlineNode $node
      * @return mixed
      */
     protected function reduceMatchingInlineMarkup( ezcDocumentWikiMatchingInlineNode $node )
@@ -708,8 +708,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      *
      * Line nodes are closed at the end of their respective line. The end is
      * marked by an ezcDocumentWikiInvisibleBreakNode.
-     * 
-     * @param ezcDocumentWikiInvisibleBreakNode $node 
+     *
+     * @param ezcDocumentWikiInvisibleBreakNode $node
      * @return mixed
      */
     protected function reduceLineNode( ezcDocumentWikiInvisibleBreakNode $node )
@@ -757,8 +757,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Reduce wiki links
      *
      * Reduce links with all of their aggregated parameters.
-     * 
-     * @param ezcDocumentWikiLinkEndToken $node 
+     *
+     * @param ezcDocumentWikiLinkEndToken $node
      * @return mixed
      */
     protected function reduceLinkNodes( ezcDocumentWikiLinkEndNode $node )
@@ -810,8 +810,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Reduce wiki image references
      *
      * Reduce image references with all of their aggregated parameters.
-     * 
-     * @param ezcDocumentWikiLinkEndToken $node 
+     *
+     * @param ezcDocumentWikiLinkEndToken $node
      * @return mixed
      */
     protected function reduceImageNodes( ezcDocumentWikiImageEndNode $node )
@@ -869,14 +869,14 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Reduce wiki footnotes
      *
      * Reduce inline footnotes
-     * 
-     * @param ezcDocumentWikiFootnoteEndNode $node 
+     *
+     * @param ezcDocumentWikiFootnoteEndNode $node
      * @return mixed
      */
     protected function reduceFootnoteNodes( ezcDocumentWikiFootnoteEndNode $node )
     {
         // Collect inline nodes
-        $collected = array(); 
+        $collected = array();
         while ( isset( $this->documentStack[0] ) &&
                 ( $this->documentStack[0] instanceof ezcDocumentWikiInlineNode ) &&
                 ( !$this->documentStack[0] instanceof ezcDocumentWikiFootnoteNode ) )
@@ -904,8 +904,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      *
      * Reduce multline block quote nodes, which are not already closed by line
      * endings.
-     * 
-     * @param ezcDocumentWikiBlockquoteNode $node 
+     *
+     * @param ezcDocumentWikiBlockquoteNode $node
      * @return mixed
      */
     protected function reduceBlockquoteNode( ezcDocumentWikiBlockquoteNode $node )
@@ -941,8 +941,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Reduce bullet list items to list
      *
      * Reduce list items to lists, and create new wrapping list nodes.
-     * 
-     * @param ezcDocumentWikiBlockLevelNode $node 
+     *
+     * @param ezcDocumentWikiBlockLevelNode $node
      * @return mixed
      */
     protected function reduceBulletListItem( ezcDocumentWikiBlockLevelNode $node )
@@ -975,8 +975,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      * Reduce enumerated list items to list
      *
      * Reduce list items to lists, and create new wrapping list nodes.
-     * 
-     * @param ezcDocumentWikiBlockLevelNode $node 
+     *
+     * @param ezcDocumentWikiBlockLevelNode $node
      * @return mixed
      */
     protected function reduceEnumeratedListItem( ezcDocumentWikiBlockLevelNode $node )
@@ -1007,10 +1007,10 @@ class ezcDocumentWikiParser extends ezcDocumentParser
 
     /**
      * Merge lists recusively
-     * 
+     *
      * Merge lists recusively
-     * 
-     * @param array $lists 
+     *
+     * @param array $lists
      * @return ezcDocumentWikiListNode
      */
     protected function mergeListRecursively( array $lists )
@@ -1046,8 +1046,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      *
      * Stack lists with higher indentation into each other and merge multiple
      * lists of same type and indentation.
-     * 
-     * @param ezcDocumentWikiBlockLevelNode $node 
+     *
+     * @param ezcDocumentWikiBlockLevelNode $node
      * @return mixed
      */
     protected function reduceLists( ezcDocumentWikiBlockLevelNode $node )
@@ -1124,8 +1124,8 @@ class ezcDocumentWikiParser extends ezcDocumentParser
      *
      * Reduce the nodes aagregated for one table row into table cells, and
      * merge the table rows into table nodes.
-     * 
-     * @param ezcDocumentWikiTableRowNode $node 
+     *
+     * @param ezcDocumentWikiTableRowNode $node
      * @return mixed
      */
     protected function reduceTableRow( ezcDocumentWikiTableRowNode $node )
@@ -1170,7 +1170,7 @@ class ezcDocumentWikiParser extends ezcDocumentParser
             $table = array_shift( $this->documentStack );
         }
         $table->nodes[] = $node;
-    
+
         return $table;
     }
 }

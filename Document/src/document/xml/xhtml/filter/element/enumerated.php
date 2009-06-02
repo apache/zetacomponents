@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml enumerated lists.
- * 
+ *
  * Enumerated lists may have additional information about the list type
  * they are numbered with (alpha, roman, ..), which is kept by this method.
  *
@@ -23,8 +23,8 @@ class ezcDocumentXhtmlEnumeratedElementFilter extends ezcDocumentXhtmlElementBas
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -40,7 +40,7 @@ class ezcDocumentXhtmlEnumeratedElementFilter extends ezcDocumentXhtmlElementBas
         if ( $element->hasAttribute( 'type' ) &&
              isset( $types[$type = $element->getAttribute( 'type' )] ) )
         {
-            $element->setProperty( 'attributes', array( 
+            $element->setProperty( 'attributes', array(
                 'numeration' => $types[$type],
             ) );
         }
@@ -51,8 +51,8 @@ class ezcDocumentXhtmlEnumeratedElementFilter extends ezcDocumentXhtmlElementBas
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

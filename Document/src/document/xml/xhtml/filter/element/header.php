@@ -12,7 +12,7 @@
 /**
  * Filter for XHtml header elements, including grouping all following siblings
  * on the same header level in a section.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -21,8 +21,8 @@ class ezcDocumentXhtmlHeaderElementFilter extends ezcDocumentXhtmlElementBaseFil
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -30,7 +30,7 @@ class ezcDocumentXhtmlHeaderElementFilter extends ezcDocumentXhtmlElementBaseFil
         // Create new parent node if we found a header and aggregate everything
         // below the actual header into this node.
         $section = new ezcDocumentXhtmlDomElement( 'div' );
-        
+
         $parent = $element->parentNode;
 
         // Replace header with new section node
@@ -78,8 +78,8 @@ class ezcDocumentXhtmlHeaderElementFilter extends ezcDocumentXhtmlElementBaseFil
      * levels h1-6 we repect a level specified in the class attribute, which is
      * for example used by the RST to XHtml conversion to specify header levels
      * higher then 6.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return int
      */
     protected function getHeaderLevel( DOMElement $element )
@@ -102,8 +102,8 @@ class ezcDocumentXhtmlHeaderElementFilter extends ezcDocumentXhtmlElementBaseFil
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

@@ -12,7 +12,7 @@
 /**
  * Abstract base class for XHtml filters, assigning semantic information to
  * XHtml documents.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -24,8 +24,8 @@ abstract class ezcDocumentXhtmlBaseFilter
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.
-     * 
-     * @param DOMDocument $document 
+     *
+     * @param DOMDocument $document
      * @return DOMDocument
      */
     abstract public function filter( DOMDocument $document );

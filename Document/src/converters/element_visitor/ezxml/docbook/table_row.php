@@ -13,7 +13,7 @@
  *
  * Visit tables, which are quite similar to HTML tables and transform to
  * classic Docbook tables.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,10 +24,10 @@ class ezcDocumentEzXmlToDocbookTableRowHandler extends ezcDocumentElementVisitor
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
@@ -38,7 +38,7 @@ class ezcDocumentEzXmlToDocbookTableRowHandler extends ezcDocumentElementVisitor
         $xpath = new DOMXPath( $node->ownerDocument );
         $isHeader = (bool) $xpath->query( './*[local-name() = "th"]', $node )->length;
 
-        if ( $root->tagName === 'table' ) 
+        if ( $root->tagName === 'table' )
         {
             $tablePart = $root->ownerDocument->createElement( $isHeader ? 'thead' : 'tbody' );
             $root->appendChild( $tablePart );

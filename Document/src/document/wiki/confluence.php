@@ -49,7 +49,7 @@
  *
  * A converter for the conversion from docbook back to confluence wiki markup
  * has not yet been implemented.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @mainclass
@@ -58,7 +58,7 @@ class ezcDocumentConfluenceWiki extends ezcDocumentWiki
 {
     /**
      * Construct RST document.
-     * 
+     *
      * @ignore
      * @param ezcDocumentWikiOptions $options
      * @return void
@@ -83,8 +83,8 @@ class ezcDocumentConfluenceWiki extends ezcDocumentWiki
      * an intermediate format.
      *
      * You may of course just call an existing converter for this conversion.
-     * 
-     * @param ezcDocumentDocbook $document 
+     *
+     * @param ezcDocumentDocbook $document
      * @return void
      */
     public function createFromDocbook( ezcDocumentDocbook $document )

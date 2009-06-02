@@ -70,7 +70,7 @@
  *
  *  echo $rst->save();
  * </code>
- * 
+ *
  * @package Document
  * @version //autogen//
  * @mainclass
@@ -86,7 +86,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * Directives are the best entry point for custom rules, and you may
      * register custom directive classes using the class method
      * registerDirective().
-     * 
+     *
      * @var array
      */
     protected $directives = array(
@@ -110,7 +110,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * Interpreted text roles are the best entry point for custom rules for
      * inline markup. You can register custom text role using the class method
      * registerRole().
-     * 
+     *
      * @var array
      */
     protected $roles = array(
@@ -131,21 +131,21 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * Asbtract syntax tree.
      *
      * The internal representation of RST documents.
-     * 
+     *
      * @var ezcDocumentRstDocumentNode
      */
     protected $ast;
 
     /**
      * Plain RST contents as a string
-     * 
+     *
      * @var string
      */
     protected $contents;
 
     /**
      * Construct RST document.
-     * 
+     *
      * @ignore
      * @param ezcDocumentRstOptions $options
      * @return void
@@ -164,9 +164,9 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * existing directive handlers. The directives are specified by its
      * (lowercase) name and the class name, which should handle the directive
      * and extend from ezcDocumentRstDirective.
-     * 
-     * @param string $name 
-     * @param string $class 
+     *
+     * @param string $name
+     * @param string $class
      * @return void
      */
     public function registerDirective( $name, $class )
@@ -181,9 +181,9 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * existing text role handlers. The text roles are specified by its
      * (lowercase) name and the class name, which should handle the text role
      * and extend from ezcDocumentRstTextRole.
-     * 
-     * @param string $name 
-     * @param string $class 
+     *
+     * @param string $name
+     * @param string $class
      * @return void
      */
     public function registerRole( $name, $class )
@@ -195,8 +195,8 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * Get directive handler
      *
      * Get directive handler class name for the specified name.
-     * 
-     * @param string $name 
+     *
+     * @param string $name
      * @return string
      */
     public function getDirectiveHandler( $name )
@@ -214,8 +214,8 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * Get text role handler
      *
      * Get text role handler class name for the specified name.
-     * 
-     * @param string $name 
+     *
+     * @param string $name
      * @return string
      */
     public function getRoleHandler( $name )
@@ -231,11 +231,11 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
 
     /**
      * Create document from input string
-     * 
+     *
      * Create a document of the current type handler class and parse it into a
      * usable internal structure.
      *
-     * @param string $string 
+     * @param string $string
      * @return void
      */
     public function loadString( $string )
@@ -245,7 +245,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
 
     /**
      * Return document compiled to the docbook format
-     * 
+     *
      * The internal document structure is compiled to the docbook format and
      * the resulting docbook document is returned.
      *
@@ -286,8 +286,8 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      * an intermediate format.
      *
      * You may of course just call an existing converter for this conversion.
-     * 
-     * @param ezcDocumentDocbook $document 
+     *
+     * @param ezcDocumentDocbook $document
      * @return void
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
@@ -299,7 +299,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
 
     /**
      * Return document compiled to the HTML format
-     * 
+     *
      * The internal document structure is compiled to the HTML format and the
      * resulting HTML document is returned.
      *
@@ -337,7 +337,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $file
      * @return mixed
      */
@@ -354,7 +354,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $string
      * @return mixed
      */
@@ -422,7 +422,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
 
     /**
      * Return document as string
-     * 
+     *
      * Serialize the document to a string an return it.
      *
      * @return string

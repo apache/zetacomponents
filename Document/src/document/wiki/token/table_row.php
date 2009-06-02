@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document table row start tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,8 +18,8 @@ class ezcDocumentWikiTableRowToken extends ezcDocumentWikiLineMarkupToken
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

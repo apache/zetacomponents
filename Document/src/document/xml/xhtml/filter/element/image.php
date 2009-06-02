@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml images.
- * 
+ *
  * Filter HTML image elements, and try to find optional captions
  * belonging to the image, and alt tags. Transforming the images into
  * correct media objects depending wheather they are inlined or not.
@@ -24,8 +24,8 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -105,8 +105,8 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
      *
      * Extract and remove all textual contents from the node and its
      * descendants.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return string
      */
     protected function extractText( DOMElement $element )
@@ -135,8 +135,8 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

@@ -22,9 +22,9 @@ class ezcDocumentEzXmlDummyLinkProvider extends ezcDocumentEzXmlLinkProvider
      *
      * Fetch and return URL referenced by url_id property.
      *
-     * @param string $id 
-     * @param string $view 
-     * @param string $show_path 
+     * @param string $id
+     * @param string $view
+     * @param string $show_path
      * @return string
      */
     public function fetchUrlById( $id, $view, $show_path )
@@ -37,9 +37,9 @@ class ezcDocumentEzXmlDummyLinkProvider extends ezcDocumentEzXmlLinkProvider
      *
      * Create and return the URL for a referenced node.
      *
-     * @param string $id 
-     * @param string $view 
-     * @param string $show_path 
+     * @param string $id
+     * @param string $view
+     * @param string $show_path
      * @return string
      */
     public function fetchUrlByNodeId( $id, $view, $show_path )
@@ -52,9 +52,9 @@ class ezcDocumentEzXmlDummyLinkProvider extends ezcDocumentEzXmlLinkProvider
      *
      * Create and return the URL for a referenced object.
      *
-     * @param string $id 
-     * @param string $view 
-     * @param string $show_path 
+     * @param string $id
+     * @param string $view
+     * @param string $show_path
      * @return string
      */
     public function fetchUrlByObjectId( $id, $view, $show_path )

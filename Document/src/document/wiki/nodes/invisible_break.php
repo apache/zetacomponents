@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document abstract syntax tree title nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,8 +18,8 @@ class ezcDocumentWikiInvisibleBreakNode extends ezcDocumentWikiInlineNode
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

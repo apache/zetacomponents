@@ -11,7 +11,7 @@
 
 /**
  * The inline emphasis markup AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,7 +20,7 @@ class ezcDocumentRstMarkupEmphasisNode extends ezcDocumentRstMarkupNode
 {
     /**
      * Construct RST document node
-     * 
+     *
      * @param ezcDocumentRstToken $token
      * @param bool $open
      * @return void
@@ -33,8 +33,8 @@ class ezcDocumentRstMarkupEmphasisNode extends ezcDocumentRstMarkupNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

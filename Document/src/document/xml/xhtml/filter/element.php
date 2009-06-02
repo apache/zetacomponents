@@ -12,7 +12,7 @@
 /**
  * Filter, which assigns semantic information just on the base of XHtml element
  * semantics to the tree.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -21,7 +21,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
 {
     /**
      * List of element filter objects.
-     * 
+     *
      * @var array
      */
     protected $elementFilter = array();
@@ -30,7 +30,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
      * Constructor
      *
      * Create initial filter array.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -66,8 +66,8 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
 
     /**
      * Add additional element filter
-     * 
-     * @param ezcDocumentXhtmlElementBaseFilter $filter 
+     *
+     * @param ezcDocumentXhtmlElementBaseFilter $filter
      * @return void
      */
     public function addFilter( ezcDocumentXhtmlElementBaseFilter $filter )
@@ -80,8 +80,8 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.
-     * 
-     * @param DOMDocument $document 
+     *
+     * @param DOMDocument $document
      * @return DOMDocument
      */
     public function filter( DOMDocument $document )
@@ -96,7 +96,7 @@ class ezcDocumentXhtmlElementFilter extends ezcDocumentXhtmlBaseFilter
      *
      * Depending on the element name, it parents and maybe element attributes
      * semantic information is assigned to nodes.
-     * 
+     *
      * @param DOMElement $element
      * @return void
      */

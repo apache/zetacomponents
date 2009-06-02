@@ -10,7 +10,7 @@
 
 /**
  * Struct for RST document document abstract syntax tree nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -185,7 +185,7 @@ abstract class ezcDocumentRstNode extends ezcBaseStruct // implements RecursiveI
      * Anonymous reference target AST node
      */
     const ANON_REFERENCE       = 55;
-                            
+
     /**
      * Table node AST node
      */
@@ -213,35 +213,35 @@ abstract class ezcDocumentRstNode extends ezcBaseStruct // implements RecursiveI
 
     /**
      * Line of node in source file.
-     * 
+     *
      * @var int
      */
     public $line;
 
     /**
      * Character position of node in source file.
-     * 
+     *
      * @var int
      */
     public $position;
 
     /**
      * Node type
-     * 
+     *
      * @var int
      */
     public $type;
 
     /**
      * Child nodes
-     * 
+     *
      * @var mixed
      */
     public $nodes = array();
 
     /**
      * Optional reference to token, not available for all nodes.
-     * 
+     *
      * @var ezcDocumentRstToken
      */
     public $token = null;
@@ -249,16 +249,16 @@ abstract class ezcDocumentRstNode extends ezcBaseStruct // implements RecursiveI
     /**
      * Optional paragraph identifier, to reference the paragraph using internal
      * links.
-     * 
+     *
      * @var string
      */
     public $identifier = null;
 
     /**
      * Construct RST node
-     * 
+     *
      * @param ezcDocumentRstToken $token
-     * @param int $type 
+     * @param int $type
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token, $type )
@@ -273,8 +273,8 @@ abstract class ezcDocumentRstNode extends ezcBaseStruct // implements RecursiveI
      * Get node name from type
      *
      * Return a user readable name from the numeric node type.
-     * 
-     * @param int $type 
+     *
+     * @param int $type
      * @return string
      */
     public static function getTokenName( $type )
@@ -331,7 +331,7 @@ abstract class ezcDocumentRstNode extends ezcBaseStruct // implements RecursiveI
 
     /**
      * Return node content, if available somehow
-     * 
+     *
      * @return string
      */
     protected function content()
@@ -341,8 +341,8 @@ abstract class ezcDocumentRstNode extends ezcBaseStruct // implements RecursiveI
 
     /**
      * Get dump of document
-     * 
-     * @param int $depth 
+     *
+     * @param int $depth
      * @return string
      */
     public function dump( $depth = 0 )
@@ -376,8 +376,8 @@ abstract class ezcDocumentRstNode extends ezcBaseStruct // implements RecursiveI
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

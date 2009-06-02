@@ -14,7 +14,7 @@
  *
  * Tables, where the rows are nor structured into a tbody and thead are
  * restructured into those by this filter.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -23,8 +23,8 @@ class ezcDocumentXhtmlTableCellElementFilter extends ezcDocumentXhtmlElementBase
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -46,8 +46,8 @@ class ezcDocumentXhtmlTableCellElementFilter extends ezcDocumentXhtmlElementBase
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

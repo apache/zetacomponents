@@ -11,7 +11,7 @@
 /**
  * HTML visitor for the RST AST, which only produces contents to be embedded
  * somewhere into the body of an existing HTML document.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -21,8 +21,8 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
      * Docarate RST AST
      *
      * Visit the RST abstract syntax tree.
-     * 
-     * @param ezcDocumentRstDocumentNode $ast 
+     *
+     * @param ezcDocumentRstDocumentNode $ast
      * @return mixed
      */
     public function visit( ezcDocumentRstDocumentNode $ast )
@@ -71,7 +71,7 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
             $footnoteList->setAttribute( 'class', 'footnotes' );
             $body->appendChild( $footnoteList );
 
-            foreach( $footnotes as $footnote )
+            foreach ( $footnotes as $footnote )
             {
                 $this->visitFootnote( $footnoteList, $footnote );
             }
@@ -82,9 +82,9 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
 
     /**
      * Visit section node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
@@ -116,9 +116,9 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
 
     /**
      * Visit field list item
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitFieldListItem( DOMNode $root, ezcDocumentRstNode $node )

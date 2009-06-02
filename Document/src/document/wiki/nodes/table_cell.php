@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document abstract syntax tree table cell item nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,16 +18,16 @@ class ezcDocumentWikiTableCellNode extends ezcDocumentWikiBlockLevelNode
 {
     /**
      * If cell is a header cell
-     * 
+     *
      * @var bool
      */
     public $header = false;
 
     /**
      * Construct Wiki node
-     * 
+     *
      * @param ezcDocumentWikiToken $token
-     * @param int $type 
+     * @param int $type
      * @return void
      */
     public function __construct( ezcDocumentWikiToken $token )
@@ -38,8 +38,8 @@ class ezcDocumentWikiTableCellNode extends ezcDocumentWikiBlockLevelNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

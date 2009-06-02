@@ -30,9 +30,9 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
      * Returns a boolean indicator whether the rendering of the full text
      * in the available space succeeded or not.
      *
-     * @param ezcDocumentPdfPage $page 
-     * @param ezcDocumentPdfHyphenator $hyphenator 
-     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentPdfPage $page
+     * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param ezcDocumentPdfInferencableDomElement $text
      * @return bool
      */
     public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )

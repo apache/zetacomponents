@@ -23,42 +23,42 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
 {
     /**
      * Svg Document instance
-     * 
+     *
      * @var DOMDocument
      */
     protected $document;
 
     /**
      * Node of SVG root element
-     * 
+     *
      * @var DOMElement
      */
     protected $svg;
 
     /**
      * Root node for page elements
-     * 
+     *
      * @var DOMElement
      */
     protected $pages;
 
     /**
      * Root node of current page
-     * 
+     *
      * @var DOMElement
      */
     protected $currentpage;
 
     /**
      * Current inner document offset
-     * 
+     *
      * @var float
      */
     protected $offset = 0;
 
     /**
      * Next inner document offset after page creation
-     * 
+     *
      * @var float
      */
     protected $nextOffset = 0;
@@ -71,7 +71,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      * The fourth value for each font is bold + oblique, the index is the
      * bitwise and combination of the repective combinations. Each font MUST
      * have at least a value for FONT_PLAIN assigned.
-     * 
+     *
      * @var array
      */
     protected $fonts = array(
@@ -103,7 +103,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
 
     /**
      * Name and style of default font / currently used font
-     * 
+     *
      * @var array
      */
     protected $currentFont = array(
@@ -117,7 +117,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      * Construct driver
      *
      * Creates a new document instance maintaining all document context.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -140,9 +140,9 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      * Create a new page
      *
      * Create a new page in the PDF document with the given width and height.
-     * 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param float $width
+     * @param float $height
      * @return void
      */
     public function createPage( $width, $height )
@@ -171,8 +171,8 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      * backend calls.
      *
      *
-     * @param string $type 
-     * @param mixed $value 
+     * @param string $type
+     * @param mixed $value
      * @return void
      */
     public function setTextFormatting( $type, $value )
@@ -221,13 +221,13 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      *
      * Calculate the width of the passed word, using the currently set text
      * formatting options.
-     * 
-     * @param string $word 
+     *
+     * @param string $word
      * @return float
      */
     public function calculateWordWidth( $word )
     {
-        return ezcDocumentPdfMeasure::create( 
+        return ezcDocumentPdfMeasure::create(
             ( $this->currentFont['size'] * iconv_strlen( $word, 'UTF-8' ) * .43 ) . 'pt'
         )->get();
     }
@@ -237,7 +237,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      *
      * Return the current line height in millimeter based on the current font
      * and text rendering settings.
-     * 
+     *
      * @return float
      */
     public function getCurrentLineHeight()
@@ -250,10 +250,10 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      *
      * Draw the given word at the given position using the currently set text
      * formatting options.
-     * 
-     * @param float $x 
-     * @param float $y 
-     * @param string $word 
+     *
+     * @param float $x
+     * @param float $y
+     * @param string $word
      * @return void
      */
     public function drawWord( $x, $y, $word )
@@ -261,8 +261,8 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $textNode = $this->document->createElement( 'text', htmlspecialchars( $word,  ENT_QUOTES, 'UTF-8' ) );
         $textNode->setAttribute( 'x', sprintf( '%.4Fmm', $x + $this->offset ) );
         $textNode->setAttribute( 'y', sprintf( '%.4Fmm', $y ) );
-        $textNode->setAttribute( 
-            'style', 
+        $textNode->setAttribute(
+            'style',
             sprintf(
                 'font-size: %.2Fpt; font-family: %s; font-style: %s; font-weight: %s; stroke: none;',
                 $this->currentFont['size'],
@@ -287,13 +287,13 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      * dimensions do not neccesarily match the real image dimensions, and might
      * require some kind of scaling inside the driver depending on the used
      * backend.
-     * 
-     * @param string $file 
-     * @param string $type 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param string $file
+     * @param string $type
+     * @param float $x
+     * @param float $y
+     * @param float $width
+     * @param float $height
      * @return void
      */
     public function drawImage( $file, $type, $x, $y, $width, $height )
@@ -304,9 +304,9 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $image->setAttribute( 'y', sprintf( '%.4Fmm', $y ) );
         $image->setAttribute( 'width', sprintf( '%.4Fmm', $width ) );
         $image->setAttribute( 'height', sprintf( '%.4Fmm', $height ) );
-        $image->setAttributeNS( 
-            'http://www.w3.org/1999/xlink', 
-            'xlink:href', 
+        $image->setAttributeNS(
+            'http://www.w3.org/1999/xlink',
+            'xlink:href',
             sprintf( 'data:%s;base64,%s',
                 $type,
                 base64_encode( file_get_contents( $file ) )
@@ -320,7 +320,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.
-     * 
+     *
      * @return string
      */
     public function save()

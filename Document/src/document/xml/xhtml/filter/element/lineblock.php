@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml line blocks
- * 
+ *
  * There is no semantic markup for something like line blocks in HTML. Line
  * blocks are basically text with manual breaks at the end of each line (like
  * in poems). In HTML this is often indicated by a paragraph with several br
@@ -25,8 +25,8 @@ class ezcDocumentXhtmlLineBlockElementFilter extends ezcDocumentXhtmlElementBase
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -42,8 +42,8 @@ class ezcDocumentXhtmlLineBlockElementFilter extends ezcDocumentXhtmlElementBase
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

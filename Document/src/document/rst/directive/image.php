@@ -10,7 +10,7 @@
 
 /**
  * Visitor for RST image directives
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -21,9 +21,9 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
      *
      * Create a docbook XML structure at the directives position in the
      * document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
@@ -63,9 +63,9 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
 
     /**
      * Create iframe for media object
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     protected function toXhtmlObject( DOMDocument $document, DOMElement $root )
@@ -101,9 +101,9 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
      * Create common img element for media object
      *
      * For all images we use the common <img> XHtml element.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     protected function toXhtmlImage( DOMDocument $document, DOMElement $root )
@@ -139,9 +139,9 @@ class ezcDocumentRstImageDirective extends ezcDocumentRstDirective implements ez
      * Transform directive to HTML
      *
      * Create a XHTML structure at the directives position in the document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toXhtml( DOMDocument $document, DOMElement $root )

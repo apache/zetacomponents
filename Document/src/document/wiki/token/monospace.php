@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document monospace inline markup tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,8 +18,8 @@ class ezcDocumentWikiMonospaceToken extends ezcDocumentWikiInlineMarkupToken
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

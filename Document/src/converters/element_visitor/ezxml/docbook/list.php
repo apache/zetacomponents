@@ -14,7 +14,7 @@
  * Lists are children of paragraphs in eZXml, but are part of the section nodes
  * in docbook. The containing paragraph needs to be split up and the list node
  * moved to the top level node.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -25,10 +25,10 @@ class ezcDocumentEzXmlToDocbookListHandler extends ezcDocumentElementVisitorHand
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
@@ -41,7 +41,7 @@ class ezcDocumentEzXmlToDocbookListHandler extends ezcDocumentElementVisitorHand
         if ( $node->nextSibling )
         {
             $newParagraph = $node->ownerDocument->createElement( 'paragraph' );
-            
+
             do {
                 $newParagraph->appendChild( $node->nextSibling->cloneNode( true ) );
                 $node->parentNode->removeChild( $node->nextSibling );

@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document special character tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,8 +18,8 @@ class ezcDocumentWikiSpecialCharsToken extends ezcDocumentWikiToken
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

@@ -27,84 +27,84 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     /**
      * Already covered areas, given as an arrays of ezcDocumentPdfBoundingBox
      * objects.
-     * 
+     *
      * @var array
      */
     protected $covered = array();
 
     /**
      * Current transaction
-     * 
+     *
      * @var mixed
      */
     protected $transaction = 0;
 
     /**
      * Stored drawing positions for each transaction.
-     * 
+     *
      * @var array
      */
     protected $storedPositions = array();
 
     /**
      * Page number
-     * 
+     *
      * @var int
      */
     protected $pageNumber;
 
     /**
      * Current horizontal rendering position on page
-     * 
+     *
      * @var float
      */
     public $x;
 
     /**
      * Current vertical rendering position on page
-     * 
+     *
      * @var float
      */
     public $y;
 
     /**
      * X coordinate of rendering start position
-     * 
+     *
      * @var float
      */
     public $startX;
 
     /**
      * Y coordinate of rendering start position
-     * 
+     *
      * @var float
      */
     public $startY;
 
     /**
      * Width of current page - given in millimeters
-     * 
+     *
      * @var float
      */
     protected $width;
 
     /**
      * Height of current page - given in millimeters
-     * 
+     *
      * @var float
      */
     protected $height;
 
     /**
      * Inner width of current page - given in millimeters
-     * 
+     *
      * @var float
      */
     protected $innerWidth;
 
     /**
      * Inner height of current page - given in millimeters
-     * 
+     *
      * @var float
      */
     protected $innerHeight;
@@ -168,12 +168,12 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
 
     /**
      * Construct new fresh page from its dimensions
-     * 
+     *
      * @param int $pageNumber
-     * @param float $width 
-     * @param float $height 
-     * @param mixed $innerWidth 
-     * @param mixed $innerHeight 
+     * @param float $width
+     * @param float $height
+     * @param mixed $innerWidth
+     * @param mixed $innerHeight
      * @return void
      */
     public function __construct( $pageNumber, $width, $height, $innerWidth = null, $innerHeight = null )
@@ -190,12 +190,12 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      *
      * Create page from common page size abbreviations, like "A4" and page
      * orientation.
-     * 
+     *
      * @param int $pageNumber
-     * @param mixed $size 
-     * @param mixed $orientation 
-     * @param array $margin 
-     * @param array $padding 
+     * @param mixed $size
+     * @param mixed $orientation
+     * @param array $margin
+     * @param array $padding
      * @return ezcDocumentPdfPage
      */
     public static function createFromSpecification( $pageNumber, $size, $orientation, array $margin, array $padding )
@@ -245,14 +245,14 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         // Update rendering start position
         $page->x = $page->startX = $leftBorder;
         $page->y = $page->startY = $topBorder;
-        
+
         return $page;
     }
 
     /**
      * Wrapper for virtual property access
-     * 
-     * @param string $property 
+     *
+     * @param string $property
      * @return mixed
      */
     public function __get( $property )
@@ -299,8 +299,8 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      *
      * Revert all transactions after the specified (including the specified)
      * transaction.
-     * 
-     * @param mixed $transaction 
+     *
+     * @param mixed $transaction
      * @return void
      */
     public function revert( $transaction )
@@ -336,8 +336,8 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      *
      * There is no check for overlapping of covered areas in here, so that you
      * can add bounding boxes wrapping multiple already existing rectangles.
-     * 
-     * @param ezcDocumentPdfBoundingBox $rectangle 
+     *
+     * @param ezcDocumentPdfBoundingBox $rectangle
      * @return void
      */
     public function setCovered( ezcDocumentPdfBoundingBox $rectangle )
@@ -359,11 +359,11 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      * If, for example, the yPos parameter is set to null, but all other
      * parameters are set, the box will be moved down the page, until a
      * available location could be found.
-     * 
-     * @param mixed $xPos 
-     * @param mixed $yPos 
-     * @param mixed $width 
-     * @param mixed $height 
+     *
+     * @param mixed $xPos
+     * @param mixed $yPos
+     * @param mixed $width
+     * @param mixed $height
      * @return mixed
      */
     public function testFitRectangle( $xPos = null, $yPos = null, $width = null, $height = null )
@@ -443,7 +443,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
                 {
                     // Adjust bounding box width, if only the right coordinate hit
                     // the covered area.
-                    if ( $adjustWidth && 
+                    if ( $adjustWidth &&
                          ( $xOut & 12 ) )
                     {
                         $boundings->width = $covered->x - $boundings->x;
@@ -451,7 +451,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
 
                     // Adjust bounding box width, if only the right coordinate hit
                     // the covered area.
-                    if ( $adjustHeight && 
+                    if ( $adjustHeight &&
                          ( $yOut & 12 ) )
                     {
                         $boundings->height = $covered->y - $boundings->y;
@@ -463,9 +463,9 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
                     // to check the next covering area. We cannot do the continue
                     // in one of the blocks above, because we might need to modify
                     // both.
-                    if ( ( $adjustWidth && 
+                    if ( ( $adjustWidth &&
                            ( $xOut & 12 ) ) ||
-                         ( $adjustHeight && 
+                         ( $adjustHeight &&
                            ( $yOut & 12 ) ) )
                     {
                         continue;
@@ -515,7 +515,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      *
      * Return the elements location ID, based on the factors described in the
      * class header.
-     * 
+     *
      * @return string
      */
     public function getLocationId()

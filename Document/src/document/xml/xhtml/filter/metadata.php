@@ -12,7 +12,7 @@
 /**
  * Filter, which assigns semantic information just on the base of XHtml element
  * semantics to the tree.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -21,7 +21,7 @@ class ezcDocumentXhtmlMetadataFilter extends ezcDocumentXhtmlBaseFilter
 {
     /**
      * Metadata name mapping
-     * 
+     *
      * @var array
      */
     protected $mapping = array(
@@ -54,15 +54,15 @@ class ezcDocumentXhtmlMetadataFilter extends ezcDocumentXhtmlBaseFilter
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.
-     * 
-     * @param DOMDocument $document 
+     *
+     * @param DOMDocument $document
      * @return DOMDocument
      */
     public function filter( DOMDocument $document )
     {
         $xpath = new DOMXPath( $document );
 
-        // Remove document title, as it is not 
+        // Remove document title, as it is not
         $metadata = $xpath->query( '/*[local-name() = "html"]/*[local-name() = "head"]/*[local-name() = "meta"]' );
         foreach ( $metadata as $node )
         {
@@ -74,7 +74,7 @@ class ezcDocumentXhtmlMetadataFilter extends ezcDocumentXhtmlBaseFilter
      * Filter meta data
      *
      * Filter meta elements in HTML header for relevant metadata.
-     * 
+     *
      * @param DOMElement $element
      * @return void
      */

@@ -11,7 +11,7 @@
 
 /**
  * The literal block AST node
- * 
+ *
  * @package DocumentBlock
  * @version //autogen//
  * @access private
@@ -20,8 +20,8 @@ class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstBlockNode
 {
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @param array $nodes
      * @return void
      */
@@ -35,7 +35,7 @@ class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstBlockNode
 
     /**
      * Return node content, if available somehow
-     * 
+     *
      * @return string
      */
     protected function content()
@@ -45,8 +45,8 @@ class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstBlockNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

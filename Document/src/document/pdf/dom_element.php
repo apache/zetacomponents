@@ -27,7 +27,7 @@ class ezcDocumentPdfInferencableDomElement extends DOMElement implements ezcDocu
 {
     /**
      * Calculated location Id
-     * 
+     *
      * @var string
      */
     protected $locationId = null;
@@ -36,7 +36,7 @@ class ezcDocumentPdfInferencableDomElement extends DOMElement implements ezcDocu
      * Attributes relevant enough to be included in the location identifier.
      * Contents of the class attribute are annotated differently, so it will
      * not be included here.
-     * 
+     *
      * @var array
      */
     protected $relevantAttributes = array(
@@ -48,7 +48,7 @@ class ezcDocumentPdfInferencableDomElement extends DOMElement implements ezcDocu
      *
      * Return the elements location ID, based on the factors described in the
      * class header.
-     * 
+     *
      * @return string
      */
     public function getLocationId()

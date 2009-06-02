@@ -16,7 +16,7 @@
  * The filter checks the number of cells which contain mostly text and when the
  * factor drops below a configured treshold the table is removed from the
  * content tree.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -25,7 +25,7 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
 {
     /**
      * Percent of cells which are required to contain textual content.
-     * 
+     *
      * @var float
      */
     protected $treshold = .8;
@@ -36,7 +36,7 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
      * Construct the tables filter with the percentage values of cells with
      * textual contents requierd for each table not to be deleted. It defaults
      * to .8 (80%).
-     * 
+     *
      * @param float $treshold
      * @return void
      */
@@ -50,8 +50,8 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.
-     * 
-     * @param DOMDocument $document 
+     *
+     * @param DOMDocument $document
      * @return DOMDocument
      */
     public function filter( DOMDocument $document )
@@ -105,8 +105,8 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
      *
      * Extensions of this method may check for patterns in the table contents
      * for better detection of the table semantics.
-     * 
-     * @param DOMElement $cell 
+     *
+     * @param DOMElement $cell
      * @return bool
      */
     protected function cellHasContent( DOMElement $cell )

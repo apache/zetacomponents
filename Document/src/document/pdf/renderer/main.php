@@ -23,14 +23,14 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 {
     /**
      * Hyphenator used to split up words
-     * 
+     *
      * @var ezcDocumentPdfHyphenator
      */
     protected $hyphenator;
 
     /**
      * Document to render
-     * 
+     *
      * @var ezcDocumentDocbook
      */
     protected $document;
@@ -39,7 +39,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      * Last transactions started before rendering a new title. This is used to
      * determine, if a title is positioned as a single item in a column or on a
      * page and switch it to the next page in this case.
-     * 
+     *
      * @var mixed
      */
     protected $titleTransaction = null;
@@ -47,7 +47,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     /**
      * Indicator to restart rendering with an earlier item on the same level in
      * the DOM document tree.
-     * 
+     *
      * @var mixed
      */
     protected $restart = false;
@@ -57,7 +57,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      *
      * Maps each document element of the associated namespace to its handler
      * method in the current class.
-     * 
+     *
      * @var array
      */
     protected $handlerMapping = array(
@@ -73,15 +73,15 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Additional PDF parts.
-     * 
+     *
      * @var array
      */
     protected $parts = array();
 
     /**
      * Construct renderer from driver to use
-     * 
-     * @param ezcDocumentPdfDriver $driver 
+     *
+     * @param ezcDocumentPdfDriver $driver
      * @return void
      */
     public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles )
@@ -96,8 +96,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      *
      * Tries to locate a file, referenced in a docbook document. If available
      * the document path is used a base for relative paths.
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return string
      */
     public function locateFile( $file )
@@ -119,8 +119,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      * Register an additional PDF part
      *
      * Register additional parts, like footnotes, headers or title pages.
-     * 
-     * @param ezcDocumentPdfPart $part 
+     *
+     * @param ezcDocumentPdfPart $part
      * @return void
      */
     public function registerPdfPart( ezcDocumentPdfPart $part )
@@ -134,8 +134,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      *
      * Returns the rendered PDF as string
      *
-     * @param ezcDocumentDocbook $document 
-     * @param ezcDocumentPdfHyphenator $hypenator 
+     * @param ezcDocumentDocbook $document
+     * @param ezcDocumentPdfHyphenator $hypenator
      * @return string
      */
     public function render( ezcDocumentDocbook $document, ezcDocumentPdfHyphenator $hypenator = null )
@@ -164,7 +164,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      *
      * Returns false, if prerequisite are not fulfileld and rendering should be
      * aborted.
-     * 
+     *
      * @param float $move
      * @param float $width
      * @return bool
@@ -199,7 +199,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
      *
      * As the parameter you need to pass the required width for the object to
      * place on the page.
-     * 
+     *
      * @param float $move
      * @param float $width
      * @return ezcDocumentPdfPage
@@ -231,8 +231,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Recurse into DOMDocument tree and call appropriate element handlers
-     * 
-     * @param DOMNode $element 
+     *
+     * @param DOMNode $element
      * @return void
      */
     protected function process( DOMNode $element )
@@ -273,8 +273,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Ignore elements, which should not be rendered
-     * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
      * @return void
      */
     protected function ignore( ezcDocumentPdfInferencableDomElement $element )
@@ -284,8 +284,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Initialize document according to detected root node
-     * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
      * @return void
      */
     protected function initializeDocument( ezcDocumentPdfInferencableDomElement $element )
@@ -315,8 +315,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Handle calls to paragraph renderer
-     * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
      * @return void
      */
     protected function renderParagraph( ezcDocumentPdfInferencableDomElement $element )
@@ -358,8 +358,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Handle calls to title renderer
-     * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
      * @return void
      */
     protected function renderTitle( ezcDocumentPdfInferencableDomElement $element, $position )
@@ -391,8 +391,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Handle calls to media object renderer
-     * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
      * @return void
      */
     protected function renderMediaObject( ezcDocumentPdfInferencableDomElement $element )

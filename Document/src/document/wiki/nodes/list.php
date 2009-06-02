@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document list abstract syntax tree nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */

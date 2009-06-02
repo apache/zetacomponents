@@ -10,7 +10,7 @@
 
 /**
  * Interface specifying, that the document may be directly exported to HTML.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,7 +24,7 @@ interface ezcDocumentValidation
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $file
      * @return mixed
      */
@@ -38,7 +38,7 @@ interface ezcDocumentValidation
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $string
      * @return mixed
      */

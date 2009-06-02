@@ -11,7 +11,7 @@
 
 /**
  * The AST node for RST document directives
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,36 +20,36 @@ class ezcDocumentRstDirectiveNode extends ezcDocumentRstBlockNode
 {
     /**
      * Directive target identifier
-     * 
+     *
      * @var string
      */
     public $identifier;
 
     /**
      * Directive paramters
-     * 
+     *
      * @var string
      */
     public $parameters;
 
     /**
      * Directive content tokens
-     * 
+     *
      * @var array
      */
     public $tokens;
 
     /**
      * Directive options
-     * 
+     *
      * @var array
      */
     public $options;
 
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @param string $identifier
      * @return void
      */
@@ -63,8 +63,8 @@ class ezcDocumentRstDirectiveNode extends ezcDocumentRstBlockNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

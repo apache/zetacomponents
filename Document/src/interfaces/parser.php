@@ -10,7 +10,7 @@
 
 /**
  * A base class for document parsers
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,14 +18,14 @@ abstract class ezcDocumentParser
 {
     /**
      * XML document base options.
-     * 
+     *
      * @var ezcDocumentParserOptions
      */
     protected $options;
 
     /**
      * Additional parser properties.
-     * 
+     *
      * @var array
      */
     protected $properties = array(
@@ -49,12 +49,12 @@ abstract class ezcDocumentParser
      *
      * Emit a parser error and handle it dependiing on the current error
      * reporting settings.
-     * 
-     * @param int $level 
-     * @param string $message 
-     * @param string $file 
-     * @param int $line 
-     * @param int $position 
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
      * @return void
      */
     protected function triggerError( $level, $message, $file, $line = null, $position = null )

@@ -10,7 +10,7 @@
 
 /**
  * The document handler for XHTML document markup.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,14 +18,14 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
 {
     /**
      * Array with filter objects for the input HTML document.
-     * 
+     *
      * @var array(ezcDocumentXhtmlFilter)
      */
     protected $filters;
-    
+
     /**
      * Construct document xml base.
-     * 
+     *
      * @ignore
      * @param ezcDocumentXhtmlOptions $options
      * @return void
@@ -44,11 +44,11 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
 
     /**
      * Create document from input string
-     * 
+     *
      * Create a document of the current type handler class and parse it into a
      * usable internal structure.
      *
-     * @param string $string 
+     * @param string $string
      * @return void
      */
     public function loadString( $string )
@@ -86,8 +86,8 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
      *
      * Set an array with filter objects, which extract the sematic
      * information from the given XHtml document.
-     * 
-     * @param array $filters 
+     *
+     * @param array $filters
      * @return void
      */
     public function setFilters( array $filters )
@@ -97,8 +97,8 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
 
     /**
      * Build docbook document out of annotated XHtml document
-     * 
-     * @param DOMDocument $document 
+     *
+     * @param DOMDocument $document
      * @return DOMDocument
      */
     protected function buildDocbookDocument( DOMDocument $document )
@@ -123,8 +123,8 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
      * Textual content is only allowed in inline element. This method returns
      * true if the current element is an inline element, otherwise text
      * contents might be ignored in the output.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     protected function isInlineElement( DOMElement $element )
@@ -164,9 +164,9 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
 
     /**
      * Recursively transform annotated XHtml elements to docbook
-     * 
-     * @param DOMElement $xhtml 
-     * @param DOMElement $docbook 
+     *
+     * @param DOMElement $xhtml
+     * @param DOMElement $docbook
      * @return void
      */
     protected function transformToDocbook( DOMElement $xhtml, DOMElement $docbook )
@@ -193,7 +193,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
                 case XML_ELEMENT_NODE:
                     $this->transformToDocbook( $child, $docbook );
                     break;
-                
+
                 case XML_TEXT_NODE:
                     // Skip pure whitespace text nodes
                     if ( trim( $text = $child->data ) !== '' )
@@ -214,7 +214,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
                         }
                     }
                     break;
-                
+
                 case XML_CDATA_SECTION_NODE:
 //                    $data = new DOMCharacterData();
 //                    $data->appendData( $child->data );
@@ -240,7 +240,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
 
     /**
      * Return document compiled to the docbook format
-     * 
+     *
      * The internal document structure is compiled to the docbook format and
      * the resulting docbook document is returned.
      *
@@ -277,8 +277,8 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
      * an intermediate format.
      *
      * You may of course just call an existing converter for this conversion.
-     * 
-     * @param ezcDocumentDocbook $document 
+     *
+     * @param ezcDocumentDocbook $document
      * @return void
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
@@ -291,7 +291,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
 
     /**
      * Return document as string
-     * 
+     *
      * Serialize the document to a string an return it.
      *
      * @return string
@@ -302,8 +302,8 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
 
         // Append DOCTYPE to document, as this is not possible using the DOM
         // API we do this with a regular expression hack.
-        return preg_replace( 
-            '(^<\\?xml[^>]*>(?:\r\n|\r|\n)?)', 
+        return preg_replace(
+            '(^<\\?xml[^>]*>(?:\r\n|\r|\n)?)',
             ( $this->options->xmlHeader ? "\\0" : '' ),
             $source
         );
@@ -317,7 +317,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $file
      * @return mixed
      */
@@ -350,7 +350,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $string
      * @return mixed
      */

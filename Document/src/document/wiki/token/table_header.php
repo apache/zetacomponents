@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document table header tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,8 +18,8 @@ class ezcDocumentWikiTableHeaderToken extends ezcDocumentWikiToken
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

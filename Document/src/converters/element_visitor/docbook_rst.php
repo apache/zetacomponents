@@ -17,7 +17,7 @@
  * using the full docbook you might prefer to use the
  * ezcDocumentDocbookToRstXsltConverter with the default stylesheet from
  * Welsh.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -25,28 +25,28 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
 {
     /**
      * Aggregated links
-     * 
+     *
      * @var array
      */
     protected $links = array();
 
     /**
      * Aggregated footnotes.
-     * 
+     *
      * @var array
      */
     protected $footnotes = array();
 
     /**
      * Aggregated citations.
-     * 
+     *
      * @var array
      */
     protected $citations = array();
 
     /**
      * Aggregated directives.
-     * 
+     *
      * @var array
      */
     protected $directives = array();
@@ -69,13 +69,13 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
-     * 
+     *
      * @param ezcDocumentDocbookToRstConverterOptions $options
      * @return void
      */
     public function __construct( ezcDocumentDocbookToRstConverterOptions $options = null )
     {
-        parent::__construct( 
+        parent::__construct(
             $options === null ?
                 new ezcDocumentDocbookToRstConverterOptions() :
                 $options
@@ -128,7 +128,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
 
     /**
      * Initialize destination document
-     * 
+     *
      * Initialize the structure which the destination document could be build
      * with. This may be an initial DOMDocument with some default elements, or
      * a string, or something else.
@@ -148,7 +148,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      * Build a ezcDocumentDocument object from the structure created during the
      * visiting process.
      *
-     * @param mixed $content 
+     * @param mixed $content
      * @return ezcDocumentDocument
      */
     protected function createDocument( $content )
@@ -167,9 +167,9 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      *
      * Wrap the given text to the line width specified in the converter
      * options, with an optional indentation.
-     * 
-     * @param string $text 
-     * @param int $indentation 
+     *
+     * @param string $text
+     * @param int $indentation
      * @return string
      */
     public static function wordWrap( $text, $indentation = 0 )
@@ -188,8 +188,8 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
 
     /**
      * Escape RST text
-     * 
-     * @param string $string 
+     *
+     * @param string $string
      * @return string
      */
     public static function escapeRstText( $string )
@@ -205,9 +205,9 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      *
      * Visit a text node in the source document and transform it to the
      * destination result
-     * 
-     * @param DOMText $node 
-     * @param mixed $root 
+     *
+     * @param DOMText $node
+     * @param mixed $root
         * @return mixed
      */
     protected function visitText( DOMText $node, $root )
@@ -227,8 +227,8 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      * footnotes are embedded directly in the text in docbook, aggregated
      * during the processing of the document, and displayed at the bottom
      * of the RST document.
-     * 
-     * @param string $root 
+     *
+     * @param string $root
      * @return string
      */
     protected function finishDocument( $root )
@@ -257,7 +257,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      * Append a footnote to the document, which then will be visited at the end
      * of the document processing. Returns a numeric identifier for the
      * footnote.
-     * 
+     *
      * @param string $footnote
      * @return int
      */
@@ -273,7 +273,7 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      * Append a citation to the document, which then will be visited at the end
      * of the document processing. Returns a numeric identifier for the
      * citation.
-     * 
+     *
      * @param string $citation
      * @return int
      */
@@ -285,8 +285,8 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
 
     /**
      * Append all remaining links at the bottom of the last element.
-     * 
-     * @param string $root 
+     *
+     * @param string $root
      * @return string
      */
     public function finishParagraph( $root )
@@ -323,8 +323,8 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      * Append link
      *
      * Append link, which should be rendered below the paragraph.
-     * 
-     * @param string $link 
+     *
+     * @param string $link
      * @return void
      */
     public function appendLink( $link )
@@ -337,8 +337,8 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
      *
      * Append a directive, which are normally rendered right below the
      * paragraph.
-     * 
-     * @param string $directive 
+     *
+     * @param string $directive
      * @return void
      */
     public function appendDirective( $directive )

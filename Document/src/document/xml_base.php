@@ -10,7 +10,7 @@
 
 /**
  * A base class for XML based document type handlers.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,18 +18,18 @@ abstract class ezcDocumentXmlBase extends ezcDocument implements ezcDocumentVali
 {
     /**
      * DOM tree as the internal representation for the loaded XML.
-     * 
+     *
      * @var DOMDocument
      */
     protected $document;
 
     /**
      * Create document from input string
-     * 
+     *
      * Create a document of the current type handler class and parse it into a
      * usable internal structure.
      *
-     * @param string $string 
+     * @param string $string
      * @return void
      */
     public function loadString( $string )
@@ -70,7 +70,7 @@ abstract class ezcDocumentXmlBase extends ezcDocument implements ezcDocumentVali
      *
      * To save execution time this method offers the construction of XML
      * documents directly from a DOM document instance.
-     * 
+     *
      * @param DOMDocument $document
      * @return void
      */
@@ -101,7 +101,7 @@ abstract class ezcDocumentXmlBase extends ezcDocument implements ezcDocumentVali
      *
      * Directly return the internally stored DOMDocument object, to spare
      * additional XML parsing overhead.
-     * 
+     *
      * @return DOMDocument
      */
     public function getDomDocument()
@@ -111,7 +111,7 @@ abstract class ezcDocumentXmlBase extends ezcDocument implements ezcDocumentVali
 
     /**
      * Return document as string
-     * 
+     *
      * Serialize the document to a string an return it.
      *
      * @return string

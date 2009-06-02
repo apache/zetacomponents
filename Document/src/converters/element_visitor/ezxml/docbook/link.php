@@ -12,7 +12,7 @@
  * Visit links
  *
  * Transform links, internal or external, into the appropriate docbook markup.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -23,10 +23,10 @@ class ezcDocumentEzXmlToDocbookLinkHandler extends ezcDocumentElementVisitorHand
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

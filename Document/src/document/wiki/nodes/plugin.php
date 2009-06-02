@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document plugin abstract syntax tree nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,30 +18,30 @@ class ezcDocumentWikiPluginNode extends ezcDocumentWikiBlockLevelNode
 {
     /**
      * Plugin type / name.
-     * 
+     *
      * @var string
      */
     public $type;
 
     /**
      * Plugin parameters
-     * 
+     *
      * @var array
      */
     public $parameters;
 
     /**
      * Plugin content
-     * 
+     *
      * @var string
      */
     public $text;
 
     /**
      * Construct Wiki node
-     * 
+     *
      * @param ezcDocumentWikiToken $token
-     * @param int $type 
+     * @param int $type
      * @return void
      */
     public function __construct( ezcDocumentWikiToken $token )
@@ -54,8 +54,8 @@ class ezcDocumentWikiPluginNode extends ezcDocumentWikiBlockLevelNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

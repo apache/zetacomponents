@@ -10,7 +10,7 @@
 
 /**
  * Visitor for RST text roles
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,7 +18,7 @@ abstract class ezcDocumentRstTextRole
 {
     /**
      * Current text role RST AST node.
-     * 
+     *
      * @var ezcDocumentRstTextRoleNode
      */
     protected $node;
@@ -26,31 +26,31 @@ abstract class ezcDocumentRstTextRole
     /**
      * Complete RST abstract syntax tree, if this is necessary to render the
      * text role.
-     * 
+     *
      * @var ezcDocumentRstDocumentNode
      */
     protected $ast;
 
     /**
      * Current document base path, especially relevant for file inclusions.
-     * 
+     *
      * @var string
      */
     protected $path;
 
     /**
      * The calling visitor.
-     * 
+     *
      * @var ezcDocumentRstVisitor
      */
     protected $visitor;
 
     /**
      * Construct text role from AST and node
-     * 
-     * @param ezcDocumentRstDocumentNode $ast 
+     *
+     * @param ezcDocumentRstDocumentNode $ast
      * @param string $path
-     * @param ezcDocumentRstMarkupInterpretedTextNode $node 
+     * @param ezcDocumentRstMarkupInterpretedTextNode $node
      * @return void
      */
     public function __construct( ezcDocumentRstDocumentNode $ast, $path, ezcDocumentRstMarkupInterpretedTextNode $node )
@@ -65,8 +65,8 @@ abstract class ezcDocumentRstTextRole
      *
      * Pass the visitor which called the rendering function on the text role
      * for optional reference.
-     * 
-     * @param ezcDocumentRstVisitor $visitor 
+     *
+     * @param ezcDocumentRstVisitor $visitor
      * @return void
      */
     public function setSourceVisitor( ezcDocumentRstVisitor $visitor )
@@ -76,8 +76,8 @@ abstract class ezcDocumentRstTextRole
 
     /**
      * Append text from interpreted text node to given DOMElement
-     * 
-     * @param DOMElement $root 
+     *
+     * @param DOMElement $root
      * @return void
      */
     protected function appendText( DOMElement $root )
@@ -93,9 +93,9 @@ abstract class ezcDocumentRstTextRole
      *
      * Create a docbook XML structure at the text roles position in the
      * document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     abstract public function toDocbook( DOMDocument $document, DOMElement $root );

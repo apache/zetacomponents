@@ -10,7 +10,7 @@
 
 /**
  * Visitor for RST title reference text roles
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -21,9 +21,9 @@ class ezcDocumentRstTitleReferenceTextRole extends ezcDocumentRstTextRole implem
      *
      * Create a docbook XML structure at the text roles position in the
      * document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
@@ -38,9 +38,9 @@ class ezcDocumentRstTitleReferenceTextRole extends ezcDocumentRstTextRole implem
      * Transform text role to HTML
      *
      * Create a XHTML structure at the text roles position in the document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toXhtml( DOMDocument $document, DOMElement $root )

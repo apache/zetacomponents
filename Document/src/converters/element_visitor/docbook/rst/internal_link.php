@@ -9,11 +9,11 @@
  */
 
 /**
- * Visit internal links. 
+ * Visit internal links.
  *
  * Internal links are transformed into local links in HTML, where the name
  * of the target is prefixed with a number sign.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,10 +24,10 @@ class ezcDocumentDocbookToRstInternalLinkHandler extends ezcDocumentDocbookToRst
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

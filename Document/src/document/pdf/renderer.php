@@ -20,23 +20,23 @@ abstract class ezcDocumentPdfRenderer
 {
     /**
      * Used driver implementation
-     * 
+     *
      * @var ezcDocumentPdfDriver
      */
     protected $driver;
 
     /**
      * Used PDF style inferencer for evaluating current styling
-     * 
+     *
      * @var ezcDocumentPdfStyleInferencer
      */
     protected $styles;
 
     /**
      * Construct renderer from driver to use
-     * 
-     * @param ezcDocumentPdfDriver $driver 
-     * @param ezcDocumentPdfStyleInferencer $styles 
+     *
+     * @param ezcDocumentPdfDriver $driver
+     * @param ezcDocumentPdfStyleInferencer $styles
      * @return void
      */
     public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles )

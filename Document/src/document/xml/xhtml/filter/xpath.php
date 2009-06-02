@@ -16,7 +16,7 @@
  * expressions, and replaces the document body with those extracted nodes. This
  * way you may manually extract the relevant content nodes from a website and
  * let the later filters only tranform those.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -25,7 +25,7 @@ class ezcDocumentXhtmlXpathFilter extends ezcDocumentXhtmlBaseFilter
 {
     /**
      * XPath queries used for the content extraction.
-     * 
+     *
      * @var array
      */
     protected $queries = array();
@@ -39,9 +39,9 @@ class ezcDocumentXhtmlXpathFilter extends ezcDocumentXhtmlBaseFilter
      * nodes from a website and let the later filters only tranform those.
      *
      * You can either pass a single XPath query as a string, or an array of
-     * XPath queries to the constructor. 
-     * 
-     * @param mixed $xpath 
+     * XPath queries to the constructor.
+     *
+     * @param mixed $xpath
      * @return void
      */
     public function __construct( $xpath = '/*[local-name() = "html"]/*[local-name() = "body"]' )
@@ -54,8 +54,8 @@ class ezcDocumentXhtmlXpathFilter extends ezcDocumentXhtmlBaseFilter
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.
-     * 
-     * @param DOMDocument $document 
+     *
+     * @param DOMDocument $document
      * @return DOMDocument
      */
     public function filter( DOMDocument $document )

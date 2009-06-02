@@ -16,7 +16,7 @@
  * representing the meaning of the docbook elements. The mapping which is
  * used inside this method is used throughout the document comoponent and
  * compatible with the RTS mapping.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,7 +24,7 @@ class ezcDocumentDocbookToHtmlSpecialParagraphHandler extends ezcDocumentDocbook
 {
     /**
      * Handled paragraph names / types
-     * 
+     *
      * @var array
      */
     protected $types = array(
@@ -40,10 +40,10 @@ class ezcDocumentDocbookToHtmlSpecialParagraphHandler extends ezcDocumentDocbook
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

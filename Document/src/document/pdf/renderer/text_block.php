@@ -24,10 +24,10 @@ class ezcDocumentPdfTextBlockRenderer extends ezcDocumentPdfTextBoxRenderer
      * Estimate height
      *
      * Estimate required height to render the given text node.
-     * 
-     * @param float $width 
-     * @param ezcDocumentPdfHyphenator $hyphenator 
-     * @param ezcDocumentPdfInferencableDomElement $text 
+     *
+     * @param float $width
+     * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param ezcDocumentPdfInferencableDomElement $text
      * @return float
      */
     public function estimateHeight( $width, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text )
@@ -62,9 +62,9 @@ class ezcDocumentPdfTextBlockRenderer extends ezcDocumentPdfTextBoxRenderer
      * Returns a boolean indicator whether the rendering of the full text
      * in the available space succeeded or not.
      *
-     * @param ezcDocumentPdfBoundingBox $space 
-     * @param ezcDocumentPdfHyphenator $hyphenator 
-     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentPdfBoundingBox $space
+     * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param ezcDocumentPdfInferencableDomElement $text
      * @return void
      */
     public function renderBlock( ezcDocumentPdfBoundingBox $space, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text )

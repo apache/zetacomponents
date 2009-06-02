@@ -11,7 +11,7 @@
 
 /**
  * The inline interpreted text markup AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,14 +20,14 @@ class ezcDocumentRstMarkupInterpretedTextNode extends ezcDocumentRstMarkupNode
 {
     /**
      * Text role
-     * 
+     *
      * @var mixed
      */
     public $role = false;
 
     /**
      * Construct RST document node
-     * 
+     *
      * @param ezcDocumentRstToken $token
      * @param bool $open
      * @return void
@@ -40,7 +40,7 @@ class ezcDocumentRstMarkupInterpretedTextNode extends ezcDocumentRstMarkupNode
 
     /**
      * Return node content, if available somehow
-     * 
+     *
      * @return string
      */
     protected function content()
@@ -50,8 +50,8 @@ class ezcDocumentRstMarkupInterpretedTextNode extends ezcDocumentRstMarkupNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

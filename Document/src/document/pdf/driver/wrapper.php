@@ -29,21 +29,21 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
 {
     /**
      * Wrapper direver instance
-     * 
+     *
      * @var ezcDocumentPdfDriver
      */
     protected $driver;
 
     /**
      * Array with currently known pages, also depend on transactions
-     * 
+     *
      * @var array
      */
     protected $pages = array();
 
     /**
      * Currently active page
-     * 
+     *
      * @var int
      */
     protected $currentPage = 0;
@@ -51,21 +51,21 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     /**
      * Logs created pages for current transaction, to revert page creations, if
      a transaction gets reverted.
-     * 
+     *
      * @var array
      */
     protected $pageCreations;
 
     /**
      * Recorded transactions
-     * 
+     *
      * @var array
      */
     protected $transactions = array();
 
     /**
      * Transaction identifier of current transaction
-     * 
+     *
      * @var mixed
      */
     protected $currentTransaction = 0;
@@ -75,8 +75,8 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      *
      * Set driver, which should respond to read calls, and to which comitted
      * write calls should be passed.
-     * 
-     * @param ezcDocumentPdfDriver $driver 
+     *
+     * @param ezcDocumentPdfDriver $driver
      * @return void
      */
     public function setDriver( ezcDocumentPdfDriver $driver )
@@ -98,7 +98,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     {
         $this->transactions[$this->currentPage][++$this->currentTransaction] = array();
         $this->pageCreations[$this->currentTransaction]  = array();
-        
+
         if ( $page = $this->currentPage() )
         {
             $page->startTransaction( $this->currentTransaction );
@@ -113,8 +113,8 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * comitted to the proxied driver. If you specify a transaction identifier,
      * each transaction up to the current (including the current) transaction
      * will be comitted.
-     * 
-     * @param mixed $transaction 
+     *
+     * @param mixed $transaction
      * @return void
      */
     public function commit( $transaction = null )
@@ -133,7 +133,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
                 {
                     call_user_func_array( array( $this->driver, $call[0] ), $call[1] );
                 }
-            
+
                 unset( $this->transactions[$id] );
                 if ( $id === $transaction )
                 {
@@ -150,8 +150,8 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      *
      * Revert all transactions after the specified (including the specified)
      * transaction.
-     * 
-     * @param mixed $transaction 
+     *
+     * @param mixed $transaction
      * @return void
      */
     public function revert( $transaction )
@@ -207,8 +207,8 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * Record a write call in the current transaction. A call is specified by
      * its method name and the parameters.
      *
-     * @param string $name 
-     * @param array $parameters 
+     * @param string $name
+     * @param array $parameters
      * @return void
      */
     protected function recordCall( $name, array $parameters )
@@ -218,8 +218,8 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
 
     /**
      * Create and append a new page
-     * 
-     * @param ezcDocumentPdfStyleInferencer $inferencer 
+     *
+     * @param ezcDocumentPdfStyleInferencer $inferencer
      * @return void
      */
     public function appendPage( ezcDocumentPdfStyleInferencer $inferencer )
@@ -273,7 +273,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * If something has been rendered on the next page, but the actual pointer
      * should stay at the current page, this function can be used to revert the
      * pointer to the last page.
-     * 
+     *
      * @return void
      */
     public function goBackOnePage()
@@ -285,9 +285,9 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * Create a new page
      *
      * Create a new page in the PDF document with the given width and height.
-     * 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param float $width
+     * @param float $height
      * @return void
      */
     public function createPage( $width, $height )
@@ -304,8 +304,8 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * backend calls.
      *
      *
-     * @param string $type 
-     * @param mixed $value 
+     * @param string $type
+     * @param mixed $value
      * @return void
      */
     public function setTextFormatting( $type, $value )
@@ -322,8 +322,8 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      *
      * Calculate the width of the passed word, using the currently set text
      * formatting options.
-     * 
-     * @param string $word 
+     *
+     * @param string $word
      * @return float
      */
     public function calculateWordWidth( $word )
@@ -338,7 +338,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      *
      * Return the current line height in millimeter based on the current font
      * and text rendering settings.
-     * 
+     *
      * @return float
      */
     public function getCurrentLineHeight()
@@ -355,10 +355,10 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * formatting options.
      *
      * The coordinate specifies the left bottom edge of the words bounding box.
-     * 
-     * @param float $x 
-     * @param float $y 
-     * @param string $word 
+     *
+     * @param float $x
+     * @param float $y
+     * @param string $word
      * @return void
      */
     public function drawWord( $x, $y, $word )
@@ -380,13 +380,13 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * dimensions do not neccesarily match the real image dimensions, and might
      * require some kind of scaling inside the driver depending on the used
      * backend.
-     * 
-     * @param string $file 
-     * @param string $type 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param string $file
+     * @param string $type
+     * @param float $x
+     * @param float $y
+     * @param float $width
+     * @param float $height
      * @return void
      */
     public function drawImage( $file, $type, $x, $y, $width, $height )
@@ -399,7 +399,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.
-     * 
+     *
      * @return string
      */
     public function save()

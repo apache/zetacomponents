@@ -69,7 +69,7 @@
  *  $document->createFromDocbook( $docbook );
  *  echo $document->save();
  * </code>
- * 
+ *
  * @package Document
  * @version //autogen//
  * @mainclass
@@ -85,7 +85,7 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      * Plugins are the best entry point for custom rules, and you may
      * register custom plugin classes using the class method
      * registerPlugin().
-     * 
+     *
      * @var array
      */
     protected $plugins = array(
@@ -96,21 +96,21 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      * Asbtract syntax tree.
      *
      * The internal representation of RST documents.
-     * 
+     *
      * @var ezcDocumentWikiDocumentNode
      */
     protected $ast;
 
     /**
      * Plain RST contents as a string
-     * 
+     *
      * @var string
      */
     protected $contents;
 
     /**
      * Construct RST document.
-     * 
+     *
      * @ignore
      * @param ezcDocumentWikiOptions $options
      * @return void
@@ -129,9 +129,9 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      * existing plugin handlers. The plugins are specified by its
      * (lowercase) name and the class name, which should handle the plugin
      * and extend from ezcDocumentWikiPlugin.
-     * 
-     * @param string $name 
-     * @param string $class 
+     *
+     * @param string $name
+     * @param string $class
      * @return void
      */
     public function registerPlugin( $name, $class )
@@ -143,8 +143,8 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      * Get plugin handler
      *
      * Get plugin handler class name for the specified name.
-     * 
-     * @param string $name 
+     *
+     * @param string $name
      * @return string
      */
     public function getPluginHandler( $name )
@@ -160,11 +160,11 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
 
     /**
      * Create document from input string
-     * 
+     *
      * Create a document of the current type handler class and parse it into a
      * usable internal structure.
      *
-     * @param string $string 
+     * @param string $string
      * @return void
      */
     public function loadString( $string )
@@ -174,7 +174,7 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
 
     /**
      * Return document compiled to the docbook format
-     * 
+     *
      * The internal document structure is compiled to the docbook format and
      * the resulting docbook document is returned.
      *
@@ -215,8 +215,8 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      * an intermediate format.
      *
      * You may of course just call an existing converter for this conversion.
-     * 
-     * @param ezcDocumentDocbook $document 
+     *
+     * @param ezcDocumentDocbook $document
      * @return void
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
@@ -234,7 +234,7 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $file
      * @return mixed
      */
@@ -251,7 +251,7 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $string
      * @return mixed
      */
@@ -319,7 +319,7 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
 
     /**
      * Return document as string
-     * 
+     *
      * Serialize the document to a string an return it.
      *
      * @return string

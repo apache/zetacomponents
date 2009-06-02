@@ -11,7 +11,7 @@
 
 /**
  * Struct for Wiki document literal line tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,8 +20,8 @@ class ezcDocumentWikiLiteralLineToken extends ezcDocumentWikiBlockMarkupToken
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

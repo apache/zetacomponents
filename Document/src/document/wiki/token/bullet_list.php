@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document bullet list item tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,15 +18,15 @@ class ezcDocumentWikiBulletListItemToken extends ezcDocumentWikiBlockMarkupToken
 {
     /**
      * List element indentation
-     * 
+     *
      * @var int
      */
     public $indentation;
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

@@ -22,15 +22,15 @@ class ezcDocumentRstTokenizerException extends ezcDocumentException
 {
     /**
      * Construct exception from errnous string and current position
-     * 
-     * @param int $line 
-     * @param int $position 
-     * @param string $string 
+     *
+     * @param int $line
+     * @param int $position
+     * @param string $string
      * @return void
      */
     public function __construct( $line, $position, $string )
     {
-        parent::__construct( 
+        parent::__construct(
             "Could not tokenize string at line {$line} char {$position}: '" . substr( $string, 0, 10 ) . "'."
         );
     }

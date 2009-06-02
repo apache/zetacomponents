@@ -11,7 +11,7 @@
 /**
  * An interface indicating the ability to transform a document directly into
  * XHTML.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -19,7 +19,7 @@ interface ezcDocumentXhtmlConversion
 {
     /**
      * Return document compiled to the XHTML format
-     * 
+     *
      * The internal document structure is compiled to the XHTML format and the
      * resulting XHTML document is returned.
      *

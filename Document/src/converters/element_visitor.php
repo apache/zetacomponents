@@ -14,7 +14,7 @@
  * The handler can then handle the repective subtree.
  *
  * Additional handlers may be added by the user to the converter class.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -29,7 +29,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      *
      * The handler is as an object of a class inheriting from
      * ezcDocumentDocbookElementVisitorHandler.
-     * 
+     *
      * @var array
      */
     protected $visitorElementHandler = array(
@@ -40,7 +40,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      *
      * If no namespace has been explicitely declared in the source document
      * assume this as the defalt namespace.
-     * 
+     *
      * @var string
      */
     protected $defaultNamespace = 'docbook';
@@ -48,14 +48,14 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
     /**
      * Opject storage to check for reprocessing of DOMNodes, which may cause
      * error which are hard to debug.
-     * 
+     *
      * @var SplObjectStorage
      */
     protected $storage;
 
     /**
      * Convert documents between two formats
-     * 
+     *
      * Convert documents of the given type to the requested type.
      *
      * @param ezcDocumentDocument $source
@@ -75,7 +75,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
 
     /**
      * Initialize destination document
-     * 
+     *
      * Initialize the structure which the destination document could be build
      * with. This may be an initial DOMDocument with some default elements, or
      * a string, or something else.
@@ -90,20 +90,20 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      * Build a ezcDocumentDocument object from the structure created during the
      * visiting process.
      *
-     * @param mixed $content 
+     * @param mixed $content
      * @return ezcDocumentDocument
      */
     abstract protected function createDocument( $content );
 
     /**
      * Recursively visit children of a document node.
-     * 
+     *
      * Recurse through the whole document tree and call the defined callbacks
      * for node transformations, defined in the class property
      * $visitorElementHandler.
      *
-     * @param DOMNode $node 
-     * @param mixed $root 
+     * @param DOMNode $node
+     * @param mixed $root
      * @return mixed
      */
     public function visitChildren( DOMNode $node, $root )
@@ -138,8 +138,8 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      * Visit a single document node and look up the correct visitor and us it
      * to handle the node.
      *
-     * @param DOMNode $node 
-     * @param mixed $root 
+     * @param DOMNode $node
+     * @param mixed $root
      * @return mixed
      */
     public function visitNode( DOMNode $node, $root )
@@ -174,9 +174,9 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      *
      * Visit a text node in the source document and transform it to the
      * destination result
-     * 
-     * @param DOMText $text 
-     * @param mixed $root 
+     *
+     * @param DOMText $text
+     * @param mixed $root
      * @return mixed
      */
     abstract protected function visitText( DOMText $text, $root );
@@ -186,10 +186,10 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      *
      * Set handler for yet unhandled element or overwrite the handler of an
      * existing element.
-     * 
-     * @param string $namespace 
-     * @param string $element 
-     * @param ezcDocumentElementVisitorHandler $handler 
+     *
+     * @param string $namespace
+     * @param string $element
+     * @param ezcDocumentElementVisitorHandler $handler
      * @return void
      */
     public function setElementHandler( $namespace, $element, ezcDocumentElementVisitorHandler $handler )

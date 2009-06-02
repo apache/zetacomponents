@@ -13,7 +13,7 @@
  *
  * Anchor elements are manually added targets inside paragraphs, which are
  * transformed to HTML <a> element targets.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,10 +24,10 @@ class ezcDocumentDocbookToHtmlAnchorHandler extends ezcDocumentDocbookToHtmlBase
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

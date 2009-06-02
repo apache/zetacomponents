@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml definition lists
- * 
+ *
  * Definition lists in XHtml are a specilized markup for terms and their
  * descriptions / definitions. In Docbook a term an its definitions are
  * surrounded by an additional element, which is added by this filter.
@@ -24,8 +24,8 @@ class ezcDocumentXhtmlDefinitionListElementFilter extends ezcDocumentXhtmlElemen
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -33,7 +33,7 @@ class ezcDocumentXhtmlDefinitionListElementFilter extends ezcDocumentXhtmlElemen
         // We need to create invalid markup here, as there is no surrounding
         // element allowed for groups of dt and dd elements.
         $entry = new ezcDocumentXhtmlDomElement( 'div' );
-        
+
         $term   = $element->cloneNode( true );
         $parent = $element->parentNode;
 
@@ -69,7 +69,7 @@ class ezcDocumentXhtmlDefinitionListElementFilter extends ezcDocumentXhtmlElemen
                 ++$i;
             }
         }
-        
+
     }
 
     /**
@@ -77,8 +77,8 @@ class ezcDocumentXhtmlDefinitionListElementFilter extends ezcDocumentXhtmlElemen
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

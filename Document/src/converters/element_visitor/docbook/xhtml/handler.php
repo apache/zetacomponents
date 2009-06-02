@@ -14,7 +14,7 @@
  * The handler can then handle the repective subtree.
  *
  * Additional handlers may be added by the user to the converter class.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -22,7 +22,7 @@ abstract class ezcDocumentDocbookToHtmlBaseHandler extends ezcDocumentElementVis
 {
     /**
      * Reference to HTML head element
-     * 
+     *
      * @var DOMElement
      */
     private $head = null;
@@ -31,8 +31,8 @@ abstract class ezcDocumentDocbookToHtmlBaseHandler extends ezcDocumentElementVis
      * Get head of HTML document
      *
      * Get the root node of the HTML document head
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return DOMElement
      */
     protected function getHead( DOMElement $element )

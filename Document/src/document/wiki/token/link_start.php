@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document link start marker tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,12 +18,12 @@ class ezcDocumentWikiLinkStartToken extends ezcDocumentWikiInlineMarkupToken
 {
     /**
      * Get link parameter order
-     * 
+     *
      * Links may have any amount of parameters and the order may not be the
      * same for each amount. This method should return an ordered list of
      * parameter names for the given amount of parameters.
      *
-     * @param int $count 
+     * @param int $count
      * @return array
      */
     public function getLinkParameterOrder( $count )
@@ -40,8 +40,8 @@ class ezcDocumentWikiLinkStartToken extends ezcDocumentWikiInlineMarkupToken
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

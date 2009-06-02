@@ -10,7 +10,7 @@
 
 /**
  * A base class for document type converters.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,14 +18,14 @@ abstract class ezcDocumentConverter
 {
     /**
      * XML document base options.
-     * 
+     *
      * @var ezcDocumentXmlOptions
      */
     protected $options;
 
     /**
      * Additional parser properties.
-     * 
+     *
      * @var array
      */
     protected $properties = array(
@@ -46,10 +46,10 @@ abstract class ezcDocumentConverter
 
     /**
      * Convert documents between two formats
-     * 
+     *
      * Convert documents of the given type to the requested type.
      *
-     * @param ezcDocument $doc 
+     * @param ezcDocument $doc
      * @return ezcDocument
      */
     abstract public function convert( $doc );
@@ -59,12 +59,12 @@ abstract class ezcDocumentConverter
      *
      * Emit a parser error and handle it dependiing on the current error
      * reporting settings.
-     * 
-     * @param int $level 
-     * @param string $message 
-     * @param string $file 
-     * @param int $line 
-     * @param int $position 
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
      * @return void
      */
     public function triggerError( $level, $message, $file = null, $line = null, $position = null )

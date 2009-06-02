@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document abstract syntax tree blockquote nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,16 +18,16 @@ class ezcDocumentWikiBlockquoteNode extends ezcDocumentWikiLineLevelNode
 {
     /**
      * Blockquote indentation level
-     * 
+     *
      * @var int
      */
     public $level = 1;
 
     /**
      * Construct Wiki node
-     * 
+     *
      * @param ezcDocumentWikiToken $token
-     * @param int $type 
+     * @param int $type
      * @return void
      */
     public function __construct( ezcDocumentWikiToken $token )
@@ -42,8 +42,8 @@ class ezcDocumentWikiBlockquoteNode extends ezcDocumentWikiLineLevelNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

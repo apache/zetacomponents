@@ -11,19 +11,19 @@
 
 /**
  * The inline literal AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
  */
 class ezcDocumentRstLiteralNode extends ezcDocumentRstNode
 {
-    
+
 
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token )
@@ -35,7 +35,7 @@ class ezcDocumentRstLiteralNode extends ezcDocumentRstNode
 
     /**
      * Return node content, if available somehow
-     * 
+     *
      * @return string
      */
     protected function content()
@@ -45,8 +45,8 @@ class ezcDocumentRstLiteralNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

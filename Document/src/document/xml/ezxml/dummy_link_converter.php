@@ -22,7 +22,7 @@ class ezcDocumentEzXmlDummyLinkConverter extends ezcDocumentEzXmlLinkConverter
      *
      * Return an array of the attributes, which should be set for the link.
      *
-     * @param string $url 
+     * @param string $url
      * @return array
      */
     public function getUrlProperties( $url )

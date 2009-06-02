@@ -15,7 +15,7 @@
  * occur. We store the contents, to be rendered at the end of the HTML
  * document, and only render a number referencing the actual footnote at
  * the position of the footnote in the docbook document.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -26,10 +26,10 @@ class ezcDocumentDocbookToEzXmlFootnoteHandler extends ezcDocumentElementVisitor
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

@@ -11,7 +11,7 @@
 
 /**
  * The abstract inline markup base AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,7 +20,7 @@ abstract class ezcDocumentRstMarkupNode extends ezcDocumentRstNode
 {
     /**
      * Indicator wheather this is an open or closing tag.
-     * 
+     *
      * @var bool
      */
     public $openTag;

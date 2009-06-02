@@ -23,7 +23,7 @@
  * The initial table cell estiation happens inside the function
  * estimateColumnWidths() which you might want to extend to fit your needs
  * better.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -40,9 +40,9 @@ class ezcDocumentDocbookToRstTableHandler extends ezcDocumentDocbookToRstBaseHan
      * This basic implementation just divides the document width (specified by
      * the wordwrap option in the converter class) by the amount of columns
      * found in the given table. This might be far from optimal.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $table 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $table
      * @return array
      */
     protected function estimateColumnWidths( ezcDocumentElementVisitorConverter $converter, DOMElement $table )
@@ -67,8 +67,8 @@ class ezcDocumentDocbookToRstTableHandler extends ezcDocumentDocbookToRstBaseHan
      * Get maximum line length
      *
      * Calculate the maximum line length from an array of textual lines.
-     * 
-     * @param array $lines 
+     *
+     * @param array $lines
      * @return int
      */
     protected function getMaxLineLength( array $lines )
@@ -87,10 +87,10 @@ class ezcDocumentDocbookToRstTableHandler extends ezcDocumentDocbookToRstBaseHan
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

@@ -24,10 +24,10 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
      * Render a media object
      *
      *
-     * @param ezcDocumentPdfPage $page 
-     * @param ezcDocumentPdfHyphenator $hyphenator 
-     * @param ezcDocumentPdfInferencableDomElement $media 
-     * @param ezcDocumentPdfMainRenderer $mainRenderer 
+     * @param ezcDocumentPdfPage $page
+     * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param ezcDocumentPdfInferencableDomElement $media
+     * @param ezcDocumentPdfMainRenderer $mainRenderer
      * @return void
      */
     public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $media, ezcDocumentPdfMainRenderer $mainRenderer )
@@ -86,7 +86,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
             $dimensions[0] *= $imageHeight / $dimensions[1];
             $dimensions[1]  = $imageHeight;
         }
-        
+
         // Render image
         $this->driver->drawImage(
             $imageFile, $image->getMimeType(),
@@ -121,10 +121,10 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Calculate width of media box
-     * 
-     * @param array $styles 
-     * @param ezcDocumentPdfPage $page 
-     * @param ezcDocumentPdfImage $image 
+     *
+     * @param array $styles
+     * @param ezcDocumentPdfPage $page
+     * @param ezcDocumentPdfImage $image
      * @return ezcDocumentPdfMeasure
      */
     public function getMediaBoxWidth( array $styles, ezcDocumentPdfPage $page, ezcDocumentPdfImage $image )
@@ -141,7 +141,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
         $columns     = $styles['text-columns']->value;
         $spacing     = $styles['text-column-spacing']->value;
         $columnWidth = ( $page->innerWidth - ( $spacing * ( $columns - 1 ) ) ) / $columns;
-        
+
         $width       = $columnWidth;
         $spanning    = 1;
         while ( ( $imageWidth > $width ) &&
@@ -159,11 +159,11 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
      *
      * Calculates the output size of the image, depending on the available
      * space and the image dimensions.
-     * 
-     * @param array $styles 
-     * @param ezcDocumentPdfImage $image 
-     * @param ezcDocumentPdfPage $page 
-     * @param flaot $width 
+     *
+     * @param array $styles
+     * @param ezcDocumentPdfImage $image
+     * @param ezcDocumentPdfPage $page
+     * @param flaot $width
      * @return array
      */
     protected function scaleImage( array $styles, ezcDocumentPdfImage $image, ezcDocumentPdfPage $page, $width )

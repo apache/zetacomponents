@@ -12,7 +12,7 @@
 /**
  * Wrapper class around DOMElement to store additional information
  * associated with DOMElement nodes.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -39,17 +39,17 @@ class ezcDocumentXhtmlDomElement extends DOMElement
 
     /**
      * Namespace URI for the custom ID setting, for the association with
-     * the node data. 
+     * the node data.
      */
     const NS_URI = 'http://ezcomponents.org/Document/Xhtml';
 
     /**
      * Get property associated with node
-     * 
+     *
      * Get the value of a property associated with the node, or false, if
      * the property does not (yet) exist.
      *
-     * @param string $name 
+     * @param string $name
      * @return mixed
      */
     public function getProperty( $name )
@@ -69,9 +69,9 @@ class ezcDocumentXhtmlDomElement extends DOMElement
      *
      * Set a custom property on the current node, containing a mixed value
      * identified by a string identifier.
-     * 
-     * @param string $name 
-     * @param mixed $value 
+     *
+     * @param string $name
+     * @param mixed $value
      * @return void
      */
     public function setProperty( $name, $value )

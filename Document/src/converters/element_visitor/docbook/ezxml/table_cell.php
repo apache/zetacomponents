@@ -13,7 +13,7 @@
  *
  * Table cells are quite trivial to transform, but some attributes need to
  * be converted, like rowspan.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,10 +24,10 @@ class ezcDocumentDocbookToEzXmlTableCellHandler extends ezcDocumentElementVisito
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

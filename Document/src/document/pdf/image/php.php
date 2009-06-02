@@ -24,7 +24,7 @@ class ezcDocumentPdfPhpImageHandler extends ezcDocumentPdfImageHandler
 {
     /**
      * Cache for extracted image information
-     * 
+     *
      * @var array
      */
     protected $cache;
@@ -34,8 +34,8 @@ class ezcDocumentPdfPhpImageHandler extends ezcDocumentPdfImageHandler
      *
      * Returns a boolean value indicatin whether the current handler can handle
      * the passed image file.
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return bool
      */
     public function canHandle( $file )
@@ -72,8 +72,8 @@ class ezcDocumentPdfPhpImageHandler extends ezcDocumentPdfImageHandler
      *
      * Return an array with the image dimensions. The array will look like:
      * array( ezcDocumentPdfMeasure $width, ezcDocumentPdfMeasure $height ).
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return array
      */
     public function getDimensions( $file )
@@ -92,8 +92,8 @@ class ezcDocumentPdfPhpImageHandler extends ezcDocumentPdfImageHandler
      *
      * Return a string with the image mime type, identifying the type of the
      * image.
-     * 
-     * @param string $file 
+     *
+     * @param string $file
      * @return string
      */
     public function getMimeType( $file )

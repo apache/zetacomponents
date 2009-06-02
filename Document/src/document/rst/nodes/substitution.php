@@ -11,7 +11,7 @@
 
 /**
  * The substitution target AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,15 +20,15 @@ class ezcDocumentRstSubstitutionNode extends ezcDocumentRstNode
 {
     /**
      * Substitution target name
-     * 
+     *
      * @var array
      */
     public $name;
 
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @param array $name
      * @return void
      */
@@ -42,8 +42,8 @@ class ezcDocumentRstSubstitutionNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

@@ -14,7 +14,7 @@
  * Visit blockquotes and transform them their respective HTML elements,
  * including custom markup for attributions, as there is no defined element
  * in HTML for them.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -25,10 +25,10 @@ class ezcDocumentDocbookToRstBlockquoteHandler extends ezcDocumentDocbookToRstBa
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

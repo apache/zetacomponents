@@ -10,7 +10,7 @@
 
 /**
  * Interface for text roles also supporting HTML output
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -20,9 +20,9 @@ interface ezcDocumentRstXhtmlTextRole
      * Transform text role to HTML
      *
      * Create a XHTML structure at the text roles position in the document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toXhtml( DOMDocument $document, DOMElement $root );

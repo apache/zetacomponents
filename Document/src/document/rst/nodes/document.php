@@ -11,7 +11,7 @@
 
 /**
  * The document AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,14 +20,14 @@ class ezcDocumentRstDocumentNode extends ezcDocumentRstNode
 {
     /**
      * Neting depth of document is always 0
-     * 
+     *
      * @var int
      */
     public $depth = 0;
 
     /**
      * Construct RST document node
-     * 
+     *
      * @param array $nodes
      * @return void
      */
@@ -41,8 +41,8 @@ class ezcDocumentRstDocumentNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

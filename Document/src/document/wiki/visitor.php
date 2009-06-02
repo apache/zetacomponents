@@ -10,7 +10,7 @@
 
 /**
  * Abstract visitor base for Wiki documents represented by the parser AST.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,43 +18,43 @@ abstract class ezcDocumentWikiVisitor
 {
     /**
      * Wiki document handler
-     * 
+     *
      * @var ezcDocumentWiki
      */
     protected $wiki;
 
     /**
-     * Reference to the AST root node. 
-     * 
+     * Reference to the AST root node.
+     *
      * @var ezcDocumentWikiDocumentNode
      */
     protected $ast;
 
     /**
      * List with footnotes for later rendering.
-     * 
+     *
      * @var array
      */
     protected $footnotes = array();
 
     /**
      * Label dependant foot note counters for footnote auto enumeration.
-     * 
+     *
      * @var array
      */
     protected $footnoteCounter = 0;
 
     /**
      * Aggregated minor errors during document processing.
-     * 
+     *
      * @var array
      */
     protected $errors = array();
 
     /**
      * Create visitor from Wiki document handler.
-     * 
-     * @param ezcDocumentWiki $document 
+     *
+     * @param ezcDocumentWiki $document
      * @param string $path
      * @return void
      */
@@ -69,12 +69,12 @@ abstract class ezcDocumentWikiVisitor
      *
      * Emit a vistitor error, and convert it to an exception depending on the
      * error reporting settings.
-     * 
-     * @param int $level 
-     * @param string $message 
-     * @param string $file 
-     * @param int $line 
-     * @param int $position 
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
      * @return void
      */
     protected function triggerError( $level, $message, $file, $line = null, $position = null )
@@ -96,7 +96,7 @@ abstract class ezcDocumentWikiVisitor
      *
      * May be an empty array, if on errors occured, or a list of
      * ezcDocumentVisitException objects.
-     * 
+     *
      * @return array
      */
     public function getErrors()
@@ -108,8 +108,8 @@ abstract class ezcDocumentWikiVisitor
      * Docarate Wiki AST
      *
      * Visit the Wiki abstract syntax tree.
-     * 
-     * @param ezcDocumentWikiDocumentNode $ast 
+     *
+     * @param ezcDocumentWikiDocumentNode $ast
      * @return mixed
      */
     public function visit( ezcDocumentWikiDocumentNode $ast )
@@ -123,8 +123,8 @@ abstract class ezcDocumentWikiVisitor
 
     /**
      * Add footnote
-     * 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function addFootnote( ezcDocumentWikiNode $node )
@@ -149,8 +149,8 @@ abstract class ezcDocumentWikiVisitor
      * Aggregate list items into lists. In Wiki there are only list items, which
      * are aggregated to lists depending on their bullet type. The related list
      * items are aggregated into one list.
-     * 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function preProcessAst( ezcDocumentWikiNode $node )
@@ -176,7 +176,7 @@ abstract class ezcDocumentWikiVisitor
      * Returns the target name, when an internal reference target exists and
      * sets it to used, and false otherwise.
      *
-     * @param int $number 
+     * @param int $number
      * @param ezcDocumentWikiNode $node
      * @return ezcDocumentWikiFootnoteNode
      */
@@ -196,11 +196,11 @@ abstract class ezcDocumentWikiVisitor
 
     /**
      * Transform a node tree into a string
-     * 
+     *
      * Transform a node tree, with all its subnodes into a string by only
      * getting the textuual contents from ezcDocumentWikiTextLineNode objects.
      *
-     * @param ezcDocumentWikiNode $node 
+     * @param ezcDocumentWikiNode $node
      * @return string
      */
     protected function nodeToString( ezcDocumentWikiNode $node )
@@ -229,7 +229,7 @@ abstract class ezcDocumentWikiVisitor
      * Extract the contents of a node list and return a single string for the
      * array of nodes.
      *
-     * @param array $nodes 
+     * @param array $nodes
      * @return string
      */
     protected function nodeListToString( array $nodes )
@@ -246,9 +246,9 @@ abstract class ezcDocumentWikiVisitor
 
     /**
      * Visit text node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitText( DOMNode $root, ezcDocumentWikiNode $node )
@@ -263,9 +263,9 @@ abstract class ezcDocumentWikiVisitor
      *
      * Just recurse into node and visit its children, ignoring the actual
      * node.
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitChildren( DOMNode $root, ezcDocumentWikiNode $node )

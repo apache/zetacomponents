@@ -11,7 +11,7 @@
 
 /**
  * The paragraph AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,7 +20,7 @@ class ezcDocumentRstBlockNode extends ezcDocumentRstNode
 {
     /**
      * Paragraph indentation level
-     * 
+     *
      * @var int
      */
     public $indentation = 0;

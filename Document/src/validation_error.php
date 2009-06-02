@@ -12,7 +12,7 @@
  * Unifies different errors into a single structure for all kinds of validation
  * errors. The validation error message can be fetched using the __toString()
  * method, while the original error is still be available, fi required.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -20,21 +20,21 @@ class ezcDocumentValidationError
 {
     /**
      * Original error object
-     * 
+     *
      * @var mixed
      */
     protected $error;
 
     /**
      * Transformed error message.
-     * 
+     *
      * @var string
      */
     protected $message;
 
     /**
      * textual mapping for libxml error types.
-     * 
+     *
      * @var array
      */
     protected static $errorTypes = array(
@@ -45,9 +45,9 @@ class ezcDocumentValidationError
 
     /**
      * Create validation error object
-     * 
-     * @param string $message 
-     * @param mixed $error 
+     *
+     * @param string $message
+     * @param mixed $error
      * @return void
      */
     protected function __construct( $message, $error = null )
@@ -58,7 +58,7 @@ class ezcDocumentValidationError
 
     /**
      * Get original error object
-     * 
+     *
      * @return mixed
      */
     public function getOriginalError()
@@ -68,7 +68,7 @@ class ezcDocumentValidationError
 
     /**
      * Convert libXML error to string
-     * 
+     *
      * @return void
      */
     public function __toString()
@@ -80,8 +80,8 @@ class ezcDocumentValidationError
      * Create from LibXmlError
      *
      * Create a validation error object from a LibXmlError error object.
-     * 
-     * @param LibXMLError $error 
+     *
+     * @param LibXMLError $error
      * @return ezcDocumentValidationError
      */
     public static function createFromLibXmlError( LibXMLError $error )
@@ -99,8 +99,8 @@ class ezcDocumentValidationError
 
     /**
      * Create validation error from Exception
-     * 
-     * @param Exception $e 
+     *
+     * @param Exception $e
      * @return ezcDocumentValidationError
      */
     public static function createFromException( Exception $e )

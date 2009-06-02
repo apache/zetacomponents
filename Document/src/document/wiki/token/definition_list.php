@@ -11,7 +11,7 @@
 
 /**
  * Struct for Wiki document definition list item tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,15 +20,15 @@ class ezcDocumentWikiDefinitionListItemToken extends ezcDocumentWikiBlockMarkupT
 {
     /**
      * List element indentation
-     * 
+     *
      * @var int
      */
     public $indentation;
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

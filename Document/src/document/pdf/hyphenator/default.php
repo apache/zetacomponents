@@ -35,8 +35,8 @@ class ezcDocumentPdfDefaultHyphenator extends ezcDocumentPdfHyphenator
      *
      * You should always also include the concatenation character in the split
      * words, since it might change depending on the used language.
-     * 
-     * @param mixed $word 
+     *
+     * @param mixed $word
      * @return void
      */
     public function splitWord( $word )

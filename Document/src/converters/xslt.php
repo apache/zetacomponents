@@ -10,7 +10,7 @@
 
 /**
  * Base class for conversions between XML documents using XSLT.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,7 +18,7 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
 {
     /**
      * XSLT processor created from the defined XSLT file.
-     * 
+     *
      * @var XSLTProcessor
      */
     protected $xsltProcessor = null;
@@ -28,7 +28,7 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
      *
      * Construct converter from XSLT file, which is used for the actual
      * conversion.
-     * 
+     *
      * @param ezcDocumentXsltConverterOptions $options
      * @return void
      */
@@ -39,7 +39,7 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
             throw new ezcBaseExtensionNotFoundException( 'xsl' );
         }
 
-        parent::__construct( 
+        parent::__construct(
             $options === null ?
                 new ezcDocumentXsltConverterOptions() :
                 $options
@@ -48,10 +48,10 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
 
     /**
      * Convert documents between two formats
-     * 
+     *
      * Convert documents of the given type to the requested type.
      *
-     * @param ezcDocumentXmlBase $doc 
+     * @param ezcDocumentXmlBase $doc
      * @return ezcDocumentXmlBase
      */
     public function convert( $doc )
@@ -114,8 +114,8 @@ abstract class ezcDocumentXsltConverter extends ezcDocumentConverter
      *
      * Build document of appropriate type from the DOMDocument, created by the
      * XSLT transformation.
-     * 
-     * @param DOMDocument $document 
+     *
+     * @param DOMDocument $document
      * @return ezcDocumentXmlBase
      */
     abstract protected function buildDocument( DOMDocument $document );

@@ -17,7 +17,7 @@
  * structures. Code blocks will be transformed into <pre> elements, while
  * poem like texts will be handled by a <p> element, in which each line is
  * seperated by <br> elements.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -28,10 +28,10 @@ class ezcDocumentDocbookToRstLiteralLayoutHandler extends ezcDocumentDocbookToRs
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

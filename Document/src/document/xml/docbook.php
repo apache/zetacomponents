@@ -10,7 +10,7 @@
 
 /**
  * The document handler for the docbook document markup.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,7 +18,7 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
 {
     /**
      * Construct document xml base.
-     * 
+     *
      * @ignore
      * @param ezcDocumentDocbookOptions $options
      * @return void
@@ -32,7 +32,7 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
 
     /**
      * Return document compiled to the docbook format
-     * 
+     *
      * The internal document structure is compiled to the docbook format and
      * the resulting docbook document is returned.
      *
@@ -60,8 +60,8 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
      * an intermediate format.
      *
      * You may of course just call an existing converter for this conversion.
-     * 
-     * @param ezcDocumentDocbook $document 
+     *
+     * @param ezcDocumentDocbook $document
      * @return void
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
@@ -71,7 +71,7 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
 
     /**
      * Return document as string
-     * 
+     *
      * Serialize the document to a string an return it.
      *
      * @return string
@@ -89,7 +89,7 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $file
      * @return mixed
      */
@@ -122,7 +122,7 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $string
      * @return mixed
      */

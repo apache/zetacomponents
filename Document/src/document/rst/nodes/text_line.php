@@ -11,7 +11,7 @@
 
 /**
  * The AST node for plain text
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,8 +20,8 @@ class ezcDocumentRstTextLineNode extends ezcDocumentRstNode
 {
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token )
@@ -33,7 +33,7 @@ class ezcDocumentRstTextLineNode extends ezcDocumentRstNode
 
     /**
      * Return node content, if available somehow
-     * 
+     *
      * @return string
      */
     protected function content()
@@ -43,8 +43,8 @@ class ezcDocumentRstTextLineNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

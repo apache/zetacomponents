@@ -10,7 +10,7 @@
 
 /**
  * Docbook visitor for the Wiki AST.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,7 +18,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
 {
     /**
      * Mapping of class names to internal visitors for the respective nodes.
-     * 
+     *
      * @var array
      */
     protected $complexVisitMapping = array(
@@ -51,7 +51,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
 
     /**
      * Direct mapping of AST node class names to docbook element names.
-     * 
+     *
      * @var array
      */
     protected $simpleVisitMapping = array(
@@ -70,14 +70,14 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     /**
      * Array with nodes, which can be ignored during the transformation
      * process, they only provide additional information during preprocessing.
-     * 
+     *
      * @var array
      */
     protected $skipNodes = array();
 
     /**
      * DOM document
-     * 
+     *
      * @var DOMDocument
      */
     protected $document;
@@ -86,8 +86,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * Docarate Wiki AST
      *
      * Visit the Wiki abstract syntax tree.
-     * 
-     * @param ezcDocumentWikiDocumentNode $ast 
+     *
+     * @param ezcDocumentWikiDocumentNode $ast
      * @return mixed
      */
     public function visit( ezcDocumentWikiDocumentNode $ast )
@@ -119,9 +119,9 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * Visit a single AST node, may be called for each node found anywhere
      * as child. The current position in the DOMDocument is passed by a
      * reference to the current DOMNode, which is operated on.
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitNode( DOMNode $root, ezcDocumentWikiNode $node )
@@ -167,9 +167,9 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
 
     /**
      * Visit emphasis markup
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitEmphasisMarkup( DOMNode $root, ezcDocumentWikiNode $node )
@@ -190,9 +190,9 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
 
     /**
      * Visit section titles
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitTitle( DOMNode $root, ezcDocumentWikiNode $node )
@@ -208,9 +208,9 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
 
     /**
      * Visit external link node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitExternalLink( DOMNode $root, ezcDocumentWikiNode $node )
@@ -227,8 +227,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * Docbook has no support for description of links, so that the description
      * elements in the AST are omitted.
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitLink( DOMNode $root, ezcDocumentWikiNode $node )
@@ -255,8 +255,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      *
      * Ensure stacked lists are created inside another list item.
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitList( DOMNode $root, ezcDocumentWikiNode $node )
@@ -285,7 +285,7 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      *
      * Check if contents of the current node are a inline node
      *
-     * @param DOMNode $node 
+     * @param DOMNode $node
      * @return bool
      */
     protected function isInlineNode( DOMNode $node )
@@ -313,8 +313,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     /**
      * Visit images
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitImages( DOMNode $root, ezcDocumentWikiNode $node )
@@ -364,8 +364,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     /**
      * Visit literal block
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitLiteralBlock( DOMNode $root, ezcDocumentWikiNode $node )
@@ -377,8 +377,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     /**
      * Visit literal
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitLiteral( DOMNode $root, ezcDocumentWikiNode $node )
@@ -393,8 +393,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      * Visit a table row and decide if it belongs into a tbody or a thead
      * section.
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitTableRow( DOMNode $root, ezcDocumentWikiNode $node )
@@ -440,8 +440,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
      *
      * Visit a table cell and additionally always create an inner paragraph.
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitTableCell( DOMNode $root, ezcDocumentWikiNode $node )
@@ -455,8 +455,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     /**
      * Visit line break
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitLineBreak( DOMNode $root, ezcDocumentWikiNode $node )
@@ -481,8 +481,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     /**
      * Visit paragraph
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitParagraph( DOMNode $root, ezcDocumentWikiNode $node )
@@ -520,8 +520,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     /**
      * Visit blockquote
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitBlockquote( DOMNode $root, ezcDocumentWikiNode $node )
@@ -541,8 +541,8 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
     /**
      * Visit footnote
      *
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitFootnote( DOMNode $root, ezcDocumentWikiNode $node )
@@ -561,9 +561,9 @@ class ezcDocumentWikiDocbookVisitor extends ezcDocumentWikiVisitor
 
     /**
      * Visit plugin
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentWikiNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentWikiNode $node
      * @return void
      */
     protected function visitPlugin( DOMNode $root, ezcDocumentWikiNode $node )

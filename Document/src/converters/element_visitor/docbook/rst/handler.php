@@ -14,7 +14,7 @@
  * The handler can then handle the repective subtree.
  *
  * Additional handlers may be added by the user to the converter class.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,11 +24,11 @@ abstract class ezcDocumentDocbookToRstBaseHandler extends ezcDocumentElementVisi
      * Render a directive
      *
      * Render a directive with the given paramters.
-     * 
-     * @param string $name 
-     * @param string $parameter 
-     * @param array $options 
-     * @param string $content 
+     *
+     * @param string $name
+     * @param string $parameter
+     * @param array $options
+     * @param string $content
      * @return string
      */
     protected function renderDirective( $name, $parameter, array $options, $content = null )

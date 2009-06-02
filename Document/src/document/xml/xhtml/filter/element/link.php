@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml links.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,8 +20,8 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -33,7 +33,7 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
 
             // The a element is an anchor
             $span->setProperty( 'type', 'anchor' );
-            $span->setProperty( 'attributes', array( 
+            $span->setProperty( 'attributes', array(
                 'ID' => $element->getAttribute( 'name' ),
             ) );
         }
@@ -47,7 +47,7 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
             {
                 // Internal target
                 $element->setProperty( 'type', 'link' );
-                $element->setProperty( 'attributes', array( 
+                $element->setProperty( 'attributes', array(
                     'linked' => substr( $target, 1 ),
                 ) );
             }
@@ -55,7 +55,7 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
             {
                 // External target
                 $element->setProperty( 'type', 'ulink' );
-                $element->setProperty( 'attributes', array( 
+                $element->setProperty( 'attributes', array(
                     'url' => $target,
                 ) );
             }
@@ -67,8 +67,8 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

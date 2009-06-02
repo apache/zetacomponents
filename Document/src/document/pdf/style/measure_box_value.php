@@ -20,15 +20,15 @@ class ezcDocumentPdfStyleMeasureBoxValue extends ezcBaseStruct
 {
     /**
      * Directive value
-     * 
+     *
      * @var array
      */
     public $value;
 
     /**
      * Construct value handler from string representation
-     * 
-     * @param mixed $value 
+     *
+     * @param mixed $value
      * @return void
      */
     public function __construct( $value )
@@ -72,7 +72,7 @@ class ezcDocumentPdfStyleMeasureBoxValue extends ezcBaseStruct
                     'left'   => ezcDocumentPdfMeasure::create( $values[3] )->get(),
                 );
                 break;
-                
+
             default:
                 throw new ezcDocumentParserException( E_PARSE, "Invalid number of elements in measure box specification: " . count( $values ) );
         }
@@ -80,7 +80,7 @@ class ezcDocumentPdfStyleMeasureBoxValue extends ezcBaseStruct
 
     /**
      * Convert value to string
-     * 
+     *
      * @return string
      */
     public function __toString()

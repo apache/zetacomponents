@@ -10,7 +10,7 @@
 
 /**
  * Abstract visitor base for RST documents represented by the parser AST.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,28 +18,28 @@ abstract class ezcDocumentRstVisitor
 {
     /**
      * RST document handler
-     * 
+     *
      * @var ezcDocumentRst
      */
     protected $rst;
 
     /**
-     * Reference to the AST root node. 
-     * 
+     * Reference to the AST root node.
+     *
      * @var ezcDocumentRstDocumentNode
      */
     protected $ast;
 
     /**
      * Location of the currently processed RST file, relevant for inclusion.
-     * 
+     *
      * @var string
      */
     protected $path;
 
     /**
      * Collected refrence targets.
-     * 
+     *
      * @var array
      */
     protected $references = array();
@@ -53,42 +53,42 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Collected named external reference targets
-     * 
+     *
      * @var array
      */
     protected $namedExternalReferences = array();
-    
+
     /**
      * Collected anonymous externals reference targets
-     * 
+     *
      * @var array
      */
     protected $anonymousReferences = array();
 
     /**
      * Index of last requested anonymous reference target.
-     * 
+     *
      * @var int
      */
     protected $anonymousReferenceCounter = 0;
 
     /**
      * Collected substitutions.
-     * 
+     *
      * @var array
      */
     protected $substitutions = array();
 
     /**
      * List with footnotes for later rendering.
-     * 
+     *
      * @var array
      */
     protected $footnotes = array();
 
     /**
      * Label dependant foot note counters for footnote auto enumeration.
-     * 
+     *
      * @var array
      */
     protected $footnoteCounter = array( 0 );
@@ -96,7 +96,7 @@ abstract class ezcDocumentRstVisitor
     /**
      * Foot note symbol signs, as defined at
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#auto-symbol-footnotes
-     * 
+     *
      * @var array
      */
     protected $footnoteSymbols = array(
@@ -114,7 +114,7 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Aggregated minor errors during document processing.
-     * 
+     *
      * @var array
      */
     protected $errors = array();
@@ -136,8 +136,8 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Create visitor from RST document handler.
-     * 
-     * @param ezcDocumentRst $document 
+     *
+     * @param ezcDocumentRst $document
      * @param string $path
      * @return void
      */
@@ -152,12 +152,12 @@ abstract class ezcDocumentRstVisitor
      *
      * Emit a vistitor error, and convert it to an exception depending on the
      * error reporting settings.
-     * 
-     * @param int $level 
-     * @param string $message 
-     * @param string $file 
-     * @param int $line 
-     * @param int $position 
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
      * @return void
      */
     protected function triggerError( $level, $message, $file, $line = null, $position = null )
@@ -179,7 +179,7 @@ abstract class ezcDocumentRstVisitor
      *
      * May be an empty array, if on errors occured, or a list of
      * ezcDocumentVisitException objects.
-     * 
+     *
      * @return array
      */
     public function getErrors()
@@ -191,8 +191,8 @@ abstract class ezcDocumentRstVisitor
      * Docarate RST AST
      *
      * Visit the RST abstract syntax tree.
-     * 
-     * @param ezcDocumentRstDocumentNode $ast 
+     *
+     * @param ezcDocumentRstDocumentNode $ast
      * @return mixed
      */
     public function visit( ezcDocumentRstDocumentNode $ast )
@@ -213,8 +213,8 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Add a reference target
-     * 
-     * @param string $string 
+     *
+     * @param string $string
      * @return void
      */
     private function addReferenceTarget( $string )
@@ -235,11 +235,11 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Transform a node tree into a string
-     * 
+     *
      * Transform a node tree, with all its subnodes into a string by only
      * getting the textuual contents from ezcDocumentRstTextLineNode objects.
      *
-     * @param ezcDocumentRstNode $node 
+     * @param ezcDocumentRstNode $node
      * @return string
      */
     public function nodeToString( ezcDocumentRstNode $node )
@@ -264,8 +264,8 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Get string from token list.
-     * 
-     * @param array $tokens 
+     *
+     * @param array $tokens
      * @return string
      */
     protected function tokenListToString( array $tokens )
@@ -285,9 +285,9 @@ abstract class ezcDocumentRstVisitor
      *
      * Check if the given list item may be a successor in the same list, as the
      * last item in the list. Returns the boolean status o the check.
-     * 
-     * @param ezcDocumentRstNode $item 
-     * @param ezcDocumentRstToken $lastItem 
+     *
+     * @param ezcDocumentRstNode $item
+     * @param ezcDocumentRstToken $lastItem
      * @return bool
      */
     protected function compareListType( ezcDocumentRstNode $item, ezcDocumentRstNode $lastItem )
@@ -316,12 +316,12 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Aggregate list items
-     * 
+     *
      * Aggregate list items into lists. In RST there are only list items, which
      * are aggregated to lists depending on their bullet type. The related list
      * items are aggregated into one list.
-     * 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function aggregateListItems( ezcDocumentRstNode $node )
@@ -368,8 +368,8 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Add footnote
-     * 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function addFootnote( ezcDocumentRstNode $node )
@@ -420,8 +420,8 @@ abstract class ezcDocumentRstVisitor
      * Aggregate list items into lists. In RST there are only list items, which
      * are aggregated to lists depending on their bullet type. The related list
      * items are aggregated into one list.
-     * 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function preProcessAst( ezcDocumentRstNode $node )
@@ -452,7 +452,7 @@ abstract class ezcDocumentRstVisitor
                 {
                     // This is a direct reference to an external URL, just add
                     // to the list of named external references.
-                    $this->namedExternalReferences[$this->calculateId( $this->tokenListToString( $node->name ) )] = 
+                    $this->namedExternalReferences[$this->calculateId( $this->tokenListToString( $node->name ) )] =
                         trim( $this->nodeToString( $node ) );
                 }
                 break;
@@ -526,7 +526,7 @@ abstract class ezcDocumentRstVisitor
      * Returns the target name, when an internal reference target exists and
      * sets it to used, and false otherwise.
      *
-     * @param string $string 
+     * @param string $string
      * @param ezcDocumentRstNode $node
      * @return ezcDocumentRstFootnoteNode
      */
@@ -579,9 +579,9 @@ abstract class ezcDocumentRstVisitor
      * even if there are duplicates, so that they still can be referenced in
      * some way.
      *
-     * @param string $string 
-     * @param ezcDocumentRstNode $node 
-     * @param bool $force 
+     * @param string $string
+     * @param ezcDocumentRstNode $node
+     * @param bool $force
      * @return string
      */
     public function hasReferenceTarget( $string, ezcDocumentRstNode $node = null, $force = false )
@@ -629,15 +629,15 @@ abstract class ezcDocumentRstVisitor
      * Return named external reference target
      *
      * Get the target value of a named external reference.
-     * 
-     * @param string $name 
+     *
+     * @param string $name
      * @return string
      */
     public function getNamedExternalReference( $name )
     {
         $name = $this->calculateId( $name );
 
-        if ( isset( $this->namedExternalReferences[$name] ) ) 
+        if ( isset( $this->namedExternalReferences[$name] ) )
         {
             return $this->namedExternalReferences[$name];
         }
@@ -649,7 +649,7 @@ abstract class ezcDocumentRstVisitor
      * Get anonymous reference target
      *
      * Get the target URL of an anonomyous reference target.
-     * 
+     *
      * @return string
      */
     public function getAnonymousReferenceTarget()
@@ -666,8 +666,8 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Get substitution contents
-     * 
-     * @param string $string 
+     *
+     * @param string $string
      * @return void
      */
     protected function substitute( $string )
@@ -688,8 +688,8 @@ abstract class ezcDocumentRstVisitor
      * Get a valid identifier string
      *
      * Get a valid identifier string from an arbritrary string.
-     * 
-     * @param string $string 
+     *
+     * @param string $string
      * @return string
      */
     protected function calculateId( $string )
@@ -699,9 +699,9 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Visit text node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitText( DOMNode $root, ezcDocumentRstNode $node )
@@ -716,9 +716,9 @@ abstract class ezcDocumentRstVisitor
      *
      * Just recurse into node and visit its children, ignoring the actual
      * node.
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitChildren( DOMNode $root, ezcDocumentRstNode $node )
@@ -731,16 +731,16 @@ abstract class ezcDocumentRstVisitor
 
     /**
      * Visit substitution reference node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitSubstitutionReference( DOMNode $root, ezcDocumentRstNode $node )
     {
         if ( ( $substitution = $this->substitute( $this->nodeToString( $node ) ) ) !== null )
         {
-            foreach( $substitution as $child )
+            foreach ( $substitution as $child )
             {
                 $this->visitNode( $root, $child );
             }

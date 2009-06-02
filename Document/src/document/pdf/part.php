@@ -34,21 +34,21 @@ abstract class ezcDocumentPdfPart
 {
     /**
      * Reference to main renderer
-     * 
+     *
      * @var ezcDocumentPdfMainRenderer
      */
     protected $renderer;
 
     /**
      * Reference to driver
-     * 
+     *
      * @var ezcDocumentPdfDriver
      */
     protected $driver;
 
     /**
      * Reference to style inferencer
-     * 
+     *
      * @var ezcDocumentPdfStyleInferencer
      */
     protected $styles;
@@ -58,10 +58,10 @@ abstract class ezcDocumentPdfPart
      *
      * Function called by the renderer, to set its properties, which pass the
      * relevant state objects to the part.
-     * 
-     * @param ezcDocumentPdfMainRenderer $renderer 
-     * @param ezcDocumentPdfDriver $driver 
-     * @param ezcDocumentPdfStyleInferencer $styles 
+     *
+     * @param ezcDocumentPdfMainRenderer $renderer
+     * @param ezcDocumentPdfDriver $driver
+     * @param ezcDocumentPdfStyleInferencer $styles
      * @return void
      */
     public function registerContext( ezcDocumentPdfMainRenderer $renderer, ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles )
@@ -76,8 +76,8 @@ abstract class ezcDocumentPdfPart
      *
      * Hook called on page creation, so that certain areas might be reserved or
      * it already may render stuff on the frshly created page.
-     * 
-     * @param ezcDocumentPdfPage $page 
+     *
+     * @param ezcDocumentPdfPage $page
      * @return void
      */
     public function hookPageCreation( ezcDocumentPdfPage $page )
@@ -89,8 +89,8 @@ abstract class ezcDocumentPdfPart
      *
      * Hook called on page rendering, which means, that a page is complete, by
      * all knowledge of the main renderer.
-     * 
-     * @param ezcDocumentPdfPage $page 
+     *
+     * @param ezcDocumentPdfPage $page
      * @return void
      */
     public function hookPageRendering( ezcDocumentPdfPage $page )
@@ -101,8 +101,8 @@ abstract class ezcDocumentPdfPart
      * Hook on document creation
      *
      * Hook called when a new document is created.
-     * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
      * @return void
      */
     public function hookDocumentCreation( ezcDocumentPdfInferencableDomElement $element )
@@ -113,7 +113,7 @@ abstract class ezcDocumentPdfPart
      * Hook on document rendering
      *
      * Hook called once a document is completely rendered.
-     * 
+     *
      * @return void
      */
     public function hookDocumentRendering()

@@ -10,7 +10,7 @@
 
 /**
  * Struct for RST document document tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -30,28 +30,28 @@ class ezcDocumentRstToken extends ezcBaseStruct
 
     /**
      * Token type
-     * 
+     *
      * @var int
      */
     public $type;
 
     /**
      * Token content
-     * 
+     *
      * @var mixed
      */
     public $content;
 
     /**
      * Line of the token in the source file
-     * 
+     *
      * @var int
      */
     public $line;
 
     /**
      * Position of the token in its line.
-     * 
+     *
      * @var int
      */
     public $position;
@@ -60,19 +60,19 @@ class ezcDocumentRstToken extends ezcBaseStruct
      * For text nodes we need an additional identifier, if this text node has
      * been escaped, and though is intentionally freed from any potential
      * special meaning.
-     * 
+     *
      * @var bool
      */
     public $escaped = false;
 
     /**
      * Construct RST token
-     * 
+     *
      * @ignore
-     * @param int $type 
-     * @param mixed $content 
-     * @param int $line 
-     * @param int $position 
+     * @param int $type
+     * @param mixed $content
+     * @param int $line
+     * @param int $position
      * @param bool $escaped
      * @return void
      */
@@ -89,8 +89,8 @@ class ezcDocumentRstToken extends ezcBaseStruct
      * Get token name from type
      *
      * Return a user readable name from the numeric token type.
-     * 
-     * @param int $type 
+     *
+     * @param int $type
      * @return string
      */
     public static function getTokenName( $type )
@@ -114,8 +114,8 @@ class ezcDocumentRstToken extends ezcBaseStruct
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

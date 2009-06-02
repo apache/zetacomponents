@@ -13,7 +13,7 @@
  *
  * Media objects are all kind of other media types, embedded in the
  * document, like images.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -25,20 +25,20 @@ class ezcDocumentDocbookToRstMediaObjectHandler extends ezcDocumentDocbookToRstB
      * Extract the image directive parameters from a media object or inline
      * media object node in the Docbook document. Returns an array with
      * named keys containing the directive parameters.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
      * @return array
      */
     protected function getDirectiveParameters( ezcDocumentElementVisitorConverter $converter, DOMElement $node )
     {
         // Get image resource
         $resource = $node->getElementsBytagName( 'imagedata' )->item( 0 );
-        
+
         $parameter = $resource->getAttribute( 'fileref' );
         $options = array();
         $content = null;
-        
+
         // Transform attributes
         $attributes = array(
             'width'   => 'width',
@@ -88,10 +88,10 @@ class ezcDocumentDocbookToRstMediaObjectHandler extends ezcDocumentDocbookToRstB
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

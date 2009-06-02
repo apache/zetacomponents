@@ -11,7 +11,7 @@
 
 /**
  * The inline markup AST node for named references (hyperlinks)
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,15 +20,15 @@ class ezcDocumentRstNamedReferenceNode extends ezcDocumentRstNode
 {
     /**
      * NamedReference target name
-     * 
+     *
      * @var array
      */
     public $name;
 
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @param array $name
      * @return void
      */
@@ -42,8 +42,8 @@ class ezcDocumentRstNamedReferenceNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

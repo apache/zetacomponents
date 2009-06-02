@@ -18,15 +18,15 @@ class ezcDocumentErroneousXmlException extends ezcDocumentException
 {
     /**
      * Errors occured during parsing process
-     * 
+     *
      * @var array
      */
     protected $errors;
 
     /**
      * Construct exception from array with XML errors
-     * 
-     * @param array $errors 
+     *
+     * @param array $errors
      * @return void
      */
     public function __construct( array $errors )
@@ -37,7 +37,7 @@ class ezcDocumentErroneousXmlException extends ezcDocumentException
 
     /**
      * Return array with XML errors
-     * 
+     *
      * @return array
      */
     public function getXmlErrors()

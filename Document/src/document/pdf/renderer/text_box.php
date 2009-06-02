@@ -30,9 +30,9 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      * Returns a boolean indicator whether the rendering of the full text
      * in the available space succeeded or not.
      *
-     * @param ezcDocumentPdfPage $page 
-     * @param ezcDocumentPdfHyphenator $hyphenator 
-     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentPdfPage $page
+     * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param ezcDocumentPdfInferencableDomElement $text
      * @return bool
      */
     public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
@@ -69,12 +69,12 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Evaluate available bounding box
-     * 
+     *
      * Returns false, if not enough space is available on current
      * page, and a bounding box otherwise.
-     * 
-     * @param ezcDocumentPdfPage $page 
-     * @param array $styles 
+     *
+     * @param ezcDocumentPdfPage $page
+     * @param array $styles
      * @param float $width
      * @return mixed
      */
@@ -105,9 +105,9 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      *
      * Calculate the available horizontal space for texts depending on the
      * page layout settings.
-     * 
-     * @param ezcDocumentPdfPage $page 
-     * @param ezcDocumentPdfInferencableDomElement $text 
+     *
+     * @param ezcDocumentPdfPage $page
+     * @param ezcDocumentPdfInferencableDomElement $text
      * @return float
      */
     public function calculateTextWidth( ezcDocumentPdfPage $page, ezcDocumentPdfInferencableDomElement $text )
@@ -129,10 +129,10 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      *
      * Returns false, if the box size was not sufficant for the
      * given text, and the covered vertical area otherwise.
-     * 
-     * @param array $lines 
-     * @param ezcDocumentPdfBoundingBox $space 
-     * @param array $styles 
+     *
+     * @param array $lines
+     * @param ezcDocumentPdfBoundingBox $space
+     * @param array $styles
      * @return boolean
      */
     protected function renderTextBox( array $lines, ezcDocumentPdfBoundingBox $space, array $styles )
@@ -155,12 +155,12 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
 
     /**
      * Render a single line and return the used height
-     * 
-     * @param float $position 
-     * @param int $number 
-     * @param array $line 
-     * @param ezcDocumentPdfBoundingBox $space 
-     * @param array $styles 
+     *
+     * @param float $position
+     * @param int $number
+     * @param array $line
+     * @param ezcDocumentPdfBoundingBox $space
+     * @param array $styles
      * @return void
      */
     protected function renderLine( $position, $number, array $line, ezcDocumentPdfBoundingBox $space, array $styles )
@@ -210,7 +210,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                 $this->driver->setTextFormatting( $style, $value->value );
             }
 
-            // Render word 
+            // Render word
             $this->driver->drawWord( $xPos, $position + $line['height'], $token['word'] );
             $xPos += $token['width'] + $spaceWidth;
         }
@@ -228,8 +228,8 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      * This method should return an array of tokens, also maintaining the
      * included whitespace characters, each associated with its markup
      * elements.
-     * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
      * @return array
      */
     protected function tokenize( ezcDocumentPdfInferencableDomElement $element )
@@ -270,10 +270,10 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      * Try to match tokens into lines of the given width. Returns an array with
      * words for each line. The words might already be split up by the
      * hyphenator.
-     * 
-     * @param array $tokens 
-     * @param ezcDocumentPdfHyphenator $hyphenator 
-     * @param float $width 
+     *
+     * @param array $tokens
+     * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param float $width
      * @return array
      */
     protected function fitTokensInLines( array $tokens, ezcDocumentPdfHyphenator $hyphenator, $available )
@@ -291,7 +291,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             {
                 $this->driver->setTextFormatting( $style, $value->value );
             }
-            
+
             if ( ( $consumed + ( $width = $this->driver->calculateWordWidth( $token['word'] ) ) ) < $available )
             {
                 // The word just fits into the current line

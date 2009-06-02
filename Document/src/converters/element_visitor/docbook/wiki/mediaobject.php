@@ -13,7 +13,7 @@
  *
  * Media objects are all kind of other media types, embedded in the
  * document, like images.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -25,9 +25,9 @@ class ezcDocumentDocbookToWikiMediaObjectHandler extends ezcDocumentDocbookToWik
      * Extract the image parameters from a media object or inline media object
      * node in the Docbook document. Returns an array with named keys
      * containing the directive parameters.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
      * @return array
      */
     protected function getImageParameters( ezcDocumentElementVisitorConverter $converter, DOMElement $node )
@@ -38,7 +38,7 @@ class ezcDocumentDocbookToWikiMediaObjectHandler extends ezcDocumentDocbookToWik
         );
 
         // Get image resource
-        
+
         // Transform attributes
         $attributes = array(
             'width'    => 'width',
@@ -79,10 +79,10 @@ class ezcDocumentDocbookToWikiMediaObjectHandler extends ezcDocumentDocbookToWik
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
@@ -100,7 +100,7 @@ class ezcDocumentDocbookToWikiMediaObjectHandler extends ezcDocumentDocbookToWik
         {
             $root .= sprintf( "\n{{%s}}\n\n", $image['resource'] );
         }
-        
+
         return $root;
     }
 }

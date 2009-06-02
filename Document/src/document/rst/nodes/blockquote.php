@@ -11,7 +11,7 @@
 
 /**
  * The blockquote AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,7 +20,7 @@ class ezcDocumentRstBlockquoteNode extends ezcDocumentRstBlockNode
 {
     /**
      * Blockquote annotation
-     * 
+     *
      * @var ezcDocumentRstBlockquoteAnnotationNode
      */
     public $annotation = null;
@@ -28,15 +28,15 @@ class ezcDocumentRstBlockquoteNode extends ezcDocumentRstBlockNode
     /**
      * Indicator telling whether a blockquote has been finished by either a
      * annotation or an explicit blockquote separation marker.
-     * 
+     *
      * @var bool
      */
     public $closed = false;
 
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token )
@@ -48,8 +48,8 @@ class ezcDocumentRstBlockquoteNode extends ezcDocumentRstBlockNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

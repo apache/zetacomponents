@@ -37,7 +37,7 @@ class ezcDocumentPdfStyleInferencer
      *
      * Caches styles for defined paths. This speeds up resolving of styles for
      * similar or same elements multiple times.
-     * 
+     *
      * @var array
      */
     protected $styleCache = array();
@@ -48,7 +48,7 @@ class ezcDocumentPdfStyleInferencer
      * Ordered list of style directvies, which each include the pattern, and a
      * list of formatting rules. Matching directives are applied in the given
      * order and may overwrite each other.
-     * 
+     *
      * @var array
      */
     protected $styleDirectives = array();
@@ -57,37 +57,37 @@ class ezcDocumentPdfStyleInferencer
      * Special classes for style directive values
      *
      * If no class is given it will fall back to a generic string value.
-     * 
+     *
      * @var array
      */
     protected $valueParserClasses = array(
-        'font-size'            => 'ezcDocumentPdfStyleMeasureValue', 
-        'line-height'          => 'ezcDocumentPdfStyleMeasureValue', 
-        'margin'               => 'ezcDocumentPdfStyleMeasureBoxValue', 
-        'padding'              => 'ezcDocumentPdfStyleMeasureBoxValue', 
-        'text-columns'         => 'ezcDocumentPdfStyleIntValue', 
-        'text-columns-spacing' => 'ezcDocumentPdfStyleMeasureValue', 
+        'font-size'            => 'ezcDocumentPdfStyleMeasureValue',
+        'line-height'          => 'ezcDocumentPdfStyleMeasureValue',
+        'margin'               => 'ezcDocumentPdfStyleMeasureBoxValue',
+        'padding'              => 'ezcDocumentPdfStyleMeasureBoxValue',
+        'text-columns'         => 'ezcDocumentPdfStyleIntValue',
+        'text-columns-spacing' => 'ezcDocumentPdfStyleMeasureValue',
     );
 
     /**
-     * Text category of style directives 
+     * Text category of style directives
      */
     const TEXT   = 1;
 
     /**
-     * Layout category of style directives 
+     * Layout category of style directives
      */
     const LAYOUT = 2;
 
     /**
-     * Page category of style directives 
+     * Page category of style directives
      */
     const PAGE   = 4;
 
     /**
      * CSS property categories, used to minimize the amount of returned
      * properties
-     * 
+     *
      * @var array
      */
     protected $categories = array(
@@ -118,7 +118,7 @@ class ezcDocumentPdfStyleInferencer
 
     /**
      * Construct style inference with default styles
-     * 
+     *
      * @param bool $loadDefault
      * @return void
      */
@@ -134,7 +134,7 @@ class ezcDocumentPdfStyleInferencer
      * Set the default styles
      *
      * Creates a list of default styles for very common elements.
-     * 
+     *
      * @return void
      */
     protected function loadDefaultStyles()
@@ -143,7 +143,7 @@ class ezcDocumentPdfStyleInferencer
         {
             $this->appendStyleDirectives( include $file );
         }
-        
+
         // If the file does not exist parse the PCSS style file
         $parser     = new ezcDocumentPdfCssParser();
         $directives = $parser->parseFile( dirname( __FILE__ ) . '/style/default.css' );
@@ -160,8 +160,8 @@ class ezcDocumentPdfStyleInferencer
      * Append another set of style directives. Since style directives are
      * applied in the given order and may overwrite each other, all given
      * directives might overwrite existing formatting rules.
-     * 
-     * @param array $styleDirectives 
+     *
+     * @param array $styleDirectives
      * @return void
      */
     public function appendStyleDirectives( array $styleDirectives )
@@ -204,9 +204,9 @@ class ezcDocumentPdfStyleInferencer
      * Merges two sets of formatting rules, while rules set in the second rule
      * set will always overwrite existing rules of the same name in the first.
      * Rules in the first set, not existing in the second will left untouched.
-     * 
-     * @param array $base 
-     * @param array $new 
+     *
+     * @param array $base
+     * @param array $new
      * @return array
      */
     protected function mergeFormattingRules( array $base, array $new )
@@ -228,8 +228,8 @@ class ezcDocumentPdfStyleInferencer
      *
      * Of not cached, the formatting rules will be inferenced using the
      * algorithm described in the class header.
-     * 
-     * @param ezcDocumentPdfLocateable $element 
+     *
+     * @param ezcDocumentPdfLocateable $element
      * @return array
      */
     public function inferenceFormattingRules( ezcDocumentPdfLocateable $element, $types = -1 )

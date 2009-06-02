@@ -20,7 +20,7 @@ class ezcDocumentPdfMeasure
 {
     /**
      * Internal value representation
-     * 
+     *
      * @var mixed
      */
     protected $value;
@@ -32,15 +32,15 @@ class ezcDocumentPdfMeasure
 
     /**
      * Resolution in DPI for transformations between mm and pixels.
-     * 
+     *
      * @var int
      */
     protected $resolution = 72;
 
     /**
      * Construct measure from input value
-     * 
-     * @param mixed $value 
+     *
+     * @param mixed $value
      * @return void
      */
     public function __construct( $value )
@@ -54,8 +54,8 @@ class ezcDocumentPdfMeasure
      * Static constructor wrapper, because direct dereferencing does
      * not work with the new operator, and this makes the usage of
      * this simple wrpper class easier.
-     * 
-     * @param mixed $value 
+     *
+     * @param mixed $value
      * @return ezcDocumentPdfMeasure
      */
     public static function create( $value )
@@ -65,8 +65,8 @@ class ezcDocumentPdfMeasure
 
     /**
      * Set resolution in dpi
-     * 
-     * @param int $dpi 
+     *
+     * @param int $dpi
      * @return void
      */
     public function setResolution( $dpi )
@@ -79,8 +79,8 @@ class ezcDocumentPdfMeasure
      *
      * Get the factor for the given unit, so values can be transformed from the
      * passed unit into milli meters.
-     * 
-     * @param string $unit 
+     *
+     * @param string $unit
      * @return void
      */
     protected function getUnitFactor( $unit )
@@ -111,9 +111,9 @@ class ezcDocumentPdfMeasure
      * default to milli meters.
      *
      * Supported units currently are: mm, px, pt, in
-     * 
-     * @param mixed $input 
-     * @param string $format 
+     *
+     * @param mixed $input
+     * @param string $format
      * @return void
      */
     public function get( $format = 'mm' )

@@ -11,7 +11,7 @@
 
 /**
  * The enumeration lsit item AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -25,7 +25,7 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstBlockNode
      *  - 3: Lowercase
      *  - 4: Uppercase roman
      *  - 5: Lowercase roman
-     * 
+     *
      * @var int
      */
     public $listType = 0;
@@ -41,8 +41,8 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstBlockNode
 
     /**
      * Construct RST document node
-     * 
-     * @param ezcDocumentRstToken $token 
+     *
+     * @param ezcDocumentRstToken $token
      * @return void
      */
     public function __construct( ezcDocumentRstToken $token )
@@ -54,7 +54,7 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstBlockNode
 
     /**
      * Return node content, if available somehow
-     * 
+     *
      * @return string
      */
     protected function content()
@@ -89,8 +89,8 @@ class ezcDocumentRstEnumeratedListNode extends ezcDocumentRstBlockNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

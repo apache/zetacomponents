@@ -13,7 +13,7 @@
  *
  * Media objects are all kind of other media types, embedded in the
  * document, like images.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -24,17 +24,17 @@ class ezcDocumentDocbookToHtmlMediaObjectHandler extends ezcDocumentDocbookToHtm
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         // Get image resource
         $resource = $node->getElementsBytagName( 'imagedata' )->item( 0 );
-        
+
         $image = $root->ownerDocument->createElement( 'img' );
 
         // Transform attributes

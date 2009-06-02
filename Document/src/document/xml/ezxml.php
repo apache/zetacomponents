@@ -10,7 +10,7 @@
 
 /**
  * The document handler for the eZ Publish 3 XML document markup.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,7 +18,7 @@ class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidati
 {
     /**
      * Construct document xml base.
-     * 
+     *
      * @ignore
      * @param ezcDocumentEzXmlOptions $options
      * @return void
@@ -32,7 +32,7 @@ class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidati
 
     /**
      * Return document compiled to the docbook format
-     * 
+     *
      * The internal document structure is compiled to the docbook format and
      * the resulting docbook document is returned.
      *
@@ -62,8 +62,8 @@ class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidati
      * an intermediate format.
      *
      * You may of course just call an existing converter for this conversion.
-     * 
-     * @param ezcDocumentDocbook $document 
+     *
+     * @param ezcDocumentDocbook $document
      * @return void
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
@@ -82,7 +82,7 @@ class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidati
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $file
      * @return mixed
      */
@@ -115,7 +115,7 @@ class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidati
      *
      * Returns true, if the validation succeded, and an array with
      * ezcDocumentValidationError objects otherwise.
-     * 
+     *
      * @param string $string
      * @return mixed
      */

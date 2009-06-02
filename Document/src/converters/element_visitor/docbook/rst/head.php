@@ -14,7 +14,7 @@
  * The sectioninfo elements contain metadata about the document or
  * sections, which are transformed into the respective metadata in the HTML
  * header.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -23,7 +23,7 @@ class ezcDocumentDocbookToRstHeadHandler extends ezcDocumentDocbookToRstBaseHand
     /**
      * Element name mapping for meta information in the docbook document to
      * HTML meta element names.
-     * 
+     *
      * @var array
      */
     protected $headerMapping = array(
@@ -42,10 +42,10 @@ class ezcDocumentDocbookToRstHeadHandler extends ezcDocumentDocbookToRstBaseHand
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

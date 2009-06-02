@@ -10,7 +10,7 @@
 
 /**
  * Visitor for wiki directives
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -21,9 +21,9 @@ class ezcDocumentWikiCodePlugin extends ezcDocumentWikiPlugin
      *
      * Create a docbook XML structure at the directives position in the
      * document.
-     * 
-     * @param DOMDocument $document 
-     * @param DOMElement $root 
+     *
+     * @param DOMDocument $document
+     * @param DOMElement $root
      * @return void
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )

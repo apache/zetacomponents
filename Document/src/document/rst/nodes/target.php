@@ -11,7 +11,7 @@
 
 /**
  * The internal target AST node
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -20,7 +20,7 @@ class ezcDocumentRstTargetNode extends ezcDocumentRstNode
 {
     /**
      * Construct RST document node
-     * 
+     *
      * @param ezcDocumentRstToken $token
      * @return void
      */
@@ -31,8 +31,8 @@ class ezcDocumentRstTargetNode extends ezcDocumentRstNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

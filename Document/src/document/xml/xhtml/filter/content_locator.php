@@ -12,7 +12,7 @@
 /**
  * Filter, which tries to lacate the relevant content nodes in a HTML document,
  * and ignores all layout stuff around that.
- * 
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -22,7 +22,7 @@ class ezcDocumentXhtmlContentLocatorFilter extends ezcDocumentXhtmlBaseFilter
     /**
      * Bonus for special HTML element, so that the importance of a node is
      * increased, if it has such child nodes.
-     * 
+     *
      * @var array
      */
     protected $bonus = array(
@@ -50,14 +50,14 @@ class ezcDocumentXhtmlContentLocatorFilter extends ezcDocumentXhtmlBaseFilter
 
     /**
      * Maximum importance found in the document.
-     * 
+     *
      * @var float
      */
     protected $maximumImportance = 0;
 
     /**
      * Most important node in the document
-     * 
+     *
      * @var float
      */
     protected $mostImportantNode = false;
@@ -67,8 +67,8 @@ class ezcDocumentXhtmlContentLocatorFilter extends ezcDocumentXhtmlBaseFilter
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.
-     * 
-     * @param DOMDocument $document 
+     *
+     * @param DOMDocument $document
      * @return DOMDocument
      */
     public function filter( DOMDocument $document )
@@ -100,8 +100,8 @@ class ezcDocumentXhtmlContentLocatorFilter extends ezcDocumentXhtmlBaseFilter
      *
      * Try to calculate some kind of probability for each node in the document,
      * that the respective node is the root of the actual document content.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return float
      */
     protected function calculateContentFactors( DOMElement $element )

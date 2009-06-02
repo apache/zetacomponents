@@ -19,13 +19,13 @@ class ezcDocumentRstMissingTextRoleHandlerException extends ezcDocumentException
 {
     /**
      * Construct exception from text role name
-     * 
-     * @param string $name 
+     *
+     * @param string $name
      * @return void
      */
     public function __construct( $name )
     {
-        parent::__construct( 
+        parent::__construct(
             "No text role handler registered for text role '{$name}'."
         );
     }

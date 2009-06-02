@@ -12,7 +12,7 @@
  * Visit anchor elements
  *
  * Anchor elements are manually added targets inside paragraphs.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -23,10 +23,10 @@ class ezcDocumentEzXmlToDocbookAnchorHandler extends ezcDocumentElementVisitorHa
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
-     * 
-     * @param ezcDocumentElementVisitorConverter $converter 
-     * @param DOMElement $node 
-     * @param mixed $root 
+     *
+     * @param ezcDocumentElementVisitorConverter $converter
+     * @param DOMElement $node
+     * @param mixed $root
      * @return mixed
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )

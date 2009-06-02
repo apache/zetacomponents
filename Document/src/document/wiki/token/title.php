@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document title tokens
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,15 +18,15 @@ class ezcDocumentWikiTitleToken extends ezcDocumentWikiLineMarkupToken
 {
     /**
      * Level of title.
-     * 
+     *
      * @var int
      */
     public $level = 0;
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

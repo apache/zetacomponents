@@ -48,9 +48,9 @@ abstract class ezcDocumentPdfDriver
      * Create a new page
      *
      * Create a new page in the PDF document with the given width and height.
-     * 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param float $width
+     * @param float $height
      * @return void
      */
     abstract public function createPage( $width, $height );
@@ -63,8 +63,8 @@ abstract class ezcDocumentPdfDriver
      * backend calls.
      *
      *
-     * @param string $type 
-     * @param mixed $value 
+     * @param string $type
+     * @param mixed $value
      * @return void
      */
     abstract public function setTextFormatting( $type, $value );
@@ -74,8 +74,8 @@ abstract class ezcDocumentPdfDriver
      *
      * Calculate the width of the passed word, using the currently set text
      * formatting options.
-     * 
-     * @param string $word 
+     *
+     * @param string $word
      * @return float
      */
     abstract public function calculateWordWidth( $word );
@@ -85,7 +85,7 @@ abstract class ezcDocumentPdfDriver
      *
      * Return the current line height in millimeter based on the current font
      * and text rendering settings.
-     * 
+     *
      * @return float
      */
     abstract public function getCurrentLineHeight();
@@ -97,10 +97,10 @@ abstract class ezcDocumentPdfDriver
      * formatting options.
      *
      * The coordinate specifies the left bottom edge of the words bounding box.
-     * 
-     * @param float $x 
-     * @param float $y 
-     * @param string $word 
+     *
+     * @param float $x
+     * @param float $y
+     * @param string $word
      * @return void
      */
     abstract public function drawWord( $x, $y, $word );
@@ -118,13 +118,13 @@ abstract class ezcDocumentPdfDriver
      * dimensions do not neccesarily match the real image dimensions, and might
      * require some kind of scaling inside the driver depending on the used
      * backend.
-     * 
-     * @param string $file 
-     * @param string $type 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
+     *
+     * @param string $file
+     * @param string $type
+     * @param float $x
+     * @param float $y
+     * @param float $width
+     * @param float $height
      * @return void
      */
     abstract public function drawImage( $file, $type, $x, $y, $width, $height );
@@ -133,7 +133,7 @@ abstract class ezcDocumentPdfDriver
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.
-     * 
+     *
      * @return string
      */
     abstract public function save();

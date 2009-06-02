@@ -20,15 +20,15 @@ class ezcDocumentPdfStyleStringValue extends ezcBaseStruct
 {
     /**
      * Directive value
-     * 
+     *
      * @var string
      */
     public $value;
 
     /**
      * Construct value handler from string representation
-     * 
-     * @param mixed $value 
+     *
+     * @param mixed $value
      * @return void
      */
     public function __construct( $value )
@@ -38,7 +38,7 @@ class ezcDocumentPdfStyleStringValue extends ezcBaseStruct
 
     /**
      * Convert value to string
-     * 
+     *
      * @return string
      */
     public function __toString()

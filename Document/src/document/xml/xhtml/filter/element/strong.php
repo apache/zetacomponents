@@ -11,7 +11,7 @@
 
 /**
  * Filter for XHtml strong emphasis.
- * 
+ *
  * Even there is no real strong empasis in docbook this may be annotated by
  * the additional attribute role, which is set for XHtml elements
  * indicating strong emphasis.
@@ -24,14 +24,14 @@ class ezcDocumentXhtmlStrongElementFilter extends ezcDocumentXhtmlElementBaseFil
 {
     /**
      * Filter a single element
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
     {
         $element->setProperty( 'type', 'emphasis' );
-        $element->setProperty( 'attributes', array( 
+        $element->setProperty( 'attributes', array(
             'Role' => 'strong',
         ) );
     }
@@ -41,8 +41,8 @@ class ezcDocumentXhtmlStrongElementFilter extends ezcDocumentXhtmlElementBaseFil
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
-     * 
-     * @param DOMElement $element 
+     *
+     * @param DOMElement $element
      * @return void
      */
     public function handles( DOMElement $element )

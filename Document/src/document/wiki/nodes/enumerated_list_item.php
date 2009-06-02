@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document abstract syntax tree enumerated list item nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,16 +18,16 @@ class ezcDocumentWikiEnumeratedListItemNode extends ezcDocumentWikiLineLevelNode
 {
     /**
      * EnumeratedListItem indentation level
-     * 
+     *
      * @var int
      */
     public $level = 1;
 
     /**
      * Construct Wiki node
-     * 
+     *
      * @param ezcDocumentWikiToken $token
-     * @param int $type 
+     * @param int $type
      * @return void
      */
     public function __construct( ezcDocumentWikiToken $token )
@@ -38,8 +38,8 @@ class ezcDocumentWikiEnumeratedListItemNode extends ezcDocumentWikiLineLevelNode
 
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */

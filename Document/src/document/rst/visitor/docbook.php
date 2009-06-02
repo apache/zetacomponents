@@ -10,7 +10,7 @@
 
 /**
  * Docbook visitor for the RST AST.
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,7 +18,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 {
     /**
      * Mapping of class names to internal visitors for the respective nodes.
-     * 
+     *
      * @var array
      */
     protected $complexVisitMapping = array(
@@ -47,7 +47,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Direct mapping of AST node class names to docbook element names.
-     * 
+     *
      * @var array
      */
     protected $simpleVisitMapping = array(
@@ -67,7 +67,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
     /**
      * Array with nodes, which can be ignored during the transformation
      * process, they only provide additional information during preprocessing.
-     * 
+     *
      * @var array
      */
     protected $skipNodes = array(
@@ -79,7 +79,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * DOM document
-     * 
+     *
      * @var DOMDocument
      */
     protected $document;
@@ -88,8 +88,8 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      * Docarate RST AST
      *
      * Visit the RST abstract syntax tree.
-     * 
-     * @param ezcDocumentRstDocumentNode $ast 
+     *
+     * @param ezcDocumentRstDocumentNode $ast
      * @return mixed
      */
     public function visit( ezcDocumentRstDocumentNode $ast )
@@ -121,9 +121,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      * Visit a single AST node, may be called for each node found anywhere
      * as child. The current position in the DOMDocument is passed by a
      * reference to the current DOMNode, which is operated on.
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitNode( DOMNode $root, ezcDocumentRstNode $node )
@@ -174,9 +174,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit section node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
@@ -201,9 +201,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit paragraph node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitParagraph( DOMNode $root, ezcDocumentRstNode $node )
@@ -231,9 +231,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit text node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitText( DOMNode $root, ezcDocumentRstNode $node )
@@ -248,9 +248,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
      *
      * Just recurse into node and visit its children, ignoring the actual
      * node.
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitChildren( DOMNode $root, ezcDocumentRstNode $node )
@@ -263,9 +263,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit interpreted text node markup
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitInterpretedTextNode( DOMNode $root, ezcDocumentRstNode $node )
@@ -295,9 +295,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit emphasis markup
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitEmphasisMarkup( DOMNode $root, ezcDocumentRstNode $node )
@@ -318,9 +318,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit external reference node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitExternalReference( DOMNode $root, ezcDocumentRstNode $node )
@@ -354,9 +354,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit internal reference node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitInternalFootnoteReference( DOMNode $root, ezcDocumentRstNode $node )
@@ -381,9 +381,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit anonomyous reference node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitAnonymousReference( DOMNode $root, ezcDocumentRstNode $node )
@@ -402,16 +402,16 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit substitution reference node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitSubstitutionReference( DOMNode $root, ezcDocumentRstNode $node )
     {
         if ( ( $substitution = $this->substitute( $this->nodeToString( $node ) ) ) !== null )
         {
-            foreach( $substitution as $child )
+            foreach ( $substitution as $child )
             {
                 $this->visitNode( $root, $child );
             }
@@ -420,9 +420,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit inline target node
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitInlineTarget( DOMNode $root, ezcDocumentRstNode $node )
@@ -439,9 +439,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit citation
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitCitation( DOMNode $root, ezcDocumentRstNode $node )
@@ -457,9 +457,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit footnote
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitFootnote( DOMNode $root, ezcDocumentRstNode $node )
@@ -475,9 +475,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit blockquotes
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitBlockquote( DOMNode $root, ezcDocumentRstNode $node )
@@ -502,9 +502,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit enumerated lists
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitEnumeratedList( DOMNode $root, ezcDocumentRstNode $node )
@@ -536,16 +536,16 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit definition list item
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitDefinitionListItem( DOMNode $root, ezcDocumentRstNode $node )
     {
         $item = $this->document->createElement( 'varlistentry' );
         $root->appendChild( $item );
-    
+
         $term = $this->document->createElement( 'term', htmlspecialchars( $this->tokenListToString( $node->name ) ) );
         $item->appendChild( $term );
 
@@ -560,9 +560,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit line block
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitLineBlock( DOMNode $root, ezcDocumentRstNode $node )
@@ -586,9 +586,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit table
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitTable( DOMNode $root, ezcDocumentRstNode $node )
@@ -607,9 +607,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit table cell
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitTableCell( DOMNode $root, ezcDocumentRstNode $node )
@@ -635,16 +635,16 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit field list item
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitFieldListItem( DOMNode $root, ezcDocumentRstNode $node )
     {
         // Get sectioninfo node, to add the stuff there.
         $secInfo = $root->getElementsByTagName( 'sectioninfo' )->item( 0 );
-        
+
         if ( $secInfo === null )
         {
             // If not yet existant, create section info
@@ -679,9 +679,9 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
 
     /**
      * Visit directive
-     * 
-     * @param DOMNode $root 
-     * @param ezcDocumentRstNode $node 
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentRstNode $node
      * @return void
      */
     protected function visitDirective( DOMNode $root, ezcDocumentRstNode $node )

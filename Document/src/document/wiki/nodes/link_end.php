@@ -10,7 +10,7 @@
 
 /**
  * Struct for Wiki document inline link end syntax tree nodes
- * 
+ *
  * @package Document
  * @version //autogen//
  */
@@ -18,8 +18,8 @@ class ezcDocumentWikiLinkEndNode extends ezcDocumentWikiInlineNode
 {
     /**
      * Set state after var_export
-     * 
-     * @param array $properties 
+     *
+     * @param array $properties
      * @return void
      * @ignore
      */
