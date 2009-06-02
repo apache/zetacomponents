@@ -6,15 +6,16 @@ class ezcWebdavClientTestContinuousSetup extends ezcWebdavClientTestSetup
 {
     protected static $backend;
 
-    protected static $lastTestSuite;
+    protected static $lastTestSetId;
 
-    public static function performSetup( ezcWebdavClientTest $test, $testSetName )
+    public static function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
-        if ( basename( dirname( $testSetName ) ) !== self::$lastTestSuite )
+        // echo "Last: " . self::$lastTestSetId . ". This: $testSetId\n";
+        if (  $testSetId <= self::$lastTestSetId || self::$backend === null )
         {
-            self::$lastTestSuite = basename( dirname( $testSetName ) );
             self::$backend       = self::setupBackend();
         }
+        self::$lastTestSetId = $testSetId;
 
         $test->server  = self::getServer(
             new ezcWebdavBasicPathFactory( 'http://webdav' )

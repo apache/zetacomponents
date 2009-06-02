@@ -21,6 +21,8 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     public $backend;
 
+    protected $timeZone;
+
     private $testSets = array();
     
     private $currentTestSet;
@@ -58,23 +60,6 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         );
     }
 
-    public function setUp()
-    {
-        $this->tmpDir = $this->createTempDir(
-            get_class( $this )
-        );
-    }
-
-    public function tearDown()
-    {
-        $this->removeTempDir();
-    }
-
-    public function getTestSetIds()
-    {
-        return $this->testSets->getKeys();
-    }
-
     public function setTestSet( $testSetId )
     {
         $this->currentTestSet = $testSetId;
@@ -87,7 +72,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         );
     }
 
-    public function runTest()
+    public function setUp()
     {
         if ( $this->currentTestSet === false )
         {
@@ -96,24 +81,20 @@ abstract class ezcWebdavClientTest extends ezcTestCase
             );
         }
 
+        $this->tmpDir = $this->createTempDir(
+            get_class( $this )
+        );
+
         // Store current timezone and switch to UTC for test
-        $oldTimezone = date_default_timezone_get();
+        $this->timezone = date_default_timezone_get();
         date_default_timezone_set( 'UTC' );
 
-        $this->runTestSet( $this->currentTestSet );
-
-        // Reset old timezone
-        date_default_timezone_set( $oldTimezone );
-    }
-
-    protected function runTestSet( $testSetId )
-    {
         try
         {
             call_user_func(
                 array( $this->setupClass, 'performSetup' ),
                 $this,
-                $testSetId
+                $this->currentTestSet
             );
         }
         catch ( RuntimeException $e )
@@ -124,14 +105,61 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         }
 
         $this->backend->options->lockFile = $this->tmpDir . '/backend.lock';
+    }
 
+    protected function tearDown()
+    {
+        $this->removeTempDir();
 
-        $testData = $this->testSets[$testSetId];
+        // Reset old timezone
+        date_default_timezone_set( $this->timezone );
+    }
+
+    public function getTestSetIds()
+    {
+        return $this->testSets->getKeys();
+    }
+
+    public function runTest()
+    {
+        $testData = $this->testSets[$this->currentTestSet];
 
         $this->adjustRequest( $testData['request'] );
 
-        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = $testData['request']['body'];
-        $_SERVER = $testData['request']['server'];
+        $response = $this->performTestSetRun( $testData['request'] );
+
+        $this->adjustResponse( $response, $testData['response'] );
+
+        $this->assertEquals(
+            $testData['response'],
+            $response,
+            'Response sent by WebDAV server incorrect.'
+        );
+    }
+
+    protected function storeBackend()
+    {
+        // Store backend after test execution, if desired
+        if ( self::STORE_BACKEND )
+        {
+            $backendDir = self::$backendDir . '/' . get_class( $this );
+
+            if ( !is_dir( $backendDir ) )
+            {
+                mkdir( $backendDir );
+            }
+
+            file_put_contents(
+                $backendDir . '/' . basename( $testSetName ) . '.ser',
+                serialize( $this->backend )
+            );
+        }
+    }
+
+    protected function performTestSetRun( array $request )
+    {
+        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = $request['body'];
+        $_SERVER = $request['server'];
 
         // ini_set( 'xdebug.collect_return', 1 );
         // xdebug_start_trace( './traces/' . basename( $testSetName ) );
@@ -148,49 +176,35 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'] );
         unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'] );
 
-        // Store backend after test execution, if desired
-        if ( self::STORE_BACKEND )
-        {
-            $backendDir = self::$backendDir . '/' . get_class( $this );
+        return $response;
+    }
 
-            if ( !is_dir( $backendDir ) )
-            {
-                mkdir( $backendDir );
-            }
-
-            file_put_contents(
-                $backendDir . '/' . basename( $testSetName ) . '.ser',
-                serialize( $this->backend )
-            );
-        }
-
-        // Unify server generated nounce
-        if ( isset( $testData['response']['headers']['WWW-Authenticate'] )
-             && isset( $testData['response']['headers']['WWW-Authenticate']['digest'] )
-             && isset( $response['headers']['WWW-Authenticate'] )
-             && isset( $response['headers']['WWW-Authenticate']['digest'] ) )
-        {
-            preg_match( '(nonce="([a-zA-Z0-9]+)")', $response['headers']['WWW-Authenticate']['digest'], $matches );
-            $testData['response']['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $testData['response']['headers']['WWW-Authenticate']['digest'] );
-        }
-
-        $this->adjustResponse( $response, $testData['response'] );
-
-        $this->assertEquals(
-            $testData['response'],
-            $response,
-            'Response sent by WebDAV server incorrect.'
-        );
+    protected function runTestSet( $testSetId )
+    {
     }
 
     protected function adjustRequest( array &$request )
     {
     }
 
-    protected function adjustResponse( array &$realResponse, array &$expectedResponse )
+    protected function adjustResponse( array &$actualResponse, array &$expectedResponse )
     {
+        // Unify server generated nounce
+        if ( isset( $expectedResponse['headers']['WWW-Authenticate']['digest'] )
+             && isset( $actualResponse['headers']['WWW-Authenticate']['digest'] ) )
+        {
+            preg_match(
+                '(nonce="[a-zA-Z0-9]+")',
+                $actualResponse['headers']['WWW-Authenticate']['digest'],
+                $matches
+            );
+            $expectedResponse['headers']['WWW-Authenticate']['digest'] = preg_replace(
+                '(nonce="([a-zA-Z0-9]+)")',
+                $matches[0],
+                $expectedResponse['headers']['WWW-Authenticate']['digest']
+            );
+        }
     }
-
 }
 
 ?>

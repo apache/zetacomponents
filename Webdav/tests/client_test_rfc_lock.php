@@ -56,6 +56,7 @@ class ezcWebdavClientRfcLockTest extends ezcWebdavClientTest
 
     protected function adjustResponse( array &$realResponse, array &$expectedResponse )
     {
+        parent::adjustResponse( $realResponse, $expectedResponse );
         if ( isset( $expectedResponse['headers']['Lock-Token'] ) && isset( $realResponse['headers']['Lock-Token'] ) )
         {
             $expectedResponse['body'] = preg_replace(

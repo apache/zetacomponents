@@ -8,7 +8,6 @@ class ezcWebdavClientTestRfcSetup extends ezcWebdavClientTestSetup
     {
         $pathFactory  = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
 
-        $testSetName = basename( $testSetId );
         switch( $testSetId )
         {
             case 14:

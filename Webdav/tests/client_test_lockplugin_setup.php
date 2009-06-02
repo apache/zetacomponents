@@ -5,7 +5,7 @@ require_once 'classes/client_test_lock_auth.php';
 
 class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
 {
-    public static function performSetup( ezcWebdavClientTest $test, $testSetName )
+    public static function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
         $test->server = self::getServer(
             new ezcWebdavBasicPathFactory( 'http://example.com' )
@@ -23,7 +23,7 @@ class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
         $test->server->auth = new ezcWebdavClientTestRfcLockAuth();
         $test->server->auth->credentials['foo'] = 'bar';
 
-        $backendFile = "{$testSetName}_backend.php";
+        $backendFile = "{$testSetId}_backend.php";
 
         if ( !file_exists( $backendFile ) )
         {
@@ -32,7 +32,7 @@ class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
 
         $test->backend = include $backendFile;
 
-        $tokenFile = "{$testSetName}_tokens.php";
+        $tokenFile = "{$testSetId}_tokens.php";
 
         $test->server->auth->tokenAssignement = ( file_exists( $tokenFile ) ? require( $tokenFile ) : array() );
     }

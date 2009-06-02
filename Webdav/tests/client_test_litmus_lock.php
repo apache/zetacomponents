@@ -47,12 +47,15 @@ class ezcWebdavClientLitmusLockTest extends ezcWebdavClientTest
 
     protected function adjustResponse( array &$realResponse, array &$expectedResponse )
     {
+        parent::adjustResponse( $realResponse, $expectedResponse );
         if ( isset( $realResponse['headers']['Lock-Token'] ) && !isset( $expectedResponse['headers']['Lock-Token'] ) )
         {
+            var_dump( $realResponse, $expectedResponse );
             throw new RuntimeException( 'Real response had Lock-Token, expected not!' );
         }
         if ( !isset( $realResponse['headers']['Lock-Token'] ) && isset( $expectedResponse['headers']['Lock-Token'] ) )
         {
+            var_dump( $realResponse, $expectedResponse );
             throw new RuntimeException( 'Expected response had Lock-Token, real not!' );
         }
         

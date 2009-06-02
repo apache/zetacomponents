@@ -4,16 +4,15 @@ require_once 'client_test_continuous_setup.php';
 
 class ezcWebdavClientTestContinuousLockSetup extends ezcWebdavClientTestContinuousSetup
 {
-    protected static $tokenAssignement;
+    protected static $tokenAssignement = array();
 
-    public static function performSetup( ezcWebdavClientTest $test, $testSetName )
+    public static function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
-        parent::performSetup( $test, $testSetName );
-
-        if ( basename( dirname( $testSetName ) ) !== self::$lastTestSuite )
+        if ( $testSetId <= self::$lastTestSetId )
         {
             self::$tokenAssignement = array();
         }
+        parent::performSetup( $test, $testSetId );
 
         $test->server->pluginRegistry->registerPlugin(
             new ezcWebdavLockPluginConfiguration(

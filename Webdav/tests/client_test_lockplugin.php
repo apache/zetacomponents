@@ -68,6 +68,7 @@ class ezcWebdavClientLockPluginTest extends ezcWebdavClientTest
 
     protected function adjustResponse( array &$realResponse, array &$expectedResponse )
     {
+        parent::adjustResponse( $realResponse, $expectedResponse );
         if ( isset( $realResponse['headers']['Lock-Token'] ) && !isset( $expectedResponse['headers']['Lock-Token'] ) )
         {
             throw new RuntimeException( 'Real response had Lock-Token, expected not!' );

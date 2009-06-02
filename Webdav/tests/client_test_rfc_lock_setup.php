@@ -5,7 +5,7 @@ require_once 'classes/client_test_lock_auth.php';
 
 class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
 {
-    public static function performSetup( ezcWebdavClientTest $test, $testSetName )
+    public static function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
         $test->server = self::getServer(
             new ezcWebdavBasicPathFactory( 'http://example.com' )
@@ -19,9 +19,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         );
         $test->server->auth = new ezcWebdavClientTestRfcLockAuth();
 
-        $testSetName = basename( $testSetName );
-
-        switch( $testSetName )
+        switch( $testSetId )
         {
             case 1:
                 $customPathFactory = self::getSetup1( $test );
