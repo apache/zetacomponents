@@ -5,9 +5,9 @@ require_once 'classes/client_test_lock_auth.php';
 
 class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
 {
-    public static function performSetup( ezcWebdavClientTest $test, $testSetId )
+    public function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
-        $test->server = self::getServer(
+        $test->server = $this->getServer(
             new ezcWebdavBasicPathFactory( 'http://example.com' )
         );
         $test->server->pluginRegistry->registerPlugin(

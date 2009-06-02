@@ -172,21 +172,111 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavLockPropertyHandlerTest::suite() );
         $this->addTest( ezcWebdavLockAdministratorTest::suite() );
 
-        $this->addTest( ezcWebdavClientRfcTest::suite() );
-        $this->addTest( ezcWebdavClientRfcLockTest::suite() );
-        $this->addTest( ezcWebdavClientLitmusTest::suite() );
-        $this->addTest( ezcWebdavClientLitmusLockTest::suite() );
-        $this->addTest( ezcWebdavClientCadaverTest::suite() );
-        $this->addTest( ezcWebdavClientCadaverLockTest::suite() );
-        $this->addTest( ezcWebdavClientNautilusTest::suite() );
-        $this->addTest( ezcWebdavClientNautilusNewTest::suite() );
-        $this->addTest( ezcWebdavClientKonqueror3Test::suite() );
-        $this->addTest( ezcWebdavClientKonqueror4Test::suite() );
-        $this->addTest( ezcWebdavClientIE6Test::suite() );
-        $this->addTest( ezcWebdavClientIE6AuthTest::suite() );
-        $this->addTest( ezcWebdavClientIE7Test::suite() );
-        $this->addTest( ezcWebdavClientIE7AuthTest::suite() );
-        $this->addTest( ezcWebdavClientBitKinexTest::suite() );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'RFC',
+                'clients/rfc.php',
+                new ezcWebdavClientTestRfcSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'RFC (lock)',
+                'clients/rfc_lock.php',
+                new ezcWebdavClientTestRfcLockSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Litmus',
+                'clients/litmus.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Litmus (lock)',
+                'clients/litmus_lock.php',
+                new ezcWebdavClientTestContinuousLockSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Cadaver',
+                'clients/cadaver.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Cadaver (lock)',
+                'clients/cadaver_lock.php',
+                new ezcWebdavClientTestContinuousLockSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Nautilus',
+                'clients/nautilus.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Nautilus (new)',
+                'clients/nautilus_new.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Konqueror 3',
+                'clients/konqueror_3.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Konqueror 4',
+                'clients/konqueror_4.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'InternetExplorer 6',
+                'clients/ie6.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'InternetExplorer 6 (auth)',
+                'clients/ie6_auth.php',
+                new ezcWebdavClientTestContinuousSetupIeAuth()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'InternetExplorer 7',
+                'clients/ie7.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'InternetExplorer 7 (auth)',
+                'clients/ie7_auth.php',
+                new ezcWebdavClientTestContinuousSetupIeAuth()
+            )
+        );
+        $this->addTest(
+            new ezcWebdavClientTestSuite(
+                'Bitkinex',
+                'clients/bitkinex.php',
+                new ezcWebdavClientTestContinuousSetup()
+            )
+        );
     }
 
     public static function suite()

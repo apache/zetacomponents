@@ -5,7 +5,11 @@ require_once 'classes/client_test_lock_auth.php';
 
 class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
 {
-    public static function performSetup( ezcWebdavClientTest $test, $testSetId )
+    protected $tokenAssignement = array();
+
+    protected $tokenReplacement = array();
+
+    public function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
         $test->server = self::getServer(
             new ezcWebdavBasicPathFactory( 'http://example.com' )
@@ -22,38 +26,117 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         switch( $testSetId )
         {
             case 1:
-                $customPathFactory = self::getSetup1( $test );
+                $customPathFactory = $this->getSetup1( $test );
                 break;
             case 2:
-                $customPathFactory = self::getSetup2( $test );
+                $customPathFactory = $this->getSetup2( $test );
                 break;
             case 3:
-                $customPathFactory = self::getSetup3( $test );
+                $customPathFactory = $this->getSetup3( $test );
                 break;
             case 4:
-                $customPathFactory = self::getSetup4( $test );
+                $customPathFactory = $this->getSetup4( $test );
                 break;
             case 5:
-                $customPathFactory = self::getSetup5( $test );
+                $customPathFactory = $this->getSetup5( $test );
                 break;
             case 6:
-                $customPathFactory = self::getSetup6( $test );
+                $customPathFactory = $this->getSetup6( $test );
                 break;
             case 7:
-                $customPathFactory = self::getSetup6( $test );
+                $customPathFactory = $this->getSetup6( $test );
                 break;
             case 8:
-                $customPathFactory = self::getSetup8( $test );
+                $customPathFactory = $this->getSetup8( $test );
                 break;
             case 9:
-                $customPathFactory = self::getSetup9( $test );
+                $customPathFactory = $this->getSetup9( $test );
                 break;
             default:
                 throw new RuntimeException( "Could not find setup for test set '$testSetName'." );
         }
+
+        $this->tokenAssignement = array();
+        $this->tokenReplacement = array();
     }
 
-    protected static function getSetup1( ezcWebdavClientTest $test )
+    public function adjustRequest( array &$request )
+    {
+        $serverBase = array(
+            'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
+            'HTTP_USER_AGENT' => 'RFC compliant',
+            'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
+            'SERVER_NAME'     => 'webdav',
+        );
+
+        $request['server'] = array_merge( $serverBase, $request['server'] );
+
+        foreach ( $this->tokenReplacement as $from => $to )
+        {
+            if ( isset( $request['server']['HTTP_IF'] ) )
+            {
+                $request['server']['HTTP_IF'] = preg_replace(
+                    '(' . preg_quote( $from ) . ')',
+                    $to,
+                    $request['server']['HTTP_IF']
+                );
+            }
+            if ( isset( $request['server']['HTTP_LOCK_TOKEN'] ) )
+            {
+                $request['server']['HTTP_LOCK_TOKEN'] = preg_replace(
+                    '(' . preg_quote( $from ) . ')',
+                    $to,
+                    $request['server']['HTTP_LOCK_TOKEN']
+                );
+            }
+        }
+    }
+
+    public function adjustResponse( array &$realResponse, array &$expectedResponse )
+    {
+        parent::adjustResponse( $realResponse, $expectedResponse );
+        if ( isset( $realResponse['headers']['Lock-Token'] ) && !isset( $expectedResponse['headers']['Lock-Token'] ) )
+        {
+            throw new RuntimeException( 'Real response had Lock-Token, expected not!' );
+        }
+        if ( !isset( $realResponse['headers']['Lock-Token'] ) && isset( $expectedResponse['headers']['Lock-Token'] ) )
+        {
+            throw new RuntimeException( 'Expected response had Lock-Token, real not!' );
+        }
+        
+
+        if ( isset( $realResponse['headers']['Lock-Token'] ) )
+        {
+            $toReplace   = $expectedResponse['headers']['Lock-Token'];
+            $replaceWith = $realResponse['headers']['Lock-Token'];
+            
+            $this->tokenReplacement[$toReplace]       = $replaceWith;
+            $expectedResponse['headers']['Lock-Token'] = $realResponse['headers']['Lock-Token'];
+        }
+
+        foreach ( $this->tokenReplacement as $from => $to )
+        {
+            $expectedResponse['body'] = preg_replace(
+                '(' . preg_quote( $from ) . ')',
+                $to,
+                $expectedResponse['body']
+            );
+        }
+
+        // Unify last access dates
+        $realResponse['body'] = preg_replace(
+            '([0-9]{4}-[0-9]{2}-[0-9]{2}[0-9T:+]+)',
+            '2008-11-09T22:14:18+00:00',
+            $realResponse['body']
+        );
+        $expectedResponse['body'] = preg_replace(
+            '([0-9]{4}-[0-9]{2}-[0-9]{2}[0-9T:+]+)',
+            '2008-11-09T22:14:18+00:00',
+            $expectedResponse['body']
+        );
+    }
+
+    protected function getSetup1( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend();
 
@@ -68,9 +151,9 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         );
     }
 
-    protected static function getSetup2( ezcWebdavClientTest $test )
+    protected function getSetup2( ezcWebdavClientTest $test )
     {
-        self::getSetup1( $test );
+        $this->getSetup1( $test );
         $test->server->auth->tokenAssignement = array(
             '' => array(
                 'opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4' => true,
@@ -101,7 +184,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         );
     }
 
-    protected static function getSetup3( ezcWebdavClientTest $test )
+    protected function getSetup3( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend();
 
@@ -114,7 +197,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         );
     }
 
-    protected static function getSetup4( ezcWebdavClientTest $test )
+    protected function getSetup4( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend();
 
@@ -148,7 +231,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         );
     }
 
-    protected static function getSetup5( ezcWebdavClientTest $test )
+    protected function getSetup5( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend();
         $test->server->auth->tokenAssignement = array(
@@ -234,7 +317,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         );
     }
 
-    protected static function getSetup9( ezcWebdavClientTest $test )
+    protected function getSetup9( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend();
         $test->server->auth->tokenAssignement = array(
@@ -286,7 +369,7 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
         );
     }
 
-    protected static function getSetup6( ezcWebdavClientTest $test )
+    protected function getSetup6( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend( false );
 
@@ -495,7 +578,7 @@ EOT
         );
     }
 
-    protected static function getSetup8( ezcWebdavClientTest $test )
+    protected function getSetup8( ezcWebdavClientTest $test )
     {
         $test->backend = new ezcWebdavMemoryBackend( false );
 

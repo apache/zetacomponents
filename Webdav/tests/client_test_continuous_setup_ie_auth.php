@@ -6,9 +6,9 @@ require_once 'classes/test_auth_ie.php';
 
 class ezcWebdavClientTestContinuousSetupIeAuth extends ezcWebdavClientTestContinuousSetup
 {
-    public static function performSetup( ezcWebdavClientTest $test, $testSetName )
+    public function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
-        parent::performSetup( $test, $testSetName );
+        parent::performSetup( $test, $testSetId );
         $test->server->auth = new ezcWebdavTestAuthIe();
     }
 }

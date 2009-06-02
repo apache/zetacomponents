@@ -4,14 +4,12 @@ require_once 'client_test_continuous_setup.php';
 
 class ezcWebdavClientTestContinuousLockSetup extends ezcWebdavClientTestContinuousSetup
 {
-    protected static $tokenAssignement = array();
+    protected $tokenAssignement = array();
 
-    public static function performSetup( ezcWebdavClientTest $test, $testSetId )
+    protected $tokenReplacement = array();
+
+    public function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
-        if ( $testSetId <= self::$lastTestSetId )
-        {
-            self::$tokenAssignement = array();
-        }
         parent::performSetup( $test, $testSetId );
 
         $test->server->pluginRegistry->registerPlugin(
@@ -23,12 +21,74 @@ class ezcWebdavClientTestContinuousLockSetup extends ezcWebdavClientTestContinuo
                 )
             )
         );
-        $test->server->auth->tokenAssignement =& self::$tokenAssignement;
+        $test->server->auth->tokenAssignement =& $this->tokenAssignement;
     }
 
-    protected static function setupBackend()
+    public function adjustRequest( array &$request )
     {
-        return require dirname( __FILE__ ) . '/scripts/test_generator_backend.php';
+        foreach ( $this->tokenReplacement as $from => $to )
+        {
+            if ( isset( $request['server']['HTTP_IF'] ) )
+            {
+                $request['server']['HTTP_IF'] = preg_replace(
+                    '(' . preg_quote( $from ) . ')',
+                    $to,
+                    $request['server']['HTTP_IF']
+                );
+            }
+            if ( isset( $request['server']['HTTP_LOCK_TOKEN'] ) )
+            {
+                $request['server']['HTTP_LOCK_TOKEN'] = preg_replace(
+                    '(' . preg_quote( $from ) . ')',
+                    $to,
+                    $request['server']['HTTP_LOCK_TOKEN']
+                );
+            }
+        }
+    }
+
+    public function adjustResponse( array &$realResponse, array &$expectedResponse )
+    {
+        parent::adjustResponse( $realResponse, $expectedResponse );
+        if ( isset( $realResponse['headers']['Lock-Token'] ) && !isset( $expectedResponse['headers']['Lock-Token'] ) )
+        {
+            throw new RuntimeException( 'Real response had Lock-Token, expected not!' );
+        }
+        if ( !isset( $realResponse['headers']['Lock-Token'] ) && isset( $expectedResponse['headers']['Lock-Token'] ) )
+        {
+            throw new RuntimeException( 'Expected response had Lock-Token, real not!' );
+        }
+        
+
+        if ( isset( $realResponse['headers']['Lock-Token'] ) )
+        {
+            $toReplace   = $expectedResponse['headers']['Lock-Token'];
+            $replaceWith = $realResponse['headers']['Lock-Token'];
+            
+            $this->tokenReplacement[$toReplace]       = $replaceWith;
+            $expectedResponse['headers']['Lock-Token'] = $realResponse['headers']['Lock-Token'];
+        }
+
+        foreach ( $this->tokenReplacement as $from => $to )
+        {
+            $expectedResponse['body'] = preg_replace(
+                '(' . preg_quote( $from ) . ')',
+                $to,
+                $expectedResponse['body']
+            );
+        }
+
+        // Unify last access dates
+        $realResponse['body'] = preg_replace(
+            '([0-9]{4}-[0-9]{2}-[0-9]{2}[0-9T:+]+)',
+            '2008-11-09T22:14:18+00:00',
+            $realResponse['body']
+        );
+        $expectedResponse['body'] = preg_replace(
+            '([0-9]{4}-[0-9]{2}-[0-9]{2}[0-9T:+]+)',
+            '2008-11-09T22:14:18+00:00',
+            $expectedResponse['body']
+        );
     }
 }
 

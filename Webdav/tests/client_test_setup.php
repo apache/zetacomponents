@@ -2,9 +2,9 @@
 
 require_once 'classes/test_auth.php';
 
-class ezcWebdavClientTestSetup
+abstract class ezcWebdavClientTestSetup
 {
-    protected static $mockClassSource = '
+    protected $mockClassSource = '
         class %sMock extends %s
         {
             /**
@@ -32,7 +32,32 @@ class ezcWebdavClientTestSetup
         }
     ';
 
-    protected static function getServer( ezcWebdavPathFactory $pathFactory )
+    abstract public function performSetup( ezcWebdavClientTest $test, $testSetId );
+
+    public function adjustRequest( array &$request )
+    {
+    }
+
+    public function adjustResponse( array &$actualResponse, array &$expectedResponse )
+    {
+        // Unify server generated nounce
+        if ( isset( $expectedResponse['headers']['WWW-Authenticate']['digest'] )
+             && isset( $actualResponse['headers']['WWW-Authenticate']['digest'] ) )
+        {
+            preg_match(
+                '(nonce="[a-zA-Z0-9]+")',
+                $actualResponse['headers']['WWW-Authenticate']['digest'],
+                $matches
+            );
+            $expectedResponse['headers']['WWW-Authenticate']['digest'] = preg_replace(
+                '(nonce="([a-zA-Z0-9]+)")',
+                $matches[0],
+                $expectedResponse['headers']['WWW-Authenticate']['digest']
+            );
+        }
+    }
+
+    protected function getServer( ezcWebdavPathFactory $pathFactory )
     {
         $server = ezcWebdavServer::getInstance();
         $server->reset();
@@ -42,7 +67,7 @@ class ezcWebdavClientTestSetup
             // Prepare mock classes, if not done, yet
             if ( !class_exists( ( $mockClass = "{$cfg->transportClass}Mock" ) ) )
             {
-                eval( sprintf( self::$mockClassSource, $cfg->transportClass, $cfg->transportClass ) );
+                eval( sprintf( $this->mockClassSource, $cfg->transportClass, $cfg->transportClass ) );
             }
 
             // Mock all transports
