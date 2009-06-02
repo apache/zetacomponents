@@ -1,0 +1,37 @@
+Review of MvcTools-1.1-alpha at 02.06.09
+========================================
+
+:Author: ts
+
+Issues
+------
+
+[ ] ezcMvcNoNamedRouteException is not a really clear name. I'd suggest
+    ezcMvcNamedRouteNotFoundException.
+
+[ ] File name "named_route_no_reversable.php" should be
+    "named_route_not_reversable.php" (no -> not).
+
+[ ] MvcTools/src/routes/rails.php +171: Why is the reference operator used
+    here (and in some other foreach loops)?
+
+[ ] ezcMvcReversedRoute is not a good name. Should be ezcMvcInvertibleRoute.
+
+[ ] MvcTools/src/interfaces/controller.php +122: "isset(
+    $this->properties['router'] )" since when did we change this? Did we use
+	to return true on any existing property, no matter if null?
+
+[ ] MvcTools/src/interfaces/controller.php: What if a request variable is
+    named 'router'?
+
+[ ] Enhancement #14740: "Make overriding the pattern to match in routes
+    easier". Is the "." syntax the ruby way of doing this? What about routing
+	per HTTP method?
+
+[ ] Doc issues via docanalysis too.
+
+Enhancements
+------------
+
+- There should be the possibility to expose reverse route generation through a
+  template function in MvcTemplateTiein
