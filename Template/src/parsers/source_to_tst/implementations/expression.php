@@ -97,7 +97,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             
             return true;
         }
-        elseif( $this->parsePreOperator( $cursor, $match ) ) // Parse: -, +, !
+        elseif ( $this->parsePreOperator( $cursor, $match ) ) // Parse: -, +, !
         {
             $canDoAssignment = false;
             if ( !$this->parseOperand( $cursor, array(), false ) )
@@ -105,7 +105,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
                 throw new ezcTemplateParserException( $this->parser->source, $cursor, $cursor, ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_OPERAND );
             }
         }
-        elseif( $type = $this->parseOperand( $cursor, array(), true, true) ) // Only an operand?
+        elseif ( $type = $this->parseOperand( $cursor, array(), true, true) ) // Only an operand?
         {
             if ( $type == "Variable" )
             {
@@ -244,7 +244,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             $this->currentOperator = $this->parser->handleOperand( $this->currentOperator, $this->lastParser->functionCall );
             $parsedType = "FunctionCall";
         }
-        elseif( $cursor->match( '(' ) && sizeof( $allowedTypes ) == 0 )
+        elseif ( $cursor->match( '(' ) && sizeof( $allowedTypes ) == 0 )
         {
             $expressionCursor = clone $cursor;
             $expressionParser = new ezcTemplateExpressionBlockSourceToTstParser( $this->parser, $this, null );
@@ -358,7 +358,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             $operatorStartCursor = clone $cursor;
             $operator = new ezcTemplatePostIncrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
         }
-        elseif(  $cursor->match( '--' ) )
+        elseif ( $cursor->match( '--' ) )
         {
             $operatorStartCursor = clone $cursor;
             $operator = new ezcTemplatePostDecrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
@@ -388,7 +388,7 @@ class ezcTemplateExpressionSourceToTstParser extends ezcTemplateSourceToTstParse
             $operatorStartCursor = clone $cursor;
             $operator = new ezcTemplatePreIncrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );
         }
-        elseif(  $cursor->match( '--' ) )
+        elseif ( $cursor->match( '--' ) )
         {
             $operatorStartCursor = clone $cursor;
             $operator = new ezcTemplatePreDecrementOperatorTstNode( $this->parser->source, clone $this->lastCursor, $cursor );

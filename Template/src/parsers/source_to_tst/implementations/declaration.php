@@ -62,7 +62,7 @@ class ezcTemplateDeclarationBlockSourceToTstParser extends ezcTemplateSourceToTs
                 {
                     return true;
                 }
-                elseif( $this->currentCursor->match( ":", false ) )
+                elseif ( $this->currentCursor->match( ":", false ) )
                 {
                     throw new ezcTemplateParserException( $this->parser->source, $this->startCursor, $this->currentCursor, 
                         sprintf( ezcTemplateSourceToTstErrorMessages::MSG_UNEXPECTED_TOKEN, $this->currentCursor->current( 1 ) ), ezcTemplateSourceToTstErrorMessages::LNG_INVALID_NAMESPACE_MARKER ); 

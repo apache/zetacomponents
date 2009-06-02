@@ -54,7 +54,7 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
 
                 $this->defaultCaseFound = true;
             }
-            elseif( $this->defaultCaseFound ) // Found a default case already..
+            elseif ( $this->defaultCaseFound ) // Found a default case already..
             {
                 throw new ezcTemplateParserException( $element->source, $element->startCursor, $element->startCursor, ezcTemplateSourceToTstErrorMessages::MSG_DEFAULT_LAST );
             }
@@ -65,7 +65,7 @@ class ezcTemplateSwitchTstNode extends ezcTemplateBlockTstNode
 
             // parent::handleElement( $element );
         }
-        elseif( $element instanceof ezcTemplateDocCommentTstNode )
+        elseif ( $element instanceof ezcTemplateDocCommentTstNode )
         {
             parent::handleElement( $element );
         }

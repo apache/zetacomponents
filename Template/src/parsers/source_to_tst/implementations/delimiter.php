@@ -111,7 +111,7 @@ class ezcTemplateDelimiterSourceToTstParser extends ezcTemplateSourceToTstParser
             $cursor->advance();
             return true;
         }
-        elseif( $this->block->name == "skip" )
+        elseif ( $this->block->name == "skip" )
         {
             $skip = new ezcTemplateLoopTstNode( $this->parser->source, $this->startCursor, $cursor, "skip" );
 

@@ -351,7 +351,7 @@ class ezcTemplateAstToPhpGenerator implements ezcTemplateAstNodeVisitor
             $text = "\"$valueText\"";
             $this->write( $text );
         }
-        elseif( is_array( $type->value ) )
+        elseif ( is_array( $type->value ) )
         {
             $this->write( "array(" );
             foreach ( $type->value as $val )

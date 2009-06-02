@@ -248,7 +248,7 @@ class ezcTemplateFunctions
                             }
                         }
                     }
-                    elseif( !self::isOptional( $pIn ) )
+                    elseif ( !self::isOptional( $pIn ) )
                     {
                         throw new ezcTemplateException( sprintf( ezcTemplateSourceToTstErrorMessages::MSG_EXPECT_PARAMETER, $functionName, $pIn ) );
                     }

@@ -98,7 +98,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
 
             return true;
         }
-        elseif( $name == 'case' )
+        elseif ( $name == 'case' )
         {
             $case = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
             $case->name = $name; // Set the name to 'case'
@@ -132,7 +132,7 @@ class ezcTemplateSwitchConditionSourceToTstParser extends ezcTemplateSourceToTst
 
             return true;
         }
-        elseif( $name == 'default' )
+        elseif ( $name == 'default' )
         {
             $case = new ezcTemplateCaseTstNode( $this->parser->source, $this->startCursor, $cursor );
             $case->name = $name; // Set the name to 'default'

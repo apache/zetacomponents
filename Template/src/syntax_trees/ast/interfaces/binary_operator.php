@@ -33,7 +33,7 @@ abstract class ezcTemplateBinaryOperatorAstNode extends ezcTemplateOperatorAstNo
             $this->appendParameter( $parameter1 );
             $this->appendParameter( $parameter2 );
         }
-        elseif( $parameter1 != null )
+        elseif ( $parameter1 != null )
         {
             throw new ezcTemplateInternalException( "The binary operator expects zero or two parameters." );
         }

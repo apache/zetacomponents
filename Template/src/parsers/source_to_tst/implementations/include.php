@@ -42,7 +42,7 @@ class ezcTemplateIncludeSourceToTstParser extends ezcTemplateSourceToTstParser
         {
             return $this->parseInclude( $cursor );
         }
-        elseif( $this->block->name == "return" )
+        elseif ( $this->block->name == "return" )
         {
             return $this->parseReturn( $cursor );
         }

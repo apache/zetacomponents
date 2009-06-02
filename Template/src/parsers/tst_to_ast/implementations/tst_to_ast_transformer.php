@@ -946,7 +946,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
         {
             $text = ezcTemplateStringTool::processSingleQuotedEscapes( $type->value );
         }
-        elseif( $type->quoteType == ezcTemplateLiteralTstNode::DOUBLE_QUOTE )
+        elseif ( $type->quoteType == ezcTemplateLiteralTstNode::DOUBLE_QUOTE )
         {
             $text = ezcTemplateStringTool::processDoubleQuotedEscapes( $type->value );
         }
@@ -1339,11 +1339,11 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
                           $this->delimOutputVar->getInitializationAst(),
                           new ezcTemplateContinueAstNode() );
         }
-        elseif( $type->name == "continue")
+        elseif ( $type->name == "continue" )
         {
             return new ezcTemplateContinueAstNode();
         }
-        elseif( $type->name == "break")
+        elseif ( $type->name == "break" )
         {
             return new ezcTemplateBreakAstNode();
         }
@@ -1863,7 +1863,7 @@ class ezcTemplateTstToAstTransformer implements ezcTemplateTstNodeVisitor
 
             return array( $a, $b );
         }
-        elseif( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::IMPORT ) 
+        elseif ( $this->parser->symbolTable->retrieve( $type->variable->name ) == ezcTemplateSymbolTable::IMPORT ) 
         {
             $call = new ezcTemplateFunctionCallAstNode( "isset", array( $type->variable->accept( $this ) ) );
 

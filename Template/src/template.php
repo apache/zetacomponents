@@ -310,10 +310,10 @@ class ezcTemplate
             }
 
             if ( file_exists( $compiled->path ) && 
-                (!$config->checkModifiedTemplates || 
+               ( !$config->checkModifiedTemplates || 
                   filemtime( $this->properties["stream"] ) <= filemtime( $compiled->path ) ) ) 
             {
-                if( !$config->executeTemplate )
+                if ( !$config->executeTemplate )
                 {
                     $this->properties["output"] = "";
                     return "";
@@ -349,7 +349,7 @@ class ezcTemplate
             }
             else
             {
-                $tstToAst = new ezcTemplateTstToAstTransformer ( $parser);
+                $tstToAst = new ezcTemplateTstToAstTransformer( $parser );
             }
 
             $this->properties["tstTree"]->accept( $tstToAst );

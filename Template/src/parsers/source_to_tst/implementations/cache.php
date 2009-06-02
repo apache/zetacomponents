@@ -68,7 +68,6 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
             $cacheNode = new ezcTemplateCacheTstNode( $this->parser->source, $this->startCursor, $cursor );
             $cacheNode->type = ezcTemplateCacheTstNode::TYPE_CACHE_TEMPLATE;
         }
-        // // // //// HERE 
         elseif ($cursor->match( "cache_block" ) )
         {
             $this->parser->hasCacheBlocks = true;
@@ -90,7 +89,6 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
                 return true;
             }
         }
-        // // // ///// ENDHERE
         else
         {
             return false;
@@ -123,7 +121,7 @@ class ezcTemplateCacheSourceToTstParser extends ezcTemplateSourceToTstParser
 
                 // $this->parser->template->configuration->cacheSystem->appendCacheKeys( $values );
             }
-            elseif( $name == "ttl" )
+            elseif ( $name == "ttl" )
             {
                 // The parameter has an expression.
                 if ( !$this->parseOptionalType( 'Expression', null, false ) )
