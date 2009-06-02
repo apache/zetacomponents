@@ -18,7 +18,11 @@ class ezcMvcResult extends ezcBaseStruct
     /**
      * Result status
      *
-     * @var int
+     * Set this to an object that implements the ezcMvcResultStatusObject, for
+     * example ezcMvcResultUnauthorized or ezcMvcExternalRedirect. These status
+     * objects are used by the response writers to take appropriate actions.
+     *
+     * @var ezcMvcResultStatusObject
      */
     public $status;
 
