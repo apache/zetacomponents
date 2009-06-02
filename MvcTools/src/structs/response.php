@@ -77,7 +77,7 @@ class ezcMvcResponse extends ezcBaseStruct
      * @param ezcMvcResultContent $content
      * @param string $body
      */
-    public function __construct( $status = null, $date = null, 
+    public function __construct( $status = null, $date = null,
         $generator = '', $cache = null, $cookies = array(), $content = null, $body = '' )
     {
         $this->status = $status;
@@ -104,8 +104,8 @@ class ezcMvcResponse extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcResponse( $array['status'], $array['date'], 
-            $array['generator'], $array['cache'], $array['cookies'], 
+        return new ezcMvcResponse( $array['status'], $array['date'],
+            $array['generator'], $array['cache'], $array['cookies'],
             $array['content'], $array['body'] );
     }
 }

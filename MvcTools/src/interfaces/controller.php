@@ -9,7 +9,7 @@
 
 /**
  * Interface defining controller classes.
- * 
+ *
  * Controllers process the client's request and returns variables usable by the
  * view-manager in an instance of an ezcMvcResult.  Controllers should not
  * access request variables directly but should use the passed ezcMvcRequest.
@@ -156,8 +156,8 @@ abstract class ezcMvcController
 
     /**
      * Runs the controller to process the query and return variables usable
-     * to render the view. 
-     * 
+     * to render the view.
+     *
      * @throws ezcMvcActionNotFoundException if the action method could not be found
      * @return ezcMvcResult|ezcMvcInternalRedirect
      */

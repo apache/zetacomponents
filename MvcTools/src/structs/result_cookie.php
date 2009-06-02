@@ -75,8 +75,8 @@ class ezcMvcResultCookie extends ezcBaseStruct
      * @param bool $secure
      * @param bool $httpOnly
      */
-    public function __construct( $name = '', $value = '', 
-        DateTime $expire = null, $path = '', $domain = '', $secure = false, 
+    public function __construct( $name = '', $value = '',
+        DateTime $expire = null, $path = '', $domain = '', $secure = false,
         $httpOnly = false )
     {
         $this->name = $name;
@@ -103,8 +103,8 @@ class ezcMvcResultCookie extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcResultCookie( $array['name'], $array['value'], 
-            $array['expire'], $array['path'], $array['domain'], 
+        return new ezcMvcResultCookie( $array['name'], $array['value'],
+            $array['expire'], $array['path'], $array['domain'],
             $array['secure'], $array['httpOnly'] );
     }
 }

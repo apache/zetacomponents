@@ -9,7 +9,7 @@
 
 /**
  * A result filter is responsible for altering the result object.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  */
@@ -17,7 +17,7 @@ interface ezcMvcResultFilter
 {
     /**
      * Alters the result object.
-     * 
+     *
      * @param ezcMvcResult $result Result object to alter.
      * @return void
      */

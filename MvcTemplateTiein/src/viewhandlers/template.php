@@ -9,7 +9,7 @@
 
 /**
  * The view handler that uses the template component to render result objects.
- * 
+ *
  * @package MvcTemplateTiein
  * @version //autogentag//
  * @mainclass

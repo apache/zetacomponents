@@ -9,7 +9,7 @@
 
 /**
  * A request filter is responsible for altering the request object.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  */
@@ -17,7 +17,7 @@ interface ezcMvcRequestFilter
 {
     /**
      * Alters the request object.
-     * 
+     *
      * @param ezcMvcRequest $request Request object to alter.
      */
     public function filterRequest( ezcMvcRequest $request );

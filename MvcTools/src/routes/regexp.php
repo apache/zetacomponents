@@ -11,7 +11,7 @@
  * Router class that uses regular expressions for matching routes.
  *
  * The routes are matched against the uri property of the request object.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass
@@ -128,7 +128,7 @@ class ezcMvcRegexpRoute implements ezcMvcRoute
      *
      * It's up to the developer to provide a meaningfull prefix. In this case,
      * it needs to be a regular expression just like the pattern.
-     * 
+     *
      * @param mixed $prefix
      * @throws ezcMvcRegexpRouteException if the prefix can not be prepended to
      *         the pattern.

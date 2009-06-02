@@ -56,7 +56,7 @@ class ezcMvcRequestAuthentication extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcRequestAuthentication( $array['identifier'], 
+        return new ezcMvcRequestAuthentication( $array['identifier'],
             $array['password'] );
     }
 }

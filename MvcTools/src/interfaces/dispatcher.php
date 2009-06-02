@@ -11,7 +11,7 @@
  * Dispatcher interface.
  *
  * A dispatcher is the glue code that binds all the other parts of the MvcTools
- * package together. 
+ * package together.
  *
  * @package MvcTools
  * @version //autogentag//

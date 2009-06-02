@@ -9,7 +9,7 @@
 
 /**
  * The view handler that uses XML feeds to render result objects.
- * 
+ *
  * @package MvcFeedTiein
  * @version //autogentag//
  * @mainclass
@@ -46,14 +46,14 @@ class ezcMvcFeedViewHandler implements ezcMvcViewHandler
 
     /**
      * Contains the embedded feed object.
-     * 
+     *
      * @var ezcFeed
      */
     public $feed;
 
     /**
      * Contains the embedded feed type.
-     * 
+     *
      * @var string
      */
     protected $feedType;

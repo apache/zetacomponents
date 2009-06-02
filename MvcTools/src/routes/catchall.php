@@ -11,7 +11,7 @@
  * Router class that acts like a catch all for /.../... type routes.
  *
  * The routes are matched against the uri property of the request object.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass
@@ -34,7 +34,7 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
 
     /**
      * Only allow to catch routes that match at least this prefix.
-     * 
+     *
      * @var array
      */
     private $prefix = array();
@@ -83,7 +83,7 @@ class ezcMvcCatchAllRoute implements ezcMvcRoute
         $i = -1;
         foreach ( $requestParts as $part )
         {
-            switch ( $i ) 
+            switch ( $i )
             {
                 case -1:
                     // ignore, as it's the bit before the first /

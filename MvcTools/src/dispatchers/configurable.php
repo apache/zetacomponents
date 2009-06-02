@@ -10,7 +10,7 @@
 /**
  * This class implements an example dispatcher that can be configured through
  * ezcMvcDispatcherConfiguration.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass

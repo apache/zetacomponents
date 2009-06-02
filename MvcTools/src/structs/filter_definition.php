@@ -55,7 +55,7 @@ class ezcMvcFilterDefinition extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcFilterDefinition( $array['className'], 
+        return new ezcMvcFilterDefinition( $array['className'],
             $array['options'] );
     }
 }

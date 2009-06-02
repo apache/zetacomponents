@@ -9,7 +9,7 @@
 
 /**
  * The abstract view that you need to inherit from to supply your view zones.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass
@@ -71,7 +71,7 @@ abstract class ezcMvcView
      * createZones() method from the inherited class to fetch the different
      * zones of the view, and then loops over these zones in order. Each zone's
      * results are made available to subsequent zones. Each zone will be
-     * processed by a view handler of the ezcMvcViewHandler class. 
+     * processed by a view handler of the ezcMvcViewHandler class.
      *
      * @throws ezcMvcNoZonesException when there are no zones defined.
      * @throws ezcBaseValueException when one of the returned zones was not

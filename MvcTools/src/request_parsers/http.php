@@ -77,7 +77,7 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
         $req->host = isset( $_SERVER['HTTP_HOST'] )
             ? $_SERVER['HTTP_HOST']
             : (
-                isset( $_SERVER['SERVER_NAME'] ) 
+                isset( $_SERVER['SERVER_NAME'] )
                     ? $_SERVER['SERVER_NAME']
                     : 'localhost.localdomain'
               );

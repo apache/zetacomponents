@@ -21,7 +21,7 @@ interface ezcMvcRoute
     /**
      * Returns routing information if the route matched, or null in case the
      * route did not match.
-     * 
+     *
      * @param ezcMvcRequest $request
      * @return null|ezcMvcRoutingInformation
      */
@@ -29,7 +29,7 @@ interface ezcMvcRoute
 
     /**
      * Adds a prefix to the route.
-     * 
+     *
      * @param mixed $prefix Prefix to add, for example: '/blog'
      */
     public function prefix( $prefix );

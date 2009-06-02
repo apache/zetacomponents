@@ -17,7 +17,7 @@
 class ezcMvcMailBugzillaRequestFilter implements ezcMvcRequestFilter
 {
     /**
-     * This function 
+     * This function
      *
      * @param ezcMvcRequest $request
      */
@@ -27,7 +27,7 @@ class ezcMvcMailBugzillaRequestFilter implements ezcMvcRequestFilter
         $request->variables['short_desc'] = $request->variables['subject'];
         $request->variables['description'] = '';
 
-        $lastTag = ''; 
+        $lastTag = '';
         $inHeader = true;
         $lines = explode( "\n", $request->body );
         foreach ( $lines as $line )

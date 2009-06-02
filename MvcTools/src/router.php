@@ -9,7 +9,7 @@
 
 /**
  * The abstract router that you need to inherit from to supply your routes.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass

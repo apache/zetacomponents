@@ -11,7 +11,7 @@
  * Router class that uses rails style expressions for matching routes.
  *
  * The routes are matched against the uri property of the request object.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass
@@ -151,7 +151,7 @@ class ezcMvcRailsRoute implements ezcMvcRoute, ezcMvcReversedRoute
      *
      * It's up to the developer to provide a meaningfull prefix. In this case,
      * it needs to be a pattern just like the normal pattern.
-     * 
+     *
      * @param mixed $prefix
      */
     public function prefix( $prefix )

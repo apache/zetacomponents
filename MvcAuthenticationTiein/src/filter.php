@@ -157,7 +157,7 @@ class ezcMvcAuthenticationFilter
             $this->options->tableName,
             array( $this->options->userIdField, $this->options->passwordField )
         );
-        $databaseFilter = new ezcAuthenticationDatabaseFilter( $database ); 
+        $databaseFilter = new ezcAuthenticationDatabaseFilter( $database );
 
         // use the options object when creating a new Session object
         $options = new ezcAuthenticationSessionOptions();
@@ -176,7 +176,7 @@ class ezcMvcAuthenticationFilter
 
         $credentials = new ezcAuthenticationPasswordCredentials( $user, $this->hashPassword( $password ) );
         $authentication = new ezcAuthentication( $credentials );
-        $authentication->session = $session; 
+        $authentication->session = $session;
         $authentication->addFilter( $databaseFilter );
 
         return $authentication;
@@ -320,8 +320,8 @@ class ezcMvcAuthenticationFilter
         $q->select( $this->options->userIdField )
           ->from( $this->options->tableName )
           ->where( $q->expr->eq(
-                $this->options->userIdField, 
-                $q->bindValue( $username ) ) 
+                $this->options->userIdField,
+                $q->bindValue( $username ) )
             );
         $s = $q->prepare();
         $s->execute();
@@ -342,9 +342,9 @@ class ezcMvcAuthenticationFilter
     public function generatePassword( $username )
     {
         // generate password
-        mt_srand( 
+        mt_srand(
             base_convert( substr( md5( $username ), 0, 6 ), 36, 10 ) *
-            microtime( true ) 
+            microtime( true )
         );
         $a = base_convert( mt_rand(), 10, 36 );
         $b = base_convert( mt_rand(), 10, 36 );

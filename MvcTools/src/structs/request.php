@@ -160,9 +160,9 @@ class ezcMvcRequest extends ezcBaseStruct
      * @param array(ezcMvcRequestCookie) $cookies
      * @param boolean $isFatal
      */
-    public function __construct( $date = null, $protocol = '', 
-        $host = '', $uri = '', $requestId = '', $referrer = '', 
-        $variables = array(), $body = '', $files = null, $accept = null, 
+    public function __construct( $date = null, $protocol = '',
+        $host = '', $uri = '', $requestId = '', $referrer = '',
+        $variables = array(), $body = '', $files = null, $accept = null,
         $agent = null, $authentication = null, $raw = null, $cookies = array(), $isFatal = false )
     {
         $this->date = $date;
@@ -196,10 +196,10 @@ class ezcMvcRequest extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcRequest( $array['date'], $array['protocol'], 
-            $array['host'], $array['uri'], $array['requestId'], 
-            $array['referrer'], $array['variables'], $array['body'], 
-            $array['files'], $array['accept'], $array['agent'], 
+        return new ezcMvcRequest( $array['date'], $array['protocol'],
+            $array['host'], $array['uri'], $array['requestId'],
+            $array['referrer'], $array['variables'], $array['body'],
+            $array['files'], $array['accept'], $array['agent'],
             $array['authentication'], $array['raw'], $array['cookies'],
             $array['isFatal'] );
     }

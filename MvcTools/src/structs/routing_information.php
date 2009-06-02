@@ -78,7 +78,7 @@ class ezcMvcRoutingInformation extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcRoutingInformation( $array['matchedRoute'], 
+        return new ezcMvcRoutingInformation( $array['matchedRoute'],
             $array['controllerClass'], $array['action'], $array['router'] );
     }
 }

@@ -60,7 +60,7 @@ class ezcMvcRequestFile extends ezcBaseStruct
      * @param mixed $status
      * @param string $tmpPath
      */
-    public function __construct( $mimeType = '', $name = '', 
+    public function __construct( $mimeType = '', $name = '',
         $size = 0, $status = null, $tmpPath = '' )
     {
         $this->mimeType = $mimeType;
@@ -85,7 +85,7 @@ class ezcMvcRequestFile extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcRequestFile( $array['mimeType'], $array['name'], 
+        return new ezcMvcRequestFile( $array['mimeType'], $array['name'],
             $array['size'], $array['status'], $array['tmpPath'] );
     }
 }

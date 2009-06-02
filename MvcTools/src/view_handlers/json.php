@@ -9,7 +9,7 @@
 
 /**
  * The view handler that renders result objects as JSON.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass

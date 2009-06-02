@@ -67,9 +67,9 @@ class ezcMvcResultContentDisposition extends ezcBaseStruct
      * @param DateTime $readDate
      * @param int $size
      */
-    public function __construct( $type = 'inline', $filename = null, 
-        DateTime $creationDate = null, DateTime $modificationDate = null, 
-        DateTime $readDate = null, 
+    public function __construct( $type = 'inline', $filename = null,
+        DateTime $creationDate = null, DateTime $modificationDate = null,
+        DateTime $readDate = null,
         $size = null )
     {
         $this->type = $type;
@@ -95,8 +95,8 @@ class ezcMvcResultContentDisposition extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcResultContent( $array['type'], $array['filename'], 
-            $array['creationDate'], $array['modificationDate'], 
+        return new ezcMvcResultContent( $array['type'], $array['filename'],
+            $array['creationDate'], $array['modificationDate'],
             $array['readDate'], $array['size'] );
     }
 }

@@ -59,7 +59,7 @@ class ezcMvcResultContent extends ezcBaseStruct
      * @param string $encoding
      * @param ezcMvcResultContentDisposition $disposition
      */
-    public function __construct( $language = '', $type = '', 
+    public function __construct( $language = '', $type = '',
         $charset = '', $encoding = '', $disposition = null )
     {
         $this->language = $language;
@@ -84,7 +84,7 @@ class ezcMvcResultContent extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcResultContent( $array['language'], $array['type'], 
+        return new ezcMvcResultContent( $array['language'], $array['type'],
             $array['charset'], $array['encoding'], $array['disposition'] );
     }
 }

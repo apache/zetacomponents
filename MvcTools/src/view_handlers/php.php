@@ -9,7 +9,7 @@
 
 /**
  * The view handler that uses PHP files to render result objects.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  * @mainclass
@@ -39,7 +39,7 @@ class ezcMvcPhpViewHandler implements ezcMvcViewHandler
 
     /**
      * Contains the path to the template file.
-     * 
+     *
      * @var string
      */
     protected $templateLocation;

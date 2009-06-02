@@ -223,7 +223,7 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
                 // case 1: ASCII characters only
                 if ( strpbrk( $disp->filename, '\(\)<>@,;:\\"/\[\]?= ' ) === false )
                 {
-                    // case 1a: no tspecials 
+                    // case 1a: no tspecials
                     $value .= '=' . $disp->filename;
                 }
                 else

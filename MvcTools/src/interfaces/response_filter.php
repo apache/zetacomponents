@@ -9,7 +9,7 @@
 
 /**
  * A response filter is responsible for altering the response object.
- * 
+ *
  * @package MvcTools
  * @version //autogentag//
  */
@@ -17,7 +17,7 @@ interface ezcMvcResponseFilter
 {
     /**
      * Alters the response object.
-     * 
+     *
      * @param ezcMvcResponse $response Response object to alter.
      */
     public function filterResponse( ezcMvcResponse $response );

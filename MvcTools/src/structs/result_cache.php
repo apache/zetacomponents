@@ -59,7 +59,7 @@ class ezcMvcResultCache extends ezcBaseStruct
      * @param string $pragma
      * @param DateTime $lastModified
      */
-    public function __construct( $vary = '', $expire = null, 
+    public function __construct( $vary = '', $expire = null,
         $controls = null, $pragma = '', $lastModified = null )
     {
         $this->vary = $vary;
@@ -84,7 +84,7 @@ class ezcMvcResultCache extends ezcBaseStruct
      */
     static public function __set_state( array $array )
     {
-        return new ezcMvcResultCache( $array['vary'], $array['expire'], 
+        return new ezcMvcResultCache( $array['vary'], $array['expire'],
             $array['controls'], $array['pragma'], $array['lastModified'] );
     }
 }
