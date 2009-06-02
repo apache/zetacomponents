@@ -14,7 +14,7 @@ class ezcWebdavClientRfcLockTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestRfcLockSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/rfc_lock';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/rfc_lock.php';
     }
 
     public static function suite()
@@ -24,6 +24,15 @@ class ezcWebdavClientRfcLockTest extends ezcWebdavClientTest
 
     protected function adjustRequest( array &$request )
     {
+        $serverBase = array(
+            'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
+            'HTTP_USER_AGENT' => 'RFC compliant',
+            'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
+            'SERVER_NAME'     => 'webdav',
+        );
+
+        $request['server'] = array_merge( $serverBase, $request['server'] );
+
         foreach ( self::$tokenReplacements as $from => $to )
         {
             if ( isset( $request['server']['HTTP_IF'] ) )

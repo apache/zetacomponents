@@ -11,7 +11,7 @@ class ezcWebdavClientCadaverTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestContinuousSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/cadaver';
+        $this->dataFile    = dirname( __FILE__ ) . '/clients/cadaver.php';
     }
 
     public static function suite()

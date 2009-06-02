@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<D:propertyupdate xmlns:D="DAV:"><D:set><D:prop><random xmlns="http://webdav.org/neon/litmus/">foobar</random></D:prop></D:set>
-</D:propertyupdate>

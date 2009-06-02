@@ -4,45 +4,43 @@ require_once 'client_test_setup.php';
 
 class ezcWebdavClientTestRfcSetup extends ezcWebdavClientTestSetup
 {
-    public static function performSetup( ezcWebdavClientTest $test, $testSetName )
+    public static function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
         $pathFactory  = new ezcWebdavBasicPathFactory( 'http://www.foo.bar' );
 
-        $testSetName = basename( $testSetName );
-        switch( $testSetName )
+        $testSetName = basename( $testSetId );
+        switch( $testSetId )
         {
-            case '014_propfind_propname':
-            case 'lockdiscovery':
-            case 'supportedlock':
-            case '012_propfind_allprop':
-            case '005_delete':
+            case 14:
+            case 12:
+            case 5:
                 $customPathFactory = self::getFooBarSetup1( $test );
                 break;
-            case '013_propfind_prop':
+            case 13:
                 $customPathFactory = self::getFooBarSetup2( $test );
                 break;
-            case '015_proppatch':
+            case 15:
                 $customPathFactory = self::getFooBarSetup3( $test );
                 break;
-            case '002_copy_collection':
+            case 2:
                 $customPathFactory = self::getFooBarSetup4( $test );
                 break;
-            case '009_move_collection':
+            case 9:
                 $customPathFactory = self::getFooBarSetup5( $test );
                 break;
-            case '004_copy_success':
-            case '001_copy':
-            case '003_copy_overwrite':
-            case '011_options':
-            case '006_get_collection':
-            case '007_get_resource':
-            case '016_put_resource':
+            case 4:
+            case 1:
+            case 3:
+            case 11:
+            case 6:
+            case 7:
+            case 16:
                 $customPathFactory = self::getIcsUciSetup1( $test );
                 break;
-            case '010_move_resource':
+            case 10:
                 $customPathFactory = self::getIcsUciSetup2( $test );
                 break;
-            case '008_mkcol':
+            case 8:
                 $customPathFactory = self::getServerOrgSetup( $test );
                 break;
             default:

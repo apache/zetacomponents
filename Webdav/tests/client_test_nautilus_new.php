@@ -11,7 +11,7 @@ class ezcWebdavClientNautilusNewTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestContinuousSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/nautilus_new';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/nautilus_new.php';
     }
 
     public static function suite()

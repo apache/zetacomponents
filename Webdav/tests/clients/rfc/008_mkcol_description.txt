@@ -1,9 +1,0 @@
->>Request
-
-MKCOL /webdisc/xfiles/ HTTP/1.1
-Host: www.server.org
-
->>Response
-
-HTTP/1.1 201 Created
-

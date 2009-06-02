@@ -1,9 +1,0 @@
-<?php
-
-return array (
-  'ETag' => 'd85c64fb9d62eeaaec4c39e7a5460284',
-  'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavKonquerorCompatibleTransportMock',
-  'Content-Type' => 'application/octet-stream; charset="utf-8"',
-);
-
-?>

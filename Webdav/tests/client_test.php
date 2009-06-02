@@ -2,6 +2,8 @@
 
 libxml_use_internal_errors( true );
 
+require_once 'classes/test_sets.php';
+
 abstract class ezcWebdavClientTest extends ezcTestCase
 {
     /**
@@ -13,7 +15,7 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
     protected $setupClass;
 
-    public $dataDir;
+    public $dataFile;
     
     public $server;
 
@@ -50,12 +52,10 @@ abstract class ezcWebdavClientTest extends ezcTestCase
 
         $this->setupTestEnvironment();
 
-        // Reset the backend at start of the suite
 
-        foreach ( glob( $this->dataDir . '/*request_server.php' ) as $testSetFile )
-        {
-            $this->testSets[] = substr( $testSetFile, 0, -19 );
-        }
+        $this->testSets = new ezcWebdavTestSetContainer(
+            $this->dataFile
+        );
     }
 
     public function setUp()
@@ -70,22 +70,30 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         $this->removeTempDir();
     }
 
-    public function getTestSets()
+    public function getTestSetIds()
     {
-        return $this->testSets;
+        return $this->testSets->getKeys();
     }
 
-    public function setTestSet( $testSet )
+    public function setTestSet( $testSetId )
     {
-        $this->currentTestSet = $testSet;
-        $this->setName( basename( $testSet ) );
+        $this->currentTestSet = $testSetId;
+        $this->setName(
+            sprintf(
+                '%s_%s',
+                get_class( $this ),
+                $testSetId
+            )
+        );
     }
 
     public function runTest()
     {
         if ( $this->currentTestSet === false )
         {
-            throw new PHPUnit_Framework_ExpectationFailedException( "No currentTestSet set for test " . __CLASS__ );
+            throw new PHPUnit_Framework_ExpectationFailedException(
+                'No currentTestSet set for test ' . __CLASS__
+            );
         }
 
         // Store current timezone and switch to UTC for test
@@ -98,58 +106,40 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         date_default_timezone_set( $oldTimezone );
     }
 
-    protected function runTestSet( $testSetName )
+    protected function runTestSet( $testSetId )
     {
         try
         {
-            call_user_func( array( $this->setupClass, 'performSetup' ), $this, $testSetName );
+            call_user_func(
+                array( $this->setupClass, 'performSetup' ),
+                $this,
+                $testSetId
+            );
         }
         catch ( RuntimeException $e )
         {
-            $this->markTestSkipped( 'Backend setup failed.' );
-            return;
+            throw new PHPUnit_Framework_ExpectationFailedException(
+                'Back end setup failed: "' . $e->getMessage() . '"'
+            );
         }
 
         $this->backend->options->lockFile = $this->tmpDir . '/backend.lock';
 
-        $requestObject = null;
 
-        $serverBase = array(
-            'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
-            'HTTP_USER_AGENT' => 'RFC compliant',
-            'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
-            'SERVER_NAME'     => 'webdav',
-        );
+        $testData = $this->testSets[$testSetId];
 
-        $requestFileName  = $testSetName . '_request';
-        $responseFileName = $testSetName . '_response';
+        $this->adjustRequest( $testData['request'] );
 
-        // Settings
-        $request = array();
-        $request['server'] = array_merge( $serverBase, $this->getFileContent( $requestFileName, 'server' ) );
-        $request['body']   = $this->getFileContent( $requestFileName, 'body' );
-
-        $this->adjustRequest( $request );
-
-        // Settings
-        $expectedRespons = array();
-        $expectedResponse['headers'] = $this->getFileContent( $responseFileName, 'headers' );
-        $expectedResponse['body']    = $this->getFileContent( $responseFileName, 'body' );
-        $expectedResponse['status']  = trim( $this->getFileContent( $responseFileName, 'status' ) );
-        
-        // Optionally set a body.
-        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = ( $request['body'] !== false ? $request['body'] : '' );
-
-        // Optionally overwrite $_SERVER
-        $_SERVER = $request['server'];
+        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = $testData['request']['body'];
+        $_SERVER = $testData['request']['server'];
 
         // ini_set( 'xdebug.collect_return', 1 );
         // xdebug_start_trace( './traces/' . basename( $testSetName ) );
         $this->server->handle( $this->backend );
         // xdebug_stop_trace();
 
-        $response['headers'] = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
         $response['body']    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
+        $response['headers'] = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
         $response['status']  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
 
         // Reset globals
@@ -175,46 +165,22 @@ abstract class ezcWebdavClientTest extends ezcTestCase
         }
 
         // Unify server generated nounce
-        if ( isset( $expectedResponse['headers']['WWW-Authenticate'] )
-             && isset( $expectedResponse['headers']['WWW-Authenticate']['digest'] )
+        if ( isset( $testData['response']['headers']['WWW-Authenticate'] )
+             && isset( $testData['response']['headers']['WWW-Authenticate']['digest'] )
              && isset( $response['headers']['WWW-Authenticate'] )
              && isset( $response['headers']['WWW-Authenticate']['digest'] ) )
         {
             preg_match( '(nonce="([a-zA-Z0-9]+)")', $response['headers']['WWW-Authenticate']['digest'], $matches );
-            $expectedResponse['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $expectedResponse['headers']['WWW-Authenticate']['digest'] );
+            $testData['response']['headers']['WWW-Authenticate']['digest'] = preg_replace( '(nonce="([a-zA-Z0-9]+)")', 'nonce="' . $matches[1] . '"', $testData['response']['headers']['WWW-Authenticate']['digest'] );
         }
 
-        $this->adjustResponse( $response, $expectedResponse );
+        $this->adjustResponse( $response, $testData['response'] );
 
         $this->assertEquals(
-            $expectedResponse,
+            $testData['response'],
             $response,
             'Response sent by WebDAV server incorrect.'
         );
-    }
-
-    protected function getFileContent( $filePrefix, $file )
-    {
-        // No file exists
-        if ( count( $files = glob( "{$filePrefix}_{$file}.*" ) ) < 1 )
-        {
-            return false;
-        }
-
-        // The first file overrides
-        $fileInfo    = pathinfo( ( $filePath = $files[0] ) );
-        $fileContent = '';
-        switch( $fileInfo['extension'] )
-        {
-            case 'php':
-                $fileContent = require $filePath;
-                break;
-            case 'txt':
-            default:
-                $fileContent = file_get_contents( $filePath );
-                break;
-        }
-        return $fileContent;
     }
 
     protected function adjustRequest( array &$request )

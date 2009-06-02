@@ -11,7 +11,7 @@ class ezcWebdavClientKonqueror3Test extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestContinuousSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/konqueror_3';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/konqueror_3.php';
     }
 
     public static function suite()

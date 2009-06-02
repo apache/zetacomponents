@@ -11,7 +11,7 @@ class ezcWebdavClientIE6AuthTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestContinuousSetupIeAuth';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/ie6_auth';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/ie6_auth.php';
     }
 
     public static function suite()

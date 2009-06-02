@@ -13,7 +13,7 @@ class ezcWebdavClientBitKinexTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestContinuousSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/bitkinex';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/bitkinex.php';
     }
 
     public static function suite()

@@ -12,12 +12,24 @@ class ezcWebdavClientRfcTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestRfcSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/rfc';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/rfc.php';
     }
 
     public static function suite()
     {
         return new ezcWebdavClientTestSuite( __CLASS__ );
+    }
+
+    protected function adjustRequest( array &$request )
+    {
+        $serverBase = array(
+            'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
+            'HTTP_USER_AGENT' => 'RFC compliant',
+            'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
+            'SERVER_NAME'     => 'webdav',
+        );
+
+        $request['server'] = array_merge( $serverBase, $request['server'] );
     }
 }
 

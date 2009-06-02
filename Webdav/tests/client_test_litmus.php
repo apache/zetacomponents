@@ -12,7 +12,7 @@ class ezcWebdavClientLitmusTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestContinuousSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/litmus';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/litmus.php';
     }
 
     public static function suite()

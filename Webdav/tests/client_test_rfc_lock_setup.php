@@ -23,31 +23,31 @@ class ezcWebdavClientTestRfcLockSetup extends ezcWebdavClientTestSetup
 
         switch( $testSetName )
         {
-            case '001_lock_1':
+            case 1:
                 $customPathFactory = self::getSetup1( $test );
                 break;
-            case '002_lock_2':
+            case 2:
                 $customPathFactory = self::getSetup2( $test );
                 break;
-            case '003_lock_3':
+            case 3:
                 $customPathFactory = self::getSetup3( $test );
                 break;
-            case '004_lockdiscovery':
+            case 4:
                 $customPathFactory = self::getSetup4( $test );
                 break;
-            case '005_move_collection_locked':
+            case 5:
                 $customPathFactory = self::getSetup5( $test );
                 break;
-            case '006_propfind_allprop':
+            case 6:
                 $customPathFactory = self::getSetup6( $test );
                 break;
-            case '007_propfind_propname':
+            case 7:
                 $customPathFactory = self::getSetup6( $test );
                 break;
-            case '008_supportedlock':
+            case 8:
                 $customPathFactory = self::getSetup8( $test );
                 break;
-            case '009_unlock':
+            case 9:
                 $customPathFactory = self::getSetup9( $test );
                 break;
             default:

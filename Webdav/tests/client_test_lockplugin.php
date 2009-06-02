@@ -14,7 +14,7 @@ class ezcWebdavClientLockPluginTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestLockPluginSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/lockplugin';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/lockplugin.php';
     }
 
     public static function suite()

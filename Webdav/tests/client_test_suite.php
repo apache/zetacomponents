@@ -75,11 +75,11 @@ class ezcWebdavClientTestSuite extends PHPUnit_Framework_TestSuite
         }
 
         $mainTest = $theClass->newInstance();
-        $testSets = $mainTest->getTestSets();
+        $testSetIds = $mainTest->getTestSetIds();
 
-        foreach ( $testSets as $testSet )
+        foreach( $testSetIds as $testSetId )
         {
-            $this->addTestSet( $testSet, $mainTest );
+            $this->addTestSet( $testSetId, $mainTest );
         }
 
         $tests = $this->tests();
@@ -96,10 +96,10 @@ class ezcWebdavClientTestSuite extends PHPUnit_Framework_TestSuite
         }
     }
 
-    public function addTestSet( $testSet, $mainTest )
+    public function addTestSet( $testSetId, $mainTest )
     {
         $test = clone $mainTest;
-        $test->setTestSet( $testSet );
+        $test->setTestSet( $testSetId );
         $this->addTest( $test );
     }
 }

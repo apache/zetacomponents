@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?><propertyupdate xmlns='DAV:'><remove><prop><removeset xmlns='http://webdav.org/neon/litmus/'/></prop></remove><set><prop><removeset xmlns='http://webdav.org/neon/litmus/'>x</removeset></prop></set><set><prop><removeset xmlns='http://webdav.org/neon/litmus/'>y</removeset></prop></set></propertyupdate>

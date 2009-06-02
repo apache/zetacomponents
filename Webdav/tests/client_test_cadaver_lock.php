@@ -13,7 +13,7 @@ class ezcWebdavClientCadaverLockTest extends ezcWebdavClientTest
     protected function setupTestEnvironment()
     {
         $this->setupClass = 'ezcWebdavClientTestContinuousLockSetup';
-        $this->dataDir    = dirname( __FILE__ ) . '/clients/cadaver_lock';
+        $this->dataFile   = dirname( __FILE__ ) . '/clients/cadaver_lock.php';
     }
 
     public static function suite()
