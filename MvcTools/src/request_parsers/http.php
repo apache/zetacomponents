@@ -59,7 +59,7 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
             : new DateTime();
         if ( isset( $_SERVER['REQUEST_METHOD'] ) )
         {
-            switch( $_SERVER['REQUEST_METHOD'] )
+            switch ( $_SERVER['REQUEST_METHOD'] )
             {
                 case 'POST':
                     $req->protocol = 'http-post';
@@ -160,7 +160,7 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
      */
     protected function processFiles()
     {
-        foreach( $_FILES as $name => $info )
+        foreach ( $_FILES as $name => $info )
         {
             $file = new ezcMvcRequestFile;
             $file->mimeType = $info['type'];
@@ -178,7 +178,7 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
      */
     protected function processCookies()
     {
-        foreach( $_COOKIE as $name => $value )
+        foreach ( $_COOKIE as $name => $value )
         {
             $cookie = new ezcMvcRequestCookie( $name, $value );
             $this->request->cookies[] = $cookie;

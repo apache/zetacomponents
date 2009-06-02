@@ -112,7 +112,7 @@ abstract class ezcMvcRouter
      */
     static public function prefix( $prefix, $routes )
     {
-        foreach( $routes as $route )
+        foreach ( $routes as $route )
         {
             $route->prefix( $prefix );
         }

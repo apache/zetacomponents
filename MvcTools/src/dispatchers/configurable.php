@@ -293,7 +293,7 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
             // handle the response
             $responseWriter->handleResponse();
         }
-        while( $continue );
+        while ( $continue );
     }
 }
 ?>
