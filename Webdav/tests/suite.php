@@ -69,21 +69,7 @@ require_once 'transport_test.php';
 require_once 'plugin_configuration_test.php';
 require_once 'plugin_registry_test.php';
 
-require_once 'client_test_rfc.php';
-require_once 'client_test_rfc_lock.php';
-require_once 'client_test_litmus.php';
-require_once 'client_test_litmus_lock.php';
-require_once 'client_test_cadaver.php';
-require_once 'client_test_cadaver_lock.php';
-require_once 'client_test_nautilus.php';
-require_once 'client_test_nautilus_new.php';
-require_once 'client_test_konqueror_3.php';
-require_once 'client_test_konqueror_4.php';
-require_once 'client_test_ie6.php';
-require_once 'client_test_ie6_auth.php';
-require_once 'client_test_ie7.php';
-require_once 'client_test_ie7_auth.php';
-require_once 'client_test_bitkinex.php';
+require_once 'client_test_suite.php';
 
 require_once 'lock_plugin_options_test.php';
 require_once 'lock_if_header_list_item_test.php';
