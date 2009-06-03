@@ -11,7 +11,7 @@
 
 require_once 'test_case.php';
 require_once 'client_test_suite.php';
-require_once 'client_test_continuous_setup_ie_auth.php';
+require_once 'client_test_continuous_ie_auth_setup.php';
 
 /**
  * Client test for InternetExplorer 6 (auth).
@@ -26,7 +26,7 @@ class ezcWebdavIe6AuthClientTest extends ezcWebdavTestCase
         return new ezcWebdavClientTestSuite(
             'InternetExplorer 6 (auth)',
             'clients/ie6_auth.php',
-            new ezcWebdavClientTestContinuousSetupIeAuth()
+            new ezcWebdavClientTestContinuousIeAuthSetup()
         );
     }
 }

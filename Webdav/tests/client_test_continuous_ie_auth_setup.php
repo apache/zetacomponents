@@ -4,7 +4,7 @@ require_once 'client_test_continuous_setup.php';
 
 require_once 'classes/test_auth_ie.php';
 
-class ezcWebdavClientTestContinuousSetupIeAuth extends ezcWebdavClientTestContinuousSetup
+class ezcWebdavClientTestContinuousIeAuthSetup extends ezcWebdavClientTestContinuousSetup
 {
     public function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
