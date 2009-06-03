@@ -130,7 +130,7 @@ abstract class ezcMvcRouter
         $routes = $this->createRoutes();
         if ( !isset( $routes[$routeName] ) )
         {
-            throw new ezcMvcNoNamedRouteException( $routeName );
+            throw new ezcMvcNamedRouteNotFoundException( $routeName );
         }
         if ( $routes[$routeName] instanceof ezcMvcReversedRoute )
         {

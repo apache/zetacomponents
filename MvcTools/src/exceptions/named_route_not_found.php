@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcMvcNoNamedRouteException class.
+ * File containing the ezcMvcNamedRouteNotFoundException class.
  *
  * @package MvcTools
  * @version //autogentag//
@@ -14,10 +14,10 @@
  * @package MvcTools
  * @version //autogentag//
  */
-class ezcMvcNoNamedRouteException extends ezcMvcToolsException
+class ezcMvcNamedRouteNotFoundException extends ezcMvcToolsException
 {
     /**
-     * Constructs an ezcMvcNoNamedRouteException
+     * Constructs an ezcMvcNamedRouteNotFoundException
      *
      * @param string $routeName
      */

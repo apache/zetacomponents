@@ -6,7 +6,7 @@ Review of MvcTools-1.1-alpha at 2009-06-02
 Issues
 ------
 
-[ ] ezcMvcNoNamedRouteException is not a really clear name. I'd suggest
+[X] ezcMvcNoNamedRouteException is not a really clear name. I'd suggest
     ezcMvcNamedRouteNotFoundException.
 
 [X] File name "named_route_no_reversable.php" should be

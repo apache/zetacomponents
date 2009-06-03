@@ -168,7 +168,7 @@ class ezcMvcToolsRouterTest extends ezcTestCase
             $foo = $router->generateUrl( 'list' );
             self::fail( 'Expected exception not thrown.' );
         }
-        catch ( ezcMvcNoNamedRouteException $e )
+        catch ( ezcMvcNamedRouteNotFoundException $e )
         {
             self::assertEquals( "No route was found with the name 'list'.", $e->getMessage() );
         }
