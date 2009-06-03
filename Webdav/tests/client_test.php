@@ -1,6 +1,5 @@
 <?php
 
-libxml_use_internal_errors( true );
 
 require_once 'classes/test_sets.php';
 
@@ -29,6 +28,8 @@ class ezcWebdavClientTest extends ezcTestCase
 
     protected static $backendDir;
 
+    protected $oldLibxmlErrorSetting;
+
     public function __construct( $id, ezcwebdavClientTestSetup $setup, array $testData )
     {
         parent::__construct(
@@ -45,6 +46,8 @@ class ezcWebdavClientTest extends ezcTestCase
 
     public function setUp()
     {
+        $this->oldLibxmlErrorSetting = libxml_use_internal_errors( true );
+
         $this->setup->performSetup( $this, $this->id );
 
         $this->tmpDir = $this->createTempDir(
@@ -60,6 +63,7 @@ class ezcWebdavClientTest extends ezcTestCase
 
     protected function tearDown()
     {
+        libxml_use_internal_errors( $this->oldLibxmlErrorSetting );
         $this->removeTempDir();
 
         // Reset old timezone
