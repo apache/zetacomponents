@@ -32,6 +32,10 @@
  *
  *  // The following only affects all elements except the // title element,
  *  // which now has its own font configuration.
+ *  //
+ *  // Keep in mind that the specified font is driver specific. A pure name
+ *  // works for the SVG driver, used here. The GD driver for example
+ *  // requires a path to a TTF file.
  *  $graph->options->font->name = 'serif';
  *
  *  $graph->data['Access statistics'] = new ezcGraphArrayDataSet( array(
