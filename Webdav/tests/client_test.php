@@ -114,11 +114,20 @@ class ezcWebdavClientTest extends ezcTestCase
 
         $this->setup->adjustResponse( $response, $this->testData['response'] );
 
-        $this->assertEquals(
+        $this->assertRunCorrect(
             $this->testData['response'],
-            $response,
+            $response
+        );
+    }
+
+    protected function assertRunCorrect( array $expectedResponse, array $actualResponse )
+    {
+        $this->assertEquals(
+            $expectedResponse,
+            $actualResponse,
             'Response sent by WebDAV server incorrect.'
         );
+        $this->setup->assertCustomAssertions( $this );
     }
 
     /**

@@ -65,6 +65,10 @@ abstract class ezcWebdavClientTestSetup
         }
     }
 
+    public function assertCustomAssertions( ezcWebdavClientTest $testCase )
+    {
+    }
+
     protected function getServer( ezcWebdavPathFactory $pathFactory )
     {
         $server = ezcWebdavServer::getInstance();

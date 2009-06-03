@@ -7,12 +7,15 @@ class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
 {
     protected $testDataDir;
 
+    protected $testSetId;
+
     protected $tokenReplacement = array();
 
     protected $tokenAssignement = array();
 
     public function performSetup( ezcWebdavClientTest $test, $testSetId )
     {
+        $this->testSetId   = $testSetId;
         $this->testDataDir = dirname( __FILE__ ) . '/lock_plugin';
 
         $test->server = $this->getServer(
@@ -106,6 +109,22 @@ class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
         );
     }
 
+    public function assertCustomAssertions( ezcWebdavClientTest $test )
+    {
+        $assertions = $this->getCustomAssertions( $this->testSetId );
+        if ( $assertions !== null )
+        {
+            $refObj = new ReflectionObject( $assertions );
+            foreach ( $refObj->getMethods() as $refMethod )
+            {
+                if ( $refMethod->isPublic() )
+                {
+                    $refMethod->invoke( $assertions, $test->backend );
+                }
+            }
+        }
+    }
+
 
     protected function getBackend( $testSetId )
     {
@@ -121,6 +140,18 @@ class ezcWebdavClientTestLockPluginSetup extends ezcWebdavClientTestSetup
         catch ( RuntimeException $e )
         {
             return array();
+        }
+    }
+
+    protected function getCustomAssertions( $testSetId )
+    {
+        try
+        {
+            return require $this->getDataFile( $testSetId, 'assertions.php' );
+        }
+        catch ( RuntimeException $e )
+        {
+            return null;
         }
     }
 
