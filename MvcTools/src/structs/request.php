@@ -1,5 +1,7 @@
 <?php
 /**
+ * File containing the ezcMvcRequest class
+ *
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
@@ -158,7 +160,7 @@ class ezcMvcRequest extends ezcBaseStruct
      * @param ezcMvcRequestAuthentication $authentication
      * @param ezcMvcRawRequest $raw
      * @param array(ezcMvcRequestCookie) $cookies
-     * @param boolean $isFatal
+     * @param bool $isFatal
      */
     public function __construct( $date = null, $protocol = '',
         $host = '', $uri = '', $requestId = '', $referrer = '',

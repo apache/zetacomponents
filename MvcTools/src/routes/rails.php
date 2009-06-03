@@ -1,5 +1,7 @@
 <?php
 /**
+ * File containing the ezcMvcRailsRoute class
+ *
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
@@ -162,7 +164,6 @@ class ezcMvcRailsRoute implements ezcMvcRoute, ezcMvcReversibleRoute
     /**
      * Generates an URL back out of a route, including possible arguments
      *
-     * @param mixed $routeName
      * @param array $arguments
      */
     public function generateUrl( array $arguments = null )

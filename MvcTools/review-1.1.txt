@@ -42,7 +42,7 @@ Issues
 	just allow you to use variable names in the host part of requestIds as
 	well so that you have a variable for the subdomain, or TLD for example.
 
-[ ] Doc issues via docanalysis too.
+[X] Doc issues via docanalysis too.
 
 Enhancements
 ------------
