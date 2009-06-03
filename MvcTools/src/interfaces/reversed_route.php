@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the ezcMvcReservedRoute interface.
+ * This file contains the ezcMvcReversibleRoute interface.
  *
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -16,7 +16,7 @@
  * @package MvcTools
  * @version //autogentag//
  */
-interface ezcMvcReversedRoute
+interface ezcMvcReversibleRoute
 {
     /**
      * Generates an URL back out of a route, including possible arguments

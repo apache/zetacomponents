@@ -16,7 +16,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcMvcRailsRoute implements ezcMvcRoute, ezcMvcReversedRoute
+class ezcMvcRailsRoute implements ezcMvcRoute, ezcMvcReversibleRoute
 {
     /**
      * This property contains the pattern

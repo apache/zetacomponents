@@ -132,7 +132,7 @@ abstract class ezcMvcRouter
         {
             throw new ezcMvcNamedRouteNotFoundException( $routeName );
         }
-        if ( $routes[$routeName] instanceof ezcMvcReversedRoute )
+        if ( $routes[$routeName] instanceof ezcMvcReversibleRoute )
         {
             return $routes[$routeName]->generateUrl( $arguments );
         }

@@ -18,7 +18,10 @@ Issues
 	$part is modified in case an argument is found, hence we do "as by
 	reference".
 
-[ ] ezcMvcReversedRoute is not a good name. Should be ezcMvcInvertibleRoute.
+[X] ezcMvcReversedRoute is not a good name. Should be ezcMvcInvertibleRoute.
+
+    Renamed to ezcMvcReversibleRoute instead, as the common term is "reversed
+	routing" and not "inverted routing".
 
 [ ] MvcTools/src/interfaces/controller.php +122: "isset(
     $this->properties['router'] )" since when did we change this? Did we use

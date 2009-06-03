@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Renamed ezcMvcNoNamedRouteException to ezcMvcNamedRouteNotFoundException.
+- Renamed ezcMvcReversedRoute to ezcMvcReversibleRoute.
 
 
 1.1alpha1 - Tuesday 26 May 2009

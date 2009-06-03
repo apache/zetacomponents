@@ -30,7 +30,7 @@ return array(
     'ezcMvcResponseFilter'                   => 'MvcTools/interfaces/response_filter.php',
     'ezcMvcResponseWriter'                   => 'MvcTools/interfaces/response_writer.php',
     'ezcMvcResultStatusObject'               => 'MvcTools/interfaces/result_status_object.php',
-    'ezcMvcReversedRoute'                    => 'MvcTools/interfaces/reversed_route.php',
+    'ezcMvcReversibleRoute'                  => 'MvcTools/interfaces/reversed_route.php',
     'ezcMvcRoute'                            => 'MvcTools/interfaces/route.php',
     'ezcMvcViewHandler'                      => 'MvcTools/interfaces/view_handler.php',
     'ezcMvcCatchAllRoute'                    => 'MvcTools/routes/catchall.php',
