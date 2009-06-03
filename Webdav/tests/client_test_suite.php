@@ -2,12 +2,6 @@
 
 require_once 'Webdav/tests/client_test.php';
 
-require_once 'Webdav/tests/client_test_rfc_setup.php';
-require_once 'Webdav/tests/client_test_rfc_lock_setup.php';
-require_once 'Webdav/tests/client_test_continuous_setup.php';
-require_once 'Webdav/tests/client_test_continuous_lock_setup.php';
-require_once 'Webdav/tests/client_test_continuous_setup_ie_auth.php';
-
 class ezcWebdavClientTestSuite extends PHPUnit_Framework_TestSuite
 {
     protected $testSets;
