@@ -19,7 +19,7 @@ return array(
     'ezcMvcInvalidConfiguration'             => 'MvcTools/exceptions/invalid_configuration.php',
     'ezcMvcInvalidEncodingException'         => 'MvcTools/exceptions/invalid_encoding.php',
     'ezcMvcMissingRouteArgumentException'    => 'MvcTools/exceptions/missing_route_argument.php',
-    'ezcMvcNamedRouteNotReversableException' => 'MvcTools/exceptions/named_route_no_reversable.php',
+    'ezcMvcNamedRouteNotReversableException' => 'MvcTools/exceptions/named_route_not_reversable.php',
     'ezcMvcNoNamedRouteException'            => 'MvcTools/exceptions/no_named_route.php',
     'ezcMvcNoRoutesException'                => 'MvcTools/exceptions/no_routes.php',
     'ezcMvcNoZonesException'                 => 'MvcTools/exceptions/no_zones.php',

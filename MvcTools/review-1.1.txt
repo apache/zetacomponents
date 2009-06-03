@@ -1,5 +1,5 @@
-Review of MvcTools-1.1-alpha at 02.06.09
-========================================
+Review of MvcTools-1.1-alpha at 2009-06-02
+==========================================
 
 :Author: ts
 
@@ -9,11 +9,14 @@ Issues
 [ ] ezcMvcNoNamedRouteException is not a really clear name. I'd suggest
     ezcMvcNamedRouteNotFoundException.
 
-[ ] File name "named_route_no_reversable.php" should be
+[X] File name "named_route_no_reversable.php" should be
     "named_route_not_reversable.php" (no -> not).
 
-[ ] MvcTools/src/routes/rails.php +171: Why is the reference operator used
+[X] MvcTools/src/routes/rails.php +171: Why is the reference operator used
     here (and in some other foreach loops)?
+
+	$part is modified in case an argument is found, hence we do "as by
+	reference".
 
 [ ] ezcMvcReversedRoute is not a good name. Should be ezcMvcInvertibleRoute.
 
@@ -21,12 +24,20 @@ Issues
     $this->properties['router'] )" since when did we change this? Did we use
 	to return true on any existing property, no matter if null?
 
-[ ] MvcTools/src/interfaces/controller.php: What if a request variable is
+[?] MvcTools/src/interfaces/controller.php: What if a request variable is
     named 'router'?
 
-[ ] Enhancement #14740: "Make overriding the pattern to match in routes
+	This is a general issue. For authentication we namespace with ezcAuth_,
+	perhaps we should also do this here? Rename it to ezc_router?
+
+[X] Enhancement #14740: "Make overriding the pattern to match in routes
     easier". Is the "." syntax the ruby way of doing this? What about routing
 	per HTTP method?
+
+	For routing per HTTP method, you can select different routers quite easily
+	in the configuration object. The "." syntax is nothing specific, it would
+	just allow you to use variable names in the host part of requestIds as
+	well so that you have a variable for the subdomain, or TLD for example.
 
 [ ] Doc issues via docanalysis too.
 
