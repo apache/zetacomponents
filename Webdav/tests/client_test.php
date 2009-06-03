@@ -1,6 +1,5 @@
 <?php
 
-
 require_once 'classes/test_sets.php';
 
 class ezcWebdavClientTest extends ezcTestCase
@@ -11,24 +10,60 @@ class ezcWebdavClientTest extends ezcTestCase
      * Helpfull if new client tests should be appended to existing ones.
      */
     const STORE_BACKEND = false;
-
-    protected $setup;
-
-    protected $id;
-
-    public $testData;
     
+    /**
+     * The server used.
+     * 
+     * @var ezcWebdavServer
+     */
     public $server;
 
+    /**
+     * The back end used.
+     * 
+     * @var ezcWebdavBackend
+     */
     public $backend;
 
-    protected $timeZone;
+    /**
+     * Setup object for the test.
+     * 
+     * @var ezcWebdavClientTestSetup
+     */
+    protected $setup;
 
-    private $reset = false;
+    /**
+     * Test case ID.
+     * 
+     * @var int
+     */
+    protected $id;
 
-    protected static $backendDir;
+    /**
+     * Test data for this test case.
+     * 
+     * @var array
+     */
+    protected $testData;
 
+    /**
+     * Backup for libxml_use_internal_errors().
+     * 
+     * @var bool
+     */
     protected $oldLibxmlErrorSetting;
+
+    /**
+     * Backup for date_default_timezone.
+     * 
+     * @var string
+     */
+    protected $oldTimezoneSetting;
+
+    /**
+     * Common directory to store backends for debugging. 
+     */
+    protected static $backendDir;
 
     public function __construct( $id, ezcwebdavClientTestSetup $setup, array $testData )
     {
@@ -55,7 +90,7 @@ class ezcWebdavClientTest extends ezcTestCase
         );
 
         // Store current timezone and switch to UTC for test
-        $this->timezone = date_default_timezone_get();
+        $this->oldTimezoneSetting = date_default_timezone_get();
         date_default_timezone_set( 'UTC' );
 
         $this->backend->options->lockFile = $this->tmpDir . '/backend.lock';
@@ -67,7 +102,7 @@ class ezcWebdavClientTest extends ezcTestCase
         $this->removeTempDir();
 
         // Reset old timezone
-        date_default_timezone_set( $this->timezone );
+        date_default_timezone_set( $this->oldTimezoneSetting );
     }
 
     public function runTest()
