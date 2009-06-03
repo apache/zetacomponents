@@ -49,18 +49,6 @@ class ezcWebdavClientTestRfcSetup extends ezcWebdavClientTestSetup
         $test->server = $this->getServer( ( $customPathFactory === null ? $pathFactory : $customPathFactory ) );
     }
 
-    public function adjustRequest( array &$request )
-    {
-        $serverBase = array(
-            'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
-            'HTTP_USER_AGENT' => 'RFC compliant',
-            'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
-            'SERVER_NAME'     => 'webdav',
-        );
-
-        $request['server'] = array_merge( $serverBase, $request['server'] );
-    }
-
     protected function getFooBarSetup1( ezcWebdavClientTest $test )
     {
         $test->backend                             = new ezcWebdavMemoryBackend();

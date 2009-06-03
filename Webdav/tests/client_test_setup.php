@@ -36,6 +36,14 @@ abstract class ezcWebdavClientTestSetup
 
     public function adjustRequest( array &$request )
     {
+        $serverBase = array(
+            'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',
+            'HTTP_USER_AGENT' => 'RFC compliant',
+            'SCRIPT_FILENAME' => '/var/www/localhost/htdocs',
+            'SERVER_NAME'     => 'webdav',
+        );
+
+        $request['server'] = array_merge( $serverBase, $request['server'] );
     }
 
     public function adjustResponse( array &$actualResponse, array &$expectedResponse )
