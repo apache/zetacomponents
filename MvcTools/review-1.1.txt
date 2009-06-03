@@ -51,3 +51,7 @@ Enhancements
 
 - There should be the possibility to expose reverse route generation through a
   template function in MvcTemplateTiein
+
+  - Had a look at this, but it's certainly not trivial to do. I've found no
+	way on how to get to the router object from within the template without
+	major hacks.
