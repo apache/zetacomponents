@@ -23,15 +23,17 @@ Issues
     Renamed to ezcMvcReversibleRoute instead, as the common term is "reversed
 	routing" and not "inverted routing".
 
-[ ] MvcTools/src/interfaces/controller.php +122: "isset(
+[?] MvcTools/src/interfaces/controller.php +122: "isset(
     $this->properties['router'] )" since when did we change this? Did we use
 	to return true on any existing property, no matter if null?
 
-[?] MvcTools/src/interfaces/controller.php: What if a request variable is
+	What's wrong with this? 
+
+[X] MvcTools/src/interfaces/controller.php: What if a request variable is
     named 'router'?
 
-	This is a general issue. For authentication we namespace with ezcAuth_,
-	perhaps we should also do this here? Rename it to ezc_router?
+	Fixed by removing it as a property and adding it as the methods
+	getRouter()/setRouter() instead.
 
 [X] Enhancement #14740: "Make overriding the pattern to match in routes
     easier". Is the "." syntax the ruby way of doing this? What about routing

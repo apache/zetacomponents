@@ -45,6 +45,13 @@ abstract class ezcMvcController
     private $properties = array();
 
     /**
+     * Holds the router associated with the action
+     *
+     * @var ezcMvcRouter
+     */
+    private $router;
+
+    /**
      * Creates a new controller object and sets all the request variables as class variables.
      *
      * @throws ezcMvcControllerException if the action method is empty
@@ -75,13 +82,6 @@ abstract class ezcMvcController
     {
         switch ( $name )
         {
-            case 'router':
-                if ( !$value instanceof ezcMvcRouter )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'ezcMvcRouter' );
-                }
-                $this->properties[$name] = $value;
-                break;
             default:
                 throw new ezcBasePropertyNotFoundException( $name );
         }
@@ -98,8 +98,6 @@ abstract class ezcMvcController
     {
         switch ( $name )
         {
-            case 'router':
-                return $this->properties[$name];
             default:
                 if ( isset( $this->properties[$name] ) )
                 {
@@ -120,14 +118,31 @@ abstract class ezcMvcController
     {
         switch ( $name )
         {
-            case 'router':
-                return isset( $this->properties[$name] );
-
             default:
                 return false;
         }
         // if there is no default case before:
         return parent::__isset( $name );
+    }
+
+    /**
+     * Sets the router associated with this request.
+     *
+     * @param ezcMvcRouter $router
+     */
+    public function setRouter( ezcMvcRouter $router )
+    {
+        $this->router = $router;
+    }
+
+    /**
+     * Returns the router associated with this request.
+     *
+     * @return ezcMvcRouter
+     */
+    public function getRouter()
+    {
+        return $this->router;
     }
 
     /**

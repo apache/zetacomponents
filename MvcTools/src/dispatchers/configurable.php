@@ -48,7 +48,6 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
     {
         $controllerClass = $routingInformation->controllerClass;
         $controller = new $controllerClass( $routingInformation->action, $request );
-        $controller->router = $routingInformation->router;
         return $controller;
     }
 
@@ -121,6 +120,7 @@ class ezcMvcConfigurableDispatcher implements ezcMvcDispatcher
         {
             throw new ezcMvcInvalidConfiguration( 'controller', $controller, 'instance of ezcMvcController' );
         }
+        $controller->setRouter( $routingInformation->router );
         return $controller;
     }
 

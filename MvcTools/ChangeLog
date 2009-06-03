@@ -3,6 +3,8 @@
 
 - Renamed ezcMvcNoNamedRouteException to ezcMvcNamedRouteNotFoundException.
 - Renamed ezcMvcReversedRoute to ezcMvcReversibleRoute.
+- Removed the ->router property of ezcMvcController, and replaced this with the
+  setRouter() and getRouter() methods.
 
 
 1.1alpha1 - Tuesday 26 May 2009
