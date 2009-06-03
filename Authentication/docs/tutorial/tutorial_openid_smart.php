@@ -29,7 +29,7 @@ else
 {
     $options = new ezcAuthenticationOpenidOptions();
     $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
-    $options->preferredVersion = ezcAuthenticationOpenidFilter::VERSION_2_0;
+    $options->openidVersion = ezcAuthenticationOpenidFilter::VERSION_2_0;
     $options->store = new ezcAuthenticationOpenidFileStore( '/tmp/store' );
 
     $filter = new ezcAuthenticationOpenidFilter( $options );
