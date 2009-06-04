@@ -18,6 +18,7 @@ return array(
     'ezcTestRegressionSuite'        => 'UnitTest/regression_suite.php',
     'ezcTestRegressionTest'         => 'UnitTest/regression_test.php',
     'ezcTestRunner'                 => 'UnitTest/test/runner.php',
+    'ezcTestNewRunner'              => 'UnitTest/test/new_runner.php',
     'ezcTestSettings'               => 'UnitTest/test/settings.php',
 );
 ?>
