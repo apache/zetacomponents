@@ -15,7 +15,7 @@ class ezcWebdavClientTestSuite extends PHPUnit_Framework_TestSuite
             dirname( __FILE__ ) . '/' . $dataFile
         );
         $this->setup = (
-            $setup === null ? new ezcWebdavClientTestContinousSetup() : $setup
+            $setup === null ? new ezcWebdavClientTestContinuousSetup() : $setup
         );
 
         foreach ( $this->testSets as $testId => $testData )
