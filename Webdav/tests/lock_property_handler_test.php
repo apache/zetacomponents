@@ -82,8 +82,7 @@ class ezcWebdavLockPropertyHandlerTest extends ezcWebdavTestCase
         
         $resultElement = $this->propertyHandler->serializeLiveProperty( $property, $dummyDomElement, $xmlTool );
         
-        // @TODO: This does not validate the XML needs to be refactored!
-        $this->assertDomTreeEquals(
+        $this->assertEquals(
             $expectedElement,
             $resultElement
         );
