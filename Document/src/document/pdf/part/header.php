@@ -6,14 +6,35 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @access private
  */
 
 /**
- * Just an alias for the footer class
+ * Just an alias for the footer class, but will be positioned on the
+ * top of a page by default.
+ *
+ * A header, or any other PDF part, can be registered for rendering in the main
+ * PDF class using the registerPdfPart() method, like:
+ *
+ * <code>
+ *  $pdf = new ezcDocumentPdf();
+ *
+ *  // Add a customized footer
+ *  $pdf->registerPdfPart( new ezcDocumentPdfHeaderPdfPart(
+ *      new ezcDocumentPdfFooterOptions( array( 
+ *          'showPageNumber' => false,
+ *          'height'         => '10mm',
+ *      ) )
+ *  ) );
+ *
+ *  $pdf->createFromDocbook( $docbook );
+ *  file_put_contents( __FILE__ . '.pdf', $pdf );
+ * </code>
+ *
+ * Since it is just an alias class for the
+ * ezcDocumentPdfFooterPdfPart it is also confugured by using the
+ * ezcDocumentPdfFooterOptions class.
  *
  * @package Document
- * @access private
  * @version //autogen//
  */
 class ezcDocumentPdfHeaderPdfPart extends ezcDocumentPdfFooterPdfPart

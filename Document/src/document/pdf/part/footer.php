@@ -6,7 +6,6 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @access private
  */
 
 /**
@@ -14,9 +13,27 @@
  * from the document.
  *
  * Configured using the ezcDocumentPdfFooterOptions options class.
+ * 
+ * A footer, or any other PDF part, can be registered for rendering in the main
+ * PDF class using the registerPdfPart() method, like:
+ *
+ * <code>
+ *  $pdf = new ezcDocumentPdf();
+ *
+ *  // Add a customized footer
+ *  $pdf->registerPdfPart( new ezcDocumentPdfFooterPdfPart(
+ *      new ezcDocumentPdfFooterOptions( array( 
+ *          'showDocumentTitle'  => false,
+ *          'showDocumentAuthor' => false,
+ *          'height'             => '10mm',
+ *      ) )
+ *  ) );
+ *
+ *  $pdf->createFromDocbook( $docbook );
+ *  file_put_contents( __FILE__ . '.pdf', $pdf );
+ * </code>
  *
  * @package Document
- * @access private
  * @version //autogen//
  */
 class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart

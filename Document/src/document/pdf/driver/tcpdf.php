@@ -9,7 +9,29 @@
  */
 
 /**
- * Pdf driver based on pecl/haru
+ * Pdf driver based on TCPDF
+ * 
+ * TCPDF is a PHP based PDF renderer, originally based on FPDF and available at
+ * http://tcpdf.org.
+ *
+ * The TCPDF class has to be loaded before this driver can be used. TCPDF has
+ * some bad coding practices, like:
+ *  - Throws lots of warnings and notices, which you might want to silence by
+ *    temporarily changing the error reporting level
+ *  - Reads and writes several global variables, which might or might not
+ *    interfere with your application code
+ *  - Uses eval() in several places, which results in non-cacheable OP-Codes.
+ *
+ * The driver can be used by setting the respective option on the
+ * PDF document wrapper:
+ *
+ * <code>
+ *  // Load the docbook document and create a PDF from it
+ *  $pdf = new ezcDocumentPdf();
+ *  $pdf->options->driver = new ezcDocumentPdfTcpdfDriver();
+ *  $pdf->createFromDocbook( $docbook );
+ *  file_put_contents( __FILE__ . '.pdf', $pdf );
+ * </code>
  *
  * @package Document
  * @version //autogen//

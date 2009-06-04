@@ -11,6 +11,26 @@
 /**
  * Pdf driver based on pecl/haru
  *
+ * Haru is a pecl extension for PDF rendering, based on libahru, available at
+ * http://libharu.org.
+ *
+ * The extension can be installed using the pear command:
+ *
+ * <code>
+ *  pear install pecl/haru
+ * </code>
+ *
+ * The driver is currently the default driver, but can be explicitely set
+ * using:
+ *
+ * <code>
+ *  // Load the docbook document and create a PDF from it
+ *  $pdf = new ezcDocumentPdf();
+ *  $pdf->options->driver = new ezcDocumentPdfHaruDriver();
+ *  $pdf->createFromDocbook( $docbook );
+ *  file_put_contents( __FILE__ . '.pdf', $pdf );
+ * </code>
+ *
  * @package Document
  * @version //autogen//
  */
