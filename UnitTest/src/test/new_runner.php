@@ -110,6 +110,24 @@ class ezcTestNewRunner extends PHPUnit_TextUI_Command
             }
         }
 
+        if (isset($this->arguments['colors']) && $this->arguments['colors'] === true )
+        {
+            $colors = true;
+        }
+        else
+        {
+            $colors = false;
+        }
+
+        if (isset($this->arguments['debug']) && $this->arguments['debug'] === true )
+        {
+            $debug = true;
+        }
+        else
+        {
+            $debug = false;
+        }
+
         if (isset($this->arguments['verbose']) && $this->arguments['verbose'] === true )
         {
             $verbose = true;
@@ -119,7 +137,7 @@ class ezcTestNewRunner extends PHPUnit_TextUI_Command
             $verbose = false;
         }
 
-        $this->arguments['printer'] = new ezcTestPrinter( $verbose );
+        $this->arguments['printer'] = new ezcTestNewPrinter( NULL, $verbose, $colors, $debug );
     }
 
     protected function getPackages( $directory )
