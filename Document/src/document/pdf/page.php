@@ -520,8 +520,6 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
      */
     public function getLocationId()
     {
-        // @TODO: Maybe include the page number or similar additional
-        // information here.
         return '/page' .
             '.' . ( $this->pageNumber % 2 ? 'left' : 'right' ) .
             '#page_' . $this->pageNumber;
