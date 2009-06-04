@@ -109,6 +109,17 @@ class ezcTestNewRunner extends PHPUnit_TextUI_Command
                 }
             }
         }
+
+        if (isset($this->arguments['verbose']) && $this->arguments['verbose'] === true )
+        {
+            $verbose = true;
+        }
+        else
+        {
+            $verbose = false;
+        }
+
+        $this->arguments['printer'] = new ezcTestPrinter( $verbose );
     }
 
     protected function getPackages( $directory )
