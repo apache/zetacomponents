@@ -2,6 +2,7 @@
 
 require 'tutorial_autoload.php';
 
+// Convert some input RSTfile to docbook
 $document = new ezcDocumentRst();
 $document->loadFile( './article/introduction.txt' );
 
@@ -10,6 +11,7 @@ file_put_contents( './article/introduction.xml', $docbook );
 
 $docbook->loadFile( './article/introduction.xml' );
 
+// Load the docbook document and create a PDF from it
 $pdf = new ezcDocumentPdf();
 
 // Load a custom style sheet

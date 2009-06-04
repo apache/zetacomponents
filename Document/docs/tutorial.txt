@@ -579,8 +579,8 @@ Reading PDF
 
 The document component for now does not support reading PDF documents.
 
-Wrting PDF
-^^^^^^^^^^
+Writing PDF
+^^^^^^^^^^^
 
 Writing PDF basically works like writing any other format supported by the
 document component, like the basic example shows:
@@ -588,7 +588,7 @@ document component, like the basic example shows:
 .. include:: tutorial/04_01_create_pdf.php
    :literal:
 
-First we include some RST file to create a docbook file from it, because, like
+First we include some RST file to create a Docbook file from it, because, like
 described before, Docbook is the central conversion format.
 
 Afterwards the Docbook document is loaded by the PDF class and saved. When
@@ -609,7 +609,7 @@ For now two implementation exist for pecl/har and TCPDF, but it is fairly easy
 to write another one, for another PDF class.
 
 Haru
-´´´´
+""""
 
 libharu__ is a open source PDF generation library, written in C, and wrapped
 by the haru PHP extension, available from PECL__. If PEAR is correctly setup
@@ -628,7 +628,7 @@ __ http://libharu.org
 __ http://pecl.php.net/package/haru
 
 TCPDF
-´´´´´
+"""""
 
 TCPDF is a pure PHP based PDF generation library, available from
 `tcpdf.org`__. To use the TCPDF driver you need to download and include its
@@ -651,7 +651,7 @@ __ http://tcpdf.org
 Styling the PDF
 ```````````````
 
-The PDF output can be styled using a CSS like language, which assignes styles
+The PDF output can be styled using a CSS like language, which assigns styles
 based on the Docbook XML structure. The default styling rules are defined in
 the `default.css`__.
 
@@ -682,7 +682,7 @@ global font options there, like::
 The meaning of the first set of options should be obvious from CSS. We require
 each value to be wrapped by quotes for easier parsing, though.
 
-The second set of options defines option s for multi-column layouts, which are
+The second set of options defines options for multi-column layouts, which are
 not available in the web, but quite common in generated PDF documents. You can
 specify the number of text columns, as well as the distance between the text
 columns here.
@@ -735,7 +735,7 @@ __ http://en.wikipedia.org/wiki/Widows_and_orphans
 __ measures
 
 Measures
-´´´´´´´´
+""""""""
 
 The properties in the PDF component accept different measures, which are:
 
@@ -758,6 +758,49 @@ them and can even combine different units in one tuple, like::
 PDF parts
 `````````
 
+PDF parts are additional parts in a rendered document, like headers and
+footers. You can implement and register them yourself, and they are activated
+by different triggers, like:
+
+- on document creation
+- on page creation
+- when a document has been finished
+
+The default implementation for headers and footers is triggered on page
+creation and renders the title of the document, its author and a page number
+in the header or the footer. To develop a custom PDF part you should extend
+from the ezcDocumentPdfPart class.
+
+For the following document we are using a set of custom styles, as well as a
+header and a footer to customize the rendered PDF document. The additional
+custom CSS changes the default font and the page border:
+
+.. include:: tutorial/custom.css
+   :literal:
+
+The code using the custom CSS and headers and footers then looks like:
+
+.. include:: tutorial/04_02_create_pdf_styled.php
+   :literal:
+
+The first part, the creation of a Docbook document from a RST document is just
+the same like in the first example.
+
+Afterwards we load the above mentioned custom.css as an additional style. You
+can load as many styles as you want. If multiple styles are loaded, the latter
+ones always (partly) redefine the first styles. 
+
+After that two custom PDF parts are registered using their respective option
+class to configure their skin. The footer should only show the page number,
+while the header should display all parts (title and author), but the page
+number.
+
+At the end of the example the document is created as usual, and looks like
+this: `04_02_create_pdf_styled.pdf`__ Since the source document does not
+include any author information, this information is also not rendered in the
+header.
+
+__ 04_02_create_pdf_styled.pdf
 
 
 ..
