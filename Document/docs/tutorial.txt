@@ -3,7 +3,7 @@ eZ Components - Document
 ========================
 
 .. contents:: Table of Contents
-   :depth: 2
+   :depth: 3
 
 Introduction
 ============
@@ -17,15 +17,24 @@ languages, like:
 - `eZ Publish XML markup`__
 - Wiki markup languages, like: Creole__, Dokuwiki__ and Confluence__
 
-Where each format support conversions from and to docbook as a central
-intermediate format and may implement additional shortcuts for conversions
-from and to other formats. Not each format can express the same semantics, so
-there may be some information lost, which is `documented in a dedicated
-document`__.
+Likw shown in figure 1, each format supports conversions from and to docbook
+as a central intermediate format and may implement additional shortcuts for
+conversions from and to other formats. Not each format can express the same
+semantics, so there may be some information lost, which is `documented in a
+dedicated document`__.
+
+.. figure:: img/architecture.png
+   :alt:    Conversion architecture in document component
+    Figure 1: Conversion architecture in document component
 
 There are central handler classes for each markup language, which follow a
 common conversion interface ezcDocument and all implement the methods
 getAsDocbook() and createFromDocbook().
+
+Additionally the document component can render documents in the following
+output formats. Those formats cannot be read, but just generated:
+
+- PDF__
 
 __ http://docutils.sourceforge.net/rst.html
 __ http://www.w3.org/TR/xhtml1/
@@ -35,6 +44,7 @@ __ ezxml
 __ creole
 __ dokuwiki
 __ confluence
+__ pdf
 
 Markup languages
 ================
@@ -551,6 +561,203 @@ docbook RST conversion and can be extended the same way.
 
 .. include:: tutorial/03_02_write_wiki.php
    :literal:
+
+PDF
+---
+
+PDF (Portable Document Format) has been developed to provide a document
+format, which can be presented software and system independent. Because of
+this it is often used as a pre-print document exchange format.
+
+The document componen can generate PDF document from all other input formats
+and offers a language very similar to CSS to apply custom styling to the
+generated output. Additionally it supports adding custom parts, like footers
+and headers, to the PDF document.
+
+Reading PDF
+^^^^^^^^^^^
+
+The document component for now does not support reading PDF documents.
+
+Wrting PDF
+^^^^^^^^^^
+
+Writing PDF basically works like writing any other format supported by the
+document component, like the basic example shows:
+
+.. include:: tutorial/04_01_create_pdf.php
+   :literal:
+
+First we include some RST file to create a docbook file from it, because, like
+described before, Docbook is the central conversion format.
+
+Afterwards the Docbook document is loaded by the PDF class and saved. When
+converting the document to a string the PDF is renderer using the default
+options and the default driver. The result of this rendering call can be
+watched here: `04_01_create_pdf.pdf`__.
+
+__ 04_01_create_pdf.pdf
+
+Output writers
+``````````````
+
+Since there are numerous different PDF renderers in the PHP world and the
+available ones might depend on the current environment, the document component
+supports different PDF driver, as wrapper around different existent libraries.
+
+For now two implementation exist for pecl/har and TCPDF, but it is fairly easy
+to write another one, for another PDF class.
+
+Haru
+´´´´
+
+libharu__ is a open source PDF generation library, written in C, and wrapped
+by the haru PHP extension, available from PECL__. If PEAR is correctly setup
+on your machine it should install as easy as::
+
+    pear install pecl/haru
+
+The Haru driver is pretty fast, but currently has issues with some special
+characters. It is the default driver, but can be explicitly used by setting
+the driver option on the PDF class, like::
+
+    $pdf = new ezcDocumentPdf();
+    $pdf->options->driver = new ezcDocumentPdfHaruDriver();
+
+__ http://libharu.org
+__ http://pecl.php.net/package/haru
+
+TCPDF
+´´´´´
+
+TCPDF is a pure PHP based PDF generation library, available from
+`tcpdf.org`__. To use the TCPDF driver you need to download and include its
+main class before rendering the PDF. It supports all aspects of PDF rendering
+required by the document component, but has some bad coding practices, like:
+
+- Throws lots of warnings and notices, which you might want to silence by
+  temporarily changing the error reporting level
+- Reads and writes several global variables, which might or might not
+  interfere with your application code
+- Uses eval() in several places, which results in non-cacheable OP-Codes.
+
+The TCPDF driver can be used after including the TCPDF source code, using::
+
+    $pdf = new ezcDocumentPdf();
+    $pdf->options->driver = new ezcDocumentPdfTcpdfDriver();
+
+__ http://tcpdf.org
+
+Styling the PDF
+```````````````
+
+The PDF output can be styled using a CSS like language, which assignes styles
+based on the Docbook XML structure. The default styling rules are defined in
+the `default.css`__.
+
+__ http://svn.ez.no/svn/ezcomponents/trunk/Document/src/document/pdf/style/default.css
+
+The first most relevant part are the general layout options, which can be
+defined for the common article root node in the Docbook XML file. You can set
+global font options there, like::
+
+    article {
+        // Basic font style definitions
+        font-size:   "12pt";
+        font-family: "serif";
+        font-weight: "normal";
+        font-style:  "normal";
+        line-height: "1.4";
+        text-align:  "left";
+
+        // Basic page layout definitions
+        text-columns: "1";
+        text-column-spacing: "10mm";
+
+        // General text layout options
+        orphans: "3";
+        widows:  "3";
+    }
+
+The meaning of the first set of options should be obvious from CSS. We require
+each value to be wrapped by quotes for easier parsing, though.
+
+The second set of options defines option s for multi-column layouts, which are
+not available in the web, but quite common in generated PDF documents. You can
+specify the number of text columns, as well as the distance between the text
+columns here.
+
+The third set in this example defines lesser known text layout options like
+the handling of `orphans and widows`__, which specify the handling of
+overlapping parts of paragraphs on page wrapping.
+
+You can, of course, apply those styles to any elements in your document, using
+the common CSS addressing rules, like::
+
+    // Emphasis node anywhere in the document
+    emphasis { ... }
+
+    // Title element directly below a section element
+    section > title { ... }
+
+    // Title element anywhere below a section element
+    section title { ... }
+
+    // Title element with the ID "first_title"
+    title#first_title { ... }
+
+    // Title element with the class "foo"
+    title.foo { ... }
+
+    // emphasis node directly below a title with class "foo", anywhere in a
+    // section with the ID "first"
+    section#first title.foo > emphasis { ... }
+
+The values and `measures`__ for the properties are very similar to the
+properties in CSS. For example the margin and padding properties accept one-
+to four-tuples of values, with the same respective meaning like in CSS.
+
+Another central formatting element, which is special to the PDF generation, is
+the virtual element "page"::
+
+    page {
+        page-size: "A4";
+        page-orientation: "portrait";
+        padding: "22mm 16mm";
+    }
+
+The page-size property accepts several known page size identifiers and the
+page-orientation defines the orientation of a page. You can also address any
+page directly by its ID, which will be 'page_1' for the first page, or its
+class, which will be "right", or "left", depending on the current page number.
+
+__ http://en.wikipedia.org/wiki/Widows_and_orphans 
+__ measures
+
+Measures
+´´´´´´´´
+
+The properties in the PDF component accept different measures, which are:
+
+- "mm", Millimeters, the default measure, if none is specified
+- "pt", Points, 72 points per inch
+- "px", Pixel, depends on the set resolution, by default also 72 points per
+  inch
+- "in", Inch
+
+The unit "Points" is most common for font sizes, while millimeters or inches
+will probably more useful for page paddings. You are free to choose any of
+them and can even combine different units in one tuple, like::
+
+    para {
+        // Top margin: 12 mm; Right margin: .1 inch; Bottom margin: 10 points,
+        // Left margin: 1 pixel
+        margin: "12 .1in 10pt 1px";
+    }
+
+PDF parts
+`````````
+
 
 
 ..
