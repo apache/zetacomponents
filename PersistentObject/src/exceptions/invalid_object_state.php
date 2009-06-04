@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentObjectAlreadyPersistentException class
+ * File containing the ezcPersistentInvalidObjectStateException class.
  *
  * @package PersistentObject
  * @version //autogen//

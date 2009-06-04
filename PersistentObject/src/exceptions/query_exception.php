@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentObjectException class
+ * File containing the ezcPersistentQueryException class.
  *
  * @package PersistentObject
  * @version //autogen//

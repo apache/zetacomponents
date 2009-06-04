@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentSessionNotFound class.
+ * File containing the ezcPersistentSessionNotFoundException class.
  *
  * @package PersistentObject
  * @version //autogentag//

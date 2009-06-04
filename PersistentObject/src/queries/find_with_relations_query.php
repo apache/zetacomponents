@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentFindQuery class.
+ * File containing the ezcPersistentFindWithRelationsQuery class.
  *
  * @package PersistentObject
  * @version //autogen//
@@ -28,10 +28,14 @@ class ezcPersistentFindWithRelationsQuery extends ezcPersistentFindQuery
      * Creates a new persistent find query.
      *
      * Creates a new persistent find query from the query object $q and the
-     * given $className.
+     * given $className. $relations defines, which related objects should be
+     * fetched by this query.
+     *
+     * @see ezcPerisistentSessionIdenityDecorator::createFindWithRelationsQuery()
      * 
      * @param ezcQuerySelect $query
      * @param string $className
+     * @param array(string=>ezcPersistentRelationFindDefinition) $relations
      */
     public function __construct( ezcQuerySelect $query, $className, array $relations )
     {

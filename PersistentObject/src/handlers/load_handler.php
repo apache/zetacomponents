@@ -560,7 +560,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * for {@link ezcPersistentManyToManyRelation} see {@link
      * createComplexRelationFindQuery()}.
      * 
-     * @param ezcQuery $query 
+     * @param ezcPersistentFindQuery $query 
      * @param ezcPersistentObjectDefinition $def
      * @param ezcPersistentRelation $relation 
      * @param array $objectState 
@@ -595,7 +595,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * Manipulates the find $query for objects related to the object defined in
      * $objectState, defined my the relation $relation.
      * 
-     * @param ezcQuery $query 
+     * @param ezcPersistentFindQuery $query 
      * @param ezcPersistentObjectDefinition $def
      * @param ezcPersistentManyToManyRelation $relation 
      * @param array $objectState 

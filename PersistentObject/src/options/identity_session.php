@@ -11,7 +11,7 @@
 /**
  * Options class for ezcPersistentSessionIdentityDecorator.
  *
- * @property bool refetch
+ * @property bool $refetch
  *                If this option is set to true, the identity session will
  *                re-fetch all objects when they are requested, instead of
  *                getting them from the identity map. Attention: This might

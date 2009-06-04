@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentSessionIdentityDecoratorRelationObjectExtractor class.
+ * File containing the ezcPersistentIdentityRelationObjectExtractor class.
  *
  * @package PersistentObject
  * @version //autogen//
@@ -47,10 +47,12 @@ class ezcPersistentIdentityRelationObjectExtractor
      *
      * Creates a new object extractor which gathers needed object definitions
      * from $defManager and uses $idMap to store the extracted objects and to
-     * check if their identities already exist.
+     * check if their identities already exist. $options are the options used
+     * by the decorator using this instance.
      * 
      * @param ezcPersistentIdentityMap $idMap
      * @param ezcPersistentDefinitionManager $defManager 
+     * @param ezcPersistentSessionIdentityDecoratorOptions $options
      */
     public function __construct( ezcPersistentIdentityMap $idMap, ezcPersistentDefinitionManager $defManager, ezcPersistentSessionIdentityDecoratorOptions $options )
     {
@@ -293,8 +295,10 @@ class ezcPersistentIdentityRelationObjectExtractor
      *
      * Creates a new object of the class defined in $relation->relatedClass and
      * sets its state from the given $result row, as defined in $relation.
+     * $tableAlias is the alias used for the specific relation in the query.
      * 
      * @param array(string=>string) $result 
+     * @param string $tableAlias
      * @param ezcPersistentRelationFindDefinition $relation 
      * @return ezcPersistentObject
      */

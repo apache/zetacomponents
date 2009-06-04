@@ -540,7 +540,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * @param string $relatedClass 
      * @param string $relationName
      *
-     * @returns array(object($relatedClass))|null
+     * @return array(object($relatedClass))|null
      *
      * @throws ezcPersistentRelationNotFoundException
      *         if not relation between the class of $sourceObject and
@@ -594,7 +594,7 @@ class ezcPersistentBasicIdentityMap implements ezcPersistentIdentityMap
      * 
      * @param ezcPersistentObject $sourceObject 
      * @param string $setName 
-     * @returns array(object($relatedClass))|null
+     * @return array(object($relatedClass))|null
      */
     public function getRelatedObjectSet( $sourceObject, $setName )
     {

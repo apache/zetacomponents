@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentFindQuery class.
+ * File containing the ezcPersistentRelationFindQuery class.
  *
  * @package PersistentObject
  * @version //autogen//

@@ -92,12 +92,15 @@ class ezcPersistentIdentity extends ezcBaseStruct
     /**
      * Creates a new object identity.
      *
-     * Creates an identity struct for $object with references to its
-     * $relatedObjects and $namedRelatedObjectSets.
+     * Creates an identity struct for $object with relations to its
+     * $relatedObjects and $namedRelatedObjectSets. The $references object is
+     * used to keep track of places where the $object is referenced (related
+     * object sets of other identities).
      * 
      * @param object $object 
      * @param array $relatedObjects 
      * @param array $namedRelatedObjectSets
+     * @param SplObjectStorage $references
      */
     public function __construct(
         $object = null,

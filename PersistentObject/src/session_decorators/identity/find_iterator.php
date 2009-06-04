@@ -1,13 +1,12 @@
 <?php
 /**
- * File containing the ezcPersistentFindIterator class
+ * File containing the ezcPersistentIdentityFindIterator class.
  *
  * @package PersistentObject
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
-
 /**
  * Iterator class with identity mapping facilities.
  *
@@ -67,11 +66,13 @@ class ezcPersistentIdentityFindIterator extends ezcPersistentFindIterator
      * $def.
      *
      * The $idMap will be used to retrieve existing identities and to store new
-     * ones, if discovered.
+     * ones, if discovered. The $options object contains the options used by
+     * the identity decorator which uses this instance.
      *
      * @param PDOStatement $stmt
      * @param ezcPersistentObjectDefinition $def
-     * @oaram ezcPersistentIdentityMap $idMap
+     * @param ezcPersistentIdentityMap $idMap
+     * @param ezcPersistentSessionIdentityDecoratorOptions $options
      */
     public function __construct(
         PDOStatement $stmt,

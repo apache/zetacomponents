@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcPersistentDefinitionCache class
+ * File containing the ezcPersistentCacheManager class.
  *
  * @package PersistentObject
  * @version //autogen//
