@@ -20,9 +20,10 @@ Synopsis
 
 ::
 
-    $ PersistentObjectDatabaseSchemaTiein/rungenerator.php -s <string> \
-      -f <string> [-o] [-p <string>] [-h] [--] <string:def dir> \
-      [<string:class dir>]
+    $ rungenerator.php -s <string> -f <string> [-o] [-p <string>] [-t] \
+        [-ct "class_template.ezt"] [-dt "definition_template.ezt"] \
+        [-tp "trunk/PersistentObjectDatabaseSchemaTiein/src/template_writer/templates"]
+        [-h] [--] <string:def dir> [<string:class dir>]
 
 The component contains an executable script, which can be called using the PHP
 command line interpreter (CLI). You have to provide at least the following two
@@ -136,6 +137,45 @@ It uses the following mapping:
 
 If the mappings are incorrect for your special case, you can adjust the
 "propertyType" properties of your ezcPersistentObjectProperty definitions.
+
+Template based generation
+=========================
+
+Since version 1.3, the generator also supports definition and class stub
+generation based on templates (as provided by the Template__) component.
+
+.. __: introduction_Template.html
+
+To activate this functionality, use the *-t* switch. By default, templates are
+used which create classes similar to the eZ Components coding standard, using
+properties with overloading.
+
+If you favor a different style, you can provide your own templates, using the
+*-ct* switch to provide the class template file name and *-dt* for the
+definition template. You can provide both independently. However, if you
+provide one of these, you also need to provide *-tp* with the path to the
+directory where your templates are located. This path will also be used to
+store compiled templates.
+
+A template receives 3 parameters:
+
+$schema
+  An instance of ezcDbSchemaTable, describing a table from your database
+  schema.
+$tableName
+  The name of the table to render.
+$classPrefix
+  The prefix provided by the *-p* parameter.
+
+The template must return the file name to store the rendered class / definition
+should be stored in. The name of the return variable must be $fileName. For
+definition files, it is necessary that the file name is the full class name
+completely converted to lower case, if you want to use the default
+ezcPersistentCodeManager.
+
+A good starting point to create your own templates is to look into the
+templates provided with the component under *template_writer/templates/* in the
+component directory.
 
 More information
 ================
