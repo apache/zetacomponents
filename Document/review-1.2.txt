@@ -86,3 +86,5 @@ PDF generation issues
 
 4. Rendering 2006-01-16-image-manipulation.txt creates a double line of text
    under the image on page 5.
+
+   kn: Fixed in revision 10448.
