@@ -29,7 +29,13 @@ class ezcTestNewPrinter extends PHPUnit_TextUI_ResultPrinter
             $this->numberOfTests[0] = 0;
         }
 
-        if ($suite->getName() !== 'eZ Components') {
+        if ( $this->depth > 0 )
+        {
+            parent::write( "\n" );
+        }
+
+        if ( $this->depth == 1 )
+        {
             parent::write( "\n" );
         }
 
