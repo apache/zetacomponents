@@ -152,7 +152,7 @@ class ezcTestNewRunner extends PHPUnit_TextUI_Command
             {
                 if ( $this->isPackageDir( $entry ) )
                 {
-                    $packages[] = str_replace( $dir . '/', '', $entry );
+                    $packages[] = str_replace( $directory . '/', '', $entry );
                 }
             }
         }
