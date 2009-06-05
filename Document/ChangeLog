@@ -9,6 +9,8 @@
   renderer.
 - Implemented: Maintain document location in all conversions, so that embedded
   files can be located.
+- Fixed: Text blocks are continued on the same page wrapped images are
+  rendered on.
 
 
 1.2alpha1 - Tuesday 26 May 2009

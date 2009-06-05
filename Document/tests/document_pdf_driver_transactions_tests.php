@@ -367,6 +367,39 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
         $this->driver->drawWord( 44, 0, 'are' );
         $this->driver->commit();
     }
+
+    public function testPageLevelTransactionsGoBack2()
+    {
+        $this->mock->expects( $this->at( 0 ) )->method( 'createPage' )->with(
+            $this->equalTo( 210, 1. ), $this->equalTo( 297, 1. )
+        );
+        $this->mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 0, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'Paragraphs' )
+        );
+        $this->mock->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 44, 1. ), $this->equalTo( 0, 1. ), $this->equalTo( 'are' )
+        );
+        $this->mock->expects( $this->at( 3 ) )->method( 'createPage' )->with(
+            $this->equalTo( 210, 1. ), $this->equalTo( 297, 1. )
+        );
+
+        // Cause and record calls
+        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->drawWord( 0, 0, 'Paragraphs' );
+        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->driver->goBackOnePage();
+
+        $transaction = $this->driver->startTransaction();
+        $page3 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $this->assertSame( $page2, $page3 );
+        $this->driver->drawWord( 44, 0, 'left' );
+        $this->driver->revert( $transaction );
+
+        $this->assertSame( $page1, $this->driver->currentPage() );
+
+        $this->driver->drawWord( 44, 0, 'are' );
+        $this->driver->commit();
+    }
 }
 
 ?>

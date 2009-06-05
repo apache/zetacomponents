@@ -42,21 +42,6 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     protected $pages = array();
 
     /**
-     * Currently active page
-     *
-     * @var int
-     */
-    protected $currentPage = 0;
-
-    /**
-     * Logs created pages for current transaction, to revert page creations, if
-     a transaction gets reverted.
-     *
-     * @var array
-     */
-    protected $pageCreations;
-
-    /**
      * Recorded transactions
      *
      * @var array
@@ -68,7 +53,17 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      *
      * @var mixed
      */
-    protected $currentTransaction = 0;
+    protected $transaction = 0;
+
+    /**
+     * Construct transactional driver wrapper
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->transactions[$this->transaction] = new ezcDocumentPdfTransactionalDriverWrapperState();
+    }
 
     /**
      * Set proxied driver
@@ -96,14 +91,15 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function startTransaction()
     {
-        $this->transactions[$this->currentPage][++$this->currentTransaction] = array();
-        $this->pageCreations[$this->currentTransaction]  = array();
+        $current = $this->transactions[$this->transaction]->currentPage;
+        $this->transactions[++$this->transaction] = new ezcDocumentPdfTransactionalDriverWrapperState();
+        $this->transactions[$this->transaction]->currentPage = $current;
 
         if ( $page = $this->currentPage() )
         {
-            $page->startTransaction( $this->currentTransaction );
+            $page->startTransaction( $this->transaction );
         }
-        return $this->currentTransaction;
+        return $this->transaction;
     }
 
     /**
@@ -120,25 +116,37 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     public function commit( $transaction = null )
     {
         if ( ( $transaction !== null ) &&
-             !isset( $this->pageCreations[$transaction] ) )
+             !isset( $this->transactions[$transaction] ) )
         {
             return false;
         }
 
-        foreach ( $this->transactions as $page => $transactions )
+        // Order calls using the page number they are called for, for all
+        // transactions to commit.
+        $grouped = array( array() );
+        foreach ( $this->transactions as $id => $transactions )
         {
-            foreach ( $transactions as $id => $calls )
+            foreach ( $transactions->calls as $page => $calls )
             {
                 foreach ( $calls as $call )
                 {
-                    call_user_func_array( array( $this->driver, $call[0] ), $call[1] );
+                    $grouped[$page][] = $call;
                 }
+            }
 
-                unset( $this->transactions[$id] );
-                if ( $id === $transaction )
-                {
-                    return true;
-                }
+            $this->transactions[$id]->calls = array();
+            if ( $id === $transaction )
+            {
+                break;
+            }
+        }
+
+        // Execute ordered calls
+        foreach ( $grouped as $page => $calls )
+        {
+            foreach ( $calls as $call )
+            {
+                call_user_func_array( array( $this->driver, $call[0] ), $call[1] );
             }
         }
 
@@ -154,48 +162,37 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      * @param mixed $transaction
      * @return void
      */
-    public function revert( $transaction )
+    public function revert( $transactionId )
     {
         // Revert all page creations and associated transactions
-        $remove = false;
-        foreach ( $this->pageCreations as $id => $pageNumbers )
+        $remove          = false;
+        $lastTransaction = 0;
+        foreach ( $this->transactions as $id => $transaction )
         {
             if ( !$remove &&
-                 ( $id !== $transaction ) )
+                 ( $id !== $transactionId ) )
             {
+                $lastTransaction = $id;
                 continue;
             }
 
             $remove = true;
-            foreach ( $pageNumbers as $pageNumber )
+            foreach ( $transaction->pageCreations as $pageNumber )
             {
                 unset( $this->pages[$pageNumber] );
-                unset( $this->transactions[$pageNumber] );
             }
+
+            unset( $this->transactions[$id] );
         }
 
-        // Revert all remaining calls to the driver backend
-        foreach ( $this->transactions as $page => $transactions )
+        // Revert transactions on all possibly affected pages
+        $this->transaction = $lastTransaction;
+        foreach ( $this->pages as $nr => $page )
         {
-            $remove = false;
-            foreach ( $transactions as $id => $calls )
+            if ( $nr >= $this->transactions[$lastTransaction]->currentPage )
             {
-                if ( !$remove &&
-                     ( $id !== $transaction ) )
-                {
-                    continue;
-                }
-
-                $remove = true;
-                unset( $this->transactions[$page][$id] );
+                $page->revert( $transactionId );
             }
-        }
-
-        // Revert state in last page, it might contain additional modifications
-        $this->currentPage = count( $this->pages );
-        if ( $page = $this->currentPage() )
-        {
-            $page->revert( $transaction );
         }
 
         return true;
@@ -213,7 +210,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     protected function recordCall( $name, array $parameters )
     {
-        $this->transactions[$this->currentPage][$this->currentTransaction][] = array( $name, $parameters );
+        $this->transactions[$this->transaction]->calls[$this->transactions[$this->transaction]->currentPage][] = array( $name, $parameters );
     }
 
     /**
@@ -224,16 +221,18 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function appendPage( ezcDocumentPdfStyleInferencer $inferencer )
     {
+        $current = $this->transactions[$this->transaction]->currentPage;
         // Check if the next page already exists
-        if ( isset( $this->pages[$this->currentPage + 1] ) )
+        if ( isset( $this->pages[$current + 1] ) )
         {
-            ++$this->currentPage;
-            return $this->pages[$this->currentPage];
+            $current = ++$this->transactions[$this->transaction]->currentPage;
+            return $this->pages[$current];
         }
 
+        $current = ++$this->transactions[$this->transaction]->currentPage;
         $styles = $inferencer->inferenceFormattingRules( new ezcDocumentPdfPage( 0, 0, 0, 0, 0 ) );
         $page = ezcDocumentPdfPage::createFromSpecification(
-            count( $this->pages ) + 1,
+            $current,
             $styles['page-size']->value,
             $styles['page-orientation']->value,
             $styles['margin']->value,
@@ -241,8 +240,8 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
         );
 
         // Store in which transaction the page has been created
-        $this->pages[++$this->currentPage]                = $page;
-        $this->pageCreations[$this->currentTransaction][] = $this->currentPage;
+        $this->pages[$current]                                   = $page;
+        $this->transactions[$this->transaction]->pageCreations[] = $current;
 
         // Tell driver about new page
         $this->createPage( $page->width, $page->height );
@@ -259,12 +258,13 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function currentPage()
     {
-        if ( !isset( $this->pages[$this->currentPage] ) )
+        if ( !isset( $this->transactions[$this->transaction] ) ||
+             !isset( $this->pages[$this->transactions[$this->transaction]->currentPage] ) )
         {
             return null;
         }
 
-        return $this->pages[$this->currentPage];
+        return $this->pages[$this->transactions[$this->transaction]->currentPage];
     }
 
     /**
@@ -278,7 +278,7 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
      */
     public function goBackOnePage()
     {
-        --$this->currentPage;
+        --$this->transactions[$this->transaction]->currentPage;
     }
 
     /**

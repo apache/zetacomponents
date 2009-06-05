@@ -210,6 +210,7 @@ return array(
     'ezcDocumentPdfTextBlockRenderer'                    => 'Document/document/pdf/renderer/text_block.php',
     'ezcDocumentPdfTitleRenderer'                        => 'Document/document/pdf/renderer/title.php',
     'ezcDocumentPdfTransactionalDriverWrapper'           => 'Document/document/pdf/driver/wrapper.php',
+    'ezcDocumentPdfTransactionalDriverWrapperState'      => 'Document/document/pdf/driver/wrapper_state.php',
     'ezcDocumentRst'                                     => 'Document/document/rst.php',
     'ezcDocumentRstAnonymousLinkNode'                    => 'Document/document/rst/nodes/link_anonymous.php',
     'ezcDocumentRstAnonymousReferenceNode'               => 'Document/document/rst/nodes/anon_reference.php',
