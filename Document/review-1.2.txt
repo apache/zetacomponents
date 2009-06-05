@@ -41,6 +41,10 @@ Parsing Issues with RST:
    perhaps we can do something with it, as it prevents quite a few things from
    parsing. (Also 2007-09-25-workflow-thesis.txt)
 
+   kn: You can just reduce the error reporting level for such cases, so that
+   notices won't be converted into exception anymore::
+        
+        $rstDocument->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
 
 PDF generation issues
 
@@ -71,6 +75,14 @@ PDF generation issues
 3. While rendering 2009-01-06-webdav-locking.txt and fixing 2, I see that the
    image is included on page 2, but no text is below the image. A similar
    issue happens when we render 2007-12-20-tree-yui.txt on page 5.
+
+   kn: The alt text is not used as a caption for an image. Using a figure you
+   can also specify a caption for an image., like::
+
+        .. figure:: image.png
+            My caption goes here.
+
+   Which works, with the mentioned article.
 
 4. Rendering 2006-01-16-image-manipulation.txt creates a double line of text
    under the image on page 5.
