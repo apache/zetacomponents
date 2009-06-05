@@ -23,6 +23,7 @@ class ezcBaseMetaDataPearTest extends ezcTestCase
     {
         $r = new ezcBaseMetaData( 'pear' );
         $release = $r->getBundleVersion();
+        self::assertType( 'string', $release );
         self::assertRegexp( '@[0-9]{4}\.[0-9](\.[0-9])?@', $release );
     }
 
@@ -36,7 +37,9 @@ class ezcBaseMetaDataPearTest extends ezcTestCase
     public static function testGetComponentVersion()
     {
         $r = new ezcBaseMetaData( 'pear' );
-        self::assertRegexp( '@[0-9]\.[0-9](\.[0-9])?@', $r->getComponentVersion( 'Base' ) );
+        $release = $r->getComponentVersion( 'Base' );
+        self::assertType( 'string', $release );
+        self::assertRegexp( '@[0-9]\.[0-9](\.[0-9])?@', $release );
         self::assertFalse( $r->getComponentVersion( 'DefinitelyNot' ) );
     }
 
