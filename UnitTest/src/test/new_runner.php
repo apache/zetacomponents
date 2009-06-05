@@ -110,7 +110,7 @@ class ezcTestNewRunner extends PHPUnit_TextUI_Command
             }
         }
 
-        if (isset($this->arguments['colors']) && $this->arguments['colors'] === true )
+        if ( isset( $this->arguments['colors'] ) && $this->arguments['colors'] === true )
         {
             $colors = true;
         }
@@ -119,7 +119,7 @@ class ezcTestNewRunner extends PHPUnit_TextUI_Command
             $colors = false;
         }
 
-        if (isset($this->arguments['debug']) && $this->arguments['debug'] === true )
+        if ( isset( $this->arguments['debug'] ) && $this->arguments['debug'] === true )
         {
             $debug = true;
         }
@@ -128,7 +128,7 @@ class ezcTestNewRunner extends PHPUnit_TextUI_Command
             $debug = false;
         }
 
-        if (isset($this->arguments['verbose']) && $this->arguments['verbose'] === true )
+        if ( isset( $this->arguments['verbose'] ) && $this->arguments['verbose'] === true )
         {
             $verbose = true;
         }
