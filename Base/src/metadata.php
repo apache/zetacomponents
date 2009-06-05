@@ -107,7 +107,14 @@ class ezcBaseMetaData
      */
     public function getComponentDependencies( $componentName = null )
     {
-        return call_user_func_array( array( $this->reader, 'getComponentDependencies' ), $componentName !== null ? array( $componentName ) : array() );
+        if ( $componentName === null )
+        {
+            return $this->reader->getComponentDependencies();
+        }
+        else
+        {
+            return $this->reader->getComponentDependencies( $componentName );
+        }
     }
 }
 ?>
