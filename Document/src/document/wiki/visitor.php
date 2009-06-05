@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentWikiVisitor
+abstract class ezcDocumentWikiVisitor implements ezcDocumentErrorReporting
 {
     /**
      * Wiki document handler
@@ -77,7 +77,7 @@ abstract class ezcDocumentWikiVisitor
      * @param int $position
      * @return void
      */
-    protected function triggerError( $level, $message, $file, $line = null, $position = null )
+    public function triggerError( $level, $message, $file = null, $line = null, $position = null )
     {
         if ( $level & $this->wiki->options->errorReporting )
         {

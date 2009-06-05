@@ -54,6 +54,10 @@ PDF generation issues
    I understand that itemizedlist is not understood, but what is wrong with
    literallayout?
 
+   kn: Implements the common error reporting interface now, so that errors aer
+   either converted into exceptions, or can be requested later using
+   getErrors().
+
 2. While rendering 2009-01-06-webdav-locking.txt there are issues with image
    inclusion. First of all, the file paths in RST are where the images can be
    found *after* the files have been converted. But with PDF generation the

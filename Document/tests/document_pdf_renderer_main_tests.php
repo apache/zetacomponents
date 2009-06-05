@@ -28,6 +28,51 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    public function testRenderUnknownElements()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/unknown.xml' );
+
+        try {
+            $renderer  = new ezcDocumentPdfMainRenderer(
+                new ezcDocumentPdfSvgDriver(),
+                new ezcDocumentPdfStyleInferencer()
+            );
+
+            $pdf = $renderer->render(
+                $docbook,
+                new ezcDocumentPdfDefaultHyphenator()
+            );
+            $this->fail( 'Expected ezcDocumentVisitException.' );
+        }
+        catch ( ezcDocumentVisitException $e )
+        { /* Expected */ }
+    }
+
+    public function testRenderUnknownElementsSilence()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/unknown.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            new ezcDocumentPdfStyleInferencer(),
+            E_PARSE
+        );
+
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        $errors = $renderer->getErrors();
+        $this->assertEquals( 1, count( $errors ) );
+        $this->assertEquals(
+            'Visitor error: Notice: \'Unknown and unhandled element: http://example.org/unknown:article.\' in line 0 at position 0.',
+            reset( $errors )->getMessage()
+        );
+    }
+
     public function testRenderMainSinglePage()
     {
         $docbook = new ezcDocumentDocbook();

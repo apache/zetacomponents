@@ -15,6 +15,10 @@
  *           Hyphenator to use for word hyphenation
  * @property ezcDocumentPdfDriver $driver
  *           Driver used to generate the actual PDF
+ * @property int $errorReporting
+ *           Error reporting level. All errors with a severity greater or equel
+ *           then the defined level are converted to exceptions. All other
+ *           errors are just stored in errors property of the parser class.
  *
  * @package Document
  * @version //autogen//
@@ -32,6 +36,7 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
      */
     public function __construct( array $options = array() )
     {
+        $this->errorReporting = 15; // E_PARSE | E_ERROR | E_WARNING | E_NOTICE
         $this->hyphenator = new ezcDocumentPdfDefaultHyphenator();
 
         // @TODO: There might be a better default:
@@ -68,6 +73,16 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
                 if ( !$value instanceof ezcDocumentPdfDriver )
                 {
                     throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentPdfDriver' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'errorReporting':
+                if ( !is_int( $value ) ||
+                     ( ( $value & E_PARSE ) === 0 ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'int & E_PARSE' );
                 }
 
                 $this->properties[$name] = $value;

@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentRstVisitor
+abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
 {
     /**
      * RST document handler
@@ -160,7 +160,7 @@ abstract class ezcDocumentRstVisitor
      * @param int $position
      * @return void
      */
-    protected function triggerError( $level, $message, $file, $line = null, $position = null )
+    public function triggerError( $level, $message, $file = null, $line = null, $position = null )
     {
         if ( $level & $this->rst->options->errorReporting )
         {

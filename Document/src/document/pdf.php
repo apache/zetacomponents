@@ -10,12 +10,49 @@
 
 /**
  * Document handler for PDF documents.
+ * 
+ * This document handler can load Docbook documents and generate PDF documents
+ * from them. It can be configured using its option class
+ * ezcDocumentPdfOptions. The example below shows the configuration of a
+ * driver.
+ *
+ * <code>
+ *  // Load the docbook document and create a PDF from it
+ *  $pdf = new ezcDocumentPdf();
+ *  $pdf->options->driver = new ezcDocumentPdfHaruDriver();
+ *
+ *  // Load a custom style sheet
+ *  $pdf->loadStyles( 'custom.css' );
+ *
+ *  // Add a customized footer
+ *  $pdf->registerPdfPart( new ezcDocumentPdfFooterPdfPart(
+ *      new ezcDocumentPdfFooterOptions( array( 
+ *          'showDocumentTitle'  => false,
+ *          'showDocumentAuthor' => false,
+ *          'height'             => '10mm',
+ *      ) )
+ *  ) );
+ *
+ *  // Add a customized header
+ *  $pdf->registerPdfPart( new ezcDocumentPdfHeaderPdfPart(
+ *      new ezcDocumentPdfFooterOptions( array( 
+ *          'showPageNumber'     => false,
+ *          'height'             => '10mm',
+ *      ) )
+ *  ) );
+ *
+ *  $pdf->createFromDocbook( $docbook );
+ *  file_put_contents( __FILE__ . '.pdf', $pdf );
+ * </code>
+ *
+ * Like shown in the example, it is possible to load any amount of custom style
+ * definitions and register additional PDF parts, like headers and footers.
  *
  * @package Document
  * @version //autogen//
  * @mainclass
  */
-class ezcDocumentPdf extends ezcDocument
+class ezcDocumentPdf extends ezcDocument implements ezcDocumentErrorReporting
 {
     /**
      * Container for style directives.
@@ -30,6 +67,13 @@ class ezcDocumentPdf extends ezcDocument
      * @var string
      */
     protected $content;
+
+    /**
+     * Errors occured during the conversion process
+     * 
+     * @var array
+     */
+    protected $errors = array();
 
     /**
      * List of PDF parts to append to documents
@@ -52,6 +96,46 @@ class ezcDocumentPdf extends ezcDocument
             $options );
 
         $this->styles   = new ezcDocumentPdfStyleInferencer();
+    }
+
+    /**
+     * Trigger visitor error
+     *
+     * Emit a vistitor error, and convert it to an exception depending on the
+     * error reporting settings.
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
+     * @return void
+     */
+    public function triggerError( $level, $message, $file = null, $line = null, $position = null )
+    {
+        if ( $level & $this->options->errorReporting )
+        {
+            throw new ezcDocumentVisitException( $level, $message, $file, $line, $position );
+        }
+        else
+        {
+            // If the error should not been reported, we aggregate it to maybe
+            // display it later.
+            $this->errors[] = new ezcDocumentVisitException( $level, $message, $file, $line, $position );
+        }
+    }
+
+    /**
+     * Return list of errors occured during visiting the document.
+     *
+     * May be an empty array, if on errors occured, or a list of
+     * ezcDocumentVisitException objects.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 
     /**
@@ -137,7 +221,8 @@ class ezcDocumentPdf extends ezcDocument
     {
         $renderer = new ezcDocumentPdfMainRenderer(
             $this->options->driver,
-            $this->styles
+            $this->styles,
+            $this->options->errorReporting
         );
 
         foreach ( $this->pdfParts as $part )
@@ -146,6 +231,12 @@ class ezcDocumentPdf extends ezcDocument
         }
 
         $this->content = $renderer->render( $document, $this->options->hyphenator );
+
+        // Merge errors from renderer
+        $this->errors = array_merge(
+            $this->errors,
+            $renderer->getErrors()
+        );
     }
 
     /**

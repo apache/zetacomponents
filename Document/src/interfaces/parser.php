@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentParser
+abstract class ezcDocumentParser implements ezcDocumentErrorReporting
 {
     /**
      * XML document base options.
@@ -57,7 +57,7 @@ abstract class ezcDocumentParser
      * @param int $position
      * @return void
      */
-    protected function triggerError( $level, $message, $file, $line = null, $position = null )
+    public function triggerError( $level, $message, $file = null, $line = null, $position = null )
     {
         if ( $level & $this->options->errorReporting )
         {
@@ -66,6 +66,19 @@ abstract class ezcDocumentParser
 
         // For lower error level settings, just aggregate errors
         $this->properties['errors'][] = new ezcDocumentParserException( $level, $message, $file, $line, $position );
+    }
+
+    /**
+     * Return list of errors occured during visiting the document.
+     *
+     * May be an empty array, if on errors occured, or a list of
+     * ezcDocumentVisitException objects.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->properties['errors'];
     }
 
     /**

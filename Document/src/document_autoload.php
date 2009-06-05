@@ -22,6 +22,7 @@ return array(
     'ezcDocumentWikiMissingPluginHandlerException'       => 'Document/exceptions/missing_plugin_handler.php',
     'ezcDocumentWikiTokenizerException'                  => 'Document/exceptions/wiki_tokenizer.php',
     'ezcDocumentElementVisitorHandler'                   => 'Document/converters/element_visitor_handler.php',
+    'ezcDocumentErrorReporting'                          => 'Document/interfaces/error_reporting.php',
     'ezcDocumentWikiNode'                                => 'Document/document/wiki/node.php',
     'ezcDocumentWikiToken'                               => 'Document/document/wiki/token.php',
     'ezcDocument'                                        => 'Document/interfaces/document.php',

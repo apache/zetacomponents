@@ -19,7 +19,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
+class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDocumentErrorReporting
 {
     /**
      * Hyphenator used to split up words
@@ -53,6 +53,13 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     protected $restart = false;
 
     /**
+     * Errors occured during the conversion process
+     * 
+     * @var array
+     */
+    protected $errors = array();
+
+    /**
      * Maps document elements to handler functions
      *
      * Maps each document element of the associated namespace to its handler
@@ -79,16 +86,64 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
     protected $parts = array();
 
     /**
+     * Error reporting level
+     * 
+     * @var int
+     */
+    protected $errorReporting = 15;
+
+    /**
      * Construct renderer from driver to use
      *
      * @param ezcDocumentPdfDriver $driver
      * @return void
      */
-    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles )
+    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles, $errorReporting = 15 )
     {
         $this->driver = new ezcDocumentPdfTransactionalDriverWrapper();
         $this->driver->setDriver( $driver );
         $this->styles = $styles;
+        $this->errorReporting = $errorReporting;
+    }
+
+    /**
+     * Trigger visitor error
+     *
+     * Emit a vistitor error, and convert it to an exception depending on the
+     * error reporting settings.
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
+     * @return void
+     */
+    public function triggerError( $level, $message, $file = null, $line = null, $position = null )
+    {
+        if ( $level & $this->errorReporting )
+        {
+            throw new ezcDocumentVisitException( $level, $message, $file, $line, $position );
+        }
+        else
+        {
+            // If the error should not been reported, we aggregate it to maybe
+            // display it later.
+            $this->errors[] = new ezcDocumentVisitException( $level, $message, $file, $line, $position );
+        }
+    }
+
+    /**
+     * Return list of errors occured during visiting the document.
+     *
+     * May be an empty array, if on errors occured, or a list of
+     * ezcDocumentVisitException objects.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 
     /**
@@ -254,7 +309,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer
             if ( !isset( $this->handlerMapping[$namespace] ) ||
                  !isset( $this->handlerMapping[$namespace][$child->tagName] ) )
             {
-                echo "Unknown: {$namespace}:{$child->tagName}\n";
+                $this->triggerError(
+                    E_NOTICE,
+                    "Unknown and unhandled element: {$namespace}:{$child->tagName}."
+                );
                 continue;
             }
 

@@ -24,6 +24,41 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    public function testRenderUnknownElements()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/unknown.xml' );
+
+        try {
+            $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
+                'driver' => new ezcDocumentPdfSvgDriver(),
+            ) ) );
+            $pdfDoc->createFromDocbook( $docbook );
+            $this->fail( 'Expected ezcDocumentVisitException.' );
+        }
+        catch ( ezcDocumentVisitException $e )
+        { /* Expected */ }
+    }
+
+    public function testRenderUnknownElementsSilence()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/unknown.xml' );
+
+        $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
+            'driver'         => new ezcDocumentPdfSvgDriver(),
+            'errorReporting' => E_PARSE,
+        ) ) );
+        $pdfDoc->createFromDocbook( $docbook );
+
+        $errors = $pdfDoc->getErrors();
+        $this->assertEquals( 1, count( $errors ) );
+        $this->assertEquals(
+            'Visitor error: Notice: \'Unknown and unhandled element: http://example.org/unknown:article.\' in line 0 at position 0.',
+            reset( $errors )->getMessage()
+        );
+    }
+
     public function testRenderDefault()
     {
         $docbook = new ezcDocumentDocbook();

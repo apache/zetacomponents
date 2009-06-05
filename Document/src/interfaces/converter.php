@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentConverter
+abstract class ezcDocumentConverter implements ezcDocumentErrorReporting
 {
     /**
      * XML document base options.
@@ -76,6 +76,19 @@ abstract class ezcDocumentConverter
 
         // For lower error level settings, just aggregate errors
         $this->properties['errors'][] = new ezcDocumentParserException( $level, $message, $file, $line, $position );
+    }
+
+    /**
+     * Return list of errors occured during visiting the document.
+     *
+     * May be an empty array, if on errors occured, or a list of
+     * ezcDocumentVisitException objects.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->properties['errors'];
     }
 
     /**
