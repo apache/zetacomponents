@@ -271,6 +271,7 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
         $document->setDomDocument(
             $visitor->visit( $this->ast, $this->path )
         );
+        $document->setPath( $this->path );
 
         return $document;
     }
@@ -292,6 +293,8 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
+        $this->path = $document->getPath();
+
         $converter = new ezcDocumentDocbookToRstConverter();
         $converter->options->errorReporting = $this->options->errorReporting;
         $this->contents = $converter->convert( $document )->save();

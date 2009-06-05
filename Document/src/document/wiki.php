@@ -200,6 +200,7 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
         $document->setDomDocument(
             $visitor->visit( $this->ast, $this->path )
         );
+        $document->setPath( $this->path );
 
         return $document;
     }
@@ -221,6 +222,8 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
+        $this->path = $document->getPath();
+
         $converter = new ezcDocumentDocbookToWikiConverter();
         $converter->options->errorReporting = $this->options->errorReporting;
         $this->contents = $converter->convert( $document )->save();

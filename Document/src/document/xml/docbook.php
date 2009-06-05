@@ -66,6 +66,7 @@ class ezcDocumentDocbook extends ezcDocumentXmlBase
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
+        $this->path     = $document->getPath();
         $this->document = $document->getDomDocument();
     }
 

@@ -7,6 +7,8 @@
 - Implemented: Method to register additional PDF parts in wrapper class.
 - Implemented: Global error reporting interface, now also used by the PDF
   renderer.
+- Implemented: Maintain document location in all conversions, so that embedded
+  files can be located.
 
 
 1.2alpha1 - Tuesday 26 May 2009

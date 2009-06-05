@@ -6,14 +6,9 @@ require 'tutorial_autoload.php';
 $document = new ezcDocumentRst();
 $document->loadFile( './article/introduction.txt' );
 
-$docbook = $document->getAsDocbook();
-file_put_contents( './article/introduction.xml', $docbook );
-
-// Load the docbook document and create a PDF from it
-$docbook->loadFile( './article/introduction.xml' );
-
 $pdf = new ezcDocumentPdf();
-$pdf->createFromDocbook( $docbook );
+$pdf->options->errorReporting = E_PARSE | E_ERROR | E_WARNING;
+$pdf->createFromDocbook( $document->getAsDocbook() );
 
 file_put_contents( __FILE__ . '.pdf', $pdf );
 

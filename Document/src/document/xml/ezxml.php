@@ -48,7 +48,11 @@ class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidati
     {
         $converter = new ezcDocumentEzXmlToDocbookConverter();
         $converter->options->errorReporting = $this->options->errorReporting;
-        return $converter->convert( $this );
+
+        $document = $converter->convert( $this );
+        $document->setPath( $this->path );
+
+        return $document;
     }
 
     /**
@@ -68,6 +72,8 @@ class ezcDocumentEzXml extends ezcDocumentXmlBase implements ezcDocumentValidati
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
+        $this->path = $document->getPath();
+
         $converter = new ezcDocumentDocbookToEzXmlConverter();
         $converter->options->errorReporting = $this->options->errorReporting;
         $doc = $converter->convert( $document );

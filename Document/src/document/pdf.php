@@ -219,6 +219,8 @@ class ezcDocumentPdf extends ezcDocument implements ezcDocumentErrorReporting
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
+        $this->path = $document->getPath();
+
         $renderer = new ezcDocumentPdfMainRenderer(
             $this->options->driver,
             $this->styles,

@@ -87,6 +87,19 @@ abstract class ezcDocument
     }
 
     /**
+     * Set document base path
+     *
+     * The base path will be used as a base for relative file
+     * inclusions in the document.
+     * 
+     * @return void
+     */
+    public function setPath( $path )
+    {
+        $this->path = $path;
+    }
+
+    /**
      * Return document compiled to the docbook format
      *
      * The internal document structure is compiled to the docbook format and

@@ -263,6 +263,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
         $docbook->setDomDocument(
             $this->buildDocbookDocument( $this->document )
         );
+        $docbook->setPath( $this->path );
         return $docbook;
     }
 
@@ -283,6 +284,8 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
+        $this->path = $document->getPath();
+
         $converter = new ezcDocumentDocbookToHtmlConverter();
         $converter->options->errorReporting = $this->options->errorReporting;
         $doc = $converter->convert( $document );
