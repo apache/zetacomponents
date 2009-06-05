@@ -1,8 +1,8 @@
 <?php
 /**
- * File containing the ezcDbSchemaPersistentTemplateFunctions class.
+ * File containing the ezcPersistentObjectSchemaTemplateFunctions class.
  *
- * @package DatabaseSchema
+ * @package PersistentObjectDatabaseSchemaTiein
  * @version //autogentag//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -11,7 +11,7 @@
 /**
  * Custom template functions for {@link ezcDbSchemaPersistentClassWriter}.
  * 
- * @package DatabaseSchema
+ * @package PersistentObjectDatabaseSchemaTiein
  * @version //autogen//
  * @access private
  */

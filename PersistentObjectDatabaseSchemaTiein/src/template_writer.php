@@ -30,7 +30,7 @@ class ezcPersistentObjectTemplateSchemaWriter
     /**
      * Creates a new writer instance.
      *
-     * @return void
+     * @param ezcPersistentObjectTemplateSchemaWriterOptions $options
      */
     public function __construct( ezcPersistentObjectTemplateSchemaWriterOptions $options = null )
     {
@@ -55,7 +55,6 @@ class ezcPersistentObjectTemplateSchemaWriter
      * @param ezcDbSchema $schema 
      * @param string $template
      * @param mixed $dir 
-     * @return void
      */
     public function write( ezcDbSchema $schema, $template, $dir )
     {

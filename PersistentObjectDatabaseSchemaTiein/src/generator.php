@@ -38,6 +38,7 @@
  * for extended help information.
  *
  * @package PersistentObjectDatabaseSchemaTiein
+ * @version //autogen//
  */
 class ezcPersistentObjectSchemaGenerator
 {
@@ -326,7 +327,16 @@ class ezcPersistentObjectSchemaGenerator
         }
     }
 
-    private function writeConfigFiles( $defDir, $schema )
+    /**
+     * Write config files from $schema to $defDir.
+     *
+     * Writes the PersistentObject definition files for $schema to $defDir.
+     * 
+     * @param string $defDir 
+     * @param ezcDbSchema $schema 
+     * @return void
+     */
+    private function writeConfigFiles( $defDir, ezcDbSchema $schema )
     {
         if ( $this->input->getOption( 'template' )->value !== false )
         {
@@ -342,7 +352,17 @@ class ezcPersistentObjectSchemaGenerator
         }
     }
 
-    private function writeConfigTraditional( $defDir, $schema )
+    /**
+     * Writes the config for $schema to $defDir in the traditional way.
+     *
+     * Writes the PersistentObject definition files for $schema to $defDir
+     * using {@link ezcDbSchemaPersistentWriter} from the DatabaseSchema
+     * component.
+     * 
+     * @param string $defDir 
+     * @param ezcDbSchema $schema 
+     */
+    private function writeConfigTraditional( $defDir, ezcDbSchema $schema )
     {
         $writer = new ezcDbSchemaPersistentWriter(
             $this->input->getOption( "overwrite" )->value,
@@ -351,6 +371,14 @@ class ezcPersistentObjectSchemaGenerator
         $writer->saveToFile( $defDir, $schema );
     }
 
+    /**
+     * Write class files for $schema to $classDir.
+     *
+     * Creates PersistentObject class stubs from $schema in $classDir.
+     * 
+     * @param string $classDir 
+     * @param ezcDbSchema $schema 
+     */
     private function writeClassFiles( $classDir, $schema )
     {
         if ( $this->input->getOption( 'template' )->value !== false )
@@ -367,6 +395,16 @@ class ezcPersistentObjectSchemaGenerator
         }
     }
 
+    /**
+     * Writes the classes for $schema to $defDir in the traditional way.
+     *
+     * Writes the PersistentObject class stubs for $schema to $classDir using
+     * {@link ezcDbSchemaPersistentClassWriter} from the DatabaseSchema
+     * component.
+     * 
+     * @param string $classDir
+     * @param ezcDbSchema $schema 
+     */
     private function writeClassesTraditional(  $classDir, $schema )
     {
         $writer = new ezcDbSchemaPersistentClassWriter(
@@ -376,6 +414,17 @@ class ezcPersistentObjectSchemaGenerator
         $writer->saveToFile( $classDir, $schema );
     }
 
+    /**
+     * Writes classes or configuration using a template.
+     *
+     * This method uses the given $tpl file to output $schema to $dir. $tpl is
+     * either a template for PersistentObject definition files or
+     * PersistentObject class stubs.
+     * 
+     * @param string $dir 
+     * @param ezcDbSchema $schema 
+     * @param string $tpl 
+     */
     private function writeFromTemplate( $dir, $schema, $tpl )
     {
         $writer = new ezcPersistentObjectTemplateSchemaWriter();
