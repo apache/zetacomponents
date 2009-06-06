@@ -244,6 +244,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
             )),
             5 => 
             ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+               'role' => false,
                'openTag' => false,
                'line' => 5,
                'position' => 30,
@@ -678,6 +679,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               array (
                 0 => 
                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                   'role' => false,
                    'openTag' => false,
                    'line' => 9,
                    'position' => 8,
@@ -843,6 +845,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               array (
                 0 => 
                 ezcDocumentRstMarkupInterpretedTextNode::__set_state(array(
+                   'role' => false,
                    'openTag' => false,
                    'line' => 10,
                    'position' => 14,

@@ -4513,7 +4513,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Find all childs.
         //
-        // May be multiple childs, asthe references may consist of multiple
+        // May be multiple childs, since the references may consist of multiple
         // characters with special chars ( *, # ) embedded.
         $childs = array();
         while ( isset( $this->documentStack[0] ) &&
@@ -4627,14 +4627,41 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 $text->token->content = str_replace( $match[0], '', $textNode );
                 $node->target = $match['url'];
             }
+
+            $text = array( $text );
         }
         elseif ( ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) &&
                  ( strpos( $this->documentStack[0]->token->content, ' ' ) === false ) )
         {
             /* DEBUG
-            echo "   - Spaceless text text found.\n";
+            echo "   - Spaceless text found, aggregating:\n";
             // /DEBUG */
-            $text = array_shift( $this->documentStack );
+            $text = array();
+            do {
+                $text[] = array_shift( $this->documentStack );
+            } while ( isset( $this->documentStack[0] ) &&
+                      ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) &&
+                      ( ( $this->documentStack[0]->token->type === ezcDocumentRstToken::TEXT_LINE ) ||
+                        ( ( $this->documentStack[0]->token->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                          ( preg_match( '(^[_-]+$)', $this->documentStack[0]->token->content ) ) ) ) &&
+                      ( strpos( $this->documentStack[0]->token->content, ' ' ) === false ) );
+
+            // Split away everything after the first space, and include it in
+            // the reference target, if applicable
+            if ( isset( $this->documentStack[0] ) &&
+                 ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) &&
+                 ( preg_match( '(^(?P<before>.*?)(?P<text>[A-Za-z0-9_-]+)$)s', $this->documentStack[0]->token->content, $match ) ) )
+            {
+                /* DEBUG
+                echo "     - Splitting node: '{$this->documentStack[0]->token->content}' at $pos.\n";
+                // /DEBUG */
+                $token = clone $this->documentStack[0]->token;
+                $this->documentStack[0]->token->content = rtrim( $match['before'] );
+                $token->content = $match['text'];
+                $text[] = new ezcDocumentRstTextLineNode( $token );
+            }
+
+            $text = array_reverse( $text );
         }
 
         if ( $text !== false )
@@ -4642,7 +4669,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             /* DEBUG
             echo "   - Return created node.\n";
             // /DEBUG */
-            $node->nodes = array( $text );
+            $node->nodes = $text;
             return $node;
         }
 
