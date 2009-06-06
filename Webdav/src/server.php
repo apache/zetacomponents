@@ -81,6 +81,9 @@
  *                requests and responses. Configured by the {@link
  *                ezcWebdavServerConfigurationManager} when the {@link
  *                ezcWebdavServer::handle()} method is run}.
+ * @property ezcWebdavServerConfigurationManager $configurations
+ *           Configuration manager, handling different client configurations
+ *           for this server.
  *
  * @version //autogentag//
  * @package Webdav
