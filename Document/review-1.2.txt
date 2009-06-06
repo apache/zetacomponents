@@ -12,6 +12,8 @@ Parsing Issues with RST:
 		line 285 at position 22.' in
 		/home/derick/dev/ezcomponents/trunk/Document/src/document/rst/visitor.php:167
 
+    kn: Fixed in revision 10453.
+
 2. in docs/dev_process.txt it throws:
 
 		PHP Fatal error:  Uncaught exception 'ezcDocumentVisitException' with
@@ -23,6 +25,7 @@ Parsing Issues with RST:
 		1. _`Present the Idea`
    on line 37 as a reference target.
 
+   kn: Fixed.
 
 3. docs/articles/2009-01-06-webdav-locking.txt dies with:
 

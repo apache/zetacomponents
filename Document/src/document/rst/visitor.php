@@ -435,6 +435,12 @@ abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
             case $node instanceof ezcDocumentRstSectionNode:
                 $node->reference = $this->addReferenceTarget( $this->nodeToString( $node->title ) );
                 $this->aggregateListItems( $node );
+
+                // Also recurse into special title subtree
+                foreach ( $node->title->nodes as $child )
+                {
+                    $this->preProcessAst( $child );
+                }
                 break;
 
             case $node instanceof ezcDocumentRstTableCellNode:
@@ -444,7 +450,7 @@ abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
                 break;
 
             case $node instanceof ezcDocumentRstTargetNode:
-                $this->addReferenceTarget( $this->nodeToString( $node ) );
+                $this->addReferenceTarget( $target = $this->nodeToString( $node ) );
                 break;
 
             case $node instanceof ezcDocumentRstNamedReferenceNode:
@@ -694,7 +700,13 @@ abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
      */
     protected function calculateId( $string )
     {
-        return trim( preg_replace( '([^a-z0-9-]+)', '_', strtolower( trim( $string ) ) ), '_' );
+        $id = trim( preg_replace( '([^a-z0-9-]+)', '_', strtolower( trim( $string ) ) ), '_' );
+        if ( !preg_match( '(^[a-z])', $id ) )
+        {
+            $id = 'id_' . $id;
+        }
+
+        return $id;
     }
 
     /**

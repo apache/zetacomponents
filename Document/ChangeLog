@@ -12,7 +12,9 @@
 - Fixed: Text blocks are continued on the same page wrapped images are
   rendered on.
 - Fixed: Handle unescaped references containing special chars in RST parser.
-
+- Fixed: Also recurse into section titles in RST visitor AST preprocessing to
+  find all reference targets.
+- Fixed: Ensure valid XML IDs in visitor.
 
 1.2alpha1 - Tuesday 26 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
