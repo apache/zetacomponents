@@ -10,7 +10,7 @@ class ezcWebdavClientTestContinuousSetup extends ezcWebdavClientTestSetup
     {
         if ( $this->backend === null )
         {
-            $this->backend       = $this->setupBackend();
+            $this->backend = $this->setupBackend();
         }
 
         $test->server  = self::getServer(
