@@ -91,3 +91,5 @@ PDF generation issues
    under the image on page 5.
 
    kn: Fixed in revision 10448.
+
+5. There are still some test failures: http://ezc.pastebin.com/m9c77063
