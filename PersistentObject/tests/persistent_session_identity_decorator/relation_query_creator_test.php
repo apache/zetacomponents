@@ -118,11 +118,11 @@ class ezcPersistentSessionIdentityDecoratorRelationQueryCreatorTest extends ezcP
     protected function assertAliasesEqual( $expected, $actual )
     {
         $this->assertEquals(
-            $this->getObjectAttribute(
+            $this->readAttribute(
                 $expected->query,
                 'aliases'
             ),
-            $this->getObjectAttribute(
+            $this->readAttribute(
                 $actual->query,
                 'aliases'
             ),
