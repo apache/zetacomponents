@@ -1,9 +1,10 @@
-1.6beta2 - Tuesday 26 May 2009
+1.6beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Note: This release changes the indexing of arrays returns by
   ezcPersistentSession and its decorators. These arrays are now indexed by
   object IDs.
+
 
 1.6alpha2 - Tuesday 26 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
