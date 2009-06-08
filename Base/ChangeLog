@@ -1,4 +1,4 @@
-1.7beta1 - [RELEASEDATE]
+1.7beta1 - Monday 08 June 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Made sure that we (try) to load the PEAR Registry class so that PEAR doesn't
