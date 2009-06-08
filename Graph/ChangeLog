@@ -1,4 +1,4 @@
-1.4.3 - [RELEASEDATE]
+1.4.3 - Monday 08 June 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed #14538: Performance degration for very high numbers of data points.
