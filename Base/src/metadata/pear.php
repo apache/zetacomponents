@@ -7,6 +7,9 @@
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
+
+@require 'PEAR/Registry.php';
+
 /**
  * Base class implements ways of fetching information about the installed
  * eZ Components when installed as tarball.

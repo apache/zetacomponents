@@ -1,7 +1,8 @@
 1.7beta1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- No changes
+- Made sure that we (try) to load the PEAR Registry class so that PEAR doesn't
+  have to be in autoload.
 
 
 1.7alpha1 - Tuesday 26 May 2009
