@@ -399,7 +399,7 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
     {
         $obj = new $className();
 
-        $props = $this->getObjectAttribute(
+        $props = $this->readAttribute(
             $obj,
             'properties'
         );
@@ -414,7 +414,7 @@ class ezcPersistentObjectTemplateSchemaWriterTest extends ezcTestCase
 
         $this->assertEquals(
             $setProps,
-            $this->getObjectAttribute(
+            $this->readAttribute(
                 $obj,
                 'properties'
             )
