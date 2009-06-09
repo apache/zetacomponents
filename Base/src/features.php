@@ -347,5 +347,19 @@ class ezcBaseFeatures
         }
         return null;
     }
+
+    /**
+     * Reset the cached information. 
+     * 
+     * @return void
+     * @access private
+     * @ignore
+     */
+    public static function reset()
+    {
+        self::$imageIdentify = null;
+        self::$imageConvert  = null;
+        self::$os            = null;
+    }
 }
 ?>
