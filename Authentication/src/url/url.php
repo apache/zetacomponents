@@ -219,7 +219,16 @@ class ezcAuthenticationUrl
 
         // get the HTTP headers
         $metadata = stream_get_meta_data( $file );
-        $headers = implode( "\n", $metadata['wrapper_data'] );
+        if ( array_key_exists( 'headers', $metadata['wrapper_data'] ) )
+        {
+            // for php compiled with --with-curlwrappers
+            $headers = implode( "\n", $metadata['wrapper_data']['headers'] );
+        }
+        else
+        {
+            // for php compiled without --with-curlwrappers
+            $headers = implode( "\n", $metadata['wrapper_data'] );
+        }
 
         // get the contents of the $url
         $contents = file_get_contents( $url, false, $context );

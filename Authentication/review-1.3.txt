@@ -1,7 +1,7 @@
 Review 1.3
 ==========
 
-[ ] Executing the tests with PHP 5.3.0RC3-dev (cli) (built: May 31 2009 10:43:59)
+[x] Executing the tests with PHP 5.3.0RC3-dev (cli) (built: May 31 2009 10:43:59)
     ('--with-curl' '--with-curlwrappers') gives me the following error::
 
         Notice: Array to string conversion in trunk/Authentication/src/url/url.php on line 222
@@ -43,6 +43,10 @@ Review 1.3
     an application using ezcAuth.
 
     Seems to be "fixed" by removing the --with-curlwrappers option from ./configure
+
+    AS: I added a check for the 'headers' sub-array, so it should work in
+    both cases, with and without --with-curlwrappers. Both cases are
+    untestable in the same test suite though.
 
 [ ] I get some test failures, when running the test suite, as recorded in
     "review-1.3-test-failures.txt". Only some of them seem to be temporary
