@@ -83,7 +83,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               ezcDocumentRstTargetNode::__set_state(array(
                  'line' => 4,
                  'position' => 1,
-                 'type' => 4,
+                 'type' => 42,
                  'nodes' => 
                 array (
                   0 => 
@@ -403,7 +403,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               ezcDocumentRstTargetNode::__set_state(array(
                  'line' => 10,
                  'position' => 1,
-                 'type' => 4,
+                 'type' => 42,
                  'nodes' => 
                 array (
                   0 => 

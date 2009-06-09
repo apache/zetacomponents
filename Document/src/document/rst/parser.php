@@ -3759,14 +3759,14 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Trim whitespaces in text nodes.
         if ( isset( $nodes[0] ) &&
-             ( $nodes[0]->type = ezcDocumentRstNode::TEXT_LINE ) )
+             ( $nodes[0]->type === ezcDocumentRstNode::TEXT_LINE ) )
         {
             $nodes[0]->token->content = rtrim( $nodes[0]->token->content );
         }
 
         $nodes = array_reverse( $nodes );
         if ( isset( $nodes[0] ) &&
-             ( $nodes[0]->type = ezcDocumentRstNode::TEXT_LINE ) )
+             ( $nodes[0]->type === ezcDocumentRstNode::TEXT_LINE ) )
         {
             $nodes[0]->token->content = rtrim( $nodes[0]->token->content );
         }
