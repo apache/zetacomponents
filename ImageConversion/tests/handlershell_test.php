@@ -83,7 +83,7 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
 
     public function testLoadFailureUnknownmimetype()
     {
-        $filePath = $this->testFiles["text"];
+        $filePath = $this->testFiles["noimage"];
 
         try
         {
