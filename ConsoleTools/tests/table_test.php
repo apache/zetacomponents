@@ -277,6 +277,44 @@ class ezcConsoleTableTest extends ezcTestCase
             array( 0 )
         );
     }
+
+    public function testEmptyTable()
+    {
+        $out = new ezcConsoleOutput();
+        $tbl = new ezcConsoleTable( $out, 80 );
+
+        $this->assertTableOutputEquals(
+            __FUNCTION__,
+            (string) $tbl
+        );
+    }
+
+    public function testEmptyTableNoBorders()
+    {
+        $out = new ezcConsoleOutput();
+        $tbl = new ezcConsoleTable( $out, 80 );
+
+        $tbl->options->lineVertical   = null;
+        $tbl->options->lineHorizontal = null;
+        $tbl->options->corner         = null;
+
+        $this->assertEquals(
+            '',
+            (string) $tbl
+        );
+    }
+
+    public function testOneRowOneColumnTable()
+    {
+        $out = new ezcConsoleOutput();
+        $tbl = new ezcConsoleTable( $out, 80 );
+        $tbl[0][0]->content = 'foo';
+
+        $this->assertTableOutputEquals(
+            __FUNCTION__,
+            (string) $tbl
+        );
+    }
     
     public function testTableConfigurationFailure1 ()
     {
@@ -995,21 +1033,40 @@ class ezcConsoleTableTest extends ezcTestCase
 //        echo implode( "\n", $table->getTable() );
 //        echo "\n\n";
         
-        $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . $refFile . '.dat';
-        // To prepare test files, uncomment this block
-        // file_put_contents( $refFile, implode( PHP_EOL, $table->getTable() ) );
+        $this->assertTableOutputEquals(
+            $refFile,
+            (string) $table
+        );
+    }
 
-        // For test assertion, uncomment this block
-        $this->assertEquals(
-            file_get_contents( $refFile ),
-            implode( PHP_EOL, $table->getTable() ),
-            'Table not correctly generated for ' . $refFile . '.'
-        );
-        $this->assertEquals(
-            file_get_contents( $refFile ),
-            (string) $table,
-            'Table not correctly generated for ' . $refFile . '.'
-        );
+    protected function assertTableOutputEquals( $expectedRef, $actualContent )
+    {
+        $refFile = dirname( __FILE__ ) 
+            . '/data/' 
+            . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" )
+            . $expectedRef
+            . '.dat';
+
+        // To prepare test files, uncomment this block
+        // file_put_contents( $refFile, $actualContent );
+        
+        if ( !file_exists( $refFile ) )
+        {
+            // Default assert for new files.
+            $this->assertEquals(
+                '',
+                $actualContent,
+                "Asserted against empty string, since reference file '$refFile' does not exist."
+            );
+        }
+        else
+        {
+            $this->assertEquals(
+                file_get_contents( $refFile ),
+                $actualContent,
+                'Table not correctly generated for ' . $expectedRef . '.'
+            );
+        }
 
     }
 }

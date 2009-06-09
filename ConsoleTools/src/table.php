@@ -520,10 +520,15 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     {
         $colWidth = $this->getColWidths();
         $table = array();
+        
         if ( $this->options->lineVertical !== null )
         {
-            $table[] = $this->generateBorder( $colWidth, $this[0]->borderFormat );
+            $table[] = $this->generateBorder(
+                $colWidth,
+                ( isset( $this[0] ) ? $this[0]->borderFormat : 'default' )
+            );
         }
+
         // Rows submitted by the user
         for ( $i = 0;  $i < count( $this->rows ); $i++ )
         {
@@ -538,6 +543,13 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                 $table[] = $this->generateBorder( $colWidth, $afterBorderFormat );
             }
         }
+
+        // Empty tables need closing border
+        if ( $this->options->lineVertical !== null && count( $this->rows ) == null )
+        {
+            $table[] = $this->generateBorder( $colWidth, 'default' );
+        }
+
         return $table; 
     }
 
@@ -717,13 +729,21 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         {
             return $this->properties['options']->colWidth;
         }
+
         // Determine number of columns:
         $colCount = 0;
         foreach ( $this->rows as $row )
         {
             $colCount = max( sizeof( $row ), $colCount );
         }
+
+        if ( $colCount === 0 )
+        {
+            return array( $this->width );
+        }
+
         $borderWidth = strlen( $this->properties['options']->lineHorizontal );
+
         // Subtract border and padding chars from global width
         $globalWidth = $this->width
             - ( 
@@ -731,9 +751,11 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                 $colCount * ( 2 * strlen( $this->properties['options']->colPadding ) + $borderWidth ) 
               // 1 Additional border
               ) - $borderWidth;
+        
         // Width of a column if each is made equal
         $colNormWidth = round( $globalWidth / $colCount );
         $colMaxWidth = array();
+        
         // Determine the longest data for each column
         foreach ( $this->rows as $row => $cells )
         {
@@ -750,6 +772,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         $colWidth = array();
         $colWidthOverflow = array();
         $spareWidth = 0;
+        
         // Make columns best fit
         foreach ( $colMaxWidth as $col => $maxWidth )
         {
@@ -770,6 +793,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                 $colWidthOverflow[$col] = $maxWidth - $colWidth[$col];
             }
         }
+        
         // Do we have spare to give to the columns again?
         if ( $spareWidth > 0 )
         {
@@ -791,6 +815,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                 }
             }
         }
+        
         // Finally sanitize values from rounding issues, if necessary
         if ( ( $colSum = array_sum( $colWidth ) ) != $globalWidth && $this->properties['options']->widthType === ezcConsoleTable::WIDTH_FIXED )
         {
