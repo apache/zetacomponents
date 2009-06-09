@@ -403,7 +403,10 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
 
         if ( $this->binary === null )
         {
-            throw new ezcImageHandlerNotAvailableException( 'ezcImageImagemagickHandler', 'ImageMagick not installed or not available in PATH variable.' );
+            throw new ezcImageHandlerNotAvailableException(
+                'ezcImageImagemagickHandler',
+                'ImageMagick not installed or not available in PATH variable.'
+            );
         }
         
         // Prepare to run ImageMagick command
