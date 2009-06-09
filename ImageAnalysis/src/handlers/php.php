@@ -112,7 +112,10 @@ class ezcImageAnalyzerPhpHandler extends ezcImageAnalyzerHandler
         $data = getimagesize( $file );
         if ( $data === false )
         {
-            throw new ezcImageAnalyzerFileNotProcessableException( $file, 'getimagesize() returned false.' );
+            throw new ezcImageAnalyzerFileNotProcessableException(
+                $file,
+                'getimagesize() returned false.'
+            );
         }
 
         $dataStruct = new ezcImageAnalyzerData();
