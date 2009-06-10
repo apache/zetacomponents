@@ -22,9 +22,6 @@
  *           (default), lines will not be wrapped automatically.
  * @property bool $useFormats
  *           Whether to use formatting or not.
- * @property string $characterEncoding
- *           Determines the character encoding to use, if string length must be
- *           determined. Defaults to UTF-8.
  * 
  * @package ConsoleTools
  * @version //autogen//
