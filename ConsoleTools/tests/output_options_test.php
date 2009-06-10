@@ -50,7 +50,6 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
                 "verbosityLevel" => 1,
                 "autobreak" => 0,
                 "useFormats" => true,
-                "characterEncoding" => 'UTF-8',
             )
         );
         $this->assertEquals( 
@@ -78,11 +77,9 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $this->assertEquals( $opt->verbosityLevel, 1 );
         $this->assertEquals( $opt->autobreak, 0 );
         $this->assertEquals( $opt->useFormats, true );
-        $this->assertEquals( $opt->characterEncoding, 'UTF-8' );
         $this->assertEquals( $opt["verbosityLevel"], 1 );
         $this->assertEquals( $opt["autobreak"], 0 );
         $this->assertEquals( $opt["useFormats"], true );
-        $this->assertEquals( $opt["characterEncoding"], 'UTF-8' );
     }
 
     public function testGetAccessSuccess()
@@ -91,7 +88,6 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $this->assertEquals( 1, $opt->verbosityLevel );
         $this->assertEquals( 0, $opt->autobreak );
         $this->assertEquals( true, $opt->useFormats );
-        $this->assertEquals( 'UTF-8', $opt->characterEncoding );
     }
 
     public function testGetAccessFailure()
@@ -129,11 +125,6 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
             'useFormats',
             array( false, true )
         );
-        $this->assertSetProperty(
-            $opt,
-            'characterEncoding',
-            array( 'ISO-8859-1', 'UTF-8', 'a' )
-        );
     }
 
     public function testSetAccessFailure()
@@ -155,15 +146,16 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
             'useFormats',
             array( 'foo', '', 23, -42, 23.42, array(), new stdClass() )
         );
-        $this->assertSetPropertyFails(
-            $opt,
-            'characterEncoding',
-            array( '', 23, -42, 23.42, true, false, array(), new stdClass() )
-        );
 
         $this->assertSetPropertyFails(
             $opt,
             'foo',
+            array( '', 'bar', 23, -42, 23.42, true, false, array(), new stdClass() )
+        );
+
+        $this->assertSetPropertyFails(
+            $opt,
+            'characterEncoding',
             array( '', 'bar', 23, -42, 23.42, true, false, array(), new stdClass() )
         );
     }
@@ -174,7 +166,7 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $this->assertTrue( isset( $opt->verbosityLevel ) );
         $this->assertTrue( isset( $opt->autobreak ) );
         $this->assertTrue( isset( $opt->useFormats ) );
-        $this->assertTrue( isset( $opt->characterEncoding ) );
+        $this->assertFalse( isset( $opt->characterEncoding ) );
         $this->assertFalse( isset( $opt->foo ) );
     }
 

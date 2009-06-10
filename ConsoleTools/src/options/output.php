@@ -50,7 +50,6 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
         $this->properties['verbosityLevel'] = 1;
         $this->properties['autobreak'] = 0;
         $this->properties['useFormats'] = true;
-        $this->properties['characterEncoding'] = 'UTF-8';
         $args = func_get_args();
         if ( func_num_args() === 1 && is_array( $args[0] ) )
         {
@@ -70,9 +69,6 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
                         break;
                     case 2:
                         $this->__set( "useFormats", $val );
-                        break;
-                    case 3:
-                        $this->__set( "characterEncoding", $val );
                         break;
                 }
             }
@@ -106,12 +102,6 @@ class ezcConsoleOutputOptions extends ezcBaseOptions
                 if ( !is_bool( $val ) )
                 {
                     throw new ezcBaseValueException( $propertyName, $val, 'bool' );
-                }
-                break;
-            case 'characterEncoding':
-                if ( !is_string( $val ) || strlen( $val ) < 1 )
-                {
-                    throw new ezcBaseValueException( $propertyName, $val, 'string, length > 0' );
                 }
                 break;
             default:

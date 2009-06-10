@@ -496,41 +496,6 @@ class ezcConsoleOutput
     }
 
     /**
-     * Returns the length of $string.
-     *
-     * Determines the length of $string, taking {@link
-     * ezcConsoleOutputOptions::$characterEncoding} into account, if iconv or
-     * mbstring extensions are installed, and returns it. Falls back to
-     * strlen(), if none of the extensions is installed.
-     *
-     * Attention: This function is not aware of formatting sequences and will
-     * therefore not strip these before determining the string length!
-     * 
-     * @todo The functions to try and use should be made configurable. Allows
-     *       to reduce checks, to add new functions easily and better testing.
-     * @param string $string 
-     * @return void
-     */
-    public function strlen( $string )
-    {
-        switch ( true )
-        {
-            case ( ezcBaseFeatures::hasExtensionSupport( 'iconv' ) ):
-                return iconv_strlen(
-                    $string,
-                    $this->options->characterEncoding
-                );
-            case ( ezcBaseFeatures::hasExtensionSupport( 'mbstring' ) ):
-                return mb_strlen(
-                    $string,
-                    $this->options->characterEncoding
-                );
-            default:
-                return strlen( $string );
-        }
-    }
-
-    /**
      * Returns if a format code is valid for the specific formating option.
      *
      * This method determines if a given code is valid for a specific
