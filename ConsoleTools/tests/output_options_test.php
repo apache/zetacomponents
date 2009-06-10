@@ -30,7 +30,7 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
      */
     public function testConstructor()
     {
-        $fake = new ezcConsoleOutputOptions( 1, 0, true );
+        $fake = new ezcConsoleOutputOptions( 1, 0, true, 'UTF-8' );
         $this->assertEquals( 
             $fake,
             new ezcConsoleOutputOptions(),
@@ -50,6 +50,7 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
                 "verbosityLevel" => 1,
                 "autobreak" => 0,
                 "useFormats" => true,
+                "characterEncoding" => 'UTF-8',
             )
         );
         $this->assertEquals( 
@@ -77,9 +78,11 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $this->assertEquals( $opt->verbosityLevel, 1 );
         $this->assertEquals( $opt->autobreak, 0 );
         $this->assertEquals( $opt->useFormats, true );
+        $this->assertEquals( $opt->characterEncoding, 'UTF-8' );
         $this->assertEquals( $opt["verbosityLevel"], 1 );
         $this->assertEquals( $opt["autobreak"], 0 );
         $this->assertEquals( $opt["useFormats"], true );
+        $this->assertEquals( $opt["characterEncoding"], 'UTF-8' );
     }
 
     public function testGetAccessSuccess()
@@ -88,6 +91,7 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $this->assertEquals( 1, $opt->verbosityLevel );
         $this->assertEquals( 0, $opt->autobreak );
         $this->assertEquals( true, $opt->useFormats );
+        $this->assertEquals( 'UTF-8', $opt->characterEncoding );
     }
 
     public function testGetAccessFailure()
@@ -112,10 +116,12 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $opt->verbosityLevel = 10;
         $opt->autobreak = 80;
         $opt->useFormats = false;
+        $opt->characterEncoding = 'ISO-8859-1';
 
         $this->assertEquals( 10, $opt->verbosityLevel );
         $this->assertEquals( 80, $opt->autobreak );
         $this->assertEquals( false, $opt->useFormats );
+        $this->assertEquals( 'ISO-8859-1', $opt->characterEncoding );
     }
 
     public function testSetAccessFailure()
@@ -158,6 +164,17 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $exceptionThrown = false;
         try
         {
+            $opt->characterEncoding = "";
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property characterEncoding." );
+
+        $exceptionThrown = false;
+        try
+        {
             $opt->foo = true;
         }
         catch ( ezcBasePropertyNotFoundException $e )
@@ -173,6 +190,7 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
         $this->assertTrue( isset( $opt->verbosityLevel ) );
         $this->assertTrue( isset( $opt->autobreak ) );
         $this->assertTrue( isset( $opt->useFormats ) );
+        $this->assertTrue( isset( $opt->characterEncoding ) );
         $this->assertFalse( isset( $opt->foo ) );
     }
 
