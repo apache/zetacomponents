@@ -113,75 +113,59 @@ class ezcConsoleOutputOptionsTest extends ezcTestCase
     public function testSetAccessSuccess()
     {
         $opt = new ezcConsoleOutputOptions();
-        $opt->verbosityLevel = 10;
-        $opt->autobreak = 80;
-        $opt->useFormats = false;
-        $opt->characterEncoding = 'ISO-8859-1';
 
-        $this->assertEquals( 10, $opt->verbosityLevel );
-        $this->assertEquals( 80, $opt->autobreak );
-        $this->assertEquals( false, $opt->useFormats );
-        $this->assertEquals( 'ISO-8859-1', $opt->characterEncoding );
+        $this->assertSetProperty(
+            $opt,
+            'verbosityLevel',
+            array( 0, 1, 10, 42 )
+        );
+        $this->assertSetProperty(
+            $opt,
+            'autobreak',
+            array( 0, 1, 10, 42 )
+        );
+        $this->assertSetProperty(
+            $opt,
+            'useFormats',
+            array( false, true )
+        );
+        $this->assertSetProperty(
+            $opt,
+            'characterEncoding',
+            array( 'ISO-8859-1', 'UTF-8', 'a' )
+        );
     }
 
     public function testSetAccessFailure()
     {
         $opt = new ezcConsoleOutputOptions();
 
-        $exceptionThrown = false;
-        try
-        {
-            $opt->verbosityLevel = -1;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $exceptionThrown = true;
-        }
-        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property verbosityLevel." );
+        $this->assertSetPropertyFails(
+            $opt,
+            'verbosityLevel',
+            array( -1, 23.42, 'foo', '', true, false, array(), new stdClass() )
+        );
+        $this->assertSetPropertyFails(
+            $opt,
+            'autobreak',
+            array( -1, 23.42, 'foo', '', true, false, array(), new stdClass() )
+        );
+        $this->assertSetPropertyFails(
+            $opt,
+            'useFormats',
+            array( 'foo', '', 23, -42, 23.42, array(), new stdClass() )
+        );
+        $this->assertSetPropertyFails(
+            $opt,
+            'characterEncoding',
+            array( '', 23, -42, 23.42, true, false, array(), new stdClass() )
+        );
 
-        $exceptionThrown = false;
-        try
-        {
-            $opt->autobreak = -1;
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $exceptionThrown = true;
-        }
-        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property autobreak." );
-
-        $exceptionThrown = false;
-        try
-        {
-            $opt->useFormats = "foo";
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $exceptionThrown = true;
-        }
-        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property useFormats." );
-
-        $exceptionThrown = false;
-        try
-        {
-            $opt->characterEncoding = "";
-        }
-        catch ( ezcBaseValueException $e )
-        {
-            $exceptionThrown = true;
-        }
-        $this->assertTrue( $exceptionThrown, "Exception not thrown on invalid value for property characterEncoding." );
-
-        $exceptionThrown = false;
-        try
-        {
-            $opt->foo = true;
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {
-            $exceptionThrown = true;
-        }
-        $this->assertTrue( $exceptionThrown, "Exception not thrown on set access of invalid property foo." );
+        $this->assertSetPropertyFails(
+            $opt,
+            'foo',
+            array( '', 'bar', 23, -42, 23.42, true, false, array(), new stdClass() )
+        );
     }
 
     public function testIsset()
