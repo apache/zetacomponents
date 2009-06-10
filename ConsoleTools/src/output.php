@@ -506,6 +506,8 @@ class ezcConsoleOutput
      * Attention: This function is not aware of formatting sequences and will
      * therefore not strip these before determining the string length!
      * 
+     * @todo The functions to try and use should be made configurable. Allows
+     *       to reduce checks, to add new functions easily and better testing.
      * @param string $string 
      * @return void
      */
