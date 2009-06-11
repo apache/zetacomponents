@@ -802,6 +802,28 @@ header.
 
 __ 04_02_create_pdf_styled.pdf
 
+Hyphenating
+```````````
+
+Proper hyphenation is crucial for nice text rendering especially for justified
+paragraph formatting. Since hyphenation is highly language dependent you can
+create and use your own custom hyphenator - the default one doesn't do any
+hyphenation by default, but just keeps every word as it is.
+
+Custom hyphenators can be implemented by extending from the abstract class
+ezcDocumentPdfHyphenator. The only need to implement one Method,
+```splitWord()```, which should return possible splitting points of the given
+word, as documented in the ezcDocumentPdfHyphenator class.
+
+The custom hyphenator can be configured in the ezcDocumentPdfOptions class,
+like this::
+
+    $pdf = new ezcDocumentPdf();
+    $pdf->options->hyphenator = new myHyphenator();
+
+The hyphenator will then be used by all text renderers during the rendering
+process.
+
 
 ..
    Local Variables:
