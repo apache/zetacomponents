@@ -67,6 +67,6 @@ return array(
     'ezcConsoleTableCell'                           => 'ConsoleTools/table/cell.php',
     'ezcConsoleTableOptions'                        => 'ConsoleTools/options/table.php',
     'ezcConsoleTableRow'                            => 'ConsoleTools/table/row.php',
-    'ezcConsoleToolsStringTools'                    => 'ConsoleTools/tools/string.php',
+    'ezcConsoleToolsStringTool'                     => 'ConsoleTools/tools/string.php',
 );
 ?>

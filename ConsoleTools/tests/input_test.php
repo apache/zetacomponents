@@ -2486,7 +2486,39 @@ class ezcConsoleInputTest extends ezcTestCase
         $this->assertEquals( 11, sizeof( $table ), "Expected 11 elements in the generated HelpTable" );
     }
 
+    public function testGetHelpTextBinarySafe()
+    {
+        $input = new ezcConsoleInput();
+        $input->registerOption(
+            new ezcConsoleOption(
+                'ö',
+                'öder',
+                ezcConsoleInput::TYPE_NONE,
+                null,
+                false,
+                'ööö äää ööö äää',
+                'ööö äää ööö äää ööö äää ööö äää ööö äää ööö äää'
+            )
+        );
 
+        $res = <<<EOF
+Usage: $ {$_SERVER['argv'][0]} [-ö] [[--] <args>]
+Test with UTF-8 characters...
+
+-ö / --öder ööö äää
+            ööö äää
+            ööö äää
+            ööö äää
+            ööö äää
+            ööö äää
+
+EOF;
+        $this->assertEquals(
+            $res,
+            $input->getHelpText( 'Lala', 20, true ),
+            'Help text not generated correctly.'
+        );
+    }
 
     public function testGetHelpText()
     {

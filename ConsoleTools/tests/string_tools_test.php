@@ -18,6 +18,8 @@ class ezcConsoleStringToolsTest extends ezcTestCase
 {
     private static $provideTestWordWrap;
 
+    private static $provideTestStrPad;
+
     /**
      * testWordWrap 
      * 
@@ -29,11 +31,11 @@ class ezcConsoleStringToolsTest extends ezcTestCase
      */
     public function testWordWrap( $input, $expected )
     {
-        $tools = new ezcConsoleToolsStringTools();
+        $tools = new ezcConsoleToolsStringTool();
         $actual = call_user_func_array(
             array(
                 $tools,
-                'wordWrap'
+                'wordwrap'
             ),
             $input
         );
@@ -50,6 +52,40 @@ class ezcConsoleStringToolsTest extends ezcTestCase
             self::$provideTestWordWrap = require dirname( __FILE__ ) . '/data/string_tools_wordwrap_data.php';
         }
         return self::$provideTestWordWrap;
+    }
+
+    /**
+     * testStrPad 
+     * 
+     * @param mixed $input 
+     * @param mixed $expected 
+     * @return void
+     *
+     * @dataProvider provideTestStrPad
+     */
+    public function testStrPad( $input, $expected )
+    {
+        $tools = new ezcConsoleToolsStringTool();
+        $actual = call_user_func_array(
+            array(
+                $tools,
+                'strPad'
+            ),
+            $input
+        );
+        $this->assertEquals(
+            $expected,
+            $actual
+        );
+    }
+
+    public function provideTestStrPad()
+    {
+        if ( !isset( self::$provideTestStrPad ) )
+        {
+            self::$provideTestStrPad = require dirname( __FILE__ ) . '/data/string_tools_strpad_data.php';
+        }
+        return self::$provideTestStrPad;
     }
 
     public static function suite()

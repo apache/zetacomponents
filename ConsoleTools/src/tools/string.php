@@ -10,7 +10,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcConsoleToolsStringTools
+class ezcConsoleToolsStringTool
 {
     /**
      * Binary safe wordwrap() replacement.
@@ -108,6 +108,65 @@ class ezcConsoleToolsStringTools
         }
 
         return $newtext;
+    }
+
+    /**
+     * Binary safe str_pad() replacement.
+     *
+     * This method is a binary safe replacement for the PHP function str_pad().
+     * It mimics exactly the behavior of str_pad(), but uses iconv_* functions
+     * with UTF-8 encoding, to be binary safe. The parameters received by this
+     * method equal the parameters of {@link http://php.net/str_pad str_pad()}.
+     * 
+     * @param string $input 
+     * @param int $padLength 
+     * @param string $padString 
+     * @param int $padType 
+     * @return string
+     */
+    public function strPad( $input, $padLength, $padString = ' ', $padType = STR_PAD_RIGHT )
+    {
+        $input     = (string) $input;
+
+        $strLen    = iconv_strlen( $input, 'UTF-8' );
+        $padStrLen = iconv_strlen( $padString, 'UTF-8' );
+
+        if ( $strLen >= $padLength )
+        {
+            return $input;
+        }
+
+        if ( $padType === STR_PAD_BOTH )
+        {
+            return $this->strPad(
+                $this->strPad(
+                    $input,
+                    $strLen + ceil( ( $padLength - $strLen ) / 2 ),
+                    $padString
+                ),
+                $padLength,
+                $padString,
+                STR_PAD_LEFT
+            );
+        }
+
+        $fullStrRepeats = (int) ( ( $padLength - $strLen ) / $padStrLen );
+        $partlyPad = iconv_substr(
+            $padString,
+            0,
+            ( ( $padLength - $strLen ) % $padStrLen )
+        );
+
+        $padding = str_repeat( $padString, $fullStrRepeats ) . $partlyPad;
+
+        switch ( $padType )
+        {
+            case STR_PAD_LEFT:
+                return $padding . $input;
+            case STR_PAD_RIGHT:
+            default:
+                return $input . $padding;
+        }
     }
 }
 

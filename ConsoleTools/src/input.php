@@ -180,6 +180,13 @@ class ezcConsoleInput
     private $helpOptionSet = false;
 
     /**
+     * Tool object for binary safe string operations. 
+     * 
+     * @var ezcConsoleToolsStringTool
+     */
+    private $stringTool;
+
+    /**
      * Collection of arguments. 
      * 
      * @var mixed
@@ -192,6 +199,7 @@ class ezcConsoleInput
     public function __construct()
     {
         $this->argumentDefinition = null;
+        $this->stringTool         = new ezcConsoleToolsStringTool();
     }
 
     /**
@@ -496,17 +504,17 @@ class ezcConsoleInput
         while ( $i < count( $args ) )
         {
             // Equalize parameter handling (long params with =)
-            if ( substr( $args[$i], 0, 2 ) == '--' )
+            if ( iconv_substr( $args[$i], 0, 2, 'UTF-8' ) == '--' )
             {
                 $this->preprocessLongOption( $args, $i );
             }
             // Check for parameter
-            if ( substr( $args[$i], 0, 1 ) === '-' && $this->hasOption( preg_replace( '/^-*/', '', $args[$i] ) ) !== false )
+            if ( iconv_substr( $args[$i], 0, 1, 'UTF-8' ) === '-' && $this->hasOption( preg_replace( '/^-*/', '', $args[$i] ) ) !== false )
             {
                 $this->processOptions( $args, $i );
             }
             // Looks like parameter, but is not available??
-            elseif ( substr( $args[$i], 0, 1 ) === '-' && trim( $args[$i] ) !== '--' )
+            elseif ( iconv_substr( $args[$i], 0, 1, 'UTF-8' ) === '-' && trim( $args[$i] ) !== '--' )
             {
                 throw new ezcConsoleOptionNotExistsException( $args[$i] );
             }
@@ -897,25 +905,32 @@ class ezcConsoleInput
     public function getHelpText( $programDesc, $width = 80, $long = false, array $params = null, $paramGrouping = null )
     {
         $help = $this->getHelp( $long, ( $params == null ? array() : $params ), $paramGrouping );
+
         // Determine max length of first column text.
         $maxLength = 0;
         foreach ( $help as $row )
         {
-            $maxLength = max( $maxLength, strlen( $row[0] ) );
+            $maxLength = max( $maxLength, iconv_strlen( $row[0], 'UTF-8' ) );
         }
+
         // Width of left column
         $leftColWidth = $maxLength + 2;
         // Width of righ column
         $rightColWidth = $width - $leftColWidth;
 
         $res = 'Usage: ' . $this->getSynopsis( $params ) . PHP_EOL;
-        $res .= wordwrap( $programDesc, $width, PHP_EOL );
+        $res .= $this->stringTool->wordwrap( $programDesc, $width, PHP_EOL );
         $res .= PHP_EOL . PHP_EOL;
         foreach ( $help as $row )
         {
-            $rowParts = explode( "\n", wordwrap( $row[1], $rightColWidth ) );
+            $rowParts = explode(
+                "\n",
+                $this->stringTool->wordwrap( $row[1], $rightColWidth )
+            );
+
             $res .= sprintf( "%-{$leftColWidth}s", $row[0] );
             $res .= $rowParts[0] . PHP_EOL;
+            // @TODO: Fix function call in loop header
             for ( $i = 1; $i < sizeof( $rowParts ); $i++ )
             {
                 $res .= str_repeat( ' ', $leftColWidth ) . $rowParts[$i] . PHP_EOL;
@@ -1076,7 +1091,10 @@ class ezcConsoleInput
         foreach ( $option->getDependencies() as $rule )
         {
             $deeperSynopsis = $this->createOptionSynopsis( $rule->option, $usedOptions, $depth );
-            $synopsis .= strlen( trim( $deeperSynopsis ) ) > 0 ? ' ' . $deeperSynopsis : '';
+            $synopsis .= ( iconv_strlen( trim( $deeperSynopsis ), 'UTF-8' ) > 0 
+                ? ' ' . $deeperSynopsis
+                : ''
+            );
         }
         
         if ( $option->arguments === false )
@@ -1159,7 +1177,7 @@ class ezcConsoleInput
         if ( $option->type === ezcConsoleInput::TYPE_NONE )
         {
             // No value expected
-            if ( isset( $args[$i] ) && substr( $args[$i], 0, 1 ) !== '-' && sizeof( $args ) > ( $i + 1 ) )
+            if ( isset( $args[$i] ) && iconv_substr( $args[$i], 0, 1, 'UTF-8' ) !== '-' && sizeof( $args ) > ( $i + 1 ) )
             {
                 // But one found
                 throw new ezcConsoleOptionTypeViolationException( $option, $args[$i] );
@@ -1177,7 +1195,7 @@ class ezcConsoleInput
             return $i;
         }
         // Value expected, check for it
-        if ( isset( $args[$i] ) && substr( $args[$i], 0, 1 ) !== '-' )
+        if ( isset( $args[$i] ) && iconv_substr( $args[$i], 0, 1, 'UTF-8' ) !== '-' )
         {
             // Type check
             if ( $this->isCorrectType( $option->type, $args[$i] ) === false )
