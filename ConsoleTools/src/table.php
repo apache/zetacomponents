@@ -143,6 +143,13 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     protected $rows;
 
     /**
+     * Tool object for binary safe string operations.
+     * 
+     * @var ezcConsoleToolsStringTool
+     */
+    private $stringTool;
+
+    /**
      * Creates a new table.
      *
      * @param ezcConsoleOutput $outHandler Output handler to utilize
@@ -157,6 +164,8 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     {
         $this->rows = array();
         $this->outputHandler = $outHandler;
+        $this->stringTool = new ezcConsoleToolsStringTool();
+
         $this->__set( 'width', $width );
         if ( $options instanceof ezcConsoleTableOptions )
         {
@@ -566,7 +575,12 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         foreach ( $colWidth as $col => $width )
         {
             $border .= ( $this->options->lineHorizontal !== null ? $this->properties['options']->corner : '' )
-                    . str_repeat( $this->properties['options']->lineVertical, $width + ( 2 * strlen( $this->properties['options']->colPadding ) ) );
+                    . str_repeat(
+                        $this->properties['options']->lineVertical,
+                        $width + (
+                            2 * iconv_strlen( $this->properties['options']->colPadding, 'UTF-8' )
+                        )
+            );
         }
         $border .= ( $this->options->lineHorizontal !== null ? $this->properties['options']->corner : '' );
 
@@ -598,7 +612,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                         );
             $rowData .= $this->properties['options']->colPadding;
             $rowData .= $this->outputHandler->formatText(
-                            str_pad( $data, $colWidth[$cell], ' ', $align ),
+                            $this->stringTool->strPad( $data, $colWidth[$cell], ' ', $align ),
                             $format
                         );
             $rowData .= $this->properties['options']->colPadding;
@@ -689,19 +703,22 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             foreach ( $dataLines as $dataLine ) 
             {
                 // Does the physical row fit?
-                if ( strlen( $dataLine ) > ( $colWidth[$cell] ) )
+                if ( iconv_strlen( $dataLine, 'UTF-8' ) > ( $colWidth[$cell] ) )
                 {
                     switch ( $this->properties['options']->colWrap )
                     {
                         case ezcConsoleTable::WRAP_AUTO:
-                            $subLines = explode( "\n", wordwrap( $dataLine, $colWidth[$cell], "\n", true ) );
+                            $subLines = explode(
+                                "\n",
+                                $this->stringTool->wordwrap( $dataLine, $colWidth[$cell], "\n", true )
+                            );
                             foreach ( $subLines as $lineNo => $line )
                             {
                                 $rows[$row++][$cell] = $line;
                             }
                             break;
                         case ezcConsoleTable::WRAP_CUT:
-                            $rows[$row++][$cell] = substr( $dataLine, 0, $colWidth[$cell] );
+                            $rows[$row++][$cell] = iconv_substr( $dataLine, 0, $colWidth[$cell], 'UTF-8' );
                             break;
                         case ezcConsoleTable::WRAP_NONE:
                         default:
@@ -742,13 +759,19 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             return array( $this->width );
         }
 
-        $borderWidth = strlen( $this->properties['options']->lineHorizontal );
+        $borderWidth = iconv_strlen(
+            $this->properties['options']->lineHorizontal,
+            'UTF-8'
+        );
 
         // Subtract border and padding chars from global width
         $globalWidth = $this->width
             - ( 
                 // Per column: 2 * border padding + 1 border
-                $colCount * ( 2 * strlen( $this->properties['options']->colPadding ) + $borderWidth ) 
+                $colCount * (
+                    2 * iconv_strlen( $this->properties['options']->colPadding, 'UTF-8' )
+                    + $borderWidth 
+                ) 
               // 1 Additional border
               ) - $borderWidth;
         
@@ -764,7 +787,10 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
                 $contentLength = 0;
                 foreach ( explode( PHP_EOL, $cell->content ) as $contentRow )
                 {
-                    $contentLength = max( $contentLength, strlen( $contentRow ) );
+                    $contentLength = max(
+                        $contentLength,
+                        iconv_strlen( $contentRow, 'UTF-8' )
+                    );
                 }
                 $colMaxWidth[$col] = isset( $colMaxWidth[$col] ) ? max( $colMaxWidth[$col], $contentLength ) : $contentLength;
             }

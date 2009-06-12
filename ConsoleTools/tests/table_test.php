@@ -47,6 +47,11 @@ class ezcConsoleTableTest extends ezcTestCase
         array( "Short text\nShort text\nShort text\nShort text\nShort text\nShort text\nShort text\n", "More short text\nMore short text\nMore short text\n     Short text" )
     );
 
+    private $tableData6 = array(
+        array( 'Non UTF-8 column 1', 'Non UTF-8 column 2', 'Long long long long long long long non UTF-8 column' ),
+        array( 'Nön UTF-8 cölümn 1', 'Nön UTF-8 cölümn 2', 'Löng löng löng löng löng löng löng nön UTF-8 cölümn' ),
+    );
+
 	public static function suite()
 	{
 		return new PHPUnit_Framework_TestSuite( "ezcConsoleTableTest" );
@@ -313,6 +318,32 @@ class ezcConsoleTableTest extends ezcTestCase
         $this->assertTableOutputEquals(
             __FUNCTION__,
             (string) $tbl
+        );
+    }
+
+    public function testUtf8TableHighlightNonUtf8()
+    {
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData6,
+            array( 'cols' => count( $this->tableData6[0] ), 'width' =>  80 ),
+            array( 'lineFormatHead' => 'red' ),
+            array( 0 )
+        );
+    }
+
+    public function testUtf8TableHighlightUtf8()
+    {
+        $data = array(
+            0 => $this->tableData6[1],
+            1 => $this->tableData6[0],
+        );
+        $this->commonTableTest(
+            __FUNCTION__,
+            $data,
+            array( 'cols' => count( $data[0] ), 'width' =>  80 ),
+            array( 'lineFormatHead' => 'red' ),
+            array( 0 )
         );
     }
     

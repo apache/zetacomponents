@@ -2,6 +2,9 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15009: Empty tables are now rendered correctly.
+- Fixed issue #14073: ConsoleTools is not binary safe, presuming UTF-8 input.
+  Note that the component now depends on ext/iconv which is bundled with PHP
+  and active by default.
 
 1.5.1 - Monday 11 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
