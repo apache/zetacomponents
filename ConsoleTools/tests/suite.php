@@ -10,6 +10,11 @@
  */
 
 /**
+ * String too, used by several other classes in this component. 
+ */
+require_once 'string_tools_test.php';
+
+/**
  * Require test suite for ezcConsoleOutput class.
  */
 require_once 'output_test.php';
@@ -145,6 +150,8 @@ class ezcConsoleToolsSuite extends PHPUnit_Framework_TestSuite
 		parent::__construct();
         $this->setName( "ConsoleTools" );
 
+		$this->addTest( ezcConsoleStringToolsTest::suite() );
+        
 		$this->addTest( ezcConsoleOutputTest::suite() );
 		$this->addTest( ezcConsoleOutputFormatTest::suite() );
 		$this->addTest( ezcConsoleOutputFormatsTest::suite() );

@@ -2502,20 +2502,21 @@ class ezcConsoleInputTest extends ezcTestCase
         );
 
         $res = <<<EOF
-Usage: $ {$_SERVER['argv'][0]} [-ö] [[--] <args>]
-Test with UTF-8 characters...
+Usage: $ {$_SERVER['argv'][0]} [-ö]  [[--] <args>]
+Test with UTF-8
+characters...
 
--ö / --öder ööö äää
-            ööö äää
-            ööö äää
-            ööö äää
-            ööö äää
-            ööö äää
+-ö / --öder  ööö äää
+             ööö äää
+             ööö äää
+             ööö äää
+             ööö äää
+             ööö äää
 
 EOF;
         $this->assertEquals(
             $res,
-            $input->getHelpText( 'Lala', 20, true ),
+            $input->getHelpText( 'Test with UTF-8 characters...', 20, true ),
             'Help text not generated correctly.'
         );
     }

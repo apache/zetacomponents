@@ -928,7 +928,7 @@ class ezcConsoleInput
                 $this->stringTool->wordwrap( $row[1], $rightColWidth )
             );
 
-            $res .= sprintf( "%-{$leftColWidth}s", $row[0] );
+            $res .= $this->stringTool->strPad( $row[0], $leftColWidth, ' ' );
             $res .= $rowParts[0] . PHP_EOL;
             // @TODO: Fix function call in loop header
             for ( $i = 1; $i < sizeof( $rowParts ); $i++ )
