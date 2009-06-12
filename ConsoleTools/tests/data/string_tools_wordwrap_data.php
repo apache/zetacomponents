@@ -221,7 +221,9 @@ return array(
     ),
 
 
-// PHP tests to ensure compatibility
+// ---------- PHP tests to ensure compatibility ------------
+
+// ext/standard/tests/strings/wordwrap.phpt
 
     19 => array(
         array(
@@ -389,7 +391,121 @@ return array(
             ""
         ),
         false
-    )
+    ),
+
+// ext/standard/tests/strings/wordwrap_basic.phpt
+
+    39 => array(
+        array(
+            'str' => 'The quick brown foooooooooox jummmmmmmmmmmmped over the lazzzzzzzzzzzy doooooooooooooooooooooog.',
+        ),
+        "The quick brown foooooooooox jummmmmmmmmmmmped over the lazzzzzzzzzzzy\ndoooooooooooooooooooooog.",
+    ),
+
+    40 => array(
+        array(
+            'str' => 'The quick brown foooooooooox jummmmmmmmmmmmped over the lazzzzzzzzzzzy doooooooooooooooooooooog.',
+            'width' => 80,
+        ),
+        "The quick brown foooooooooox jummmmmmmmmmmmped over the lazzzzzzzzzzzy\ndoooooooooooooooooooooog.",
+    ),
+
+    40 => array(
+        array(
+            'str' => 'The quick brown foooooooooox jummmmmmmmmmmmped over the lazzzzzzzzzzzy doooooooooooooooooooooog.',
+            'width' => 80,
+            'break' => '<br />\n',
+        ),
+        'The quick brown foooooooooox jummmmmmmmmmmmped over the lazzzzzzzzzzzy<br />\ndoooooooooooooooooooooog.',
+    ),
+
+    41 => array(
+        array(
+            'str' => 'The quick brown foooooooooox jummmmmmmmmmmmped over the lazzzzzzzzzzzy doooooooooooooooooooooog.',
+            'width' => 10,
+            'break' => '<br />\n',
+            'cut' => true,
+        ),
+        'The quick<br />\nbrown<br />\nfooooooooo<br />\nox<br />\njummmmmmmm<br />\nmmmmped<br />\nover the<br />\nlazzzzzzzz<br />\nzzzy<br />\ndooooooooo<br />\noooooooooo<br />\nooog.'
+    ),
+
+    42 => array(
+        array(
+            'str' => 'The quick brown foooooooooox jummmmmmmmmmmmped over the lazzzzzzzzzzzy doooooooooooooooooooooog.',
+            'width' => 10,
+            'break' => '<br />\n',
+            'cut' => false,
+        ),
+        'The quick<br />\nbrown<br />\nfoooooooooox<br />\njummmmmmmmmmmmped<br />\nover the<br />\nlazzzzzzzzzzzy<br />\ndoooooooooooooooooooooog.'
+    ),
+
+// ext/standard/tests/strings/wordwrap_variation5.phpt
+
+    43 => array(
+        array(
+            'str' => 'Testing wordrap function',
+            'width' => 1,
+        ),
+        "Testing\nwordrap\nfunction",
+    ),
+    
+    44 => array(
+        array(
+            'str' => 'Testing wordrap function',
+            'width' => 1,
+            'break' => ' ',
+        ),
+        'Testing wordrap function'
+    ),
+    
+    44 => array(
+        array(
+            'str' => 'Testing wordrap function',
+            'width' => 1,
+            'break' => '  ',
+        ),
+        'Testing  wordrap  function'
+    ),
+
+    45 => array(
+        array(
+            'str' => 'Testing wordrap function',
+            'width' => 1,
+            'break' => ' ',
+            'cut' => false,
+        ),
+        'Testing wordrap function'
+    ),
+    
+    46 => array(
+        array(
+            'str' => 'Testing wordrap function',
+            'width' => 1,
+            'break' => '  ',
+            'cut' => false,
+        ),
+        'Testing  wordrap  function'
+    ),
+
+    47 => array(
+        array(
+            'str' => 'Testing wordrap function',
+            'width' => 1,
+            'break' => ' ',
+            'cut' => true,
+        ),
+        'T e s t i n g w o r d r a p f u n c t i o n'
+    ),
+    
+    48 => array(
+        array(
+            'str' => 'Testing wordrap function',
+            'width' => 1,
+            'break' => '  ',
+            'cut' => true,
+        ),
+        'T  e  s  t  i  n  g  w  o  r  d  r  a  p  f  u  n  c  t  i  o  n'
+    ),
 );
 
 ?>
