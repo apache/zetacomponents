@@ -11,6 +11,15 @@ applications that run on a computer console (sometimes also called shell or
 command line). For example, eZ Publish includes several shell
 scripts that perform tasks like clearing caches.
 
+.. note::
+   From version 1.5.2 on, all necessary string operations in ConsoleTools are
+   performed using `ext/iconv`__. This makes the component binary safe and
+   allows you to use arbitrary unicode characters in your texts. Please make
+   sure to convert your text to UTF-8 before submitting it to a method in
+   ConsoleTools, if you use a different, non ASCII-compatible encoding.
+
+.. __: http://php.net/iconv
+
 Class overview
 ==============
 
