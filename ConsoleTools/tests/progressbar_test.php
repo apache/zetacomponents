@@ -107,6 +107,43 @@ class ezcConsoleProgressbarTest extends ezcTestCase
     {
         $this->commonProgressbarTest( __FUNCTION__, 100, 2.5, array ( 'actFormat' => '%01.8f', 'maxFormat' => '%01.2f' ) );
     }
+    
+    public function testProgressUtfInBar()
+    {
+        $this->commonProgressbarTest(
+            __FUNCTION__,
+            10,
+            2,
+            array(
+                'barChar' => 'ö'
+            )
+        );
+    }
+    
+    public function testProgressUtfInText()
+    {
+        $this->commonProgressbarTest(
+            __FUNCTION__,
+            10,
+            2,
+            array(
+                'formatString' => '%act%ö/ä%max%ü[%bar%]ß%fraction%%'
+            )
+        );
+    }
+    
+    public function testProgressUtfInBoth()
+    {
+        $this->commonProgressbarTest(
+            __FUNCTION__,
+            10,
+            2,
+            array(
+                'formatString' => '%act%ö/ä%max%ü[%bar%]ß%fraction%%',
+                'barChar' => 'ö'
+            )
+        );
+    }
 
     public function testProgressNoPrintMinVerbosity()
     {
@@ -461,8 +498,10 @@ class ezcConsoleProgressbarTest extends ezcTestCase
         $refFile = dirname( __FILE__ ) . '/data/' . ( ezcBaseFeatures::os() === "Windows" ? "windows/" : "posix/" ) . $refFile . '.dat';
         // Use the following line to regenerate test reference files
         // file_put_contents( $refFile, implode( PHP_EOL, $res ) );
+
+        $expected = ( file_exists( $refFile ) ? file_get_contents( $refFile ) : '' );
         $this->assertEquals(
-            file_get_contents( $refFile ),
+            $expected,
             implode( PHP_EOL, $res ),
             'Progressbar not correctly generated for ' . $refFile . '.'
         );

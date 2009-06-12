@@ -118,6 +118,13 @@ class ezcConsoleProgressbar
     protected $started = false;
 
     /**
+     * Tool object to perform binary safe string operations. 
+     * 
+     * @var ezcConsoleToolsStringTool
+     */
+    private $stringTool;
+
+    /**
      * Creates a new progress bar.
      *
      * @param ezcConsoleOutput $outHandler   Handler to utilize for output
@@ -129,7 +136,8 @@ class ezcConsoleProgressbar
      */
     public function __construct( ezcConsoleOutput $outHandler, $max, array $options = array() )
     {
-        $this->output = $outHandler;
+        $this->output     = $outHandler;
+        $this->stringTool = new ezcConsoleToolsStringTool();
         $this->__set( 'max', $max );
         $this->properties['options'] = new ezcConsoleProgressbarOptions( $options );
     }
@@ -359,8 +367,8 @@ class ezcConsoleProgressbar
         $barFilledSpace = ceil( $this->measures['barSpace'] / $this->numSteps * $this->currentStep );
         // Sanitize value if it gets to large by rounding
         $barFilledSpace = $barFilledSpace > $this->measures['barSpace'] ? $this->measures['barSpace'] : $barFilledSpace;
-        $bar = str_pad( 
-            str_pad( 
+        $bar = $this->stringTool->strPad( 
+            $this->stringTool->strPad( 
                 $this->properties['options']->progressChar, 
                 $barFilledSpace, 
                 $this->properties['options']->barChar, 
@@ -377,9 +385,9 @@ class ezcConsoleProgressbar
             $this->properties['options']->fractionFormat,
             ( $fractionVal = ( $this->properties['options']->step * $this->currentStep ) / $this->max * 100 ) > 100 ? 100 : $fractionVal
         );
-        $this->valueMap['fraction'] = str_pad( 
+        $this->valueMap['fraction'] = $this->stringTool->strPad( 
             $fractionVal, 
-            strlen( sprintf( $this->properties['options']->fractionFormat, 100 ) ),
+            iconv_strlen( sprintf( $this->properties['options']->fractionFormat, 100 ), 'UTF-8' ),
             ' ',
             STR_PAD_LEFT
         );
@@ -389,9 +397,9 @@ class ezcConsoleProgressbar
             $this->properties['options']->actFormat,
             ( $actVal = $this->currentStep * $this->properties['options']->step ) > $this->max ? $this->max : $actVal
         );
-        $this->valueMap['act'] = str_pad( 
+        $this->valueMap['act'] = $this->stringTool->strPad( 
             $actVal, 
-            strlen( sprintf( $this->properties['options']->actFormat, $this->max ) ),
+            iconv_strlen( sprintf( $this->properties['options']->actFormat, $this->max ), 'UTF-8' ),
             ' ',
             STR_PAD_LEFT
         );
@@ -423,19 +431,19 @@ class ezcConsoleProgressbar
         // Calc number of steps bar goes through
         $this->numSteps = ( int ) round( $this->max / $this->properties['options']->step );
         // Calculate measures
-        $this->measures['fixedCharSpace'] = strlen( $this->stripEscapeSequences( $this->insertValues() ) );
-        if ( strpos( $this->properties['options']->formatString, '%max%' ) !== false )
+        $this->measures['fixedCharSpace'] = iconv_strlen( $this->stripEscapeSequences( $this->insertValues() ), 'UTF-8' );
+        if ( iconv_strpos( $this->properties['options']->formatString, '%max%', 0, 'UTF-8' ) !== false )
         {
-            $this->measures['maxSpace'] = strlen( sprintf( $this->properties['options']->maxFormat, $this->max ) );
+            $this->measures['maxSpace'] = iconv_strlen( sprintf( $this->properties['options']->maxFormat, $this->max ), 'UTF-8' );
 
         }
-        if ( strpos( $this->properties['options']->formatString, '%act%' ) !== false )
+        if ( iconv_strpos( $this->properties['options']->formatString, '%act%', 0, 'UTF-8' ) !== false )
         {
-            $this->measures['actSpace'] = strlen( sprintf( $this->properties['options']->actFormat, $this->max ) );
+            $this->measures['actSpace'] = iconv_strlen( sprintf( $this->properties['options']->actFormat, $this->max ), 'UTF-8' );
         }
-        if ( strpos( $this->properties['options']->formatString, '%fraction%' ) !== false )
+        if ( iconv_strpos( $this->properties['options']->formatString, '%fraction%', 0, 'UTF-8' ) !== false )
         {
-            $this->measures['fractionSpace'] = strlen( sprintf( $this->properties['options']->fractionFormat, 100 ) );
+            $this->measures['fractionSpace'] = iconv_strlen( sprintf( $this->properties['options']->fractionFormat, 100 ), 'UTF-8' );
         }
         $this->measures['barSpace'] = $this->properties['options']->width - array_sum( $this->measures );
     }
