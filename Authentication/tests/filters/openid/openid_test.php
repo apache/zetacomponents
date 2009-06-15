@@ -23,7 +23,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
     public static $urlIncomplete = "ezc.myopenid.com";
     public static $urlNonexistent = "xxx";
     public static $urlEmpty = null;
-    public static $urlNoOpenid = "http://www.google.com";
+    public static $urlNoOpenid = "http://www.ezcomponents.org";
 
     public static $provider = "http://www.myopenid.com/server";
 
@@ -244,6 +244,7 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
         $path = $this->createTempDir( get_class( $this ) );
         $options->store = new ezcAuthenticationOpenidFileStore( $path );
+        $options->mode = ezcAuthenticationOpenidFilter::MODE_SMART;
 
         $filter = new ezcAuthenticationOpenidFilter( $options );
         $authentication->addFilter( $filter );
@@ -259,16 +260,15 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
             $result = $e->getMessage();
             $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
             $this->assertEquals( substr( $expected, 0, 192 ), substr( $result, 0, 192 ) );
-            $this->assertEquals( substr( $expected, 198 ), substr( $result, 198 ) );
 
             // on Linux there are also the files '.' and '..'
             if ( substr( php_uname( 's' ), 0, 7 ) === 'Windows' )
             {
-                $this->assertEquals( 1, count( ezcAuthenticationOpenidFileStoreHelper::getFiles( $path ) ) );
+                $this->assertEquals( 2, count( ezcAuthenticationOpenidFileStoreHelper::getFiles( $path ) ) );
             }
             else
             {
-                $this->assertEquals( 3, count( ezcAuthenticationOpenidFileStoreHelper::getFiles( $path ) ) );
+                $this->assertEquals( 4, count( ezcAuthenticationOpenidFileStoreHelper::getFiles( $path ) ) );
             }
 
             $this->removeTempDir();
@@ -569,17 +569,12 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
         $authentication->addFilter( $filter );
 
-        try
-        {
-            $authentication->run();
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcAuthenticationOpenidException $e )
-        {
-            $result = $e->getMessage();
-            $expected = "Could not connect to host :443:";
-            $this->assertEquals( $expected, substr( $result, 0, strlen( $expected ) ) );
-        }
+        $authentication->run();
+        $status = $authentication->getStatus();
+        $status = array_values( $status[0] );
+        $status = $status[0];
+        $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT, $status );
+
         $this->removeTempDir();
     }
 
@@ -776,17 +771,11 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
 
         $authentication->addFilter( $filter );
 
-        try
-        {
-            $authentication->run();
-            $this->fail( "Expected exception was not thrown." );
-        }
-        catch ( ezcAuthenticationOpenidException $e )
-        {
-            $result = $e->getMessage();
-            $expected = "Could not connect to host :80:";
-            $this->assertEquals( $expected, substr( $result, 0, strlen( $expected ) ) );
-        }
+        $authentication->run();
+        $status = $authentication->getStatus();
+        $status = array_values( $status[0] );
+        $status = $status[0];
+        $this->assertEquals( ezcAuthenticationOpenidFilter::STATUS_URL_INCORRECT, $status );
     }
 
     public function testOpenidMockImmediateCaseNullSmartModeNoStore()
