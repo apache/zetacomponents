@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcConsoleArgumenntTypeViolationException.
+ * File containing the ezcConsoleArgumentTypeViolationException class.
  * 
  * @package ConsoleTools
  * @version //autogen//

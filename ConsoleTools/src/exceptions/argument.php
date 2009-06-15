@@ -1,7 +1,6 @@
 <?php
 /**
- * Base option exception for the ConsoleTools package.
- * Exception that indicates an argument processing failure.
+ * File containing the ezcConsoleArgumentException class.
  *
  * @package ConsoleTools
  * @version //autogen//

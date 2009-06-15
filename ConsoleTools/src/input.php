@@ -803,7 +803,7 @@ class ezcConsoleInput
      * Returns a single array entry for the {@link getOptionHelpRow()} method.
      *
      * @param bool $long 
-     * @param array $params 
+     * @param ezcConsoleOption $param
      * @return string
      */
     private function getOptionHelpRow( $long, ezcConsoleOption $param )

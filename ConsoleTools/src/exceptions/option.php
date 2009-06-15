@@ -1,6 +1,6 @@
 <?php
 /**
- * Base option exception for the ConsoleTools package.
+ * File containing the ezcConsoleOptionException class.
  *
  * @package ConsoleTools
  * @version //autogen//

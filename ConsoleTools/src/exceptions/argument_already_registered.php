@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcConsoleargumentAlreadyRegisteredException.
+ * File containing the ezcConsoleArgumentAlreadyRegisteredException class.
  * 
  * @package ConsoleTools
  * @version //autogen//
