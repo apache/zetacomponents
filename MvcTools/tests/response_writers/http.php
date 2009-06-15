@@ -21,7 +21,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
     {
         if ( !extension_loaded( 'xdebug' ) || !function_exists( 'xdebug_get_headers' ) )
         {
-            self::markTestSkipped( "Xdebug is required." );
+            self::markTestSkipped( "Xdebug is required, with xdebug_get_headers() available." );
         }
     }
 
