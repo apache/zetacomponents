@@ -145,7 +145,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     /**
      * Tool object for binary safe string operations.
      * 
-     * @var ezcConsoleToolsStringTool
+     * @var ezcConsoleStringTool
      */
     private $stringTool;
 
@@ -164,7 +164,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
     {
         $this->rows = array();
         $this->outputHandler = $outHandler;
-        $this->stringTool = new ezcConsoleToolsStringTool();
+        $this->stringTool = new ezcConsoleStringTool();
 
         $this->__set( 'width', $width );
         if ( $options instanceof ezcConsoleTableOptions )

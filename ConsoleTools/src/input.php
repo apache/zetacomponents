@@ -182,7 +182,7 @@ class ezcConsoleInput
     /**
      * Tool object for binary safe string operations. 
      * 
-     * @var ezcConsoleToolsStringTool
+     * @var ezcConsoleStringTool
      */
     private $stringTool;
 
@@ -199,7 +199,7 @@ class ezcConsoleInput
     public function __construct()
     {
         $this->argumentDefinition = null;
-        $this->stringTool         = new ezcConsoleToolsStringTool();
+        $this->stringTool         = new ezcConsoleStringTool();
     }
 
     /**

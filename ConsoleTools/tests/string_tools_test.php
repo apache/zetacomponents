@@ -31,7 +31,7 @@ class ezcConsoleStringToolsTest extends ezcTestCase
      */
     public function testWordWrap( $input, $expected )
     {
-        $tools = new ezcConsoleToolsStringTool();
+        $tools = new ezcConsoleStringTool();
         $actual = call_user_func_array(
             array(
                 $tools,
@@ -65,7 +65,7 @@ class ezcConsoleStringToolsTest extends ezcTestCase
      */
     public function testStrPad( $input, $expected )
     {
-        $tools = new ezcConsoleToolsStringTool();
+        $tools = new ezcConsoleStringTool();
         $actual = call_user_func_array(
             array(
                 $tools,

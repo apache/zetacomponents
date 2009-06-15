@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcConsoleToolsStringTool class.
+ * File containing the ezcConsoleStringTool class.
  *
  * @package ConsoleTools
  * @version //autogentag//
@@ -18,7 +18,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcConsoleToolsStringTool
+class ezcConsoleStringTool
 {
     /**
      * Binary safe wordwrap() replacement.

@@ -120,7 +120,7 @@ class ezcConsoleProgressbar
     /**
      * Tool object to perform binary safe string operations. 
      * 
-     * @var ezcConsoleToolsStringTool
+     * @var ezcConsoleStringTool
      */
     private $stringTool;
 
@@ -137,7 +137,7 @@ class ezcConsoleProgressbar
     public function __construct( ezcConsoleOutput $outHandler, $max, array $options = array() )
     {
         $this->output     = $outHandler;
-        $this->stringTool = new ezcConsoleToolsStringTool();
+        $this->stringTool = new ezcConsoleStringTool();
         $this->__set( 'max', $max );
         $this->properties['options'] = new ezcConsoleProgressbarOptions( $options );
     }
