@@ -261,15 +261,8 @@ class ezcAuthenticationOpenidTest extends ezcAuthenticationTest
             $expected = "Could not redirect to 'http://www.myopenid.com/server?openid.return_to=http%3A%2F%2Flocalhost%2Fopenid.php%3Faction%3Dlogin%26openid_identifier%3Dhttp%253A%252F%252Fezc.myopenid.com%26nonce%3D859610&openid.trust_root=http%3A%2F%2Flocalhost&openid.identity=http%3A%2F%2Fezc.myopenid.com%2F&openid.mode=checkid_setup'. Most probably your browser does not support redirection or JavaScript.";
             $this->assertEquals( substr( $expected, 0, 192 ), substr( $result, 0, 192 ) );
 
-            // on Linux there are also the files '.' and '..'
-            if ( substr( php_uname( 's' ), 0, 7 ) === 'Windows' )
-            {
-                $this->assertEquals( 2, count( ezcAuthenticationOpenidFileStoreHelper::getFiles( $path ) ) );
-            }
-            else
-            {
-                $this->assertEquals( 4, count( ezcAuthenticationOpenidFileStoreHelper::getFiles( $path ) ) );
-            }
+            // expecting 4 files: '.', '..', association file and nonce file
+            $this->assertEquals( 4, count( ezcAuthenticationOpenidFileStoreHelper::getFiles( $path ) ) );
 
             $this->removeTempDir();
         }
