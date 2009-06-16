@@ -19,7 +19,7 @@ require_once 'client_test_rfc_setup.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavRfcClientTest extends ezcWebdavTestCase
+class ezcWebdavRfcClientTest extends ezcTestCase
 {
     public static function suite()
     {

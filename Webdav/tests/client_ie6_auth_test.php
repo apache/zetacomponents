@@ -19,7 +19,7 @@ require_once 'client_test_continuous_ie_auth_setup.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavIe6AuthClientTest extends ezcWebdavTestCase
+class ezcWebdavIe6AuthClientTest extends ezcTestCase
 {
     public static function suite()
     {

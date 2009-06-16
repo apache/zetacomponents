@@ -19,7 +19,7 @@ require_once 'client_test_continuous_lock_setup.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavCadaverLockClientTest extends ezcWebdavTestCase
+class ezcWebdavCadaverLockClientTest extends ezcTestCase
 {
     public static function suite()
     {

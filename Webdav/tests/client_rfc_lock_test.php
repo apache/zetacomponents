@@ -19,7 +19,7 @@ require_once 'client_test_rfc_lock_setup.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavRfcLockClientTest extends ezcWebdavTestCase
+class ezcWebdavRfcLockClientTest extends ezcTestCase
 {
     public static function suite()
     {

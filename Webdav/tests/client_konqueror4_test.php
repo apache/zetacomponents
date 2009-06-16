@@ -19,7 +19,7 @@ require_once 'client_test_continuous_setup.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavKonqueror4ClientTest extends ezcWebdavTestCase
+class ezcWebdavKonqueror4ClientTest extends ezcTestCase
 {
     public static function suite()
     {
