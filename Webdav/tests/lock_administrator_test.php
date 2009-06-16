@@ -9,7 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'test_case.php';
 require_once 'classes/test_auth.php';
 
 /**
@@ -18,7 +17,7 @@ require_once 'classes/test_auth.php';
  * @package Webdav
  * @version //autogen//
  */
-class ezcWebdavLockAdministratorTest extends ezcWebdavTestCase
+class ezcWebdavLockAdministratorTest extends ezcTestCase
 {
     protected $backend;
 

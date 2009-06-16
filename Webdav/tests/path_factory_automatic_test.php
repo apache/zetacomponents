@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Custom path factpory
@@ -25,7 +24,7 @@ require_once 'classes/test_path_factory.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavAutomaticPathFactoryTest extends ezcWebdavTestCase
+class ezcWebdavAutomaticPathFactoryTest extends ezcTestCase
 {
 	public static function suite()
 	{

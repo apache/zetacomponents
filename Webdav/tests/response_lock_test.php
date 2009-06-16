@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Tests for ezcWebdavLockResponse class.
@@ -20,7 +19,7 @@ require_once 'test_case.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavLockResponseTest extends ezcWebdavTestCase
+class ezcWebdavLockResponseTest extends ezcTestCase
 {
 	public static function suite()
 	{

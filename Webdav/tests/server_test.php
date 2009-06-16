@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Additional transport for testing. 
@@ -25,7 +24,7 @@ require_once 'classes/transport_test_mock.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavBasicServerTest extends ezcWebdavTestCase
+class ezcWebdavBasicServerTest extends ezcTestCase
 {
 	public static function suite()
 	{

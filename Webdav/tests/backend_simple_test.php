@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Tests for ezcWebdavSimpleBackend class.
@@ -24,7 +23,7 @@ require_once 'test_case.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavSimpleBackendTest extends ezcWebdavTestCase
+class ezcWebdavSimpleBackendTest extends ezcTestCase
 {
     protected $tempDir;
 

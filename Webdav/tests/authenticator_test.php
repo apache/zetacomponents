@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 require_once 'Webdav/tests/classes/test_auth.php';
 
@@ -22,7 +21,7 @@ require_once 'Webdav/tests/classes/test_auth.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavAuthenticatorTest extends ezcWebdavTestCase
+class ezcWebdavAuthenticatorTest extends ezcTestCase
 {
     private $oldServer;
 

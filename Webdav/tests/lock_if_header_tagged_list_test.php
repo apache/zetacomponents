@@ -18,7 +18,7 @@ require_once dirname( __FILE__ ) . '/property_test.php';
  * @version //autogen//
  * @subpackage Test
  */
-class ezcWebdavLockIfHeaderTaggedListTest extends ezcWebdavTestCase
+class ezcWebdavLockIfHeaderTaggedListTest extends ezcTestCase
 {
     public static function suite()
     {

@@ -9,7 +9,6 @@
  * @subpackage Test
  */
 
-require_once 'test_case.php';
 
 /**
  * Test case for the ezcWebdavLockPropertyHandler class.
@@ -18,7 +17,7 @@ require_once 'test_case.php';
  * @version //autogen//
  * @subpackage Test
  */
-class ezcWebdavLockPropertyHandlerTest extends ezcWebdavTestCase
+class ezcWebdavLockPropertyHandlerTest extends ezcTestCase
 {
     protected $propertyHandler;
 

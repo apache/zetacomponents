@@ -5,7 +5,6 @@ libxml_use_internal_errors( true );
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Require mocked version of ezcWebdavPluginConfiguration. 
@@ -61,7 +60,7 @@ class ezcWebdavMockedErrorResponse extends ezcWebdavErrorResponse
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavTransportTest extends ezcWebdavTestCase
+class ezcWebdavTransportTest extends ezcTestCase
 {
 	public static function suite()
 	{

@@ -9,7 +9,6 @@
  * @subpackage Test
  */
 
-require_once 'test_case.php';
 
 /**
  * Test case for the ezcWebdavLockPluginOptions class.
@@ -18,7 +17,7 @@ require_once 'test_case.php';
  * @version //autogen//
  * @subpackage Test
  */
-class ezcWebdavLockPluginOptionsTest extends ezcWebdavTestCase
+class ezcWebdavLockPluginOptionsTest extends ezcTestCase
 {
     public static function suite()
     {

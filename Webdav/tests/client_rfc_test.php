@@ -9,7 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'test_case.php';
 require_once 'client_test_suite.php';
 require_once 'client_test_rfc_setup.php';
 

@@ -5,7 +5,6 @@ libxml_use_internal_errors( true );
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Tests for ezcWebdavTransport class.

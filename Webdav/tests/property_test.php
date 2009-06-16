@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Tests for ezcWebdavBasicPathFactory class.
@@ -20,7 +19,7 @@ require_once 'test_case.php';
  * @package Webdav
  * @subpackage Tests
  */
-abstract class ezcWebdavPropertyTestCase extends ezcWebdavTestCase
+abstract class ezcWebdavPropertyTestCase extends ezcTestCase
 {
     /**
      * Array with default values.

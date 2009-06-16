@@ -9,7 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'test_case.php';
 require_once 'client_test_suite.php';
 require_once 'client_test_lockplugin_setup.php';
 
@@ -19,7 +18,7 @@ require_once 'client_test_lockplugin_setup.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavLockPluginTest extends ezcWebdavTestCase
+class ezcWebdavLockPluginTest extends ezcTestCase
 {
     public static function suite()
     {

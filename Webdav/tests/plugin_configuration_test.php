@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Require mocked version of ezcWebdavPluginConfiguration. 
@@ -25,7 +24,7 @@ require_once 'classes/custom_plugin_configuration.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavPluginConfigurationTest extends ezcWebdavTestCase
+class ezcWebdavPluginConfigurationTest extends ezcTestCase
 {
 	public static function suite()
 	{

@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Additional transport for testing. 
@@ -30,7 +29,7 @@ require_once 'classes/test_auth.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavServerAuthTest extends ezcWebdavTestCase
+class ezcWebdavServerAuthTest extends ezcTestCase
 {
     private $serverBase = array(
         'DOCUMENT_ROOT'   => '/var/www/localhost/htdocs',

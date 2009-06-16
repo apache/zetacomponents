@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Custom classes to test inheritence. 
@@ -25,7 +24,7 @@ require_once 'classes/foo_custom_classes.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavServerConfigurationManagerTest extends ezcWebdavTestCase
+class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
 {
 	public static function suite()
 	{

@@ -12,7 +12,6 @@
 /**
  * Reqiuire base test
  */
-require_once 'test_case.php';
 
 /**
  * Tests for ezcWebdavFileBackend class.
@@ -20,7 +19,7 @@ require_once 'test_case.php';
  * @package Webdav
  * @subpackage Tests
  */
-class ezcWebdavFileBackendTest extends ezcWebdavTestCase
+class ezcWebdavFileBackendTest extends ezcTestCase
 {
     const KEEP_TEMP_DIR = false;
 
