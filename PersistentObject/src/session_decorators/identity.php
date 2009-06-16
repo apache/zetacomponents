@@ -531,7 +531,7 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
             throw new ezcBaseValueException(
                 'class',
                 $class,
-                'must be present, if ezcQuerySelect is used for $query'
+                'string (mandatory, if ezcQuerySelect is used)'
             );
         }
 
@@ -924,7 +924,7 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
                 {
                     throw new ezcPersistentObjectAlreadyPersistentException( $class );
                 }
-                throw new ezcPersistentIdentityAlreadyExistsException( $class, $identity );
+                throw new ezcPersistentIdentityAlreadyExistsException( $class, $id );
             }
         }
 

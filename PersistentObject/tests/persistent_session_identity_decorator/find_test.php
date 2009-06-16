@@ -357,6 +357,55 @@ class ezcPersistentSessionIdentityDecoratorFindTest extends ezcPersistentSession
         );
     }
 
+    public function testFindIteratorFailureInvalidQueryParameterString()
+    {
+        try
+        {
+            $this->idSession->findIterator( 'foo' );
+            $this->fail( 'Exception not thrown on invalid query parameter.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals(
+                "The value 'foo' that you were trying to assign to setting 'query' is invalid. Allowed values are: ezcPersistentFindQuery (or ezcQuerySelect).",
+                $e->getMessage()
+            );
+        }
+    }
+
+    public function testFindIteratorFailureInvalidQueryParameterObject()
+    {
+        try
+        {
+            $this->idSession->findIterator( new stdClass() );
+            $this->fail( 'Exception not thrown on invalid query parameter.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals(
+                "The value 'O:8:\"stdClass\":0:{}' that you were trying to assign to setting 'query' is invalid. Allowed values are: ezcPersistentFindQuery (or ezcQuerySelect).",
+                $e->getMessage()
+            );
+        }
+    }
+
+    public function testFindIteratorFailureSelectQueryWithoutClass()
+    {
+        $q = $this->idSession->database->createSelectQuery();
+        try
+        {
+            $this->idSession->findIterator( $q );
+            $this->fail( 'Exception not thrown on invalid query parameter.' );
+        }
+        catch ( ezcBaseValueException $e )
+        {
+            $this->assertEquals(
+                "The value '' that you were trying to assign to setting 'class' is invalid. Allowed values are: string (mandatory, if ezcQuerySelect is used).",
+                $e->getMessage()
+            );
+        }
+    }
+
     // helpers
 
     protected function assertIteratorsSame( Iterator $expected, Iterator $actual, $message = null )

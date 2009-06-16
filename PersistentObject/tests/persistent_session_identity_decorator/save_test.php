@@ -285,6 +285,30 @@ class ezcPersistentSessionIdentityDecoratorSaveTest extends ezcPersistentSession
         $this->fail( "Exception not thrown on missing ID property." );
     }
 
+    public function testSaveFailDuplicateIdentity()
+    {
+        $object          = new PersistentTestObject();
+        $object->varchar = 'Finland';
+        $object->integer = 42;
+        $object->decimal = 1.42;
+        $object->text    = "Finland has Nokia!";
+
+        $secondObject = clone $object;
+
+        $this->idSession->save( $object );
+
+        $this->assertEquals( 5, $object->id );
+
+        $secondObject->id = 5;
+        
+        try
+        {
+            $this->idSession->save( $secondObject );
+            $this->fail( 'Exception not thrown on duplicate identity.' );
+        }
+        catch ( ezcPersistentIdentityAlreadyExistsException $e ) {}
+    }
+
     public function testConversionOnSave()
     {
         $obj = new PersistentTestObjectConverter();
