@@ -118,7 +118,7 @@ class ezcConsoleProgressbar
     protected $started = false;
 
     /**
-     * Tool object to perform binary safe string operations. 
+     * Tool object to perform multi-byte encoding safe string operations. 
      * 
      * @var ezcConsoleStringTool
      */

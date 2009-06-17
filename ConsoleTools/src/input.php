@@ -180,7 +180,7 @@ class ezcConsoleInput
     private $helpOptionSet = false;
 
     /**
-     * Tool object for binary safe string operations. 
+     * Tool object for multi-byte encoding safe string operations. 
      * 
      * @var ezcConsoleStringTool
      */

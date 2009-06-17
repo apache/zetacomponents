@@ -11,8 +11,8 @@
 /**
  * String tool class.
  *
- * Tool class for the ConsoleTools package. Contains binary save string
- * methods.
+ * Tool class for the ConsoleTools package. Contains multi-byte encoding save
+ * string methods.
  * 
  * @package ConsoleTools
  * @version //autogen//
@@ -23,11 +23,12 @@ class ezcConsoleStringTool
     /**
      * Binary safe wordwrap() replacement.
      *
-     * This method is a binary safe replacement for the PHP function
-     * wordwrap(). It mimics exactly the behavior of wordwrap(), but uses
-     * iconv_* functions with UTF-8 encoding, to be binary safe. The parameters
-     * received by this method equal the parameters of {@link
-     * http://php.net/wordwrap wordwrap()}.
+     * This method is a multi-byte encoding safe replacement for the PHP
+     * function wordwrap(). It mimics exactly the behavior of wordwrap(), but
+     * uses iconv_* functions with UTF-8 encoding. The parameters received by
+     * this method equal the parameters of {@link http://php.net/wordwrap
+     * wordwrap()}. Note: Make sure to only hand UTF-8 encoded content to this
+     * method.
      * 
      * @param string $str 
      * @param int $width 
@@ -121,10 +122,12 @@ class ezcConsoleStringTool
     /**
      * Binary safe str_pad() replacement.
      *
-     * This method is a binary safe replacement for the PHP function str_pad().
-     * It mimics exactly the behavior of str_pad(), but uses iconv_* functions
-     * with UTF-8 encoding, to be binary safe. The parameters received by this
-     * method equal the parameters of {@link http://php.net/str_pad str_pad()}.
+     * This method is a multi-byte encoding safe replacement for the PHP
+     * function str_pad().  It mimics exactly the behavior of str_pad(), but
+     * uses iconv_* functions with UTF-8 encoding. The parameters received by
+     * this method equal the parameters of {@link http://php.net/str_pad
+     * str_pad()}. Note: Make sure to hand only UTF-8 encoded content to this
+     * method.
      * 
      * @param string $input 
      * @param int $padLength 
