@@ -941,6 +941,50 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
+    public function testSetRelatedObjectsWithNameAlreadyExistReplaceIdentitiesSuccess()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+        
+        $oldRelatedObjects = array();
+        $oldRelatedObjects[42] = new RelationTestAddress();
+        $oldRelatedObjects[42]->id = 42;
+
+
+        $newRelatedObjects = array();
+        $newRelatedObjects[42] = new RelationTestAddress();
+        $newRelatedObjects[42]->id = 42;
+
+        $idMap->setIdentity( $obj );
+        $idMap->setIdentity( $oldRelatedObjects[42] );
+
+        $idMap->setRelatedObjectSet( $obj, $oldRelatedObjects, 'set_name' );
+
+        $this->assertSame(
+            $oldRelatedObjects[42],
+            $idMap->getIdentity( 'RelationTestAddress', 42 )
+        );
+        $this->assertNotSame(
+            $newRelatedObjects[42],
+            $idMap->getIdentity( 'RelationTestAddress', 42 )
+        );
+
+        $idMap->setRelatedObjectSet( $obj, $newRelatedObjects, 'set_name', true );
+
+        $this->assertNotSame(
+            $oldRelatedObjects[42],
+            $idMap->getIdentity( 'RelationTestAddress', 42 )
+        );
+        $this->assertSame(
+            $newRelatedObjects[42],
+            $idMap->getIdentity( 'RelationTestAddress', 42 )
+        );
+    }
+
     public function testSetRelatedObjectsInconsistentFailure()
     {
         $idMap = new ezcPersistentBasicIdentityMap(
@@ -1010,6 +1054,46 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
             count( $identities['RelationTestEmployer'][65]->references ),
             'Rel count of invalid object incorrect,'
         );
+    }
+
+    public function testSetUnnamedRelatedObjectsMissingIdentityFailure()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $relObj     = new RelationTestAddress();
+        $relObj->id = 42;
+        
+        try
+        {
+            $idMap->setRelatedObjects( $obj, array( $relObj ), 'RelationTestAddress' );
+            $this->fail( 'Exception not thrown on setting related objects for unknown identity.' );
+        }
+        catch ( ezcPersistentIdentityMissingException $e ) {}
+    }
+
+    public function testSetNamedRelatedObjectsSetMissingIdentityFailure()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $relObj     = new RelationTestAddress();
+        $relObj->id = 42;
+        
+        try
+        {
+            $idMap->setRelatedObjectSet( $obj, array( $relObj ), 'named_set' );
+            $this->fail( 'Exception not thrown on setting related objects for unknown identity.' );
+        }
+        catch ( ezcPersistentIdentityMissingException $e ) {}
     }
 
     /*
@@ -1449,7 +1533,27 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
-    public function testAddRelatedObjectMissingIdentityFailure()
+    public function testAddRelatedObjectMissingSrcIdentityFailure()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+        
+        $newRelatedObject     = new RelationTestAddress();
+        $newRelatedObject->id = 3;
+        
+        try
+        {
+            $idMap->addRelatedObject( $obj, $newRelatedObject );
+            $this->fail( 'Exception not thrown on setting related objects for unknown identity.' );
+        }
+        catch ( ezcPersistentIdentityMissingException $e ) {}
+    }
+
+    public function testAddRelatedObjectMissingDestIdentityFailure()
     {
         $idMap = new ezcPersistentBasicIdentityMap(
             $this->definitionManager
@@ -2182,6 +2286,26 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
+    public function testRemoveRelatedObjectMissingSrcIdentityFailure()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+        
+        $newRelatedObject     = new RelationTestAddress();
+        $newRelatedObject->id = 3;
+        
+        try
+        {
+            $idMap->removeRelatedObject( $obj, $newRelatedObject );
+            $this->fail( 'Exception not thrown on setting related objects for unknown identity.' );
+        }
+        catch ( ezcPersistentIdentityMissingException $e ) {}
+    }
+
     /*
      * getRelatedObjects()
      */
@@ -2317,6 +2441,36 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
         );
     }
 
+    public function testGetRelatedObjectsUnnamedSrcNotExistSuccess()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $this->assertEquals(
+            null,
+            $idMap->getRelatedObjects( $obj, 'RelationTestAddress' )
+        );
+    }
+
+    public function testGetRelatedObjectsNamedSrcNotExistSuccess()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $this->assertEquals(
+            null,
+            $idMap->getRelatedObjectSet( $obj,'set_name' )
+        );
+    }
+
     public function testGetRelatedObjectsUnnamedEmptySuccess()
     {
         $idMap = new ezcPersistentBasicIdentityMap(
@@ -2349,6 +2503,25 @@ class ezcPersistentBasicIdentityMapTest extends ezcTestCase
             null,
             $idMap->getRelatedObjectSet( $obj, 'set_name' )
         );
+    }
+
+    public function testGetRelatedObjectsUnknownClassFailure()
+    {
+        $idMap = new ezcPersistentBasicIdentityMap(
+            $this->definitionManager
+        );
+        
+        $obj     = new RelationTestPerson();
+        $obj->id = 23;
+
+        $idMap->setIdentity( $obj );
+
+        try
+        {
+            $idMap->getRelatedObjects( $obj, 'stdClass' );
+            $this->fail( 'Exception not thrown on access to related objects with missing relation.' );
+        }
+        catch ( ezcPersistentRelationNotFoundException $e ) {}
     }
 
     /*

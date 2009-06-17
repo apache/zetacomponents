@@ -53,6 +53,7 @@ require_once 'object/property_test.php';
 require_once 'object/id_property_test.php';
 require_once 'object/definition_test.php';
 require_once 'object/relations_test.php';
+require_once 'object/relation_collection_test.php';
 require_once 'object/properties_test.php';
 require_once 'object/columns_test.php';
 require_once 'object/property_date_time_converter_test.php';
@@ -120,6 +121,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentObjectRelationsTest::suite() );
         $this->addTest( ezcPersistentObjectPropertiesTest::suite() );
         $this->addTest( ezcPersistentObjectColumnsTest::suite() );
+        $this->addTest( ezcPersistentRelationCollectionTest::suite() );
 
         $this->addTest( ezcPersistentPropertyDateTimeConverterTest::suite() );
 
