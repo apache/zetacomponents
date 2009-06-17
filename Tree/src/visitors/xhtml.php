@@ -126,6 +126,30 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
     }
 
     /**
+     * Formats the path to the node
+     *
+     * @param array $child
+     */
+    protected function formatPath( $child )
+    {
+        $path = $child[2]->nodes;
+        if ( !$this->options->displayRootNode )
+        {
+            array_shift( $path );
+        }
+        if ( $this->options->selectedNodeLink )
+        {
+            $slice = array_slice( $path, -1 );
+            $path = htmlspecialchars( $this->options->basePath . '/' . array_pop( $slice ) );
+        }
+        else
+        {
+            $path = htmlspecialchars( $this->options->basePath . '/' . join( '/', $path ) );
+        }
+        return $path;
+    }
+
+    /**
      * Loops over the children of the node with ID $id.
      *
      * This methods loops over all the node's children and adds the correct
@@ -158,22 +182,9 @@ class ezcTreeVisitorXHTML implements ezcTreeVisitor
             $text .= "<ul{$idPart}>\n";
             foreach ( $children as $child )
             {
-                $path = $child[2]->nodes;
-                if ( !$this->options->displayRootNode )
-                {
-                    array_shift( $path );
-                }
-                if ( $this->options->selectedNodeLink )
-                {
-                    $slice = array_slice( $path, -1 );
-                    $path = htmlspecialchars( $this->options->basePath . '/' . array_pop( $slice ) );
-                }
-                else
-                {
-                    $path = htmlspecialchars( $this->options->basePath . '/' . join( '/', $path ) );
-                }
                 $text .= str_repeat( '  ', $level + 2 );
 
+                $path = $this->formatPath( $child );
                 $data = $this->formatData( $child[1], in_array( $child[0], $this->options->highlightNodeIds ) );
 
                 $linkStart = $linkEnd = '';
