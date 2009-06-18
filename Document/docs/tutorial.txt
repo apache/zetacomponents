@@ -731,8 +731,13 @@ page-orientation defines the orientation of a page. You can also address any
 page directly by its ID, which will be 'page_1' for the first page, or its
 class, which will be "right", or "left", depending on the current page number.
 
+A detailed description of all available `PDF style options`__ is available
+here__.
+
 __ http://en.wikipedia.org/wiki/Widows_and_orphans 
 __ measures
+__ Document_styles.html
+__ Document_styles.html
 
 Measures
 """"""""
