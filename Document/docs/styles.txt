@@ -70,11 +70,11 @@ font-family: <name>
 Defines the font used to render the text. Currently only the default PDF fonts
 are supported, which are:
 
-- ```serif```
-- ```sans-serif```
-- ```monospace```
-- ```Symbol```
-- ```ZapfDingbats```
+- ``serif``
+- ``sans-serif``
+- ``monospace``
+- ``Symbol``
+- ``ZapfDingbats``
 
 The option can be used like::
 
@@ -86,7 +86,7 @@ font-weight: <weight>
 ---------------------
 
 The font weight defines whether a font is printed bold or normal. Unlike CSS
-for now only two possible values are supported: ```bold``` and ```normal```.
+for now only two possible values are supported: ``bold`` and ``normal``.
 Some drivers might support additional values, though. Usage::
 
     emphasis {
@@ -97,7 +97,7 @@ font-style: <style>
 -------------------
 
 The font style property defines the style of the printed text. The possible
-values are ```normal``` and ```italic```. Usage::
+values are ``normal`` and ``italic``. Usage::
 
     emphasis {
         font-style: "italic";
@@ -112,10 +112,10 @@ text-align: <align>
 The text alignment defines the alignment of text inside a text block. The
 supported values are:
 
-- ```left```
-- ```right```
-- ```center```
-- ```justified```
+- ``left``
+- ``right``
+- ``center``
+- ``justified``
 
 It can be used like::
 
@@ -199,7 +199,7 @@ valid values for size definitions, which are: A0, A1, A2, A3, A4, A5, A6, A7,
 A8, A9, A10, B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, C0, C1, C2, C3, C4,
 C5, C6, C7, C8, C9, C10, RA0, RA1, RA2, RA3, RA4, SRA0, SRA1, SRA2, SRA3,
 SRA4, LETTER, LEGAL, EXECUTIVE, FOLIO. This setting applies only to the
-virtual ```page``` element, like::
+virtual ``page`` element, like::
 
     page {
         page-size: "A4";
@@ -209,8 +209,8 @@ page-orientation: <orientation>
 -------------------------------
 
 Defines the orientation of a page. There are only two valid values for this
-setting: ```landscape``` and ```portrait```. This setting applies only to the
-virtual ```page``` element, like::
+setting: ``landscape`` and ``portrait``. This setting applies only to the
+virtual ``page`` element, like::
 
     page {
         page-orientation: "portrait";
