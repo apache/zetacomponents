@@ -39,7 +39,6 @@ class ezcPersistentOneToManyRelationTest extends ezcTestCase
         {
             $this->markTestSkipped( 'There was no database configured' );
         }
-        xdebug_break();
         RelationTestEmployer::setupTables();
         RelationTestEmployer::insertData();
         $this->session = new ezcPersistentSession(
