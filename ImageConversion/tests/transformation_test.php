@@ -832,18 +832,24 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
         clearstatcache();
 
         $trans = new ezcImageTransformation( $this->converter, "test", array(), array( 'image/jpeg' ) );
+        $exceptionThrown = false;
         try
         {
             $trans->transform( $this->testFiles['png'], $dstFile );
-            $this->fail( 'Exception not throwen with not writeable file.' );
         }
         catch ( ezcImageFileNotProcessableException $e )
-        {}
+        {
+            $exceptionThrown = true;
+        }
         
         chmod( dirname( $dstFile ), 0777 );
         clearstatcache();
 
         $this->removeTempDir();
+        if ( !$exceptionThrown )
+        {
+            $this->fail( 'Exception not throwen with not writeable file.' );
+        }
     }
 
     public function testCreateTransformationFailureInvalidFilters()
