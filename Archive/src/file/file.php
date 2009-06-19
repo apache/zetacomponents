@@ -409,7 +409,12 @@ abstract class ezcArchiveFile implements Iterator
 
         if ( $this->fileMetaData["seekable"] )
         {
-            return fseek( $this->fp, $pos, $whence );
+            /**
+             * Ugh, for some reason fseek starts throwing warnings for
+             * zlib streams with SEEK_END. And there is no way to know this
+             * upfront, so we need to use @ here. #fail.
+             */
+            return @fseek( $this->fp, $pos, $whence );
         }
         else
         {
