@@ -828,6 +828,7 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
         $dstFile = "$tmpDir/non_writeable_png.png";
 
         touch( $dstFile );
+        chmod( $dstFile, 0444 );
         chmod( dirname( $dstFile ), 0555 );
         clearstatcache();
 
@@ -842,6 +843,7 @@ class ezcImageConversionTransformationTest extends ezcImageConversionTestCase
             $exceptionThrown = true;
         }
         
+        chmod( $dstFile, 0666 );
         chmod( dirname( $dstFile ), 0777 );
         clearstatcache();
 
