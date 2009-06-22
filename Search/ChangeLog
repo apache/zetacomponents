@@ -1,4 +1,4 @@
-1.0.5 - [RELEASEDATE]
+1.0.5 - Monday 22 June 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15085: ezcSearchZendLuceneHandler fails on writing index to
