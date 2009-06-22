@@ -1,3 +1,3 @@
-Template: 1.4beta1
-Translation: 1.3beta1
+Template: 1.4rc1
+Translation: 1.3rc1
 ConsoleTools: 1.5

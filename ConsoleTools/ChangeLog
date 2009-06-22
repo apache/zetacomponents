@@ -6,6 +6,7 @@
   Note that the component now depends on ext/iconv which is bundled with PHP
   and active by default.
 
+
 1.5.1 - Monday 11 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
