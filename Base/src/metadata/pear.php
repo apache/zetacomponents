@@ -61,6 +61,10 @@ class ezcBaseMetaDataPearReader
     public function getRequiredPhpVersion()
     {
         @$packageInfo = $this->registry->packageInfo( 'ezcomponents', null, 'components.ez.no' );
+        if ( array_key_exists( 'required', $packageInfo['dependencies'] ) )
+        {
+            return $packageInfo['dependencies']['required']['php']['min'];
+        }
         return $packageInfo['dependencies']['php']['min'];
     }
 

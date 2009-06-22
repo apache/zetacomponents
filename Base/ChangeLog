@@ -1,7 +1,8 @@
 1.7rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- No changes.
+- Fixed an issue with the PEAR reader as sometimes the returned structure is
+  different.
 
 
 1.7beta1 - Monday 08 June 2009
