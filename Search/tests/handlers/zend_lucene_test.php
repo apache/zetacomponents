@@ -28,12 +28,13 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
     {
         try
         {
-            if ( file_exists( '/tmp/lucene' ) )
+            $testDir = '/tmp/lucene';
+            if ( file_exists( $testDir ) )
             {
-                ezcBaseFile::removeRecursive( '/tmp/lucene' );
+                ezcBaseFile::removeRecursive( $testDir );
             }
-            mkdir( '/tmp/lucene' );
-            $this->backend = new ezcSearchZendLuceneHandler( "/tmp/lucene" );
+            mkdir( $testDir );
+            $this->backend = new ezcSearchZendLuceneHandler( $testDir );
         }
         catch ( ezcSearchCanNotConnectException $e )
         {
@@ -480,6 +481,8 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
+        self::assertEquals( true, array_key_exists( '4822deec4153d-one', $r->documents ) );
+        self::assertEquals( true, array_key_exists( '4822deec4153d-two', $r->documents ) );
         self::assertEquals( 'Test Article Twee', $r->documents['4822deec4153d-two']['document']->title );
     }
 

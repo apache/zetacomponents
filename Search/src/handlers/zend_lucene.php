@@ -39,6 +39,12 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
      */
     public function __construct( $location )
     {
+        /**
+         * We're using realpath here because Zend_Search_Lucene does not do
+         * that itself. It can cause issues because their destructor uses the
+         * same filename but the cwd could have been changed.
+         */
+        $location = realpath( $location );
         $this->connection = Zend_Search_Lucene::create( $location );
         $this->inTransaction = 0;
         if ( !$this->connection )
