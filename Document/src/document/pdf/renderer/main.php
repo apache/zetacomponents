@@ -200,9 +200,15 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
         // Inject custom element class, for style inferencing
         $dom = $document->getDomDocument();
-        $dom->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
 
-        $this->process( $dom );
+        // Reload the XML document with to a DOMDocument with a custom element
+        // class. Just registering it on the existing document seems not to
+        // work in all cases.
+        $reloaded = new DOMDocument();
+        $reloaded->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
+        $reloaded->loadXml( $dom->saveXml() );
+
+        $this->process( $reloaded );
         return $this->driver->save();
     }
 
