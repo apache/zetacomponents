@@ -232,7 +232,7 @@ class ezcDocumentPdf extends ezcDocument implements ezcDocumentErrorReporting
             $renderer->registerPdfPart( $part );
         }
 
-        $this->content = $renderer->render( $document, $this->options->hyphenator );
+        $this->content = $renderer->render( $document, $this->options->hyphenator, $this->options->tokenizer );
 
         // Merge errors from renderer
         $this->errors = array_merge(

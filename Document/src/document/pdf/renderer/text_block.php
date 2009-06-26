@@ -27,10 +27,11 @@ class ezcDocumentPdfTextBlockRenderer extends ezcDocumentPdfTextBoxRenderer
      *
      * @param float $width
      * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentPdfInferencableDomElement $text
      * @return float
      */
-    public function estimateHeight( $width, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text )
+    public function estimateHeight( $width, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $text )
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $text );
@@ -39,7 +40,7 @@ class ezcDocumentPdfTextBlockRenderer extends ezcDocumentPdfTextBoxRenderer
 
         // Iterate over tokens and try to fit them in the current line, use
         // hyphenator to split words.
-        $tokens = $this->tokenize( $text );
+        $tokens = $this->tokenize( $text, $tokenizer );
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $width );
 
         // Aggregate total height
@@ -64,17 +65,18 @@ class ezcDocumentPdfTextBlockRenderer extends ezcDocumentPdfTextBoxRenderer
      *
      * @param ezcDocumentPdfBoundingBox $space
      * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentPdfInferencableDomElement $text
      * @return void
      */
-    public function renderBlock( ezcDocumentPdfBoundingBox $space, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text )
+    public function renderBlock( ezcDocumentPdfBoundingBox $space, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $text )
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $text );
 
         // Iterate over tokens and try to fit them in the current line, use
         // hyphenator to split words.
-        $tokens = $this->tokenize( $text );
+        $tokens = $this->tokenize( $text, $tokenizer );
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
 
         // Try to render text into evaluated box

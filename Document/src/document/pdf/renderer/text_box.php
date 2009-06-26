@@ -30,12 +30,14 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      * Returns a boolean indicator whether the rendering of the full text
      * in the available space succeeded or not.
      *
-     * @param ezcDocumentPdfPage $page
-     * @param ezcDocumentPdfHyphenator $hyphenator
-     * @param ezcDocumentPdfInferencableDomElement $text
+     * @param ezcDocumentPdfPage $page 
+     * @param ezcDocumentPdfHyphenator $hyphenator 
+     * @param ezcDocumentPdfTokenizer $tokenizer 
+     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $text );
@@ -50,7 +52,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
 
         // Iterate over tokens and try to fit them in the current line, use
         // hyphenator to split words.
-        $tokens = $this->tokenize( $text );
+        $tokens = $this->tokenize( $text, $tokenizer );
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
 
         // Try to render text into evaluated box
@@ -169,32 +171,35 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         $lineWidth = 0;
         foreach ( $line['tokens'] as $token )
         {
-            $lineWidth += $token['width'];
+            if ( !is_int( $token['word'] ) )
+            {
+                $lineWidth += $token['width'];
+            }
         }
 
         switch ( $styles['text-align']->value )
         {
             case 'center':
-                $offset = ( $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth ) ) / 2;
+                $offset = ( $space->width - $lineWidth - ( $line['spaces'] * $spaceWidth ) ) / 2;
                 break;
             case 'right':
-                $offset = $space->width - $lineWidth - ( count( $line['tokens'] ) * $spaceWidth );
+                $offset = $space->width - $lineWidth - ( $line['spaces'] * $spaceWidth );
                 break;
             case 'justify':
                 $offset = 0;
                 switch ( true )
                 {
-                    case $number === ( count( $line['tokens'] ) - 1 ):
-                        // Just default space width in last line of a
+                    case $number === $line['words']:
+                        // Just use common space width in last line of a
                         // paragraph
                         $spaceWidth = $this->driver->calculateWordWidth( ' ' );
                         break;
-                    case count( $line['tokens'] ) <= 1:
+                    case $line['words'] <= 1:
                         // Space width is irrelevant, if only one token is
                         // in the line
                         break;
                     default:
-                        $spaceWidth = ( $space->width - $lineWidth ) / ( count( $line['tokens'] ) - 1 );
+                        $spaceWidth = ( $space->width - $lineWidth ) / ( $line['spaces'] - 1 );
                 }
             default:
                 $offset = 0;
@@ -204,15 +209,22 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         $xPos = $space->x + $offset;
         foreach ( $line['tokens'] as $token )
         {
-            // Apply current styles
-            foreach ( $token['style'] as $style => $value )
+            if ( $token['word'] === ezcDocumentPdfTokenizer::SPACE )
             {
-                $this->driver->setTextFormatting( $style, $value->value );
+                $xPos += $spaceWidth;
             }
+            else if ( is_string( $token['word'] ) )
+            {
+                // Apply current styles
+                foreach ( $token['style'] as $style => $value )
+                {
+                    $this->driver->setTextFormatting( $style, $value->value );
+                }
 
-            // Render word
-            $this->driver->drawWord( $xPos, $position + $line['height'], $token['word'] );
-            $xPos += $token['width'] + $spaceWidth;
+                // Render word
+                $this->driver->drawWord( $xPos, $position + $line['height'], $token['word'] );
+                $xPos += $token['width'];
+            }
         }
 
         return $line['height'];
@@ -230,9 +242,10 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      * elements.
      *
      * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentPdfTokenizer $tokenizer
      * @return array
      */
-    protected function tokenize( ezcDocumentPdfInferencableDomElement $element )
+    protected function tokenize( ezcDocumentPdfInferencableDomElement $element, ezcDocumentPdfTokenizer $tokenizer )
     {
         $tokens = array();
         $rules  = $this->styles->inferenceFormattingRules( $element, ezcDocumentPdfStyleInferencer::TEXT );
@@ -242,7 +255,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             {
                 // case XML_CDATA_SECTION_NODE:
                 case XML_TEXT_NODE:
-                    $words = preg_split( '(\\s+)', trim( $child->textContent ) );
+                    $words = $tokenizer->tokenize( $child->textContent );
                     foreach ( $words as $word )
                     {
                         $tokens[] = array(
@@ -255,7 +268,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                 case XML_ELEMENT_NODE:
                     $tokens = array_merge(
                         $tokens,
-                        $this->tokenize( $child )
+                        $this->tokenize( $child, $tokenizer )
                     );
                     break;
             }
@@ -281,15 +294,33 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         $lines    = array( array(
             'tokens' => array(),
             'height' => 0,
+            'words'  => 0,
+            'spaces' => 0,
         ) );
         $line     = 0;
         $consumed = 0;
         while ( $token = array_shift( $tokens ) )
         {
+            // Pure wrapping tokens are irrleveant to width calculation
+            if ( $token['word'] === ezcDocumentPdfTokenizer::WRAP )
+            {
+                continue;
+            }
+
             // Apply current styles
             foreach ( $token['style'] as $style => $value )
             {
                 $this->driver->setTextFormatting( $style, $value->value );
+            }
+
+            // Just add space to consumed wird width
+            if ( $token['word'] === ezcDocumentPdfTokenizer::SPACE )
+            {
+                $consumed += $width = $this->driver->calculateWordWidth( ' ' );
+                $token['width']           = $width;
+                $lines[$line]['tokens'][] = $token;
+                $lines[$line]['spaces']++;
+                continue;
             }
 
             if ( ( $consumed + ( $width = $this->driver->calculateWordWidth( $token['word'] ) ) ) < $available )
@@ -298,7 +329,8 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                 $token['width']           = $width;
                 $lines[$line]['tokens'][] = $token;
                 $lines[$line]['height']   = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
-                $consumed                += $width + $this->driver->calculateWordWidth( ' ' );
+                $lines[$line]['words']++;
+                $consumed                += $width;
                 continue;
             }
 
@@ -316,7 +348,8 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                     $token['word']            = $hyphen[0];
                     $lines[$line]['tokens'][] = $token;
                     $lines[$line]['height']   = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
-                    $consumed                += $width + $this->driver->calculateWordWidth( ' ' );
+                    $lines[$line]['words']++;
+                    $consumed                += $width;
                     continue 2;
                 }
             }
@@ -326,8 +359,10 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             $lines[++$line] = array(
                 'tokens' => array( $token ),
                 'height' => $this->driver->getCurrentLineHeight(),
+                'words'  => 1,
+                'spaces' => 0,
             );
-            $consumed       = $width + $this->driver->calculateWordWidth( ' ' );
+            $consumed = $width;
         }
 
         return $lines;

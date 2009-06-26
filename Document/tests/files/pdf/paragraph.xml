@@ -6,5 +6,6 @@
     <para>Paragraphs are separated by blank lines and are left-aligned.</para>
     <para>Paragraphs are <emphasis>separated</emphasis> by blank lines and are left-aligned.</para>
     <para>Paragraphs contain text and may contain inline markup: <emphasis>emphasis</emphasis>, <emphasis Role="strong">strong emphasis</emphasis>, or <emphasis>both <emphasis Role="strong">stacked.</emphasis></emphasis>.</para>
+    <para>Spaces *<emphasis>should not</emphasis>* be introduced by markup.</para>
   </section>
 </article>

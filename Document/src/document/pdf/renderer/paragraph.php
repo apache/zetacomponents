@@ -30,12 +30,14 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
      * Returns a boolean indicator whether the rendering of the full text
      * in the available space succeeded or not.
      *
-     * @param ezcDocumentPdfPage $page
-     * @param ezcDocumentPdfHyphenator $hyphenator
-     * @param ezcDocumentPdfInferencableDomElement $text
+     * @param ezcDocumentPdfPage $page 
+     * @param ezcDocumentPdfHyphenator $hyphenator 
+     * @param ezcDocumentPdfTokenizer $tokenizer 
+     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $text );
@@ -50,7 +52,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
 
         // Iterate over tokens and try to fit them in the current line, use
         // hyphenator to split words.
-        $tokens = $this->tokenize( $text );
+        $tokens = $this->tokenize( $text, $tokenizer );
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
 
         // Evaluate horizontal starting position

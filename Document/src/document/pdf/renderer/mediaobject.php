@@ -23,14 +23,14 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
     /**
      * Render a media object
      *
-     *
-     * @param ezcDocumentPdfPage $page
-     * @param ezcDocumentPdfHyphenator $hyphenator
-     * @param ezcDocumentPdfInferencableDomElement $media
-     * @param ezcDocumentPdfMainRenderer $mainRenderer
-     * @return void
+     * @param ezcDocumentPdfPage $page 
+     * @param ezcDocumentPdfHyphenator $hyphenator 
+     * @param ezcDocumentPdfTokenizer $tokenizer 
+     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentPdfMainRenderer $mainRenderer 
+     * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfInferencableDomElement $media, ezcDocumentPdfMainRenderer $mainRenderer )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $media, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $media );
@@ -72,7 +72,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
         $textRenderer  = new ezcDocumentPdfTextBlockRenderer( $this->driver, $this->styles );
         foreach ( $captions as $caption )
         {
-            $captionHeight += $textRenderer->estimateHeight( $space->width, $hyphenator, $caption );
+            $captionHeight += $textRenderer->estimateHeight( $space->width, $hyphenator, $tokenizer, $caption );
         }
 
         if ( ( $imageHeight = ( $space->height - $captionHeight ) ) < 0 )
@@ -98,7 +98,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
         // Render captions
         foreach ( $captions as $caption )
         {
-            $space->y += $textRenderer->renderBlock( $space, $hyphenator, $caption );
+            $space->y += $textRenderer->renderBlock( $space, $hyphenator, $tokenizer, $caption );
         }
 
         // Set covered space covered

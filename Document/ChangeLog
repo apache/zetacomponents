@@ -5,6 +5,7 @@
 - Fixed: Registering of custom node class does sometimes not work on existing
   documents.
 - Fixed: Overlapping text on widdow backtracking
+- Fixed: Do not introduce spaces before punctuation on inline markup.
 
 
 1.2rc1 - Monday 22 June 2009

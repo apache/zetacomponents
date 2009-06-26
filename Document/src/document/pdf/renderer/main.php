@@ -29,6 +29,13 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     protected $hyphenator;
 
     /**
+     * Tokenizer used to split up strings into words
+     *
+     * @var ezcDocumentPdfTokenizer
+     */
+    protected $tokenizer;
+
+    /**
      * Document to render
      *
      * @var ezcDocumentDocbook
@@ -190,13 +197,14 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * Returns the rendered PDF as string
      *
      * @param ezcDocumentDocbook $document
-     * @param ezcDocumentPdfHyphenator $hypenator
+     * @param ezcDocumentPdfHyphenator $hyphenator
      * @return string
      */
-    public function render( ezcDocumentDocbook $document, ezcDocumentPdfHyphenator $hypenator = null )
+    public function render( ezcDocumentDocbook $document, ezcDocumentPdfHyphenator $hyphenator = null, ezcDocumentPdfTokenizer $tokenizer = null )
     {
-        $this->hypenator = $hypenator !== null ? $hypenator : new ezcDocumentPdfDefaultHyphenator();
-        $this->document  = $document;
+        $this->hyphenator = $hyphenator !== null ? $hyphenator : new ezcDocumentPdfDefaultHyphenator();
+        $this->tokenizer  = $tokenizer !== null ? $tokenizer : new ezcDocumentPdfDefaultTokenizer();
+        $this->document   = $document;
 
         // Inject custom element class, for style inferencing
         $dom = $document->getDomDocument();
@@ -391,7 +399,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
-        if ( $renderer->render( $page, $this->hypenator, $element, $this ) )
+        if ( $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
         {
             $this->titleTransaction = null;
             return true;
@@ -439,7 +447,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
             'xPos'        => $page->x,
             'position'    => $position,
         );
-        if ( $renderer->render( $page, $this->hypenator, $element, $this ) )
+        if ( $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
         {
             return true;
         }
@@ -466,7 +474,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
-        $renderer->render( $page, $this->hypenator, $element, $this );
+        $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
     }
 }
 

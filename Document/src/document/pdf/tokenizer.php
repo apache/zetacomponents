@@ -39,7 +39,7 @@ abstract class ezcDocumentPdfTokenizer
      *
      * - self:SPACE: The renderer might render a space
      * - self:WRAP: The renderer might wrap the line at this position, but will
-     *   not render spaces.
+     *   not render spaces, might as well just be omitted.
      *
      * A possible splitting of an english sentence might look like:
      *

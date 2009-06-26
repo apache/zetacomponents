@@ -16,10 +16,8 @@
       <text x="43.3050mm" y="46.1111mm" style="font-size: 20.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">UI</text>
       <text x="52.4067mm" y="46.1111mm" style="font-size: 20.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">communication</text>
       <text x="16.0000mm" y="57.3444mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Contents</text>
-      <text x="16.0000mm" y="74.6944mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="18.7305mm" y="74.6944mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">1.</text>
       <text x="26.9220mm" y="74.6944mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Description</text>
-      <text x="59.6880mm" y="74.6944mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="16.0000mm" y="85.9278mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">This</text>
       <text x="25.1017mm" y="85.9278mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">document</text>
       <text x="41.4847mm" y="85.9278mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">describes</text>
@@ -94,10 +92,8 @@
       <text x="172.5487mm" y="102.8611mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">specific</text>
       <text x="16.0000mm" y="107.0944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">design</text>
       <text x="28.7423mm" y="107.0944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">decisions.</text>
-      <text x="16.0000mm" y="124.4444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="18.7305mm" y="124.4444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">1.1</text>
       <text x="29.6525mm" y="124.4444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Issues</text>
-      <text x="48.7660mm" y="124.4444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="16.0000mm" y="135.6778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">1.</text>
       <text x="21.4610mm" y="135.6778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">The</text>
       <text x="28.7423mm" y="135.6778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">handling</text>
@@ -152,18 +148,12 @@
       <text x="37.8440mm" y="148.3778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">need</text>
       <text x="46.9457mm" y="148.3778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">to</text>
       <text x="52.4067mm" y="148.3778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">do.</text>
-      <text x="16.0000mm" y="165.7278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="18.7305mm" y="165.7278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">2.</text>
       <text x="26.9220mm" y="165.7278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Requirements</text>
-      <text x="62.4185mm" y="165.7278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
-      <text x="16.0000mm" y="186.0778mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="18.7305mm" y="186.0778mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">3.</text>
       <text x="26.9220mm" y="186.0778mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Terminology</text>
-      <text x="59.6880mm" y="186.0778mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
-      <text x="16.0000mm" y="206.4278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="18.7305mm" y="206.4278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">4.</text>
       <text x="26.9220mm" y="206.4278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Security</text>
-      <text x="51.4965mm" y="206.4278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="16.0000mm" y="217.6611mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">It</text>
       <text x="21.4610mm" y="217.6611mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">is</text>
       <text x="26.9220mm" y="217.6611mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">expected</text>
@@ -192,13 +182,11 @@
       <text x="130.6810mm" y="221.8944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">the</text>
       <text x="137.9623mm" y="221.8944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">debugging</text>
       <text x="156.1657mm" y="221.8944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">session.</text>
-      <text x="16.0000mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="18.7305mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">5.</text>
       <text x="26.9220mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">Initiating</text>
       <text x="56.9575mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">a</text>
       <text x="62.4185mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">debugging</text>
       <text x="89.7235mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;">session</text>
-      <text x="111.5675mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none;"></text>
       <text x="16.0000mm" y="250.4778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">The</text>
       <text x="23.2813mm" y="250.4778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">debugger</text>
       <text x="39.6643mm" y="250.4778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">engine</text>
