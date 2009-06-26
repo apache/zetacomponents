@@ -13,6 +13,8 @@
  *
  * @property ezcDocumentPdfHyphenator $hyphenator
  *           Hyphenator to use for word hyphenation
+ * @property ezcDocumentPdfTokenizer $tokenizer
+ *           Tokenizer used to split strings into single words
  * @property ezcDocumentPdfDriver $driver
  *           Driver used to generate the actual PDF
  * @property int $errorReporting
@@ -37,7 +39,8 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
     public function __construct( array $options = array() )
     {
         $this->errorReporting = 15; // E_PARSE | E_ERROR | E_WARNING | E_NOTICE
-        $this->hyphenator = new ezcDocumentPdfDefaultHyphenator();
+        $this->hyphenator     = new ezcDocumentPdfDefaultHyphenator();
+        $this->tokenizer      = new ezcDocumentPdfDefaultTokenizer();
 
         // @TODO: There might be a better default:
         $this->driver     = new ezcDocumentPdfHaruDriver();
@@ -64,6 +67,15 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
                 if ( !$value instanceof ezcDocumentPdfHyphenator )
                 {
                     throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentPdfHyphenator' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'tokenizer':
+                if ( !$value instanceof ezcDocumentPdfTokenizer )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentPdfTokenizer' );
                 }
 
                 $this->properties[$name] = $value;

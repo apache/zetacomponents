@@ -49,6 +49,7 @@ require 'document_pdf_driver_haru_tests.php';
 require 'document_pdf_driver_tcpdf_tests.php';
 require 'document_pdf_driver_transactions_tests.php';
 require 'document_pdf_hyphenator_tests.php';
+require 'document_pdf_tokenizer_tests.php';
 require 'document_pdf_location_id_tests.php';
 require 'document_pdf_match_location_id_tests.php';
 require 'document_pdf_measure_tests.php';
@@ -112,6 +113,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfDriverTcpdfTests::suite() );
         $this->addTest( ezcDocumentPdfTransactionalDriverWrapperTests::suite() );
         $this->addTest( ezcDocumentPdfHyphenatorTests::suite() );
+        $this->addTest( ezcDocumentPdfTokenizerTests::suite() );
         $this->addTest( ezcDocumentPdfLocationIdTests::suite() );
         $this->addTest( ezcDocumentPdfMatchLocationIdTests::suite() );
         $this->addTest( ezcDocumentPdfMeasureTests::suite() );
