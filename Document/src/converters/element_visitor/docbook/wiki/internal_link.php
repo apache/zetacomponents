@@ -32,8 +32,8 @@ class ezcDocumentDocbookToWikiInternalLinkHandler extends ezcDocumentDocbookToWi
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        $root .= ' `' . $converter->visitChildren( $node, '' ) . '`__';
-        $converter->appendLink( $node->getAttribute( 'linked' ) . '_' );
+        // There is no way to represent internal links in Creole markup, so we
+        // just ignore them for now.
         return $root;
     }
 }
