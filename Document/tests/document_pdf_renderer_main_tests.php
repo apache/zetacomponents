@@ -446,6 +446,33 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
             $this->tempDir . $fileName
         );
     }
+
+    public function testRenderLongTextParagraphConflict()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/test_long_wrapping.xml' );
+
+        $style = new ezcDocumentPdfStyleInferencer();
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            $style
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        file_put_contents(
+            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
+            $pdf
+        );
+    
+        $this->assertXmlFileEqualsXmlFile(
+            $this->basePath . 'renderer/' . $fileName,
+            $this->tempDir . $fileName
+        );
+    }
 }
 
 ?>

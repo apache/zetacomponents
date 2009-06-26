@@ -118,6 +118,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
                 // Revert the two last transactions
                 array_pop( $transactions );
                 $this->driver->revert( array_pop( $transactions ) );
+                $page = $this->driver->currentPage();
                 $space = $this->evaluateAvailableBoundingBox( $page, $styles, $width );
                 $yPos  = $space->y + $styles['margin']->value['top'];
             }

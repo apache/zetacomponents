@@ -4,6 +4,7 @@
 - Fixed: Handling of internal links in wiki writer.
 - Fixed: Registering of custom node class does sometimes not work on existing
   documents.
+- Fixed: Overlapping text on widdow backtracking
 
 
 1.2rc1 - Monday 22 June 2009
