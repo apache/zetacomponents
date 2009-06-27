@@ -293,7 +293,8 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             $tokens = array_values( $tokens );
 
             // Remove optional starting spaces
-            if ( $tokens[0]['word'] === ezcDocumentPdfTokenizer::SPACE )
+            if ( count( $tokens ) &&
+                 ( $tokens[0]['word'] === ezcDocumentPdfTokenizer::SPACE ) )
             {
                 $tokens = array_slice( $tokens, 1 );
             }
