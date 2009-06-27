@@ -42,6 +42,22 @@
       <text x="170.7283mm" y="68.1667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">both</text>
       <text x="16.0000mm" y="72.4000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">stacked.</text>
       <text x="30.5627mm" y="72.4000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">.</text>
+      <text x="16.0000mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Spaces</text>
+      <text x="28.7423mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">*</text>
+      <text x="30.5627mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">should</text>
+      <text x="43.3050mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">not</text>
+      <text x="48.7660mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">*</text>
+      <text x="52.4067mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">be</text>
+      <text x="57.8677mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">introduced</text>
+      <text x="77.8913mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">by</text>
+      <text x="83.3523mm" y="80.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">markup.</text>
+      <text x="16.0000mm" y="88.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">Spaces</text>
+      <text x="28.7423mm" y="88.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">should</text>
+      <text x="41.4847mm" y="88.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none;">not</text>
+      <text x="48.7660mm" y="88.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">be</text>
+      <text x="54.2270mm" y="88.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">doubled</text>
+      <text x="68.7897mm" y="88.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">around</text>
+      <text x="81.5320mm" y="88.8667mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none;">markup.</text>
     </g>
   </g>
 </svg>
