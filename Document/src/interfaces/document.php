@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocument
+abstract class ezcDocument implements ezcDocumentErrorReporting
 {
     /**
      * XML document base options.
@@ -31,6 +31,13 @@ abstract class ezcDocument
     protected $path = './';
 
     /**
+     * Errors occured during the conversion process
+     * 
+     * @var array
+     */
+    protected $errors = array();
+
+    /**
      * Construct new document
      *
      * @param ezcDocumentOptions $options
@@ -40,6 +47,46 @@ abstract class ezcDocument
         $this->options = ( $options === null ?
             new ezcDocumentOptions() :
             $options );
+    }
+
+    /**
+     * Trigger visitor error
+     *
+     * Emit a vistitor error, and convert it to an exception depending on the
+     * error reporting settings.
+     *
+     * @param int $level
+     * @param string $message
+     * @param string $file
+     * @param int $line
+     * @param int $position
+     * @return void
+     */
+    public function triggerError( $level, $message, $file = null, $line = null, $position = null )
+    {
+        if ( $level & $this->options->errorReporting )
+        {
+            throw new ezcDocumentVisitException( $level, $message, $file, $line, $position );
+        }
+        else
+        {
+            // If the error should not been reported, we aggregate it to maybe
+            // display it later.
+            $this->errors[] = new ezcDocumentVisitException( $level, $message, $file, $line, $position );
+        }
+    }
+
+    /**
+     * Return list of errors occured during visiting the document.
+     *
+     * May be an empty array, if on errors occured, or a list of
+     * ezcDocumentVisitException objects.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 
     /**

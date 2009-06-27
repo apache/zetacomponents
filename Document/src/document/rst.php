@@ -75,7 +75,7 @@
  * @version //autogen//
  * @mainclass
  */
-class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, ezcDocumentValidation
+class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, ezcDocumentValidation, ezcDocumentErrorReporting
 {
     /**
      * Registered directives
@@ -272,6 +272,13 @@ class ezcDocumentRst extends ezcDocument implements ezcDocumentXhtmlConversion, 
             $visitor->visit( $this->ast, $this->path )
         );
         $document->setPath( $this->path );
+
+        // Merge errors from converter
+        $this->errors = array_merge(
+            $this->errors,
+            $parser->getErrors(),
+            $visitor->getErrors()
+        );
 
         return $document;
     }

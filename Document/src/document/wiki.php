@@ -202,6 +202,13 @@ class ezcDocumentWiki extends ezcDocument implements ezcDocumentValidation
         );
         $document->setPath( $this->path );
 
+        // Merge errors from converter
+        $this->errors = array_merge(
+            $this->errors,
+            $parser->getErrors(),
+            $visitor->getErrors()
+        );
+
         return $document;
     }
 

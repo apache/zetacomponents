@@ -52,7 +52,7 @@
  * @version //autogen//
  * @mainclass
  */
-class ezcDocumentPdf extends ezcDocument implements ezcDocumentErrorReporting
+class ezcDocumentPdf extends ezcDocument
 {
     /**
      * Container for style directives.
@@ -67,13 +67,6 @@ class ezcDocumentPdf extends ezcDocument implements ezcDocumentErrorReporting
      * @var string
      */
     protected $content;
-
-    /**
-     * Errors occured during the conversion process
-     * 
-     * @var array
-     */
-    protected $errors = array();
 
     /**
      * List of PDF parts to append to documents
@@ -96,46 +89,6 @@ class ezcDocumentPdf extends ezcDocument implements ezcDocumentErrorReporting
             $options );
 
         $this->styles   = new ezcDocumentPdfStyleInferencer();
-    }
-
-    /**
-     * Trigger visitor error
-     *
-     * Emit a vistitor error, and convert it to an exception depending on the
-     * error reporting settings.
-     *
-     * @param int $level
-     * @param string $message
-     * @param string $file
-     * @param int $line
-     * @param int $position
-     * @return void
-     */
-    public function triggerError( $level, $message, $file = null, $line = null, $position = null )
-    {
-        if ( $level & $this->options->errorReporting )
-        {
-            throw new ezcDocumentVisitException( $level, $message, $file, $line, $position );
-        }
-        else
-        {
-            // If the error should not been reported, we aggregate it to maybe
-            // display it later.
-            $this->errors[] = new ezcDocumentVisitException( $level, $message, $file, $line, $position );
-        }
-    }
-
-    /**
-     * Return list of errors occured during visiting the document.
-     *
-     * May be an empty array, if on errors occured, or a list of
-     * ezcDocumentVisitException objects.
-     *
-     * @return array
-     */
-    public function getErrors()
-    {
-        return $this->errors;
     }
 
     /**
