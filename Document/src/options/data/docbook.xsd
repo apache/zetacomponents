@@ -68,22 +68,23 @@
 	<complexType name="inline" mixed="true">
 		<sequence minOccurs="0" maxOccurs="unbounded">
 			<choice>
+                <element name="abbrev"            type="doc:inline" />
                 <element name="acronym"           type="doc:inline" />
                 <element name="anchor"            type="doc:inline" />
                 <element name="author"            type="doc:inline" />
                 <element name="citation"          type="doc:inline" />
+                <element name="citetitle"         type="doc:inline" />
                 <element name="email"             type="doc:inline" />
                 <element name="emphasis"          type="doc:inline" />
-                <element name="footnote"          type="doc:footnote" />
                 <element name="footnoteref"       type="doc:inline" />
+                <element name="footnote"          type="doc:footnote" />
                 <element name="inlinemediaobject" type="doc:mediaobject" />
+                <element name="link"              type="doc:link" />
                 <element name="literal"           type="doc:inline" />
                 <element name="quote"             type="doc:inline" />
                 <element name="subscript"         type="doc:inline" />
                 <element name="superscript"       type="doc:inline" />
-                <element name="link"              type="doc:link" />
                 <element name="ulink"             type="doc:ulink" />
-                <element name="citetitle"         type="doc:inline" />
 			</choice>
 		</sequence>
 		<attributeGroup ref="doc:common" />
