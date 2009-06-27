@@ -39,12 +39,12 @@ class ezcDocumentDocbookToRstItemizedListHandler extends ezcDocumentDocbookToRst
             if ( ( $child->nodeType === XML_ELEMENT_NODE ) &&
                  ( $child->tagName === 'listitem' ) )
             {
-                $root .= str_repeat( ' ', ezcDocumentDocbookToRstConverter::$indentation - 2 ) . $converter->options->itemListCharacter . ' ' .
+                $root .= str_repeat( ' ', max( 0, ezcDocumentDocbookToRstConverter::$indentation - 2 ) ) . $converter->options->itemListCharacter . ' ' .
                     trim( $converter->visitChildren( $child, '' ) ) . "\n\n";
             }
         }
 
-        ezcDocumentDocbookToRstConverter::$indentation -= 2;
+        ezcDocumentDocbookToRstConverter::$indentation = max( 0, ezcDocumentDocbookToRstConverter::$indentation - 2 );
         return $root;
     }
 }

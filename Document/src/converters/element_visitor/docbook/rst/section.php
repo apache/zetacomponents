@@ -43,6 +43,11 @@ class ezcDocumentDocbookToRstSectionHandler extends ezcDocumentDocbookToRstBaseH
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
+        if ( ezcDocumentDocbookToRstConverter::$indentation > 0 )
+        {
+            $converter->triggerError( E_WARNING, "Indented section found, cannot be represented in RST." );
+        }
+
         // Reset indenteation level, ever we reach a new section
         ezcDocumentDocbookToRstConverter::$indentation = 0;
 
