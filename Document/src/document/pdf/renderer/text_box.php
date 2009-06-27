@@ -245,7 +245,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfTokenizer $tokenizer
      * @return array
      */
-    protected function tokenize( ezcDocumentPdfInferencableDomElement $element, ezcDocumentPdfTokenizer $tokenizer )
+    protected function tokenize( ezcDocumentPdfInferencableDomElement $element, ezcDocumentPdfTokenizer $tokenizer, $recursed = false )
     {
         $tokens = array();
         $rules  = $this->styles->inferenceFormattingRules( $element, ezcDocumentPdfStyleInferencer::TEXT );
@@ -268,9 +268,34 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                 case XML_ELEMENT_NODE:
                     $tokens = array_merge(
                         $tokens,
-                        $this->tokenize( $child, $tokenizer )
+                        $this->tokenize( $child, $tokenizer, true )
                     );
                     break;
+            }
+        }
+
+        if ( !$recursed )
+        {
+            // Remove double spaces
+            foreach ( $tokens as $nr => $token )
+            {
+                if ( ( $token['word'] === ezcDocumentPdfTokenizer::SPACE ) &&
+                     isset( $tokens[$nr + 1] ) &&
+                     ( $tokens[$nr + 1]['word'] === ezcDocumentPdfTokenizer::SPACE ) )
+                {
+                    $i = 1;
+                    do {
+                        unset( $tokens[$nr + $i] );
+                    } while ( isset( $tokens[$nr + ( ++$i )] ) &&
+                              ( $tokens[$nr + $i]['word'] === ezcDocumentPdfTokenizer::SPACE ) );
+                }
+            }
+            $tokens = array_values( $tokens );
+
+            // Remove optional starting spaces
+            if ( $tokens[0]['word'] === ezcDocumentPdfTokenizer::SPACE )
+            {
+                $tokens = array_slice( $tokens, 1 );
             }
         }
 
