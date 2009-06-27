@@ -8,24 +8,22 @@ Microsoft pledges love and money to open source | The Register    </title>
     <section>
       <title>Ponies up to Apache, endorses LGPL</title>
       <para>By </para>
-      <ulink url="http://forms.theregister.co.uk/mail_author/?story_url=/2008/07/25/microsoft_gpl/">Gavin Clarke in San Francisco</ulink>
+      <para>Gavin Clarke in San Francisco</para>
       <para>→ </para>
-      <ulink url="http://search.theregister.co.uk/?author=Gavin%20Clarke">More by this author</ulink>
+      <para>More by this author</para>
       <para>Published Friday 25th July 2008 18:02 GMT</para>
       <beginpage/>
-      <ulink url="http://go.theregister.co.uk/c/td/ttl/http%3A//www.theregister.co.uk/Page/security200803/">Nail down your security priorities. Ask the experts and your peers at The Register Security Debate, September 24 2008.</ulink>
+      <para>Nail down your security priorities. Ask the experts and your peers at The Register Security Debate, September 24 2008.</para>
       <para><emphasis Role="strong">OSCON</emphasis> After years of hostility towards Free Software Foundation (FSF) licensing (<ulink url="http://www.theregister.co.uk/2002/04/22/gates_gpl_will_eat_your/">here</ulink> and <ulink url="http://www.microsoft.com/presspass/exec/craig/05-03sharedSource.mspx">here</ulink>) Microsoft has announced the first in a series of PHP patches - and it's using an FSF license.</para>
       <para>Microsoft told <emphasis>The Reg</emphasis> it's submitted a patch to the community for the <ulink url="http://adodb.sourceforge.net/">ADOdb</ulink> database abstraction library for PHP to add support for the <ulink url="http://www.microsoft.com/downloads/details.aspx?familyid=85f99a70-5df5-4558-991f-8aee8506833c&amp;amp;displaylang=en">PHP SQL Driver</ulink> developed with PHP shop Zend Technologies. The patch is under the FSF's Lesser GPL (LGPL).</para>
-      <ulink url="http://ad.uk.doubleclick.net/jump/reg.software.4159/developer;dcove=d;sz=336x280;ord=G26Tl9Rk6jcAACULD2gAAAFe?">
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="http://ad.uk.doubleclick.net/ad/reg.software.4159/developer;dcove=d;sz=336x280;ord=G26Tl9Rk6jcAACULD2gAAAFe?" width="336" depth="280"/>
-          </imageobject>
-          <textobject>
-            <para/>
-          </textobject>
-        </inlinemediaobject>
-      </ulink>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="http://ad.uk.doubleclick.net/ad/reg.software.4159/developer;dcove=d;sz=336x280;ord=G26Tl9Rk6jcAACULD2gAAAFe?" width="336" depth="280"/>
+        </imageobject>
+        <textobject>
+          <para/>
+        </textobject>
+      </mediaobject>
       <para>And, in a further move towards greater support of open source, Microsoft is becoming a platinum member of the Apache Software Foundation (ASF), paying $100,000 in sponsorship. The move follows work between the two to support the Office Open XML file formats in Apache's <ulink url="http://poi.apache.org/">POI</ulink> project.</para>
       <mediaobject>
         <imageobject>
@@ -50,7 +48,7 @@ Microsoft pledges love and money to open source | The Register    </title>
       <para>Also, while Ramji stressed support for ASF did not represent a move away on the web server from <ulink url="http://www.iis.net/">IIS</ulink>, it is a recognition of the rival <ulink url="http://httpd.apache.org/">Apache HTTP Web Server's</ulink> enduring number-one status on the web and Microsoft's desire to have it run on Windows instead of Linux servers.</para>
       <para>Also, in a measure of how far it's willing to contribute, Microsoft does not appear ready to have its engineers actually participate in open source groups, such as Eclipse.</para>
       <para>"Putting members in to Eclipse may or may not happen," Ramji said. He noted, though, Microsoft is keeping an eye on what it can do to help ASF's <ulink url="http://jakarta.apache.org/">Jakarta Project</ulink>.®</para>
-      <ulink url="http://whitepapers.theregister.co.uk/paper/view/356/?td=btmtl">Free Security whitepaper: The Need for Vulnerability Management</ulink>
+      <para>Free Security whitepaper: The Need for Vulnerability Management</para>
       <para><ulink url="comments/">21 comments</ulink> posted — <ulink url="comments/#comment-form">Post a new comment</ulink></para>
       <section>
         <title>
@@ -87,105 +85,147 @@ Microsoft pledges love and money to open source | The Register    </title>
       </para>
       <para>
     Track this type of story as a </para>
-      <ulink url="alert.html">custom Atom/RSS feed or by email.</ulink>
+      <para>custom Atom/RSS feed or by email.</para>
       <section>
         <title>Related stories</title>
         <itemizedlist>
           <listitem>
-            <ulink url="/2008/07/25/googlecode_bans_mpl/">Google Code blacklists Mozilla Public License</ulink>
+            <para>Google Code blacklists Mozilla Public License</para>
             <para>(25 July 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/07/23/sun_linux_support/">Sun to support AMP plus Linux</ulink>
+            <para>Sun to support AMP plus Linux</para>
             <para>(23 July 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/07/23/moblin_reworked/">Re-jigged Intel mobile Linux stack dumps Ubuntu</ulink>
+            <para>Re-jigged Intel mobile Linux stack dumps Ubuntu</para>
             <para>(23 July 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/07/23/shuttleworth_apple_challenge/">Ubuntu man challenges open source to out-pretty Apple</ulink>
+            <para>Ubuntu man challenges open source to out-pretty Apple</para>
             <para>(23 July 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/07/23/ubuntu_springframework_glassfish/">Ubuntu to get open-source Java heart implant</ulink>
+            <para>Ubuntu to get open-source Java heart implant</para>
             <para>(23 July 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/07/22/intel_tbb/">Intel juices parallel programming for the masses</ulink>
+            <para>Intel juices parallel programming for the masses</para>
             <para>(22 July 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/07/22/ubuntu_next_launchpad/">Canonical hippies spread Ubuntu Launchpad love</ulink>
+            <para>Canonical hippies spread Ubuntu Launchpad love</para>
             <para>(22 July 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/07/22/symbian_independence/">New Symbian launches mobile free-for-all</ulink>
+            <para>New Symbian launches mobile free-for-all</para>
             <para>(22 July 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/05/19/ramji_microsoft_open_source_strategy/">Can Microsoft 'do' open source by 2015?</ulink>
+            <para>Can Microsoft 'do' open source by 2015?</para>
             <para>(19 May 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/03/19/microsoft_eclipse_swt_project_wpf/">Microsoft cozies to Eclipse, no tongues though</ulink>
+            <para>Microsoft cozies to Eclipse, no tongues though</para>
             <para>(19 March 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2008/03/06/microsoft_moonlight_patent_protection/">Microsoft indemnifies Novell Moonlight users</ulink>
+            <para>Microsoft indemnifies Novell Moonlight users</para>
             <para>(6 March 2008)</para>
           </listitem>
           <listitem>
-            <ulink url="/2007/09/05/novell_microsoft_silverlight/">Novell fills Microsoft Silverlight hole</ulink>
+            <para>Novell fills Microsoft Silverlight hole</para>
             <para>(5 September 2007)</para>
           </listitem>
         </itemizedlist>
       </section>
-      <ulink url="print.html">
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="/Design/graphics/icons/pf.png" width="25" depth="25"/>
-          </imageobject>
-          <textobject>
-            <para>[Print]</para>
-          </textobject>
-        </inlinemediaobject>
-      </ulink>
-      <ulink url="http://go.theregister.com/k/mobregicon">
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="/Design/graphics/icons/regmob.png" width="16" depth="21"/>
-          </imageobject>
-          <textobject>
-            <para>[Mobile]</para>
-          </textobject>
-        </inlinemediaobject>
-      </ulink>
-      <ulink url="http://go.theregister.com/k/newsalerts_icon">
-        <inlinemediaobject>
-          <imageobject>
-            <imagedata fileref="/Design/graphics/icons/alerts.png" width="12" depth="25"/>
-          </imageobject>
-          <textobject>
-            <para>[Alerts]</para>
-          </textobject>
-        </inlinemediaobject>
-      </ulink>
-      <ulink url="http://slashdot.org/bookmark.pl?url=http%3a//www.theregister.co.uk/2008/07/25/microsoft_gpl/&amp;amp;title=Microsoft%20pledges%20love%20and%20money%20to%20open%20source"><inlinemediaobject><imageobject><imagedata fileref="/Design/graphics/icons/slashdot.png" width="16" depth="16"/></imageobject><textobject><para>Slashdot</para></textobject></inlinemediaobject> Post to Slashdot
-    </ulink>
-      <ulink url="http://digg.com/submit?phase=2&amp;amp;url=http%3a//www.theregister.co.uk/2008/07/25/microsoft_gpl/&amp;amp;title=Microsoft%20pledges%20love%20and%20money%20to%20open%20source"><inlinemediaobject><imageobject><imagedata fileref="/Design/graphics/icons/digg.png" width="16" depth="16"/></imageobject><textobject><para>Digg</para></textobject></inlinemediaobject> Digg this
-    </ulink>
-      <ulink url="http://del.icio.us/post?url=http%3a//www.theregister.co.uk/2008/07/25/microsoft_gpl/&amp;amp;title=Microsoft%20pledges%20love%20and%20money%20to%20open%20source"><inlinemediaobject><imageobject><imagedata fileref="/Design/graphics/icons/delicious.png" width="16" depth="16"/></imageobject><textobject><para>del.icio.us</para></textobject></inlinemediaobject> Add to del.icio.us
-    </ulink>
-      <ulink url="http://reddit.com/submit?url=http%3a//www.theregister.co.uk/2008/07/25/microsoft_gpl/&amp;amp;title=Microsoft%20pledges%20love%20and%20money%20to%20open%20source"><inlinemediaobject><imageobject><imagedata fileref="/Design/graphics/icons/reddit.png" width="18" depth="18"/></imageobject><textobject><para>Reddit</para></textobject></inlinemediaobject> Reddit
-    </ulink>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="/Design/graphics/icons/pf.png" width="25" depth="25"/>
+        </imageobject>
+        <textobject>
+          <para>[Print]</para>
+        </textobject>
+      </mediaobject>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="/Design/graphics/icons/regmob.png" width="16" depth="21"/>
+        </imageobject>
+        <textobject>
+          <para>[Mobile]</para>
+        </textobject>
+      </mediaobject>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="/Design/graphics/icons/alerts.png" width="12" depth="25"/>
+        </imageobject>
+        <textobject>
+          <para>[Alerts]</para>
+        </textobject>
+      </mediaobject>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="/Design/graphics/icons/slashdot.png" width="16" depth="16"/>
+        </imageobject>
+        <textobject>
+          <para>Slashdot</para>
+        </textobject>
+      </mediaobject>
+      <para> Post to Slashdot
+    </para>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="/Design/graphics/icons/digg.png" width="16" depth="16"/>
+        </imageobject>
+        <textobject>
+          <para>Digg</para>
+        </textobject>
+      </mediaobject>
+      <para> Digg this
+    </para>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="/Design/graphics/icons/delicious.png" width="16" depth="16"/>
+        </imageobject>
+        <textobject>
+          <para>del.icio.us</para>
+        </textobject>
+      </mediaobject>
+      <para> Add to del.icio.us
+    </para>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="/Design/graphics/icons/reddit.png" width="18" depth="18"/>
+        </imageobject>
+        <textobject>
+          <para>Reddit</para>
+        </textobject>
+      </mediaobject>
+      <para> Reddit
+    </para>
       <table>
         <row>
           <entry>
-            <ulink url="/2008/07/25/sutton_police_scheme/"><inlinemediaobject><imageobject><imagedata fileref="/Design/graphics/Reg_default/article_arrow_prev.png" width="14" depth="13"/></imageobject><textobject><para/></textobject></inlinemediaobject> Previous Article</ulink>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="/Design/graphics/Reg_default/article_arrow_prev.png" width="14" depth="13"/>
+              </imageobject>
+              <textobject>
+                <para/>
+              </textobject>
+            </mediaobject>
+            <para> Previous Article</para>
           </entry>
           <entry>
-            <ulink url="/2008/07/25/orange_may_get_iphone/">Next Article <inlinemediaobject><imageobject><imagedata fileref="/Design/graphics/Reg_default/article_arrow_next.png" width="14" depth="13"/></imageobject><textobject><para/></textobject></inlinemediaobject></ulink>
+            <para>Next Article </para>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="/Design/graphics/Reg_default/article_arrow_next.png" width="14" depth="13"/>
+              </imageobject>
+              <textobject>
+                <para/>
+              </textobject>
+            </mediaobject>
           </entry>
         </row>
       </table>

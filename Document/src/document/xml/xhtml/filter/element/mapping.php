@@ -59,6 +59,12 @@ class ezcDocumentXhtmlElementMappingFilter extends ezcDocumentXhtmlElementBaseFi
      */
     public function filterElement( DOMElement $element )
     {
+        if ( $this->isInlineElement( $element ) &&
+             !$this->isInline( $element ) )
+        {
+            return;
+        }
+
         $element->setProperty(
             'type',
             $this->nameMapping[$element->tagName]

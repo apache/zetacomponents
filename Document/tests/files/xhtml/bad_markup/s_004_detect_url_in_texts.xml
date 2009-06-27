@@ -41,7 +41,6 @@
       </blockquote>
       <para>In which case the braces are obviously not part of the actual URL so you should skip them, the same for the other brace types.</para>
       <para>The regular expression uses conditional subpatterns to check for those matching braces before and after an URL and ignores them, when they are found. The same for quotes. Often URLs are followed by some markup, which also shouldn't be included in the actual URL, which is also ignored by this regular expression, but still - even not valid - characters like commas are included in the URL, if used there.</para>
-      <anchor ID="issues"/>
       <section>
         <title>Issues</title>
         <para>There are two issues, which are still not really solveable by a regular expression I think, but additions and suggestions would be really welcome:</para>

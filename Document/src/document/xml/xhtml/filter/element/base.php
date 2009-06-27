@@ -152,10 +152,37 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      */
     protected function isInline( DOMElement $element )
     {
-        return !(
-            ( $element->parentNode->tagName !== 'p' ) &&
-            ( $this->isBlockLevelElement( $element->parentNode ) )
-        );
+        $toCheck = $element;
+        do {
+            if ( in_array( $toCheck->getProperty( 'type' ), array(
+                    'para',
+                    'subtitle',
+                    'title',
+                    'term',
+                    'abbrev',
+                    'acronym',
+                    'anchor',
+                    'attribution',
+                    'author',
+                    'citation',
+                    'citetitle',
+                    'email',
+                    'emphasis',
+                    'footnoteref',
+                    'link',
+                    'literal',
+                    'quote',
+                    'subscript',
+                    'superscript',
+                    'ulink',
+                ) ) )
+            {
+                return true;
+            }
+        } while ( ( $toCheck = $toCheck->parentNode ) &&
+                  ( $toCheck instanceof DOMElement ) );
+
+        return false;
     }
 
     /**

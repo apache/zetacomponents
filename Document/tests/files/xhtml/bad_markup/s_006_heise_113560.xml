@@ -14,7 +14,7 @@ Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI</tit
       <title>
 
 Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI
-<ulink url="/newsticker/meldung/audio/113560"/><mediaobject><imageobject><imagedata fileref="/icons/ho/vorlesen.gif" width="64" depth="13"/></imageobject><textobject><para>Meldung vorlesen</para></textobject></mediaobject></title>
+<ulink url="/newsticker/meldung/audio/113560"/><inlinemediaobject><imageobject><imagedata fileref="/icons/ho/vorlesen.gif" width="64" depth="13"/></imageobject><textobject><para>Meldung vorlesen</para></textobject></inlinemediaobject></title>
       <table>
         <tbody>
           <row>
@@ -66,16 +66,14 @@ Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI
         <row>
           <entry>
             <para>Anzeige</para>
-            <ulink url="http://oas.heise.de/RealMedia/ads/click_lx.ads/www.heise.de/newsticker/meldungen/security/1540888205/Middle1/OasDefault/jobtown05_28ros_08/microsoft05_11ros_08_script.html/35356236323635343438383437353530?http://www.heise.de/heisejobs/sub/jobtown2008">
-              <inlinemediaobject>
-                <imageobject>
-                  <imagedata fileref="http://oas.heise.de/RealMedia/ads/Creatives/OasDefault/jobtown05_28ros_08/jobtown336x280.gif" width="336" depth="280"/>
-                </imageobject>
-                <textobject>
-                  <para/>
-                </textobject>
-              </inlinemediaobject>
-            </ulink>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="http://oas.heise.de/RealMedia/ads/Creatives/OasDefault/jobtown05_28ros_08/jobtown336x280.gif" width="336" depth="280"/>
+              </imageobject>
+              <textobject>
+                <para/>
+              </textobject>
+            </mediaobject>
             <mediaobject>
               <imageobject>
                 <imagedata fileref="http://oas.heise.de/RealMedia/ads/adstream_lx.ads/www.heise.de/newsticker/meldungen/security/1540888205/Middle1/OasDefault/jobtown05_28ros_08/microsoft05_11ros_08_script.html/35356236323635343438383437353530?_RM_EMPTY_" width="1" depth="1"/>
@@ -117,46 +115,46 @@ Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI
       <itemizedlist>
         <listitem>
           <para>29.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-Erste-Vorabversion-von-2-6-27-beendet-heisse-Entwicklungsphase--/news/meldung/113503">Erste Vorabversion von 2.6.27 beendet heiÃe Entwicklungsphase</ulink>
+          <para>Erste Vorabversion von 2.6.27 beendet heiÃe Entwicklungsphase</para>
         </listitem>
         <listitem>
           <para>28.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-Aus-der-Praxis-fuer-die-Praxis-Hintergrund-und-Vorabinformationen-zu-Linux-vom-OLS--/news/meldung/113407">Aus der Praxis fÃ¼r die Praxis - Hintergrund- und Vorabinformationen zu Linux vom OLS</ulink>
+          <para>Aus der Praxis fÃ¼r die Praxis - Hintergrund- und Vorabinformationen zu Linux vom OLS</para>
         </listitem>
         <listitem>
           <para>22.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-Centrino-2-WLAN-Treiber-iwl-5000-und-Webcam-Treiber-gscpa-in-Linux-2-6-27--/news/meldung/113137">Centrino-2-WLAN-Treiber iwl-5000 und Webcam-Treiber gscpa in Linux 2.6.27</ulink>
+          <para>Centrino-2-WLAN-Treiber iwl-5000 und Webcam-Treiber gscpa in Linux 2.6.27</para>
         </listitem>
       </itemizedlist>
       <itemizedlist>
         <listitem>
           <para>21.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-Ath9k-Treiber-fuer-neue-Atheros-WLAN-Chips-Diskussionen-um-Nvidia-Treiber--/news/meldung/113099">Ath9k-Treiber fÃ¼r neue Atheros-WLAN-Chips, Diskussionen um Nvidia-Treiber</ulink>
+          <para>Ath9k-Treiber fÃ¼r neue Atheros-WLAN-Chips, Diskussionen um Nvidia-Treiber</para>
         </listitem>
         <listitem>
           <para>16.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-Keine-Unstable-Series-Linux-2008-7-Umgang-mit-Sicherheitskorrekturen--/news/meldung/112892">Keine Unstable-Series, Linux 2008.7, Umgang mit Sicherheitskorrekturen</ulink>
+          <para>Keine Unstable-Series, Linux 2008.7, Umgang mit Sicherheitskorrekturen</para>
         </listitem>
         <listitem>
           <para>16.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-Entwicklung-von-2-6-27-laeuft-flott-an-Alsa-1-0-17-freigegeben--/news/meldung/112861">Entwicklung von 2.6.27 lÃ¤uft flott an, Alsa 1.0.17 freigegeben</ulink>
+          <para>Entwicklung von 2.6.27 lÃ¤uft flott an, Alsa 1.0.17 freigegeben</para>
         </listitem>
       </itemizedlist>
       <itemizedlist>
         <listitem>
           <para>14.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-Neue-Grafiktreiber-Treiber-Enwicklungsmodell-erklaert-Nebeneffekte-durch-Stromsparen--/news/meldung/110313">Zur Freigabe von 2.6.26: Feinschliff und Anbauten â Die Neuerungen von Linux 2.6.26</ulink>
+          <para>Zur Freigabe von 2.6.26: Feinschliff und Anbauten â Die Neuerungen von Linux 2.6.26</para>
         </listitem>
         <listitem>
           <para>10.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-USB-Kamera-Treiber-in-2-6-26-neue-2-6-25-Variante-veroeffentlicht--/news/meldung/110704">USB-Kamera-Treiber in 2.6.26, neue 2.6.25-Variante verÃ¶ffentlicht</ulink>
+          <para>USB-Kamera-Treiber in 2.6.26, neue 2.6.25-Variante verÃ¶ffentlicht</para>
         </listitem>
         <listitem>
           <para>02.07.2008: </para>
-          <ulink url="http://www.heise.de/open/Kernel-Log-Neue-Grafiktreiber-Treiber-Enwicklungsmodell-erklaert-Nebeneffekte-durch-Stromsparen--/news/meldung/110313">Neue Grafiktreiber, Treiber-Enwicklungsmodell erklÃ¤rt, Nebeneffekte durch Stromsparen</ulink>
+          <para>Neue Grafiktreiber, Treiber-Enwicklungsmodell erklÃ¤rt, Nebeneffekte durch Stromsparen</para>
         </listitem>
       </itemizedlist>
-      <literallayout class="normal"><emphasis>Ãltere <ulink url="/glossar/entry/09d9fae15978a6a8">Kernel-Logs</ulink> finden sich Ã¼ber <ulink url="http://www.heise.de/open/news/archiv/">das Archiv</ulink> oder <ulink url="http://www.heise.de/open/suche?sort=d;rm=search;q=Kernel-Log;channel=open">die Suchfunktion</ulink> von <ulink url="http://www.heise.de/open/">heise open</ulink>.</emphasis>(<ulink url="mailto:thl@ct.heise.de">thl</ulink>/c't)</literallayout>
+      <literallayout class="normal">Ãltere Kernel-Logs finden sich Ã¼ber das Archiv oder die Suchfunktion von heise open.(thl/c't)</literallayout>
       <table>
         <row>
           <entry>
