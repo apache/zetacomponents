@@ -15,6 +15,8 @@
  *           Error reporting level. All errors with a severity greater or equel
  *           then the defined level are converted to exceptions. All other
  *           errors are just stored in errors property of the parser class.
+ * @property bool $validate
+ *           Validate the input document before the conversion.
  *
  * @package Document
  * @version //autogen//
@@ -28,6 +30,7 @@ class ezcDocumentOptions extends ezcBaseOptions
      */
     protected $properties = array(
         'errorReporting' => 15, // E_PARSE | E_ERROR | E_WARNING | E_NOTICE
+        'validate'       => true,
     );
 
     /**
@@ -50,6 +53,15 @@ class ezcDocumentOptions extends ezcBaseOptions
                      ( ( $value & E_PARSE ) === 0 ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'int & E_PARSE' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'validate':
+                if ( !is_bool( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'bool' );
                 }
 
                 $this->properties[$name] = $value;

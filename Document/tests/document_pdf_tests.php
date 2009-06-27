@@ -52,10 +52,10 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
         $pdfDoc->createFromDocbook( $docbook );
 
         $errors = $pdfDoc->getErrors();
-        $this->assertEquals( 1, count( $errors ) );
+        $this->assertEquals( 2, count( $errors ) );
         $this->assertEquals(
             'Visitor error: Notice: \'Unknown and unhandled element: http://example.org/unknown:article.\' in line 0 at position 0.',
-            reset( $errors )->getMessage()
+            end( $errors )->getMessage()
         );
     }
 

@@ -219,6 +219,12 @@ class ezcDocumentPdf extends ezcDocument implements ezcDocumentErrorReporting
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
+        if ( $this->options->validate &&
+             $document->validateString( $document ) !== true )
+        {
+            $this->triggerError( E_WARNING, "You try to convert an invalid docbook document. This may lead to invalid output." );
+        }
+
         $this->path = $document->getPath();
 
         $renderer = new ezcDocumentPdfMainRenderer(
