@@ -23,7 +23,7 @@ class ezcPersistentRelationCollectionTest extends ezcTestCase
 
     public function testCtor()
     {
-        $this->markTestSkipped( 'Does not work in PHP 5.2.x due to broken ArrayObject.' );
+        $this->markTestSkipped( 'Does not work in PHP 5.[23].x due to broken ArrayObject.' );
         $col = new ezcPersistentRelationCollection();
 
         $this->assertAttributeEquals(
