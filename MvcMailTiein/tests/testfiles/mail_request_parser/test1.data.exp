@@ -224,4 +224,5 @@ ezcMvcRequest::__set_state(array(
    'cookies' => 
   array (
   ),
+   'isFatal' => NULL,
 ))

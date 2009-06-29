@@ -298,4 +298,5 @@ this format, some or all of this message may not be legible.',
    'cookies' => 
   array (
   ),
+   'isFatal' => NULL,
 ))
