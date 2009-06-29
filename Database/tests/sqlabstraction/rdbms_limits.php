@@ -23,7 +23,8 @@ class ezcRdbmsLimitTest extends ezcTestCase
 
     protected function setUp()
     {
-        try {
+        try
+        {
             $db = ezcDbInstance::get();
         }
         catch ( Exception $e )
@@ -42,6 +43,10 @@ class ezcRdbmsLimitTest extends ezcTestCase
     public function testLongTableNames()
     {
         $db = ezcDbInstance::get();
+        if ( $db->getName() === 'mysql' )
+        {
+            self::markTestSkipped( 'Not for MySQL' );
+        }
 
         for ( $i = 8; $i <= 256; $i *= 2 )
         {
@@ -73,6 +78,10 @@ class ezcRdbmsLimitTest extends ezcTestCase
     public function testLongColumnNames()
     {
         $db = ezcDbInstance::get();
+        if ( $db->getName() === 'mysql' )
+        {
+            self::markTestSkipped( 'Not for MySQL' );
+        }
 
         try
         {
