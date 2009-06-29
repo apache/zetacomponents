@@ -37,7 +37,7 @@ class ezcCacheMemcacheBackendTest extends ezcTestCase
         }
         
         $testMemcache = new Memcache();
-        if ( @$testMemcache->connect( 'localhost', 11211 ) === false )
+        if ( $testMemcache->connect( 'localhost', 11211 ) === false )
         {
             $this->markTestSkipped( 'No Memcache server running on port 11211 found.' );
         }
@@ -48,7 +48,10 @@ class ezcCacheMemcacheBackendTest extends ezcTestCase
 
     protected function tearDown()
     {
-        $this->memcacheBackend->reset();
+        if ( $this->memcacheBackend )
+        {
+            $this->memcacheBackend->reset();
+        }
         unset( $this->memcacheBackend );
     }
 
