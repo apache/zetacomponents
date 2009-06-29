@@ -22,7 +22,7 @@ $q2->select( 'company' )
 //     ) )
 $q->select('*')
   ->from( 'query_test' )
-  ->where( ' id >= 1 ', $q->expr->in( 'company', $q2 ) ) );
+  ->where( ' id >= 1 ', $q->expr->in( 'company', $q2 ) );
 
 $stmt = $q->prepare();
 $stmt->execute();
