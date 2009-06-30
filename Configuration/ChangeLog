@@ -1,3 +1,10 @@
+1.4alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented issue #13244: ezcConfigurationIniWriter::writeSetting() enforces
+  quoting even documented different.
+
+
 1.3.3 - Monday 11 May 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -128,7 +135,7 @@ ezcConfigurationManager
 - Added getSettingsAsList() method to retrieve a group of settings but without
   their names being used as keys in the returned array. This allows the list()
   = $manager->getSettingsAsList( $name, $group, $settingsArray() ); syntax.
-	
+
 
 1.0rc1 - Monday 16 January 2006
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

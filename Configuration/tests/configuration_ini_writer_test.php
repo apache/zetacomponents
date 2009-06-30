@@ -316,14 +316,14 @@ class ezcConfigurationIniWriterTest extends ezcTestCase
 				'Decimal2' => 0,
 				'MaxSize' => 400,
 				'MinSize' => 0,
-				'Hex1' => 11189196,
-				'Hex2' => 11189196,
-				'Hex3' => 11189196,
-				'Hex4' => 11189196,
+				'Hex1' => 0x11189196,
+				'Hex2' => 0x11189196,
+				'Hex3' => 0x11189196,
+				'Hex4' => 0x11189196,
 				'TextColor' => 66302,
-				'Octal1' => 1,
-				'Octal2' => 458,
-				'Permission' => 438,
+				'Octal1' => 01,
+				'Octal2' => 0458,
+				'Permission' => 0438,
 				'Float1' => 0.2,
 				'Float2' => .8123,
 				'Float3' => 42.,
@@ -347,6 +347,52 @@ class ezcConfigurationIniWriterTest extends ezcTestCase
         $backend = new ezcConfigurationIniReader( $this->tempDir . '/formats.ini' );
         $return = $backend->load();
         $this->assertEquals( $test, $return );
+    }
+
+    public function testStringFormats()
+    {
+        $settings = array(
+            'FormatTest' => array(
+                'Bool1' => 'false',
+                'Bool2' => 'true',
+                'Bool3' => false,
+                'Bool4' => true,
+				'Decimal1' => "42",
+				'Decimal2' => "0",
+				'MaxSize' => "400",
+				'MinSize' => "0",
+				'Hex1' => "0x11189196",
+				'Hex2' => "0x11189196",
+				'Hex3' => "0x11189196",
+				'Hex4' => "0x11189196",
+				'TextColor' => "66302",
+				'Octal1' => "01",
+				'Octal2' => "0458",
+				'Permission' => "0438",
+				'Float1' => "0.2",
+				'Float2' => ".8123",
+				'Float3' => "42.",
+				'Float4' => "314e-2",
+				'Float5' => "3.141592654e1",
+				'Price' => "10.4",
+				'Seed' => "10e5",
+                'String1' => 'Blah blah blah',
+                'String2' => 'Derick "Tiger" Rethans',
+                'String3' => 'Foo \\ Bar',
+                'String4' => 'Foo \\',
+            )
+        );
+        $comments = array(
+        );
+        $test = new ezcConfiguration( $settings, $comments );
+
+        $backend = new ezcConfigurationIniWriter( $this->tempDir . '/string-formats.ini', $test );
+        $backend->save();
+
+        $backend = new ezcConfigurationIniReader( $this->tempDir . '/string-formats.ini' );
+        $return = $backend->load();
+        $this->assertEquals( $test, $return );
+        $this->assertEquals( file_get_contents( 'Configuration/tests/files/string-formats-test.ini' ), file_get_contents( $this->tempDir . '/string-formats.ini' ) );
     }
 
     public function test2D()

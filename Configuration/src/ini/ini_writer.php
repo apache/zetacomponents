@@ -128,7 +128,21 @@ class ezcConfigurationIniWriter extends ezcConfigurationFileWriter
         switch ( $type )
         {
             case 'string':
-                fwrite( $fp, "{$settingName} = \"" . addslashes( $settingValue ) . "\"\n" );
+                if ( strpbrk( $settingValue, "'\"\0\\" ) === false &&
+                    !in_array( $settingValue, array( 'true', 'false' ) ) &&
+                    !preg_match( '@^-?(([1-9][0-9]*)|(0))$@', $settingValue ) &&
+                    !preg_match( '@^0x([0-9a-f]+)$@i', $settingValue ) &&
+                    !preg_match( '@^0([0-7]+)$@i', $settingValue ) &&
+                    !preg_match( '@^(([0-9]*\.[0-9]+)|([0-9]+(\.[0-9]*)?))(e[+-]?[0-9]+)?$@i', $settingValue ) &&
+                    $settingValue[0] !== '"' &&
+                    $settingValue[strlen( $settingValue ) - 1] !== '"' )
+                {
+                    fwrite( $fp, "{$settingName} = $settingValue\n" );
+                }
+                else
+                {
+                    fwrite( $fp, "{$settingName} = \"" . addslashes( $settingValue ) . "\"\n" );
+                }
                 break;
             case 'boolean':
                 fwrite( $fp, "{$settingName} = " . ( $settingValue ? 'true' : 'false' ) . "\n" );
