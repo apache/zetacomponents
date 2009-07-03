@@ -1274,6 +1274,50 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
     }
 
     /**
+     * Returns if $relatedObject is related to $sourceObject.
+     *
+     * Checks the relation conditions between $sourceObject and $relatedObject 
+     * and returns true, if $relatedObject is related to $sourceObject, 
+     * otherwise false. Relation state is determined through the identity map,
+     * in case the relation between $sourceObject and $relatedObject has been
+     * recorded there. Otherwise this method dispatches to
+     * {@link ezcPersistentSession::isRelated()}.
+     *
+     * In case multiple relations are defined between the
+     * classes of $sourceObject and $relatedObject, the $relationName parameter
+     * becomes mandatory. If it is not provided in this case, an {@link 
+     * ezcPersistentUndeterministicRelationException} is thrown.
+     *
+     * Note that checking relations of type {@link 
+     * ezcPersistentManyToManyRelation} will issue a database query, if the 
+     * relation is not recorded in the identity map. Other relations will not 
+     * perform this query at all.
+     * 
+     * @param ezcPersistentObject $sourceObj 
+     * @param ezcPersistentObject $relatedObj 
+     * @param string $relationName
+     * @return bool
+     */
+    public function isRelated( $sourceObject, $relatedObject, $relationName = null )
+    {
+        $srcClass = get_class( $sourceObject );
+        $relClass = get_class( $relatedObject );
+
+        $storedRelatedObjects = $this->identityMap->getRelatedObjects(
+            $sourceObject,
+            $relClass,
+            $relationName
+        );
+
+        if ( $storedRelatedObjects !== null )
+        {
+            return in_array( $relatedObject, $storedRelatedObjects );
+        }
+
+        return $this->session->isRelated( $sourceObject, $relatedObject );
+    }
+
+    /**
      * Initializes the global query creator for this session.
      *
      * Checks if the query creator already exists and instantiates it, if not.

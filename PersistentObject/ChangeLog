@@ -1,3 +1,11 @@
+1.7alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented enhancement #11831: ezcPersistentSession and
+  ezcPersistentSessionIdentityDecorator now provide the method isRelated() to
+  check if 2 objects are related to each other.
+
+
 1.6 - Monday 29 June 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

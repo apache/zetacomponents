@@ -586,6 +586,67 @@ class ezcPersistentSession implements ezcPersistentSessionFoundation
         return $this->deleteHandler->createDeleteQuery( $class );
     }
 
+    /**
+     * Returns if $relatedObject is related to $sourceObject.
+     *
+     * Checks the relation conditions between $sourceObject and $relatedObject 
+     * and returns true, if $relatedObject is related to $sourceObject, 
+     * otherwise false. In case multiple relations are defined between the
+     * classes of $sourceObject and $relatedObject, the $relationName parameter
+     * becomes mandatory. If it is not provided in this case, an {@link 
+     * ezcPersistentUndeterministicRelationException} is thrown.
+     *
+     * Note that checking relations of type {@link 
+     * ezcPersistentManyToManyRelation} will issue a database query. Other relations will 
+     * not perform this.
+     * 
+     * @param ezcPersistentObject $sourceObj 
+     * @param ezcPersistentObject $relatedObj 
+     * @param string $relationName
+     * @return bool
+     */
+    public function isRelated( $sourceObject, $relatedObject, $relationName = null )
+    {
+        $srcClass = get_class( $sourceObject );
+        $relClass = get_class( $relatedObject );
+
+        $srcDef = $this->definitionManager->fetchDefinition( $srcClass );
+
+        if ( !isset( $srcDef->relations[$relClass] ) )
+        {
+            return false;
+        }
+        $relationDef = $srcDef->relations[$relClass];
+
+        if ( $relationDef instanceof ezcPersistentRelationCollection )
+        {
+            if ( $relationName === null )
+            {
+                throw new ezcPersistentUndeterministicRelationException(
+                    $relClass
+                );
+            }
+            if ( !isset( $relationDef[$relationName] ) )
+            {
+                return false;
+            }
+            $relationDef = $relationDef[$relationName];
+        }
+
+        $relDef = $this->definitionManager->fetchDefinition( $relClass );
+
+        $srcState = $sourceObject->getState();
+        $relState = $relatedObject->getState();
+
+        if ( $relationDef instanceof ezcPersistentManyToManyRelation )
+        {
+            return $this->checkComplexRelation( $srcState, $srcDef, $relState, $relDef, $relationDef );
+        }
+        else
+        {
+            return $this->checkSimpleRelation( $srcState, $srcDef, $relState, $relDef, $relationDef );
+        }
+    }
 
     /**
      * Returns a hash map between property and column name for the given
@@ -780,6 +841,78 @@ class ezcPersistentSession implements ezcPersistentSessionFoundation
     public function __isset( $propertyName )
     {
         return array_key_exists( $propertyName, $this->properties );
+    }
+
+    /**
+     * Checks many-to-many relation between persistent objects.
+     *
+     * Checks if the object defined by $relState is related to the object 
+     * defined by $srcState. Creates the corresponding SELECT query and checks 
+     * the result.
+     * 
+     * @param array $srcState 
+     * @param ezcPersistentObjectDefinition $srcDef 
+     * @param array $relState 
+     * @param ezcPersistentObjectDefinition $relDef 
+     * @param ezcPersistentRelation $relationDef 
+     * @return bool
+     */
+    private function checkComplexRelation( array $srcState, ezcPersistentObjectDefinition $srcDef, array $relState, ezcPersistentObjectDefinition $relDef, ezcPersistentRelation $relationDef )
+    {
+        $q = $this->database->createSelectQuery();
+        $q->select( $q->expr->count( '*' ) );
+        $q->from( $relationDef->relationTable );
+
+        foreach ( $relationDef->columnMap as $colMap )
+        {
+            $q->where(
+                $q->expr->lAnd(
+                    $q->expr->eq(
+                        $this->database->quoteIdentifier( $colMap->relationSourceColumn ),
+                        $q->bindValue( $srcState[$srcDef->columns[$colMap->sourceColumn]->propertyName] )
+                    ),
+                    $q->expr->eq(
+                        $this->database->quoteIdentifier( $colMap->relationDestinationColumn ),
+                        $q->bindValue( $relState[$relDef->columns[$colMap->destinationColumn]->propertyName] )
+                    )
+                )
+            );
+        }
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        return ( $stmt->fetchColumn() != 0 );
+    }
+
+
+    /**
+     * Checks simple relation between persistent objects.
+     *
+     * Simple relations are {@link ezcPersistentOneToOneRelation}, {@link 
+     * ezcPersistentOneToManyRelation} and {@link 
+     * ezcPersistentManyToOneRelation}. Checks if the object defined by 
+     * $relState is related to the object defined by $srcState. Does not 
+     * perform a database query for checking..
+     * 
+     * @param array $srcState 
+     * @param ezcPersistentObjectDefinition $srcDef 
+     * @param array $relState 
+     * @param ezcPersistentObjectDefinition $relDef 
+     * @param ezcPersistentRelation $relationDef 
+     * @return bool
+     */
+    private function checkSimpleRelation( array $srcState, ezcPersistentObjectDefinition $srcDef, array $relState, ezcPersistentObjectDefinition $relDef, ezcPersistentRelation $relationDef )
+    {
+        foreach ( $relationDef->columnMap as $colMap )
+        {
+            $srcProp = $srcDef->columns[$colMap->sourceColumn]->propertyName;
+            $relProp = $relDef->columns[$colMap->destinationColumn]->propertyName;
+            if ( $srcState[$srcProp] !== $relState[$relProp] )
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
 ?>

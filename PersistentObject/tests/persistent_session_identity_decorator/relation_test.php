@@ -630,6 +630,88 @@ class ezcPersistentSessionIdentityDecoratorRelationTest extends ezcTestCase
             $this->idSession->getRelatedObjectSubset( current( $persons ), 'addresses' )
         );
     }
+
+    public function testIsRelatedStored()
+    {
+        $srcObject = new RelationTestPerson();
+        $srcObject->id = 23;
+
+        $relObject = new RelationTestAddress();
+        $relObject->id = 42;
+
+        $idMap = $this->getMock(
+            'ezcPersistentBasicIdentityMap',
+            array( 'getRelatedObjects' ),
+            array(),
+            '',
+            false,
+            false
+        );
+        $idMap->expects( $this->once() )
+              ->method( 'getRelatedObjects' )
+              ->with( $srcObject, 'RelationTestAddress', null )
+              ->will( $this->returnValue( array( 42 => $relObject ) ) );
+
+        $session = $this->getMock(
+            'ezcPersistentSession',
+            array( 'isRelated' ),
+            array(),
+            '',
+            false,
+            false
+        );
+        $session->expects( $this->never() )
+                ->method( 'isRelated' );
+
+        $idSession = new ezcPersistentSessionIdentityDecorator(
+            $session,
+            $idMap
+        );
+
+        $this->assertTrue( $idSession->isRelated( $srcObject, $relObject ) );
+    }
+
+    public function testIsRelatedNotStored()
+    {
+        $srcObject = new RelationTestPerson();
+        $srcObject->id = 23;
+
+        $relObject = new RelationTestAddress();
+        $relObject->id = 42;
+
+        $idMap = $this->getMock(
+            'ezcPersistentBasicIdentityMap',
+            array( 'getRelatedObjects' ),
+            array(),
+            '',
+            false,
+            false
+        );
+        $idMap->expects( $this->once() )
+              ->method( 'getRelatedObjects' )
+              ->with( $srcObject, 'RelationTestAddress', null )
+              ->will( $this->returnValue( null ) );
+
+        $session = $this->getMock(
+            'ezcPersistentSession',
+            array( 'isRelated' ),
+            array(),
+            '',
+            false,
+            false
+        );
+        $session->expects( $this->once() )
+                ->method( 'isRelated' )
+                ->with( $srcObject, $relObject )
+                ->will( $this->returnValue( true ) );
+
+        $idSession = new ezcPersistentSessionIdentityDecorator(
+            $session,
+            $idMap
+        );
+
+        $this->assertTrue( $idSession->isRelated( $srcObject, $relObject ) );
+    }
 }
 
 ?>

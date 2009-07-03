@@ -360,6 +360,33 @@ class ezcPersistentOneToOneRelationTest extends ezcTestCase
             "Cascade not performed correctly on delete."
         );
     }
+
+    public function testIsRelatedSuccess()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+        $birthday = $this->session->getRelatedObject( $person, "RelationTestBirthday" );
+
+        $this->assertTrue( $this->session->isRelated( $person, $birthday ) );
+    }
+
+    public function testIsRelatedReverseSuccess()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+        $birthday = $this->session->getRelatedObject( $person, "RelationTestBirthday" );
+
+        $this->assertTrue( $this->session->isRelated( $birthday, $person ) );
+    }
+
+    public function testIsRelatedFailure()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+
+        $birthday = new RelationTestBirthday();
+        $birthday->id = 2342;
+
+        $this->assertFalse( $this->session->isRelated( $person, $birthday ) );
+        $this->assertFalse( $this->session->isRelated( $birthday, $person ) );
+    }
 }
 
 ?>

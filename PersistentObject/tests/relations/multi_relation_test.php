@@ -526,6 +526,65 @@ class ezcPersistentMultiRelationTest extends ezcTestCase
             'Incorrect number of relation records after removing all siblings.'
         );
     }
+
+    public function testIsRelatedSuccess()
+    {
+        $father   = $this->session->load( 'MultiRelationTestPerson', 2 );
+        $children = $this->session->getRelatedObjects( $father, 'MultiRelationTestPerson', 'fathers_children' );
+
+        foreach ( $children as $child )
+        {
+            $this->assertTrue( $this->session->isRelated( $father, $child, "fathers_children" ) );
+        }
+    }
+
+    public function testIsRelatedReverseSuccess()
+    {
+        $father   = $this->session->load( 'MultiRelationTestPerson', 2 );
+        $children = $this->session->getRelatedObjects( $father, 'MultiRelationTestPerson', 'fathers_children' );
+
+        foreach ( $children as $child )
+        {
+            $this->assertTrue( $this->session->isRelated( $child, $father, "father" ) );
+        }
+    }
+
+    public function testIsRelatedFailure()
+    {
+        $person = $this->session->load( "MultiRelationTestPerson", 2 );
+
+        $otherPerson = new MultiRelationTestPerson();
+        $otherPerson->id = 23;
+        $otherPerson->mother = 42;
+        $otherPerson->father = 43;
+
+        $this->assertFalse( $this->session->isRelated( $person, $otherPerson, "fathers_children" ) );
+        $this->assertFalse( $this->session->isRelated( $person, $otherPerson, "father" ) );
+        $this->assertFalse( $this->session->isRelated( $person, $otherPerson, "mothers_children" ) );
+        $this->assertFalse( $this->session->isRelated( $person, $otherPerson, "mother" ) );
+
+        $this->assertFalse( $this->session->isRelated( $person, $otherPerson, "father" ) );
+        $this->assertFalse( $this->session->isRelated( $person, $otherPerson, "fathers_children" ) );
+        $this->assertFalse( $this->session->isRelated( $person, $otherPerson, "mother" ) );
+        $this->assertFalse( $this->session->isRelated( $person, $otherPerson, "mothers_children" ) );
+    }
+
+    public function testIsRelatedErrorMissingRelationName()
+    {
+        $person = $this->session->load( "MultiRelationTestPerson", 2 );
+
+        $otherPerson = new MultiRelationTestPerson();
+        $otherPerson->id = 23;
+        $otherPerson->mother = 42;
+        $otherPerson->father = 43;
+
+        try
+        {
+            $this->session->isRelated( $person, $otherPerson );
+            $this->fail( 'Exception not thrown on missing relation name.' );
+        }
+        catch ( ezcPersistentUndeterministicRelationException $e ) {}
+    }
 }
 
 ?>

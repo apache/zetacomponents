@@ -689,6 +689,41 @@ class ezcPersistentManyToManyRelationTest extends ezcTestCase
             $this->session->getRelatedObjects( $person, 'RelationTestPerson' )
         );
     }
+
+    public function testIsRelatedSuccess()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+
+        $addresses = $this->session->getRelatedObjects( $person, 'RelationTestAddress' );
+
+        foreach ( $addresses as $address )
+        {
+            $this->assertTrue( $this->session->isRelated( $person, $address ) );
+        }
+    }
+
+    public function testIsRelatedReverseSuccess()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+
+        $addresses = $this->session->getRelatedObjects( $person, 'RelationTestAddress' );
+
+        foreach ( $addresses as $address )
+        {
+            $this->assertTrue( $this->session->isRelated( $address, $person ) );
+        }
+    }
+
+    public function testIsRelatedFailure()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+
+        $address = new RelationTestAddress();
+        $address->id = 2342;
+
+        $this->assertFalse( $this->session->isRelated( $person, $address ) );
+        $this->assertFalse( $this->session->isRelated( $address, $person ) );
+    }
 }
 
 ?>

@@ -281,6 +281,33 @@ class ezcPersistentManyToOneRelationTest extends ezcTestCase
         }
         $this->fail( "Exception not thrown on adding a new relation that is marked as reverse." );
     }
+
+    public function testIsRelatedSuccess()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+        $employer = $this->session->load( "RelationTestEmployer", 2 );
+
+        $this->assertTrue( $this->session->isRelated( $person, $employer ) );
+    }
+
+    public function testIsRelatedReverseSuccess()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+        $employer = $this->session->load( "RelationTestEmployer", 2 );
+
+        $this->assertTrue( $this->session->isRelated( $employer, $person ) );
+    }
+
+    public function testIsRelatedFailure()
+    {
+        $person = $this->session->load( "RelationTestPerson", 1 );
+
+        $employer = new RelationTestEmployer();
+        $employer->id = 2342;
+
+        $this->assertFalse( $this->session->isRelated( $person, $employer ) );
+        $this->assertFalse( $this->session->isRelated( $employer, $person ) );
+    }
 }
 
 ?>
