@@ -579,13 +579,15 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             0,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             13.53,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
@@ -615,25 +617,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             0.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             2000.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             250.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             50.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -649,25 +655,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             1.175,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             1.275,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             0.025,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             .005,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
