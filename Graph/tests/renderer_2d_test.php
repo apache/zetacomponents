@@ -2444,6 +2444,29 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
         );
     }
 
+    public function testRotatedAxisLabel()
+    {
+        $filename = $this->tempDir . __FUNCTION__ . '.svg';
+        
+        $graph = new ezcGraphLineChart();
+        $graph->palette = new ezcGraphPaletteBlack();
+
+        $graph->data['sample1'] = new ezcGraphArrayDataSet( array( 1, 4, 6, 8, 2 ) );
+        $graph->data['sample1']->symbol = ezcGraph::SQUARE;
+        $graph->data['sample2'] = new ezcGraphArrayDataSet( array( 4, 6, 8, 2, 1 ) );
+        $graph->data['sample2']->symbol = ezcGraph::BOX;
+
+        $graph->xAxis->label = "Some axis label";
+        $graph->xAxis->labelRotation = 90;
+
+        $graph->render( 560, 250, $filename );
+
+        $this->compare(
+            $filename,
+            $this->basePath . 'compare/' . __CLASS__ . '_' . __FUNCTION__ . '.svg'
+        );
+    }
+
     public function testRendererOptionsPropertyMaxLabelHeight()
     {
         $options = new ezcGraphRendererOptions();

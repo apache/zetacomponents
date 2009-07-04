@@ -120,6 +120,8 @@
  * @property-read bool $initialized
  *           Property indicating if some values were associated with axis, or a
  *           scaling has been set manually.
+ * @property float $labelRotation
+ *           Rotation of the axis label in degree
  *
  * @version //autogentag//
  * @package Graph
@@ -166,6 +168,7 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
         $this->properties['labelCallback'] = null;
         $this->properties['chartPosition'] = null;
         $this->properties['initialized'] = false;
+        $this->properties['labelRotation'] = 0.;
 
         parent::__construct( $options );
 
@@ -326,6 +329,14 @@ abstract class ezcGraphChartElementAxis extends ezcGraphChartElement
                 }
 
                 $this->properties['chartPosition'] = (float) $propertyValue;
+                break;
+            case 'labelRotation':
+                if ( !is_numeric( $propertyValue ) )
+                {
+                    throw new ezcBaseValueException( $propertyName, $propertyValue, 'float' );
+                }
+                
+                $this->properties['labelRotation'] = fmod( (float) $propertyValue, 360. );
                 break;
             default:
                 parent::__set( $propertyName, $propertyValue );

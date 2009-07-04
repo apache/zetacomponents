@@ -1006,6 +1006,32 @@ class ezcGraphElementOptionsTest extends ezcTestImageCase
         $this->fail( 'ezcBasevalueException expected.' );
     }
 
+    public function testChartElementAxisPropertyLabelRotation()
+    {
+        $options = new ezcGraphChartElementNumericAxis();
+
+        $this->assertSame(
+            0.,
+            $options->labelRotation,
+            'Wrong default value for property labelRotation in class ezcGraphChartElementNumericAxis'
+        );
+
+        $options->labelRotation = 450;
+        $this->assertSame(
+            90.,
+            $options->labelRotation,
+            'Setting property value did not work for property labelRotation in class ezcGraphChartElementNumericAxis'
+        );
+
+        try
+        {
+            $options->labelRotation = 'foo';
+            $this->fail( 'ezcBasevalueException expected.' );
+        }
+        catch ( ezcBasevalueException $e )
+        { /* Expected */ }
+    }
+
     public function testChartElementTextPropertyMaxHeight()
     {
         $options = new ezcGraphChartElementText();
