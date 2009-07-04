@@ -117,25 +117,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             10.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             50.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             10.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             1.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -148,25 +152,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             0.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             150.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             25.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             5.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -179,25 +187,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             0.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             5.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             1.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             .25,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -210,25 +222,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             -2.5,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             5.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             2.5,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             .5,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -241,25 +257,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             1000.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             1500.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             100.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             25.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -273,25 +293,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             1000.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             1750.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             250.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             50.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -305,25 +329,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             1000.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             1450.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             50.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             10.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -337,25 +365,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             0.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             1500.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             500.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             100.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -369,25 +401,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             1000.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             2000.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             250.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             50.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -402,25 +438,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             0.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             2000.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             1000.,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             250.,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -434,25 +474,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             4.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             5.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             .5,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             .1,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -466,25 +510,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             113.,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             114.,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             .5,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             .1,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -499,25 +547,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             -100,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             1900,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             500,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             100,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -532,25 +584,29 @@ class ezcGraphNumericAxisTest extends ezcTestCase
         $this->assertEquals(
             -100,
             $chart->yAxis->min,
-            'As value for: min; '
+            'As value for: min; ',
+            .001
         );
 
         $this->assertEquals(
             1900,
             $chart->yAxis->max,
-            'As value for: max; '
+            'As value for: max; ',
+            .001
         );
 
         $this->assertEquals(
             500,
             $chart->yAxis->majorStep,
-            'As value for: majorStep; '
+            'As value for: majorStep; ',
+            .001
         );
 
         $this->assertEquals(
             100,
             $chart->yAxis->minorStep,
-            'As value for: minorStep; '
+            'As value for: minorStep; ',
+            .001
         );
     }
 
@@ -594,14 +650,14 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             2.706,
             $chart->yAxis->majorStep,
             'As value for: majorStep; ',
-            .01
+            .001
         );
 
         $this->assertEquals(
             0.5412,
             $chart->yAxis->minorStep,
             'As value for: minorStep; ',
-            .01
+            .001
         );
     }
 
