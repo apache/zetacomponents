@@ -46,7 +46,7 @@ Feed elements
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-item|_ *          | |ATOM-entry|_ ?*        | |RSS1-item|_ !*            | |RSS2-item|_ !*           |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-language|_        | x                       | x                          | |RSS2-language|_ ?        |
+| |ezcFeed-language|_        | |ATOM-language|_ ?      | |RSS1-language|_ ?         | |RSS2-language|_ ?        |
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-link|_ *          | |ATOM-link|_ !*         | |RSS1-link|_ !             | |RSS2-link|_ !            |
 +----------------------------+-------------------------+----------------------------+---------------------------+
@@ -110,6 +110,8 @@ Item elements
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-id|_              | |ATOM-entry-id|_ !            | |RSS1-item-about|_ !         | |RSS2-item-guid|_ ?          |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
+| |ezcFeed-item-language|_ ?      | |ATOM-entry-language|_ ?      | |RSS1-item-language|_ ?      | |RSS2-item-language|_ ?      |
++---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-link|_ *          | |ATOM-entry-link|_ !*         | |RSS1-item-link|_ !          | |RSS2-item-link|_ !          |
 +---------------------------------+-------------------------------+------------------------------+------------------------------+
 | |ezcFeed-item-published|_       | |ATOM-entry-published|_ ?     | x                            | |RSS2-item-pubDate|_ ?       |
@@ -125,6 +127,12 @@ Item elements
 | ? = optional
 | * = can appear multiple times
 | x = no equivalence
+
+The language element for an item in any feed type is rendered in XML as an
+*xml:lang* attribute for the item or entry XML element. Parsing an XML file
+which contains *xml:lang* attributes for the item/entry XML elements will
+result in the language attribute to be filled with the contents of the
+*xml:lang* attribute.
 
 In order to generate all 3 feed types from the same ezcFeed data, these
 elements must be added to an ezcFeedEntryElement object:

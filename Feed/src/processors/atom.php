@@ -202,6 +202,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
             }
         }
 
+        if ( $channel->hasAttribute( 'xml:lang' ) )
+        {
+            $feed->language = $channel->getAttribute( 'xml:lang' );
+        }
+
         return $feed;
     }
 
@@ -276,7 +281,7 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
     {
         $elements = array( 'author', 'link', 'category',
                            'contributor', 'generator', 'icon',
-                           'image', 'copyright', 'description' );
+                           'image', 'copyright', 'description', 'language' );
 
         if ( $this->link !== null )
         {
@@ -337,6 +342,10 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
                     case 'icon':
                         $this->generateMetaData( $this->channel, 'icon', $data );
+                        break;
+                        
+                    case 'language':
+                        $this->generateLanguage( $this->channel, $data );
                         break;
                 }
             }
@@ -529,6 +538,17 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         }
 
         $elementTag->nodeValue = $dataNode;
+    }
+    
+    /**
+     * Creates an attribute on an XML node containing the language in it.
+     *
+     * @param DOMNode $root The root in which to create the attribute
+     * @param ezcFeedTextElement $dataNode The data for the node to create
+     */
+    private function generateLanguage( DOMNode $root, ezcFeedTextElement $dataNode  )
+    {
+        $this->addAttribute( $root, 'xml:lang', $dataNode->text );
     }
 
     /**
@@ -761,6 +781,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
         {
             $entryTag = $this->xml->createElement( 'entry' );
             $this->channel->appendChild( $entryTag );
+            
+            if ( !is_null( $entry->language ) )
+            {
+                $this->addAttribute( $entryTag, 'xml:lang', $entry->language );
+            }
 
             $elements = array( 'id', 'title', 'updated' );
 
@@ -1105,6 +1130,11 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
                         break;
                 }
             }
+        }
+
+        if ( $xml->hasAttribute( 'xml:lang' ) )
+        {
+            $element->language = $xml->getAttribute( 'xml:lang' );
         }
     }
 

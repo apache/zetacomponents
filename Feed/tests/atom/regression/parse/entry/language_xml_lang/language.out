@@ -1,0 +1,17 @@
+<?php
+$feed = new ezcFeed( 'atom' );
+
+$feed->id = 'Feed id';
+$feed->title = 'Feed title';
+$feed->title->type = 'text';
+$feed->updated = 'Feed updated';
+
+$entry = $feed->add( 'item' );
+$entry->id = 'Entry id';
+$entry->title = 'Entry title';
+$entry->updated = 1195053820;
+
+$entry->language = 'de';
+
+return $feed;
+?>

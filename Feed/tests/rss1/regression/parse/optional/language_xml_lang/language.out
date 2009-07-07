@@ -1,0 +1,11 @@
+<?php
+$feed = new ezcFeed( 'rss1' );
+
+$feed->id = 'Channel about';
+$feed->title = 'Feed title';
+$feed->link = 'Feed link';
+$feed->description = 'Feed description';
+$feed->language = 'de';
+
+return $feed;
+?>

@@ -186,6 +186,11 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             }
         }
 
+        if ( $channel->hasAttribute( 'xml:lang' ) )
+        {
+            $feed->language = $channel->getAttribute( 'xml:lang' );
+        }
+
         return $feed;
     }
 
@@ -241,6 +246,11 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                     $this->generateMetaData( $this->channel, $element, $data );
                     break;
             }
+        }
+
+        if ( !is_null( $this->language ) )
+        {
+            $this->addAttribute( $this->channel, 'xml:lang', $this->language );
         }
 
         $items = $this->item;
@@ -338,13 +348,22 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                 $this->generateMetaData( $itemTag, $attribute, $data );
             }
 
-            $elements = array( 'description' );
+            $elements = array( 'description', 'language' );
             foreach ( $elements as $attribute )
             {
                 $data = $element->$attribute;
                 if ( !is_null( $data ) )
                 {
-                    $this->generateMetaData( $itemTag, $attribute, $data );
+                    switch ( $attribute )
+                    {
+                        case 'description':
+                            $this->generateMetaData( $itemTag, $attribute, $data );
+                            break;
+
+                        case 'language':
+                           $this->addAttribute( $itemTag, 'xml:lang', $data );
+                           break;
+                    }
                 }
             }
 
@@ -459,6 +478,11 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
                         break;
                 }
             }
+        }
+
+        if ( $xml->hasAttribute( 'xml:lang' ) )
+        {
+            $element->language = $xml->getAttribute( 'xml:lang' );
         }
     }
 

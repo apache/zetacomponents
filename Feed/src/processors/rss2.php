@@ -609,7 +609,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             $optional = array( 'title', 'link', 'description',
                                'author', 'category', 'comments',
                                'enclosure', 'id', 'published',
-                               'source' );
+                               'source', 'language' );
 
             foreach ( $optional as $attribute )
             {
@@ -679,6 +679,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                             $attributes = array( 'url' => $metaData->url );
                             $this->generateMetaDataWithAttributes( $itemTag, 'source', $metaData, $attributes );
                             break;
+
+                        case 'language':
+                           $this->addAttribute( $itemTag, 'xml:lang', $metaData );
+                           break;
 
                         default:
                             $this->generateMetaData( $itemTag, $attribute, $metaData );
@@ -776,6 +780,11 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         break;
                 }
             }
+        }
+
+        if ( $xml->hasAttribute( 'xml:lang' ) )
+        {
+            $element->language = $xml->getAttribute( 'xml:lang' );
         }
     }
 

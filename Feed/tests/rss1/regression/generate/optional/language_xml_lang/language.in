@@ -1,0 +1,11 @@
+<?php
+return array( 'id' => 'Channel about',
+              'title' => 'Feed title',
+              'link' => 'Feed link',
+              'description' => 'Feed description',
+			  'item' => array( array( 'id' => 'Item about',
+                                      'title' => 'Item title',
+                                      'link' => 'Item link' ) ),
+              'language' => 'Feed language',
+            );
+?>

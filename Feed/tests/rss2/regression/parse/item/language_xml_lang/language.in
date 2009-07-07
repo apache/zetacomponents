@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Feed title</title>
+    <link>Feed link</link>
+    <description>Feed description</description>
+    <item xml:lang="de">
+      <title>Item title</title>
+      <link>Item link</link>
+      <description>Item description</description>
+      <comments>Item comments</comments>
+    </item>
+  </channel>
+</rss> 

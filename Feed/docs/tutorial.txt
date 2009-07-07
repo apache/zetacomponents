@@ -169,7 +169,10 @@ the class ezcFeedElement):
   (RSS2 only), *about* (RSS1 only)
 
 - **language** (ezcFeedTextElement) - specifies a language for the feed, one
-  of `RSS language codes`_.
+  of `RSS language codes`_. It is rendered as an *xml:lang* attribute in XML
+  for ATOM and RSS1 feeds, and as a *language* element for RSS2 feeds. For
+  item elements it will always be rendered as an *xml:lang* attribute in
+  all feed types.
 
 - **link** (ezcFeedLinkElement) - specifies a link with the attributes *href*,
   *rel*, *hreflang*, *title*, *type*, *length*

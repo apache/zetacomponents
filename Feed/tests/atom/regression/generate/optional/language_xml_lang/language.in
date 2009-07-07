@@ -1,0 +1,8 @@
+<?php
+return array( 'id' => 'Feed id',
+              'title' => array( array( 'text' => 'Feed title',
+                                       'type' => '' ) ),
+              'updated' => 'Feed updated',
+              'author' => array( array( 'name' => 'Author name' ) ),
+              'language' => 'Feed language' );
+?>

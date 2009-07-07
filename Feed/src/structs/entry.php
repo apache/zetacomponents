@@ -82,6 +82,11 @@
  *           ATOM-source (optional, not recommended, single),
  *           RSS1-none,
  *           RSS2-source (optional, not recommended, single).
+ * @property ezcFeedTextElement $language
+ *           The language of the entry. Equivalents:
+ *           ATOM-source (optional, not recommended, single ),
+ *           RSS1-none,
+ *           RSS2-none.
 *
  * @package Feed
  * @version //autogentag//
@@ -111,6 +116,7 @@ class ezcFeedEntryElement extends ezcFeedElement
             case 'description':
             case 'comments':
             case 'copyright':
+            case 'language':
                 $element = $this->add( $name );
                 $element->text = $value;
                 break;
@@ -190,6 +196,7 @@ class ezcFeedEntryElement extends ezcFeedElement
             case 'title':
             case 'updated':
             case 'source':
+            case 'language':
                 if ( isset( $this->properties[$name] ) )
                 {
                     return $this->properties[$name];
@@ -238,6 +245,7 @@ class ezcFeedEntryElement extends ezcFeedElement
             case 'title':
             case 'updated':
             case 'source':
+            case 'language':
                 return isset( $this->properties[$name] );
 
             default:
@@ -293,6 +301,7 @@ class ezcFeedEntryElement extends ezcFeedElement
             case 'description':
             case 'comments':
             case 'copyright':
+            case 'language':
                 $element = new ezcFeedTextElement();
                 $this->properties[$name] = $element;
                 break;
