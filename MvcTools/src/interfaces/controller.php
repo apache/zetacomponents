@@ -69,22 +69,19 @@ abstract class ezcMvcController
     }
 
     /**
-     * Sets the property $name to $value.
+     * Sets the property $name to $value, all properties are readonly though so
+     * an exception is thrown for every set.
      *
-     * @throws ezcBasePropertyNotFoundException if the property does not exist.
-     * @throws ezcBaseValueException if a the value for a property is out of
-     *         range.
+     * @throws ezcBasePropertyPermissionException if a read-only property is
+     *         tried to be modified.
+     *
      * @param string $name
      * @param mixed $value
      * @ignore
      */
     public function __set( $name, $value )
     {
-        switch ( $name )
-        {
-            default:
-                throw new ezcBasePropertyNotFoundException( $name );
-        }
+        throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
     }
 
     /**
@@ -96,14 +93,11 @@ abstract class ezcMvcController
      */
     public function __get( $name )
     {
-        switch ( $name )
+        if ( isset( $this->properties[$name] ) )
         {
-            default:
-                if ( isset( $this->properties[$name] ) )
-                {
-                    return $this->properties[$name];
-                }
+            return $this->properties[$name];
         }
+
         throw new ezcBasePropertyNotFoundException( $name );
     }
 
@@ -116,13 +110,7 @@ abstract class ezcMvcController
      */
     public function __isset( $name )
     {
-        switch ( $name )
-        {
-            default:
-                return false;
-        }
-        // if there is no default case before:
-        return parent::__isset( $name );
+        return array_key_exists( $name, $this->properties );
     }
 
     /**

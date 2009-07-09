@@ -36,6 +36,23 @@ class ezcMvcToolsControllerTest extends ezcTestCase
         self::assertEquals( "testAction", $this->readAttribute( $f, 'action' ) );
     }
 
+    public function testGetNonExistingVariables()
+    {
+        $r = new ezcMvcRequest;
+        $r->variables = array( 'var1' => 42, 'var42' => 'bansai!' );
+        $f = new testControllerController( 'testAction', $r );
+
+        try
+        {
+            $foo = $f->new;
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcBasePropertyNotFoundException $e )
+        {
+            self::assertEquals( "No such property name 'new'.", $e->getMessage() );
+        }
+    }
+
     public function testSetVariables()
     {
         $r = new ezcMvcRequest;
@@ -44,6 +61,43 @@ class ezcMvcToolsControllerTest extends ezcTestCase
 
         self::assertEquals( 42, $f->var1 );
         self::assertEquals( 'bansai!', $f->var42 );
+    }
+
+    public function testSetProperties()
+    {
+        $r = new ezcMvcRequest;
+        $r->variables = array( 'var1' => 42, 'var42' => 'bansai!' );
+        $f = new testControllerController( 'testAction', $r );
+
+        try
+        {
+            $f->new = 'fail!';
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+            self::assertEquals( "The property 'new' is read-only.", $e->getMessage() );
+        }
+
+        try
+        {
+            $f->var = 'modified';
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcBasePropertyPermissionException $e )
+        {
+            self::assertEquals( "The property 'var' is read-only.", $e->getMessage() );
+        }
+    }
+
+    public function testIssetProperties()
+    {
+        $r = new ezcMvcRequest;
+        $r->variables = array( 'var1' => 42, 'var42' => 'bansai!' );
+        $f = new testControllerController( 'testAction', $r );
+
+        self::assertEquals( false, isset( $f->notSet ) );
+        self::assertEquals( true, isset( $f->var1 ) );
     }
 
     public function testRoutingInformation()
