@@ -255,7 +255,7 @@
  *           example, it can be an Internet domain name. Equivalents:
  *           ATOM-id (required, single),
  *           RSS1-about (required, single),
- *           RSS2-selfAtomLink (optional, single).
+ *           RSS2-id (optional, single).
  * @property ezcFeedImageElement $image
  *           An image associated with the feed. Equivalents:
  *           ATOM-logo (optional, single),
