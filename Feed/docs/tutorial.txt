@@ -1250,6 +1250,54 @@ ezcFeed data::
     ?>
 
 
+Self link
+---------
+
+A `feed validator`_ application will usually recommend that a feed contains
+a link to itself, in other words the URL of the feed should be included inside
+the feed.
+
+To add this information to a feed, use the following section.
+
+
+ATOM
+````
+
+Add a *link* element with the attribute *rel=self* (this is required)::
+
+    $link = $feed->add( 'link' );
+    $link->href = 'http://example.com/';
+    $link->rel = 'self';
+
+
+RSS1
+````
+
+Use the *about* attribute, accessed as *id* (this is required)::
+
+    $feed->id = 'http://example.com/';
+
+
+RSS2
+````
+
+Most `feed validator`_ applications will recommend to include in an RSS2 feed
+a link to the location of the feed. For example, if the XML document
+containing the RSS2 feed is located at 'http://example.com/rss/', then this
+URL should be contained in the feed itself in an *atom:link* element, since
+RSS2 does not offer a mechanism to specify self-links.
+
+Use the *id* element of a feed to add this self-link::
+
+    $feed->id = 'http://example.com/';
+
+This will be rendered in XML as::
+
+    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    ...
+    <atom:link href="http://example.com/" rel="self" type="application/rss+xml"/>
+
+
 Media type
 ----------
 

@@ -3,6 +3,7 @@
 
 - Implemented feature request #14076: Language attribute for feed items. Based
   on a patch from Emanuel Sprung.
+- Implemented feature request #14292: Support atom:link in RSS feeds.
 
 
 1.2.1 - Monday 09 February 2009

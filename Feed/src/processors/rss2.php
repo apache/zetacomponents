@@ -242,6 +242,14 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $this->parseTextInput( $element, $channelChild );
                         break;
 
+                    case 'atom:link':
+                        $element = $feed->add( 'id' );
+                        if ( $channelChild->hasAttribute( 'href' ) )
+                        {
+                            $element->id = $channelChild->getAttribute( 'href' );
+                        }
+                        break;
+
                     default:
                         // check if it's part of a known module/namespace
                         $this->parseModules( $feed, $channelChild, $tagName );
@@ -299,7 +307,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                            'category', 'generator', 'docs',
                            'ttl', 'image', 'rating',
                            'textInput', 'skipHours', 'skipDays',
-                           'cloud' );
+                           'cloud', 'id' );
 
         foreach ( $elements as $element )
         {
@@ -360,6 +368,10 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         {
                             $this->generatePerson( $person, $this->channel, 'webMaster' );
                         }
+                        break;
+
+                    case 'id':
+                        $this->generateAtomSelfLink( $this->id );
                         break;
 
                     default:
@@ -566,6 +578,23 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
         }
 
         $this->generateMetaDataWithAttributes( $cloud, $element, false, $attributes );
+    }
+
+    /**
+     * Adds an atom:link node to the XML document being generated, plus the namespace.
+     *
+     * @param ezcFeedIdElement $feedElement The link feed element
+     */
+    private function generateAtomSelfLink( ezcFeedIdElement $feedElement )
+    {
+        $this->addAttribute( $this->root, 'xmlns:atom', ezcFeedAtom::NAMESPACE_URI );
+
+        $link = $this->xml->createElement( 'atom:link' );
+        $this->channel->appendChild( $link );
+
+        $this->addAttribute( $link, 'href', $feedElement->id );
+        $this->addAttribute( $link, 'rel', 'self' );
+        $this->addAttribute( $link, 'type', self::CONTENT_TYPE );
     }
 
     /**

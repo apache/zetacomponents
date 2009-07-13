@@ -40,7 +40,7 @@ Feed elements
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-icon|_            | |ATOM-icon|_ ?          | x                          | x                         |
 +----------------------------+-------------------------+----------------------------+---------------------------+
-| |ezcFeed-id|_              | |ATOM-id|_ !            | |RSS1-about|_ !            | x                         |
+| |ezcFeed-id|_              | |ATOM-id|_ !            | |RSS1-about|_ !            | |RSS2-id|_ ?              |
 +----------------------------+-------------------------+----------------------------+---------------------------+
 | |ezcFeed-image|_           | |ATOM-logo|_ ?          | |RSS1-image|_ ?            | |RSS2-image|_ ?           |
 +----------------------------+-------------------------+----------------------------+---------------------------+
@@ -615,8 +615,9 @@ Type: ezcFeedIdElement.
 A universally unique and permanent URI for a feed. For example, it can be an
 Internet domain name.
 
-Required. Only `RSS1`_ and `ATOM`_ feeds will have this element after
-generating the feed. It will be ignored for `RSS2`_ feeds.
+Required. `RSS1`_ and `ATOM`_ feeds will have this element after generating
+the feed. It will be rendered as an *atom:link* element in `RSS2`_ feeds
+(together with the *xmlns:atom* namespace).
 
 Can appear only once.
 
@@ -634,7 +635,7 @@ Parse example::
     $id = isset( $feed->id ) ? $feed->id->__toString() : null;
     ?>
 
-Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
+Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, `RSS2-id`_.
 
 
 ezcFeed-image
@@ -1983,7 +1984,7 @@ Required.
 
 Can appear only once.
 
-Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
+Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, `RSS2-id`_.
 
 
 ATOM-link
@@ -2385,7 +2386,7 @@ Required.
 
 Can appear only once.
 
-Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, RSS2-none.
+Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, `RSS2-id`_.
 
 
 RSS1-description
@@ -2647,6 +2648,35 @@ Can appear only once.
 
 Equivalents: `ezcFeed-generator`_, `ATOM-generator`_, RSS1-none,
 `RSS2-generator`_.
+
+
+RSS2-id
+```````
+
+Most `feed validator`_ applications will recommend to include in an RSS2 feed
+a link to the location of the feed. For example, if the XML document
+containing the RSS2 feed is located at 'http://example.com/rss/', then this
+URL should be contained in the feed itself in an *atom:link* element, since
+RSS2 does not offer a mechanism to specify self-links.
+
+Use the `ezcFeed-id`_ to specify this self-link::
+
+    $feed->id = 'http://example.com/rss/';
+
+This will be rendered in XML as::
+
+    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    ...
+    <atom:link href="http://example.com/" rel="self" type="application/rss+xml"/>
+
+Optional (although recommended because `ezcFeed-id`_ is recommended). The
+*id* feed element does not appear in the `RSS2 specifications`_, but it is
+added to comply with `feed validator`_ recommendations and it is rendered as
+an `ATOM`_ element as discussed above.
+
+Can appear only once.
+
+Equivalents: `ezcFeed-id`_, `ATOM-id`_, `RSS1-about`_, `RSS2-id`_.
 
 
 RSS2-image
@@ -4158,6 +4188,8 @@ Modules
 .. _CreativeCommons licenses: http://creativecommons.org/licenses/
 .. _WGS84: http://en.wikipedia.org/wiki/WGS84
 .. _date_format(): http://php.net/manual/en/function.date-format.php
+
+.. _feed validator: http://validator.w3.org/feed/
 
 .. |ezcFeed-author| replace:: author
 .. |ezcFeed-category| replace:: category

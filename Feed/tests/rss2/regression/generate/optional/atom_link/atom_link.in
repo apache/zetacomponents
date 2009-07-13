@@ -1,0 +1,10 @@
+<?php
+return array( 'title' => 'Feed title',
+              'link'  => array( array( 'href' => 'Feed link' ) ),
+              'description' => 'Feed description',
+              'id' => 'http://example.com/',
+              'item' => array( array( 'title' => 'Item title',
+                                      'link' => 'Item link',
+                                      'description' => 'Item description' ), ),
+            );
+?>
