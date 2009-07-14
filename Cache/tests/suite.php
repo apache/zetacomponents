@@ -15,6 +15,7 @@ require_once 'storage_options_test.php';
 require_once 'stack_options_test.php';
 require_once 'storage_file_options_test.php';
 require_once 'storage_array_test.php';
+require_once 'storage_object_test.php';
 require_once 'storage_apc_array_test.php';
 require_once 'storage_evalarray_test.php';
 require_once 'storage_plain_test.php';
@@ -51,6 +52,7 @@ class ezcCacheSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcCacheStorageFileTest::suite() );
         $this->addTest( ezcCacheStorageFileArrayTest::suite() );
+        $this->addTest( ezcCacheStorageFileObjectTest::suite() );
         $this->addTest( ezcCacheStorageFileEvalArrayTest::suite() );
         $this->addTest( ezcCacheStorageFilePlainTest::suite() );
 

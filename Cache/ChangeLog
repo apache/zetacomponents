@@ -1,6 +1,9 @@
-1.4.2 - [RELEASEDATE]
+1.5.0alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Implemented feature #12433: The new ezcCacheStorageFileObject deprecates
+  ezcCacheStorageFileArray, since it can store objects that implement
+  ezcBaseExportable, arrays and scalar values.
 - Fixed memcache test cases.
 
 
