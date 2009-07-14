@@ -523,7 +523,7 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
             }
             else
             {
-                if ( !isset( $def->properties[$name] ) )
+                if ( !array_key_exists( $name, $def->properties ) )
                 {
                     // Unknown property
                     continue;
@@ -532,13 +532,14 @@ class ezcPersistentSaveHandler extends ezcPersistentSessionHandler
                 $conv = $def->properties[$name]->converter;
             }
 
+            // First convert back from complex type.
+            if ( !is_null( $conv ) )
+            {
+                $value = $conv->toDatabase( $value );
+            }
+
             if ( !is_null( $value ) )
             {
-                // First convert back from complex type.
-                if ( !is_null( $conv ) )
-                {
-                    $value = $conv->toDatabase( $value );
-                }
                 // Then cast simple type.
                 switch ( $type )
                 {

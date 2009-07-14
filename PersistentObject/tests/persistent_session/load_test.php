@@ -108,6 +108,38 @@ class ezcPersistentSessionLoadTest extends ezcPersistentSessionTest
         );
     }
 
+    public function testConversionNullOnLoad()
+    {
+        $q = $this->session->database->createInsertQuery();
+        $q->insertInto( $this->session->database->quoteIdentifier( 'PO_test' ) );
+        $q->set( $this->session->database->quoteIdentifier( 'type_varchar' ), $q->bindValue( 'foo' ) );
+        $q->set( $this->session->database->quoteIdentifier( 'type_integer' ), $q->bindValue( 23 ) );
+        // null!
+        // $q->set( $this->session->database->quoteIdentifier( 'type_decimal' ), $q->bindValue( 42.23 ) );
+        $q->set( $this->session->database->quoteIdentifier( 'type_text' ), $q->bindValue( 'foo bar' ) );
+
+        $stmt = $q->prepare();
+        $stmt->execute();
+
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'foo' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+
+        $obj = current( $arr );
+
+        $this->assertEquals( 42.23, $obj->decimal );
+    }
+
     // loadIntoObject
     
     public function testLoadIntoObjectValid()

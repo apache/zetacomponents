@@ -126,6 +126,21 @@ class ezcPersistentSessionSaveTest extends ezcPersistentSessionTest
         );
     }
 
+    public function testConversionNullOnUpdate()
+    {
+        $obj = $this->session->load( 'PersistentTestObjectConverter', 1 );
+
+        $this->assertEquals( 449.96, $obj->decimal );
+
+        $obj->decimal = null;
+
+        $this->session->update( $obj );
+
+        $storedObj = $this->session->load( 'PersistentTestObjectConverter', 1 );
+
+        $this->assertEquals( 23.42, $storedObj->decimal );
+    }
+
     public function testConversionNotBreaksState()
     {
         $date = new DateTime( '@327535200' );
@@ -303,6 +318,40 @@ class ezcPersistentSessionSaveTest extends ezcPersistentSessionTest
         $this->assertEquals(
             '327535200',
             $arr[5]->integer->format( 'U' )
+        );
+    }
+
+    public function testConversionNullOnSave()
+    {
+        $obj = new PersistentTestObjectConverter();
+
+        $obj->varchar = 'Foo Bar';
+        $obj->integer = new DateTime( '@327535200' );
+        $obj->decimal = null;
+        $obj->text    = 'Foo Bar Baz';
+
+
+        $this->session->save( $obj );
+
+        $q = $this->session->createFindQuery( 'PersistentTestObjectConverter' );
+        $q->where(
+            $q->expr->eq( 
+                $this->session->database->quoteIdentifier( 'type_varchar' ),
+                $q->bindValue( 'Foo Bar' )
+            )
+        );
+        $arr = $this->session->find( $q, 'PersistentTestObjectConverter' );
+
+        $this->assertEquals(
+            1,
+            count( $arr )
+        );
+
+        $storedObj = current( $arr );
+
+        $this->assertEquals(
+            23.42,
+            $storedObj->decimal
         );
     }
 

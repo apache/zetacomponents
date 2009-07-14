@@ -4,6 +4,9 @@
  * This definition is used by the code manager for
  * various tests in the system.
  */
+
+require_once 'test_float_converter.php';
+
 // build definition
 $def = new ezcPersistentObjectDefinition();
 $def->table = "PO_test";
@@ -32,6 +35,7 @@ $def->properties['decimal'] = new ezcPersistentObjectProperty;
 $def->properties['decimal']->columnName = 'type_decimal';
 $def->properties['decimal']->propertyName = 'decimal';
 $def->properties['decimal']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_FLOAT;;
+$def->properties['decimal']->converter = new ezcPersistentPropertyTestFloatConverter();
 
 $def->properties['text'] = new ezcPersistentObjectProperty;
 $def->properties['text']->columnName = 'type_text';
