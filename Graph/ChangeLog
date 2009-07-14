@@ -1,8 +1,10 @@
 1.?.? - [RELEASEDATE}
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented: #14294: Add option for axis label rotation
-- Implemented: #13341: Vertical Bar Charts
+- Implemented: #14294: Add option for axis label rotation.
+- Implemented: #13341: Vertical Bar Charts.
+- Implemented: #15135: Add support for pecl/cairo's object-oriented API, patch
+  by Michael Maclean.
 
 
 1.4.3 - Monday 08 June 2009
