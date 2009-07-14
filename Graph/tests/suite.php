@@ -49,6 +49,7 @@ require_once 'radar_chart.php';
 require_once 'renderer_2d_test.php';
 require_once 'renderer_2d_legacy_test.php';
 require_once 'renderer_3d_test.php';
+require_once 'horizontal_bar_chart_renderer.php';
 require_once 'struct_test.php';
 require_once 'text_test.php';
 require_once 'tools_test.php';
@@ -103,6 +104,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphRenderer2dTest::suite() );
         $this->addTest( ezcGraphRenderer2dLegacyTest::suite() );
         $this->addTest( ezcGraphRenderer3dTest::suite() );
+        $this->addTest( ezcGraphHorizontalBarRendererTests::suite() );
         $this->addTest( ezcGraphStructTest::suite() );
         $this->addTest( ezcGraphSvgDriverTest::suite() );
         $this->addTest( ezcGraphSvgSvgFontDriverTest::suite() );
