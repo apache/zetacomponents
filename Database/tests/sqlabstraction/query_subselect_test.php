@@ -84,6 +84,22 @@ class ezcQuerySubSelectTest extends ezcTestCase
         $this->assertEquals( $reference, $q2->getQuery() );
     }
 
+    public function testSubSelectNotQuoted()
+    {
+        $reference = 'SELECT * FROM test_table WHERE id IN ( SELECT column FROM sub_table WHERE id = 1 )';
+        $this->q->select( '*' )
+                ->from( 'test_table' );
+
+        $subQ = $this->q->subSelect();
+        $subQ->select( 'column' )
+           ->from( 'sub_table' )
+           ->where( $subQ->expr->eq( 'id', 1 ) );
+
+        $this->q->where( $this->q->expr->in( 'id', $subQ ) );
+
+        $this->assertEquals( $reference, $this->q->getQuery() );
+    }
+
     public function testSubSubSelect()
     {
         $reference = '( SELECT column FROM table WHERE id = ( SELECT * FROM table2 ) )';
@@ -93,7 +109,6 @@ class ezcQuerySubSelectTest extends ezcTestCase
         $q2->select( 'column' )->from( 'table' )->where($q2->expr->eq('id', $q3->getQuery() ) );
 
         $this->assertEquals( $reference, $q2->getQuery() );
-
     }
 
     public function testDistinctSubSelect()
