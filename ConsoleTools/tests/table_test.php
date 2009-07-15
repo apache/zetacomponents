@@ -346,6 +346,18 @@ class ezcConsoleTableTest extends ezcTestCase
             array( 0 )
         );
     }
+
+    public function testTableWithoutFormatting()
+    {
+        $this->output->options->useFormats = false;
+
+        $this->commonTableTest(
+            __FUNCTION__,
+            $this->tableData2,
+            array( 'cols' => count( $this->tableData2[0] ), 'width' => 80 ),
+            array()
+        );
+    }
     
     public function testTableConfigurationFailure1 ()
     {

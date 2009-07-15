@@ -584,7 +584,7 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
         }
         $border .= ( $this->options->lineHorizontal !== null ? $this->properties['options']->corner : '' );
 
-        return $this->outputHandler->formatText( $border, $format );
+        return $this->formatText( $border, $format );
     }
 
     /**
@@ -606,18 +606,18 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             $borderFormat = $this->determineBorderFormat( $row );
             
             $data = isset( $cells[$cell] ) ? $cells[$cell] : '';
-            $rowData .= $this->outputHandler->formatText( 
+            $rowData .= $this->formatText( 
                             $this->properties['options']->lineHorizontal, 
                             $borderFormat
                         );
             $rowData .= $this->properties['options']->colPadding;
-            $rowData .= $this->outputHandler->formatText(
+            $rowData .= $this->formatText(
                             $this->stringTool->strPad( $data, $colWidth[$cell], ' ', $align ),
                             $format
                         );
             $rowData .= $this->properties['options']->colPadding;
         }
-        $rowData .= $this->outputHandler->formatText( $this->properties['options']->lineHorizontal, $row->borderFormat );
+        $rowData .= $this->formatText( $this->properties['options']->lineHorizontal, $row->borderFormat );
         return $rowData;
     }
 
@@ -848,6 +848,28 @@ class ezcConsoleTable implements Countable, Iterator, ArrayAccess
             $colWidth[count( $colWidth ) - 1] -= $colSum - $globalWidth;
         }
         return $colWidth;
+    }
+
+    /**
+     * Returns the given $text formatted with $format.
+     *
+     * In case $useFormats is set to false in the output handler, the text is 
+     * returned as given, without any formatting.
+     * 
+     * @param string $text 
+     * @param string $format 
+     * @return string
+     */
+    private function formatText( $text, $format )
+    {
+        if ( $this->outputHandler->options->useFormats )
+        {
+            return $this->outputHandler->formatText( $text, $format );
+        }
+        else
+        {
+            return $text;
+        }
     }
 }
 ?>

@@ -1,3 +1,11 @@
+1.6.0alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Implemented enhancement #15010: The table does not use output formats
+  anymore, if "useFormats" is set to false in the ezcConsoleOutput instance
+  used.
+
+
 1.5.2 - Monday 22 June 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
