@@ -6,6 +6,8 @@
   check if 2 objects are related to each other.
 - Implemented enhancement #14154: Property converters are now also called for
   null values.
+- Implemented enhancement #14158: If an object to be loaded is not found, an
+  ezcPersistentObjectNotFoundException is thrown.
 
 
 1.6 - Monday 29 June 2009

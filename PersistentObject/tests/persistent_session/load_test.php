@@ -68,7 +68,7 @@ class ezcPersistentSessionLoadTest extends ezcPersistentSessionTest
             $object = $this->session->load( 'PersistentTestObject', 999 );
             $this->fail( "load() called with invalid object id. Did not get an exception" );
         }
-        catch ( ezcPersistentQueryException $e )
+        catch ( ezcPersistentObjectNotFoundException $e )
         {
             $this->assertEquals(
                 "A query failed internally in Persistent Object: No object of class 'PersistentTestObject' with id '999'.",

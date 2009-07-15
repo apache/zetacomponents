@@ -23,7 +23,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
     /**
      * Returns the persistent object of class $class with id $id.
      *
-     * @throws ezcPersistentObjectException
+     * @throws ezcPersistentObjectNotFoundException
      *         if the object is not available.
      * @throws ezcPersistentObjectException
      *         if there is no such persistent class.
@@ -53,6 +53,8 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * @param int $id
      *
      * @return object|null
+     * @TODO Should only eat ezcPersistentObjectNotFoundException, but not the 
+     *       others.
      */
     public function loadIfExists( $class, $id )
     {
@@ -74,7 +76,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * The class of the persistent object to load is determined by the class
      * of $object.
      *
-     * @throws ezcPersistentObjectException
+     * @throws ezcPersistentObjectNotFoundException
      *         if the object is not available.
      * @throws ezcPersistentDefinitionNotFoundException
      *         if $object is not of a valid persistent object type.
@@ -134,9 +136,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
         else
         {
             $class = get_class( $object );
-            throw new ezcPersistentQueryException(
-                "No object of class '$class' with id '$id'."
-            );
+            throw new ezcPersistentObjectNotFoundException( $class, $id );
         }
     }
 
