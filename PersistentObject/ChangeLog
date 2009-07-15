@@ -8,7 +8,8 @@
   null values.
 - Implemented enhancement #14158: If an object to be loaded is not found, an
   ezcPersistentObjectNotFoundException is thrown.
-
+- Implemented enhancement #13073: The new createSubQuery() method on
+  persistence sessions can be used to create a sub-select for a find query.
 
 1.6 - Monday 29 June 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

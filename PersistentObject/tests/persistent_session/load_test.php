@@ -224,6 +224,51 @@ class ezcPersistentSessionLoadTest extends ezcPersistentSessionTest
         }
         catch ( ezcPersistentObjectNotPersistentException $e ) {}
     }
+
+
+    // sub-select
+
+    public function testSubSelectDifferentClass()
+    {
+        RelationTestPerson::setupTables( $this->session->database );
+        RelationTestPerson::insertData( $this->session->database );
+
+        $q = $this->session->createFindQuery( 'RelationTestPerson' );
+
+        $subQ = $this->session->createSubQuery( $q, 'RelationTestBirthday' );
+        $subQ->select( 'person' );
+
+        $q->where(
+            $q->expr->in( 'id', $subQ )
+        );
+
+        $stmt = $q->prepare();
+        $this->assertTrue( $stmt->execute() );
+
+        $this->assertEquals( 2, count( $stmt->fetchAll() ) );
+        RelationTestPerson::cleanup( $this->session->database );
+    }
+
+    public function testSubSelectSameClass()
+    {
+        MultiRelationTestPerson::setupTables( $this->session->database );
+        MultiRelationTestPerson::insertData( $this->session->database );
+
+        $q = $this->session->createFindQuery( 'MultiRelationTestPerson' );
+
+        $subQ = $this->session->createSubQuery( $q, 'MultiRelationTestPerson' );
+        $subQ->select( 'mother' );
+
+        $q->where(
+            $q->expr->in( 'id', $subQ )
+        );
+
+        $stmt = $q->prepare();
+        $this->assertTrue( $stmt->execute() );
+
+        $this->assertEquals( 1, count( $stmt->fetchAll() ) );
+        MultiRelationTestPerson::cleanup( $this->session->database );
+    }
 }
 
 ?>

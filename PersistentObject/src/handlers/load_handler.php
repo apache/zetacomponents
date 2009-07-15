@@ -473,6 +473,40 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
     }
 
     /**
+     * Returns a sub-select for the given $class to be used with $parentQuery.
+     *
+     * This method creates an {@link ezcPersistentFindQuery} as a {@link 
+     * ezcQuerySubSelect} for the given $class. The returned query has already
+     * set aliases for the properties of $class, but (in contrast to the query
+     * returned by {@link createFindQuery()}) does not have the selection of all
+     * properties set. You need to do
+     *
+     * <code>
+     * <?php
+     * $subSelect = $session->subSelect( $existingSelectQuery, 'MyClass' );
+     * $subSelect->select( 'myField' );
+     * ?>
+     * </code>
+     *
+     * manually to select the fields you desire.
+     * 
+     * @param ezcPersistentFindQuery $parentQuery 
+     * @param string $class 
+     * @return ezcQuerySubSelect
+     */
+    public function createSubQuery( ezcPersistentFindQuery $parentQuery, $class )
+    {
+        $subSelect = $parentQuery->subSelect();
+
+        $def = $this->definitionManager->fetchDefinition( $class );
+        $subSelect->setAliases( $this->session->generateAliasMap( $def ) );
+
+        $subSelect->from( $this->database->quoteIdentifier( $def->table ) );
+
+        return $subSelect;
+    }
+
+    /**
      * Returns the base query for retrieving related objects.
      *
      * See {@link getRelatedObject()} and {@link getRelatedObjects()}. Can be

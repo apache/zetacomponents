@@ -756,6 +756,33 @@ class ezcPersistentSessionIdentityDecorator implements ezcPersistentSessionFound
     }
 
     /**
+     * Returns a sub-select for the given $class to be used with $parentQuery.
+     *
+     * This method creates an {@link ezcPersistentFindQuery} as a {@link 
+     * ezcQuerySubSelect} for the given $class. The returned query has already
+     * set aliases for the properties of $class, but (in contrast to the query
+     * returned by {@link createFindQuery()}) does not have the selection of all
+     * properties set. You need to do
+     *
+     * <code>
+     * <?php
+     * $subSelect = $session->subSelect( $existingSelectQuery, 'MyClass' );
+     * $subSelect->select( 'myField' );
+     * ?>
+     * </code>
+     *
+     * manually to select the fields you desire.
+     * 
+     * @param ezcPersistentFindQuery $parentQuery 
+     * @param string $class 
+     * @return ezcQuerySubSelect
+     */
+    public function createSubQuery( ezcPersistentFindQuery $parentQuery, $class )
+    {
+        return $this->loadHandler->createSubQuery( $parentQuery, $class );
+    }
+
+    /**
      * Returns a select query for the given $class and its related objects as
      * defined in $relations.
      *
