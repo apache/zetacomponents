@@ -562,9 +562,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
      */
     private function generateCloud( ezcFeedCloudElement $feedElement )
     {
-        $cloud = $this->xml->createElement( 'cloud' );
-        $this->channel->appendChild( $cloud );
-
         $attributes = array();
         $elements = array( 'domain', 'port', 'path', 'registerProcedure', 'protocol' );
         foreach ( $elements as $element )
@@ -577,7 +574,7 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
             $attributes[$element] = $data;
         }
 
-        $this->generateMetaDataWithAttributes( $cloud, $element, false, $attributes );
+        $this->generateMetaDataWithAttributes( $this->channel, 'cloud', false, $attributes );
     }
 
     /**
