@@ -2789,7 +2789,7 @@ EOF;
         try
         {
             $this->input->process( $args );
-            $this->fail( 'Processing did not throw an exception on violated dependency.' );
+            $this->fail( 'Processing did not throw an exception on violated exclusion.' );
         }
         catch ( ezcConsoleOptionExclusionViolationException $e )
         {

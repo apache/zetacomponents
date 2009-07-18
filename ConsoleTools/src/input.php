@@ -187,6 +187,13 @@ class ezcConsoleInput
     private $stringTool;
 
     /**
+     * Input validator.
+     *
+     * @var ezcConsoleInputValidator
+     */
+    private $validator;
+
+    /**
      * Collection of properties. 
      * 
      * @var array(string=>mixed)
@@ -200,6 +207,9 @@ class ezcConsoleInput
     {
         $this->argumentDefinition = null;
         $this->stringTool         = new ezcConsoleStringTool();
+
+        // @TODO Verify interface and make plugable
+        $this->validator = new ezcConsoleStandardInputValidator();
     }
 
     /**
@@ -500,23 +510,89 @@ class ezcConsoleInput
         {
             $args = isset( $argv ) ? $argv : isset( $_SERVER['argv'] ) ? $_SERVER['argv'] : array();
         }
-        $i = 1;
-        while ( $i < count( $args ) )
+
+        $nextIndex = $this->processOptions( $args );
+
+        if ( $this->helpOptionSet() )
         {
+            // No need to parse arguments
+            return;
+        }
+
+        $this->processArguments( $args, $nextIndex );
+
+        $this->checkRules();
+
+        $this->setOptionDefaults();
+    }
+
+    /**
+     * Sets defaults for options that have not been submitted.
+     *
+     * Checks all options if they have been submited. If not and a default 
+     * values is present, this is set as the options value.
+     */
+    private function setOptionDefaults()
+    {
+        foreach ( $this->options as $option )
+        {
+            if ( $option->value === false || $option->value === array() )
+            {
+                // Default value to set?
+                if ( $option->default !== null )
+                {
+                    $option->value = $option->default;
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads the submitted options from $args array.
+     *
+     * Returns the next index to check for arguments.
+     * 
+     * @param array(string) $args 
+     * @returns int
+     *
+     * @throws ezcConsoleOptionNotExistsException
+     *         if a submitted option does not exist.
+     * @throws ezcConsoleOptionTooManyValuesException
+     *         if an option that expects only a single value was submitted 
+     *         with multiple values.
+     * @throws ezcConsoleOptionTypeViolationException
+     *         if an option was submitted with a value of the wrong type.
+     * @throws ezcConsoleOptionMissingValueException
+     *         if an option thats expects a value was submitted without.
+     */
+    private function processOptions( array $args )
+    {
+        $numArgs = count( $args );
+        $i = 1;
+
+        while ( $i < $numArgs )
+        {
+            if ( $args[$i] === '--' )
+            {
+                break;
+            }
+
             // Equalize parameter handling (long params with =)
             if ( iconv_substr( $args[$i], 0, 2, 'UTF-8' ) == '--' )
             {
                 $this->preprocessLongOption( $args, $i );
+                // Update number of args, changed by preprocessLongOption()
+                $numArgs = count( $args );
             }
+
             // Check for parameter
-            if ( iconv_substr( $args[$i], 0, 1, 'UTF-8' ) === '-' && $this->hasOption( preg_replace( '/^-*/', '', $args[$i] ) ) !== false )
+            if ( iconv_substr( $args[$i], 0, 1, 'UTF-8' ) === '-' )
             {
-                $this->processOptions( $args, $i );
-            }
-            // Looks like parameter, but is not available??
-            elseif ( iconv_substr( $args[$i], 0, 1, 'UTF-8' ) === '-' && trim( $args[$i] ) !== '--' )
-            {
-                throw new ezcConsoleOptionNotExistsException( $args[$i] );
+                if ( !$this->hasOption( preg_replace( '/^-*/', '', $args[$i] ) ) )
+                {
+                    throw new ezcConsoleOptionNotExistsException( $args[$i] );
+                }
+                $this->processOption( $args, $i );
             }
             // Must be the arguments
             else
@@ -524,16 +600,11 @@ class ezcConsoleInput
                 break;
             }
         }
-        // Move pointer
+
+        // Move pointer over argument sign
         isset( $args[$i] ) && $args[$i] == '--' ? ++$i : $i;
 
-        if ( $this->helpOptionSet() )
-        {
-            // No need to parse arguments
-            return;
-        }
-        $this->processArguments( $args, $i );
-        $this->checkRules();
+        return $i;
     }
 
     /**
@@ -1165,9 +1236,10 @@ class ezcConsoleInput
      * @throws ezcConsoleOptionMissingValueException
      *         If an option thats expects a value was submitted without.
      */
-    private function processOptions( array $args, &$i )
+    private function processOption( array $args, &$i )
     {
         $option = $this->getOption( preg_replace( '/^-+/', '', $args[$i++] ) );
+
         // Is the actual option a help option?
         if ( $option->isHelpOption === true )
         {
@@ -1223,7 +1295,6 @@ class ezcConsoleInput
         {
             throw new ezcConsoleOptionMissingValueException( $option );
         }
-        return $i;
     }
 
     /**
@@ -1332,179 +1403,20 @@ class ezcConsoleInput
      * options and exclusion of other options or arguments. This method
      * processes the checks.
      *
-     * @throws ezcConsoleOptionDependencyViolationException
-     *         If a dependency was violated. 
-     * @throws ezcConsoleOptionExclusionViolationException 
-     *         If an exclusion rule was violated.
-     * @throws ezcConsoleOptionArgumentsViolationException 
-     *         If arguments are passed although a parameter dissallowed them.
-     * @throws ezcConsoleOptionMandatoryViolationException
-     *         If an option that was marked mandatory was not submitted.
-     * @throws ezcConsoleOptionMissingValueException
-     *         If an option that expects a value was submitted without one.
-     * @return void
+     * @throws ezcConsoleException
+     *         in case validation fails.
      */
     private function checkRules()
     {
         // If a help option is set, skip rule checking
         if ( $this->helpOptionSet === true )
         {
-            return true;
+            return;
         }
-
-        $optionValues = $this->getAllSubmittedOptions();
-
-        foreach ( $this->options as $id => $option )
-        {
-            // Mandatory
-            if ( $option->mandatory === true && $option->value === false )
-            {
-                throw new ezcConsoleOptionMandatoryViolationException( $option );
-            }
-
-            $this->validateDependencies( $option, $optionValues );
-            $this->validateExclusions( $option, $optionValues );
-
-            // Not set and not mandatory? No checking.
-            if ( $option->value === false || $option->value === array() )
-            {
-                // Default value to set?
-                if ( $option->default !== null )
-                {
-                    $option->value = $option->default;
-                }
-                // Parameter was not set so ignore it's rules.
-                continue;
-            }
-
-            // Arguments
-            if ( $option->arguments === false && is_array( $this->arguments ) && count( $this->arguments ) > 0 )
-            {
-                throw new ezcConsoleOptionArgumentsViolationException( $option );
-            }
-        }
-    }
-
-    /**
-     * Validated option dependencies.
-     *
-     * Validates dependencies by $option.
-     *
-     * @param ezcConsoleOption $option.
-     */
-    private function validateDependencies( ezcConsoleOption $option, array $optionValues )
-    {
-        $optSet = ( $option->value !== false
-            && ( !is_array( $option->value ) || $option->value !== array() ) );
-
-        foreach ( $option->getDependencies() as $dep )
-        {
-            if ( $dep->ifSet === $optSet )
-            {
-                $this->validateDependency( $option, $dep, $optionValues );
-            }
-        }
-    }
-
-    /**
-     * Validates a single dependency.
-     *
-     * Validates the dependency $dep, which is set in the $srcOpt.
-     *
-     * @param ezcConsoleOption $srcOpt
-     * @param ezcConsoleOptionRule $dep
-     */
-    private function validateDependency( ezcConsoleOption $srcOpt, ezcConsoleOptionRule $dep, array $optionValues )
-    {
-        $optValue = ( isset( $optionValues[$dep->option->short] )
-            ? $optionValues[$dep->option->short] 
-            : ( isset( $optionValues[$dep->option->long] ) 
-                ? $optionValues[$dep->option->long] 
-                : false
-            )
+        $this->validator->validateOptions(
+            $this->options,
+            ( $this->arguments !== array() )
         );
-
-        if ( $optValue === false || $optValue === array() )
-        {
-            throw new ezcConsoleOptionDependencyViolationException(
-                $srcOpt,
-                $dep->option,
-                implode( ', ', $dep->values )
-            );
-        }
-
-        if ( $dep->values !== array() )
-        {
-            $optVals = ( is_array( $optValue ) ? $optValue : array( $optValue) );
-            $unrecognizedVals = array_diff( $optVals, $dep->values );
-            if ( $unrecognizedVals !== array() )
-            {
-                throw new ezcConsoleOptionDependencyViolationException(
-                    $srcOpt,
-                    $dep->option,
-                    implode( ', ', $dep->values )
-                );
-            }
-        }
-    }
-
-    /**
-     * Validated option exclusions.
-     *
-     * Validates exclusions by $option.
-     *
-     * @param ezcConsoleOption $option.
-     */
-    private function validateExclusions( ezcConsoleOption $option, array $optionValues )
-    {
-        $optSet = ( $option->value !== false
-            && ( !is_array( $option->value ) || $option->value !== array() ) );
-
-        foreach ( $option->getExclusions() as $excl )
-        {
-            if ( $excl->ifSet === $optSet )
-            {
-                $this->validateExclusion( $option, $excl, $optionValues );
-            }
-        }
-    }
-
-    /**
-     * Validates a single exclusion.
-     *
-     * Validates the exclusion $excl, which is set in the $srcOpt.
-     *
-     * @param ezcConsoleOption $srcOpt
-     * @param ezcConsoleOptionRule $excl
-     */
-    private function validateExclusion( ezcConsoleOption $srcOpt, ezcConsoleOptionRule $excl, array $optionValues )
-    {
-        $optValue = ( isset( $optionValues[$excl->option->short] )
-            ? $optionValues[$excl->option->short] 
-            : ( isset( $optionValues[$excl->option->long] ) 
-                ? $optionValues[$excl->option->long] 
-                : false
-            )
-        );
-
-        if ( $optValue !== false && $optValue !== array() && $excl->values === array() )
-        {
-            throw new ezcConsoleOptionExclusionViolationException(
-                $srcOpt,
-                $excl->option
-            );
-        }
-
-        $optVals = ( is_array( $optValue ) ? $optValue : array( $optValue ) );
-        $forbiddenVals = array_intersect( $optVals, $excl->values );
-        if ( $forbiddenVals !== array() )
-        {
-            throw new ezcConsoleOptionExclusionViolationException(
-                $srcOpt,
-                $excl->option,
-                implode( ', ', $excl->values )
-            );
-        }
     }
 
     /**
@@ -1555,34 +1467,6 @@ class ezcConsoleInput
             $parts = explode( '=', $args[$i], 2 );
             array_splice( $args, $i, 1, $parts );
         }
-    }
-
-    /**
-     * Returns an array of all submitted options.
-     *
-     * Returns an array which has the short and long names of all submitted
-     * options as its keys, assigned to the submitted values.
-     * 
-     * @return array(string=>mixed)
-     */
-    private function getAllSubmittedOptions()
-    {
-        $res = array();
-        foreach ( $this->options as $option )
-        {
-            if ( $option->value !== false ) 
-            {
-                if ( !empty( $option->short ) )
-                {
-                    $res[$option->short] = $option->value;
-                }
-                if ( !empty( $option->long ) )
-                {
-                    $res[$option->long] = $option->value;
-                }
-            }
-        }
-        return $res;
     }
 }
 ?>

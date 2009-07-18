@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the ConsoleTools component.
  *
- * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -37,6 +37,7 @@ return array(
     'ezcConsoleQuestionDialogValidator'             => 'ConsoleTools/interfaces/question_dialog_validator.php',
     'ezcConsoleDialog'                              => 'ConsoleTools/interfaces/dialog.php',
     'ezcConsoleDialogOptions'                       => 'ConsoleTools/options/dialog.php',
+    'ezcConsoleInputValidator'                      => 'ConsoleTools/interfaces/input_validator.php',
     'ezcConsoleMenuDialogValidator'                 => 'ConsoleTools/interfaces/menu_dialog_validator.php',
     'ezcConsoleQuestionDialogCollectionValidator'   => 'ConsoleTools/dialog/validators/question_dialog_collection.php',
     'ezcConsoleArgument'                            => 'ConsoleTools/input/argument.php',
@@ -61,12 +62,13 @@ return array(
     'ezcConsoleQuestionDialogOptions'               => 'ConsoleTools/options/question_dialog.php',
     'ezcConsoleQuestionDialogRegexValidator'        => 'ConsoleTools/dialog/validators/question_dialog_regex.php',
     'ezcConsoleQuestionDialogTypeValidator'         => 'ConsoleTools/dialog/validators/question_dialog_type.php',
+    'ezcConsoleStandardInputValidator'              => 'ConsoleTools/input/validators/standard.php',
     'ezcConsoleStatusbar'                           => 'ConsoleTools/statusbar.php',
     'ezcConsoleStatusbarOptions'                    => 'ConsoleTools/options/statusbar.php',
+    'ezcConsoleStringTool'                          => 'ConsoleTools/tools/string.php',
     'ezcConsoleTable'                               => 'ConsoleTools/table.php',
     'ezcConsoleTableCell'                           => 'ConsoleTools/table/cell.php',
     'ezcConsoleTableOptions'                        => 'ConsoleTools/options/table.php',
     'ezcConsoleTableRow'                            => 'ConsoleTools/table/row.php',
-    'ezcConsoleStringTool'                     => 'ConsoleTools/tools/string.php',
 );
 ?>
