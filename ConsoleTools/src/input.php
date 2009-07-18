@@ -1351,7 +1351,9 @@ class ezcConsoleInput
         {
             return true;
         }
-        $values = $this->getAllSubmittedOptions();
+
+        $optionValues = $this->getAllSubmittedOptions();
+
         foreach ( $this->options as $id => $option )
         {
             // Mandatory
@@ -1359,8 +1361,12 @@ class ezcConsoleInput
             {
                 throw new ezcConsoleOptionMandatoryViolationException( $option );
             }
+
+            $this->validateDependencies( $option, $optionValues );
+            $this->validateExclusions( $option, $optionValues );
+
             // Not set and not mandatory? No checking.
-            if ( $option->value === false || is_array( $option->value ) && count( $option->value ) === 0 )
+            if ( $option->value === false || $option->value === array() )
             {
                 // Default value to set?
                 if ( $option->default !== null )
@@ -1371,67 +1377,133 @@ class ezcConsoleInput
                 continue;
             }
 
-            // Option was set, so check further on
-
-            // Dependencies
-            foreach ( $option->getDependencies() as $dep )
-            {
-                if ( !isset( $values[$dep->option->short] ) && !isset( $values[$dep->option->long] ) )
-                {
-                    throw new ezcConsoleOptionDependencyViolationException( $option, $dep->option );
-                }
-                $depOptVal = ( isset( $values[$dep->option->short] ) ? $values[$dep->option->short] : $values[$dep->option->long] );
-                $depVals   = $dep->values;
-                if ( $depVals !== array() )
-                {
-                    $depOptVals       = is_array( $depOptVal ) ? $depOptVal : array( $depOptVal );
-                    $unrecognizedVals = array_diff( $depOptVals, $depVals );
-                    if ( $unrecognizedVals !== array() )
-                    {
-                        throw new ezcConsoleOptionDependencyViolationException(
-                            $option,
-                            $dep->option,
-                            implode( ', ', $depVals )
-                        );
-                    }
-                }
-            }
-            // Exclusions
-            foreach ( $option->getExclusions() as $exc )
-            {
-                if ( isset( $values[$exc->option->short] ) || isset( $values[$exc->option->long] ) )
-                {
-                    if ( $exc->values === array() )
-                    {
-                        throw new ezcConsoleOptionExclusionViolationException( $option, $exc->option );
-                    }
-                }
-                else
-                {
-                    // Excluded option not set at all, no checks needed
-                    continue;
-                }
-                $excOptVal = ( isset( $values[$exc->option->short] ) ? $values[$exc->option->short] : $values[$exc->option->long] );
-                $excVals   = $exc->values;
-                if ( $excVals !== array() )
-                {
-                    $excOptVals     = is_array( $excOptVal ) ? $excOptVal : array( $excOptVal );
-                    $disallowedVals = array_intersect( $excOptVals, $excVals );
-                    if ( $disallowedVals !== array() )
-                    {
-                        throw new ezcConsoleOptionExclusionViolationException(
-                            $option,
-                            $exc->option,
-                            implode( ', ', $excVals )
-                        );
-                    }
-                }
-            }
             // Arguments
             if ( $option->arguments === false && is_array( $this->arguments ) && count( $this->arguments ) > 0 )
             {
                 throw new ezcConsoleOptionArgumentsViolationException( $option );
             }
+        }
+    }
+
+    /**
+     * Validated option dependencies.
+     *
+     * Validates dependencies by $option.
+     *
+     * @param ezcConsoleOption $option.
+     */
+    private function validateDependencies( ezcConsoleOption $option, array $optionValues )
+    {
+        $optSet = ( $option->value !== false
+            && ( !is_array( $option->value ) || $option->value !== array() ) );
+
+        foreach ( $option->getDependencies() as $dep )
+        {
+            if ( $dep->ifSet === $optSet )
+            {
+                $this->validateDependency( $option, $dep, $optionValues );
+            }
+        }
+    }
+
+    /**
+     * Validates a single dependency.
+     *
+     * Validates the dependency $dep, which is set in the $srcOpt.
+     *
+     * @param ezcConsoleOption $srcOpt
+     * @param ezcConsoleOptionRule $dep
+     */
+    private function validateDependency( ezcConsoleOption $srcOpt, ezcConsoleOptionRule $dep, array $optionValues )
+    {
+        $optValue = ( isset( $optionValues[$dep->option->short] )
+            ? $optionValues[$dep->option->short] 
+            : ( isset( $optionValues[$dep->option->long] ) 
+                ? $optionValues[$dep->option->long] 
+                : false
+            )
+        );
+
+        if ( $optValue === false || $optValue === array() )
+        {
+            throw new ezcConsoleOptionDependencyViolationException(
+                $srcOpt,
+                $dep->option,
+                implode( ', ', $dep->values )
+            );
+        }
+
+        if ( $dep->values !== array() )
+        {
+            $optVals = ( is_array( $optValue ) ? $optValue : array( $optValue) );
+            $unrecognizedVals = array_diff( $optVals, $dep->values );
+            if ( $unrecognizedVals !== array() )
+            {
+                throw new ezcConsoleOptionDependencyViolationException(
+                    $srcOpt,
+                    $dep->option,
+                    implode( ', ', $dep->values )
+                );
+            }
+        }
+    }
+
+    /**
+     * Validated option exclusions.
+     *
+     * Validates exclusions by $option.
+     *
+     * @param ezcConsoleOption $option.
+     */
+    private function validateExclusions( ezcConsoleOption $option, array $optionValues )
+    {
+        $optSet = ( $option->value !== false
+            && ( !is_array( $option->value ) || $option->value !== array() ) );
+
+        foreach ( $option->getExclusions() as $excl )
+        {
+            if ( $excl->ifSet === $optSet )
+            {
+                $this->validateExclusion( $option, $excl, $optionValues );
+            }
+        }
+    }
+
+    /**
+     * Validates a single exclusion.
+     *
+     * Validates the exclusion $excl, which is set in the $srcOpt.
+     *
+     * @param ezcConsoleOption $srcOpt
+     * @param ezcConsoleOptionRule $excl
+     */
+    private function validateExclusion( ezcConsoleOption $srcOpt, ezcConsoleOptionRule $excl, array $optionValues )
+    {
+        $optValue = ( isset( $optionValues[$excl->option->short] )
+            ? $optionValues[$excl->option->short] 
+            : ( isset( $optionValues[$excl->option->long] ) 
+                ? $optionValues[$excl->option->long] 
+                : false
+            )
+        );
+
+        if ( $optValue !== false && $optValue !== array() && $excl->values === array() )
+        {
+            throw new ezcConsoleOptionExclusionViolationException(
+                $srcOpt,
+                $excl->option
+            );
+        }
+
+        $optVals = ( is_array( $optValue ) ? $optValue : array( $optValue ) );
+        $forbiddenVals = array_intersect( $optVals, $excl->values );
+        if ( $forbiddenVals !== array() )
+        {
+            throw new ezcConsoleOptionExclusionViolationException(
+                $srcOpt,
+                $excl->option,
+                implode( ', ', $excl->values )
+            );
         }
     }
 

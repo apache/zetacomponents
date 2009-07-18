@@ -2815,6 +2815,41 @@ EOF;
         }
 
     }
+
+    public function testDependencyOptionNotSet()
+    {
+        $aOpt = $this->input->registerOption(
+            new ezcConsoleOption( 'a', 'abbrev', ezcConsoleInput::TYPE_NONE )
+        );
+        $aOpt->addDependency(
+            new ezcConsoleOptionRule( $this->input->getOption( 't' ), array(), false )
+        );
+
+        $this->commonProcessTestFailure(
+            array(
+                'foo.php'
+            ),
+            'ezcConsoleOptionDependencyViolationException'
+        );
+    }
+
+    public function testExclusionOptionNotSet()
+    {
+        $aOpt = $this->input->registerOption(
+            new ezcConsoleOption( 'a', 'abbrev', ezcConsoleInput::TYPE_NONE )
+        );
+        $aOpt->addExclusion(
+            new ezcConsoleOptionRule( $this->input->getOption( 't' ), array(), false )
+        );
+
+        $this->commonProcessTestFailure(
+            array(
+                'foo.php',
+                '-t'
+            ),
+            'ezcConsoleOptionExclusionViolationException'
+        );
+    }
     
     private function commonProcessTestSuccess( $args, $res )
     {

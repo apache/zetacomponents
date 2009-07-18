@@ -36,6 +36,7 @@ class ezcConsoleOptionRule
     protected $properties = array( 
         'option' => null,
         'values' => array(),
+        'ifSet'  => true
     );
 
     /**

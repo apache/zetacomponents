@@ -4,6 +4,10 @@
 - Implemented enhancement #15010: The table does not use output formats
   anymore, if "useFormats" is set to false in the ezcConsoleOutput instance
   used.
+- Implemented enhancement #14804: ezcConsoleOptionRule now has a property
+  "ifSet". This one defaults to true, meaning that the rule is validated if
+  the option it is attached to was submitted. If set to false, the rule is
+  validated if the option was not submitted.
 
 
 1.5.2 - Monday 22 June 2009
