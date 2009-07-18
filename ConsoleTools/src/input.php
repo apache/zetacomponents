@@ -187,9 +187,9 @@ class ezcConsoleInput
     private $stringTool;
 
     /**
-     * Collection of arguments. 
+     * Collection of properties. 
      * 
-     * @var mixed
+     * @var array(string=>mixed)
      */
     protected $properties = array();
 
