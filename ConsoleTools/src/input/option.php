@@ -67,11 +67,11 @@ class ezcConsoleOption
     /**
      * Dependency rules of this parameter.
      * 
-     * @see ezcConsoleParamemterStruct::addDependency()
-     * @see ezcConsoleParamemterStruct::removeDependency()
-     * @see ezcConsoleParamemterStruct::hasDependency()
-     * @see ezcConsoleParamemterStruct::getDependencies()
-     * @see ezcConsoleParamemterStruct::resetDependencies()
+     * @see ezcConsoleOption::addDependency()
+     * @see ezcConsoleOption::removeDependency()
+     * @see ezcConsoleOption::hasDependency()
+     * @see ezcConsoleOption::getDependencies()
+     * @see ezcConsoleOption::resetDependencies()
      * 
      * @var array(string=>ezcConsoleParamemterRule)
      */
@@ -80,11 +80,11 @@ class ezcConsoleOption
     /**
      * Exclusion rules of this parameter.
      * 
-     * @see ezcConsoleParamemterStruct::addExclusion()
-     * @see ezcConsoleParamemterStruct::removeExclusion()
-     * @see ezcConsoleParamemterStruct::hasExclusion()
-     * @see ezcConsoleParamemterStruct::getExclusions()
-     * @see ezcConsoleParamemterStruct::resetExclusions()
+     * @see ezcConsoleOption::addExclusion()
+     * @see ezcConsoleOption::removeExclusion()
+     * @see ezcConsoleOption::hasExclusion()
+     * @see ezcConsoleOption::getExclusions()
+     * @see ezcConsoleOption::resetExclusions()
      * 
      * @var array(string=>ezcConsoleParamemterRule)
      */
