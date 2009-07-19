@@ -1,7 +1,15 @@
 <?php
-
 /**
- * Validates ezcConsoleOption in terms of dependencies/exclusion and more. 
+ * File containing the ezcConsoleStandardInputValidator class.
+ *
+ * @package ConsoleTools
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @filesource
+ */
+/**
+ * Validates ezcConsoleOption in terms of dependencies/exclusion and more.
  * 
  * @package ConsoleTools
  * @version //autogen//

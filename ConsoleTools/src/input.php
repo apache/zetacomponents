@@ -194,6 +194,13 @@ class ezcConsoleInput
     private $validator;
 
     /**
+     * Help generator. 
+     * 
+     * @var ezcConsoleInputHelpGenerator
+     */
+    private $helpGenerator;
+
+    /**
      * Collection of properties. 
      * 
      * @var array(string=>mixed)
@@ -209,7 +216,8 @@ class ezcConsoleInput
         $this->stringTool         = new ezcConsoleStringTool();
 
         // @TODO Verify interface and make plugable
-        $this->validator = new ezcConsoleStandardInputValidator();
+        $this->validator     = new ezcConsoleStandardInputValidator();
+        $this->helpGenerator = new ezcConsoleStandardInputHelpGenerator( $this );
     }
 
     /**
@@ -753,17 +761,23 @@ class ezcConsoleInput
      * As can be seen, short option names are possible as well as long ones.
      * The key of the first array level is the name of the section, which is
      * assigned to an array of options to group under this section. The $params
-     * parameter still influences if an option as displayed at all.
+     * parameter still influences if an option is displayed at all.
      * 
      * @param bool $long
      * @param array(int=>string) $params
      * @param array(string=>array(string)) $paramGrouping
      * @return array(int=>array(int=>string)) Table structure as explained.
+     * 
+     * @apichange In future versions, the default values of $params will change 
+     *            to null instead of an empty array. Giving an empty array for 
+     *            these will then be taken literally.
      */
     public function getHelp( $long = false, array $params = array(), array $paramGrouping = null )
     {
-        $help = array();
+        // New handling
+        $params = ( $params === array() || $params === null ? null : $params );
 
+        $help = array();
         if ( $paramGrouping === null )
         {
             // Original handling
@@ -776,41 +790,19 @@ class ezcConsoleInput
 
         if ( $this->argumentDefinition !== null )
         {
-            $help[] = array( "Arguments:", "" );
-            if ( count( $this->argumentDefinition ) === 0 )
+            $help[] = array( "Arguments:", '' );
+
+            $argumentsHelp = $this->helpGenerator->generateArgumentHelp( $long );
+            if ( $argumentsHelp === array() )
             {
-                $help[] = array( "", "No arguments available." );
+                $help[] = array( '', "No arguments available." );
             }
-            foreach ( $this->argumentDefinition as $arg )
+            else
             {
-                $argSynopsis = "<%s:%s>";
-                switch ( $arg->type )
-                {
-                    case self::TYPE_INT:
-                        $type = "int";
-                        break;
-                    case self::TYPE_STRING:
-                        $type = "string";
-                        break;
-                }
-                $argSynopsis = sprintf( $argSynopsis, $type, $arg->name );
-                $help[] = ( $long === true )
-                        ? array( 
-                            $argSynopsis,
-                            $arg->longhelp . ( $arg->mandatory === false 
-                                               ? ' (optional' . ( $arg->default !== null 
-                                                                  ? ', default = ' . ( is_array( $arg->default ) 
-                                                                                       ? "'" . implode( "' '", $arg->default ) . "'" 
-                                                                                       : "'$arg->default'" 
-                                                                                     )
-                                                                  : '' 
-                                                                ) . ')'
-                                               : ''
-                                             )
-                          )
-                        : array( $argSynopsis, $arg->shorthelp );
+                $help = array_merge( $help, $argumentsHelp );
             }
         }
+
         return $help;
     }
 
@@ -826,15 +818,10 @@ class ezcConsoleInput
      */
     private function getOptionHelpWithoutGrouping( $long, $params )
     {
-        $help = array();
-        foreach ( $this->options as $id => $param )
-        {
-            if ( count( $params ) === 0 || in_array( $param->short, $params ) || in_array( $param->long, $params ) )
-            {
-                $help[] = $this->getOptionHelpRow( $long, $param );
-            }
-        }
-        return $help;
+        return $this->helpGenerator->generateUngroupedOptionHelp(
+            $long,
+            $params
+        );
     }
 
     /**
@@ -847,43 +834,31 @@ class ezcConsoleInput
      */
     private function getOptionHelpWithGrouping( $long, $params, $paramGrouping )
     {
-        $help = array();
-        $first = true;
-        foreach ( $paramGrouping as $group => $paramsInGroup )
-        {
-            // Separator line?
-            ( $first === false ) ? $help[] = array( '', '' ) : $first = false;
+        $rawHelp = $this->helpGenerator->generateGroupedOptionHelp(
+            $paramGrouping,
+            $long,
+            $params
+        );
 
-            $help[] = array( $group, '' );
-            foreach ( $paramsInGroup as $param )
+        $help  = array();
+        $first = true;
+        foreach ( $rawHelp as $category => $optionsHelp )
+        {
+            if ( !$first )
             {
-                // Throws exception if option does not exist
-                $option = $this->getOption( $param );
-                if ( count( $params ) === 0 || in_array( $option->short, $params ) || in_array( $option->long, $params ) )
-                {
-                    $help[] = $this->getOptionHelpRow( $long, $option );
-                }
+                $help[] = array( '', '' );
             }
+            else
+            {
+                $first = false;
+            }
+
+            $help[] = array( $category, '' );
+            $help = array_merge( $help, $optionsHelp );
         }
         return $help;
     }
 
-    /**
-     * Creates 1 text row for displaying options help. 
-     *
-     * Returns a single array entry for the {@link getOptionHelpRow()} method.
-     *
-     * @param bool $long 
-     * @param ezcConsoleOption $param
-     * @return string
-     */
-    private function getOptionHelpRow( $long, ezcConsoleOption $param )
-    {
-        return array( 
-            ( $param->short !== "" ? '-' . $param->short . ' / ' : "" ) . '--' . $param->long,
-            $long == false ? $param->shorthelp : $param->longhelp,
-        );
-    }
     
     /**
      * Get help information for your options as a table.
@@ -1024,26 +999,7 @@ class ezcConsoleInput
      */
     public function getSynopsis( array $optionNames = null )
     {
-        $usedOptions = array( 'short' => array(), 'long' => array() );
-        $allowsArgs = true;
-        $synopsis = '$ ' . ( isset( $argv ) && sizeof( $argv ) > 0 ? $argv[0] : $_SERVER['argv'][0] ) . ' ';
-        foreach ( $this->getOptions() as $option )
-        {
-            if ( $optionNames === null || is_array( $optionNames ) && ( in_array( $option->short, $optionNames ) ||  in_array( $option->long, $optionNames ) ) )
-            {
-                $synopsis .= $this->createOptionSynopsis( $option, $usedOptions, $allowsArgs );
-            }
-        }
-        if ( $this->argumentDefinition === null )
-        {
-            // Old handling
-            $synopsis .= " [[--] <args>]";
-        }
-        else
-        {
-            $synopsis .= "[--] " . $this->createArgumentsSynopsis();
-        }
-        return $synopsis;
+        return $this->helpGenerator->generateSynopsis( $optionNames );
     }
 
     /**
@@ -1128,6 +1084,10 @@ class ezcConsoleInput
      * @param array(int=>string) $usedOptions Array of used option short names.
      * @param int $depth                      Current recursion depth.
      * @return string The synopsis for this parameter.
+     *
+     * @apichange This method is deprecates. Implement your own {@link 
+     *            ezcConsoleInputHelpGenerator} instead, as soon as the 
+     *            interface is made public.
      */
     protected function createOptionSynopsis( ezcConsoleOption $option, &$usedOptions, $depth = 0 )
     {
@@ -1180,43 +1140,6 @@ class ezcConsoleInput
         }
 
         return $synopsis . ' ';
-    }
-
-    /**
-     * Generate synopsis for arguments. 
-     * 
-     * @return string The synopsis string.
-     */
-    private function createArgumentsSynopsis()
-    {
-        $mandatory = true;
-        $synopsises = array();
-        foreach ( $this->argumentDefinition as $arg )
-        {
-            $argSynopsis = "";
-            if ( $arg->mandatory === false )
-            {
-                $mandatory = false;
-            }
-            $argSynopsis .= "<%s:%s>";
-            switch ( $arg->type )
-            {
-                case self::TYPE_INT:
-                    $type = "int";
-                    break;
-                case self::TYPE_STRING:
-                    $type = "string";
-                    break;
-            }
-            $argSynopsis = sprintf( $argSynopsis, $type, $arg->name );
-            $synopsises[] = $mandatory === false ? "[$argSynopsis]" : $argSynopsis;
-            if ( $arg->multiple === true )
-            {
-                $synopsises[] = "[$argSynopsis ...]";
-                break;
-            }
-        }
-        return implode( " ", $synopsises );
     }
 
     /**

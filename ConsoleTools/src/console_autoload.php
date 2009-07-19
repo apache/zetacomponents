@@ -70,5 +70,7 @@ return array(
     'ezcConsoleTableCell'                           => 'ConsoleTools/table/cell.php',
     'ezcConsoleTableOptions'                        => 'ConsoleTools/options/table.php',
     'ezcConsoleTableRow'                            => 'ConsoleTools/table/row.php',
+    'ezcConsoleInputHelpGenerator'                  => 'ConsoleTools/interfaces/input_help_generator.php',
+    'ezcConsoleStandardInputHelpGenerator'          => 'ConsoleTools/input/help_generators/standard.php',
 );
 ?>

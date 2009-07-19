@@ -8,6 +8,9 @@
   "ifSet". This one defaults to true, meaning that the rule is validated if
   the option it is attached to was submitted. If set to false, the rule is
   validated if the option was not submitted.
+- Implemented enhansement #14916: Extracted help generation and input
+  validation from ezcConsoleInput. The interfaces still need validation and are
+  not public for now.
 
 
 1.5.2 - Monday 22 June 2009
