@@ -1306,10 +1306,11 @@ class ezcConsoleInput
      */
     private function processArguments( array $args, &$i )
     {
+        $numArgs = count( $args );
         if ( $this->argumentDefinition === null || $this->argumentsAllowed() === false )
         {
             // Old argument handling, also used of a set option sets disallowing arguments
-            while ( $i < count( $args ) )
+            while ( $i < $numArgs )
             {
                 $this->arguments[] = $args[$i++];
             }
@@ -1347,7 +1348,7 @@ class ezcConsoleInput
                 if ( $arg->multiple === true )
                 {
                     $arg->value = array();
-                    for ( $i = $i; $i < count( $args ); ++$i )
+                    for ( $i = $i; $i < $numArgs; ++$i )
                     {
                         if ( $this->isCorrectType( $arg->type, $args[$i] ) === false )
                         {
@@ -1372,7 +1373,7 @@ class ezcConsoleInput
                 ++$i;
             }
 
-            if ( $i < count( $args ) )
+            if ( $i < $numArgs )
             {
                 throw new ezcConsoleTooManyArgumentsException( $args, $i );
             }
