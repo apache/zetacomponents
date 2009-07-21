@@ -28,6 +28,7 @@ require_once 'date_axis_test.php';
 require_once 'driver_flash_test.php';
 require_once 'driver_gd_test.php';
 require_once 'driver_cairo_test.php';
+require_once 'driver_cairo_oo_test.php';
 require_once 'driver_options_test.php';
 require_once 'driver_svg_test.php';
 require_once 'driver_svg_svg_font_test.php';
@@ -88,6 +89,7 @@ class ezcGraphSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcGraphFontTest::suite() );
         $this->addTest( ezcGraphGdDriverTest::suite() );
         $this->addTest( ezcGraphCairoDriverTest::suite() );
+        $this->addTest( ezcGraphCairoOODriverTest::suite() );
         $this->addTest( ezcGraphImageMapTest::suite() );
         $this->addTest( ezcGraphLabeledAxisTest::suite() );
         $this->addTest( ezcGraphLegendTest::suite() );
