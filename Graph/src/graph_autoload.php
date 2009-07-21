@@ -69,6 +69,7 @@ return array(
     'ezcGraphAxisExactLabelRenderer'                => 'Graph/renderer/axis_label_exact.php',
     'ezcGraphAxisNoLabelRenderer'                   => 'Graph/renderer/axis_label_none.php',
     'ezcGraphAxisRadarLabelRenderer'                => 'Graph/renderer/axis_label_radar.php',
+    'ezcGraphAxisRotatedBoxedLabelRenderer'         => 'Graph/renderer/axis_label_rotated_boxed.php',
     'ezcGraphAxisRotatedLabelRenderer'              => 'Graph/renderer/axis_label_rotated.php',
     'ezcGraphAxisStep'                              => 'Graph/structs/step.php',
     'ezcGraphBoundings'                             => 'Graph/math/boundings.php',

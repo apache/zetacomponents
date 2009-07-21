@@ -6,6 +6,7 @@
 - Implemented: #15135: Add support for pecl/cairo's object-oriented API, patch
   by Michael Maclean.
 - Implemented: #15133: Better configurable axis spaces.
+- Implemented: #15095: Special rotated label renderer for bar charts.
 
 
 1.4.3 - Monday 08 June 2009
