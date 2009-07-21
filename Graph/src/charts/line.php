@@ -627,25 +627,17 @@ class ezcGraphLineChart extends ezcGraphChart
         // Calculate inner data boundings of chart
         $innerBoundings = new ezcGraphBoundings(
             $boundings->x0 + $boundings->width *
-                ( ( ( $this->elements['yAxis']->outerAxisSpace === null ) || 
-                    ( $this->elements['xAxis']->position === ezcGraph::LEFT ) ) ?
-                    $this->elements['yAxis']->axisSpace :
-                    $this->elements['yAxis']->outerAxisSpace ),
+                    $this->elements['yAxis']->axisSpace,
             $boundings->y0 + $boundings->height *
-                ( ( ( $this->elements['xAxis']->outerAxisSpace === null ) || 
-                    ( $this->elements['yAxis']->position === ezcGraph::TOP ) ) ?
+                ( ( $this->elements['xAxis']->outerAxisSpace === null ) ?
                     $this->elements['xAxis']->axisSpace :
-                    $this->elements['yAxis']->outerAxisSpace ),
+                    $this->elements['xAxis']->outerAxisSpace ),
             $boundings->x1 - $boundings->width *
-                ( ( ( $this->elements['yAxis']->outerAxisSpace === null ) || 
-                    ( $this->elements['xAxis']->position === ezcGraph::RIGHT ) ) ?
+                ( ( $this->elements['yAxis']->outerAxisSpace === null ) ?
                     $this->elements['yAxis']->axisSpace :
                     $this->elements['yAxis']->outerAxisSpace ),
             $boundings->y1 - $boundings->height *
-                ( ( ( $this->elements['xAxis']->outerAxisSpace === null ) || 
-                    ( $this->elements['yAxis']->position === ezcGraph::BOTTOM ) ) ?
-                    $this->elements['xAxis']->axisSpace :
-                    $this->elements['yAxis']->outerAxisSpace )
+                    $this->elements['xAxis']->axisSpace
         );
 
         // Render axis

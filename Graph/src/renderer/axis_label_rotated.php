@@ -114,6 +114,43 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
     }
 
     /**
+     * Determine label angle
+     *
+     * Determine the optiomal angle for the axis labels, of no angle has been
+     * provided by the user.
+     * 
+     * @param array $steps 
+     * @return void
+     */
+    protected function determineAngle( array $steps, $xSpace, $ySpace, ezcGraphBoundings $axisBoundings )
+    {
+        if ( $this->angle === null )
+        {
+            $minimumStepWidth = null;
+            foreach ( $steps as $nr => $step )
+            {
+                if ( ( $minimumStepWidth === null ) || 
+                     ( $step->width < $minimumStepWidth ) )
+                {
+                    $minimumStepWidth = $step->width;
+                }
+            }
+
+            $width = abs(
+                $axisBoundings->width * $minimumStepWidth * $this->direction->x +
+                $axisBoundings->height * $minimumStepWidth * $this->direction->y
+            );
+            $height = abs(
+                $ySpace * $this->direction->x +
+                $xSpace * $this->direction->y
+            );
+
+            $length = sqrt( pow( $width, 2 ) + pow( $height, 2 ) );
+            $this->angle = rad2deg( acos( $height / $length ) );
+        }
+    }
+
+    /**
      * Render Axis labels
      *
      * Render labels for an axis.
@@ -155,30 +192,7 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
         list( $xSpace, $ySpace ) = $this->getAxisSpace( $renderer, $boundings, $axis, $innerBoundings, $gridBoundings );
 
         // Determine optimal angle if none specified
-        if ( $this->angle === null )
-        {
-            $minimumStepWidth = null;
-            foreach ( $steps as $nr => $step )
-            {
-                if ( ( $minimumStepWidth === null ) || 
-                     ( $step->width < $minimumStepWidth ) )
-                {
-                    $minimumStepWidth = $step->width;
-                }
-            }
-
-            $width = abs(
-                $axisBoundings->width * $minimumStepWidth * $this->direction->x +
-                $axisBoundings->height * $minimumStepWidth * $this->direction->y
-            );
-            $height = abs(
-                $ySpace * $this->direction->x +
-                $xSpace * $this->direction->y
-            );
-
-            $length = sqrt( pow( $width, 2 ) + pow( $height, 2 ) );
-            $this->angle = rad2deg( acos( $height / $length ) );
-        }
+        $this->determineAngle( $steps, $xSpace, $ySpace, $axisBoundings );
 
         // Determine additional required axis space by boxes
         $firstStep = reset( $steps );
@@ -369,11 +383,11 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
                      ):
                     $labelBoundings = new ezcGraphBoundings(
                         $position->x,
-                        $position->y + $labelSize,
-                        $position->x + abs( $labelLength ) - $lengthReducement,
-                        $position->y
+                        $position->y,
+                        $position->x - abs( $labelLength ) + $lengthReducement,
+                        $position->y + $labelSize
                     );
-                    $labelAlignement = ezcGraph::LEFT | ezcGraph::BOTTOM;
+                    $labelAlignement = ezcGraph::LEFT | ezcGraph::TOP;
                     $labelRotation = $degTextAngle;
                     break;
             }
@@ -424,9 +438,11 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
     {
         return new ezcGraphCoordinate(
             $coordinate->x * abs( $this->direction->y ) +
-                ( $coordinate->x * ( 1 - abs( $this->offset ) ) + max( 0, $this->offset ) ) * abs( $this->direction->x ),
+                ( $coordinate->x * ( 1 - abs( $this->offset ) ) * abs( $this->direction->x ) ) +
+                ( abs( $this->offset ) * abs( $this->direction->x ) ),
             $coordinate->y * abs( $this->direction->x ) +
-                ( $coordinate->y * ( 1 - abs( $this->offset ) ) + max( 0, $this->offset ) ) * abs( $this->direction->y )
+                ( $coordinate->y * ( 1 - abs( $this->offset ) ) * abs( $this->direction->y ) ) +
+                ( abs( $this->offset ) * abs( $this->direction->y ) )
         );
     }
 }
