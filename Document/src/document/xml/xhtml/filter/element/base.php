@@ -204,6 +204,33 @@ abstract class ezcDocumentXhtmlElementBaseFilter
                  )
         );
     }
+
+    /**
+     * Shows a string representation of the current node.
+     *
+     * Is only there for debugging purposes
+     * 
+     * @param DOMElement $element 
+     * @access private
+     * @return void
+     */
+    protected function showCurrentNode( DOMElement $element, $newLine = true )
+    {
+        if ( $element->parentNode &&
+             ( $element->parentNode instanceof DOMElement ) )
+        {
+            $this->showCurrentNode( $element->parentNode, false );
+        }
+
+        echo '> ', $element->tagName;
+
+        if ( $element->getProperty( 'type' ) !== false )
+        {
+            echo ' (', $element->getProperty( 'type' ), ')';
+        }
+
+        echo $newLine ? "\n" : ' ';
+    }
 }
 
 ?>
