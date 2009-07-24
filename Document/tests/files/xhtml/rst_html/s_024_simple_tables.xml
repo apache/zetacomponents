@@ -10,10 +10,10 @@
         <thead>
           <row>
             <entry>
-              <para> A      </para>
+              <para> A </para>
             </entry>
             <entry>
-              <para>B    </para>
+              <para>B </para>
             </entry>
             <entry>
               <para>A and B</para>
@@ -23,21 +23,10 @@
         <tbody>
           <row>
             <entry>
-              <para>False  </para>
+              <para>False </para>
             </entry>
             <entry>
-              <para>False  </para>
-            </entry>
-            <entry>
-              <para>False</para>
-            </entry>
-          </row>
-          <row>
-            <entry>
-              <para>True   </para>
-            </entry>
-            <entry>
-              <para>False  </para>
+              <para>False </para>
             </entry>
             <entry>
               <para>False</para>
@@ -45,10 +34,10 @@
           </row>
           <row>
             <entry>
-              <para>False  </para>
+              <para>True </para>
             </entry>
             <entry>
-              <para>True   </para>
+              <para>False </para>
             </entry>
             <entry>
               <para>False</para>
@@ -56,10 +45,21 @@
           </row>
           <row>
             <entry>
-              <para>True   </para>
+              <para>False </para>
             </entry>
             <entry>
-              <para>True   </para>
+              <para>True </para>
+            </entry>
+            <entry>
+              <para>False</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>True </para>
+            </entry>
+            <entry>
+              <para>True </para>
             </entry>
             <entry>
               <para>True</para>
@@ -71,7 +71,7 @@
         <thead>
           <row>
             <entry>
-              <para>  Inputs</para>
+              <para> Inputs</para>
             </entry>
             <entry/>
             <entry>
@@ -80,10 +80,10 @@
           </row>
           <row>
             <entry>
-              <para> A      </para>
+              <para> A </para>
             </entry>
             <entry>
-              <para>B    </para>
+              <para>B </para>
             </entry>
             <entry>
               <para>A or B</para>
@@ -93,10 +93,10 @@
         <tbody>
           <row>
             <entry>
-              <para>False  </para>
+              <para>False </para>
             </entry>
             <entry>
-              <para>False  </para>
+              <para>False </para>
             </entry>
             <entry>
               <para>False</para>
@@ -104,21 +104,10 @@
           </row>
           <row>
             <entry>
-              <para>True   </para>
+              <para>True </para>
             </entry>
             <entry>
-              <para>False  </para>
-            </entry>
-            <entry>
-              <para>True</para>
-            </entry>
-          </row>
-          <row>
-            <entry>
-              <para>False  </para>
-            </entry>
-            <entry>
-              <para>True   </para>
+              <para>False </para>
             </entry>
             <entry>
               <para>True</para>
@@ -126,10 +115,21 @@
           </row>
           <row>
             <entry>
-              <para>True   </para>
+              <para>False </para>
             </entry>
             <entry>
-              <para>True   </para>
+              <para>True </para>
+            </entry>
+            <entry>
+              <para>True</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>True </para>
+            </entry>
+            <entry>
+              <para>True </para>
             </entry>
             <entry>
               <para>True</para>
@@ -151,7 +151,7 @@
         <tbody>
           <row>
             <entry>
-              <para>3      </para>
+              <para>3 </para>
             </entry>
             <entry>
               <itemizedlist>
@@ -166,7 +166,7 @@
           </row>
           <row>
             <entry>
-              <para>2       </para>
+              <para>2 </para>
             </entry>
             <entry>
               <para>Second column of row 2. Second line of paragraph.</para>
@@ -174,7 +174,7 @@
           </row>
           <row>
             <entry>
-              <para>1      </para>
+              <para>1 </para>
             </entry>
             <entry>
               <para>Second column of row 1.</para>

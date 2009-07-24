@@ -6,7 +6,7 @@
     </sectioninfo>
     <section>
       <title><anchor ID="various_substitution_examples"/>Various substitution examples</title>
-      <para> and  are our widget-wranglers.</para>
+      <para> and are our widget-wranglers.</para>
       <para> offers a fascinating alternate view on privacy issues.</para>
       <para> offers a fascinating alternate view on privacy issues.</para>
       <para>4XSLT has the convenience method , so you don't have to mess with DOM objects if all you want is the transformed output.</para>
@@ -23,7 +23,7 @@
         </listitem>
       </itemizedlist>
       <para><inlinemediaobject><imageobject><imagedata fileref="discord.png"/></imageobject><textobject><para>discord.png</para></textobject></inlinemediaobject> is the official symbol of <ulink url="http://www.poee.org/">POEE</ulink>.</para>
-      <para> is a little annoying to type over and over, especially when writing about  itself, and spelling out the bicapitalized word  every time isn't really necessary for  source readability.</para>
+      <para> is a little annoying to type over and over, especially when writing about itself, and spelling out the bicapitalized word every time isn't really necessary for source readability.</para>
       <para>But still, that's nothing compared to a name like __.</para>
     </section>
   </section>

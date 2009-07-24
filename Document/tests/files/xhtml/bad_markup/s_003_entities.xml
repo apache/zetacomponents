@@ -5,8 +5,7 @@
       <title>Test with badly formatted HTML</title>
     </sectioninfo>
     <section>
-      <title>Test entities and special chars
-</title>
+      <title>Test entities and special chars </title>
       <literallayout class="normal">
 Anfuehrungszeichen oben 	" 	"
 Ampersand-Zeichen, kaufmaennisches Und 	&amp; 	&amp;

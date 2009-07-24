@@ -23,6 +23,7 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
     protected static $metadataTestDocuments = null;
     protected static $badTestDocuments = null;
     protected static $tableTestDocuments = null;
+    protected static $testDocuments = null;
 
     public static function suite()
     {
@@ -135,6 +136,27 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
         }
 
         return self::$tableTestDocuments;
+        return array_slice( self::$tableTestDocuments, 0, 0 );
+    }
+
+    public static function getTestDocuments()
+    {
+        if ( self::$testDocuments === null )
+        {
+            // Get a list of all test files from the respektive folder
+            $testFiles = glob( dirname( __FILE__ ) . '/files/xhtml/tests/s_*.html' );
+
+            // Create array with the test file and the expected result file
+            foreach ( $testFiles as $file )
+            {
+                self::$testDocuments[] = array(
+                    $file,
+                    substr( $file, 0, -4 ) . 'xml'
+                );
+            }
+        }
+
+        return self::$testDocuments;
         return array_slice( self::$tableTestDocuments, 0, 0 );
     }
 
@@ -305,6 +327,43 @@ class ezcDocumentXhtmlDocbookTests extends ezcTestCase
 
         // Do not validate the converted "bad" markup.
         // $this->assertTrue( $docbook->validateString( $xml ) );
+
+        $this->assertEquals(
+            file_get_contents( $to ),
+            $xml,
+            'Document not visited as expected.'
+        );
+
+        // Remove tempdir, when nothing failed.
+        $this->removeTempDir();
+    }
+
+    /**
+     * @dataProvider getTestDocuments
+     */
+    public function testCommonConversions( $from, $to )
+    {
+        if ( !is_file( $to ) )
+        {
+            $this->markTestSkipped( "Comparision file '$to' not yet defined." );
+        }
+
+        $document = new ezcDocumentXhtml();
+        $document->setFilters( array(
+            new ezcDocumentXhtmlElementFilter(),
+            new ezcDocumentXhtmlMetadataFilter(),
+            new ezcDocumentXhtmlTablesFilter(),
+        ) );
+        $document->loadFile( $from );
+
+        $docbook = $document->getAsDocbook();
+        $xml = $docbook->save();
+
+        // Store test file, to have something to compare on failure
+        $tempDir = $this->createTempDir( 'xhtml_tests_' ) . '/';
+        file_put_contents( $tempDir . basename( $to ), $xml );
+
+        $this->assertTrue( $docbook->validateString( $xml ) );
 
         $this->assertEquals(
             file_get_contents( $to ),

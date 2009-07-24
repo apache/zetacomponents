@@ -9,7 +9,7 @@
       <para>This is an ordinary paragraph, introducing a block quote.</para>
       <blockquote>
         <attribution> Sherlock Holmes</attribution>
-        <para>"It is my business to know things.  That is my trade."</para>
+        <para>"It is my business to know things. That is my trade."</para>
       </blockquote>
       <para>Unindented paragraph.</para>
       <blockquote>

@@ -2,14 +2,13 @@
 <article xmlns="http://docbook.org/ns/docbook">
   <section>
     <sectioninfo>
-      <title>
-Microsoft pledges love and money to open source | The Register    </title>
+      <title> Microsoft pledges love and money to open source | The Register </title>
     </sectioninfo>
     <section>
       <title>Ponies up to Apache, endorses LGPL</title>
-      <para>By </para>
+      <para>By</para>
       <para>Gavin Clarke in San Francisco</para>
-      <para>→ </para>
+      <para>→</para>
       <para>More by this author</para>
       <para>Published Friday 25th July 2008 18:02 GMT</para>
       <beginpage/>
@@ -83,8 +82,7 @@ Microsoft pledges love and money to open source | The Register    </title>
       <para>
         <ulink url="comments/#c_279368">More comments…</ulink>
       </para>
-      <para>
-    Track this type of story as a </para>
+      <para>Track this type of story as a</para>
       <para>custom Atom/RSS feed or by email.</para>
       <section>
         <title>Related stories</title>
@@ -171,8 +169,7 @@ Microsoft pledges love and money to open source | The Register    </title>
           <para>Slashdot</para>
         </textobject>
       </mediaobject>
-      <para> Post to Slashdot
-    </para>
+      <para>Post to Slashdot</para>
       <mediaobject>
         <imageobject>
           <imagedata fileref="/Design/graphics/icons/digg.png" width="16" depth="16"/>
@@ -181,8 +178,7 @@ Microsoft pledges love and money to open source | The Register    </title>
           <para>Digg</para>
         </textobject>
       </mediaobject>
-      <para> Digg this
-    </para>
+      <para>Digg this</para>
       <mediaobject>
         <imageobject>
           <imagedata fileref="/Design/graphics/icons/delicious.png" width="16" depth="16"/>
@@ -191,8 +187,7 @@ Microsoft pledges love and money to open source | The Register    </title>
           <para>del.icio.us</para>
         </textobject>
       </mediaobject>
-      <para> Add to del.icio.us
-    </para>
+      <para>Add to del.icio.us</para>
       <mediaobject>
         <imageobject>
           <imagedata fileref="/Design/graphics/icons/reddit.png" width="18" depth="18"/>
@@ -201,8 +196,7 @@ Microsoft pledges love and money to open source | The Register    </title>
           <para>Reddit</para>
         </textobject>
       </mediaobject>
-      <para> Reddit
-    </para>
+      <para>Reddit</para>
       <table>
         <row>
           <entry>
@@ -214,10 +208,10 @@ Microsoft pledges love and money to open source | The Register    </title>
                 <para/>
               </textobject>
             </mediaobject>
-            <para> Previous Article</para>
+            <para>Previous Article</para>
           </entry>
           <entry>
-            <para>Next Article </para>
+            <para>Next Article</para>
             <mediaobject>
               <imageobject>
                 <imagedata fileref="/Design/graphics/Reg_default/article_arrow_next.png" width="14" depth="13"/>

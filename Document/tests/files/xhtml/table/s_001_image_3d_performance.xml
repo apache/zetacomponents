@@ -15,10 +15,7 @@
     </sectioninfo>
     <section>
       <title>Image_3D performance</title>
-      <para>The <ulink url="http://www.zend.com/de/products/zend_guard">ZendGuard</ulink>
-offers optimization and encoding for your PHP code. I visited a friend
-who ownes a license of ZendGuard so that we had the idea to test it
-with something CPU intesinve like <ulink url="http://pear.php.net/package/Image_3D">Image_3D</ulink> . The results were quiet surprising.</para>
+      <para>The <ulink url="http://www.zend.com/de/products/zend_guard">ZendGuard</ulink> offers optimization and encoding for your PHP code. I visited a friend who ownes a license of ZendGuard so that we had the idea to test it with something CPU intesinve like <ulink url="http://pear.php.net/package/Image_3D">Image_3D</ulink> . The results were quiet surprising.</para>
       <table>
         <tbody>
           <row>
@@ -92,21 +89,9 @@ with something CPU intesinve like <ulink url="http://pear.php.net/package/Image_
           </row>
         </tbody>
       </table>
-      <para>I
-was surprised that simply adding the ZendOptimizer to the php.ini
-caused a performance breakdown by 5%, and encoding the code, with or
-without optimization increased the performance loss to nearly 30%. I
-didn't expect a great performance improvement from a bytecode cache,
-because the parsing is very minor to all the calculations done while
-raytracing.</para>
-      <para>The improvements by <ulink url="http://pecl.php.net/package/APC">APC</ulink>
-(enabled optimization) are so minimal, that it can be caused by
-statistical noise. All the times are the mean value of 5 to 10
-iterations - the difference was minimal, so that I didn't see the need
-to test it more often.</para>
-      <para>I can understand, that the optimizer does
-not offer any real improvements, like APC does, but I wouldn't expect
-such performance impact.</para>
+      <para>I was surprised that simply adding the ZendOptimizer to the php.ini caused a performance breakdown by 5%, and encoding the code, with or without optimization increased the performance loss to nearly 30%. I didn't expect a great performance improvement from a bytecode cache, because the parsing is very minor to all the calculations done while raytracing.</para>
+      <para>The improvements by <ulink url="http://pecl.php.net/package/APC">APC</ulink> (enabled optimization) are so minimal, that it can be caused by statistical noise. All the times are the mean value of 5 to 10 iterations - the difference was minimal, so that I didn't see the need to test it more often.</para>
+      <para>I can understand, that the optimizer does not offer any real improvements, like APC does, but I wouldn't expect such performance impact.</para>
       <section>
         <title>David at 11. May 2006 - 23:32</title>
         <para>We found similar results when we did Zend/ionCube benchmarking in Feb this year - <ulink url="http://www.olate.co.uk/development/benchmarks.php">http://www.olate.co.uk/development/benchmarks.php</ulink></para>
