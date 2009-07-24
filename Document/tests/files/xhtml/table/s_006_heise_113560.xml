@@ -83,7 +83,8 @@
           <para>Neue Grafiktreiber, Treiber-Enwicklungsmodell erklÃ¤rt, Nebeneffekte durch Stromsparen</para>
         </listitem>
       </itemizedlist>
-      <literallayout class="normal">Ãltere Kernel-Logs finden sich Ã¼ber das Archiv oder die Suchfunktion von heise open.(thl/c't)</literallayout>
+      <literallayout class="normal"><emphasis>Ãltere <ulink url="/glossar/entry/09d9fae15978a6a8">Kernel-Logs</ulink> finden sich Ã¼ber <ulink url="http://www.heise.de/open/news/archiv/">das Archiv</ulink> oder <ulink url="http://www.heise.de/open/suche?sort=d;rm=search;q=Kernel-Log;channel=open">die Suchfunktion</ulink> von <ulink url="http://www.heise.de/open/">heise open</ulink>.</emphasis>(<ulink url="mailto:thl@ct.heise.de">thl</ulink>/c't)
+</literallayout>
       <table>
         <row>
           <entry>
@@ -102,11 +103,8 @@
         <row>
           <entry>
             <section>
-              <title>
-                <ulink url="/security/news/foren/go.shtml?list=1&amp;amp;forum_id=141504">
-                  <emphasis Role="strong">Kommentare lesen (26 Beiträge)</emphasis>
-                </ulink>
-              </title>
+              <title><ulink url="/security/news/foren/go.shtml?list=1&amp;amp;forum_id=141504"><emphasis Role="strong">Kommentare lesen (26 Beiträge)</emphasis></ulink>
+</title>
             </section>
           </entry>
           <entry>

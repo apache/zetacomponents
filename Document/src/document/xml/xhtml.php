@@ -196,29 +196,33 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
                     break;
 
                 case XML_TEXT_NODE:
-                    // Skip pure whitespace text nodes
-                    if ( trim( $text = $child->data ) !== '' )
+                    // Skip pure whitespace text nodes, except for
+                    // intentionally converted <br> elements.
+                    if ( ( trim( $text = $child->data ) === '' ) &&
+                         ( $xhtml->getProperty( 'whitespace' ) !== 'significant' ) )
                     {
-                        if ( in_array( $docbook->tagName, array( 'literallayout', 'literal' ) ) )
-                        {
-                            // Don't normalize inside nodes with significant whitespaces.
-                            $text = new DOMText( $text );
-                            $docbook->appendChild( $text );
-                        }
-                        else if ( $this->isInlineElement( $docbook ) )
-                        {
-                            $text = new DOMText( preg_replace( '(\s+)', ' ', $text ) );
-                            $docbook->appendChild( $text );
-                        }
-                        else
-                        {
-                            // Wrap contents into a paragraph, if we are yet
-                            // outside of an inline element.
-                            $text = new DOMText( trim( preg_replace( '(\s+)', ' ', $text ) ) );
-                            $para = $docbook->ownerDocument->createElement( 'para' );
-                            $para->appendChild( $text );
-                            $docbook->appendChild( $para );
-                        }
+                        continue;
+                    }
+
+                    if ( $xhtml->getProperty( 'whitespace' ) === 'significant' )
+                    {
+                        // Don't normalize inside nodes with significant whitespaces.
+                        $text = new DOMText( $text );
+                        $docbook->appendChild( $text );
+                    }
+                    else if ( $this->isInlineElement( $docbook ) )
+                    {
+                        $text = new DOMText( preg_replace( '(\s+)', ' ', $text ) );
+                        $docbook->appendChild( $text );
+                    }
+                    else
+                    {
+                        // Wrap contents into a paragraph, if we are yet
+                        // outside of an inline element.
+                        $text = new DOMText( trim( preg_replace( '(\s+)', ' ', $text ) ) );
+                        $para = $docbook->ownerDocument->createElement( 'para' );
+                        $para->appendChild( $text );
+                        $docbook->appendChild( $para );
                     }
                     break;
 

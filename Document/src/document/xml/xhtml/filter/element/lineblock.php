@@ -31,10 +31,18 @@ class ezcDocumentXhtmlLineBlockElementFilter extends ezcDocumentXhtmlElementBase
      */
     public function filterElement( DOMElement $element )
     {
-        $element->setProperty( 'type', 'literallayout' );
-        $element->setProperty( 'attributes', array(
-            'class' => 'normal',
-        ) );
+        if ( $element->tagName === 'p' )
+        {
+            $element->setProperty( 'type', 'literallayout' );
+            $element->setProperty( 'attributes', array(
+                'class' => 'normal',
+            ) );
+        }
+        else
+        {
+            $element->appendChild( new DOMText( "\n" ) );
+            $element->setProperty( 'whitespace', 'significant' );
+        }
     }
 
     /**
@@ -48,7 +56,8 @@ class ezcDocumentXhtmlLineBlockElementFilter extends ezcDocumentXhtmlElementBase
      */
     public function handles( DOMElement $element )
     {
-        return ( ( $element->tagName === 'p' ) &&
+        return ( $element->tagName === 'br' ) ||
+               ( ( $element->tagName === 'p' ) &&
                  ( ( $this->hasClass( $element, 'lineblock' ) ||
                    ( $element->getElementsByTagName( 'br' )->length ) ) ) );
     }

@@ -31,14 +31,8 @@ class ezcDocumentXhtmlLiteralElementFilter extends ezcDocumentXhtmlElementBaseFi
      */
     public function filterElement( DOMElement $element )
     {
-        if ( !$this->isInline( $element ) )
-        {
-            $element->setProperty( 'type', 'literallayout' );
-        }
-        else
-        {
-            $element->setProperty( 'type', 'literal' );
-        }
+        $element->setProperty( 'whitespace', 'significant' );
+        $element->setProperty( 'type', $this->isInline( $element ) ? 'literal' : 'literallayout' );
     }
 
     /**

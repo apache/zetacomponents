@@ -171,6 +171,7 @@ abstract class ezcDocumentXhtmlElementBaseFilter
                     'footnoteref',
                     'link',
                     'literal',
+                    'literallayout',
                     'quote',
                     'subscript',
                     'superscript',

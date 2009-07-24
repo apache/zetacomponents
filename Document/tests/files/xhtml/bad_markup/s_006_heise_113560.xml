@@ -56,25 +56,8 @@
       <beginpage/>
       <table>
         <row>
-          <entry>
-            <para>Anzeige</para>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="http://oas.heise.de/RealMedia/ads/Creatives/OasDefault/jobtown05_28ros_08/jobtown336x280.gif" width="336" depth="280"/>
-              </imageobject>
-              <textobject>
-                <para/>
-              </textobject>
-            </mediaobject>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="http://oas.heise.de/RealMedia/ads/adstream_lx.ads/www.heise.de/newsticker/meldungen/security/1540888205/Middle1/OasDefault/jobtown05_28ros_08/microsoft05_11ros_08_script.html/35356236323635343438383437353530?_RM_EMPTY_" width="1" depth="1"/>
-              </imageobject>
-              <textobject>
-                <para/>
-              </textobject>
-            </mediaobject>
-          </entry>
+          <entry><para>Anzeige</para>
+<mediaobject><imageobject><imagedata fileref="http://oas.heise.de/RealMedia/ads/Creatives/OasDefault/jobtown05_28ros_08/jobtown336x280.gif" width="336" depth="280"/></imageobject><textobject><para/></textobject></mediaobject><mediaobject><imageobject><imagedata fileref="http://oas.heise.de/RealMedia/ads/adstream_lx.ads/www.heise.de/newsticker/meldungen/security/1540888205/Middle1/OasDefault/jobtown05_28ros_08/microsoft05_11ros_08_script.html/35356236323635343438383437353530?_RM_EMPTY_" width="1" depth="1"/></imageobject><textobject><para/></textobject></mediaobject></entry>
         </row>
       </table>
       <para>Durch einige Foren und Webseiten geisterte in den vergangenen Tagen die Nachricht, Foxconn hÃ¤tte das BIOS und speziell deren ACPI-Tabellen eines Mainboards absichtlich so manipuliert, dass die Boards nicht mit Linux zusammenarbeiten. <ulink url="/glossar/entry/5c3ed590f974758c">Kernel-Hacker</ulink> Matthew Garrett erklÃ¤rt in zwei Blog-Posts (<ulink url="http://mjg59.livejournal.com/94905.html">1</ulink>, <ulink url="http://mjg59.livejournal.com/94998.html">2</ulink>) die Problematik genauer und stellte dabei klar, dass kein Vorsatz seitens Foxconn vorliegt; vielmehr seien auch Fehler im Linux-Kernel fÃ¼r die mit dem Foxconn-Board auftretenden Probleme mitverantwortlich. </para>
@@ -146,7 +129,8 @@
           <para>Neue Grafiktreiber, Treiber-Enwicklungsmodell erklÃ¤rt, Nebeneffekte durch Stromsparen</para>
         </listitem>
       </itemizedlist>
-      <literallayout class="normal">Ãltere Kernel-Logs finden sich Ã¼ber das Archiv oder die Suchfunktion von heise open.(thl/c't)</literallayout>
+      <literallayout class="normal"><emphasis>Ãltere <ulink url="/glossar/entry/09d9fae15978a6a8">Kernel-Logs</ulink> finden sich Ã¼ber <ulink url="http://www.heise.de/open/news/archiv/">das Archiv</ulink> oder <ulink url="http://www.heise.de/open/suche?sort=d;rm=search;q=Kernel-Log;channel=open">die Suchfunktion</ulink> von <ulink url="http://www.heise.de/open/">heise open</ulink>.</emphasis>(<ulink url="mailto:thl@ct.heise.de">thl</ulink>/c't)
+</literallayout>
       <table>
         <row>
           <entry>
@@ -165,11 +149,8 @@
         <row>
           <entry>
             <section>
-              <title>
-                <ulink url="/security/news/foren/go.shtml?list=1&amp;amp;forum_id=141504">
-                  <emphasis Role="strong">Kommentare lesen (26 Beiträge)</emphasis>
-                </ulink>
-              </title>
+              <title><ulink url="/security/news/foren/go.shtml?list=1&amp;amp;forum_id=141504"><emphasis Role="strong">Kommentare lesen (26 Beiträge)</emphasis></ulink>
+</title>
             </section>
           </entry>
           <entry>

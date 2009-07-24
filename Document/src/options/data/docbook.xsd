@@ -136,8 +136,8 @@
 	</complexType>
 
 	<complexType name="literallayout">
-		<simpleContent>
-			<extension base="string">
+		<complexContent>
+			<extension base="doc:inline">
 				<attribute name="class">
 					<simpleType>
 						<restriction base="string">
@@ -146,9 +146,8 @@
 						</restriction>
 					</simpleType>
 				</attribute>
-				<attribute name="language" type="string" />
 			</extension>
-		</simpleContent>
+		</complexContent>
 	</complexType>
 
 	<complexType name="itemizedlist">
