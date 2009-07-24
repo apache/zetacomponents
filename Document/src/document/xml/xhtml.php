@@ -168,9 +168,10 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
      *
      * @param DOMElement $xhtml
      * @param DOMElement $docbook
+     * @param bool $significantWhitespace
      * @return void
      */
-    protected function transformToDocbook( DOMElement $xhtml, DOMElement $docbook )
+    protected function transformToDocbook( DOMElement $xhtml, DOMElement $docbook, $significantWhitespace = false )
     {
         if ( ( $tagName = $xhtml->getProperty( 'type' ) ) !== false )
         {
@@ -192,19 +193,21 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
             switch ( $child->nodeType )
             {
                 case XML_ELEMENT_NODE:
-                    $this->transformToDocbook( $child, $docbook );
+                    $this->transformToDocbook( $child, $docbook, $significantWhitespace || $xhtml->getProperty( 'whitespace' ) === 'significant' );
                     break;
 
                 case XML_TEXT_NODE:
                     // Skip pure whitespace text nodes, except for
                     // intentionally converted <br> elements.
                     if ( ( trim( $text = $child->data ) === '' ) &&
+                         ( !$significantWhitespace ) &&
                          ( $xhtml->getProperty( 'whitespace' ) !== 'significant' ) )
                     {
                         continue;
                     }
 
-                    if ( $xhtml->getProperty( 'whitespace' ) === 'significant' )
+                    if ( ( $xhtml->getProperty( 'whitespace' ) === 'significant' ) ||
+                         ( $significantWhitespace ) )
                     {
                         // Don't normalize inside nodes with significant whitespaces.
                         $text = new DOMText( $text );

@@ -116,8 +116,9 @@ class ezcDocumentXhtmlFootnoteElementFilter extends ezcDocumentXhtmlElementBaseF
             {
                 // The footnote name should be embedded in the first a-tag, as
                 // it is a link target.
-                $footnoteName = trim( $xpath->query( '*[local-name() = "a"]', $footnote )->item( 0 )->textContent );
-
+                $footnoteRef  = $xpath->query( './/*[local-name() = "a"]', $footnote )->item( 0 );
+                $footnoteName = trim( $footnoteRef->textContent );
+                $footnoteRef->parentNode->removeChild( $footnoteRef );
 
                 // All text embedded in paragraphs
                 $footnoteText = '';
@@ -127,7 +128,7 @@ class ezcDocumentXhtmlFootnoteElementFilter extends ezcDocumentXhtmlElementBaseF
                 }
 
                 // Add footnote to list of footnotes
-                $this->footnotes[$footnoteName] = $footnoteText;
+                $this->footnotes[$footnoteName] = trim( $footnoteText );
             }
 
             // Remove node

@@ -10,7 +10,7 @@
     </sectioninfo>
     <section>
       <title> Kernel-Log: 2.6.25.13 korrigiert SicherheitslÃ¼cke, Probleme rund um ACPI <ulink url="/newsticker/meldung/audio/113560"/><inlinemediaobject><imageobject><imagedata fileref="/icons/ho/vorlesen.gif" width="64" depth="13"/></imageobject><textobject><para>Meldung vorlesen</para></textobject></inlinemediaobject></title>
-      <para>"). <emphasis>Any users of the 2.6.25 kernel series should upgrade to this version</emphasis> freigegeben. Erstere enthÃ¤lt knapp fÃ¼nfzig Korrekturen in verschiedenen Bereichen des Linux-Kernels; die neuen Ãnderungen bei 2.6.25.13 sind hingegen vornehmlich im Netzwerk-Subsystem angesiedelt. Die Freigabe-Mails der beiden jÃ¼ngsten Linux-Versionen der 25er-Serie erwÃ¤hnen weder CVE-Nummern noch Sicherheitskorrekturen explizit; in beiden Mails rÃ¤t Greg Kroah-Hartman den Anwendern von selbst kompilierten 2.6.25-Kerneln aber zum Update auf die neuen Versionen ("<ulink url="http://thread.gmane.org/gmane.linux.kernel/712767">2.6.25.13</ulink> und <ulink url="http://thread.gmane.org/gmane.linux.kernel/711370">2.6.25.12</ulink> haben die Kernel-Versionen <ulink url="/glossar/entry/ea8d3c7097639206">Stable-Kernel-Series</ulink> Die Betreuer der </para>
+      <para> Die Betreuer der <ulink url="/glossar/entry/ea8d3c7097639206">Stable-Kernel-Series</ulink> haben die Kernel-Versionen <ulink url="http://thread.gmane.org/gmane.linux.kernel/711370">2.6.25.12</ulink> und <ulink url="http://thread.gmane.org/gmane.linux.kernel/712767">2.6.25.13</ulink> freigegeben. Erstere enthÃ¤lt knapp fÃ¼nfzig Korrekturen in verschiedenen Bereichen des Linux-Kernels; die neuen Ãnderungen bei 2.6.25.13 sind hingegen vornehmlich im Netzwerk-Subsystem angesiedelt. Die Freigabe-Mails der beiden jÃ¼ngsten Linux-Versionen der 25er-Serie erwÃ¤hnen weder CVE-Nummern noch Sicherheitskorrekturen explizit; in beiden Mails rÃ¤t Greg Kroah-Hartman den Anwendern von selbst kompilierten 2.6.25-Kerneln aber zum Update auf die neuen Versionen ("<emphasis>Any users of the 2.6.25 kernel series should upgrade to this version</emphasis>"). </para>
       <para>Das heiÃt aber nicht, dass die neuen Versionen nicht doch Sicherheitskorrekturen enthalten; einige der Kernel-Entwickler haben erst kÃ¼rzlich in einer lÃ¤ngeren Diskussion (<ulink url="http://thread.gmane.org/gmane.linux.kernel/701694/">1</ulink>, <ulink url="http://thread.gmane.org/gmane.linux.kernel/701694/">2</ulink>) durchblicken lassen, dass sie zwar durchaus bereit sind, Ã¶ffentlich zu (sicherheitsrelevanten) Fehlern und deren Korrektur zu stehen. Mit dem in Sicherheitskreisen Ã¼blichen Drumherum â etwa dem Schreiben detaillierter Fehlerberichte oder die Freigabekoordination mit Linux-Distributoren â wollen sich zumindest einige der Kernel-Entwickler aber nicht herumschlagen. So scheint es auch bei 2.6.25.13 zu sein, denn zumindest <ulink url="http://git.kernel.org/?p=linux/kernel/git/stable/linux-2.6.25.y.git;a=commitdiff;h=0c9b216d1ce5c322631c21bd6656ec35047ffc87">eine</ulink> Ãnderungen am PPP-Code korrigiert eine SicherheitslÃ¼cke, die derzeit als <ulink url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2008-2750">CVE-2008-2750</ulink> diskutiert wird; Fedora, OpenSuse und Ubuntu haben das Problem in den vergangenen Tagen bereits durch Kernel-Updates behoben.</para>
       <para>Das zeigt wieder einmal, dass Anwender, die die Kernel-Entwicklung nicht intensiv verfolgen, mit einem Distributions-Kernel meist am besten bedient sind. Ãhnlich hatte es auch Greg Kroah-Hartman kÃ¼rzlich in einer Mail <ulink url="http://thread.gmane.org/gmane.linux.kernel/707127/focus=707604">durchblicken lassen</ulink>. Anwender, die anhand der von ihm bei der VerÃ¶ffentlichung mitgegebenen Informationen nicht entscheiden kÃ¶nnten, ob sie das Kernel-Update einspielen mÃ¼ssen oder nicht, sollten besser einer Firma das Bereitstellen von Updates Ã¼berlassen und nicht selbst Kernel einspielen. ("<emphasis>Take a look at the words I used, if someone can't determine if they should upgrade or not based on that, then they need to rely on a company to provide updates for them, and not be running their own kernels because they really have no clue about system management.</emphasis>").</para>
       <beginpage/>
@@ -23,19 +23,19 @@
       <itemizedlist>
         <listitem>
           <para>Elias Oltmanns hat auf der LKML </para>
-          <para> vorgestellt, durch die der Kernel die Schreib-/LesekÃ¶pfe von Festplatten zÃ¼gig parkt, falls etwa das Notebook zu stark beschleunigt wird ("Disk shock protection").<ulink url="http://thread.gmane.org/gmane.linux.ide/33099">Patches</ulink></para>
+          <para><ulink url="http://thread.gmane.org/gmane.linux.ide/33099">Patches</ulink> vorgestellt, durch die der Kernel die Schreib-/LesekÃ¶pfe von Festplatten zÃ¼gig parkt, falls etwa das Notebook zu stark beschleunigt wird ("Disk shock protection").</para>
         </listitem>
       </itemizedlist>
       <itemizedlist>
         <listitem>
           <para>Kurz nachdem VIA Harald Welte als Open-Source-Berater </para>
-          <para> verÃ¶ffentlicht. <ulink url="http://linux.via.com.tw/">Linux-Portal</ulink>, hat das Unternehmen Dokumentation zu zwei ChipsÃ¤tzen und der Padlock-Engine neuerer VIA-CPUs auf VIAs im FrÃ¼hjahr gestarteten <ulink url="http://www.heise.de/open/VIA-setzt-auf-Harald-Welte-als-Open-Source-Berater--/news/meldung/113318">engagierte</ulink></para>
+          <para><ulink url="http://www.heise.de/open/VIA-setzt-auf-Harald-Welte-als-Open-Source-Berater--/news/meldung/113318">engagierte</ulink>, hat das Unternehmen Dokumentation zu zwei ChipsÃ¤tzen und der Padlock-Engine neuerer VIA-CPUs auf VIAs im FrÃ¼hjahr gestarteten <ulink url="http://linux.via.com.tw/">Linux-Portal</ulink> verÃ¶ffentlicht. </para>
         </listitem>
       </itemizedlist>
       <itemizedlist>
         <listitem>
           <para>Die Entwickler des </para>
-          <para>.<ulink url="http://sourceforge.net/forum/forum.php?forum_id=849275">verÃ¶ffentlicht</ulink> haben die Version 2.8.6b der Hplip-Treiber fÃ¼r HP-Drucker und -MultifunktionsgerÃ¤te <ulink url="http://hplip.sourceforge.net/">Hplip-Projekts</ulink></para>
+          <para><ulink url="http://hplip.sourceforge.net/">Hplip-Projekts</ulink> haben die Version 2.8.6b der Hplip-Treiber fÃ¼r HP-Drucker und -MultifunktionsgerÃ¤te <ulink url="http://sourceforge.net/forum/forum.php?forum_id=849275">verÃ¶ffentlicht</ulink>.</para>
         </listitem>
       </itemizedlist>
       <para>
@@ -91,11 +91,11 @@
             <emphasis Role="strong">
               <ulink url="/newsticker/meldung/print/113560">Version zum Drucken</ulink>
             </emphasis>
-            <para><emphasis Role="strong"><ulink url="/newsticker/meldung/mail/113560">Per E-Mail versenden</ulink></emphasis> | </para>
+            <para> | <emphasis Role="strong"><ulink url="/newsticker/meldung/mail/113560">Per E-Mail versenden</ulink></emphasis></para>
           </entry>
           <entry>
             <para> &lt;&lt; </para>
-            <para> &gt;&gt; <ulink url="/newsticker/meldung/113563">Nächste</ulink> | <ulink url="/newsticker/meldung/113558">Vorige</ulink></para>
+            <para><ulink url="/newsticker/meldung/113558">Vorige</ulink> | <ulink url="/newsticker/meldung/113563">Nächste</ulink> &gt;&gt; </para>
           </entry>
         </row>
       </table>

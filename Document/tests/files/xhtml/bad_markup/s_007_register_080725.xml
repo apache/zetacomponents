@@ -6,13 +6,13 @@
     </sectioninfo>
     <section>
       <title>Ponies up to Apache, endorses LGPL</title>
-      <para>By</para>
-      <para>Gavin Clarke in San Francisco</para>
-      <para>→</para>
-      <para>More by this author</para>
+      <para>By </para>
+      <para><ulink url="http://forms.theregister.co.uk/mail_author/?story_url=/2008/07/25/microsoft_gpl/">Gavin Clarke in San Francisco</ulink>→ <ulink url="http://search.theregister.co.uk/?author=Gavin%20Clarke">More by this author</ulink></para>
       <para>Published Friday 25th July 2008 18:02 GMT</para>
       <beginpage/>
-      <para>Nail down your security priorities. Ask the experts and your peers at The Register Security Debate, September 24 2008.</para>
+      <para>
+        <ulink url="http://go.theregister.co.uk/c/td/ttl/http%3A//www.theregister.co.uk/Page/security200803/">Nail down your security priorities. Ask the experts and your peers at The Register Security Debate, September 24 2008.</ulink>
+      </para>
       <para><emphasis Role="strong">OSCON</emphasis> After years of hostility towards Free Software Foundation (FSF) licensing (<ulink url="http://www.theregister.co.uk/2002/04/22/gates_gpl_will_eat_your/">here</ulink> and <ulink url="http://www.microsoft.com/presspass/exec/craig/05-03sharedSource.mspx">here</ulink>) Microsoft has announced the first in a series of PHP patches - and it's using an FSF license.</para>
       <para>Microsoft told <emphasis>The Reg</emphasis> it's submitted a patch to the community for the <ulink url="http://adodb.sourceforge.net/">ADOdb</ulink> database abstraction library for PHP to add support for the <ulink url="http://www.microsoft.com/downloads/details.aspx?familyid=85f99a70-5df5-4558-991f-8aee8506833c&amp;amp;displaylang=en">PHP SQL Driver</ulink> developed with PHP shop Zend Technologies. The patch is under the FSF's Lesser GPL (LGPL).</para>
       <mediaobject>

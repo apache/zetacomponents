@@ -10,10 +10,10 @@
  */
 
 /**
- * Filter for XHtml table cells.
+ * Filter for abandoned text
  *
- * Tables, where the rows are nor structured into a tbody and thead are
- * restructured into those by this filter.
+ * Converts text, which is not wrapped by any nodes, which may contain inline
+ * markup, into paragraphs containing the text.
  *
  * @package Document
  * @version //autogen//
@@ -40,7 +40,6 @@ class ezcDocumentXhtmlTextToParagraphFilter extends ezcDocumentXhtmlElementBaseF
 
             // There are three different actions, which need to be performed in
             // this loop:
-            //  - Skip irrelevant nodes (whitespaces)
             //  - Aggregate text and inline nodes
             //  - Move text nodes to new paragraph nodes.
             if ( ( count( $aggregated ) ) &&
@@ -48,15 +47,15 @@ class ezcDocumentXhtmlTextToParagraphFilter extends ezcDocumentXhtmlElementBaseF
                      ( !$this->isInlineElement( $child ) ) ) )
             {
                 // We only create a new paragraph node around the aggregated
-                // elements, if they contain at least one text node, which does
-                // not only consists of whitespaces.
+                // elements, if they contain at least one text node.
                 $wrap = false;
                 foreach ( $aggregated as $node )
                 {
-                    $wrap |= (
-                        ( $node->nodeType === XML_TEXT_NODE ) &&
-                        ( trim( $node->wholeText ) !== '' )
-                    );
+                    if ( $node->nodeType === XML_TEXT_NODE )
+                    {
+                        $wrap = true;
+                        break;
+                    }
                 }
 
                 if ( $wrap )
@@ -65,9 +64,9 @@ class ezcDocumentXhtmlTextToParagraphFilter extends ezcDocumentXhtmlElementBaseF
                     $lastNode = end( $aggregated );
                     $newNode = new ezcDocumentXhtmlDomElement( 'p' );
                     $child->parentNode->insertBefore( $newNode, $lastNode );
-                    $newNode->setProperty( 'type', 'para' );
 
                     // Append all aggregated nodes
+                    $aggregated = array_reverse( $aggregated );
                     foreach ( $aggregated as $node )
                     {
                         $cloned = $node->cloneNode( true );
@@ -111,8 +110,26 @@ class ezcDocumentXhtmlTextToParagraphFilter extends ezcDocumentXhtmlElementBaseF
      */
     public function handles( DOMElement $element )
     {
-        return ( $element->tagName !== 'p' ) &&
-               $this->isBlockLevelElement( $element );
+        if ( in_array( $element->tagName, array( 
+                'div',
+                'del',
+                'ins',
+             ) ) &&
+             ( $element->parentNode instanceof DOMElement ) )
+        {
+            return $this->handles( $element->parentNode );
+        }
+
+        return in_array( $element->tagName, array(
+            'body',
+            'dd',
+            'fieldset',
+            'form',
+            'li',
+            'menu',
+            'th',
+            'td',
+        ) );
     }
 }
 

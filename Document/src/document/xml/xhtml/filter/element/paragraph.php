@@ -31,6 +31,7 @@ class ezcDocumentXhtmlParagraphElementFilter extends ezcDocumentXhtmlElementBase
     {
         // Only decorate non-empty paragraphs
         if ( trim( $element->textContent ) &&
+             ( !$this->isInline( $element ) ) &&
              ( $element->getProperty( 'type' ) === false ) )
         {
             $element->setProperty( 'type', 'para' );
