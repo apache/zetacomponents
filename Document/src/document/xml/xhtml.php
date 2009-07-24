@@ -130,6 +130,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
     protected function isInlineElement( DOMElement $element )
     {
         return in_array( $element->tagName, array(
+            'abbrev',
             'abstract',
             'acronym',
             'anchor',
