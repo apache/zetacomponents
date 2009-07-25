@@ -57,7 +57,7 @@ class ezcDocumentDocbookToEzXmlLiteralLayoutHandler extends ezcDocumentElementVi
             {
                 // Replace space by non-breaking spaces, as this is how it is
                 // supposed to be rendered.
-                $line = $root->ownerDocument->createElement( 'line', str_replace( ' ', "\xc2\xa0", $line ) );
+                $line = $root->ownerDocument->createElement( 'line', htmlspecialchars( str_replace( ' ', "\xc2\xa0", $line ) ) );
                 $paragraph->appendChild( $line );
             }
 
