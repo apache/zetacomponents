@@ -32,13 +32,14 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
         $type       = false;
         $aggregated = array();
         $processed  = array();
-        for ( $i = ( $element->childNodes->length - 1 ); $i >= 0; --$i )
+        for ( $i = ( $element->childNodes->length - 1 ); $i >= -1; --$i )
         {
             // Get type of current row, or set row type to null, if it is no
             // table row.
             $child   = $element->childNodes->item( $i );
             $childNr = $i;
-            if ( ( $child->nodeType === XML_ELEMENT_NODE ) &&
+            if ( $child &&
+                 ( $child->nodeType === XML_ELEMENT_NODE ) &&
                  ( $child->tagName === 'tr' ) )
             {
                 $rowType = $this->getType( $child );
@@ -56,22 +57,24 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
             //    type, when the row type changes, we reached the last row, or
             //    their is some tbody / thead node found.
             if ( ( count( $aggregated ) ) &&
-                   ( ( $i <= 0 ) ||
+                   ( ( $i < 0 ) ||
                      ( ( $rowType !== null ) &&
                        ( $rowType !== $type ) ) ) )
             {
                 // Move nodes to new subnode
                 $lastNode = end( $aggregated );
-                $newNode = new ezcDocumentXhtmlDomElement( $type );
-                $child->parentNode->insertBefore( $newNode, $lastNode );
+                $parent   = $lastNode->parentNode;
+                $newNode  = new ezcDocumentXhtmlDomElement( $type );
+                $parent->insertBefore( $newNode, $lastNode );
                 $newNode->setProperty( 'type', $type );
 
                 // Append all aggregated nodes
+                $aggregated = array_reverse( $aggregated );
                 foreach ( $aggregated as $node )
                 {
                     $cloned = $node->cloneNode( true );
                     $newNode->appendChild( $cloned );
-                    $child->parentNode->removeChild( $node );
+                    $parent->removeChild( $node );
                 }
 
                 // Clean up
@@ -82,7 +85,8 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
                 ++$i;
             }
 
-            if ( $child->nodeType !== XML_ELEMENT_NODE )
+            if ( $child &&
+                 ( $child->nodeType !== XML_ELEMENT_NODE ) )
             {
                 $child->parentNode->removeChild( $child );
                 continue;

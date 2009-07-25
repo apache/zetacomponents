@@ -86,33 +86,37 @@
       <literallayout class="normal"><emphasis>Ãltere <ulink url="/glossar/entry/09d9fae15978a6a8">Kernel-Logs</ulink> finden sich Ã¼ber <ulink url="http://www.heise.de/open/news/archiv/">das Archiv</ulink> oder <ulink url="http://www.heise.de/open/suche?sort=d;rm=search;q=Kernel-Log;channel=open">die Suchfunktion</ulink> von <ulink url="http://www.heise.de/open/">heise open</ulink>.</emphasis>(<ulink url="mailto:thl@ct.heise.de">thl</ulink>/c't)
 </literallayout>
       <table>
-        <row>
-          <entry>
-            <emphasis Role="strong">
-              <ulink url="/newsticker/meldung/print/113560">Version zum Drucken</ulink>
-            </emphasis>
-            <para> | <emphasis Role="strong"><ulink url="/newsticker/meldung/mail/113560">Per E-Mail versenden</ulink></emphasis></para>
-          </entry>
-          <entry>
-            <para> &lt;&lt; </para>
-            <para><ulink url="/newsticker/meldung/113558">Vorige</ulink> | <ulink url="/newsticker/meldung/113563">Nächste</ulink> &gt;&gt; </para>
-          </entry>
-        </row>
+        <tbody>
+          <row>
+            <entry>
+              <emphasis Role="strong">
+                <ulink url="/newsticker/meldung/print/113560">Version zum Drucken</ulink>
+              </emphasis>
+              <para> | <emphasis Role="strong"><ulink url="/newsticker/meldung/mail/113560">Per E-Mail versenden</ulink></emphasis></para>
+            </entry>
+            <entry>
+              <para> &lt;&lt; </para>
+              <para><ulink url="/newsticker/meldung/113558">Vorige</ulink> | <ulink url="/newsticker/meldung/113563">Nächste</ulink> &gt;&gt; </para>
+            </entry>
+          </row>
+        </tbody>
       </table>
       <table>
-        <row>
-          <entry>
-            <section>
-              <title><ulink url="/security/news/foren/go.shtml?list=1&amp;amp;forum_id=141504"><emphasis Role="strong">Kommentare lesen (26 Beiträge)</emphasis></ulink>
+        <tbody>
+          <row>
+            <entry>
+              <section>
+                <title><ulink url="/security/news/foren/go.shtml?list=1&amp;amp;forum_id=141504"><emphasis Role="strong">Kommentare lesen (26 Beiträge)</emphasis></ulink>
 </title>
-            </section>
-          </entry>
-          <entry>
-            <section>
-              <title>Themen-Forum <ulink url="/open/foren/go.shtml?list=1&amp;amp;forum_id=93835">Betriebssysteme</ulink></title>
-            </section>
-          </entry>
-        </row>
+              </section>
+            </entry>
+            <entry>
+              <section>
+                <title>Themen-Forum <ulink url="/open/foren/go.shtml?list=1&amp;amp;forum_id=93835">Betriebssysteme</ulink></title>
+              </section>
+            </entry>
+          </row>
+        </tbody>
       </table>
     </section>
   </section>

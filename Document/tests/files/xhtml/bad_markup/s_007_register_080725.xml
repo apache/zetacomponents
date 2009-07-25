@@ -198,30 +198,32 @@
       </mediaobject>
       <para>Reddit</para>
       <table>
-        <row>
-          <entry>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="/Design/graphics/Reg_default/article_arrow_prev.png" width="14" depth="13"/>
-              </imageobject>
-              <textobject>
-                <para/>
-              </textobject>
-            </mediaobject>
-            <para>Previous Article</para>
-          </entry>
-          <entry>
-            <para>Next Article</para>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="/Design/graphics/Reg_default/article_arrow_next.png" width="14" depth="13"/>
-              </imageobject>
-              <textobject>
-                <para/>
-              </textobject>
-            </mediaobject>
-          </entry>
-        </row>
+        <tbody>
+          <row>
+            <entry>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="/Design/graphics/Reg_default/article_arrow_prev.png" width="14" depth="13"/>
+                </imageobject>
+                <textobject>
+                  <para/>
+                </textobject>
+              </mediaobject>
+              <para>Previous Article</para>
+            </entry>
+            <entry>
+              <para>Next Article</para>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="/Design/graphics/Reg_default/article_arrow_next.png" width="14" depth="13"/>
+                </imageobject>
+                <textobject>
+                  <para/>
+                </textobject>
+              </mediaobject>
+            </entry>
+          </row>
+        </tbody>
       </table>
     </section>
   </section>
