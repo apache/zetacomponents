@@ -146,6 +146,7 @@
 						</restriction>
 					</simpleType>
 				</attribute>
+				<attribute name="language" type="string"/>
 			</extension>
 		</complexContent>
 	</complexType>
