@@ -1,4 +1,4 @@
-1.1.1 - [RELEASEDATE]
+1.1.1 - Monday 27 July 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15134: isset() access on controller variables missing.
