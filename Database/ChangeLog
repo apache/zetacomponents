@@ -1,4 +1,4 @@
-1.4.6 - [RELEASEDATE]
+1.4.6 - Monday 27 July 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #11784: Fixed quoting of sub-selects in "IN" expression.
