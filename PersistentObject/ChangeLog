@@ -3,13 +3,14 @@
 
 - Implemented enhancement #11831: ezcPersistentSession and
   ezcPersistentSessionIdentityDecorator now provide the method isRelated() to
-  check if 2 objects are related to each other.
+  check if two objects are related to each other.
+- Implemented enhancement #13073: The new createSubQuery() method on
+  persistence sessions can be used to create a sub-select for a find query.
 - Implemented enhancement #14154: Property converters are now also called for
   null values.
 - Implemented enhancement #14158: If an object to be loaded is not found, an
   ezcPersistentObjectNotFoundException is thrown.
-- Implemented enhancement #13073: The new createSubQuery() method on
-  persistence sessions can be used to create a sub-select for a find query.
+
 
 1.6 - Monday 29 June 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

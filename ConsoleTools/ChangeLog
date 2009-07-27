@@ -1,9 +1,6 @@
-1.6.0alpha1 - [RELEASEDATE]
+1.6alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Implemented enhancement #15010: The table does not use output formats
-  anymore, if "useFormats" is set to false in the ezcConsoleOutput instance
-  used.
 - Implemented enhancement #14804: ezcConsoleOptionRule now has a property
   "ifSet". This one defaults to true, meaning that the rule is validated if
   the option it is attached to was submitted. If set to false, the rule is
@@ -11,6 +8,9 @@
 - Implemented enhansement #14916: Extracted help generation and input
   validation from ezcConsoleInput. The interfaces still need validation and are
   not public for now.
+- Implemented enhancement #15010: The table does not use output formats
+  anymore, if "useFormats" is set to false in the ezcConsoleOutput instance
+  used.
 
 
 1.5.2 - Monday 22 June 2009
