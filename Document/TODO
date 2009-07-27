@@ -1,9 +1,0 @@
-TODO
-====
-
-- Option class error checking
-- Test public API for all format conversions (esp. eZXml, Html)
-- Handle embeds and objects properly in eZXml
-- Find or create a proper schema for docbook documents, or just the subset we
-  are using.
-
