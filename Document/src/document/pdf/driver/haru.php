@@ -294,6 +294,11 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function setTextFormatting( $type, $value )
     {
+        if ( $this->document === null )
+        {
+            $this->initialize();
+        }
+
         switch ( $type )
         {
             case 'font-style':
@@ -362,9 +367,9 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
                 if ( $this->currentPage )
                 {
                     $this->currentPage->setRGBFill(
-                        $value->value['red'],
-                        $value->value['green'],
-                        $value->value['blue']
+                        $value['red'],
+                        $value['green'],
+                        $value['blue']
                     );
                 }
 

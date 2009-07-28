@@ -257,7 +257,8 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '4' );
-        $driver->setTextFormatting( 'color', new ezcDocumentPdfStyleColorValue( '#204a87' ) );
+        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+        $driver->setTextFormatting( 'color', $color->value );
 
         $driver->drawWord( 10, 10, 'The quick brown fox jumps over the lazy dog.' );
         $pdf = $driver->save();

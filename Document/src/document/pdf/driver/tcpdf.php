@@ -268,9 +268,9 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
 
             case 'color':
                 $this->document->setTextColor(
-                    $value->value['red'] * 255,
-                    $value->value['green'] * 255,
-                    $value->value['blue'] * 255
+                    $value['red'] * 255,
+                    $value['green'] * 255,
+                    $value['blue'] * 255
                 );
 
             default:
