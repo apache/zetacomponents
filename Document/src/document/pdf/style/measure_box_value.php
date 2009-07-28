@@ -10,21 +10,14 @@
  */
 
 /**
- * Pdf CSS layout directive.
+ * Style directive measure box value representation
  *
  * @package Document
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleMeasureBoxValue extends ezcBaseStruct
+class ezcDocumentPdfStyleMeasureBoxValue extends ezcDocumentPdfStyleValue
 {
-    /**
-     * Directive value
-     *
-     * @var array
-     */
-    public $value;
-
     /**
      * Construct value handler from string representation
      *

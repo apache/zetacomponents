@@ -2,7 +2,7 @@
 /**
  * Autoloader definition for the Document component.
  *
- * @copyright Copyright (C) 2005-2009 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @version //autogentag//
  * @filesource
@@ -55,6 +55,7 @@ return array(
     'ezcDocumentPdfHyphenator'                           => 'Document/document/pdf/hyphenator.php',
     'ezcDocumentPdfImageHandler'                         => 'Document/document/pdf/image/handler.php',
     'ezcDocumentPdfLocateable'                           => 'Document/document/pdf/locateable.php',
+    'ezcDocumentPdfStyleValue'                           => 'Document/document/pdf/style/value.php',
     'ezcDocumentPdfTextBoxRenderer'                      => 'Document/document/pdf/renderer/text_box.php',
     'ezcDocumentPdfTokenizer'                            => 'Document/document/pdf/tokenizer.php',
     'ezcDocumentRstBlockNode'                            => 'Document/document/rst/nodes/block.php',
@@ -202,6 +203,7 @@ return array(
     'ezcDocumentPdfPage'                                 => 'Document/document/pdf/page.php',
     'ezcDocumentPdfParagraphRenderer'                    => 'Document/document/pdf/renderer/paragraph.php',
     'ezcDocumentPdfPhpImageHandler'                      => 'Document/document/pdf/image/php.php',
+    'ezcDocumentPdfStyleColorValue'                      => 'Document/document/pdf/style/color_value.php',
     'ezcDocumentPdfStyleInferencer'                      => 'Document/document/pdf/style_inferencer.php',
     'ezcDocumentPdfStyleIntValue'                        => 'Document/document/pdf/style/int_value.php',
     'ezcDocumentPdfStyleMeasureBoxValue'                 => 'Document/document/pdf/style/measure_box_value.php',

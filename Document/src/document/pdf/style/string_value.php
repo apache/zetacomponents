@@ -10,21 +10,14 @@
  */
 
 /**
- * Pdf CSS layout directive.
+ * Style directive string value representation
  *
  * @package Document
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleStringValue extends ezcBaseStruct
+class ezcDocumentPdfStyleStringValue extends ezcDocumentPdfStyleValue
 {
-    /**
-     * Directive value
-     *
-     * @var string
-     */
-    public $value;
-
     /**
      * Construct value handler from string representation
      *

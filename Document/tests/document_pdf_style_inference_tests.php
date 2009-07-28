@@ -256,6 +256,161 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         );
     }
 
+    public static function getColorValues()
+    {
+        return array(
+            array(
+                "#000000",
+                array(
+                    'red'   => 0.,
+                    'green' => 0.,
+                    'blue'  => 0.,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "#ffffff",
+                array(
+                    'red'   => 1.,
+                    'green' => 1.,
+                    'blue'  => 1.,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "#babdb6",
+                array(
+                    'red'   => .73,
+                    'green' => .74,
+                    'blue'  => .71,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "#babdb6b0",
+                array(
+                    'red'   => .73,
+                    'green' => .74,
+                    'blue'  => .71,
+                    'alpha' => .69,
+                ),
+            ),
+            array(
+                "#BABDB6",
+                array(
+                    'red'   => .73,
+                    'green' => .74,
+                    'blue'  => .71,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "#000",
+                array(
+                    'red'   => 0.,
+                    'green' => 0.,
+                    'blue'  => 0.,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "#fff",
+                array(
+                    'red'   => 1.,
+                    'green' => 1.,
+                    'blue'  => 1.,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "#bad",
+                array(
+                    'red'   => .73,
+                    'green' => .67,
+                    'blue'  => .87,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "#bad6",
+                array(
+                    'red'   => .73,
+                    'green' => .67,
+                    'blue'  => .87,
+                    'alpha' => .4,
+                ),
+            ),
+            array(
+                "#BAD",
+                array(
+                    'red'   => .73,
+                    'green' => .67,
+                    'blue'  => .87,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "rgb( 12, 23, 1023 )",
+                array(
+                    'red'   => .07,
+                    'green' => .14,
+                    'blue'  => .2,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "   RGB     ( 12 , 23 , 1023 ) ",
+                array(
+                    'red'   => .07,
+                    'green' => .14,
+                    'blue'  => .2,
+                    'alpha' => 0.,
+                ),
+            ),
+            array(
+                "rgba( 12, 23, 1023, 12 )",
+                array(
+                    'red'   => .07,
+                    'green' => .14,
+                    'blue'  => .2,
+                    'alpha' => .07,
+                ),
+            ),
+            array(
+                "   RGBA     ( 12 , 23 , 1023 , 12 ) ",
+                array(
+                    'red'   => .07,
+                    'green' => .14,
+                    'blue'  => .2,
+                    'alpha' => .07,
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getColorValues
+     */
+    public function testColorValueHandler( $input, $expectation )
+    {
+        $value = new ezcDocumentPdfStyleColorValue( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Invalid color values read.', .01
+        );
+    }
+
+    public function testInvalidColorSpecification()
+    {
+        try {
+            new ezcDocumentPdfStyleColorValue( 'something invalid' );
+            $this->fail( 'Expected ezcDocumentParserException.' );
+        } catch ( ezcDocumentParserException $e )
+        { /* Expected */ }
+    }
+
     public function testExceptionPostDecoration()
     {
         $inferencer = new ezcDocumentPdfStyleInferencer( false );

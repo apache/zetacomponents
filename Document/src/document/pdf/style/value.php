@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleMeasureValue class
+ * File containing the ezcDocumentPdfStyleStringValue class
  *
  * @package Document
  * @version //autogen//
@@ -10,34 +10,34 @@
  */
 
 /**
- * Style directive measure value representation
+ * Style directive value representation
  *
  * @package Document
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleMeasureValue extends ezcDocumentPdfStyleValue
+abstract class ezcDocumentPdfStyleValue extends ezcBaseStruct
 {
+    /**
+     * Directive value
+     *
+     * @var mixed
+     */
+    public $value;
+
     /**
      * Construct value handler from string representation
      *
-     * @param mixed $value
+     * @param string $value
      * @return void
      */
-    public function __construct( $value )
-    {
-        $this->value = ezcDocumentPdfMeasure::create( $value )->get();
-    }
+    abstract public function __construct( $value );
 
     /**
      * Convert value to string
      *
      * @return string
      */
-    public function __toString()
-    {
-        return sprintf( '%.2Fmm', $this->value );
-    }
+    abstract public function __toString();
 }
-
 ?>
