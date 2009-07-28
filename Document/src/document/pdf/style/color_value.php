@@ -80,7 +80,12 @@ class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
      */
     public function __toString()
     {
-        return sprintf( '%.2Fmm', $this->value );
+        return sprintf( '#%02x%02x%02x%s',
+            $this->value['red'] * 255,
+            $this->value['green'] * 255,
+            $this->value['blue'] * 255,
+            $this->value['alpha'] > 0 ? sprintf( '%02x', $this->value['alpha'] * 255 ) : ''
+        );
     }
 }
 

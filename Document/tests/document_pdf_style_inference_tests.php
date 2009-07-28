@@ -267,6 +267,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => 0.,
                     'alpha' => 0.,
                 ),
+                '#000000',
             ),
             array(
                 "#ffffff",
@@ -276,6 +277,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => 1.,
                     'alpha' => 0.,
                 ),
+                '#ffffff',
             ),
             array(
                 "#babdb6",
@@ -285,6 +287,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => .71,
                     'alpha' => 0.,
                 ),
+                '#babdb6',
             ),
             array(
                 "#babdb6b0",
@@ -294,6 +297,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => .71,
                     'alpha' => .69,
                 ),
+                '#babdb6b0',
             ),
             array(
                 "#BABDB6",
@@ -303,6 +307,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => .71,
                     'alpha' => 0.,
                 ),
+                '#babdb6',
             ),
             array(
                 "#000",
@@ -312,6 +317,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => 0.,
                     'alpha' => 0.,
                 ),
+                '#000000',
             ),
             array(
                 "#fff",
@@ -321,6 +327,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => 1.,
                     'alpha' => 0.,
                 ),
+                '#ffffff',
             ),
             array(
                 "#bad",
@@ -330,6 +337,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => .87,
                     'alpha' => 0.,
                 ),
+                '#bbaadd',
             ),
             array(
                 "#bad6",
@@ -339,6 +347,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => .87,
                     'alpha' => .4,
                 ),
+                '#bbaadd66',
             ),
             array(
                 "#BAD",
@@ -348,6 +357,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => .87,
                     'alpha' => 0.,
                 ),
+                '#bbaadd',
             ),
             array(
                 "rgb( 0, 255, 9823 )",
@@ -357,6 +367,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => .37,
                     'alpha' => 0.,
                 ),
+                '#00ff5f',
             ),
             array(
                 "   RGB     ( 0 , 10 , 127 ) ",
@@ -366,6 +377,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => .5,
                     'alpha' => 0.,
                 ),
+                '#000a7f',
             ),
             array(
                 "rgba( 0, 255, 1023, 127 )",
@@ -375,6 +387,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => 1.,
                     'alpha' => .5,
                 ),
+                '#00ffff7f',
             ),
             array(
                 "   RGBA     ( 12 , 23 , 1023 , 12 ) ",
@@ -384,6 +397,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'blue'  => 1.,
                     'alpha' => .05,
                 ),
+                '#0c17ff0c',
             ),
         );
     }
@@ -391,7 +405,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
     /**
      * @dataProvider getColorValues
      */
-    public function testColorValueHandler( $input, $expectation )
+    public function testColorValueHandler( $input, $expectation, $string = '' )
     {
         $value = new ezcDocumentPdfStyleColorValue( $input );
 
@@ -399,6 +413,12 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
             $expectation,
             $value->value,
             'Invalid color values read.', .01
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid color string serialization.'
         );
     }
 
