@@ -1,78 +1,78 @@
 article {
-	// Basic font style definitions
-	font-size:   "12pt";
-	font-family: "serif";
-	font-weight: "normal";
-	font-style:  "normal";
-	line-height: "1.4";
-	text-align:  "left";
-	color:       "#2e3436";
+    // Basic font style definitions
+    font-size:   "12pt";
+    font-family: "serif";
+    font-weight: "normal";
+    font-style:  "normal";
+    line-height: "1.4";
+    text-align:  "left";
+    color:       "#2e3436";
 
-	// Basic page layout definitions
-	text-columns: "1";
-	text-column-spacing: "10mm";
+    // Basic page layout definitions
+    text-columns: "1";
+    text-column-spacing: "10mm";
 
-	// Initilize general properties
-	padding: "0mm";
-	margin: "0mm";
+    // Initilize general properties
+    padding: "0mm";
+    margin: "0mm";
 
-	// General text layout options
-	orphans: "3";
-	widows:  "3";
+    // General text layout options
+    orphans: "3";
+    widows:  "3";
 }
 
 page {
-	page-size: "A4";
-	page-orientation: "portrait";
-	padding: "22mm 16mm";
+    page-size: "A4";
+    page-orientation: "portrait";
+    padding: "22mm 16mm";
 
-	// Margin for pages specifies an additional outer border, which can be used
-	// to cut if off later, f.e. in printing
-	margin: "0mm";
+    // Margin for pages specifies an additional outer border, which can be used
+    // to cut if off later, f.e. in printing
+    margin: "0mm";
 }
 
 para {
-	margin: "3mm 0mm 1mm 0mm";
+    margin: "3mm 0mm 1mm 0mm";
 }
 
 emphasis {
-	font-weight: "bold";
+    font-weight: "bold";
 }
 
 title {
-	font-family: "sans-serif";
-	font-weight: "bold";
-	color: "#000000";
+    font-family: "sans-serif";
+    font-weight: "bold";
+    color: "#000000";
 }
 
 title {
-	font-size: "32pt";
+    font-size: "32pt";
 }
 
 section > title {
-	font-size: "24pt";
-	text-columns: "1";
-	margin: "10mm 0mm 4mm 0mm";
+    font-size: "24pt";
+    text-columns: "1";
+    margin: "10mm 0mm 4mm 0mm";
 }
 
 section > section > title {
-	font-size: "20pt";
-	text-columns: "1";
+    font-size: "20pt";
+    text-columns: "1";
 }
 
 section > section > section > title {
-	font-size: "18pt";
+    font-size: "18pt";
 }
 
 section > section > section > section > title {
-	font-size: "16pt";
+    font-size: "16pt";
 }
 
 section > section > section > section > section > title {
-	font-size: "14pt";
+    font-size: "14pt";
 }
 
 section > section > section > section > section > section > title {
-	font-size: "12pt";
+    font-size: "12pt";
 }
 
