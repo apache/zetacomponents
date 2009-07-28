@@ -266,6 +266,13 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
                 $this->document->setFontSize( $this->currentFont['size'] );
                 break;
 
+            case 'color':
+                $this->document->setTextColor(
+                    $value->value['red'] * 255,
+                    $value->value['green'] * 255,
+                    $value->value['blue'] * 255
+                );
+
             default:
                 // @TODO: Error reporting.
         }

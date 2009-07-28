@@ -41,19 +41,16 @@ stream
 0 Tr
 /F1 28.5 Tf
 /F1 11.33858 Tf
+0.12549 0.2902 0.52941 rg
 BT
-0 830.55121 Td
-(The\040quick\040brown\040fox\040jumps\040over\040the\040lazy\040dog) Tj
-ET
-BT
-0 0.00001 Td
-(The\040quick\040brown\040fox\040jumps\040over\040the\040lazy\040dog) Tj
+28.34646 813.54333 Td
+(The\040quick\040brown\040fox\040jumps\040over\040the\040lazy\040dog.) Tj
 ET
 
 endstream
 endobj
 6 0 obj
-219
+161
 endobj
 7 0 obj
 <<
@@ -71,8 +68,8 @@ xref
 0000000144 00000 n
 0000000217 00000 n
 0000000405 00000 n
-0000000678 00000 n
-0000000697 00000 n
+0000000620 00000 n
+0000000639 00000 n
 trailer
 <<
 /Root 1 0 R
@@ -80,5 +77,5 @@ trailer
 /Size 8
 >>
 startxref
-795
+737
 %%EOF

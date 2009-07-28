@@ -226,6 +226,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         $this->currentPage->setWidth( ezcDocumentPdfMeasure::create( $width )->get( 'pt' ) );
         $this->currentPage->setHeight( ezcDocumentPdfMeasure::create( $height )->get( 'pt' ) );
+        $this->currentPage->setTextRenderingMode( HaruPage::FILL );
 
         // The current font might need to be recreated for the new page.
         $this->currentFont['font'] = null;
@@ -356,6 +357,16 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
                     }
                 }
                 break;
+
+            case 'color':
+                if ( $this->currentPage )
+                {
+                    $this->currentPage->setRGBFill(
+                        $value->value['red'],
+                        $value->value['green'],
+                        $value->value['blue']
+                    );
+                }
 
             default:
                 // @TODO: Error reporting.

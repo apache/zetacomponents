@@ -250,6 +250,20 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
         $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
     }
+
+    public function testRenderColoredText()
+    {
+        $driver = new $this->driverClass();
+        $driver->createPage( 210, 297 );
+        $driver->setTextFormatting( 'font-family', 'sans-serif' );
+        $driver->setTextFormatting( 'font-size', '4' );
+        $driver->setTextFormatting( 'color', new ezcDocumentPdfStyleColorValue( '#204a87' ) );
+
+        $driver->drawWord( 10, 10, 'The quick brown fox jumps over the lazy dog.' );
+        $pdf = $driver->save();
+
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
 }
 
 ?>
