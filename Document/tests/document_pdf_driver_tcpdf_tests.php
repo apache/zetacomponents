@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
+require_once 'document_pdf_driver_tests.php';
 
 // Try to include TCPDF class from external/tcpdf.
 // @TODO: Maybe also search the include path...
@@ -24,9 +24,37 @@ if ( file_exists( $path = dirname( __FILE__ ) . '/external/tcpdf/tcpdf.php' ) )
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
+class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfDriverTests
 {
+    /**
+     * Old error reporting level restored after the test
+     * 
+     * @var int
+     */
     protected $oldErrorReporting;
+
+    /**
+     * Name of the driver class to test
+     * 
+     * @var string
+     */
+    protected $driverClass = 'ezcDocumentPdfTcpdfDriver';
+
+    /**
+     * Expected font widths for calculateWordWidth tests
+     * 
+     * @var array
+     */
+    protected $expectedWidths = array(
+        'testEstimateDefaultWordWidthWithoutPageCreation' => 9.4,
+        'testEstimateDefaultWordWidth'                    => 9.4,
+        'testEstimateWordWidthDifferentSize'              => 31.1,
+        'testEstimateWordWidthDifferentSizeAndUnit'       => 11.0,
+        'testEstimateBoldWordWidth'                       => 9.6,
+        'testEstimateMonospaceWordWidth'                  => 36,
+        'testFontStyleFallback'                           => 16.3,
+        'testUtf8FontWidth'                               => 10.6,
+    );
 
     public static function suite()
     {
@@ -52,214 +80,6 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfTestCase
     {
         error_reporting( $this->oldErrorReporting );
         parent::tearDown();
-    }
-
-    public function testEstimateDefaultWordWidthWithoutPageCreation()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-
-        $this->assertEquals(
-            9.4,
-            $driver->calculateWordWidth( 'Hello' ),
-            'Wrong word width estimation', .1
-        );
-    }
-
-    public function testEstimateDefaultWordWidth()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-
-        $this->assertEquals(
-            9.4,
-            $driver->calculateWordWidth( 'Hello' ),
-            'Wrong word width estimation', .1
-        );
-    }
-
-    public function testEstimateWordWidthDifferentSize()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-        $driver->setTextFormatting( 'font-size', '14' );
-
-        $this->assertEquals(
-            31.1,
-            $driver->calculateWordWidth( 'Hello' ),
-            'Wrong word width estimation', .1
-        );
-    }
-
-    public function testEstimateWordWidthDifferentSizeAndUnit()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-        $driver->setTextFormatting( 'font-size', '14pt' );
-
-        $this->assertEquals(
-            11.0,
-            $driver->calculateWordWidth( 'Hello' ),
-            'Wrong word width estimation', .1
-        );
-    }
-
-    public function testEstimateBoldWordWidth()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-        $driver->setTextFormatting( 'font-weight', 'bold' );
-
-        $this->assertEquals(
-            9.6,
-            $driver->calculateWordWidth( 'Hello' ),
-            'Wrong word width estimation', .1
-        );
-    }
-
-    public function testEstimateMonospaceWordWidth()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-        $driver->setTextFormatting( 'font-family', 'monospace' );
-        $driver->setTextFormatting( 'font-size', '12' );
-
-        $this->assertEquals(
-            36,
-            $driver->calculateWordWidth( 'Hello' ),
-            'Wrong word width estimation', .1
-        );
-    }
-
-    public function testFontStyleFallback()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-        $driver->setTextFormatting( 'font-family', 'ZapfDingbats' );
-        $driver->setTextFormatting( 'font-weight', 'bold' );
-        $driver->setTextFormatting( 'font-style', 'italic' );
-
-        $this->assertEquals(
-            16.3,
-            $driver->calculateWordWidth( 'Hello' ),
-            'Wrong word width estimation', .1
-        );
-    }
-
-    public function testUtf8FontWidth()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-
-        $this->assertEquals(
-            10.6,
-            $driver->calculateWordWidth( 'ℋℇℒℒΩ' ),
-            'Wrong word width estimation', .1
-        );
-    }
-
-    public function testRenderHelloWorld()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-        $driver->setTextFormatting( 'font-family', 'sans-serif' );
-        $driver->setTextFormatting( 'font-size', '10' );
-
-        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
-        $driver->drawWord( 0, 297, 'The quick brown fox jumps over the lazy dog' );
-        $pdf = $driver->save();
-
-        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
-    }
-
-    public function testRenderHelloWorldSmallFont()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-        $driver->setTextFormatting( 'font-family', 'sans-serif' );
-        $driver->setTextFormatting( 'font-size', '4' );
-
-        $driver->drawWord( 0, 4, 'The quick brown fox jumps over the lazy dog' );
-        $driver->drawWord( 0, 297, 'The quick brown fox jumps over the lazy dog' );
-        $pdf = $driver->save();
-
-        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
-    }
-
-    public function testRenderSwitchingFontStates()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-        $driver->setTextFormatting( 'font-size', '8' );
-
-        $driver->drawWord( 0, 8, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-weight', 'bold' );
-        $driver->setTextFormatting( 'font-style', 'italic' );
-        $driver->drawWord( 0, 18, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-style', 'normal' );
-        $driver->drawWord( 0, 28, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-weight', 'normal' );
-        $driver->drawWord( 0, 38, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-weight', 'bold' );
-        $driver->drawWord( 0, 48, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-family', 'serif' );
-        $driver->drawWord( 0, 58, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-weight', 'normal' );
-        $driver->drawWord( 0, 68, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-family', 'Symbol' );
-        $driver->drawWord( 0, 78, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-weight', 'bold' );
-        $driver->drawWord( 0, 88, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-style', 'italic' );
-        $driver->drawWord( 0, 98, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-family', 'monospace' );
-        $driver->drawWord( 0, 108, 'The quick brown fox jumps over the lazy dog' );
-        $driver->setTextFormatting( 'font-weight', 'bold' );
-        $driver->setTextFormatting( 'font-style', 'italic' );
-        $driver->drawWord( 0, 118, 'The quick brown fox jumps over the lazy dog' );
-
-        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
-    }
-
-    public function testRenderUtf8Text()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-
-        $driver->drawWord( 10, 10, 'ℋℇℒℒΩ' );
-        $pdf = $driver->save();
-
-        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
-    }
-
-    public function testRenderPngImage()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-
-        $driver->drawImage(
-            dirname( __FILE__ ) . '/files/pdf/images/logo-white.png', 'image/png',
-            50, 50,
-            ezcDocumentPdfMeasure::create( '113px' )->get(),
-            ezcDocumentPdfMeasure::create( '57px' )->get()
-        );
-        $pdf = $driver->save();
-
-        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
-    }
-
-    public function testRenderResizedJpegImage()
-    {
-        $driver = new ezcDocumentPdfTcpdfDriver();
-        $driver->createPage( 210, 297 );
-
-        $driver->drawImage(
-            dirname( __FILE__ ) . '/files/pdf/images/large.jpeg', 'image/jpeg',
-            50, 50,
-            110, 100
-        );
-        $pdf = $driver->save();
-
-        $this->assertPdfDocumentsSimilar( $pdf, __METHOD__ );
     }
 }
 
