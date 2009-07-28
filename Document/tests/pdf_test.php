@@ -22,6 +22,13 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
 
     protected $basePath;
 
+    /**
+     * Extension of generated files
+     * 
+     * @var string
+     */
+    protected $extension = 'pdf';
+
     public function setUp()
     {
         static $i = 0;
@@ -47,7 +54,7 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
      */
     protected function assertPdfDocumentsSimilar( $content, $name )
     {
-        $baseName = str_replace( '::', '_', $name ) . '.pdf';
+        $baseName = str_replace( '::', '_', $name ) . '.' . $this->extension;
 
         // Normalize dates in generated PDF
         $content = preg_replace( '(/(CreationDate|ModDate)\\s+\\(D:\\d+\\))', '\\1 (D:20000101010000)', $content );

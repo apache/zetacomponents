@@ -111,6 +111,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         'style' => self::FONT_PLAIN,
         'size'  => 28.5,
         'font'  => null,
+        'color' => '#000000',
     );
 
     /**
@@ -211,6 +212,14 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
                 $this->currentFont['size'] = ezcDocumentPdfMeasure::create( $value )->get( 'pt' );
                 break;
 
+            case 'color':
+                $this->currentFont['color'] = sprintf( '#%02x%02x%02x',
+                    $value['red'] * 255,
+                    $value['green'] * 255,
+                    $value['blue'] * 255
+                );
+                break;
+
             default:
                 // @TODO: Error reporting.
         }
@@ -264,11 +273,12 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $textNode->setAttribute(
             'style',
             sprintf(
-                'font-size: %.2Fpt; font-family: %s; font-style: %s; font-weight: %s; stroke: none;',
+                'font-size: %.2Fpt; font-family: %s; font-style: %s; font-weight: %s; stroke: none; fill: %s',
                 $this->currentFont['size'],
                 $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
                 ( $this->currentFont['style'] & self::FONT_OBLIQUE ) ? 'oblique' : 'normal',
-                ( $this->currentFont['style'] & self::FONT_BOLD )    ? 'bold'    : 'normal'
+                ( $this->currentFont['style'] & self::FONT_BOLD )    ? 'bold'    : 'normal',
+                $this->currentFont['color']
             )
         );
         $this->currentPage->appendChild( $textNode );
