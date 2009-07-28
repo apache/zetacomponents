@@ -186,6 +186,18 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function __construct()
     {
+        $this->document = null;
+        $this->pages    = array();
+        $this->dummyDoc = null;
+    }
+
+    /**
+     * Initialize haru documents
+     * 
+     * @return void
+     */
+    protected function initialize()
+    {
         $this->document = new HaruDoc();
         $this->document->setPageMode( HaruDoc::PAGE_MODE_USE_THUMBS );
         $this->pages = array();
@@ -205,6 +217,11 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function createPage( $width, $height )
     {
+        if ( $this->document === null )
+        {
+            $this->initialize();
+        }
+
         $this->pages[] = $this->currentPage = $this->document->addPage();
 
         $this->currentPage->setWidth( ezcDocumentPdfMeasure::create( $width )->get( 'pt' ) );
@@ -356,6 +373,11 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function calculateWordWidth( $word )
     {
+        if ( $this->document === null )
+        {
+            $this->initialize();
+        }
+
         // $word = iconv( 'UTF-8', 'UCS-2', $word );
 
         // Ensure font is initialized
