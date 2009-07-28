@@ -365,6 +365,118 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
     }
 
     /**
+     * Transform points array into a TCPDF points array.
+     * 
+     * @param array $points 
+     * @return array
+     */
+    protected function getPointsArray( array $points )
+    {
+        $tPoints = array();
+        foreach ( $points as $point )
+        {
+            $tPoints[] = $point[0]->get( 'mm' );
+            $tPoints[] = $point[1]->get( 'mm' );
+        }
+
+        return $tPoints;
+    }
+
+    /**
+     * Draw a fileld polygon
+     *
+     * Draw any filled polygon, filled using the defined color. The color
+     * should be passed as an array with the keys "red", "green", "blue" and
+     * optionally "alpha". Each key should have a value between 0 and 1
+     * associated.
+     *
+     * The polygon itself is specified as an array of two-tuples, specifying
+     * the x and y coordinate of the point.
+     * 
+     * @param array $points 
+     * @param array $color 
+     * @return void
+     */
+    public function drawPolygon( array $points, array $color )
+    {
+        $this->document->polygon(
+            $this->getPointsArray( $points ),
+            'F', // Only filled polygon, no border
+            array(), // Line style
+            array(
+                'r' => $color['red'] * 255,
+                'g' => $color['green'] * 255,
+                'b' => $color['blue'] * 255,
+            )
+        );
+    }
+
+    /**
+     * Draw a polyline
+     *
+     * Draw any non-filled polygon, filled using the defined color. The color
+     * should be passed as an array with the keys "red", "green", "blue" and
+     * optionally "alpha". Each key should have a value between 0 and 1
+     * associated.
+     *
+     * The polyline itself is specified as an array of two-tuples, specifying
+     * the x and y coordinate of the point.
+     *
+     * The thrid parameter defines the width of the border and the last
+     * parameter may optionally be set to false to not close the polygon (draw
+     * another line from the last point to the first one).
+     * 
+     * @param array $points 
+     * @param array $color 
+     * @param mixed $width 
+     * @param mixed $close 
+     * @return void
+     */
+    public function drawPolyline( array $points, array $color, $width, $close = true )
+    {
+        $style = array(
+            'width' => $width->get(),
+            'color' => array(
+                'r' => $color['red'] * 255,
+                'g' => $color['green'] * 255,
+                'b' => $color['blue'] * 255,
+            ),
+        );
+
+        // Draw all lines of the polygon. We cannot use the "polygon()" method
+        // in TCPDF, because it _always_ closes the polygon.
+        $last = null;
+        foreach ( $points as $point )
+        {
+            if ( $last !== null )
+            {
+                $this->document->line(
+                    $last[0]->get(),
+                    $last[1]->get(),
+                    $point[0]->get(),
+                    $point[1]->get(),
+                    $style
+                );
+            }
+
+            $last = $point;
+        }
+
+        // Draw closing line in polygon
+        if ( $close )
+        {
+            $first = reset( $points );
+            $this->document->line(
+                $last[0]->get(),
+                $last[1]->get(),
+                $first[0]->get(),
+                $first[1]->get(),
+                $style
+            );
+        }
+    }
+
+    /**
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.

@@ -81,9 +81,10 @@ class ezcDocumentPdfMeasure
      * passed unit into milli meters.
      *
      * @param string $unit
+     * @param int $resolution
      * @return void
      */
-    protected function getUnitFactor( $unit )
+    protected function getUnitFactor( $unit, $resolution )
     {
         switch ( $unit )
         {
@@ -93,7 +94,7 @@ class ezcDocumentPdfMeasure
                 return self::MM_IN_INCH;
             case 'px':
                 // The pixel transformation depends on the current resolution
-                return self::MM_IN_INCH * $this->resolution;
+                return self::MM_IN_INCH * $resolution;
             case 'pt':
                 // Points are defined as 72 points per inch
                 return self::MM_IN_INCH * 72;
@@ -112,22 +113,30 @@ class ezcDocumentPdfMeasure
      *
      * Supported units currently are: mm, px, pt, in
      *
-     * @param mixed $input
+     * Optionally a resolution (dpi) can specified for the
+     * conversion of pixel values.
+     *
      * @param string $format
-     * @return void
+     * @param int $resolution
+     * @return float
      */
-    public function get( $format = 'mm' )
+    public function get( $format = 'mm', $resolution = null )
     {
         if ( !preg_match( '(^\s*(?P<value>[+-]?\s*(?:\d*\.)?\d+)(?P<unit>[A-Za-z]+)?\s*$)S', $this->value, $match ) )
         {
             throw new ezcDocumentParserException( E_PARSE, "Could not parse '{$this->value}' as size value." );
         }
 
+        if ( $resolution === null )
+        {
+            $resolution = $this->resolution;
+        }
+
         $value = (float) $match['value'];
         $input = isset( $match['unit'] ) ? strtolower( $match['unit'] ) : 'mm';
 
-        $inputFactor  = $this->getUnitFactor( $input );
-        $outputFactor = $this->getUnitFactor( $format );
+        $inputFactor  = $this->getUnitFactor( $input, $resolution );
+        $outputFactor = $this->getUnitFactor( $format, $resolution );
 
         return $value / $inputFactor * $outputFactor;
     }

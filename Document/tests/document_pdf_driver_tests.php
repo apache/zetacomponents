@@ -265,6 +265,97 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
         $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
     }
+
+    public function testRenderPolygon()
+    {
+        $driver = new $this->driverClass();
+        $driver->createPage( 210, 297 );
+        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+
+        $driver->drawPolygon(
+            array(
+                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '287' ) ),
+            ),
+            $color->value
+        );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
+
+    public function testRenderPolylineClosed()
+    {
+        $driver = new $this->driverClass();
+        $driver->createPage( 210, 297 );
+        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+
+        $driver->drawPolyline(
+            array(
+                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '287' ) ),
+            ),
+            $color->value,
+            new ezcDocumentPdfMeasure( '1' )
+        );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
+
+    public function testRenderPolylineOpen()
+    {
+        $driver = new $this->driverClass();
+        $driver->createPage( 210, 297 );
+        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+
+        $driver->drawPolyline(
+            array(
+                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '287' ) ),
+                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '10' ) ),
+            ),
+            $color->value,
+            new ezcDocumentPdfMeasure( '1pt' ),
+            false
+        );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
+
+    public function testRenderLayeredPolygons()
+    {
+        $driver = new $this->driverClass();
+        $driver->createPage( 210, 297 );
+
+        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+        $driver->drawPolygon(
+            array(
+                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '287' ) ),
+            ),
+            $color->value
+        );
+
+        $color = new ezcDocumentPdfStyleColorValue( '#2e3436' );
+        $driver->drawPolyline(
+            array(
+                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '287' ) ),
+                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '287' ) ),
+            ),
+            $color->value,
+            new ezcDocumentPdfMeasure( '1' ),
+            false
+        );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
 }
 
 ?>

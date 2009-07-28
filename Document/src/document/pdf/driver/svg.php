@@ -326,6 +326,90 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $this->currentPage->appendChild( $image );
     }
 
+    protected function getPointString( array $points, $close = true )
+    {
+        $pointString = 'M ';
+        foreach ( $points as $point )
+        {
+            $pointString .= sprintf( '%.4F,%.4F L ', 
+                $point[0]->get( 'px', 90 ) + $this->offset,
+                $point[1]->get( 'px', 90 )
+            );
+        }
+
+        return substr( $pointString, 0, -3 ) . ( $close ? ' z ' : '' );
+    }
+
+    /**
+     * Draw a fileld polygon
+     *
+     * Draw any filled polygon, filled using the defined color. The color
+     * should be passed as an array with the keys "red", "green", "blue" and
+     * optionally "alpha". Each key should have a value between 0 and 1
+     * associated.
+     *
+     * The polygon itself is specified as an array of two-tuples, specifying
+     * the x and y coordinate of the point.
+     * 
+     * @param array $points 
+     * @param array $color 
+     * @return void
+     */
+    public function drawPolygon( array $points, array $color )
+    {
+        $polygon = $this->document->createElement( 'path' );
+        $polygon->setAttribute( 'd', $this->getPointString( $points ) );
+        $polygon->setAttribute(
+            'style',
+            sprintf(
+                'stroke: none; fill: #%02x%02x%02x;',
+                $color['red'] * 255,
+                $color['green'] * 255,
+                $color['blue'] * 255
+            )
+        );
+        $this->currentPage->appendChild( $polygon );
+    }
+
+    /**
+     * Draw a polyline
+     *
+     * Draw any non-filled polygon, filled using the defined color. The color
+     * should be passed as an array with the keys "red", "green", "blue" and
+     * optionally "alpha". Each key should have a value between 0 and 1
+     * associated.
+     *
+     * The polyline itself is specified as an array of two-tuples, specifying
+     * the x and y coordinate of the point.
+     *
+     * The thrid parameter defines the width of the border and the last
+     * parameter may optionally be set to false to not close the polygon (draw
+     * another line from the last point to the first one).
+     * 
+     * @param array $points 
+     * @param array $color 
+     * @param mixed $width 
+     * @param mixed $close 
+     * @return void
+     */
+    public function drawPolyline( array $points, array $color, $width, $close = true )
+    {
+
+        $polygon = $this->document->createElement( 'path' );
+        $polygon->setAttribute( 'd', $this->getPointString( $points, $close ) );
+        $polygon->setAttribute(
+            'style',
+            sprintf(
+                'stroke: #%02x%02x%02x; stroke-width: %.4Fmm; fill: none;',
+                $color['red'] * 255,
+                $color['green'] * 255,
+                $color['blue'] * 255,
+                $width->get()
+            )
+        );
+        $this->currentPage->appendChild( $polygon );
+    }
+
     /**
      * Generate and return PDF
      *
