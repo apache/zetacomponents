@@ -51,9 +51,9 @@ class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
             // Match RGB array specification
             case preg_match( '(^\s*rgb\s*\(\s*(?P<r>[0-9]+)\s*,\s*(?P<g>[0-9]+)\s*,\s*(?P<b>[0-9]+)\s*\)\s*$)i', $value, $match ):
                 $this->value = array(
-                    'red'   => hexdec( $match['r'] ) % 255 / 255,
-                    'green' => hexdec( $match['g'] ) % 255 / 255,
-                    'blue'  => hexdec( $match['b'] ) % 255 / 255,
+                    'red'   => $match['r'] % 256 / 255,
+                    'green' => $match['g'] % 256 / 255,
+                    'blue'  => $match['b'] % 256 / 255,
                     'alpha' => 0,
                 );
                 break;
@@ -61,10 +61,10 @@ class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
             // Match RGBA array specification
             case preg_match( '(^\s*rgba\s*\(\s*(?P<r>[0-9]+)\s*,\s*(?P<g>[0-9]+)\s*,\s*(?P<b>[0-9]+)\s*,\s*(?P<a>[0-9]+)\s*\)\s*$)i', $value, $match ):
                 $this->value = array(
-                    'red'   => hexdec( $match['r'] ) % 255 / 255,
-                    'green' => hexdec( $match['g'] ) % 255 / 255,
-                    'blue'  => hexdec( $match['b'] ) % 255 / 255,
-                    'alpha' => hexdec( $match['a'] ) % 255 / 255,
+                    'red'   => $match['r'] % 256 / 255,
+                    'green' => $match['g'] % 256 / 255,
+                    'blue'  => $match['b'] % 256 / 255,
+                    'alpha' => $match['a'] % 256 / 255,
                 );
                 break;
 
