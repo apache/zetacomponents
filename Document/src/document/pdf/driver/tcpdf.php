@@ -140,6 +140,8 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         $this->document->setAutoPageBreak( false );
         $this->document->setMargins( 0, 0 );
         $this->document->setCreator( 'eZ Components - Document //autogen//' );
+        $this->document->setPrintHeader( false );
+        $this->document->setPrintFooter( false );
 
         $this->document->setFont(
             $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
