@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" streamable="true">
+  <g id="pages">
+    <g>
+      <rect x="0mm" y="0mm" width="108mm" height="108mm" style="fill: #ffffff; stroke: #000000; stroke-width: 1px; fill-opacity: 1; stroke-opacity: 1;"/>
+      <text x="0.0000mm" y="8.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">Paragraphs</text>
+      <text x="37.8400mm" y="8.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">are</text>
+      <text x="51.6000mm" y="8.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">separated</text>
+      <text x="86.0000mm" y="8.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">by</text>
+      <text x="0.0000mm" y="16.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">blank</text>
+      <text x="20.6400mm" y="16.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">lines</text>
+      <text x="41.2800mm" y="16.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">and</text>
+      <text x="55.0400mm" y="16.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">are</text>
+      <text x="0.0000mm" y="24.0000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">left-aligned.</text>
+    </g>
+  </g>
+</svg>
