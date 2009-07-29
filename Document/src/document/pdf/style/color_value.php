@@ -28,6 +28,17 @@ class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
     {
         switch ( true )
         {
+            // Sepcial values
+            case ( $value === 'transparent' ) ||
+                 ( $value === 'none' ):
+                $this->value = array(
+                    'red'   => 0.,
+                    'green' => 0.,
+                    'blue'  => 0.,
+                    'alpha' => 1.,
+                );
+                break;
+
             // Match 12 and 16bit hex value color definitions
             case preg_match( '(^#?(?P<r>[0-9a-f])(?P<g>[0-9a-f])(?P<b>[0-9a-f])(?P<a>[0-9a-f])?$)Ui', $value, $match ):
                 $this->value = array(

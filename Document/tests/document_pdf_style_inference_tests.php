@@ -399,6 +399,26 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                 ),
                 '#0c17ff0c',
             ),
+            array(
+                "transparent",
+                array(
+                    'red'   => 0.,
+                    'green' => 0.,
+                    'blue'  => 0.,
+                    'alpha' => 1.,
+                ),
+                '#000000ff',
+            ),
+            array(
+                "none",
+                array(
+                    'red'   => 0.,
+                    'green' => 0.,
+                    'blue'  => 0.,
+                    'alpha' => 1.,
+                ),
+                '#000000ff',
+            ),
         );
     }
 
