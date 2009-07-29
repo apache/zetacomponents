@@ -46,14 +46,14 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfDriverTests
      * @var array
      */
     protected $expectedWidths = array(
-        'testEstimateDefaultWordWidthWithoutPageCreation' => 9.4,
-        'testEstimateDefaultWordWidth'                    => 9.4,
-        'testEstimateWordWidthDifferentSize'              => 31.1,
-        'testEstimateWordWidthDifferentSizeAndUnit'       => 11.0,
-        'testEstimateBoldWordWidth'                       => 9.6,
+        'testEstimateDefaultWordWidthWithoutPageCreation' => 9.6,
+        'testEstimateDefaultWordWidth'                    => 9.6,
+        'testEstimateWordWidthDifferentSize'              => 31.9,
+        'testEstimateWordWidthDifferentSizeAndUnit'       => 11.3,
+        'testEstimateBoldWordWidth'                       => 10.4,
         'testEstimateMonospaceWordWidth'                  => 36,
         'testFontStyleFallback'                           => 16.3,
-        'testUtf8FontWidth'                               => 10.6,
+        'testUtf8FontWidth'                               => 11.8,
     );
 
     public static function suite()

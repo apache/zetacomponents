@@ -129,47 +129,9 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
         }
     }
 
-    /**
-     * @dataProvider getDrivers
-     */
-    public function testRenderParagraphWithoutMarkup( ezcDocumentPdfDriver $driver )
+    protected function renderPdf( ezcDocumentPdfDriver $driver )
     {
         $this->checkTestEnv( $driver );
-
-        $transactionalDriver = new ezcDocumentPdfTransactionalDriverWrapper();
-        $transactionalDriver->setDriver( $driver );
-
-        $driver->createPage( 108, 108 );
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $transactionalDriver, $this->styles );
-        $renderer->render(
-            $this->page,
-            new ezcDocumentPdfDefaultHyphenator(),
-            new ezcDocumentPdfDefaultTokenizer(),
-            $this->xpath->query( '//doc:para' )->item( 0 ),
-            new ezcDocumentPdfMainRenderer( $transactionalDriver, $this->styles )
-        );
-        $transactionalDriver->commit();
-
-        $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
-    }
-
-    /**
-     * @dataProvider getDrivers
-     */
-    public function testRenderParagraphColoredEmphasis( ezcDocumentPdfDriver $driver )
-    {
-        $this->checkTestEnv( $driver );
-
-        // Additional formatting
-        $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'emphasis' ),
-                array(
-                    'color' => '#ce5c00',
-                )
-            )
-        ) );
 
         $transactionalDriver = new ezcDocumentPdfTransactionalDriverWrapper();
         $transactionalDriver->setDriver( $driver );
@@ -185,9 +147,55 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
         );
         $transactionalDriver->commit();
 
-        $pdf = $driver->save();
+        return $driver->save();
+    }
+
+    /**
+     * @dataProvider getDrivers
+     */
+    public function testRenderParagraphWithoutMarkup( ezcDocumentPdfDriver $driver )
+    {
+        $pdf = $this->renderPdf( $driver );
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
+
+    /**
+     * @dataProvider getDrivers
+     */
+    public function testRenderParagraphColoredEmphasis( ezcDocumentPdfDriver $driver )
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'emphasis' ),
+                array(
+                    'color' => '#ce5c00',
+                )
+            )
+        ) );
+
+        $pdf = $this->renderPdf( $driver );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    /**
+     * @dataProvider getDrivers
+     * /
+    public function testRenderParagraphUnderlinedEmphasis( ezcDocumentPdfDriver $driver )
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'emphasis' ),
+                array(
+                    'text-decoration' => 'underline',
+                )
+            )
+        ) );
+
+        $pdf = $this->renderPdf( $driver );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    } // */
 }
 
 ?>

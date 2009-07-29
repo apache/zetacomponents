@@ -66,16 +66,16 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     protected $fonts = array(
         'sans-serif' => array(
-            self::FONT_PLAIN   => 'times',
-            self::FONT_BOLD    => 'timesb',
-            self::FONT_OBLIQUE => 'timesi',
-            3                  => 'timesbi',
-        ),
-        'serif' => array(
             self::FONT_PLAIN   => 'helvetica',
             self::FONT_BOLD    => 'helveticab',
             self::FONT_OBLIQUE => 'helveticai',
             3                  => 'helveticabi',
+        ),
+        'serif' => array(
+            self::FONT_PLAIN   => 'times',
+            self::FONT_BOLD    => 'timesb',
+            self::FONT_OBLIQUE => 'timesi',
+            3                  => 'timesbi',
         ),
         'monospace' => array(
             self::FONT_PLAIN   => 'courier',
