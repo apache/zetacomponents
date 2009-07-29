@@ -299,6 +299,44 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                 false
             );
         }
+
+        if ( strpos( $styles['text-decoration'], 'overline' ) !== false )
+        {
+            $this->driver->drawPolyline(
+                array(
+                    array(
+                        new ezcDocumentPdfMeasure( $x ),
+                        new ezcDocumentPdfMeasure( $y ),
+                    ),
+                    array(
+                        new ezcDocumentPdfMeasure( $x + $width ),
+                        new ezcDocumentPdfMeasure( $y ),
+                    ),
+                ),
+                $styles['color']->value,
+                new ezcDocumentPdfMeasure( '1px' ),
+                false
+            );
+        }
+
+        if ( strpos( $styles['text-decoration'], 'underline' ) !== false )
+        {
+            $this->driver->drawPolyline(
+                array(
+                    array(
+                        new ezcDocumentPdfMeasure( $x ),
+                        new ezcDocumentPdfMeasure( $y + $height * 1.1 ),
+                    ),
+                    array(
+                        new ezcDocumentPdfMeasure( $x + $width ),
+                        new ezcDocumentPdfMeasure( $y + $height * 1.1 ),
+                    ),
+                ),
+                $styles['color']->value,
+                new ezcDocumentPdfMeasure( '1px' ),
+                false
+            );
+        }
     }
 
     /**

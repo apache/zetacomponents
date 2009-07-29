@@ -215,6 +215,64 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
         $pdf = $this->renderPdf( $driver );
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
+
+    /**
+     * @dataProvider getDrivers
+     */
+    public function testRenderParagraphOverline( ezcDocumentPdfDriver $driver )
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'emphasis' ),
+                array(
+                    'text-decoration' => 'overline',
+                )
+            )
+        ) );
+
+        $pdf = $this->renderPdf( $driver );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    /**
+     * @dataProvider getDrivers
+     */
+    public function testRenderParagraphUnderline( ezcDocumentPdfDriver $driver )
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'emphasis' ),
+                array(
+                    'text-decoration' => 'underline',
+                )
+            )
+        ) );
+
+        $pdf = $this->renderPdf( $driver );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    /**
+     * @dataProvider getDrivers
+     */
+    public function testRenderParagraphAllDecorations( ezcDocumentPdfDriver $driver )
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'emphasis' ),
+                array(
+                    'background-color' => '#d3d7cf',
+                    'text-decoration'  => 'overline underline line-through',
+                )
+            )
+        ) );
+
+        $pdf = $this->renderPdf( $driver );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
 }
 
 ?>
