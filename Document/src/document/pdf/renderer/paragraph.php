@@ -103,7 +103,7 @@ class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
                 $lineLimit  = -1;
             }
 
-            $yPos += $this->renderLine( $yPos, $line, $lines[$line], $space, $styles );
+            $yPos += $this->renderLine( $yPos, $line, $lines[$line], $space, $styles ) * $styles['line-height']->value;
             ++$current;
             --$lineLimit;
 

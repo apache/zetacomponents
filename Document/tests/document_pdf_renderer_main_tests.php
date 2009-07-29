@@ -78,9 +78,19 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
 
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'line-height'  => '1',
+                )
+            ),
+        ) );
+
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
-            new ezcDocumentPdfStyleInferencer()
+            $style
         );
         $pdf = $renderer->render(
             $docbook,
@@ -103,9 +113,19 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph_nons.xml' );
 
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'line-height'  => '1',
+                )
+            ),
+        ) );
+
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
-            new ezcDocumentPdfStyleInferencer()
+            $style
         );
         $pdf = $renderer->render(
             $docbook,
@@ -134,6 +154,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
                 array( 'article' ),
                 array(
                     'text-columns' => '3',
+                    'line-height'  => '1',
                 )
             ),
         ) );
@@ -170,6 +191,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
                 array(
                     'text-columns' => '2',
                     'font-size'    => '10pt',
+                    'line-height'  => '1',
                 )
             ),
             new ezcDocumentPdfCssDirective(
@@ -218,6 +240,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
                 array(
                     'text-columns' => '2',
                     'widows'       => '0',
+                    'line-height'  => '1',
                 )
             ),
             new ezcDocumentPdfCssDirective(
@@ -266,6 +289,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
                 array(
                     'text-columns' => '2',
                     'widows'       => '0',
+                    'line-height'  => '1',
                 )
             ),
             new ezcDocumentPdfCssDirective(
@@ -314,6 +338,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
                 array(
                     'text-columns' => '2',
                     'widows'       => '3',
+                    'line-height'  => '1',
                 )
             ),
             new ezcDocumentPdfCssDirective(
@@ -362,6 +387,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
                 array(
                     'text-columns' => '2',
                     'widows'       => '3',
+                    'line-height'  => '1',
                 )
             ),
             new ezcDocumentPdfCssDirective(
@@ -411,6 +437,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
                     'text-columns' => '2',
                     'font-size'    => '11.5pt',
                     'widows'       => '3',
+                    'line-height'  => '1',
                 )
             ),
             new ezcDocumentPdfCssDirective(
@@ -453,6 +480,14 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/test_long_wrapping.xml' );
 
         $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'line-height'  => '1',
+                )
+            ),
+        ) );
 
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),

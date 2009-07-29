@@ -38,6 +38,7 @@ class ezcDocumentPdfRendererFooterPartTests extends ezcDocumentPdfTestCase
                 array(
                     'text-columns' => '2',
                     'font-size'    => '10pt',
+                    'line-height'  => '1',
                 )
             ),
             new ezcDocumentPdfCssDirective(

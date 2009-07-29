@@ -83,10 +83,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 60, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'separated' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 0, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 12, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 12, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'blank' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
@@ -126,10 +126,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 72, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'separated' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 0, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 17, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 17, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'blank' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
@@ -169,10 +169,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 64, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'separated' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 8, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 8, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 20, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 20, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'blank' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
@@ -212,10 +212,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 68, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'separated' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 16, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 16, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 28, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 28, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'blank' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
@@ -252,13 +252,13 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 44, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'are' )
         );
         $driver->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'separated' )
+            $this->equalTo( 0, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'separated' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 58, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 58, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 70, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 70, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'blank' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
@@ -304,16 +304,16 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 80, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'separa-' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'ted' )
+            $this->equalTo( 0, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'ted' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 23.5, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 23.5, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 37, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 37, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'blank' )
         );
         $driver->expects( $this->at( 6 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 62.5, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'lines' )
+            $this->equalTo( 62.5, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'lines' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
@@ -351,13 +351,13 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 44, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'are' )
         );
         $driver->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 20, 1. ), $this->equalTo( 'separated' )
+            $this->equalTo( 0, 1. ), $this->equalTo( 22.3, 1. ), $this->equalTo( 'separated' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 85, 1. ), $this->equalTo( 20, 1. ), $this->equalTo( 'by' )
+            $this->equalTo( 85, 1. ), $this->equalTo( 22.3, 1. ), $this->equalTo( 'by' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 28, 1. ), $this->equalTo( 'blank' )
+            $this->equalTo( 0, 1. ), $this->equalTo( 36, 1. ), $this->equalTo( 'blank' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
@@ -446,7 +446,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 90, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'be' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'doubled' )
+            $this->equalTo( 0, 1. ), $this->equalTo( 19.2, 1. ), $this->equalTo( 'doubled' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
@@ -455,6 +455,49 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
             $this->xpath->query( '//doc:para' )->item( 4 ),
+            new ezcDocumentPdfMainRenderer( $driver, $this->styles )
+        ) );
+    }
+
+    public function testRenderParagraphLineHeight()
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'para' ),
+                array(
+                    'line-height' => '1',
+                )
+            )
+        ) );
+
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'drawWord'
+        ) );
+
+        // Expectations
+        $driver->expects( $this->at( 0 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 0, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'Paragraphs' )
+        );
+        $driver->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 44, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'are' )
+        );
+        $driver->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 60, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'separated' )
+        );
+        $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'by' )
+        );
+        $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 12, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+        );
+
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
+        $this->assertTrue( $renderer->render(
+            $this->page,
+            new ezcDocumentPdfDefaultHyphenator(),
+            new ezcDocumentPdfDefaultTokenizer(),
+            $this->xpath->query( '//doc:para' )->item( 0 ),
             new ezcDocumentPdfMainRenderer( $driver, $this->styles )
         ) );
     }

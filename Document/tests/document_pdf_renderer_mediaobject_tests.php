@@ -33,9 +33,19 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image.xml' );
 
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'line-height'  => '1',
+                )
+            ),
+        ) );
+
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
-            new ezcDocumentPdfStyleInferencer()
+            $style
         );
         $pdf = $renderer->render(
             $docbook,
@@ -65,6 +75,7 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
                 array(
                     'text-columns' => '2',
                     'font-size'    => '10pt',
+                    'line-height'  => '1',
                 )
             ),
             new ezcDocumentPdfCssDirective(
@@ -106,9 +117,19 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image_large.xml' );
 
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'line-height'  => '1',
+                )
+            ),
+        ) );
+
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
-            new ezcDocumentPdfStyleInferencer()
+            $style
         );
         $pdf = $renderer->render(
             $docbook,
@@ -131,9 +152,19 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image_high.xml' );
 
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'line-height'  => '1',
+                )
+            ),
+        ) );
+
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
-            new ezcDocumentPdfStyleInferencer()
+            $style
         );
         $pdf = $renderer->render(
             $docbook,
@@ -156,9 +187,19 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image_wrapped.xml' );
 
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'line-height'  => '1',
+                )
+            ),
+        ) );
+
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
-            new ezcDocumentPdfStyleInferencer()
+            $style
         );
         $pdf = $renderer->render(
             $docbook,
