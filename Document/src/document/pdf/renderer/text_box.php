@@ -342,53 +342,89 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             // Just add space to consumed wird width
             if ( $token['word'] === ezcDocumentPdfTokenizer::SPACE )
             {
-                $consumed += $width = $this->driver->calculateWordWidth( ' ' );
-                $token['width']           = $width;
-                $lines[$line]['tokens'][] = $token;
-                $lines[$line]['spaces']++;
-                continue;
-            }
-
-            if ( ( $consumed + ( $width = $this->driver->calculateWordWidth( $token['word'] ) ) ) < $available )
-            {
-                // The word just fits into the current line
-                $token['width']           = $width;
-                $lines[$line]['tokens'][] = $token;
-                $lines[$line]['height']   = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
-                $lines[$line]['words']++;
-                $consumed                += $width;
-                continue;
-            }
-
-            // Try to hyphenate the current word
-            $hyphens = array_reverse( $hyphenator->splitWord( $token['word'] ) );
-            foreach ( $hyphens as $hyphen )
-            {
-                if ( ( $consumed + ( $width = $this->driver->calculateWordWidth( $hyphen[0] ) ) ) < $available )
+                if ( $consumed > 0 )
                 {
-                    $second         = $token;
-                    $second['word'] = $hyphen[1];
-                    array_unshift( $tokens, $second );
-
+                    $consumed += $width = $this->driver->calculateWordWidth( ' ' );
                     $token['width']           = $width;
-                    $token['word']            = $hyphen[0];
                     $lines[$line]['tokens'][] = $token;
-                    $lines[$line]['height']   = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
-                    $lines[$line]['words']++;
-                    $consumed                += $width;
-                    continue 2;
+                    $lines[$line]['spaces']++;
                 }
+                continue;
             }
 
-            // Word did not even fit into the line hyphenated, switch to next line.
-            $token['width'] = $width = $this->driver->calculateWordWidth( $token['word'] );
-            $lines[++$line] = array(
-                'tokens' => array( $token ),
-                'height' => $this->driver->getCurrentLineHeight(),
-                'words'  => 1,
+            $wordStack = array(
+                'tokens' => array(),
+                'height' => 0,
+                'words'  => 0,
                 'spaces' => 0,
             );
-            $consumed = $width;
+            $wConsumed = 0;
+            do {
+                if ( ( $consumed + $wConsumed + ( $width = $this->driver->calculateWordWidth( $token['word'] ) ) ) < $available )
+                {
+                    // The word just fits into the current line
+                    $token['width']        = $width;
+                    $wordStack['tokens'][] = $token;
+                    $wordStack['height']   = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
+                    $wordStack['words']++;
+                    $wConsumed            += $width;
+                    
+                    if ( !isset( $tokens[0] ) ||
+                         ( $tokens[0]['word'] === ezcDocumentPdfTokenizer::WRAP ) ||
+                         ( $tokens[0]['word'] === ezcDocumentPdfTokenizer::SPACE ) )
+                    {
+                        // We are allowed to wrap, so we can continue with the
+                        // next iteration and merge the current word stack with
+                        // the line array.
+                        $lines[$line]['tokens'] = array_merge( $lines[$line]['tokens'], $wordStack['tokens'] );
+                        $lines[$line]['height'] = max( $lines[$line]['height'], $wordStack['height'] );
+                        $lines[$line]['words'] += $wordStack['words'];
+                        $consumed              += $wConsumed;
+                        continue 2;
+                    }
+
+                    continue;
+                }
+
+                // Try to hyphenate the current word
+                $hyphens = array_reverse( $hyphenator->splitWord( $token['word'] ) );
+                foreach ( $hyphens as $hyphen )
+                {
+                    if ( ( $consumed + $wConsumed + ( $width = $this->driver->calculateWordWidth( $hyphen[0] ) ) ) < $available )
+                    {
+                        $second         = $token;
+                        $second['word'] = $hyphen[1];
+                        array_unshift( $tokens, $second );
+
+                        $token['width']           = $width;
+                        $token['word']            = $hyphen[0];
+                        $lines[$line]['tokens'] = array_merge( $lines[$line]['tokens'], $wordStack['tokens'], array( $token ) );
+                        $lines[$line]['height'] = max( $lines[$line]['height'], $wordStack['height'], $this->driver->getCurrentLineHeight() );
+                        $lines[$line]['words'] += $wordStack['words'] + 1;
+
+                        // Continue rendering in next line
+                        $consumed = 0;
+                        $lines[++$line] = array(
+                            'tokens' => array(),
+                            'height' => 0,
+                            'words'  => 0,
+                            'spaces' => 0,
+                        );
+                        continue 3;
+                    }
+                }
+
+                // Did not fit using hyphenation, so retry after wrapping
+                // the current word stack into the next line.
+                array_unshift( $tokens, $token );
+
+                // Still does not fit, move whole word stack into the next line
+                // and try again
+                $token['width'] = $width = $this->driver->calculateWordWidth( $token['word'] );
+                $lines[++$line] = $wordStack;
+                $consumed       = $wConsumed;
+                continue 2;
+            } while ( $token = array_shift( $tokens ) );
         }
 
         return $lines;

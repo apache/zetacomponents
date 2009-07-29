@@ -71,7 +71,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
             ),
         ) );
 
-        $this->page = new ezcDocumentPdfPage( 1, 108, 108, 108, 100 );
+        $this->page = new ezcDocumentPdfPage( 1, 108, 108, 100, 100 );
         $this->page->x = 0;
         $this->page->y = 0;
     }
@@ -146,6 +146,41 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
             $this->xpath->query( '//doc:para' )->item( 0 ),
+            new ezcDocumentPdfMainRenderer( $transactionalDriver, $this->styles )
+        );
+        $transactionalDriver->commit();
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    /**
+     * @dataProvider getDrivers
+     */
+    public function testRenderParagraphColoredEmphasis( ezcDocumentPdfDriver $driver )
+    {
+        $this->checkTestEnv( $driver );
+
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'emphasis' ),
+                array(
+                    'color' => '#ce5c00',
+                )
+            )
+        ) );
+
+        $transactionalDriver = new ezcDocumentPdfTransactionalDriverWrapper();
+        $transactionalDriver->setDriver( $driver );
+
+        $driver->createPage( 108, 108 );
+        $renderer  = new ezcDocumentPdfParagraphRenderer( $transactionalDriver, $this->styles );
+        $renderer->render(
+            $this->page,
+            new ezcDocumentPdfDefaultHyphenator(),
+            new ezcDocumentPdfDefaultTokenizer(),
+            $this->xpath->query( '//doc:para' )->item( 2 ),
             new ezcDocumentPdfMainRenderer( $transactionalDriver, $this->styles )
         );
         $transactionalDriver->commit();

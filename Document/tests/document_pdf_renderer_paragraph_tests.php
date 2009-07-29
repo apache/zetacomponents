@@ -397,13 +397,13 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 32, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'should' )
         );
         $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 72, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'not' )
+            $this->equalTo( 60, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'not' )
         );
         $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 90, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( '*' )
+            $this->equalTo( 78, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( '*' )
         );
         $driver->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'be' )
+            $this->equalTo( 88, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'be' )
         );
 
         $renderer  = new ezcDocumentPdfParagraphRenderer( $driver, $this->styles );
