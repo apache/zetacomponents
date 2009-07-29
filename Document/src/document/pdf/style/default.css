@@ -1,12 +1,14 @@
 article {
     // Basic font style definitions
-    font-size:   "12pt";
-    font-family: "serif";
-    font-weight: "normal";
-    font-style:  "normal";
-    line-height: "1.4";
-    text-align:  "left";
-    color:       "#2e3436";
+    font-size:        "12pt";
+    font-family:      "serif";
+    font-weight:      "normal";
+    font-style:       "normal";
+    line-height:      "1.4";
+    text-align:       "left";
+    text-decoration:  "none";
+    background-color: "transparent";
+    color:            "#2e3436";
 
     // Basic page layout definitions
     text-columns: "1";

@@ -180,22 +180,22 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
 
     /**
      * @dataProvider getDrivers
-     * /
-    public function testRenderParagraphUnderlinedEmphasis( ezcDocumentPdfDriver $driver )
+     */
+    public function testRenderParagraphBackgroundColor( ezcDocumentPdfDriver $driver )
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
             new ezcDocumentPdfCssDirective(
                 array( 'emphasis' ),
                 array(
-                    'text-decoration' => 'underline',
+                    'background-color' => '#d3d7cf',
                 )
             )
         ) );
 
         $pdf = $this->renderPdf( $driver );
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
-    } // */
+    }
 }
 
 ?>

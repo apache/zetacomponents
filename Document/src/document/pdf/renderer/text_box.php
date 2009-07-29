@@ -211,10 +211,14 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         {
             if ( $token['word'] === ezcDocumentPdfTokenizer::SPACE )
             {
+                $this->renderTextDecoration( $token['style'], $xPos, $position, $spaceWidth, $line['height'] );
+
                 $xPos += $spaceWidth;
             }
             else if ( is_string( $token['word'] ) )
             {
+                $this->renderTextDecoration( $token['style'], $xPos, $position, $token['width'], $line['height'] );
+
                 // Apply current styles
                 foreach ( $token['style'] as $style => $value )
                 {
@@ -228,6 +232,54 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         }
 
         return $line['height'];
+    }
+
+    /**
+     * Render text decoration
+     *
+     * Render text decoration, like by a assigned text-decoration setting, or
+     * background-colors, and similar.
+     * 
+     * @param array $styles 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @return void
+     */
+    protected function renderTextDecoration( array $styles, $x, $y, $width, $height )
+    {
+        // Directly exit, if there are no decorations to render
+        if ( ( $styles['text-decoration'] === 'none' ) &&
+             ( $styles['background-color']->value['alpha'] >= 1 ) )
+        {
+            return;
+        }
+
+        if ( $styles['background-color']->value['alpha'] < 1 )
+        {
+            $this->driver->drawPolygon(
+                array(
+                    array(
+                        new ezcDocumentPdfMeasure( $x ),
+                        new ezcDocumentPdfMeasure( $y ),
+                    ),
+                    array(
+                        new ezcDocumentPdfMeasure( $x + $width ),
+                        new ezcDocumentPdfMeasure( $y ),
+                    ),
+                    array(
+                        new ezcDocumentPdfMeasure( $x + $width ),
+                        new ezcDocumentPdfMeasure( $y + $height * $styles['line-height']->value ),
+                    ),
+                    array(
+                        new ezcDocumentPdfMeasure( $x ),
+                        new ezcDocumentPdfMeasure( $y + $height * $styles['line-height']->value ),
+                    ),
+                ),
+                $styles['background-color']->value
+            );
+        }
     }
 
     /**

@@ -396,6 +396,54 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     }
 
     /**
+     * Draw a fileld polygon
+     *
+     * Draw any filled polygon, filled using the defined color. The color
+     * should be passed as an array with the keys "red", "green", "blue" and
+     * optionally "alpha". Each key should have a value between 0 and 1
+     * associated.
+     *
+     * The polygon itself is specified as an array of two-tuples, specifying
+     * the x and y coordinate of the point.
+     * 
+     * @param array $points 
+     * @param array $color 
+     * @return void
+     */
+    public function drawPolygon( array $points, array $color )
+    {
+        // Just record this write call
+        $this->recordCall( __FUNCTION__, array( $points, $color ) );
+    }
+
+    /**
+     * Draw a polyline
+     *
+     * Draw any non-filled polygon, filled using the defined color. The color
+     * should be passed as an array with the keys "red", "green", "blue" and
+     * optionally "alpha". Each key should have a value between 0 and 1
+     * associated.
+     *
+     * The polyline itself is specified as an array of two-tuples, specifying
+     * the x and y coordinate of the point.
+     *
+     * The thrid parameter defines the width of the border and the last
+     * parameter may optionally be set to false to not close the polygon (draw
+     * another line from the last point to the first one).
+     * 
+     * @param array $points 
+     * @param array $color 
+     * @param mixed $width 
+     * @param mixed $close 
+     * @return void
+     */
+    public function drawPolyline( array $points, array $color, $width, $close = true )
+    {
+        // Just record this write call
+        $this->recordCall( __FUNCTION__, array( $points, $color, $width, $close ) );
+    }
+
+    /**
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.

@@ -94,11 +94,14 @@ class ezcDocumentPdfStyleInferencer
      */
     protected $categories = array(
         self::TEXT => array(
+            'text-decoration',
             'text-align',
             'font-size',
             'font-family',
             'font-weight',
             'font-style',
+            'background-color',
+            'line-height',
             'color',
         ),
         self::LAYOUT => array(
