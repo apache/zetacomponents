@@ -250,7 +250,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     protected function renderTextDecoration( array $styles, $x, $y, $width, $height )
     {
         // Directly exit, if there are no decorations to render
-        if ( ( $styles['text-decoration'] === 'none' ) &&
+        if ( ( $styles['text-decoration']->value === 'none' ) &&
              ( $styles['background-color']->value['alpha'] >= 1 ) )
         {
             return;
@@ -278,6 +278,25 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                     ),
                 ),
                 $styles['background-color']->value
+            );
+        }
+
+        if ( strpos( $styles['text-decoration'], 'line-through' ) !== false )
+        {
+            $this->driver->drawPolyline(
+                array(
+                    array(
+                        new ezcDocumentPdfMeasure( $x ),
+                        new ezcDocumentPdfMeasure( $y + $height - $styles['font-size']->value / 3 ),
+                    ),
+                    array(
+                        new ezcDocumentPdfMeasure( $x + $width ),
+                        new ezcDocumentPdfMeasure( $y + $height - $styles['font-size']->value / 3 ),
+                    ),
+                ),
+                $styles['color']->value,
+                new ezcDocumentPdfMeasure( '1px' ),
+                false
             );
         }
     }

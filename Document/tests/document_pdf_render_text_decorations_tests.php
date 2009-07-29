@@ -36,7 +36,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
      * 
      * @var int
      */
-    protected $oldErrorReporting;
+    protected $oldErrorReporting = -1;
 
     public static function suite()
     {
@@ -189,6 +189,25 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
                 array( 'emphasis' ),
                 array(
                     'background-color' => '#d3d7cf',
+                )
+            )
+        ) );
+
+        $pdf = $this->renderPdf( $driver );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    /**
+     * @dataProvider getDrivers
+     */
+    public function testRenderParagraphLineThrough( ezcDocumentPdfDriver $driver )
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'emphasis' ),
+                array(
+                    'text-decoration' => 'line-through',
                 )
             )
         ) );
