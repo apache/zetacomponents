@@ -73,20 +73,28 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         );
     }
 
-    public function testRenderMainSinglePage()
+    protected function renderFile( $file, $fileName, array $styles = array() )
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
+        $docbook->loadFile( $file );
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
             new ezcDocumentPdfCssDirective(
                 array( 'article' ),
                 array(
+                    'font-family'  => 'serif',
                     'line-height'  => '1',
                 )
             ),
+            new ezcDocumentPdfCssDirective(
+                array( 'title' ),
+                array(
+                    'font-family'  => 'sans-serif',
+                )
+            ),
         ) );
+        $style->appendStyleDirectives( $styles );
 
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
@@ -98,414 +106,232 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         );
 
         file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
+            $this->tempDir . $fileName,
             $pdf
         );
     
         $this->assertXmlFileEqualsXmlFile(
             $this->basePath . 'renderer/' . $fileName,
             $this->tempDir . $fileName
+        );
+    }
+
+    public function testRenderMainSinglePage()
+    {
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/paragraph.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array()
         );
     }
 
     public function testRenderMainSinglePageNotNamespaced()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph_nons.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'line-height'  => '1',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/paragraph_nons.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array()
         );
     }
 
     public function testRenderMainMulticolumnLayout()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'text-columns' => '3',
-                    'line-height'  => '1',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/paragraph.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'text-columns' => '3',
+                        'line-height'  => '1',
+                    )
+                ),
+            )
         );
     }
 
     public function testRenderMainSplitParagraph()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'text-columns' => '2',
-                    'font-size'    => '10pt',
-                    'line-height'  => '1',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'text-columns' => '2',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'page' ),
-                array(
-                    'page-size'    => 'A5',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/long_text.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'text-columns' => '2',
+                        'font-size'    => '10pt',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'title' ),
+                    array(
+                        'text-columns' => '2',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'page' ),
+                    array(
+                        'page-size'    => 'A5',
+                    )
+                ),
+            )
         );
     }
 
     public function testRenderMainSplitParagraphHandleOrphans()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/orphans.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'text-columns' => '2',
-                    'widows'       => '0',
-                    'line-height'  => '1',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'text-columns' => '2',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'page' ),
-                array(
-                    'page-size'    => 'A5',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/orphans.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'text-columns' => '2',
+                        'widows'       => '0',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'title' ),
+                    array(
+                        'text-columns' => '2',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'page' ),
+                    array(
+                        'page-size'    => 'A5',
+                    )
+                ),
+            )
         );
     }
 
     public function testRenderMainSplitParagraphHandleShortOrphans()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/orphans_short.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'text-columns' => '2',
-                    'widows'       => '0',
-                    'line-height'  => '1',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'text-columns' => '2',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'page' ),
-                array(
-                    'page-size'    => 'A5',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/orphans_short.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'text-columns' => '2',
+                        'widows'       => '0',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'title' ),
+                    array(
+                        'text-columns' => '2',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'page' ),
+                    array(
+                        'page-size'    => 'A5',
+                    )
+                ),
+            )
         );
     }
 
     public function testRenderMainSplitParagraphHandleWidows()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/widows.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'text-columns' => '2',
-                    'widows'       => '3',
-                    'line-height'  => '1',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'text-columns' => '2',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'page' ),
-                array(
-                    'page-size'    => 'A5',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/widows.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'text-columns' => '2',
+                        'widows'       => '3',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'title' ),
+                    array(
+                        'text-columns' => '2',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'page' ),
+                    array(
+                        'page-size'    => 'A5',
+                    )
+                ),
+            )
         );
     }
 
     public function testRenderMainSplitParagraphHandleOrphansAndWidows()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/orphans_widows.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'text-columns' => '2',
-                    'widows'       => '3',
-                    'line-height'  => '1',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'text-columns' => '2',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'page' ),
-                array(
-                    'page-size'    => 'A5',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/orphans_widows.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'text-columns' => '2',
+                        'widows'       => '3',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'title' ),
+                    array(
+                        'text-columns' => '2',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'page' ),
+                    array(
+                        'page-size'    => 'A5',
+                    )
+                ),
+            )
         );
     }
 
     public function testRenderMainShiftTitleNotFollowedByParagraph()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'text-columns' => '2',
-                    'font-size'    => '11.5pt',
-                    'widows'       => '3',
-                    'line-height'  => '1',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'text-columns' => '2',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'page' ),
-                array(
-                    'page-size'    => 'A5',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/long_text.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'text-columns' => '2',
+                        'font-size'    => '11.5pt',
+                        'widows'       => '3',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'title' ),
+                    array(
+                        'text-columns' => '2',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'page' ),
+                    array(
+                        'page-size'    => 'A5',
+                    )
+                ),
+            )
         );
     }
 
     public function testRenderLongTextParagraphConflict()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/test_long_wrapping.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'line-height'  => '1',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFile(
+            dirname( __FILE__ ) . '/files/pdf/test_long_wrapping.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array()
         );
     }
 }
