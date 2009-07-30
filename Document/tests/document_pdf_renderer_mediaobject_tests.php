@@ -30,190 +30,68 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainSinglePage()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'line-height'  => '1',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFullDocument(
+            dirname( __FILE__ ) . '/files/pdf/image.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
 
     public function testRenderInMultipleColumns()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'text-columns' => '2',
-                    'font-size'    => '10pt',
-                    'line-height'  => '1',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'text-columns' => '2',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'page' ),
-                array(
-                    'page-size'    => 'A5',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFullDocument(
+            dirname( __FILE__ ) . '/files/pdf/image.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+                new ezcDocumentPdfCssDirective(
+                    array( 'article' ),
+                    array(
+                        'text-columns' => '2',
+                        'font-size'    => '10pt',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'title' ),
+                    array(
+                        'text-columns' => '2',
+                    )
+                ),
+                new ezcDocumentPdfCssDirective(
+                    array( 'page' ),
+                    array(
+                        'page-size'    => 'A5',
+                    )
+                ),
+            )
         );
     }
 
     public function testRenderLargeImage()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image_large.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'line-height'  => '1',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFullDocument(
+            dirname( __FILE__ ) . '/files/pdf/image_large.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+            )
         );
     }
 
     public function testRenderHighImage()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image_high.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'line-height'  => '1',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFullDocument(
+            dirname( __FILE__ ) . '/files/pdf/image_high.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+            )
         );
     }
 
     public function testRenderWrappedLargeImageAndWrappedText()
     {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/image_wrapped.xml' );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'line-height'  => '1',
-                )
-            ),
-        ) );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . ( $fileName = __CLASS__ . '_' . __FUNCTION__ . '.svg' ),
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
+        $this->renderFullDocument(
+            dirname( __FILE__ ) . '/files/pdf/image_wrapped.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array(
+            )
         );
     }
 }

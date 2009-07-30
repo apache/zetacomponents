@@ -69,5 +69,60 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
             'Generated PDF document does not match expected document.'
         );
     }
+
+    /**
+     * Test rendering of a full document
+     *
+     * Test the rendering of a given full document with an
+     * additional set of user configured styles.
+     *
+     * @param string $file 
+     * @param string $fileName 
+     * @param array $styles 
+     * @return void
+     */
+    protected function renderFullDocument( $file, $fileName, array $styles = array() )
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( $file );
+
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'article' ),
+                array(
+                    'font-family'  => 'serif',
+                    'line-height'  => '1',
+                )
+            ),
+            new ezcDocumentPdfCssDirective(
+                array( 'title' ),
+                array(
+                    'font-family'  => 'sans-serif',
+                )
+            ),
+        ) );
+        $style->appendStyleDirectives( $styles );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            $style
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        file_put_contents(
+            $this->tempDir . $fileName,
+            $pdf
+        );
+    
+        $this->assertXmlFileEqualsXmlFile(
+            $this->basePath . 'renderer/' . $fileName,
+            $this->tempDir . $fileName
+        );
+    }
+
 }
 ?>

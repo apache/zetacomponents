@@ -36,6 +36,7 @@ class ezcDocumentPdfRendererFooterPartTests extends ezcDocumentPdfTestCase
             new ezcDocumentPdfCssDirective(
                 array( 'article' ),
                 array(
+                    'font-family'  => 'serif',
                     'text-columns' => '2',
                     'font-size'    => '10pt',
                     'line-height'  => '1',
@@ -44,6 +45,7 @@ class ezcDocumentPdfRendererFooterPartTests extends ezcDocumentPdfTestCase
             new ezcDocumentPdfCssDirective(
                 array( 'title' ),
                 array(
+                    'font-family'  => 'sans-serif',
                     'text-columns' => '2',
                 )
             ),

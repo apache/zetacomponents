@@ -73,52 +73,9 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         );
     }
 
-    protected function renderFile( $file, $fileName, array $styles = array() )
-    {
-        $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( $file );
-
-        $style = new ezcDocumentPdfStyleInferencer();
-        $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
-                array( 'article' ),
-                array(
-                    'font-family'  => 'serif',
-                    'line-height'  => '1',
-                )
-            ),
-            new ezcDocumentPdfCssDirective(
-                array( 'title' ),
-                array(
-                    'font-family'  => 'sans-serif',
-                )
-            ),
-        ) );
-        $style->appendStyleDirectives( $styles );
-
-        $renderer  = new ezcDocumentPdfMainRenderer(
-            new ezcDocumentPdfSvgDriver(),
-            $style
-        );
-        $pdf = $renderer->render(
-            $docbook,
-            new ezcDocumentPdfDefaultHyphenator()
-        );
-
-        file_put_contents(
-            $this->tempDir . $fileName,
-            $pdf
-        );
-    
-        $this->assertXmlFileEqualsXmlFile(
-            $this->basePath . 'renderer/' . $fileName,
-            $this->tempDir . $fileName
-        );
-    }
-
     public function testRenderMainSinglePage()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/paragraph.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array()
@@ -127,7 +84,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainSinglePageNotNamespaced()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/paragraph_nons.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array()
@@ -136,7 +93,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainMulticolumnLayout()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/paragraph.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
@@ -153,7 +110,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainSplitParagraph()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
@@ -182,7 +139,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainSplitParagraphHandleOrphans()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/orphans.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
@@ -211,7 +168,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainSplitParagraphHandleShortOrphans()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/orphans_short.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
@@ -240,7 +197,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainSplitParagraphHandleWidows()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/widows.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
@@ -269,7 +226,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainSplitParagraphHandleOrphansAndWidows()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/orphans_widows.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
@@ -298,7 +255,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderMainShiftTitleNotFollowedByParagraph()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
@@ -328,7 +285,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderLongTextParagraphConflict()
     {
-        $this->renderFile(
+        $this->renderFullDocument(
             dirname( __FILE__ ) . '/files/pdf/test_long_wrapping.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array()
