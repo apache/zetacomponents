@@ -54,11 +54,6 @@ class ezcTestNewPrinter extends PHPUnit_TextUI_ResultPrinter
             }
         }
 
-        if ( empty( $this->numberOfTests ) )
-        {
-            $this->numberOfTests[0] = 0;
-        }
-
         if ( $this->depth > 0 )
         {
             parent::write( "\n" );
