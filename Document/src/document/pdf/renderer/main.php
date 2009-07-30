@@ -402,6 +402,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         if ( $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
         {
             $this->titleTransaction = null;
+            $this->handleAnchors( $element );
             return true;
         }
 
@@ -449,6 +450,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         );
         if ( $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
         {
+            $this->handleAnchors( $element );
             return true;
         }
         $this->driver->revert( $this->titleTransaction['transaction'] );
@@ -475,6 +477,26 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
         $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+        $this->handleAnchors( $element );
+    }
+
+    /**
+     * Handle all anchors inside the current element
+     *
+     * Finds all anchors somewhere in the current element and adds reference
+     * targets for them.
+     * 
+     * @param ezcDocumentPdfInferencableDomElement $element 
+     * @return void
+     */
+    protected function handleAnchors( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $xpath = new DOMXPath( $element->ownerDocument );
+        $xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
+        foreach ( $xpath->query( './/doc:anchor', $element ) as $anchor )
+        {
+            $this->driver->addInternalLinkTarget( $anchor->getAttribute( 'id' ) );
+        }
     }
 }
 

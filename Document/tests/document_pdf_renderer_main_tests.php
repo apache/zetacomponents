@@ -291,6 +291,33 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
             array()
         );
     }
+
+    public function testRenderLongTextWithInternalLinks()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/internal_links.xml' );
+
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'page' ),
+                array(
+                    'page-size' => 'A6',
+                )
+            ),
+        ) );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfHaruDriver(),
+            $style
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        $this->assertPdfDocumentsSimilar( $pdf, __CLASS__ . '_' . __FUNCTION__ );
+    }
 }
 
 ?>

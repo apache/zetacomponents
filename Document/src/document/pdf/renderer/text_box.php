@@ -255,6 +255,11 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         {
             $this->driver->addExternalLink( $x, $y, $width, $height * 1.1, $token['url'] );
         }
+
+        if ( $token['target'] !== null )
+        {
+            $this->driver->addInternalLink( $x, $y, $width, $height * 1.1, $token['target'] );
+        }
     }
 
     /**
@@ -355,7 +360,8 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         $tokens = array();
         $rules  = $this->styles->inferenceFormattingRules( $element, ezcDocumentPdfStyleInferencer::TEXT );
 
-        $url    = $element->tagName === 'ulink' && $element->hasAttribute( 'url' ) ? $element->getAttribute( 'url' ) : null;
+        $url    = $element->tagName === 'ulink' && $element->hasAttribute( 'url'    ) ? $element->getAttribute( 'url'    ) : null;
+        $target = $element->tagName === 'link'  && $element->hasAttribute( 'linked' ) ? $element->getAttribute( 'linked' ) : null;
 
         foreach ( $element->childNodes as $child )
         {
@@ -367,9 +373,10 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                     foreach ( $words as $word )
                     {
                         $tokens[] = array(
-                            'word'  => $word,
-                            'style' => $rules,
-                            'url'   => $url,
+                            'word'   => $word,
+                            'style'  => $rules,
+                            'url'    => $url,
+                            'target' => $target,
                         );
                     }
                     break;
