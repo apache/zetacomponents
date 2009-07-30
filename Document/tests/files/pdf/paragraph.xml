@@ -15,5 +15,7 @@
         be doubled around markup.
      </para>
     <para>Paragraphs are <ulink url="http://ezcomponents.org/">separated</ulink> by blank lines and are left-aligned.</para>
+    <para>This_is_a_really_long_word_to_ensure_even_those_are_handled_properly_by_the_text_wrapping_algorithm_and_do_not_lead_to_unwanted_effects.</para>
+    <para><emphasis>Testing</emphasis>wrapping<emphasis>without</emphasis>any<emphasis>wrapping</emphasis>points.</para>
   </section>
 </article>

@@ -413,6 +413,34 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
+     * Force split a word.
+     *
+     * Force the splitting of a word, which did not fit in a line alone and
+     * could not be splitted using the hyphenator. We just search for the
+     * maximum word part length which fits the available space.
+     *
+     * Could be improved to use a binary search on the word length, but this
+     * shouldn't happen too often anyways.
+     * 
+     * @param string $word 
+     * @param float $available 
+     * @return array
+     */
+    protected function forceSplit( $word, $available )
+    {
+        $length = iconv_strlen( $word ) - 1;
+        while ( $this->driver->calculateWordWidth( iconv_substr( $word, 0, $length ) ) > $available )
+        {
+            --$length;
+        }
+
+        return array(
+            iconv_substr( $word, 0, $length ),
+            iconv_substr( $word, $length )
+        );
+    }
+
+    /**
      * Try to match tokens into lines
      *
      * Try to match tokens into lines of the given width. Returns an array with
@@ -521,6 +549,33 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                         );
                         continue 3;
                     }
+                }
+
+                if ( ( $consumed + $wConsumed ) <= 0 )
+                {
+                    // If we are already at the beginning of the line, and the
+                    // word does still not fit, we forcefully split the word.
+                    $hyphen = $this->forceSplit( $token['word'], $available );
+
+                    $second         = $token;
+                    $second['word'] = $hyphen[1];
+                    array_unshift( $tokens, $second );
+
+                    $token['width']           = $width;
+                    $token['word']            = $hyphen[0];
+                    $lines[$line]['tokens'] = array_merge( $lines[$line]['tokens'], array( $token ) );
+                    $lines[$line]['height'] = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
+                    ++$lines[$line]['words'];
+
+                    // Continue rendering in next line
+                    $consumed = 0;
+                    $lines[++$line] = array(
+                        'tokens' => array(),
+                        'height' => 0,
+                        'words'  => 0,
+                        'spaces' => 0,
+                    );
+                    continue 2;
                 }
 
                 // Did not fit using hyphenation, so retry after wrapping
