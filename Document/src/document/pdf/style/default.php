@@ -10,11 +10,13 @@ return array (
      'formats' => 
     array (
       'font-size' => '12pt',
-      'font-family' => 'serif',
+      'font-family' => 'sans-serif',
       'font-weight' => 'normal',
       'font-style' => 'normal',
       'line-height' => '1.4',
       'text-align' => 'left',
+      'text-decoration' => 'none',
+      'background-color' => 'transparent',
       'color' => '#2e3436',
       'text-columns' => '1',
       'text-column-spacing' => '10mm',
@@ -42,7 +44,7 @@ return array (
       'margin' => '0mm',
     ),
      'file' => 'style/default.css',
-     'line' => 24,
+     'line' => 26,
      'position' => 6,
      'regularExpression' => NULL,
   )),
@@ -57,7 +59,7 @@ return array (
       'margin' => '3mm 0mm 1mm 0mm',
     ),
      'file' => 'style/default.css',
-     'line' => 34,
+     'line' => 36,
      'position' => 6,
      'regularExpression' => NULL,
   )),
@@ -72,7 +74,7 @@ return array (
       'font-weight' => 'bold',
     ),
      'file' => 'style/default.css',
-     'line' => 38,
+     'line' => 40,
      'position' => 10,
      'regularExpression' => NULL,
   )),
@@ -80,20 +82,52 @@ return array (
   ezcDocumentPdfCssDirective::__set_state(array(
      'address' => 
     array (
-      0 => 'title',
+      0 => 'ulink',
     ),
      'formats' => 
     array (
-      'font-family' => 'sans-serif',
-      'font-weight' => 'bold',
-      'color' => '#000000',
+      'text-decoration' => 'underline',
+      'color' => '#204a87',
     ),
      'file' => 'style/default.css',
-     'line' => 42,
+     'line' => 44,
      'position' => 7,
      'regularExpression' => NULL,
   )),
   5 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'link',
+    ),
+     'formats' => 
+    array (
+      'text-decoration' => 'underline',
+      'color' => '#204a87',
+    ),
+     'file' => 'style/default.css',
+     'line' => 49,
+     'position' => 6,
+     'regularExpression' => NULL,
+  )),
+  6 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'title',
+    ),
+     'formats' => 
+    array (
+      'font-family' => 'serif',
+      'font-weight' => 'bold',
+      'color' => '#000000',
+    ),
+     'file' => 'style/default.css',
+     'line' => 54,
+     'position' => 7,
+     'regularExpression' => NULL,
+  )),
+  7 => 
   ezcDocumentPdfCssDirective::__set_state(array(
      'address' => 
     array (
@@ -104,11 +138,11 @@ return array (
       'font-size' => '32pt',
     ),
      'file' => 'style/default.css',
-     'line' => 48,
+     'line' => 60,
      'position' => 7,
      'regularExpression' => NULL,
   )),
-  6 => 
+  8 => 
   ezcDocumentPdfCssDirective::__set_state(array(
      'address' => 
     array (
@@ -122,11 +156,11 @@ return array (
       'margin' => '10mm 0mm 4mm 0mm',
     ),
      'file' => 'style/default.css',
-     'line' => 52,
+     'line' => 64,
      'position' => 17,
      'regularExpression' => NULL,
   )),
-  7 => 
+  9 => 
   ezcDocumentPdfCssDirective::__set_state(array(
      'address' => 
     array (
@@ -140,11 +174,11 @@ return array (
       'text-columns' => '1',
     ),
      'file' => 'style/default.css',
-     'line' => 58,
+     'line' => 70,
      'position' => 27,
      'regularExpression' => NULL,
   )),
-  8 => 
+  10 => 
   ezcDocumentPdfCssDirective::__set_state(array(
      'address' => 
     array (
@@ -158,11 +192,11 @@ return array (
       'font-size' => '18pt',
     ),
      'file' => 'style/default.css',
-     'line' => 63,
+     'line' => 75,
      'position' => 37,
      'regularExpression' => NULL,
   )),
-  9 => 
+  11 => 
   ezcDocumentPdfCssDirective::__set_state(array(
      'address' => 
     array (
@@ -177,11 +211,11 @@ return array (
       'font-size' => '16pt',
     ),
      'file' => 'style/default.css',
-     'line' => 67,
+     'line' => 79,
      'position' => 47,
      'regularExpression' => NULL,
   )),
-  10 => 
+  12 => 
   ezcDocumentPdfCssDirective::__set_state(array(
      'address' => 
     array (
@@ -197,11 +231,11 @@ return array (
       'font-size' => '14pt',
     ),
      'file' => 'style/default.css',
-     'line' => 71,
+     'line' => 83,
      'position' => 57,
      'regularExpression' => NULL,
   )),
-  11 => 
+  13 => 
   ezcDocumentPdfCssDirective::__set_state(array(
      'address' => 
     array (
@@ -218,7 +252,7 @@ return array (
       'font-size' => '12pt',
     ),
      'file' => 'style/default.css',
-     'line' => 75,
+     'line' => 87,
      'position' => 67,
      'regularExpression' => NULL,
   )),

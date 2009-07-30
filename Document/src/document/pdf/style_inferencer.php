@@ -147,6 +147,7 @@ class ezcDocumentPdfStyleInferencer
         if ( file_exists( $file = dirname( __FILE__ ) . '/style/default.php' ) )
         {
             $this->appendStyleDirectives( include $file );
+            return;
         }
 
         // If the file does not exist parse the PCSS style file
