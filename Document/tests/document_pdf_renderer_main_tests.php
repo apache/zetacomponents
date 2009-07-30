@@ -76,7 +76,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainSinglePage()
     {
         $this->renderFullDocument(
-            dirname( __FILE__ ) . '/files/pdf/paragraph.xml',
+            dirname( __FILE__ ) . '/files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array()
         );
@@ -94,7 +94,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainMulticolumnLayout()
     {
         $this->renderFullDocument(
-            dirname( __FILE__ ) . '/files/pdf/paragraph.xml',
+            dirname( __FILE__ ) . '/files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
                 new ezcDocumentPdfCssDirective(
