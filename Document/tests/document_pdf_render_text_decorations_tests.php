@@ -279,6 +279,11 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
      */
     public function testRenderExternalLinks( ezcDocumentPdfDriver $driver )
     {
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
         $pdf = $this->renderPdf( $driver, 5 );
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }

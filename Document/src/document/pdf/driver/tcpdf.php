@@ -54,6 +54,27 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
     protected $pages;
 
     /**
+     * Internal targets
+     *
+     * Target objects for all rendered internal targets, to be used when
+     * rendering the internal links at the end of the processing.
+     * 
+     * @var array
+     */
+    protected $internalTargets = array();
+
+    /**
+     * Internal targets
+     *
+     * Link identifiers groupd by target names for all links in the document,
+     * which should be associated with the target at the end of the document
+     * rendering.
+     * 
+     * @var array
+     */
+    protected $internalLinkSources = array();
+
+    /**
      * Array with fonts, and their equivalents for bold and italic markup. This
      * array will be extended when loading new fonts, but contains the builtin
      * fonts by default.
@@ -503,25 +524,56 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function addInternalLink( $x, $y, $width, $height, $target )
     {
-        // @TODO: Implement.
+        $this->document->link( $x, $y, $width, $height, $link = $this->document->addLink() );
+        
+        if ( !isset( $this->internalLinkSources[$target] ) )
+        {
+            $this->internalLinkSources[$target] = array( $link );
+        }
+        else
+        {
+            $this->internalLinkSources[$target][] = $link;
+        }
     }
 
     /**
      * Add an internal link target
      *
-     * Add an internal link to the rectangle specified by its top-left
-     * position, width and height. The last parameter is the target identifier.
+     * Add an internal link to the current page. The last parameter
+     * is the target identifier.
      * 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
      * @param string $id 
      * @return void
      */
-    public function addInternalLinkTarget( $x, $y, $width, $height, $id )
+    public function addInternalLinkTarget( $id )
     {
-        // @TODO: Implement.
+        $this->internalTargets[$id] = $this->document->getPage();
+    }
+
+    /**
+     * Render internal links
+     *
+     * Link identifiers groupd by target names for all links in the document,
+     * which should be associated with the target at the end of the document
+     * rendering.
+     * 
+     * @return void
+     */
+    protected function renderInternalLinks()
+    {
+        foreach ( $this->internalLinkSources as $target => $links )
+        {
+            if ( !isset( $this->internalTargets[$target] ) )
+            {
+                // No target defined for these links
+                continue;
+            }
+
+            foreach ( $links as $link )
+            {
+                $this->document->setLink( $link, 0, $this->internalTargets[$target] );
+            }
+        }
     }
 
     /**
@@ -533,6 +585,8 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function save()
     {
+        $this->renderInternalLinks();
+
         return $this->document->Output( 'ignored', 'S' );
     }
 }

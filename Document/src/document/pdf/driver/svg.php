@@ -460,17 +460,13 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
     /**
      * Add an internal link target
      *
-     * Add an internal link to the rectangle specified by its top-left
-     * position, width and height. The last parameter is the target identifier.
+     * Add an internal link to the current page. The last parameter
+     * is the target identifier.
      * 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
      * @param string $id 
      * @return void
      */
-    public function addInternalLinkTarget( $x, $y, $width, $height, $id )
+    public function addInternalLinkTarget( $id )
     {
         // Not yet supported by SVG driver.
     }

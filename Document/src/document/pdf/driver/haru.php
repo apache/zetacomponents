@@ -60,6 +60,26 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     protected $pages;
 
     /**
+     * Internal targets
+     *
+     * Target objects for all rendered internal targets, to be used when
+     * rendering the internal links at the end of the processing.
+     * 
+     * @var array
+     */
+    protected $internalTargets = array();
+
+    /**
+     * List of internal links.
+     *
+     * Internal links can only be rendered at the very last items in a PDF,
+     * because *all* internal targets must already be known.
+     * 
+     * @var array
+     */
+    protected $pendingInternalLinks = array();
+
+    /**
      * Array with fonts, and their equivalents for bold and italic markup. This
      * array will be extended when loading new fonts, but contains the builtin
      * fonts by default.
@@ -628,25 +648,54 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function addInternalLink( $x, $y, $width, $height, $target )
     {
-        // @TODO: Implement.
+        $this->pendingInternalLinks[] = array( $this->currentPage, $x, $y, $width, $height, $target );
     }
 
     /**
      * Add an internal link target
      *
-     * Add an internal link to the rectangle specified by its top-left
-     * position, width and height. The last parameter is the target identifier.
+     * Add an internal link to the current page. The last parameter
+     * is the target identifier.
      * 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
      * @param string $id 
      * @return void
      */
-    public function addInternalLinkTarget( $x, $y, $width, $height, $id )
+    public function addInternalLinkTarget( $id )
     {
-        // @TODO: Implement.
+        $this->internalTargets[$id] = $this->currentPage->createDestination();
+    }
+
+    /**
+     * Render internal links
+     *
+     * Internal links can only be rendered at the very last items in a PDF,
+     * because *all* internal targets must already be known.
+     * 
+     * @return void
+     */
+    protected function renderInternalLinks()
+    {
+        foreach ( $this->pendingInternalLinks as $link )
+        {
+            list( $page, $x, $y, $width, $height, $target ) = $link;
+            if ( !isset( $this->internalTargets[$target] ) )
+            {
+                // Link reference without any target
+                continue;
+            }
+
+            $page->createLinkAnnotation(
+                array(
+                    ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
+                    $this->currentPage->getHeight() -
+                        ezcDocumentPdfMeasure::create( $y + $height )->get( 'pt' ),
+                    ezcDocumentPdfMeasure::create( $x + $width )->get( 'pt' ),
+                    $this->currentPage->getHeight() -
+                        ezcDocumentPdfMeasure::create( $y )->get( 'pt' ),
+                ),
+                $this->internalTargets[$target]
+            );
+        }
     }
 
     /**
@@ -658,6 +707,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function save()
     {
+        $this->renderInternalLinks();
+
         $this->document->saveToStream();
         return $this->document->readFromStream( $this->document->getStreamSize() );
     }

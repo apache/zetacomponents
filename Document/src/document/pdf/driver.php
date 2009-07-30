@@ -224,17 +224,13 @@ abstract class ezcDocumentPdfDriver
     /**
      * Add an internal link target
      *
-     * Add an internal link to the rectangle specified by its top-left
-     * position, width and height. The last parameter is the target identifier.
+     * Add an internal link to the current page. The last parameter
+     * is the target identifier.
      * 
-     * @param float $x 
-     * @param float $y 
-     * @param float $width 
-     * @param float $height 
      * @param string $id 
      * @return void
      */
-    public function addInternalLinkTarget( $x, $y, $width, $height, $id )
+    public function addInternalLinkTarget( $id )
     {
         // @apichange This method should be declared abstract, but can't be
         // because this would change the internal API.

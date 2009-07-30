@@ -356,6 +356,74 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $pdf = $driver->save();
         $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
     }
+
+    public function testAddExternalLink()
+    {
+        if ( $this->driverClass === 'ezcDocumentPdfSvgDriver' )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
+        $driver = new $this->driverClass();
+        $driver->createPage( 100, 100 );
+
+        $driver->addExternalLink( 0, 0, 100, 100, 'http://ezcomponents.org/' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
+
+    public function testAddInternalLinkWithoutTarget()
+    {
+        if ( $this->driverClass === 'ezcDocumentPdfSvgDriver' )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
+        $driver = new $this->driverClass();
+        $driver->createPage( 100, 100 );
+
+        $driver->addInternalLink( 0, 0, 100, 50, 'my_target' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
+
+    public function testAddInternalLinkAndTarget()
+    {
+        if ( $this->driverClass === 'ezcDocumentPdfSvgDriver' )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
+        $driver = new $this->driverClass();
+        $driver->createPage( 100, 100 );
+
+        $driver->addInternalLink( 0, 0, 100, 50, 'my_target' );
+        $driver->addInternalLinkTarget( 'my_target' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
+
+    public function testAddInternalLinkAndTargetOnNextPage()
+    {
+        if ( $this->driverClass === 'ezcDocumentPdfSvgDriver' )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
+        $driver = new $this->driverClass();
+
+        $driver->createPage( 100, 100 );
+        $driver->addInternalLink( 0, 0, 100, 50, 'my_target' );
+
+        $driver->createPage( 100, 100 );
+        $driver->addInternalLinkTarget( 'my_target' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+    }
 }
 
 ?>
