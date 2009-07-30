@@ -326,14 +326,23 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $this->currentPage->appendChild( $image );
     }
 
+    /**
+     * Get SVG path string
+     *
+     * Transform the points array into a SVG path string.
+     * 
+     * @param array $points 
+     * @param bool $close 
+     * @return string
+     */
     protected function getPointString( array $points, $close = true )
     {
         $pointString = 'M ';
         foreach ( $points as $point )
         {
             $pointString .= sprintf( '%.4F,%.4F L ', 
-                $point[0]->get( 'px', 90 ) + $this->offset,
-                $point[1]->get( 'px', 90 )
+                ezcDocumentPdfMeasure::create( $point[0] )->get( 'px', 90 ) + $this->offset,
+                ezcDocumentPdfMeasure::create( $point[1] )->get( 'px', 90 )
             );
         }
 

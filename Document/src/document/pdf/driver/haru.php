@@ -515,15 +515,17 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             if ( $first )
             {
                 $this->currentPage->moveTo(
-                    $point[0]->get( 'pt' ),
-                    $this->currentPage->getHeight() - $point[1]->get( 'pt' )
+                    ezcDocumentPdfMeasure::create( $point[0] )->get( 'pt' ),
+                    $this->currentPage->getHeight() -
+                        ezcDocumentPdfMeasure::create( $point[1] )->get( 'pt' )
                 );
             }
             else
             {
                 $this->currentPage->lineTo(
-                    $point[0]->get( 'pt' ),
-                    $this->currentPage->getHeight() - $point[1]->get( 'pt' )
+                    ezcDocumentPdfMeasure::create( $point[0] )->get( 'pt' ),
+                    $this->currentPage->getHeight() -
+                        ezcDocumentPdfMeasure::create( $point[1] )->get( 'pt' )
                 );
             }
             $first = false;

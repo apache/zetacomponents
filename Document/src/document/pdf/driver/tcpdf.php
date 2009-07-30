@@ -379,8 +379,8 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         $tPoints = array();
         foreach ( $points as $point )
         {
-            $tPoints[] = $point[0]->get( 'mm' );
-            $tPoints[] = $point[1]->get( 'mm' );
+            $tPoints[] = $point[0];
+            $tPoints[] = $point[1];
         }
 
         return $tPoints;
@@ -454,13 +454,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         {
             if ( $last !== null )
             {
-                $this->document->line(
-                    $last[0]->get(),
-                    $last[1]->get(),
-                    $point[0]->get(),
-                    $point[1]->get(),
-                    $style
-                );
+                $this->document->line( $last[0], $last[1], $point[0], $point[1], $style );
             }
 
             $last = $point;
@@ -470,13 +464,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         if ( $close )
         {
             $first = reset( $points );
-            $this->document->line(
-                $last[0]->get(),
-                $last[1]->get(),
-                $first[0]->get(),
-                $first[1]->get(),
-                $style
-            );
+            $this->document->line( $last[0], $last[1], $first[0], $first[1], $style );
         }
     }
 

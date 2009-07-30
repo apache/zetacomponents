@@ -283,22 +283,10 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         {
             $this->driver->drawPolygon(
                 array(
-                    array(
-                        new ezcDocumentPdfMeasure( $x ),
-                        new ezcDocumentPdfMeasure( $y ),
-                    ),
-                    array(
-                        new ezcDocumentPdfMeasure( $x + $width ),
-                        new ezcDocumentPdfMeasure( $y ),
-                    ),
-                    array(
-                        new ezcDocumentPdfMeasure( $x + $width ),
-                        new ezcDocumentPdfMeasure( $y + $height * $styles['line-height']->value ),
-                    ),
-                    array(
-                        new ezcDocumentPdfMeasure( $x ),
-                        new ezcDocumentPdfMeasure( $y + $height * $styles['line-height']->value ),
-                    ),
+                    array( $x, $y ),
+                    array( $x + $width, $y ),
+                    array( $x + $width, $y + $height * $styles['line-height']->value ),
+                    array( $x, $y + $height * $styles['line-height']->value ),
                 ),
                 $styles['background-color']->value
             );
@@ -308,14 +296,8 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         {
             $this->driver->drawPolyline(
                 array(
-                    array(
-                        new ezcDocumentPdfMeasure( $x ),
-                        new ezcDocumentPdfMeasure( $y + $height - $styles['font-size']->value / 3 ),
-                    ),
-                    array(
-                        new ezcDocumentPdfMeasure( $x + $width ),
-                        new ezcDocumentPdfMeasure( $y + $height - $styles['font-size']->value / 3 ),
-                    ),
+                    array( $x, $y + $height - $styles['font-size']->value / 3 ),
+                    array( $x + $width, $y + $height - $styles['font-size']->value / 3 ),
                 ),
                 $styles['color']->value,
                 new ezcDocumentPdfMeasure( '1px' ),
@@ -327,14 +309,8 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         {
             $this->driver->drawPolyline(
                 array(
-                    array(
-                        new ezcDocumentPdfMeasure( $x ),
-                        new ezcDocumentPdfMeasure( $y ),
-                    ),
-                    array(
-                        new ezcDocumentPdfMeasure( $x + $width ),
-                        new ezcDocumentPdfMeasure( $y ),
-                    ),
+                    array( $x, $y ),
+                    array( $x + $width, $y ),
                 ),
                 $styles['color']->value,
                 new ezcDocumentPdfMeasure( '1px' ),
@@ -346,14 +322,8 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         {
             $this->driver->drawPolyline(
                 array(
-                    array(
-                        new ezcDocumentPdfMeasure( $x ),
-                        new ezcDocumentPdfMeasure( $y + $height * 1.1 ),
-                    ),
-                    array(
-                        new ezcDocumentPdfMeasure( $x + $width ),
-                        new ezcDocumentPdfMeasure( $y + $height * 1.1 ),
-                    ),
+                    array( $x, $y + $height * 1.1 ),
+                    array( $x + $width, $y + $height * 1.1 ),
                 ),
                 $styles['color']->value,
                 new ezcDocumentPdfMeasure( '1px' ),
