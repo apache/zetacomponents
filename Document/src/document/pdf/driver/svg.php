@@ -397,8 +397,8 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      * 
      * @param array $points 
      * @param array $color 
-     * @param mixed $width 
-     * @param mixed $close 
+     * @param float $width 
+     * @param bool $close 
      * @return void
      */
     public function drawPolyline( array $points, array $color, $width, $close = true )
@@ -413,7 +413,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
                 $color['red'] * 255,
                 $color['green'] * 255,
                 $color['blue'] * 255,
-                $width->get()
+                $width
             )
         );
         $this->currentPage->appendChild( $polygon );

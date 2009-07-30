@@ -168,8 +168,8 @@ abstract class ezcDocumentPdfDriver
      * 
      * @param array $points 
      * @param array $color 
-     * @param mixed $width 
-     * @param mixed $close 
+     * @param float $width 
+     * @param bool $close 
      * @return void
      */
     public function drawPolyline( array $points, array $color, $width, $close = true )

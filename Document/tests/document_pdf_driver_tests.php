@@ -274,9 +274,9 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
         $driver->drawPolygon(
             array(
-                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '10' ) ),
-                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '10' ) ),
-                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '287' ) ),
+                array( 10, 10 ),
+                array( 200, 10 ),
+                array( 105, 287 ),
             ),
             $color->value
         );
@@ -293,12 +293,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
         $driver->drawPolyline(
             array(
-                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '10' ) ),
-                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '10' ) ),
-                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '287' ) ),
+                array( 10, 10 ),
+                array( 200, 10 ),
+                array( 105, 287 ),
             ),
             $color->value,
-            new ezcDocumentPdfMeasure( '1' )
+            1
         );
 
         $pdf = $driver->save();
@@ -313,12 +313,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
         $driver->drawPolyline(
             array(
-                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '10' ) ),
-                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '287' ) ),
-                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '10' ) ),
+                array( 200, 10 ),
+                array( 105, 287 ),
+                array( 10, 10 ),
             ),
             $color->value,
-            new ezcDocumentPdfMeasure( '1pt' ),
+            ezcDocumentPdfMeasure::create( '1pt' )->get(),
             false
         );
 
@@ -334,9 +334,9 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
         $driver->drawPolygon(
             array(
-                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '10' ) ),
-                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '10' ) ),
-                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '287' ) ),
+                array( 10, 10 ),
+                array( 200, 10 ),
+                array( 105, 287 ),
             ),
             $color->value
         );
@@ -344,12 +344,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $color = new ezcDocumentPdfStyleColorValue( '#2e3436' );
         $driver->drawPolyline(
             array(
-                array( new ezcDocumentPdfMeasure( '200' ), new ezcDocumentPdfMeasure( '287' ) ),
-                array( new ezcDocumentPdfMeasure( '105' ), new ezcDocumentPdfMeasure( '10' ) ),
-                array( new ezcDocumentPdfMeasure( '10' ), new ezcDocumentPdfMeasure( '287' ) ),
+                array( 200, 287 ),
+                array( 105, 10 ),
+                array( 10, 287 ),
             ),
             $color->value,
-            new ezcDocumentPdfMeasure( '1' ),
+            1,
             false
         );
 

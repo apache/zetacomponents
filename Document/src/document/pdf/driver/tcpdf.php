@@ -432,14 +432,14 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      * 
      * @param array $points 
      * @param array $color 
-     * @param mixed $width 
-     * @param mixed $close 
+     * @param float $width 
+     * @param bool $close 
      * @return void
      */
     public function drawPolyline( array $points, array $color, $width, $close = true )
     {
         $style = array(
-            'width' => $width->get(),
+            'width' => $width,
             'color' => array(
                 'r' => $color['red'] * 255,
                 'g' => $color['green'] * 255,

@@ -571,14 +571,14 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      * 
      * @param array $points 
      * @param array $color 
-     * @param mixed $width 
-     * @param mixed $close 
+     * @param float $width 
+     * @param bool $close 
      * @return void
      */
     public function drawPolyline( array $points, array $color, $width, $close = true )
     {
         $this->currentPage->setRgbStroke( $color['red'], $color['green'], $color['blue'] );
-        $this->currentPage->setLineWidth( $width->get( 'pt' ) );
+        $this->currentPage->setLineWidth( ezcDocumentPdfMeasure::create( $width )->get( 'pt' ) );
         $this->drawPath( $points );
         $this->currentPage->stroke( $close );
     }
