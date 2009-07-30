@@ -62,7 +62,7 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
     public function testRenderDefault()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
 
         $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
             'driver' => new ezcDocumentPdfSvgDriver(),
@@ -84,7 +84,7 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
     public function testRenderCustomStyle()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
 
         $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
             'driver' => new ezcDocumentPdfSvgDriver(),
@@ -107,7 +107,7 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
     public function testRenderCustomStyleAndAdditionalPdfParts()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
 
         $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
             'driver' => new ezcDocumentPdfSvgDriver(),
