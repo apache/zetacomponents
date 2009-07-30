@@ -561,11 +561,11 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                     $second['word'] = $hyphen[1];
                     array_unshift( $tokens, $second );
 
-                    $token['width']           = $width;
-                    $token['word']            = $hyphen[0];
-                    $lines[$line]['tokens'] = array_merge( $lines[$line]['tokens'], array( $token ) );
-                    $lines[$line]['height'] = max( $lines[$line]['height'], $this->driver->getCurrentLineHeight() );
-                    ++$lines[$line]['words'];
+                    $token['width']         = $this->driver->calculateWordWidth( $hyphen[0] );
+                    $token['word']          = $hyphen[0];
+                    $lines[$line]['tokens'] = array( $token );
+                    $lines[$line]['height'] = $this->driver->getCurrentLineHeight();
+                    $lines[$line]['words']  = 1;
 
                     // Continue rendering in next line
                     $consumed = 0;
