@@ -582,6 +582,72 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     }
 
     /**
+     * Add an external link
+     *
+     * Add an external link to the rectangle specified by its top-left
+     * position, width and height. The last parameter is the actual URL to link
+     * to.
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param string $url 
+     * @return void
+     */
+    public function addExternalLink( $x, $y, $width, $height, $url )
+    {
+        $this->currentPage->createURLAnnotation(
+            array(
+                ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
+                $this->currentPage->getHeight() -
+                    ezcDocumentPdfMeasure::create( $y + $height )->get( 'pt' ),
+                ezcDocumentPdfMeasure::create( $x + $width )->get( 'pt' ),
+                $this->currentPage->getHeight() -
+                    ezcDocumentPdfMeasure::create( $y )->get( 'pt' ),
+            ),
+            $url
+        );
+    }
+
+    /**
+     * Add an internal link
+     *
+     * Add an internal link to the rectangle specified by its top-left
+     * position, width and height. The last parameter is the target identifier
+     * to link to.
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param string $target 
+     * @return void
+     */
+    public function addInternalLink( $x, $y, $width, $height, $target )
+    {
+        // @TODO: Implement.
+    }
+
+    /**
+     * Add an internal link target
+     *
+     * Add an internal link to the rectangle specified by its top-left
+     * position, width and height. The last parameter is the target identifier.
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param string $id 
+     * @return void
+     */
+    public function addInternalLinkTarget( $x, $y, $width, $height, $id )
+    {
+        // @TODO: Implement.
+    }
+
+    /**
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.

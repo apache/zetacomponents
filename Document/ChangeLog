@@ -5,6 +5,8 @@
 - Implemented #15188: Add support for text colors in drivers.
 - Implemented #15189: Add support for background colors in drivers.
 - Implemented #15190: Add support for text-decoration in drivers.
+- Implemented #15195: Implement renderer for external link elements.
+
 
 
 1.2.1 - Monday 27 July 2009

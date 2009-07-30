@@ -16,8 +16,11 @@
       <text x="43.3050mm" y="46.1111mm" style="font-size: 20.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">UI</text>
       <text x="52.4067mm" y="46.1111mm" style="font-size: 20.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">communication</text>
       <text x="16.0000mm" y="57.3444mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">Contents</text>
-      <text x="16.0000mm" y="74.6944mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">1.</text>
-      <text x="24.1915mm" y="74.6944mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">Description</text>
+      <path d="M 56.6929,266.9154 L 76.0429,266.9154" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="16.0000mm" y="74.6944mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">1.</text>
+      <path d="M 76.0429,266.9154 L 85.7179,266.9154" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 85.7179,266.9154 L 192.1429,266.9154" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="24.1915mm" y="74.6944mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">Description</text>
       <text x="16.0000mm" y="85.9278mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">This</text>
       <text x="25.1017mm" y="85.9278mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">document</text>
       <text x="41.4847mm" y="85.9278mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">describes</text>
@@ -92,8 +95,11 @@
       <text x="172.5487mm" y="102.8611mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">specific</text>
       <text x="16.0000mm" y="107.0944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">design</text>
       <text x="28.7423mm" y="107.0944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">decisions.</text>
-      <text x="16.0000mm" y="124.4444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">1.1</text>
-      <text x="26.9220mm" y="124.4444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">Issues</text>
+      <path d="M 56.6929,443.1949 L 85.7179,443.1949" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="16.0000mm" y="124.4444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">1.1</text>
+      <path d="M 85.7179,443.1949 L 95.3929,443.1949" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 95.3929,443.1949 L 153.4429,443.1949" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="26.9220mm" y="124.4444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">Issues</text>
       <text x="16.0000mm" y="135.6778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">1.</text>
       <text x="21.4610mm" y="135.6778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">The</text>
       <text x="28.7423mm" y="135.6778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">handling</text>
@@ -148,12 +154,21 @@
       <text x="37.8440mm" y="148.3778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">need</text>
       <text x="46.9457mm" y="148.3778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">to</text>
       <text x="52.4067mm" y="148.3778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">do.</text>
-      <text x="16.0000mm" y="165.7278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">2.</text>
-      <text x="24.1915mm" y="165.7278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">Requirements</text>
-      <text x="16.0000mm" y="186.0778mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">3.</text>
-      <text x="24.1915mm" y="186.0778mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">Terminology</text>
-      <text x="16.0000mm" y="206.4278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">4.</text>
-      <text x="24.1915mm" y="206.4278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">Security</text>
+      <path d="M 56.6929,589.4744 L 76.0429,589.4744" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="16.0000mm" y="165.7278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">2.</text>
+      <path d="M 76.0429,589.4744 L 85.7179,589.4744" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 85.7179,589.4744 L 201.8179,589.4744" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="24.1915mm" y="165.7278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">Requirements</text>
+      <path d="M 56.6929,661.5807 L 76.0429,661.5807" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="16.0000mm" y="186.0778mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">3.</text>
+      <path d="M 76.0429,661.5807 L 85.7179,661.5807" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 85.7179,661.5807 L 192.1429,661.5807" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="24.1915mm" y="186.0778mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">Terminology</text>
+      <path d="M 56.6929,733.6870 L 76.0429,733.6870" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="16.0000mm" y="206.4278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">4.</text>
+      <path d="M 76.0429,733.6870 L 85.7179,733.6870" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 85.7179,733.6870 L 163.1179,733.6870" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="24.1915mm" y="206.4278mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">Security</text>
       <text x="16.0000mm" y="217.6611mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">It</text>
       <text x="21.4610mm" y="217.6611mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">is</text>
       <text x="26.9220mm" y="217.6611mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">expected</text>
@@ -182,11 +197,20 @@
       <text x="130.6810mm" y="221.8944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">the</text>
       <text x="137.9623mm" y="221.8944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">debugging</text>
       <text x="156.1657mm" y="221.8944mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">session.</text>
-      <text x="16.0000mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">5.</text>
-      <text x="24.1915mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">Initiating</text>
-      <text x="54.2270mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">a</text>
-      <text x="59.6880mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">debugging</text>
-      <text x="86.9930mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">session</text>
+      <path d="M 56.6929,849.9665 L 76.0429,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="16.0000mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">5.</text>
+      <path d="M 76.0429,849.9665 L 85.7179,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 85.7179,849.9665 L 182.4679,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="24.1915mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">Initiating</text>
+      <path d="M 182.4679,849.9665 L 192.1429,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 192.1429,849.9665 L 201.8179,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="54.2270mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">a</text>
+      <path d="M 201.8179,849.9665 L 211.4929,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 211.4929,849.9665 L 298.5679,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="59.6880mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">debugging</text>
+      <path d="M 298.5679,849.9665 L 308.2429,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 308.2429,849.9665 L 375.9679,849.9665" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="86.9930mm" y="239.2444mm" style="font-size: 18.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #204a87">session</text>
       <text x="16.0000mm" y="250.4778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">The</text>
       <text x="23.2813mm" y="250.4778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">debugger</text>
       <text x="39.6643mm" y="250.4778mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">engine</text>

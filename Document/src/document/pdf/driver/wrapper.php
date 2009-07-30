@@ -444,6 +444,65 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     }
 
     /**
+     * Add an external link
+     *
+     * Add an external link to the rectangle specified by its top-left
+     * position, width and height. The last parameter is the actual URL to link
+     * to.
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param string $url 
+     * @return void
+     */
+    public function addExternalLink( $x, $y, $width, $height, $url )
+    {
+        // Just record this write call
+        $this->recordCall( __FUNCTION__, array( $x, $y, $width, $height, $url ) );
+    }
+
+    /**
+     * Add an internal link
+     *
+     * Add an internal link to the rectangle specified by its top-left
+     * position, width and height. The last parameter is the target identifier
+     * to link to.
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param string $target 
+     * @return void
+     */
+    public function addInternalLink( $x, $y, $width, $height, $target )
+    {
+        // Just record this write call
+        $this->recordCall( __FUNCTION__, array( $x, $y, $width, $height, $target ) );
+    }
+
+    /**
+     * Add an internal link target
+     *
+     * Add an internal link to the rectangle specified by its top-left
+     * position, width and height. The last parameter is the target identifier.
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param string $id 
+     * @return void
+     */
+    public function addInternalLinkTarget( $x, $y, $width, $height, $id )
+    {
+        // Just record this write call
+        $this->recordCall( __FUNCTION__, array( $x, $y, $width, $height, $id ) );
+    }
+
+    /**
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.

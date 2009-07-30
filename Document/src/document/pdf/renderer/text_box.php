@@ -212,6 +212,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             if ( $token['word'] === ezcDocumentPdfTokenizer::SPACE )
             {
                 $this->renderTextDecoration( $token['style'], $xPos, $position, $spaceWidth, $line['height'] );
+                $this->handleLinks( $token, $xPos, $position, $spaceWidth, $line['height'] );
 
                 $xPos += $spaceWidth;
             }
@@ -227,11 +228,33 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
 
                 // Render word
                 $this->driver->drawWord( $xPos, $position + $line['height'], $token['word'] );
+                $this->handleLinks( $token, $xPos, $position, $token['width'], $line['height'] );
                 $xPos += $token['width'];
             }
         }
 
         return $line['height'];
+    }
+
+    /**
+     * Handle links
+     *
+     * Handle embedded link markup for current token and perform the
+     * appropriate calls to the driver.
+     * 
+     * @param array $token 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @return void
+     */
+    protected function handleLinks( array $token, $x, $y, $width, $height )
+    {
+        if ( $token['url'] !== null )
+        {
+            $this->driver->addExternalLink( $x, $y, $width, $height * 1.1, $token['url'] );
+        }
     }
 
     /**
@@ -358,6 +381,9 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     {
         $tokens = array();
         $rules  = $this->styles->inferenceFormattingRules( $element, ezcDocumentPdfStyleInferencer::TEXT );
+
+        $url    = $element->tagName === 'ulink' && $element->hasAttribute( 'url' ) ? $element->getAttribute( 'url' ) : null;
+
         foreach ( $element->childNodes as $child )
         {
             switch ( $child->nodeType )
@@ -370,6 +396,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                         $tokens[] = array(
                             'word'  => $word,
                             'style' => $rules,
+                            'url'   => $url,
                         );
                     }
                     break;

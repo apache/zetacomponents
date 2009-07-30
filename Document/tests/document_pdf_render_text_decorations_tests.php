@@ -129,7 +129,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
         }
     }
 
-    protected function renderPdf( ezcDocumentPdfDriver $driver )
+    protected function renderPdf( ezcDocumentPdfDriver $driver, $paragraph = 2 )
     {
         $this->checkTestEnv( $driver );
 
@@ -142,7 +142,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
-            $this->xpath->query( '//doc:para' )->item( 2 ),
+            $this->xpath->query( '//doc:para' )->item( $paragraph ),
             new ezcDocumentPdfMainRenderer( $transactionalDriver, $this->styles )
         );
         $transactionalDriver->commit();
@@ -271,6 +271,15 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
         ) );
 
         $pdf = $this->renderPdf( $driver );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    /**
+     * @dataProvider getDrivers
+     */
+    public function testRenderExternalLinks( ezcDocumentPdfDriver $driver )
+    {
+        $pdf = $this->renderPdf( $driver, 5 );
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 }

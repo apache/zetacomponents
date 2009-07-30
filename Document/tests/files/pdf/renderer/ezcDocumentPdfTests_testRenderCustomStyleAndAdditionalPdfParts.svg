@@ -59,6 +59,16 @@
       <text x="61.8558mm" y="94.7500mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">doubled</text>
       <text x="73.9914mm" y="94.7500mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">around</text>
       <text x="84.6100mm" y="94.7500mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">markup.</text>
+      <text x="30.0000mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">Paragraphs</text>
+      <text x="46.6864mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">are</text>
+      <path d="M 186.9242,368.6516 L 235.2992,368.6516" style="stroke: #204a87; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="52.7542mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #204a87">separated</text>
+      <text x="67.9236mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">by</text>
+      <text x="72.4744mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">blank</text>
+      <text x="81.5761mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">lines</text>
+      <text x="90.6778mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">and</text>
+      <text x="96.7456mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">are</text>
+      <text x="102.8133mm" y="103.6889mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">left-aligned.</text>
     </g>
   </g>
 </svg>

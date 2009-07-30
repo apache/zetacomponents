@@ -41,6 +41,16 @@ emphasis {
     font-weight: "bold";
 }
 
+ulink {
+    text-decoration: "underline";
+    color: "#204a87";
+}
+
+link {
+    text-decoration: "underline";
+    color: "#204a87";
+}
+
 title {
     font-family: "sans-serif";
     font-weight: "bold";

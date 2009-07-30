@@ -14,5 +14,6 @@
         </emphasis>
         be doubled around markup.
      </para>
+    <para>Paragraphs are <ulink url="http://ezcomponents.org/">separated</ulink> by blank lines and are left-aligned.</para>
   </section>
 </article>
