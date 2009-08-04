@@ -17,9 +17,9 @@ include_once( 'Authentication/tests/test.php' );
  */
 class ezcAuthenticationLdapTest extends ezcAuthenticationTest
 {
-    public static $host = 'localhost';
+    public static $host = 'ezctest.ez.no';
     public static $format = 'uid=%id%';
-    public static $base = 'dc=foo,dc=bar';
+    public static $base = 'dc=ezctest,dc=ez,dc=no';
     public static $port = 389;
     public static $portSSL = 636;
     public static $formatAdmin = 'cn=%id%';
@@ -295,7 +295,7 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
     public function testLdapFetchExtraDataSubdirectory()
     {
         $base = self::$base;
-        self::$base = 'ou=Users,dc=foo,dc=bar';
+        self::$base = 'ou=Users,dc=ezctest,dc=ez,dc=no';
         $credentials = new ezcAuthenticationPasswordCredentials( 'johnny.doe', '12345' );
         $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
         $authentication = new ezcAuthentication( $credentials );

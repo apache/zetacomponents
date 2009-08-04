@@ -6,19 +6,26 @@
  *
  */
 
-$dc = "dc=foo,dc=bar";
+$dc = "dc=ezctest,dc=ez,dc=no";
+$host = "ezctest.ez.no";
 
-$connection = Ldap::connect( 'ldap://localhost', "cn=%s,{$dc}", 'admin', 'wee123' );
+$connection = Ldap::connect( 'ldap://ezctest.ez.no', "cn=%s,{$dc}", 'admin', 'wee123' );
 
 Ldap::delete( $connection, 'john.doe', $dc );
 Ldap::delete( $connection, 'jan.modaal', $dc );
 Ldap::delete( $connection, 'zhang.san', $dc );
+Ldap::delete( $connection, 'johnny.doe', "ou=Users,{$dc}" );
 Ldap::delete( $connection, 'hans.mustermann', $dc );
 Ldap::delete( $connection, 'Ruşinică Piţigoi', $dc );
+
+Ldap::deleteGroup( $connection, 'Users', $dc );
+
+Ldap::addGroup( $connection, 'Users', $dc );
 
 Ldap::add( $connection, 'john.doe', '{CRYPT}' . crypt( 'foobar' ), $dc );
 Ldap::add( $connection, 'jan.modaal', '{SHA}' . base64_encode( pack( 'H*', sha1( 'qwerty' ) ) ), $dc );
 Ldap::add( $connection, 'zhang.san', '{MD5}' . base64_encode( pack( 'H*', md5( 'asdfgh' ) ) ), $dc );
+Ldap::add( $connection, 'johnny.doe', '{MD5}' . base64_encode( pack( 'H*', md5( '12345' ) ) ), "ou=Users,{$dc}", array( 'displayName' => array( 'Johnny Doe' ) ) );
 //Ldap::add( $connection, 'jan.modaal', '{SHA}' . base64_encode( sha1( 'qwerty' ) ), $dc );
 //Ldap::add( $connection, 'zhang.san', '{MD5}' . base64_encode( md5( 'asdfgh' ) ), $dc );
 Ldap::add( $connection, 'hans.mustermann', 'abcdef', $dc );
@@ -87,13 +94,25 @@ class Ldap
      * @param string $password Password for username. Use an encryption function and put method in front of hash, like: '{MD5}hash'
      * @param string $dc The dc part of the entry, like: 'dc=example,dc=com'
      */
-    public static function add( $connection, $user, $password, $dc )
+    public static function add( $connection, $user, $password, $dc, $extra = array() )
     {
         $ldaprecord['uid'] = $user;
-        $ldaprecord['objectclass'][0] = "account";
-        $ldaprecord['objectclass'][1] = "simpleSecurityObject";
-        $ldaprecord['objectclass'][2] = "top";
+        $ldaprecord['objectclass'][0] = "top";
+        $ldaprecord['objectclass'][] = "account";
+        $ldaprecord['objectclass'][] = "simpleSecurityObject";
         $ldaprecord['userPassword'][0] = $password;
+        /*
+        $ldaprecord['objectclass'][] = "person";
+        $ldaprecord['objectclass'][] = "inetOrgPerson";
+        $ldaprecord['sn'] = array( 'test' );
+        $ldaprecord['cn'] = array( 'test' );
+        $ldaprecord['userid'] = array( $user );
+        */
+
+        foreach ( $extra as $key => $value )
+        {
+            $ldaprecord[$key] = $value;
+        }
         $r = ldap_add( $connection, "uid={$user},{$dc}", $ldaprecord );
     }
 
@@ -107,6 +126,19 @@ class Ldap
     public static function delete( $connection, $user, $dc )
     {
         ldap_delete( $connection, "uid={$user},{$dc}" );
+    }
+
+    public static function addGroup( $connection, $group, $dc )
+    {
+        $ldaprecord['ou'] = $group;
+        $ldaprecord['objectclass'][0] = "organizationalUnit";
+        $ldaprecord['objectclass'][1] = "top";
+        $r = ldap_add( $connection, "ou={$group},{$dc}", $ldaprecord );
+    }
+
+    public static function deleteGroup( $connection, $group, $dc )
+    {
+        ldap_delete( $connection, "ou={$group},{$dc}" );
     }
 
     /**

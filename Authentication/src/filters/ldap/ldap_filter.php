@@ -265,8 +265,8 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
         // bind anonymously to see if username exists in the directory
         if ( @ldap_bind( $connection ) )
         {
-            $search = ldap_search( $connection, $this->ldap->base, str_replace( '%id%', $credentials->id, $this->ldap->format ), $this->requestedData );
-            if ( ldap_count_entries( $connection, $search ) === 0 )
+            $search = @ldap_search( $connection, $this->ldap->base, str_replace( '%id%', $credentials->id, $this->ldap->format ), $this->requestedData );
+            if ( !$search || ldap_count_entries( $connection, $search ) === 0 )
             {
                 ldap_close( $connection );
                 return self::STATUS_USERNAME_INCORRECT;
