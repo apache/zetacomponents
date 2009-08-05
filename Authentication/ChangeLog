@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15240: Final LDAP bind uses wrong DN (patch).
+- Fixed issue #15244: DN can not be retrieved from the LDAP filter.
 
 
 1.3 - Monday 29 June 2009

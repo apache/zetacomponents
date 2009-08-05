@@ -347,6 +347,26 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         $this->assertEquals( $expected, $filter->fetchData() );
     }
 
+    /**
+     * Test for issue #15244 (DN can not be retrieved from the LDAP filter (patch)).
+     */
+    public function testLdapFetchExtraDataDN()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'jan.modaal', 'qwerty' );
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+        $authentication = new ezcAuthentication( $credentials );
+        $filter = new ezcAuthenticationLdapFilter( $ldap );
+        $filter->registerFetchData( array( 'uid', 'dn' ) );
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+
+        $expected = array(
+            'uid' => array( 'jan.modaal' ),
+            'dn' => 'uid=jan.modaal,dc=ezctest,dc=ez,dc=no'
+        );
+        $this->assertEquals( $expected, $filter->fetchData() );
+    }
+
     public function testLdapInfo()
     {
         $ldap = ezcAuthenticationLdapInfo::__set_state( array( 'host' => self::$host, 'format' => self::$format, 'base' => self::$base, 'port' => self::$port, 'protocol' => ezcAuthenticationLdapFilter::PROTOCOL_TLS ) );

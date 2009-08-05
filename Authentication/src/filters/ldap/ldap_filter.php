@@ -296,6 +296,13 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
                                 $this->data[$attribute][] = $attributes[$attribute][$i];
                             }
                         }
+
+                        // DN is a 'special' attribute and is not returned by ldap_get_attributes()
+                        if ( strtolower( $attribute ) == 'dn' )
+                        {
+                            // An entry can only have one DN
+                            $this->data[$attribute] = $entryDN;
+                        }
                     }
                 }
 
