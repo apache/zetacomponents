@@ -9,7 +9,7 @@
 $dc = "dc=ezctest,dc=ez,dc=no";
 $host = "ezctest.ez.no";
 
-$connection = Ldap::connect( 'ldap://ezctest.ez.no', "cn=%s,{$dc}", 'admin', 'wee123' );
+$connection = Ldap::connect( "ldap://$host", "cn=%s,{$dc}", 'admin', 'wee123' );
 
 Ldap::delete( $connection, 'john.doe', $dc );
 Ldap::delete( $connection, 'jan.modaal', $dc );
@@ -25,7 +25,9 @@ Ldap::addGroup( $connection, 'Users', $dc );
 Ldap::add( $connection, 'john.doe', '{CRYPT}' . crypt( 'foobar' ), $dc );
 Ldap::add( $connection, 'jan.modaal', '{SHA}' . base64_encode( pack( 'H*', sha1( 'qwerty' ) ) ), $dc );
 Ldap::add( $connection, 'zhang.san', '{MD5}' . base64_encode( pack( 'H*', md5( 'asdfgh' ) ) ), $dc );
-Ldap::add( $connection, 'johnny.doe', '{MD5}' . base64_encode( pack( 'H*', md5( '12345' ) ) ), "ou=Users,{$dc}", array( 'displayName' => array( 'Johnny Doe' ) ) );
+Ldap::add( $connection, 'johnny.doe', '{MD5}' . base64_encode( pack( 'H*', md5( '12345' ) ) ), "ou=Users,{$dc}",
+           array( 'displayName' => 'Johnny Doe',
+                  'ou' => array( 'Users' ) ) );
 //Ldap::add( $connection, 'jan.modaal', '{SHA}' . base64_encode( sha1( 'qwerty' ) ), $dc );
 //Ldap::add( $connection, 'zhang.san', '{MD5}' . base64_encode( md5( 'asdfgh' ) ), $dc );
 Ldap::add( $connection, 'hans.mustermann', 'abcdef', $dc );
@@ -96,18 +98,23 @@ class Ldap
      */
     public static function add( $connection, $user, $password, $dc, $extra = array() )
     {
-        $ldaprecord['uid'] = $user;
-        $ldaprecord['objectclass'][0] = "top";
-        $ldaprecord['objectclass'][] = "account";
-        $ldaprecord['objectclass'][] = "simpleSecurityObject";
+        $ldaprecord['uid'][0] = $user;
+        // The 'person' classes are not compatible with account and simpleSecurityObject
+        if ( $user == 'johnny.doe' )
+        {
+            $ldaprecord['objectclass'][0] = "person";
+            $ldaprecord['objectclass'][] = "organizationalPerson";
+            $ldaprecord['objectclass'][] = "inetOrgPerson";
+            $ldaprecord['sn'] = array( 'Doe' );
+            $ldaprecord['cn'] = array( 'Johnny Doe' );
+        }
+        else
+        {
+            $ldaprecord['objectclass'][0] = "account";
+            $ldaprecord['objectclass'][] = "simpleSecurityObject";
+        }
+        $ldaprecord['objectclass'][] = "top";
         $ldaprecord['userPassword'][0] = $password;
-        /*
-        $ldaprecord['objectclass'][] = "person";
-        $ldaprecord['objectclass'][] = "inetOrgPerson";
-        $ldaprecord['sn'] = array( 'test' );
-        $ldaprecord['cn'] = array( 'test' );
-        $ldaprecord['userid'] = array( $user );
-        */
 
         foreach ( $extra as $key => $value )
         {

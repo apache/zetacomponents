@@ -272,13 +272,16 @@ class ezcAuthenticationLdapFilter extends ezcAuthenticationFilter implements ezc
                 return self::STATUS_USERNAME_INCORRECT;
             }
 
-            // username exists, so check if we can bind with the provided password
-            if ( @ldap_bind( $connection, str_replace( '%id%', $credentials->id, $this->ldap->format ) . ',' . $this->ldap->base, $credentials->password ) )
+            // username exists, so get dn for it
+            $entry = ldap_first_entry( $connection, $search );
+            $entryDN = ldap_get_dn( $connection, $entry );
+
+            // check if we can bind with the provided password
+            if ( @ldap_bind( $connection, $entryDN, $credentials->password ) )
             {
                 // retrieve extra authentication data
                 if ( count( $this->requestedData ) > 0 )
                 {
-                    $entry = ldap_first_entry( $connection, $search );
                     $attributes = ldap_get_attributes( $connection, $entry );
 
                     foreach ( $this->requestedData as $attribute )

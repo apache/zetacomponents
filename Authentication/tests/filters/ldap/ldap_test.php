@@ -330,6 +330,23 @@ class ezcAuthenticationLdapTest extends ezcAuthenticationTest
         $this->assertEquals( $expected, $filter->fetchData() );
     }
 
+    /**
+     * Test for issue #15240 (Final LDAP bind uses wrong DN (patch)).
+     */
+    public function testLdapSublevel()
+    {
+        $credentials = new ezcAuthenticationPasswordCredentials( 'johnny.doe', '12345' );
+        $ldap = new ezcAuthenticationLdapInfo( self::$host, self::$format, self::$base, self::$port );
+        $authentication = new ezcAuthentication( $credentials );
+        $filter = new ezcAuthenticationLdapFilter( $ldap );
+        $filter->registerFetchData( array( 'uid', 'displayName' ) );
+        $authentication->addFilter( $filter );
+        $this->assertEquals( true, $authentication->run() );
+
+        $expected = array( 'uid' => array( 'johnny.doe' ), 'displayName' => array ( 'Johnny Doe' ) );
+        $this->assertEquals( $expected, $filter->fetchData() );
+    }
+
     public function testLdapInfo()
     {
         $ldap = ezcAuthenticationLdapInfo::__set_state( array( 'host' => self::$host, 'format' => self::$format, 'base' => self::$base, 'port' => self::$port, 'protocol' => ezcAuthenticationLdapFilter::PROTOCOL_TLS ) );
