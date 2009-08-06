@@ -294,6 +294,11 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderLongTextWithInternalLinks()
     {
+        if ( !ezcBaseFeatures::hasExtensionSupport( 'haru' ) )
+        {
+            $this->markTestSkipped( 'This test requires pecl/haru installed.' );
+        }
+
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/internal_links.xml' );
 
