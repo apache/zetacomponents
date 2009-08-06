@@ -10,13 +10,13 @@
  */
 
 return array(
-    'ezcSystemInfoReaderCantScanOSException' => 'SystemInformation/system/exceptions/cant_scan.php',
-    'ezcSystemInfoReader'                    => 'SystemInformation/system/interfaces/info_reader.php',
-    'ezcSystemInfo'                          => 'SystemInformation/system/info.php',
-    'ezcSystemInfoAccelerator'               => 'SystemInformation/system/structs/accelerator_info.php',
-    'ezcSystemInfoFreeBsdReader'             => 'SystemInformation/system/readers/info_freebsd.php',
-    'ezcSystemInfoLinuxReader'               => 'SystemInformation/system/readers/info_linux.php',
-    'ezcSystemInfoMacReader'                 => 'SystemInformation/system/readers/info_mac.php',
-    'ezcSystemInfoWindowsReader'             => 'SystemInformation/system/readers/info_windows.php',
+    'ezcSystemInfoReaderCantScanOSException' => 'SystemInformation/exceptions/cant_scan.php',
+    'ezcSystemInfoReader'                    => 'SystemInformation/interfaces/info_reader.php',
+    'ezcSystemInfo'                          => 'SystemInformation/info.php',
+    'ezcSystemInfoAccelerator'               => 'SystemInformation/structs/accelerator_info.php',
+    'ezcSystemInfoFreeBsdReader'             => 'SystemInformation/readers/info_freebsd.php',
+    'ezcSystemInfoLinuxReader'               => 'SystemInformation/readers/info_linux.php',
+    'ezcSystemInfoMacReader'                 => 'SystemInformation/readers/info_mac.php',
+    'ezcSystemInfoWindowsReader'             => 'SystemInformation/readers/info_windows.php',
 );
 ?>
