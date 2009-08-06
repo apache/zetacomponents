@@ -142,8 +142,17 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         // Do nothing in here, we can only instantiate the document on first
         // page creation, because we do not know about the page format
         // beforehand.
-        $this->pages = array();
+        $this->pages    = array();
+        $this->document = null;
+    }
 
+    /**
+     * Initialize haru documents
+     * 
+     * @return void
+     */
+    protected function initialize()
+    {
         // Sorry for this, but we need it to prevent from warnings in TCPDF:
         $GLOBALS['utf8tolatin'] = array();
 
@@ -182,6 +191,11 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function createPage( $width, $height )
     {
+        if ( $this->document === null )
+        {
+            $this->initialize();
+        }
+
         // Create a new page, and create a reference in the pages array
         $this->document->AddPage( 'P', array( $width, $height ) );
         $this->pages[] = $this->document->getPage();
@@ -202,6 +216,11 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function trySetFont( $name, $style )
     {
+        if ( $this->document === null )
+        {
+            $this->initialize();
+        }
+
         // Just du no use new font, if it is unknown
         // @TODO: Add some kind of weak error reporting here?
         if ( !isset( $this->fonts[$name] ) )
@@ -314,6 +333,11 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function calculateWordWidth( $word )
     {
+        if ( $this->document === null )
+        {
+            $this->initialize();
+        }
+
         return $this->document->GetStringWidth( $word );
     }
 
