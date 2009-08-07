@@ -5,6 +5,7 @@
   on a patch from Emanuel Sprung.
 - Implemented feature request #14292: Support atom:link in RSS feeds.
 - Fixed rendering of the cloud element in RSS2.
+- Fixed parsing of the atom:link element in RSS2.
 
 
 1.2.1 - Monday 09 February 2009

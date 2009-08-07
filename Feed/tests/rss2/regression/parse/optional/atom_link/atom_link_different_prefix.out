@@ -1,0 +1,21 @@
+<?php
+$feed = new ezcFeed( 'rss2' );
+$feed->title = 'Feed title';
+
+$link = $feed->add( 'link' );
+$link->href = 'Feed link';
+
+$feed->description = 'Feed description';
+
+$feed->id = 'http://example.com/';
+
+$item = $feed->add( 'item' );
+$item->title = 'Item title';
+
+$link = $item->add( 'link' );
+$link->href = 'Item link';
+
+$item->description = 'Item description';
+
+return $feed;
+?>

@@ -242,14 +242,6 @@ class ezcFeedRss2 extends ezcFeedProcessor implements ezcFeedParser
                         $this->parseTextInput( $element, $channelChild );
                         break;
 
-                    case 'atom:link':
-                        $element = $feed->add( 'id' );
-                        if ( $channelChild->hasAttribute( 'href' ) )
-                        {
-                            $element->id = $channelChild->getAttribute( 'href' );
-                        }
-                        break;
-
                     default:
                         // check if it's part of a known module/namespace
                         $this->parseModules( $feed, $channelChild, $tagName );

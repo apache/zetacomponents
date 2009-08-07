@@ -224,6 +224,15 @@ abstract class ezcFeedProcessor
                 $module = $item->hasModule( $moduleName ) ? $item->$moduleName : $item->addModule( $moduleName );
                 $module->parse( $key, $node );
             }
+            // If the feed contains the ATOM namespace (xmlns:atom="http://www.w3.org/2005/Atom")
+            else if ( $moduleName === 'Atom' )
+            {
+                $element = $item->add( 'id' );
+                if ( $node->hasAttribute( 'href' ) )
+                {
+                    $item->id = $node->getAttribute( 'href' );
+                }
+            }
         }
     }
 
@@ -260,6 +269,18 @@ abstract class ezcFeedProcessor
                     // like <some_prefix:creator>, it is checked if 'DublinCore' is supported
                     $usedPrefixes[$prefix] = $moduleName;
                 }
+            }
+
+            // If the feed contains the ATOM namespace (xmlns:atom="http://www.w3.org/2005/Atom")
+            // and the feed itself is not of type ATOM, then add the 'atom' prefix (or any alias)
+            // to the $usedPrefixes array which is returned by the function
+            if ( ezcFeedAtom::NAMESPACE_URI === $node->nodeValue
+                 && $xml->documentElement->tagName !== 'feed' )
+            {
+                // the nodeName looks like: xmlns:some_module
+                list( $xmlns, $prefix ) = explode( ':', $node->nodeName );
+
+                $usedPrefixes[$prefix] = 'Atom';
             }
         }
 
