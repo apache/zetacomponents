@@ -1839,8 +1839,8 @@ like::
 
     $def = new ezcTemplateCustomBlockDefinition;
 
-    $def->class = "MyLink"
-    $def->method = "linkMethod" 
+    $def->class = "MyLink";
+    $def->method = "linkMethod";
 
     $def->hasCloseTag = false; 
     $def->startExpressionName = "from"; 
