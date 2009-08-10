@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Reorganized the source code to fall in line with guidelines.
+- Fixed the ezcSystemReaderCantScanOSException class to properly inherit
+  from ezcSystemInfoException and ezcBaseException.
 
 
 1.0.7 - Monday 10 November 2008

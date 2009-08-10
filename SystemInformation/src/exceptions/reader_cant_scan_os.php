@@ -17,7 +17,7 @@
  * @package SystemInformation
  * @version //autogen//
  */
-class ezcSystemInfoReaderCantScanOSException extends Exception
+class ezcSystemInfoReaderCantScanOSException extends ezcSystemInfoException
 {
     /**
      * Construct a reader can't scan OS exception.
