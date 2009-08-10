@@ -101,7 +101,10 @@ class ezcTranslationBorkFilter implements ezcTranslationFilter
     {
         foreach ( $context as $element )
         {
-            $element->translation = self::borkify( $element->original );
+            if ( $element->status !== ezcTranslationData::TRANSLATED )
+            {
+                $element->translation = self::borkify( $element->original );
+            }
         }
     }
 }
