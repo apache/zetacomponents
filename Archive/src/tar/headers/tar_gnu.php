@@ -63,7 +63,7 @@ class ezcArchiveGnuHeader extends ezcArchiveUstarHeader
                         break;
 
                 }
-            } while ( $this->type < 0 || $this->type > 9 );
+            } while ( $this->type < '0' || $this->type > '9' );
 
             parent::__construct( $file );
 

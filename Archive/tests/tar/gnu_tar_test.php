@@ -44,6 +44,21 @@ class ezcArchiveGnuTarTest extends ezcArchivePaxTarTest // use the Pax tests
         $this->removeTempDir();
     }
 
+    // test for bug #13501
+    public function testLongLinkAndFileName()
+    {
+        $dir = $this->getTempDir();
+
+        $filename = $this->createTempFile( 'linktest.tar' );
+        $archive = ezcArchive::open( $filename );
+        foreach ( $archive as $entry )
+        {
+            $archive->extractCurrent( $dir );
+        }
+        self::assertEquals( true, file_exists( "{$dir}/var/ezwebin_site/storage/images/eu/biofoul/lobster-plant/galleri-3-bilder/photo-1/1225-1-eng-GB/Photo-1_sidebar_large.jpg" ) );
+        self::assertEquals( true, file_exists( "{$dir}/var/ezwebin_site/storage/images/eu/lobster-plant/galleri-3-bilder/photo-1/1225-1-eng-GB/Photo-1_sidebar_large.jpg" ) );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
