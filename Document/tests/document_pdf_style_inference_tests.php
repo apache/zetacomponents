@@ -145,7 +145,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
 
         $this->assertEquals(
             array(
-                'text-columns' => new ezcDocumentPdfStyleIntValue( '1' ),
+                'text-columns' => new ezcDocumentPdfStyleIntValue( 1 ),
             ),
             $inferencer->inferenceFormattingRules( $element )
         );
@@ -167,7 +167,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
 
         $this->assertEquals(
             array(
-                'font-size' => new ezcDocumentPdfStyleMeasureValue( '10mm' ),
+                'font-size' => new ezcDocumentPdfStyleMeasureValue( 10 ),
             ),
             $inferencer->inferenceFormattingRules( $element )
         );
@@ -247,7 +247,8 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
      */
     public function testMeasureBoxValueHandler( $input, $expectation )
     {
-        $value = new ezcDocumentPdfStyleMeasureBoxValue( $input );
+        $value = new ezcDocumentPdfStyleMeasureBoxValue();
+        $value->parse( $input );
 
         $this->assertEquals(
             $expectation,
@@ -427,7 +428,8 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
      */
     public function testColorValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleColorValue( $input );
+        $value = new ezcDocumentPdfStyleColorValue();
+        $value->parse( $input );
 
         $this->assertEquals(
             $expectation,
@@ -445,7 +447,8 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
     public function testInvalidColorSpecification()
     {
         try {
-            new ezcDocumentPdfStyleColorValue( 'something invalid' );
+            $value = new ezcDocumentPdfStyleColorValue();
+            $value->parse( 'something invalid' );
             $this->fail( 'Expected ezcDocumentParserException.' );
         } catch ( ezcDocumentParserException $e )
         { /* Expected */ }

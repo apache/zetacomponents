@@ -19,14 +19,33 @@
 class ezcDocumentPdfStyleStringValue extends ezcDocumentPdfStyleValue
 {
     /**
-     * Construct value handler from string representation
+     * Parse value string representation
      *
-     * @param mixed $value
+     * Parse the string representation of the value into a usable
+     * representation.
+     * 
+     * @param string $value 
      * @return void
      */
-    public function __construct( $value )
+    public function parse( $value )
     {
         $this->value = (string) $value;
+
+        return $this;
+    }
+
+    /**
+     * Get regular expression matching the value
+     *
+     * Return a regular sub expression, which matches all possible values of
+     * this value type. The regular expression should NOT contain any named
+     * sub-patterns, since it might be repeatedly embedded in some box parser.
+     * 
+     * @return string
+     */
+    public function getRegularExpression()
+    {
+        return '\S+';
     }
 
     /**

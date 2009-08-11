@@ -69,6 +69,7 @@ class ezcDocumentPdfStyleInferencer
         'text-columns-spacing' => 'ezcDocumentPdfStyleMeasureValue',
         'color'                => 'ezcDocumentPdfStyleColorValue',
         'background-color'     => 'ezcDocumentPdfStyleColorValue',
+        'border'               => 'ezcDocumentPdfStyleBorderValue',
     );
 
     /**
@@ -180,7 +181,8 @@ class ezcDocumentPdfStyleInferencer
                 try
                 {
                     $valueHandler = isset( $this->valueParserClasses[$name] ) ? $this->valueParserClasses[$name] : 'ezcDocumentPdfStyleStringValue';
-                    $styleDirectives[$nr]->formats[$name] = new $valueHandler( $value );
+                    $styleDirectives[$nr]->formats[$name] = new $valueHandler();
+                    $styleDirectives[$nr]->formats[$name]->parse( $value );
                 }
                 catch ( ezcDocumentParserException $e )
                 {
