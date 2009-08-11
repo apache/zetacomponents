@@ -167,6 +167,7 @@ abstract class ezcArchive implements Iterator
      *        {@link ezcArchive::TAR}, {@link ezcArchive::TAR_V7}, {@link ezcArchive::TAR_USTAR},
      *        {@link ezcArchive::TAR_PAX}, {@link ezcArchive::TAR_GNU}.
      *        TAR will use the TAR_USTAR algorithm by default.
+     * @param ezcArchiveOptions $options
      *
      * @return ezcArchive
      */
