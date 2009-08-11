@@ -10,9 +10,10 @@
  */
 
 /**
- * Paragraph renderer
+ * Renders a single text box
  *
- * Renders a single paragraph including its inline markup.
+ * Tries to render a single text box into the available space, and aborts if
+ * not possible.
  *
  * @package Document
  * @access private

@@ -137,7 +137,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
         $transactionalDriver->setDriver( $driver );
 
         $driver->createPage( 108, 108 );
-        $renderer  = new ezcDocumentPdfParagraphRenderer( $transactionalDriver, $this->styles );
+        $renderer  = new ezcDocumentPdfWrappingTextBoxRenderer( $transactionalDriver, $this->styles );
         $renderer->render(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),

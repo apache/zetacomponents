@@ -393,7 +393,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      */
     protected function renderParagraph( ezcDocumentPdfInferencableDomElement $element )
     {
-        $renderer = new ezcDocumentPdfParagraphRenderer( $this->driver, $this->styles );
+        $renderer = new ezcDocumentPdfWrappingTextBoxRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
         $styles   = $this->styles->inferenceFormattingRules( $element );
 

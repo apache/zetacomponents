@@ -10,15 +10,17 @@
  */
 
 /**
- * Paragraph renderer
+ * Renders an optionally wrapped text box
  *
- * Renders a single paragraph including its inline markup.
+ * Renders a single text box, like a paragraph, and applies wrapping, if the
+ * text box does not fit the current page or column. Orphans and widows are
+ * respected during this process.
  *
  * @package Document
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfParagraphRenderer extends ezcDocumentPdfTextBoxRenderer
+class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRenderer
 {
     /**
      * Render a single text box
