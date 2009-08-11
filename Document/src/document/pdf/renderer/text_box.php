@@ -19,7 +19,7 @@
  * @access private
  * @version //autogen//
  */
-abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
+class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
 {
     /**
      * Render a single text box
@@ -144,7 +144,7 @@ abstract class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         $yPos = $space->y + $styles['margin']->value['top'];
         foreach ( $lines as $nr => $line )
         {
-            $yPos += $this->renderLine( $yPos, $nr, $line, $space, $styles );
+            $yPos += $this->renderLine( $yPos, $nr, $line, $space, $styles ) * $styles['line-height']->value;
 
             // Check if we run out of vertical space
             if ( $yPos > ( $space->y + $space->height ) )
