@@ -102,7 +102,7 @@ class ezcDocumentPdf extends ezcDocument
      */
     public function loadString( $string )
     {
-        $this->contents = $string;
+        throw new ezcBaseFunctionalityNotSupportedException( 'Reading PDF', 'Not implemented yet.' );
     }
 
     /**

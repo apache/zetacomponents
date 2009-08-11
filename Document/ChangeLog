@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed #15198: ezcDocumentPdf cannot be constructed without pecl/haru.
+- Fixed #15258: Unusable ezcDocumentPdf::loadString() implementation.
 - Implemented #15188: Add support for text colors in drivers.
 - Implemented #15189: Add support for background colors in drivers.
 - Implemented #15190: Add support for text-decoration in drivers.
