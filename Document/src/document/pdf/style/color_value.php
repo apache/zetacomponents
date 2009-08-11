@@ -19,6 +19,34 @@
 class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
 {
     /**
+     * Sub regular expression for short hexadecimal color notation
+     * 
+     * @var string
+     */
+    protected $shortHexNotation = '(?:#?([0-9a-f])([0-9a-f])([0-9a-f])([0-9a-f])?)';
+
+    /**
+     * Sub regular expression for long hexadecimal color notation
+     * 
+     * @var string
+     */
+    protected $longHexNotation = '(?:#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})?)';
+
+    /**
+     * Sub regular expression for rgb() color notation
+     * 
+     * @var string
+     */
+    protected $rgbSpec = '(?:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*)';
+
+    /**
+     * Sub regular expression for rgba() color notation
+     * 
+     * @var string
+     */
+    protected $rgbaSpec = '(?:\s*rgba\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*)';
+
+    /**
      * Parse value string representation
      *
      * Parse the string representation of the value into a usable
@@ -32,8 +60,8 @@ class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
         switch ( true )
         {
             // Sepcial values
-            case ( $value === 'transparent' ) ||
-                 ( $value === 'none' ):
+            case ( trim( $value ) === 'transparent' ) ||
+                 ( trim( $value ) === 'none' ):
                 $this->value = array(
                     'red'   => 0.,
                     'green' => 0.,
@@ -43,42 +71,42 @@ class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
                 break;
 
             // Match 12 and 16bit hex value color definitions
-            case preg_match( '(^#?(?P<r>[0-9a-f])(?P<g>[0-9a-f])(?P<b>[0-9a-f])(?P<a>[0-9a-f])?$)Ui', $value, $match ):
+            case preg_match( '(^' . $this->shortHexNotation . '$)USi', $value, $match ):
                 $this->value = array(
-                    'red'   => hexdec( $match['r'] ) / 15,
-                    'green' => hexdec( $match['g'] ) / 15,
-                    'blue'  => hexdec( $match['b'] ) / 15,
-                    'alpha' => isset( $match['a'] ) ? hexdec( $match['a'] ) / 15 : 0.,
+                    'red'   => hexdec( $match[1] ) / 15,
+                    'green' => hexdec( $match[2] ) / 15,
+                    'blue'  => hexdec( $match[3] ) / 15,
+                    'alpha' => isset( $match[4] ) ? hexdec( $match[4] ) / 15 : 0.,
                 );
                 break;
 
             // Match 24 and 32bit hex value color definitions
-            case preg_match( '(^#?(?P<r>[0-9a-f]{2})(?P<g>[0-9a-f]{2})(?P<b>[0-9a-f]{2})(?P<a>[0-9a-f]{2})?$)Ui', $value, $match ):
+            case preg_match( '(^' . $this->longHexNotation . '$)Ui', $value, $match ):
                 $this->value = array(
-                    'red'   => hexdec( $match['r'] ) / 255,
-                    'green' => hexdec( $match['g'] ) / 255,
-                    'blue'  => hexdec( $match['b'] ) / 255,
-                    'alpha' => isset( $match['a'] ) ? hexdec( $match['a'] ) / 255 : 0.,
+                    'red'   => hexdec( $match[1] ) / 255,
+                    'green' => hexdec( $match[2] ) / 255,
+                    'blue'  => hexdec( $match[3] ) / 255,
+                    'alpha' => isset( $match[4] ) ? hexdec( $match[4] ) / 255 : 0.,
                 );
                 break;
 
             // Match RGB array specification
-            case preg_match( '(^\s*rgb\s*\(\s*(?P<r>[0-9]+)\s*,\s*(?P<g>[0-9]+)\s*,\s*(?P<b>[0-9]+)\s*\)\s*$)i', $value, $match ):
+            case preg_match( '(^' . $this->rgbSpec . '$)Si', $value, $match ):
                 $this->value = array(
-                    'red'   => $match['r'] % 256 / 255,
-                    'green' => $match['g'] % 256 / 255,
-                    'blue'  => $match['b'] % 256 / 255,
+                    'red'   => $match[1] % 256 / 255,
+                    'green' => $match[2] % 256 / 255,
+                    'blue'  => $match[3] % 256 / 255,
                     'alpha' => 0,
                 );
                 break;
 
             // Match RGBA array specification
-            case preg_match( '(^\s*rgba\s*\(\s*(?P<r>[0-9]+)\s*,\s*(?P<g>[0-9]+)\s*,\s*(?P<b>[0-9]+)\s*,\s*(?P<a>[0-9]+)\s*\)\s*$)i', $value, $match ):
+            case preg_match( '(^' . $this->rgbaSpec . '$)Si', $value, $match ):
                 $this->value = array(
-                    'red'   => $match['r'] % 256 / 255,
-                    'green' => $match['g'] % 256 / 255,
-                    'blue'  => $match['b'] % 256 / 255,
-                    'alpha' => $match['a'] % 256 / 255,
+                    'red'   => $match[1] % 256 / 255,
+                    'green' => $match[2] % 256 / 255,
+                    'blue'  => $match[3] % 256 / 255,
+                    'alpha' => $match[4] % 256 / 255,
                 );
                 break;
 
@@ -100,8 +128,11 @@ class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
      */
     public function getRegularExpression()
     {
-        // @TODO: Implement
-        return null;
+        return '(?i:transparent|none|' .
+            $this->shortHexNotation . '|' .
+            $this->longHexNotation . '|' .
+            $this->rgbSpec . '|' .
+            $this->rgbaSpec . ')';
     }
 
     /**

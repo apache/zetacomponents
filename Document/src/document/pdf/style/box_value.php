@@ -124,8 +124,13 @@ abstract class ezcDocumentPdfStyleBoxValue extends ezcDocumentPdfStyleValue
      */
     public function __toString()
     {
-        // @TODO: Test and fix this.
-        return sprintf( '%.2Fmm', $this->value );
+        $subValueClass = $this->getSubValue();
+
+        return 
+            new $subValueClass( $this->value['top'] ) . ' ' .
+            new $subValueClass( $this->value['right'] ) . ' ' .
+            new $subValueClass( $this->value['bottom'] ) . ' ' .
+            new $subValueClass( $this->value['left'] );
     }
 }
 

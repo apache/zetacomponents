@@ -184,6 +184,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'bottom' => 11.,
                     'left'   => 11.,
                 ),
+                '11.00mm 11.00mm 11.00mm 11.00mm',
             ),
             array(
                 "11pt",
@@ -193,6 +194,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'bottom' => 3.9,
                     'left'   => 3.9,
                 ),
+                '3.88mm 3.88mm 3.88mm 3.88mm',
             ),
             array(
                 "11 12",
@@ -202,6 +204,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'bottom' => 11.,
                     'left'   => 12.,
                 ),
+                '11.00mm 12.00mm 11.00mm 12.00mm',
             ),
             array(
                 "11\t \r \n \t12",
@@ -211,6 +214,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'bottom' => 11.,
                     'left'   => 12.,
                 ),
+                '11.00mm 12.00mm 11.00mm 12.00mm',
             ),
             array(
                 "11 12 13",
@@ -220,6 +224,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'bottom' => 13.,
                     'left'   => 12.,
                 ),
+                '11.00mm 12.00mm 13.00mm 12.00mm',
             ),
             array(
                 "11 12 13 14",
@@ -229,6 +234,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'bottom' => 13.,
                     'left'   => 14.,
                 ),
+                '11.00mm 12.00mm 13.00mm 14.00mm'
             ),
             array(
                 "11mm 12in 13px 14pt",
@@ -238,6 +244,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'bottom' => 4.6,
                     'left'   => 4.94,
                 ),
+                '11.00mm 304.80mm 4.59mm 4.94mm',
             ),
         );
     }
@@ -245,7 +252,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
     /**
      * @dataProvider getMeasureBoxValues
      */
-    public function testMeasureBoxValueHandler( $input, $expectation )
+    public function testMeasureBoxValueHandler( $input, $expectation, $string )
     {
         $value = new ezcDocumentPdfStyleMeasureBoxValue();
         $value->parse( $input );
@@ -254,6 +261,12 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
             $expectation,
             $value->value,
             'Invalid box measures read.', .1
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid measure box string serialization.'
         );
     }
 
@@ -452,6 +465,264 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
             $this->fail( 'Expected ezcDocumentParserException.' );
         } catch ( ezcDocumentParserException $e )
         { /* Expected */ }
+    }
+
+    public static function getLineStyleValues()
+    {
+        return array(
+            array(
+                "solid",
+                "solid",
+                'solid',
+            ),
+            array(
+                " dotted ",
+                'dotted',
+                'dotted',
+            ),
+            array(
+                "\t\ngroove\r",
+                'groove',
+                'groove',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getLineStyleValues
+     */
+    public function testLineValueHandler( $input, $expectation, $string = '' )
+    {
+        $value = new ezcDocumentPdfStyleLineValue();
+        $value->parse( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Invalid line style value read.', .01
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid line style string serialization.'
+        );
+    }
+
+    public static function getBorderStyleValues()
+    {
+        return array(
+            array(
+                "1mm",
+                array(
+                    'width' => 1,
+                    'line'  => 'solid',
+                    'color' => array(
+                        'red'   => 1.,
+                        'green' => 1.,
+                        'blue'  => 1.,
+                        'alpha' => 0.,
+                    ),
+                ),
+                '1.00mm solid #ffffff',
+            ),
+            array(
+                "dashed",
+                array(
+                    'width' => 0,
+                    'line'  => 'dashed',
+                    'color' => array(
+                        'red'   => 1.,
+                        'green' => 1.,
+                        'blue'  => 1.,
+                        'alpha' => 0.,
+                    ),
+                ),
+                '0.00mm dashed #ffffff',
+            ),
+            array(
+                "rgb( 255, 0, 0 )",
+                array(
+                    'width' => 0,
+                    'line'  => 'solid',
+                    'color' => array(
+                        'red'   => 1.,
+                        'green' => 0.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
+                    ),
+                ),
+                '0.00mm solid #ff0000',
+            ),
+            array(
+                "1pt #F00",
+                array(
+                    'width' => .35,
+                    'line'  => 'solid',
+                    'color' => array(
+                        'red'   => 1.,
+                        'green' => 0.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
+                    ),
+                ),
+                '0.35mm solid #ff0000',
+            ),
+            array(
+                "1 inset #0f0",
+                array(
+                    'width' => 1.,
+                    'line'  => 'inset',
+                    'color' => array(
+                        'red'   => 0.,
+                        'green' => 1.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
+                    ),
+                ),
+                '1.00mm inset #00ff00',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getBorderStyleValues
+     */
+    public function testBorderValueHandler( $input, $expectation, $string = '' )
+    {
+        $value = new ezcDocumentPdfStyleBorderValue();
+        $value->parse( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Invalid border style value read.', .01
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid border style string serialization.'
+        );
+    }
+
+    public static function getBorderBoxStyleValues()
+    {
+        return array(
+            array(
+                "1 inset #0f0",
+                array(
+                    'top' => array(
+                        'width' => 1.,
+                        'line'  => 'inset',
+                        'color' => array(
+                            'red'   => 0.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'right' => array(
+                        'width' => 1.,
+                        'line'  => 'inset',
+                        'color' => array(
+                            'red'   => 0.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'bottom' => array(
+                        'width' => 1.,
+                        'line'  => 'inset',
+                        'color' => array(
+                            'red'   => 0.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'left' => array(
+                        'width' => 1.,
+                        'line'  => 'inset',
+                        'color' => array(
+                            'red'   => 0.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                ),
+                '1.00mm inset #00ff00 1.00mm inset #00ff00 1.00mm inset #00ff00 1.00mm inset #00ff00',
+            ),
+            array(
+                "1mm #fF0 outset 2mm",
+                array(
+                    'top' => array(
+                        'width' => 1.,
+                        'line'  => 'solid',
+                        'color' => array(
+                            'red'   => 1.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'right' => array(
+                        'width' => 0.,
+                        'line'  => 'outset',
+                        'color' => array(
+                            'red'   => 1.,
+                            'green' => 1.,
+                            'blue'  => 1.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'bottom' => array(
+                        'width' => 2.,
+                        'line'  => 'solid',
+                        'color' => array(
+                            'red'   => 1.,
+                            'green' => 1.,
+                            'blue'  => 1.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'left' => array(
+                        'width' => 0.,
+                        'line'  => 'outset',
+                        'color' => array(
+                            'red'   => 1.,
+                            'green' => 1.,
+                            'blue'  => 1.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                ),
+                '1.00mm solid #ffff00 0.00mm outset #ffffff 2.00mm solid #ffffff 0.00mm outset #ffffff',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getBorderBoxStyleValues
+     */
+    public function testBorderBoxValueHandler( $input, $expectation, $string = '' )
+    {
+        $value = new ezcDocumentPdfStyleBorderBoxValue();
+        $value->parse( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Invalid border style value read.', .01
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid border style string serialization.'
+        );
     }
 
     public function testExceptionPostDecoration()
