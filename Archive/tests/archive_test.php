@@ -179,14 +179,14 @@ class ezcArchiveTest extends ezcArchiveTestCase
         $this->assertTrue( file_exists( "{$dir}file2.txt" ) );
     }
 
-    public function readBzippedGzippedTar()
+    public function testReadBzippedGzippedTar()
     {
         $dir = $this->getTempDir();
         copy( dirname( __FILE__ ) . "/data/tar_ustar_2_textfiles.tar", "$dir/mytar.tar" );
 
         exec( "gzip $dir/mytar.tar" );
         exec( "bzip2 $dir/mytar.tar.gz" );
-        $archive = ezcArchive::open( "$dir/mytar.tar.gz.bz2" );
+        $archive = ezcArchive::open( "$dir/mytar.tar.gz.bz2", null, new ezcArchiveOptions( array( 'readOnly' => true ) ) );
 
         $archive->extract( $dir );
 
