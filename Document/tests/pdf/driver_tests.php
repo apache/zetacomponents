@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
+require_once 'base.php';
 
 /**
  * Test suite for class.
@@ -226,7 +226,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->createPage( 210, 297 );
 
         $driver->drawImage(
-            dirname( __FILE__ ) . '/files/pdf/images/logo-white.png', 'image/png',
+            dirname( __FILE__ ) . '/../files/pdf/images/logo-white.png', 'image/png',
             50, 50,
             ezcDocumentPdfMeasure::create( '113px' )->get(),
             ezcDocumentPdfMeasure::create( '57px' )->get()
@@ -242,7 +242,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->createPage( 210, 297 );
 
         $driver->drawImage(
-            dirname( __FILE__ ) . '/files/pdf/images/large.jpeg', 'image/jpeg',
+            dirname( __FILE__ ) . '/../files/pdf/images/large.jpeg', 'image/jpeg',
             50, 50,
             110, 100
         );

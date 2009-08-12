@@ -33,7 +33,7 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
     {
         static $i = 0;
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
-        $this->basePath = dirname( __FILE__ ) . '/files/pdf/';
+        $this->basePath = dirname( __FILE__ ) . '/../files/pdf/';
     }
 
     public function tearDown()

@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
+require_once 'base.php';
 
 /**
  * Test suite for class.

@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'document_pdf_renderer_text_box_base_tests.php';
+require_once 'renderer_text_box_base_tests.php';
 
 /**
  * Test suite for class.
@@ -17,20 +17,21 @@ require_once 'document_pdf_renderer_text_box_base_tests.php';
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfTextBoxRendererTests extends ezcDocumentPdfTextBoxRendererBaseTests
+class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRendererBaseTests
 {
     /**
      * Renderer used for the tests
      * 
      * @var string
      */
-    protected $renderer = 'ezcDocumentPdfTextBoxRenderer';
+    protected $renderer = 'ezcDocumentPdfWrappingTextBoxRenderer';
 
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
+    // @TODO: Implement additional tests for wrapped bordered text
 }
 
 ?>

@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
+require_once 'base.php';
 
 /**
  * Test suite for class.
@@ -27,7 +27,7 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
     public function testRenderUnknownElements()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/unknown.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/unknown.xml' );
 
         try {
             $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
@@ -43,7 +43,7 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
     public function testRenderUnknownElementsSilence()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/unknown.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/unknown.xml' );
 
         $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
             'driver'         => new ezcDocumentPdfSvgDriver(),
@@ -62,7 +62,7 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
     public function testRenderDefault()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/long_text.xml' );
 
         $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
             'driver' => new ezcDocumentPdfSvgDriver(),
@@ -84,12 +84,12 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
     public function testRenderCustomStyle()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/long_text.xml' );
 
         $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
             'driver' => new ezcDocumentPdfSvgDriver(),
         ) ) );
-        $pdfDoc->loadStyles( dirname( __FILE__ ) . '/files/pdf/custom.css' );
+        $pdfDoc->loadStyles( dirname( __FILE__ ) . '/../files/pdf/custom.css' );
         $pdfDoc->createFromDocbook( $docbook );
         $pdf = (string) $pdfDoc;
 
@@ -107,12 +107,12 @@ class ezcDocumentPdfTests extends ezcDocumentPdfTestCase
     public function testRenderCustomStyleAndAdditionalPdfParts()
     {
         $docbook = new ezcDocumentDocbook();
-        $docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/long_text.xml' );
 
         $pdfDoc = new ezcDocumentPdf( new ezcDocumentPdfOptions( array(
             'driver' => new ezcDocumentPdfSvgDriver(),
         ) ) );
-        $pdfDoc->loadStyles( dirname( __FILE__ ) . '/files/pdf/custom.css' );
+        $pdfDoc->loadStyles( dirname( __FILE__ ) . '/../files/pdf/custom.css' );
         $pdfDoc->registerPdfPart( new ezcDocumentPdfHeaderPdfPart() );
         $pdfDoc->createFromDocbook( $docbook );
         $pdf = (string) $pdfDoc;

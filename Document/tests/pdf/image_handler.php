@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
+require_once 'base.php';
 
 /**
  * Test suite for class.
@@ -30,7 +30,7 @@ class ezcDocumentPdfImageHandlerTests extends ezcDocumentPdfTestCase
 
     public function testImageHandler()
     {
-        $image = ezcDocumentPdfImage::createFromFile( dirname(  __FILE__ ) . '/files/pdf/images/logo-white.png' );
+        $image = ezcDocumentPdfImage::createFromFile( dirname(  __FILE__ ) . '/../files/pdf/images/logo-white.png' );
 
         $this->assertSame(
             'image/png',
@@ -59,7 +59,7 @@ class ezcDocumentPdfImageHandlerTests extends ezcDocumentPdfTestCase
     public function testCanHandleImageType( $image, $return )
     {
         $handler = new ezcDocumentPdfPhpImageHandler();
-        $this->assertSame( $return, $handler->canHandle( dirname( __FILE__ ) . '/' . $image ) );
+        $this->assertSame( $return, $handler->canHandle( dirname( __FILE__ ) . '/../' . $image ) );
     }
 
     public static function provideDimensionData()
@@ -79,7 +79,7 @@ class ezcDocumentPdfImageHandlerTests extends ezcDocumentPdfTestCase
     public function testImageDimensions( $image, $return )
     {
         $handler = new ezcDocumentPdfPhpImageHandler();
-        $this->assertEquals( $return, $handler->getDimensions( dirname( __FILE__ ) . '/' . $image ) );
+        $this->assertEquals( $return, $handler->getDimensions( dirname( __FILE__ ) . '/../' . $image ) );
     }
 
     public static function provideMimeTypeData()
@@ -99,7 +99,7 @@ class ezcDocumentPdfImageHandlerTests extends ezcDocumentPdfTestCase
     public function testImageMimeType( $image, $return )
     {
         $handler = new ezcDocumentPdfPhpImageHandler();
-        $this->assertSame( $return, $handler->getMimeType( dirname( __FILE__ ) . '/' . $image ) );
+        $this->assertSame( $return, $handler->getMimeType( dirname( __FILE__ ) . '/../' . $image ) );
     }
 }
 

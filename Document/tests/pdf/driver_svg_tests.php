@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'document_pdf_driver_tests.php';
+require_once 'driver_tests.php';
 
 /**
  * Test suite for class.

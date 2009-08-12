@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
+require_once 'base.php';
 
 /**
  * Test suite for class.
@@ -31,7 +31,7 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
     public function testRenderMainSinglePage()
     {
         $this->renderFullDocument(
-            dirname( __FILE__ ) . '/files/pdf/image.xml',
+            dirname( __FILE__ ) . '/../files/pdf/image.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg'
         );
     }
@@ -39,7 +39,7 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
     public function testRenderInMultipleColumns()
     {
         $this->renderFullDocument(
-            dirname( __FILE__ ) . '/files/pdf/image.xml',
+            dirname( __FILE__ ) . '/../files/pdf/image.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
                 new ezcDocumentPdfCssDirective(
@@ -68,7 +68,7 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
     public function testRenderLargeImage()
     {
         $this->renderFullDocument(
-            dirname( __FILE__ ) . '/files/pdf/image_large.xml',
+            dirname( __FILE__ ) . '/../files/pdf/image_large.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
             )
@@ -78,7 +78,7 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
     public function testRenderHighImage()
     {
         $this->renderFullDocument(
-            dirname( __FILE__ ) . '/files/pdf/image_high.xml',
+            dirname( __FILE__ ) . '/../files/pdf/image_high.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
             )
@@ -88,7 +88,7 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
     public function testRenderWrappedLargeImageAndWrappedText()
     {
         $this->renderFullDocument(
-            dirname( __FILE__ ) . '/files/pdf/image_wrapped.xml',
+            dirname( __FILE__ ) . '/../files/pdf/image_wrapped.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
             )

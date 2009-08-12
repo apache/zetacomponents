@@ -14,9 +14,6 @@
 /**
 * Required test suites.
 */
-// require_once 'convert_ezp3_test.php';
-// require_once 'convert_xhtml_test.php';
-
 require 'document_test.php';
 require 'converter_test.php';
 require 'parser_test.php';
@@ -45,25 +42,7 @@ require 'document_xhtml_validation_tests.php';
 
 require 'document_ezxml_tests.php';
 
-require 'document_pdf_driver_haru_tests.php';
-require 'document_pdf_driver_tcpdf_tests.php';
-require 'document_pdf_driver_svg_tests.php';
-require 'document_pdf_driver_transactions_tests.php';
-require 'document_pdf_hyphenator_tests.php';
-require 'document_pdf_tokenizer_tests.php';
-require 'document_pdf_location_id_tests.php';
-require 'document_pdf_match_location_id_tests.php';
-require 'document_pdf_measure_tests.php';
-require 'document_pdf_image_handler.php';
-require 'document_pdf_page_tests.php';
-require 'document_pdf_pcss_parser_tests.php';
-require 'document_pdf_renderer_paragraph_tests.php';
-require 'document_pdf_render_text_decorations_tests.php';
-require 'document_pdf_renderer_main_tests.php';
-require 'document_pdf_renderer_footer_part_tests.php';
-require 'document_pdf_style_inference_tests.php';
-require 'document_pdf_renderer_mediaobject_tests.php';
-require 'document_pdf_tests.php';
+require 'pdf/suite.php';
 
 require 'converter_docbook_html_test.php';
 require 'converter_docbook_html_xsl_test.php';
@@ -111,25 +90,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentEzXmlTests::suite() );
 
-        $this->addTest( ezcDocumentPdfDriverHaruTests::suite() );
-        $this->addTest( ezcDocumentPdfDriverTcpdfTests::suite() );
-        $this->addTest( ezcDocumentPdfDriverSvgTests::suite() );
-        $this->addTest( ezcDocumentPdfTransactionalDriverWrapperTests::suite() );
-        $this->addTest( ezcDocumentPdfHyphenatorTests::suite() );
-        $this->addTest( ezcDocumentPdfTokenizerTests::suite() );
-        $this->addTest( ezcDocumentPdfLocationIdTests::suite() );
-        $this->addTest( ezcDocumentPdfMatchLocationIdTests::suite() );
-        $this->addTest( ezcDocumentPdfMeasureTests::suite() );
-        $this->addTest( ezcDocumentPdfImageHandlerTests::suite() );
-        $this->addTest( ezcDocumentPdfPageTests::suite() );
-        $this->addTest( ezcDocumentPdfCssParserTests::suite() );
-        $this->addTest( ezcDocumentPdfParagraphRendererTests::suite() );
-        $this->addTest( ezcDocumentPdfRendererTextDecorationsTests::suite() );
-        $this->addTest( ezcDocumentPdfMainRendererTests::suite() );
-        $this->addTest( ezcDocumentPdfRendererFooterPartTests::suite() );
-        $this->addTest( ezcDocumentPdfStyleInferenceTests::suite() );
-        $this->addTest( ezcDocumentPdfMediaObjectRendererTests::suite() );
-        $this->addTest( ezcDocumentPdfTests::suite() );
+        $this->addTest( ezcDocumentPdfSuite::suite() );
 
         $this->addTest( ezcDocumentConverterDocbookToHtmlTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );

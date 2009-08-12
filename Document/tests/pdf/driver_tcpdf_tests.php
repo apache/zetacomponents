@@ -9,11 +9,11 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'document_pdf_driver_tests.php';
+require_once 'driver_tests.php';
 
 // Try to include TCPDF class from external/tcpdf.
 // @TODO: Maybe also search the include path...
-if ( file_exists( $path = dirname( __FILE__ ) . '/external/tcpdf/tcpdf.php' ) )
+if ( file_exists( $path = dirname( __FILE__ ) . '/../external/tcpdf/tcpdf.php' ) )
 {
     include $path;
 }

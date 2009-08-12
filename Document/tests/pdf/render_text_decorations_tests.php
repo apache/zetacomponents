@@ -9,11 +9,11 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
+require_once 'base.php';
 
 // Try to include TCPDF class from external/tcpdf.
 // @TODO: Maybe also search the include path...
-if ( file_exists( $path = dirname( __FILE__ ) . '/external/tcpdf/tcpdf.php' ) )
+if ( file_exists( $path = dirname( __FILE__ ) . '/../external/tcpdf/tcpdf.php' ) )
 {
     include $path;
 }
@@ -50,7 +50,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
         $this->document = new DOMDocument();
         $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
 
-        $this->document->load( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
+        $this->document->load( dirname( __FILE__ ) . '/../files/pdf/paragraph.xml' );
 
         $this->xpath = new DOMXPath( $this->document );
         $this->xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );

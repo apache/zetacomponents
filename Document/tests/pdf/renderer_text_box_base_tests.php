@@ -9,9 +9,9 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
-require_once 'helper/pdf_mocked_driver.php';
-require_once 'helper/pdf_test_hyphenator.php';
+require_once 'base.php';
+require_once dirname( __FILE__ ) . '/../helper/pdf_mocked_driver.php';
+require_once dirname( __FILE__ ) . '/../helper/pdf_test_hyphenator.php';
 
 /**
  * Test suite for class.
@@ -45,7 +45,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
         $this->document = new DOMDocument();
         $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
 
-        $this->document->load( dirname( __FILE__ ) . '/files/pdf/paragraph.xml' );
+        $this->document->load( dirname( __FILE__ ) . '/../files/pdf/paragraph.xml' );
 
         $this->xpath = new DOMXPath( $this->document );
         $this->xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );

@@ -9,7 +9,7 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'pdf_test.php';
+require_once 'base.php';
 
 /**
  * Test suite for class.
@@ -58,7 +58,7 @@ class ezcDocumentPdfRendererFooterPartTests extends ezcDocumentPdfTestCase
         ) );
 
         $this->docbook = new ezcDocumentDocbook();
-        $this->docbook->loadFile( dirname( __FILE__ ) . '/files/pdf/long_text.xml' );
+        $this->docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/long_text.xml' );
 
         $this->renderer = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
