@@ -257,7 +257,8 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '4' );
-        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+        $color = new ezcDocumentPdfStyleColorValue();
+        $color->parse( '#204a87' );
         $driver->setTextFormatting( 'color', $color->value );
 
         $driver->drawWord( 10, 10, 'The quick brown fox jumps over the lazy dog.' );
@@ -270,7 +271,8 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
     {
         $driver = new $this->driverClass();
         $driver->createPage( 210, 297 );
-        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+        $color = new ezcDocumentPdfStyleColorValue();
+        $color->parse( '#204a87' );
 
         $driver->drawPolygon(
             array(
@@ -289,7 +291,8 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
     {
         $driver = new $this->driverClass();
         $driver->createPage( 210, 297 );
-        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+        $color = new ezcDocumentPdfStyleColorValue();
+        $color->parse( '#204a87' );
 
         $driver->drawPolyline(
             array(
@@ -309,7 +312,8 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
     {
         $driver = new $this->driverClass();
         $driver->createPage( 210, 297 );
-        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+        $color = new ezcDocumentPdfStyleColorValue();
+        $color->parse( '#204a87' );
 
         $driver->drawPolyline(
             array(
@@ -331,7 +335,8 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver = new $this->driverClass();
         $driver->createPage( 210, 297 );
 
-        $color = new ezcDocumentPdfStyleColorValue( '#204a87' );
+        $color = new ezcDocumentPdfStyleColorValue();
+        $color->parse( '#204a87' );
         $driver->drawPolygon(
             array(
                 array( 10, 10 ),
@@ -341,7 +346,8 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
             $color->value
         );
 
-        $color = new ezcDocumentPdfStyleColorValue( '#2e3436' );
+        $color = new ezcDocumentPdfStyleColorValue();
+        $color->parse( '#2e3436' );
         $driver->drawPolyline(
             array(
                 array( 200, 287 ),
