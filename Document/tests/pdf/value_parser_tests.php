@@ -458,122 +458,137 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
         );
     }
 
-    public static function getBorderBoxStyleValues()
+    public static function getColorBoxStyleValues()
     {
         return array(
             array(
-                "1 inset #0f0",
+                "#0f0 #ff0000 rgb( 0, 0, 255 )",
                 array(
                     'top' => array(
-                        'width' => 1.,
-                        'line'  => 'inset',
-                        'color' => array(
-                            'red'   => 0.,
-                            'green' => 1.,
-                            'blue'  => 0.,
-                            'alpha' => 0.,
-                        ),
+                        'red'   => 0.,
+                        'green' => 1.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
                     ),
                     'right' => array(
-                        'width' => 1.,
-                        'line'  => 'inset',
-                        'color' => array(
-                            'red'   => 0.,
-                            'green' => 1.,
-                            'blue'  => 0.,
-                            'alpha' => 0.,
-                        ),
+                        'red'   => 1.,
+                        'green' => 0.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
                     ),
                     'bottom' => array(
-                        'width' => 1.,
-                        'line'  => 'inset',
-                        'color' => array(
-                            'red'   => 0.,
-                            'green' => 1.,
-                            'blue'  => 0.,
-                            'alpha' => 0.,
-                        ),
+                        'red'   => 0.,
+                        'green' => 0.,
+                        'blue'  => 1.,
+                        'alpha' => 0.,
                     ),
                     'left' => array(
-                        'width' => 1.,
-                        'line'  => 'inset',
-                        'color' => array(
-                            'red'   => 0.,
-                            'green' => 1.,
-                            'blue'  => 0.,
-                            'alpha' => 0.,
-                        ),
+                        'red'   => 1.,
+                        'green' => 0.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
                     ),
                 ),
-                '1.00mm inset #00ff00 1.00mm inset #00ff00 1.00mm inset #00ff00 1.00mm inset #00ff00',
+                '#00ff00 #ff0000 #0000ff #ff0000',
             ),
             array(
-                "1mm #fF0 outset 2mm",
+                "#fF0",
                 array(
                     'top' => array(
-                        'width' => 1.,
-                        'line'  => 'solid',
-                        'color' => array(
-                            'red'   => 1.,
-                            'green' => 1.,
-                            'blue'  => 0.,
-                            'alpha' => 0.,
-                        ),
+                        'red'   => 1.,
+                        'green' => 1.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
                     ),
                     'right' => array(
-                        'width' => 0.,
-                        'line'  => 'outset',
-                        'color' => array(
-                            'red'   => 1.,
-                            'green' => 1.,
-                            'blue'  => 1.,
-                            'alpha' => 0.,
-                        ),
+                        'red'   => 1.,
+                        'green' => 1.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
                     ),
                     'bottom' => array(
-                        'width' => 2.,
-                        'line'  => 'solid',
-                        'color' => array(
-                            'red'   => 1.,
-                            'green' => 1.,
-                            'blue'  => 1.,
-                            'alpha' => 0.,
-                        ),
+                        'red'   => 1.,
+                        'green' => 1.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
                     ),
                     'left' => array(
-                        'width' => 0.,
-                        'line'  => 'outset',
-                        'color' => array(
-                            'red'   => 1.,
-                            'green' => 1.,
-                            'blue'  => 1.,
-                            'alpha' => 0.,
-                        ),
+                        'red'   => 1.,
+                        'green' => 1.,
+                        'blue'  => 0.,
+                        'alpha' => 0.,
                     ),
                 ),
-                '1.00mm solid #ffff00 0.00mm outset #ffffff 2.00mm solid #ffffff 0.00mm outset #ffffff',
+                '#ffff00 #ffff00 #ffff00 #ffff00',
             ),
         );
     }
 
     /**
-     * @dataProvider getBorderBoxStyleValues
+     * @dataProvider getColorBoxStyleValues
      */
-    public function testBorderBoxValueHandler( $input, $expectation, $string = '' )
+    public function testColorBoxValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleBorderBoxValue();
+        $value = new ezcDocumentPdfStyleColorBoxValue();
         $value->parse( $input );
 
         $this->assertEquals(
             $expectation,
             $value->value,
-            'Invalid border style value read.', .01
+            'Invalid color value read.', .01
         );
 
         $this->assertEquals(
             $string,
             (string) $value,
-            'Invalid border style string serialization.'
+            'Invalid color box string serialization.'
+        );
+    }
+
+    public static function getLineBoxStyleValues()
+    {
+        return array(
+            array(
+                "solid double outset",
+                array(
+                    'top'    => 'solid',
+                    'right'  => 'double',
+                    'bottom' => 'outset',
+                    'left'   => 'double',
+                ),
+                'solid double outset double',
+            ),
+            array(
+                "inset",
+                array(
+                    'top'    => 'inset',
+                    'right'  => 'inset',
+                    'bottom' => 'inset',
+                    'left'   => 'inset',
+                ),
+                'inset inset inset inset',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getLineBoxStyleValues
+     */
+    public function testLineBoxValueHandler( $input, $expectation, $string = '' )
+    {
+        $value = new ezcDocumentPdfStyleLineBoxValue();
+        $value->parse( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Invalid line value read.', .01
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid line box string serialization.'
         );
     }
 }
