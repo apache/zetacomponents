@@ -351,13 +351,13 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
         $this->assertEquals(
             $expectation,
             $value->value,
-            'Invalid line style value read.', .01
+            'Invalid style style value read.', .01
         );
 
         $this->assertEquals(
             $string,
             (string) $value,
-            'Invalid line style string serialization.'
+            'Invalid style style string serialization.'
         );
     }
 
@@ -368,7 +368,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                 "1mm",
                 array(
                     'width' => 1,
-                    'line'  => 'solid',
+                    'style'  => 'solid',
                     'color' => array(
                         'red'   => 1.,
                         'green' => 1.,
@@ -382,7 +382,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                 "dashed",
                 array(
                     'width' => 0,
-                    'line'  => 'dashed',
+                    'style'  => 'dashed',
                     'color' => array(
                         'red'   => 1.,
                         'green' => 1.,
@@ -396,7 +396,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                 "rgb( 255, 0, 0 )",
                 array(
                     'width' => 0,
-                    'line'  => 'solid',
+                    'style'  => 'solid',
                     'color' => array(
                         'red'   => 1.,
                         'green' => 0.,
@@ -410,7 +410,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                 "1pt #F00",
                 array(
                     'width' => .35,
-                    'line'  => 'solid',
+                    'style'  => 'solid',
                     'color' => array(
                         'red'   => 1.,
                         'green' => 0.,
@@ -424,7 +424,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                 "1 inset #0f0",
                 array(
                     'width' => 1.,
-                    'line'  => 'inset',
+                    'style'  => 'inset',
                     'color' => array(
                         'red'   => 0.,
                         'green' => 1.,
@@ -582,13 +582,13 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
         $this->assertEquals(
             $expectation,
             $value->value,
-            'Invalid line value read.', .01
+            'Invalid style value read.', .01
         );
 
         $this->assertEquals(
             $string,
             (string) $value,
-            'Invalid line box string serialization.'
+            'Invalid style box string serialization.'
         );
     }
 
@@ -600,7 +600,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                 array(
                     'top' => array(
                         'width' => 1.,
-                        'line'  => 'inset',
+                        'style'  => 'inset',
                         'color' => array(
                             'red'   => 0.,
                             'green' => 1.,
@@ -610,7 +610,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                     ),
                     'right' => array(
                         'width' => 1.,
-                        'line'  => 'inset',
+                        'style'  => 'inset',
                         'color' => array(
                             'red'   => 0.,
                             'green' => 1.,
@@ -620,7 +620,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                     ),
                     'bottom' => array(
                         'width' => 1.,
-                        'line'  => 'inset',
+                        'style'  => 'inset',
                         'color' => array(
                             'red'   => 0.,
                             'green' => 1.,
@@ -630,7 +630,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                     ),
                     'left' => array(
                         'width' => 1.,
-                        'line'  => 'inset',
+                        'style'  => 'inset',
                         'color' => array(
                             'red'   => 0.,
                             'green' => 1.,
@@ -646,7 +646,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                 array(
                     'top' => array(
                         'width' => 1.,
-                        'line'  => 'solid',
+                        'style'  => 'solid',
                         'color' => array(
                             'red'   => 1.,
                             'green' => 1.,
@@ -656,7 +656,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                     ),
                     'right' => array(
                         'width' => 0.,
-                        'line'  => 'outset',
+                        'style'  => 'outset',
                         'color' => array(
                             'red'   => 1.,
                             'green' => 1.,
@@ -666,7 +666,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                     ),
                     'bottom' => array(
                         'width' => 2.,
-                        'line'  => 'solid',
+                        'style'  => 'solid',
                         'color' => array(
                             'red'   => 1.,
                             'green' => 1.,
@@ -676,7 +676,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
                     ),
                     'left' => array(
                         'width' => 0.,
-                        'line'  => 'outset',
+                        'style'  => 'outset',
                         'color' => array(
                             'red'   => 1.,
                             'green' => 1.,

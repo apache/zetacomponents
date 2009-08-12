@@ -280,6 +280,47 @@ class ezcDocumentPdfStyleInferencer
     }
 
     /**
+     * Merges border values into one single definition
+     *
+     * Merges partial border definitions like "border-style" into a single
+     * border definition, which then includes all border properties.
+     * 
+     * @param array $values 
+     * @return array
+     */
+    protected function mergeBorderValues( array $values )
+    {
+        $merged = array();
+
+        foreach ( $values as $name => $value )
+        {
+            if ( ( $name === 'border-' . ( $type = 'width' ) ) ||
+                 ( $name === 'border-' . ( $type = 'style' ) ) ||
+                 ( $name === 'border-' . ( $type = 'color' ) ) )
+            {
+                if ( !isset( $merged['border'] ) )
+                {
+                    $merged['border'] = new ezcDocumentPdfStyleBorderBoxValue();
+                }
+
+                foreach ( $merged['border']->value as $position => $dummy )
+                {
+                    if ( $value->value[$position] !== null )
+                    {
+                        $merged['border']->value[$position][$type] = $value->value[$position];
+                    }
+                }
+            }
+            else
+            {
+                $merged[$name] = $value;
+            }
+        }
+
+        return $merged;
+    }
+
+    /**
      * Merge formatting rules
      *
      * Merges two sets of formatting rules, while rules set in the second rule
@@ -304,6 +345,7 @@ class ezcDocumentPdfStyleInferencer
         }
 
         $base = $this->mergeBoxValues( $base );
+        $base = $this->mergeBorderValues( $base );
         return $base;
     }
 

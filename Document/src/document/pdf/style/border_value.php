@@ -19,6 +19,35 @@
 class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
 {
     /**
+     * Default value
+     * 
+     * @var array
+     */
+    protected $defaultValue = array(
+        'width' => 0,
+        'style'  => 'solid',
+        'color' => array(
+            'red'   => 1,
+            'green' => 1,
+            'blue'  => 1,
+            'alpha' => 0,
+        )
+    );
+
+    /**
+     * Construct value
+     *
+     * Optionally pass a parsed representation of the value.
+     * 
+     * @param mixed $value 
+     * @return void
+     */
+    public function __construct( $value = null )
+    {
+        parent::__construct( $value === null ? $this->defaultValue : $value );
+    }
+
+    /**
      * Parse value string representation
      *
      * Parse the string representation of the value into a usable
@@ -30,12 +59,12 @@ class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
     public function parse( $value )
     {
         $widthParser = new ezcDocumentPdfStyleMeasureValue();
-        $lineParser  = new ezcDocumentPdfStyleLineValue();
+        $styleParser  = new ezcDocumentPdfStyleLineValue();
         $colorParser = new ezcDocumentPdfStyleColorValue();
 
         $regexp = '(^\s*' .
             '(?:(?P<width>' . $widthParser->getRegularExpression() . ')\s*)?' .
-            '(?:(?P<line>'  . $lineParser->getRegularExpression()  . ')\s*)?' .
+            '(?:(?P<style>'  . $styleParser->getRegularExpression()  . ')\s*)?' .
             '(?:(?P<color>' . $colorParser->getRegularExpression() . ')\s*)?' .
         '\s*$)';
 
@@ -43,27 +72,16 @@ class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
         {
             throw new ezcDocumentParserException( E_PARSE, "Invalid border specification: " . $value );
         }
-    
-        // Line style default values
-        $this->value = array(
-            'width' => 0,
-            'line'  => 'solid',
-            'color' => array(
-                'red'   => 1,
-                'green' => 1,
-                'blue'  => 1,
-                'alpha' => 0,
-            ),
-        );
 
+        $this->value = $this->defaultValue;
         if ( isset( $match['width'] ) && !empty( $match['width'] ) )
         {
             $this->value['width'] = $widthParser->parse( $match['width'] )->value;
         }
 
-        if ( isset( $match['line'] ) && !empty( $match['line'] ) )
+        if ( isset( $match['style'] ) && !empty( $match['style'] ) )
         {
-            $this->value['line'] = $lineParser->parse( $match['line'] )->value;
+            $this->value['style'] = $styleParser->parse( $match['style'] )->value;
         }
 
         if ( isset( $match['color'] ) && !empty( $match['color'] ) )
@@ -86,12 +104,12 @@ class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
     public function getRegularExpression()
     {
         $widthParser = new ezcDocumentPdfStyleMeasureValue();
-        $lineParser  = new ezcDocumentPdfStyleLineValue();
+        $styleParser  = new ezcDocumentPdfStyleLineValue();
         $colorParser = new ezcDocumentPdfStyleColorValue();
 
         return '(?:' .
             '(?:' . $widthParser->getRegularExpression() . '\s*)?' .
-            '(?:'  . $lineParser->getRegularExpression()  . '\s*)?' .
+            '(?:'  . $styleParser->getRegularExpression()  . '\s*)?' .
             '(?:' . $colorParser->getRegularExpression() . ')?' .
         ')';
     }
@@ -105,7 +123,7 @@ class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
     {
         return 
             new ezcDocumentPdfStyleMeasureValue( $this->value['width'] ) . ' ' .
-            new ezcDocumentPdfStyleLineValue( $this->value['line'] ) . ' ' .
+            new ezcDocumentPdfStyleLineValue( $this->value['style'] ) . ' ' .
             new ezcDocumentPdfStyleColorValue( $this->value['color'] );
     }
 }

@@ -19,6 +19,18 @@
 abstract class ezcDocumentPdfStyleBoxValue extends ezcDocumentPdfStyleValue
 {
     /**
+     * Default value
+     * 
+     * @var array
+     */
+    protected $defaultValue = array(
+        'top'    => null,
+        'right'  => null,
+        'bottom' => null,
+        'left'   => null,
+    );
+
+    /**
      * Construct value
      *
      * Optionally pass a parsed representation of the value.
@@ -26,14 +38,19 @@ abstract class ezcDocumentPdfStyleBoxValue extends ezcDocumentPdfStyleValue
      * @param mixed $value 
      * @return void
      */
-    public function __construct( $value = array(
-            'top'    => null,
-            'right'  => null,
-            'bottom' => null,
-            'left'   => null,
-        ) )
+    public function __construct( $value = null )
     {
-        $this->value = $value;
+        parent::__construct( $value === null ? $this->defaultValue : $value );
+
+        $subValueClass = $this->getSubValue();
+        $subValue      = new $subValueClass();
+        foreach ( $this->value as $key => $value )
+        {
+            if ( $value === null )
+            {
+                $this->value[$key] = $subValue->value;
+            }
+        }
     }
 
     /**

@@ -297,7 +297,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'border-color'     => '#f00',
                     'border-color-top' => '#00f',
                 ),
-                '#0000ff #ff0000 #ff0000 #ff0000',
+                '0.00mm solid #0000ff 0.00mm solid #ff0000 0.00mm solid #ff0000 0.00mm solid #ff0000',
             ),
         );
     }
@@ -307,7 +307,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
      */
     public function testMergeBorderColorValues( $styles, $expected )
     {
-        $this->assertCorrectMerge( 'border-color', $styles, $expected );
+        $this->assertCorrectMerge( 'border', $styles, $expected );
     }
 
     public static function getBorderStyleDefinitions()
@@ -318,7 +318,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'border-style'     => 'solid double',
                     'border-style-top' => 'inset',
                 ),
-                'inset double solid double',
+                '0.00mm inset #ffffff 0.00mm double #ffffff 0.00mm solid #ffffff 0.00mm double #ffffff',
             ),
         );
     }
@@ -328,7 +328,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
      */
     public function testMergeBorderStyleValues( $styles, $expected )
     {
-        $this->assertCorrectMerge( 'border-style', $styles, $expected );
+        $this->assertCorrectMerge( 'border', $styles, $expected );
     }
 
     public static function getBorderWidthDefinitions()
@@ -339,7 +339,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
                     'border-width'      => '1mm 2mm 3mm 4mm',
                     'border-width-left' => '5mm',
                 ),
-                '1.00mm 2.00mm 3.00mm 5.00mm',
+                '1.00mm solid #ffffff 2.00mm solid #ffffff 3.00mm solid #ffffff 5.00mm solid #ffffff',
             ),
         );
     }
@@ -349,7 +349,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
      */
     public function testMergeBorderWidthValues( $styles, $expected )
     {
-        $this->assertCorrectMerge( 'border-width', $styles, $expected );
+        $this->assertCorrectMerge( 'border', $styles, $expected );
     }
 
     public static function getBorderDefinitions()
@@ -357,10 +357,41 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         return array(
             array(
                 array(
-                    'border'      => '1mm 2mm #0f0 3mm inset 4mm',
+                    'border'      => '1mm 2mm #0f0 3mm inset 4mm ',
                     'border-left' => '5mm',
                 ),
                 '1.00mm solid #ffffff 2.00mm solid #00ff00 3.00mm inset #ffffff 5.00mm solid #ffffff',
+            ),
+            array(
+                array(
+                    'border'             => '1mm 2mm #0f0 3mm inset 4mm double',
+                    'border-width-left'  => '5mm',
+                    'border-color-right' => '#0f0f0f',
+                ),
+                '1.00mm solid #ffffff 2.00mm solid #0f0f0f 3.00mm inset #ffffff 5.00mm double #ffffff',
+            ),
+            array(
+                array(
+                    'border'             => '1mm 2mm #0f0 3mm inset 4mm double',
+                    'border-width-left'  => '5mm',
+                    'border-color-right' => '#0f0f0f',
+                    'border-style-top'   => 'outset',
+                ),
+                '1.00mm outset #ffffff 2.00mm solid #0f0f0f 3.00mm inset #ffffff 5.00mm double #ffffff',
+            ),
+            array(
+                array(
+                    'border'       => '1mm 2mm #0f0 3mm inset 4mm double',
+                    'border-color' => '#0f0f0f',
+                ),
+                '1.00mm solid #0f0f0f 2.00mm solid #0f0f0f 3.00mm inset #0f0f0f 4.00mm double #0f0f0f',
+            ),
+            array(
+                array(
+                    'border-color' => '#0f0f0f',
+                    'border'       => '1mm 2mm #0f0 3mm inset 4mm double',
+                ),
+                '1.00mm solid #ffffff 2.00mm solid #00ff00 3.00mm inset #ffffff 4.00mm double #ffffff',
             ),
         );
     }
