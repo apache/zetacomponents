@@ -591,6 +591,125 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
             'Invalid line box string serialization.'
         );
     }
+
+    public static function getBorderBoxStyleValues()
+    {
+        return array(
+            array(
+                "1 inset #0f0",
+                array(
+                    'top' => array(
+                        'width' => 1.,
+                        'line'  => 'inset',
+                        'color' => array(
+                            'red'   => 0.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'right' => array(
+                        'width' => 1.,
+                        'line'  => 'inset',
+                        'color' => array(
+                            'red'   => 0.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'bottom' => array(
+                        'width' => 1.,
+                        'line'  => 'inset',
+                        'color' => array(
+                            'red'   => 0.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'left' => array(
+                        'width' => 1.,
+                        'line'  => 'inset',
+                        'color' => array(
+                            'red'   => 0.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                ),
+                '1.00mm inset #00ff00 1.00mm inset #00ff00 1.00mm inset #00ff00 1.00mm inset #00ff00',
+            ),
+            array(
+                "1mm #fF0 outset 2mm",
+                array(
+                    'top' => array(
+                        'width' => 1.,
+                        'line'  => 'solid',
+                        'color' => array(
+                            'red'   => 1.,
+                            'green' => 1.,
+                            'blue'  => 0.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'right' => array(
+                        'width' => 0.,
+                        'line'  => 'outset',
+                        'color' => array(
+                            'red'   => 1.,
+                            'green' => 1.,
+                            'blue'  => 1.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'bottom' => array(
+                        'width' => 2.,
+                        'line'  => 'solid',
+                        'color' => array(
+                            'red'   => 1.,
+                            'green' => 1.,
+                            'blue'  => 1.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                    'left' => array(
+                        'width' => 0.,
+                        'line'  => 'outset',
+                        'color' => array(
+                            'red'   => 1.,
+                            'green' => 1.,
+                            'blue'  => 1.,
+                            'alpha' => 0.,
+                        ),
+                    ),
+                ),
+                '1.00mm solid #ffff00 0.00mm outset #ffffff 2.00mm solid #ffffff 0.00mm outset #ffffff',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getBorderBoxStyleValues
+     */
+    public function testBorderBoxValueHandler( $input, $expectation, $string = '' )
+    {
+        $value = new ezcDocumentPdfStyleBorderBoxValue();
+        $value->parse( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Invalid border style value read.', .01
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid border style string serialization.'
+        );
+    }
 }
 
 ?>
