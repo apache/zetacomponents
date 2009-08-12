@@ -199,6 +199,179 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
             );
         }
     }
+
+    protected function assertCorrectMerge( $property, $styles, $expected )
+    {
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
+        $element    = $this->xpath->query( '//doc:article' )->item( 0 );
+
+        $inferencer->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective( array( 'article' ), $styles ),
+        ) );
+
+        $rules = $inferencer->inferenceFormattingRules( $element );
+        $this->assertTrue( isset( $rules[$property] ), "Missing property $property in inferenced rules." );
+        $this->assertEquals( 1, count( $rules ), "Wrong number of inferenced rules" );
+        $this->assertEquals( $expected, (string) $rules[$property] );
+    }
+
+    public static function getMarginDefinitions()
+    {
+        return array(
+            array(
+                array(
+                    'margin' => '10mm',
+                ),
+                '10.00mm 10.00mm 10.00mm 10.00mm',
+            ),
+            array(
+                array(
+                    'margin-top' => '10mm',
+                ),
+                '10.00mm 0.00mm 0.00mm 0.00mm',
+            ),
+            array(
+                array(
+                    'margin'     => '10mm',
+                    'margin-top' => '20',
+                ),
+                '20.00mm 10.00mm 10.00mm 10.00mm',
+            ),
+            array(
+                array(
+                    'margin'     => '10mm',
+                    'margin-top' => '20',
+                    'margin-right' => '30',
+                    'margin-left' => '40',
+                    'margin-bottom' => '50',
+                ),
+                '20.00mm 30.00mm 50.00mm 40.00mm',
+            ),
+            array(
+                array(
+                    'margin-top' => '20',
+                    'margin-right' => '30',
+                    'margin-left' => '40',
+                    'margin-bottom' => '50',
+                    'margin'     => '0in',
+                ),
+                '0.00mm 0.00mm 0.00mm 0.00mm',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getMarginDefinitions
+     */
+    public function testMergeMarginValues( $styles, $expected )
+    {
+        $this->assertCorrectMerge( 'margin', $styles, $expected );
+    }
+
+    public static function getPaddingDefinitions()
+    {
+        return array(
+            array(
+                array(
+                    'padding'     => '10mm',
+                    'padding-top' => '20',
+                ),
+                '20.00mm 10.00mm 10.00mm 10.00mm',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getPaddingDefinitions
+     */
+    public function testMergePaddingValues( $styles, $expected )
+    {
+        $this->assertCorrectMerge( 'padding', $styles, $expected );
+    }
+
+    public static function getBorderColorDefinitions()
+    {
+        return array(
+            array(
+                array(
+                    'border-color'     => '#f00',
+                    'border-color-top' => '#00f',
+                ),
+                '#0000ff #ff0000 #ff0000 #ff0000',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getBorderColorDefinitions
+     */
+    public function testMergeBorderColorValues( $styles, $expected )
+    {
+        $this->assertCorrectMerge( 'border-color', $styles, $expected );
+    }
+
+    public static function getBorderStyleDefinitions()
+    {
+        return array(
+            array(
+                array(
+                    'border-style'     => 'solid double',
+                    'border-style-top' => 'inset',
+                ),
+                'inset double solid double',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getBorderStyleDefinitions
+     */
+    public function testMergeBorderStyleValues( $styles, $expected )
+    {
+        $this->assertCorrectMerge( 'border-style', $styles, $expected );
+    }
+
+    public static function getBorderWidthDefinitions()
+    {
+        return array(
+            array(
+                array(
+                    'border-width'      => '1mm 2mm 3mm 4mm',
+                    'border-width-left' => '5mm',
+                ),
+                '1.00mm 2.00mm 3.00mm 5.00mm',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getBorderWidthDefinitions
+     */
+    public function testMergeBorderWidthValues( $styles, $expected )
+    {
+        $this->assertCorrectMerge( 'border-width', $styles, $expected );
+    }
+
+    public static function getBorderDefinitions()
+    {
+        return array(
+            array(
+                array(
+                    'border'      => '1mm 2mm #0f0 3mm inset 4mm',
+                    'border-left' => '5mm',
+                ),
+                '1.00mm solid #ffffff 2.00mm solid #00ff00 3.00mm inset #ffffff 5.00mm solid #ffffff',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getBorderDefinitions
+     */
+    public function testMergeBorder( $styles, $expected )
+    {
+        $this->assertCorrectMerge( 'border', $styles, $expected );
+    }
 }
 
 ?>

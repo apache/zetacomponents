@@ -64,12 +64,39 @@ class ezcDocumentPdfStyleInferencer
         'font-size'            => 'ezcDocumentPdfStyleMeasureValue',
         'line-height'          => 'ezcDocumentPdfStyleMeasureValue',
         'margin'               => 'ezcDocumentPdfStyleMeasureBoxValue',
+        'margin-top'           => 'ezcDocumentPdfStyleMeasureValue',
+        'margin-right'         => 'ezcDocumentPdfStyleMeasureValue',
+        'margin-bottom'        => 'ezcDocumentPdfStyleMeasureValue',
+        'margin-left'          => 'ezcDocumentPdfStyleMeasureValue',
         'padding'              => 'ezcDocumentPdfStyleMeasureBoxValue',
+        'padding-top'          => 'ezcDocumentPdfStyleMeasureValue',
+        'padding-right'        => 'ezcDocumentPdfStyleMeasureValue',
+        'padding-bottom'       => 'ezcDocumentPdfStyleMeasureValue',
+        'padding-left'         => 'ezcDocumentPdfStyleMeasureValue',
         'text-columns'         => 'ezcDocumentPdfStyleIntValue',
         'text-columns-spacing' => 'ezcDocumentPdfStyleMeasureValue',
         'color'                => 'ezcDocumentPdfStyleColorValue',
         'background-color'     => 'ezcDocumentPdfStyleColorValue',
-        'border'               => 'ezcDocumentPdfStyleBorderValue',
+        'border'               => 'ezcDocumentPdfStyleBorderBoxValue',
+        'border-top'           => 'ezcDocumentPdfStyleBorderValue',
+        'border-right'         => 'ezcDocumentPdfStyleBorderValue',
+        'border-bottom'        => 'ezcDocumentPdfStyleBorderValue',
+        'border-left'          => 'ezcDocumentPdfStyleBorderValue',
+        'border-style'         => 'ezcDocumentPdfStyleLineBoxValue',
+        'border-style-top'     => 'ezcDocumentPdfStyleLineValue',
+        'border-style-right'   => 'ezcDocumentPdfStyleLineValue',
+        'border-style-bottom'  => 'ezcDocumentPdfStyleLineValue',
+        'border-style-left'    => 'ezcDocumentPdfStyleLineValue',
+        'border-color'         => 'ezcDocumentPdfStyleColorBoxValue',
+        'border-color-top'     => 'ezcDocumentPdfStyleColorValue',
+        'border-color-right'   => 'ezcDocumentPdfStyleColorValue',
+        'border-color-bottom'  => 'ezcDocumentPdfStyleColorValue',
+        'border-color-left'    => 'ezcDocumentPdfStyleColorValue',
+        'border-width'         => 'ezcDocumentPdfStyleMeasureBoxValue',
+        'border-width-top'     => 'ezcDocumentPdfStyleMeasureValue',
+        'border-width-right'   => 'ezcDocumentPdfStyleMeasureValue',
+        'border-width-bottom'  => 'ezcDocumentPdfStyleMeasureValue',
+        'border-width-left'    => 'ezcDocumentPdfStyleMeasureValue',
     );
 
     /**
@@ -156,7 +183,7 @@ class ezcDocumentPdfStyleInferencer
         $directives = $parser->parseFile( dirname( __FILE__ ) . '/style/default.css' );
 
         // Write parsed object tree back to file
-        /* file_put_contents( $file, "<?php\n\nreturn " . str_replace( dirname( __FILE__ ) . '/', '', var_export( $directives, true ) ) . ";\n\n?>" ); // */
+        /* file_put_contents( $file, "<?php\n\nreturn " . str_replace( dirname( __FILE__ ) . '/', '', var_export( $directives, true ) ) . ";\n\n? >" ); // */
 
         $this->appendStyleDirectives( $directives );
     }
@@ -207,6 +234,52 @@ class ezcDocumentPdfStyleInferencer
     }
 
     /**
+     * Merges box values into one single definition
+     *
+     * Merges partial box definitions, like "margin-top", into a single
+     * "margin" definition, so it can be access easier.
+     * 
+     * @param array $values 
+     * @return array
+     */
+    protected function mergeBoxValues( array $values )
+    {
+        $merged = array();
+
+        foreach ( $values as $name => $value )
+        {
+            if ( ( strpos( $name, '-' . ( $position = 'top' ) ) !== false ) ||
+                 ( strpos( $name, '-' . ( $position = 'right' ) ) !== false ) ||
+                 ( strpos( $name, '-' . ( $position = 'bottom' ) ) !== false ) ||
+                 ( strpos( $name, '-' . ( $position = 'left' ) ) !== false ) )
+            {
+                $baseProperty = substr( $name, 0, -( strlen( $position ) + 1 ) );
+
+                if ( isset( $merged[$baseProperty] ) )
+                {
+                    $merged[$baseProperty]->value[$position] = $value->value;
+                }
+                elseif ( isset( $this->valueParserClasses[$baseProperty] ) )
+                {
+                    $class = $this->valueParserClasses[$baseProperty];
+                    $merged[$baseProperty] = new $class();
+                    $merged[$baseProperty]->value[$position] = $value->value;
+                }
+                else
+                {
+                    throw new ezcDocumentParserException( "Unknown property to merge: $baseProperty." );
+                }
+            }
+            else
+            {
+                $merged[$name] = $value;
+            }
+        }
+
+        return $merged;
+    }
+
+    /**
      * Merge formatting rules
      *
      * Merges two sets of formatting rules, while rules set in the second rule
@@ -221,9 +294,16 @@ class ezcDocumentPdfStyleInferencer
     {
         foreach ( $new as $k => $v )
         {
+            // Unset key first, to keep the array order intact.
+            if ( isset( $base[$k] ) )
+            {
+                unset( $base[$k] );
+            }
+
             $base[$k] = $v;
         }
 
+        $base = $this->mergeBoxValues( $base );
         return $base;
     }
 

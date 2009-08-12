@@ -19,11 +19,22 @@
 abstract class ezcDocumentPdfStyleBoxValue extends ezcDocumentPdfStyleValue
 {
     /**
-     * Constructed regular expression sued for parsing.
+     * Construct value
+     *
+     * Optionally pass a parsed representation of the value.
      * 
-     * @var string
+     * @param mixed $value 
+     * @return void
      */
-    protected $expression;
+    public function __construct( $value = array(
+            'top'    => null,
+            'right'  => null,
+            'bottom' => null,
+            'left'   => null,
+        ) )
+    {
+        $this->value = $value;
+    }
 
     /**
      * Parse value string representation
@@ -40,14 +51,14 @@ abstract class ezcDocumentPdfStyleBoxValue extends ezcDocumentPdfStyleValue
         $subValue      = new $subValueClass();
         $subExpression = $subValue->getRegularExpression();
 
-        $this->expression = '(^\s*(?:' .
+        $regexp = '(^\s*(?:' .
             "(?P<m0>(?P<m00>$subExpression))|" .
             "(?P<m1>(?P<m10>$subExpression)\s+(?P<m11>$subExpression))|" .
             "(?P<m2>(?P<m20>$subExpression)\s+(?P<m21>$subExpression)\s+(?P<m22>$subExpression))|" .
             "(?P<m3>(?P<m30>$subExpression)\s+(?P<m31>$subExpression)\s+(?P<m32>$subExpression)\s+(?P<m33>$subExpression))" .
         ')\s*$)S';
 
-        if ( !preg_match( $this->expression, $value, $match ) )
+        if ( !preg_match( $regexp, $value, $match ) )
         {
             throw new ezcDocumentParserException( E_PARSE, "Invalid number of elements in measure box specification: $value" );
         }
