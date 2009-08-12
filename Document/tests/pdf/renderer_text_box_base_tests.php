@@ -668,6 +668,69 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
         ) );
     }
 
+    public function testRenderParagraphWithPaddingMarginAndBackground()
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'para' ),
+                array(
+                    'line-height'      => '1',
+                    'padding'          => '10',
+                    'margin'           => '10',
+                    'background-color' => '#eeeeef',
+                )
+            )
+        ) );
+
+        $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'drawPolyline',
+            'drawPolygon',
+            'drawWord',
+        ) );
+
+        // Expectations
+        $driver->expects( $this->at( 0 ) )->method( 'drawPolygon' )->with(
+            $this->equalTo( array(
+                array( 10, 10 ),
+                array( 98, 10 ),
+                array( 98, 70 ),
+                array( 10, 70 ),
+            ), 1. ),
+            $this->equalTo( array(
+                'red'   => .93,
+                'green' => .93,
+                'blue'  => .94,
+                'alpha' => 0
+            ), .01 )
+        );
+        $driver->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 20, 1. ), $this->equalTo( 28, 1. ), $this->equalTo( 'Paragraphs' )
+        );
+        $driver->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 64, 1. ), $this->equalTo( 28, 1. ), $this->equalTo( 'are' )
+        );
+        $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 20, 1. ), $this->equalTo( 36, 1. ), $this->equalTo( 'separated' )
+        );
+        $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 60, 1. ), $this->equalTo( 36, 1. ), $this->equalTo( 'by' )
+        );
+        $driver->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 20, 1. ), $this->equalTo( 44, 1. ), $this->equalTo( 'blank' )
+        );
+
+        $rendererClass = $this->renderer;
+        $renderer  = new $rendererClass( $driver, $this->styles );
+        $this->assertTrue( $renderer->render(
+            $this->page,
+            new ezcDocumentPdfDefaultHyphenator(),
+            new ezcDocumentPdfDefaultTokenizer(),
+            $this->xpath->query( '//doc:para' )->item( 0 ),
+            new ezcDocumentPdfMainRenderer( $driver, $this->styles )
+        ) );
+    }
+
     public function testRenderParagraphWithPaddingMarginAndBorder()
     {
         // Additional formatting
@@ -675,34 +738,81 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
             new ezcDocumentPdfCssDirective(
                 array( 'para' ),
                 array(
-                    'line-height' => '1',
-                    'padding'     => '10',
-                    'margin'      => '10',
-                    'border'      => '1mm solid #A00000',
+                    'line-height'      => '1',
+                    'padding'          => '10',
+                    'margin'           => '10',
+                    'border'           => '1mm solid #A00000',
+                    'background-color' => '#eedbdb',
                 )
             )
         ) );
 
         $driver = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
             'drawPolyline',
+            'drawPolygon',
             'drawWord',
         ) );
 
         // Expectations
-        $driver->expects( $this->at( 0 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'Paragraphs' )
+        // Expectations
+        $driver->expects( $this->at( 0 ) )->method( 'drawPolygon' )->with(
+            $this->equalTo( array(
+                array( 10, 10 ),
+                array( 98, 10 ),
+                array( 98, 72 ),
+                array( 10, 72 ),
+            ), 1. ),
+            $this->equalTo( array(
+                'red'   => .93,
+                'green' => .86,
+                'blue'  => .86,
+                'alpha' => 0
+            ), .01 )
         );
-        $driver->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 44, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'are' )
+        $driver->expects( $this->at( 1 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 10.5, 10.5 ), array( 10.5, 71.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
         );
-        $driver->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 60, 1. ), $this->equalTo( 8, 1. ), $this->equalTo( 'separated' )
+        $driver->expects( $this->at( 2 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 10.5, 10.5 ), array( 97.5, 10.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
         );
-        $driver->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 0, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'by' )
+        $driver->expects( $this->at( 3 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 97.5, 10.5 ), array( 97.5, 71.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
         );
-        $driver->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 12, 1. ), $this->equalTo( 16, 1. ), $this->equalTo( 'blank' )
+        $driver->expects( $this->at( 4 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 97.5, 71.5 ), array( 10.5, 71.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $driver->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 21, 1. ), $this->equalTo( 29, 1. ), $this->equalTo( 'Paragraphs' )
+        );
+        $driver->expects( $this->at( 6 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 65, 1. ), $this->equalTo( 29, 1. ), $this->equalTo( 'are' )
+        );
+        $driver->expects( $this->at( 7 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 21, 1. ), $this->equalTo( 37, 1. ), $this->equalTo( 'separated' )
         );
 
         $rendererClass = $this->renderer;

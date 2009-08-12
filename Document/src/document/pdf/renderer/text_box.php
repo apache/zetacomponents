@@ -56,18 +56,209 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         $tokens = $this->tokenize( $text, $tokenizer );
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
 
-        // Try to render text into evaluated box
-        if ( ( $covered = $this->renderTextBox( $lines, $space, $styles ) ) === false )
+        // Evaluate required space by text box
+        $required = 0;
+        foreach ( $lines as $line )
+        {
+            $required += $line['height'] * $styles['line-height']->value;
+        }
+
+        // Check that enough space is available to render text box
+        if ( $required > $space->height )
         {
             return false;
         }
+        $space->height = $required;
 
-        // Mark used space covered and exit with success return code
-        $page->setCovered(
-            new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $covered )
-        );
-        $page->y += $covered + $styles['margin']->value['bottom'];
+        $this->renderBoxBackground( $space, $styles );
+        $this->renderBoxBorder( $space, $styles );
+        $this->renderTextBox( $lines, $space, $styles );
+        $this->setBoxCovered( $page, $space, $styles );
         return true;
+    }
+
+    /**
+     * Render box background
+     *
+     * Render box background for the given bounding box with the given
+     * styles.
+     * 
+     * @param ezcDocumentPdfBoundingBox $space 
+     * @param array $styles 
+     * @return void
+     */
+    protected function renderBoxBackground( ezcDocumentPdfBoundingBox $space, array $styles )
+    {
+        if ( isset( $styles['background-color'] ) &&
+             ( $styles['background-color']->value['alpha'] < 1 ) )
+        {
+            $this->driver->drawPolygon(
+                array(
+                    array(
+                        $space->x -
+                            $styles['padding']->value['left'] -
+                            $styles['border']->value['left']['width'],
+                        $space->y -
+                            $styles['padding']->value['top'] -
+                            $styles['border']->value['top']['width'],
+                    ),
+                    array(
+                        $space->x +
+                            $styles['padding']->value['right'] +
+                            $styles['border']->value['right']['width'] +
+                            $space->width,
+                        $space->y -
+                            $styles['padding']->value['top'] -
+                            $styles['border']->value['top']['width'],
+                    ),
+                    array(
+                        $space->x +
+                            $styles['padding']->value['right'] +
+                            $styles['border']->value['right']['width'] +
+                            $space->width,
+                        $space->y +
+                            $styles['padding']->value['bottom'] +
+                            $styles['border']->value['bottom']['width'] +
+                            $space->height,
+                    ),
+                    array(
+                        $space->x -
+                            $styles['padding']->value['left'] -
+                            $styles['border']->value['left']['width'],
+                        $space->y +
+                            $styles['padding']->value['bottom'] +
+                            $styles['border']->value['bottom']['width'] +
+                            $space->height,
+                    ),
+                ),
+                $styles['background-color']->value
+            );
+        }
+    }
+
+    /**
+     * Render box border
+     *
+     * Render box border for the given bounding box with the given
+     * styles.
+     * 
+     * @param ezcDocumentPdfBoundingBox $space 
+     * @param array $styles 
+     * @return void
+     */
+    protected function renderBoxBorder( ezcDocumentPdfBoundingBox $space, array $styles )
+    {
+        $topLeft = array(
+            $space->x -
+                $styles['padding']->value['left'] -
+                $styles['border']->value['left']['width'] / 2,
+            $space->y -
+                $styles['padding']->value['top'] -
+                $styles['border']->value['top']['width'] / 2,
+        );
+        $topRight = array(
+            $space->x +
+                $styles['padding']->value['right'] +
+                $styles['border']->value['right']['width'] / 2 +
+                $space->width,
+            $space->y -
+                $styles['padding']->value['top'] -
+                $styles['border']->value['top']['width'] / 2,
+        );
+        $bottomRight = array(
+            $space->x +
+                $styles['padding']->value['right'] +
+                $styles['border']->value['right']['width'] / 2 +
+                $space->width,
+            $space->y +
+                $styles['padding']->value['bottom'] +
+                $styles['border']->value['bottom']['width'] / 2 +
+                $space->height,
+        );
+        $bottomLeft = array(
+            $space->x -
+                $styles['padding']->value['left'] -
+                $styles['border']->value['left']['width'] / 2,
+            $space->y +
+                $styles['padding']->value['bottom'] +
+                $styles['border']->value['bottom']['width'] / 2 +
+                $space->height,
+        );
+
+        if ( $styles['border']->value['left']['width'] > 0 )
+        {
+            $this->driver->drawPolyline(
+                array( $topLeft, $bottomLeft ),
+                $styles['border']->value['left']['color'],
+                $styles['border']->value['left']['width']
+            );
+        }
+
+        if ( $styles['border']->value['top']['width'] > 0 )
+        {
+            $this->driver->drawPolyline(
+                array( $topLeft, $topRight ),
+                $styles['border']->value['top']['color'],
+                $styles['border']->value['top']['width']
+            );
+        }
+
+        if ( $styles['border']->value['right']['width'] > 0 )
+        {
+            $this->driver->drawPolyline(
+                array( $topRight, $bottomRight ),
+                $styles['border']->value['right']['color'],
+                $styles['border']->value['right']['width']
+            );
+        }
+
+        if ( $styles['border']->value['bottom']['width'] > 0 )
+        {
+            $this->driver->drawPolyline(
+                array( $bottomRight, $bottomLeft ),
+                $styles['border']->value['bottom']['color'],
+                $styles['border']->value['bottom']['width']
+            );
+        }
+    }
+
+    /**
+     * Set box covered
+     *
+     * Mark rendered space as convered on the page.
+     *
+     * @param ezcDocumentPdfPage $page
+     * @param array $styles
+     * @param float $width
+     * @return mixed
+     */
+    protected function setBoxCovered( ezcDocumentPdfPage $page, ezcDocumentPdfBoundingBox $space, array $styles )
+    {
+        // Apply bounding box modifications
+        $space->x      -=
+            $styles['padding']->value['left'] +
+            $styles['border']->value['left']['width'] +
+            $styles['margin']->value['left'];
+        $space->width  +=
+            $styles['padding']->value['left'] +
+            $styles['padding']->value['right'] +
+            $styles['border']->value['left']['width'] +
+            $styles['border']->value['right']['width'] +
+            $styles['margin']->value['left'] +
+            $styles['margin']->value['right'];
+        $space->y      -=
+            $styles['padding']->value['top'] +
+            $styles['border']->value['top']['width'] +
+            $styles['margin']->value['top'];
+        $space->height +=
+            $styles['padding']->value['top'] +
+            $styles['padding']->value['bottom'] +
+            $styles['border']->value['top']['width'] +
+            $styles['border']->value['bottom']['width'] +
+            $styles['margin']->value['top'] +
+            $styles['margin']->value['bottom'];
+        $page->setCovered( $space );
+        $page->y += $space->height;
     }
 
     /**
@@ -91,14 +282,29 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             return false;
         }
 
-        // Render token, respecting assigned styles
-        $spaceWidth     = $this->driver->calculateWordWidth( ' ' );
-
-        // Apply padding to title
-        $space->x      += $styles['padding']->value['left'];
-        $space->width  -= $styles['padding']->value['left'] + $styles['padding']->value['right'];
-        $space->y      += $styles['padding']->value['top'];
-        $space->height -= $styles['padding']->value['top'] + $styles['padding']->value['bottom'];
+        // Apply bounding box modifications
+        $space->x      +=
+            $styles['padding']->value['left'] +
+            $styles['border']->value['left']['width'] +
+            $styles['margin']->value['left'];
+        $space->width  -=
+            $styles['padding']->value['left'] +
+            $styles['padding']->value['right'] +
+            $styles['border']->value['left']['width'] +
+            $styles['border']->value['right']['width'] +
+            $styles['margin']->value['left'] +
+            $styles['margin']->value['right'];
+        $space->y      +=
+            $styles['padding']->value['top'] +
+            $styles['border']->value['top']['width'] +
+            $styles['margin']->value['top'];
+        $space->height -=
+            $styles['padding']->value['top'] +
+            $styles['padding']->value['bottom'] +
+            $styles['border']->value['top']['width'] +
+            $styles['border']->value['bottom']['width'] +
+            $styles['margin']->value['top'] +
+            $styles['margin']->value['bottom'];
 
         return $space;
     }
@@ -140,8 +346,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      */
     protected function renderTextBox( array $lines, ezcDocumentPdfBoundingBox $space, array $styles )
     {
-        // Evaluate horizontal starting position
-        $yPos = $space->y + $styles['margin']->value['top'];
+        $yPos = $space->y;
         foreach ( $lines as $nr => $line )
         {
             $yPos += $this->renderLine( $yPos, $nr, $line, $space, $styles ) * $styles['line-height']->value;
@@ -280,12 +485,14 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     {
         // Directly exit, if there are no decorations to render
         if ( ( $styles['text-decoration']->value === 'none' ) &&
-             ( $styles['background-color']->value['alpha'] >= 1 ) )
+             ( !isset( $styles['background-color'] ) ||
+               ( $styles['background-color']->value['alpha'] >= 1 ) ) )
         {
             return;
         }
 
-        if ( $styles['background-color']->value['alpha'] < 1 )
+        if ( isset( $styles['background-color'] ) &&
+             ( $styles['background-color']->value['alpha'] < 1 ) )
         {
             $this->driver->drawPolygon(
                 array(
@@ -360,6 +567,15 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
     {
         $tokens = array();
         $rules  = $this->styles->inferenceFormattingRules( $element, ezcDocumentPdfStyleInferencer::TEXT );
+
+        // Do not inherit background and border rules from paragraph
+        if ( !$recursed )
+        {
+            $rules = array_diff_key( $rules, array(
+                'background-color' => true,
+                'border'           => true,
+            ) );
+        }
 
         $url    = $element->tagName === 'ulink' && $element->hasAttribute( 'url'    ) ? $element->getAttribute( 'url'    ) : null;
         $target = $element->tagName === 'link'  && $element->hasAttribute( 'linked' ) ? $element->getAttribute( 'linked' ) : null;

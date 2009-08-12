@@ -8,6 +8,7 @@ article {
     text-align:       "left";
     text-decoration:  "none";
     background-color: "transparent";
+    border:           "0 solid #000";
     color:            "#2e3436";
 
     // Basic page layout definitions

@@ -377,7 +377,14 @@ class ezcDocumentPdfStyleInferencer
              !$element->parentNode instanceof DOMDocument )
         {
             $formats = $this->inferenceFormattingRules( $element->parentNode );
+
+            // Some styles do not make sense to be inherited like background
+            // properties.
+            $formats = array_diff_key( $formats, array(
+                'background-color' => true,
+            ) );
         }
+
 
         // Apply all style directives, which match the location ID
         foreach ( $this->styleDirectives as $directive )

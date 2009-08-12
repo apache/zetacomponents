@@ -144,24 +144,99 @@ class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfTransactionalDriverWrap
     }
 
     /**
-     * Draw rectangle
+     * Draw a fileld polygon
      *
-     * Draw rectangle of specified dimensions in specified color. The last
-     * parameter defined, if only an outline should be renderer, or if a filled
-     * rectangle should be rendered.
+     * Draw any filled polygon, filled using the defined color. The color
+     * should be passed as an array with the keys "red", "green", "blue" and
+     * optionally "alpha". Each key should have a value between 0 and 1
+     * associated.
      *
-       @TODO: Requires proper color specification
-       @TODO: Requires border width specification
+     * The polygon itself is specified as an array of two-tuples, specifying
+     * the x and y coordinate of the point.
+     * 
+     * @param array $points 
+     * @param array $color 
+     * @return void
+     */
+    public function drawPolygon( array $points, array $color )
+    {
+        $this->calls[] = array( __FUNCTION__, func_get_args() );
+    }
+
+    /**
+     * Draw a polyline
+     *
+     * Draw any non-filled polygon, filled using the defined color. The color
+     * should be passed as an array with the keys "red", "green", "blue" and
+     * optionally "alpha". Each key should have a value between 0 and 1
+     * associated.
+     *
+     * The polyline itself is specified as an array of two-tuples, specifying
+     * the x and y coordinate of the point.
+     *
+     * The thrid parameter defines the width of the border and the last
+     * parameter may optionally be set to false to not close the polygon (draw
+     * another line from the last point to the first one).
+     * 
+     * @param array $points 
+     * @param array $color 
+     * @param float $width 
+     * @param bool $close 
+     * @return void
+     */
+    public function drawPolyline( array $points, array $color, $width, $close = true )
+    {
+        $this->calls[] = array( __FUNCTION__, func_get_args() );
+    }
+
+    /**
+     * Add an external link
+     *
+     * Add an external link to the rectangle specified by its top-left
+     * position, width and height. The last parameter is the actual URL to link
+     * to.
      * 
      * @param float $x 
      * @param float $y 
      * @param float $width 
      * @param float $height 
-     * @param mixed $color 
-     * @param bool $filled 
+     * @param string $url 
      * @return void
      */
-    public function drawRectangle( $x, $y, $width, $height, $color, $filled = true )
+    public function addExternalLink( $x, $y, $width, $height, $url )
+    {
+        $this->calls[] = array( __FUNCTION__, func_get_args() );
+    }
+
+    /**
+     * Add an internal link
+     *
+     * Add an internal link to the rectangle specified by its top-left
+     * position, width and height. The last parameter is the target identifier
+     * to link to.
+     * 
+     * @param float $x 
+     * @param float $y 
+     * @param float $width 
+     * @param float $height 
+     * @param string $target 
+     * @return void
+     */
+    public function addInternalLink( $x, $y, $width, $height, $target )
+    {
+        $this->calls[] = array( __FUNCTION__, func_get_args() );
+    }
+
+    /**
+     * Add an internal link target
+     *
+     * Add an internal link to the current page. The last parameter
+     * is the target identifier.
+     * 
+     * @param string $id 
+     * @return void
+     */
+    public function addInternalLinkTarget( $id )
     {
         $this->calls[] = array( __FUNCTION__, func_get_args() );
     }
