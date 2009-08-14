@@ -43,7 +43,7 @@ class ezcSearchBuildSearchQueryTest extends ezcTestCase
         self::assertEquals( $expected, $result );
     }
 
-    public static function testAnd()
+    public static function testAnd1()
     {
         $result = BuildQueryQuery::tokenize( "me AND you" );
         $expected = array(
@@ -55,8 +55,21 @@ class ezcSearchBuildSearchQueryTest extends ezcTestCase
         );
         self::assertEquals( $expected, $result );
     }
+    
+    public static function testAnd2()
+    {
+        $result = BuildQueryQuery::tokenize( "me and you" );
+        $expected = array(
+            new ezcSearchQueryToken( ezcSearchQueryToken::STRING, 'me' ),
+            new ezcSearchQueryToken( ezcSearchQueryToken::SPACE, " " ),
+            new ezcSearchQueryToken( ezcSearchQueryToken::LOGICAL_AND, 'and' ),
+            new ezcSearchQueryToken( ezcSearchQueryToken::SPACE, " " ),
+            new ezcSearchQueryToken( ezcSearchQueryToken::STRING, 'you' ),
+        );
+        self::assertEquals( $expected, $result );
+    }
 
-    public static function testOr()
+    public static function testOr1()
     {
         $result = BuildQueryQuery::tokenize( "me OR you" );
         $expected = array(
@@ -65,6 +78,37 @@ class ezcSearchBuildSearchQueryTest extends ezcTestCase
             new ezcSearchQueryToken( ezcSearchQueryToken::LOGICAL_OR, 'OR' ),
             new ezcSearchQueryToken( ezcSearchQueryToken::SPACE, " " ),
             new ezcSearchQueryToken( ezcSearchQueryToken::STRING, 'you' ),
+        );
+        self::assertEquals( $expected, $result );
+    }
+
+    public static function testOr2()
+    {
+        $result = BuildQueryQuery::tokenize( "me or you" );
+        $expected = array(
+            new ezcSearchQueryToken( ezcSearchQueryToken::STRING, 'me' ),
+            new ezcSearchQueryToken( ezcSearchQueryToken::SPACE, " " ),
+            new ezcSearchQueryToken( ezcSearchQueryToken::LOGICAL_OR, 'or' ),
+            new ezcSearchQueryToken( ezcSearchQueryToken::SPACE, " " ),
+            new ezcSearchQueryToken( ezcSearchQueryToken::STRING, 'you' ),
+        );
+        self::assertEquals( $expected, $result );
+    }
+
+    public static function testInternalAnd()
+    {
+        $result = BuildQueryQuery::tokenize( "meANDyou" );
+        $expected = array(
+            new ezcSearchQueryToken( ezcSearchQueryToken::STRING, 'meANDyou' ),
+        );
+        self::assertEquals( $expected, $result );
+    }
+
+    public static function testInternalOr()
+    {
+        $result = BuildQueryQuery::tokenize( "meORyou" );
+        $expected = array(
+            new ezcSearchQueryToken( ezcSearchQueryToken::STRING, 'meORyou' ),
         );
         self::assertEquals( $expected, $result );
     }
@@ -339,6 +383,23 @@ class ezcSearchBuildSearchQueryTest extends ezcTestCase
         $qb = new ezcSearchQueryBuilder();
         $qb->parseSearchQuery( $q, '"http://blahblah"', array( 'fieldOne', 'fieldTwo' ) );
         self::assertSame( array( '( fieldOne_t:"http://blahblah" OR fieldTwo_t:"http://blahblah" )' ), $q->whereClauses );
+    }
+
+    // tests for issue #15298
+    public static function testAndOnlyWithDelimiters()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        $qb = new ezcSearchQueryBuilder();
+        $qb->parseSearchQuery( $q, 'cakeANDdeath', array( 'fieldOne' ) );
+        self::assertSame( array( 'fieldOne_t:cakeANDdeath' ), $q->whereClauses );
+    }
+
+    public static function testOrdOnlyWithDelimiters()
+    {
+        $q = self::setupQuery( 'DefinitionOneField' );
+        $qb = new ezcSearchQueryBuilder();
+        $qb->parseSearchQuery( $q, 'INTERSPORT', array( 'fieldOne' ) );
+        self::assertSame( array( 'fieldOne_t:INTERSPORT' ), $q->whereClauses );
     }
 
     public static function setupQuery( $definition )

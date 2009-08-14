@@ -114,7 +114,7 @@ class ezcSearchQueryBuilder
             ':'   => ezcSearchQueryToken::COLON,
         );
         $tokens = array();
-        $tokenArray = preg_split( '@(\s)|(["+():-])|(AND)|(OR)@', $searchQuery, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+        $tokenArray = preg_split( '@(\s)|(["+():-])@', $searchQuery, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
         foreach ( $tokenArray as $token )
         {
             if ( isset( $map[strtolower( $token )] ) )
