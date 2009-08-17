@@ -725,15 +725,20 @@ abstract class ezcCacheStorageFile extends ezcCacheStorage implements ezcCacheSt
         {
             clearstatcache();
             $this->lockResource = @fopen( $lockFile, 'x' );
+
             // Wait for lock to get freed
             if ( $this->lockResource === false )
             {
                 usleep( $this->properties['options']->lockWaitTime );
             }
-            // Check if lock is to be considered dead
-            if ( ( time() - filemtime( $lockFile ) ) > $this->properties['options']->maxLockTime )
+
+            // Check if lock is to be considered dead. Might result in a 
+            // nonrelevant race condition if the lock file disappears between 
+            // fs calls. To avoid warnings in this case, the calls are 
+            // silenced.
+            if ( file_exists( $lockFile ) && ( time() - @filemtime( $lockFile ) ) > $this->properties['options']->maxLockTime )
             {
-                unlink( $lockFile );
+                @unlink( $lockFile );
             }
         }
     }

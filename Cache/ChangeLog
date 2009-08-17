@@ -1,10 +1,12 @@
-1.5.0alpha1 - [RELEASEDATE]
+1.5alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented feature #12433: The new ezcCacheStorageFileObject deprecates
   ezcCacheStorageFileArray, since it can store objects that implement
   ezcBaseExportable, arrays and scalar values.
 - Fixed memcache test cases.
+- Fixed issue #15227: Warnings during minor race condition in
+  ezcCacheStorageFile are now silenced.
 
 
 1.4.1 - Monday 11 May 2009
