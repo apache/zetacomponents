@@ -1,8 +1,9 @@
-1.4alpha1 - [RELEASEDATE]
+1.3.4 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #13244: ezcConfigurationIniWriter::writeSetting() enforces
   quoting even documented different.
+- Fixed bug #15309: Hash keys with quotes were not escaped properly internally.
 
 
 1.3.3 - Monday 11 May 2009

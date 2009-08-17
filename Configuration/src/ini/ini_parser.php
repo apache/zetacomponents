@@ -243,6 +243,7 @@ class ezcConfigurationIniParser implements Iterator
                             /* Ugly hack to convert '\n' to "\n" */
                             $dimension = eval( "return \"$dimension\";" );
                         }
+                        $dimension = addslashes( $dimension );
                         $dimensionString .= "['$dimension']";
                     }
                 }

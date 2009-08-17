@@ -624,6 +624,15 @@ class ezcConfigurationIniReaderTest extends ezcTestCase
         $this->assertEquals( 0, $return->getWarningCount() );
     }
 
+    // test for issue #15309: A simple quote in an index hash, in ini files
+    public function testQuoteInHashKey()
+    {
+        $path = 'Configuration/tests/files/bug15309.ini';
+        $backend = new ezcConfigurationIniReader( $path );
+        $return = $backend->load();
+        $this->assertEquals( array( "CÔTE D'IVOIRE" => 'Wybrzeże Kości Słoniowej' ), $return->getSetting( 'TestSettings', "Countries" ) );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( 'ezcConfigurationIniReaderTest' );
