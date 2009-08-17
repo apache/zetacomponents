@@ -53,8 +53,8 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
      * @param int $id
      *
      * @return object|null
-     * @TODO Should only eat ezcPersistentObjectNotFoundException, but not the 
-     *       others.
+     * @apichange This method will catch only exceptions which are related to 
+     *            the loading itself in future major releases.
      */
     public function loadIfExists( $class, $id )
     {
@@ -63,7 +63,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
         {
             $result = $this->load( $class, $id );
         }
-        catch ( Exception $e )
+        catch ( ezcPersistentObjectException $e )
         {
             // Eat, we return null on error.
         }
