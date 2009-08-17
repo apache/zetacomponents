@@ -44,9 +44,18 @@ class ezcTestNewRunner extends PHPUnit_TextUI_Command
 
     protected function handleCustomTestSuite()
     {
-        $directory     = getcwd();
-        $fillWhitelist = false;
-        $packages      = $this->options[1];
+        $directory = getcwd();
+        $packages  = $this->options[1];
+
+        if ( isset( $this->arguments['coverageClover']  ) ||
+             isset( $this->arguments['reportDirectory'] ) )
+        {
+            $fillWhitelist = true;
+        }
+        else
+        {
+            $fillWhitelist = false;
+        }
 
         $this->arguments['test'] = new PHPUnit_Framework_TestSuite;
         $this->arguments['test']->setName( 'eZ Components' );
