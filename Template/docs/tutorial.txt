@@ -276,12 +276,13 @@ tag.
 
 Escape characters
 `````````````````
-A character can be escaped with a backslash (\\). In the text, three
-characters can be escaped. Those are: 
+A character can be escaped with a backslash (\\). In the text, there are three
+groups of sequences that can be escaped. Those are: 
 
-- Open and close curly braces: '{' and '}'.
-- Newlines: '\n'.
-- The escape character, backslash: '\\'.  
+- Open and close curly braces: '\\{' turns into '{' and '\\}' turns into '}'.
+- The escape character, backslash: '\\\\' turns into '\\'.
+- All newline character combinations: '\\[LF]', '\\[CR]' and '\\[CR][LF]' all
+  turn into '' (nothing).
 
 The next example shows how to escape those characters::
 
@@ -298,6 +299,8 @@ normally::
   Game path: C:\Program files\games\
   Multiple lines becomes one
 
+All other uses of the escape character '\\' result in the escape character
+being printed. This includes '\\' *just* before an EOF.
 
 Literal tags
 ````````````
