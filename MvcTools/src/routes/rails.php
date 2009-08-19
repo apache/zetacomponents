@@ -12,7 +12,23 @@
 /**
  * Router class that uses rails style expressions for matching routes.
  *
- * The routes are matched against the uri property of the request object.
+ * The routes are matched against the uri property of the request object. The
+ * matching algorithm works as follows:
+ *
+ * - The pattern and URI as returned by getUriString() are split on the /
+ *   character.
+ * - If the first part of the split *pattern* contains a "." (dot) then the
+ *   first part of the pattern and the URI are split by ".". The return of
+ *   this, together with the rest of the original split-by-slash string are
+ *   concatenated.
+ * - Each of the two arrays are compared with each other with the delimiters
+ *   being ignored.
+ * - A special case are elements in the pattern that start with a ":". In this
+ *   case the pattern element and uri element do not need to match. Instead the
+ *   pattern element creates a named variable with as value the element from
+ *   the URI array with the same index.
+ * - If not every element matches, the route does not match and
+ *   false is returned. If everything matches, true is returned.
  *
  * @package MvcTools
  * @version //autogentag//
@@ -116,8 +132,17 @@ class ezcMvcRailsRoute implements ezcMvcRoute, ezcMvcReversibleRoute
         $matches = array();
 
         // first we split the pattern and request ID per /
-        $patternParts = preg_split( '@[/.]@', $this->pattern );
-        $requestParts = preg_split( '@[/.]@', $this->getUriString( $request ) );
+        $patternParts = preg_split( '@(/)@', $this->pattern, null, PREG_SPLIT_DELIM_CAPTURE );
+        $requestParts = preg_split( '@(/)@', $this->getUriString( $request ), null, PREG_SPLIT_DELIM_CAPTURE );
+
+        if ( strpos( $patternParts[0], '.' ) !== false )
+        {
+            $subPatternParts = preg_split( '@([.])@', $patternParts[0], null, PREG_SPLIT_DELIM_CAPTURE );
+            $subRequestParts = preg_split( '@([.])@', $requestParts[0], null, PREG_SPLIT_DELIM_CAPTURE );
+
+            $patternParts = array_merge( $subPatternParts, array_slice( $patternParts, 1 ) );
+            $requestParts = array_merge( $subRequestParts, array_slice( $requestParts, 1 ) );
+        }
 
         // if the number of / is not the same, it can not match
         if ( count( $patternParts ) != count( $requestParts ) )

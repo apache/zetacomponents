@@ -168,6 +168,96 @@ class ezcMvcToolsRailsRouteTest extends ezcTestCase
         self::assertSame( array( 'site' => 'test', 'group' => 'people', 'name' => 'hawking' ), $request->variables );
     }
 
+    // tests for issue #15313
+    public function testMatchWithDotInUrl1()
+    {
+        $request = new ezcMvcRequest;
+        $request->host = 'test.host';
+        $request->uri = '/topic/list/foo.bar.ezc.is.cool';
+        $request->requestId = $request->host . $request->uri;
+
+        $route = new testRailsRouteForFullUri( 'test.host/topic/list/:newsgroup_name', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertSame( 'test.host/topic/list/:newsgroup_name', $routeInfo->matchedRoute );
+        self::assertSame( 'testController', $routeInfo->controllerClass );
+        self::assertSame( array( 'newsgroup_name' => 'foo.bar.ezc.is.cool' ), $request->variables );
+    }
+
+    public function testMatchWithDotInUrl2()
+    {
+        $request = new ezcMvcRequest;
+        $request->host = 'test.example.com';
+        $request->uri = '/topic/list/foo.bar.ezc.is.cool';
+        $request->requestId = $request->host . $request->uri;
+
+        $route = new testRailsRouteForFullUri( 'test.:domain.com/topic/list/:newsgroup_name', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertSame( 'test.:domain.com/topic/list/:newsgroup_name', $routeInfo->matchedRoute );
+        self::assertSame( 'testController', $routeInfo->controllerClass );
+        self::assertSame( array( 'domain' => 'example', 'newsgroup_name' => 'foo.bar.ezc.is.cool' ), $request->variables );
+    }
+
+    public function testMatchWithDotInUrl3()
+    {
+        $request = new ezcMvcRequest;
+        $request->uri = '/topic/list/foo.bar.ezc.is.cool';
+        $request->requestId = $request->uri;
+
+        $route = new testRailsRouteForFullUri( '/topic/list/:newsgroup_name', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertSame( '/topic/list/:newsgroup_name', $routeInfo->matchedRoute );
+        self::assertSame( 'testController', $routeInfo->controllerClass );
+        self::assertSame( array( 'newsgroup_name' => 'foo.bar.ezc.is.cool' ), $request->variables );
+    }
+
+    public function testMatchWithDotInUrl3a()
+    {
+        $request = new ezcMvcRequest;
+        $request->uri = '/topic/list/foo.bar.ezc.is.cool';
+
+        $route = new ezcMvcRailsRoute( '/topic/list/:newsgroup_name', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertSame( '/topic/list/:newsgroup_name', $routeInfo->matchedRoute );
+        self::assertSame( 'testController', $routeInfo->controllerClass );
+        self::assertSame( array( 'newsgroup_name' => 'foo.bar.ezc.is.cool' ), $request->variables );
+    }
+
+    public function testMatchWithDotInUrl4()
+    {
+        $request = new ezcMvcRequest;
+        $request->host = 'test/host';
+        $request->uri = '/topic/list/foo.bar.ezc.is.cool';
+        $request->requestId = $request->host . $request->uri;
+
+        $route = new testRailsRouteForFullUri( 'test.host/topic/list/:newsgroup_name', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertEquals( null, $routeInfo );
+    }
+
+    public function testMatchWithDotInUrl5()
+    {
+        $request = new ezcMvcRequest;
+        $request->host = 'test.host';
+        $request->uri = '/topic/list/foo.bar.ezc.is.cool';
+        $request->requestId = $request->host . $request->uri;
+
+        $route = new testRailsRouteForFullUri( 'test/host/topic/list/:newsgroup_name', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertEquals( null, $routeInfo );
+    }
+
+    public function testMatchWithDotInUrl6()
+    {
+        $request = new ezcMvcRequest;
+        $request->host = 'hostname';
+        $request->uri = '/topic/list/foo.bar.ezc.is.cool';
+        $request->requestId = $request->host . $request->uri;
+
+        $route = new testRailsRouteForFullUri( '/topic/list/:newsgroup_name', 'testController' );
+        $routeInfo = $route->matches( $request );
+        self::assertEquals( null, $routeInfo );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcMvcToolsRailsRouteTest" );
