@@ -350,6 +350,10 @@ EOT;
 
     public function testToPos()
     {
+	if ( ezcBaseFeatures::os() === 'Windows' )
+	{
+	    $this->markTestSkipped( "Does not work on Windows" );
+	}
         $output = new ezcConsoleOutput();
         ob_start();
         $output->outputText( "Test 123" );
@@ -364,6 +368,10 @@ EOT;
 
     public function testRestorePosFailure()
     {
+	if ( ezcBaseFeatures::os() === 'Windows' )
+	{
+	    $this->markTestSkipped( "Does not work on Windows" );
+	}
         $output = new ezcConsoleOutput();
         try
         {
