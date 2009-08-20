@@ -20,7 +20,7 @@ class ezcConsoleArguments implements ArrayAccess, Iterator, Countable
     /**
      * Ordered list of arguments. 
      * 
-     * @var array(int=>ezcConsoleArgument)
+     * @var array(ezcConsoleArgument)
      */
     protected $ordered = array();
 

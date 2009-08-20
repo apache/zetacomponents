@@ -74,8 +74,8 @@ interface ezcConsoleInputHelpGenerator
      * the options to include.
      * 
      * @param bool $long 
-     * @param array(int=>string) $optionsFilter
-     * @return array(int=>array(int=>string))
+     * @param array(string) $optionsFilter
+     * @return array(array(string))
      */
     public function generateUngroupedOptionHelp( $long = false, array $optionsFilter = null );
 
@@ -122,7 +122,7 @@ interface ezcConsoleInputHelpGenerator
      * @param array(string=>array(string)) $groups
      * @param bool $long 
      * @param array(string) $params 
-     * @return array(string=>array(int=>array(int=>string)))
+     * @return array(string=>array(array(string)))
      */
     public function generateGroupedOptionHelp( array $groups, $long = false, array $optionsFilter = null );
 
@@ -152,7 +152,7 @@ interface ezcConsoleInputHelpGenerator
      * used.
      * 
      * @param bool $long
-     * @return array(int=>array(int=>string))
+     * @return array(array(string))
      */
     public function generateArgumentHelp( $long = false );
 

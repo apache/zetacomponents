@@ -93,7 +93,7 @@ class ezcConsoleOutputFormat
      * Creates a new object of this class.
      * 
      * @param string $color             Name of a color value.
-     * @param array(int=>string) $style Names of style values.
+     * @param array(string) $style Names of style values.
      * @param string $bgcolor           Name of a bgcolor value.
      * @param string $target            Target output stream.
      */

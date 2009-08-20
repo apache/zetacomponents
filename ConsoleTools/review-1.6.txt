@@ -1,15 +1,20 @@
 Review Alexandru 2009-08-03
 ===========================
 
-[ ] issue #14916 (extract help) doesn't have any tests
+[x] issue #14916 (extract help) doesn't have any tests
 
-[ ] ezcConsoleStandardInputHelpGenerator - shouldn't it be named
+	Inherently tested by ezcConsoleInputTest, since this already has tests for
+	help generation. These also ensure that no regression turns up during the
+	refactoring. Extracting the very same tests into a new test case would not
+	make sense. --ts
+
+[x] ezcConsoleStandardInputHelpGenerator - shouldn't it be named
     ezcConsoleInputStandardHelpGenerator?
 
-[ ] some method signatures don't reflect the doc blocks, eg.
+[x] some method signatures don't reflect the doc blocks, eg.
     generateGroupedOptionHelp()
 
-[ ] @return array(int=>array(int=>string)) can be written easier as
+[x] @return array(int=>array(int=>string)) can be written easier as
     @return array(array(string)) as we do in other components
 
 [ ] for issue #15010 the file testTableWithoutFormatting.dat does not

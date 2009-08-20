@@ -136,7 +136,7 @@ class ezcConsoleInput
      * {@link ezcConsoleInput::$optionLong}
      * are used.
      * 
-     * @var array(int=>array)
+     * @var array(array)
      */
     private $options = array();
 
@@ -217,7 +217,7 @@ class ezcConsoleInput
 
         // @TODO Verify interface and make plugable
         $this->validator     = new ezcConsoleStandardInputValidator();
-        $this->helpGenerator = new ezcConsoleStandardInputHelpGenerator( $this );
+        $this->helpGenerator = new ezcConsoleInputStandardHelpGenerator( $this );
     }
 
     /**
@@ -490,7 +490,7 @@ class ezcConsoleInput
      * All exceptions thrown by this method contain an additional attribute "option"
      * which specifies the parameter on which the error occurred.
      * 
-     * @param array(int=>string) $args The arguments
+     * @param array(string) $args The arguments
      * @return void
      *
      * @throws ezcConsoleOptionNotExistsException 
@@ -718,7 +718,7 @@ class ezcConsoleInput
      * method which is commonly used on Unix (if the last parameter
      * accepts multiple values this is required).
      *
-     * @return array(int=>string) Arguments.
+     * @return array(string) Arguments.
      */
     public function getArguments()
     {
@@ -764,9 +764,9 @@ class ezcConsoleInput
      * parameter still influences if an option is displayed at all.
      * 
      * @param bool $long
-     * @param array(int=>string) $params
+     * @param array(string) $params
      * @param array(string=>array(string)) $paramGrouping
-     * @return array(int=>array(int=>string)) Table structure as explained.
+     * @return array(array(string)) Table structure as explained.
      * 
      * @apichange In future versions, the default values of $params will change 
      *            to null instead of an empty array. Giving an empty array for 
@@ -891,7 +891,7 @@ class ezcConsoleInput
      * @param ezcConsoleTable $table     The table object to fill.
      * @param bool $long                 Set this to true for getting the 
      *                                   long help version.
-     * @param array(int=>string) $params Set of option names to generate help 
+     * @param array(string) $params Set of option names to generate help 
      *                                   for, default is all.
      * @param array(string=>array(string)) $paramGrouping
      * @return ezcConsoleTable           The filled table.
@@ -943,7 +943,7 @@ class ezcConsoleInput
      * @param int $width                 The width to adjust the output text to.
      * @param bool $long                 Set this to true for getting the long 
      *                                   help version.
-     * @param array(int=>string) $params Set of option names to generate help 
+     * @param array(string) $params Set of option names to generate help 
      *                                   for, default is all.
      * @param array(string=>array(string)) $paramGrouping
      * @return string The generated help text.
@@ -994,7 +994,7 @@ class ezcConsoleInput
      * array as the parameter of this method. If the parameter $optionNames
      * is set, only those options are listed in the synopsis. 
      * 
-     * @param array(int=>string) $optionNames
+     * @param array(string) $optionNames
      * @return string
      */
     public function getSynopsis( array $optionNames = null )
@@ -1081,7 +1081,7 @@ class ezcConsoleInput
      * terminate that after 2 recursions.
      * 
      * @param ezcConsoleOption $option        The option to include.
-     * @param array(int=>string) $usedOptions Array of used option short names.
+     * @param array(string) $usedOptions Array of used option short names.
      * @param int $depth                      Current recursion depth.
      * @return string The synopsis for this parameter.
      *
@@ -1147,7 +1147,7 @@ class ezcConsoleInput
      *
      * This method does the processing of a single option. 
      * 
-     * @param array(int=>string) $args The arguments array.
+     * @param array(string) $args The arguments array.
      * @param int $i                   The current position in the arguments array.
      * @return void
      *
@@ -1223,7 +1223,7 @@ class ezcConsoleInput
     /**
      * Process arguments given to the program. 
      * 
-     * @param array(int=>string) $args The arguments array.
+     * @param array(string) $args The arguments array.
      * @param int $i                   Current index in arguments array.
      * @return void
      */
@@ -1378,7 +1378,7 @@ class ezcConsoleInput
      * this is the case parameter and value get split and replaced in the
      * arguments array.
      * 
-     * @param array(int=>string) $args The arguments array
+     * @param array(string) $args The arguments array
      * @param int $i                   Current arguments array position
      * @return void
      */

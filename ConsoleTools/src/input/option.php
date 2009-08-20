@@ -134,8 +134,8 @@ class ezcConsoleOption
      * @param bool $multiple     If the parameter may be submitted multiple times.
      * @param string $shorthelp  Short help text.
      * @param string $longhelp   Long help text.
-     * @param array(int=>ezcConsoleOptionRule) $dependencies Dependency rules.
-     * @param array(int=>ezcConsoleOptionRule) $exclusions   Exclusion rules.
+     * @param array(ezcConsoleOptionRule) $dependencies Dependency rules.
+     * @param array(ezcConsoleOptionRule) $exclusions   Exclusion rules.
      * @param bool $arguments    Whether supplying arguments is allowed when this parameter is set.
      * @param bool $mandatory    Whether the parameter must be always submitted.
      * @param bool $isHelpOption Indicates that the given parameter is a help 
@@ -292,7 +292,7 @@ class ezcConsoleOption
      * );
      * </code>
      * 
-     * @return array(int=>ezcConsoleOptionRule) Dependency definition.
+     * @return array(ezcConsoleOptionRule) Dependency definition.
      */
     public function getDependencies()
     {
@@ -403,7 +403,7 @@ class ezcConsoleOption
      * );
      * </code>
      * 
-     * @return array(int=>ezcConsoleOptionRule) Exclusions definition.
+     * @return array(ezcConsoleOptionRule) Exclusions definition.
      */
     public function getExclusions()
     {

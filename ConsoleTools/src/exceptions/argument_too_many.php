@@ -20,7 +20,7 @@ class ezcConsoleTooManyArgumentsException extends ezcConsoleArgumentException
     /**
      * Creates a new exception object. 
      * 
-     * @param array(int=>string) $args Arguments array.
+     * @param array(string) $args Arguments array.
      * @param int $i                   Index in the arguments array.
      * @return void
      */
