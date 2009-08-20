@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcCacheStorageFileArrayTest 
+ * ezcCacheStorageFileObjectTest 
  * 
  * @package Cache
  * @subpackage Tests
@@ -16,7 +16,7 @@ require_once 'storage_test.php';
 require_once 'classes/exportable.php';
 
 /**
- * Test suite for ezcStorageFileArray class. 
+ * Test suite for ezcStorageFileObject class. 
  * 
  * @package Cache
  * @subpackage Tests

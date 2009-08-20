@@ -1,13 +1,17 @@
 Review Alexandru 2009-07-31
 ===========================
 
-[ ] new tests storage_object_test.php depend on classes/exportable.php which
+[x] new tests storage_object_test.php depend on classes/exportable.php which
     is not in SVN. Hence the Cache test suite fails.
 
 [ ] ezcCacheStorageFileObject does not follow our whitespace guidelines
 
-[ ] the file storage_object_test.php contains references to ezcStorageFileArray
+	What exactly do you mean? --ts
 
-[ ] cache_autoload.php references ezcCacheFileObjectSerializer which doesn't exist
+[x] the file storage_object_test.php contains references to ezcStorageFileArray
 
-[ ] tests/suite.php references ezcCacheStorageFileObjectTest which doesn't exist
+[x] cache_autoload.php references ezcCacheFileObjectSerializer which doesn't exist
+
+[x] tests/suite.php references ezcCacheStorageFileObjectTest which doesn't exist
+
+	It does, just the file naming is not consistent. Fixed that. --ts
