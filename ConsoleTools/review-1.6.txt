@@ -17,7 +17,7 @@ Review Alexandru 2009-08-03
 [x] @return array(int=>array(int=>string)) can be written easier as
     @return array(array(string)) as we do in other components
 
-[ ] for issue #15010 the file testTableWithoutFormatting.dat does not
+[x] for issue #15010 the file testTableWithoutFormatting.dat does not
     exist in the windows folder. There are actually 15 files or so
     which are missing from the windows folder and prevent testing
     on Windows.
