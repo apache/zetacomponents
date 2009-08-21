@@ -143,13 +143,8 @@ class ezcConsoleOutputTest extends ezcTestCase
         $this->consoleOutput->options->autobreak = 20;
         $testText = 'Some text which is obviously longer than 20 characters and should be broken.';
 
-        $testResText = <<<EOT
-Some text which is
-obviously longer
-than 20 characters
-and should be
-broken.
-EOT;
+        $testResText = 'Some text which is' . PHP_EOL . 'obviously longer' . PHP_EOL . 'than 20 characters' . PHP_EOL . 'and should be' . PHP_EOL . 'broken.';
+
         foreach ( $this->testFormats as $name => $inout ) 
         {
             ob_start();

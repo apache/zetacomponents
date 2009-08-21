@@ -1,4 +1,5 @@
 <?php
+
 return array (
   0 => '[0mPlease choose a possibility:
 

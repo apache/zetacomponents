@@ -33,10 +33,27 @@ class ezcConsoleDialogTest extends ezcTestCase
 
     protected function setUp()
     {
-        $this->dataDir = dirname( __FILE__ ) . "/data/" . ( ezcBaseFeatures::os() === "windows" ? "windows" : "posix" );
-        $this->phpPath = isset( $_SERVER["_"] ) ? $_SERVER["_"] : "/bin/env php";
+        $this->dataDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR
+            . ( ezcBaseFeatures::os() === 'Windows' ? "windows" : "posix" );
+        $this->determinePhpPath();
         $this->output  = new ezcConsoleOutput();
         $this->output->formats->test->color = "blue";
+    }
+
+    protected function determinePhpPath()
+    {
+        if ( isset( $_SERVER["_"] ) )
+        {
+            $this->phpPath = $_SERVER["_"];
+        }
+        else if ( ezcBaseFeatures::os() === 'Windows' )
+        {
+            $this->phpPath = 'php.exe';
+        }
+        else
+        {
+            $this->phpPath = '/bin/env php';
+        }
     }
 
     protected function tearDown()
@@ -52,11 +69,11 @@ class ezcConsoleDialogTest extends ezcTestCase
                 ":" => "_",
             )
         );
-        $scriptFile = "{$this->dataDir}/{$methodName}.php";
-        $resFile    = "{$this->dataDir}/{$methodName}_res.php";
-        if ( !file_exists( $scriptFile ) || !file_exists( $resFile ) )
+        $scriptFile = $this->dataDir . DIRECTORY_SEPARATOR . $methodName . '.php';
+        $resFile    = $this->dataDir . DIRECTORY_SEPARATOR . $methodName . '_res.php';
+        if ( !file_exists( $scriptFile ) )
         {
-            throw new RuntimeException( "Missing file $scriptFile or $resFile!" );
+            throw new RuntimeException( "Missing script file '$scriptFile'!" );
         }
 
         $desc = array(
@@ -64,8 +81,8 @@ class ezcConsoleDialogTest extends ezcTestCase
             1 => array( "pipe", "w" ),  // stdout
             2 => array( "pipe", "w" )   // stderr
         );
-        $this->proc = proc_open("'{$this->phpPath}' '{$scriptFile}'", $desc, $this->pipes );
-        $this->res  = require( $resFile );
+        $this->proc = proc_open("{$this->phpPath} '{$scriptFile}'", $desc, $this->pipes );
+        $this->res  = ( file_exists( $resFile ) ? require( $resFile ) : false );
     }
 
     protected function closeDialog()

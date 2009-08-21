@@ -2501,19 +2501,17 @@ class ezcConsoleInputTest extends ezcTestCase
             )
         );
 
-        $res = <<<EOF
-Usage: $ {$_SERVER['argv'][0]} [-ö]  [[--] <args>]
-Test with UTF-8
-characters...
+        $res = "Usage: $ {$_SERVER['argv'][0]} [-ö]  [[--] <args>]" . PHP_EOL
+. 'Test with UTF-8' . PHP_EOL
+. 'characters...' . PHP_EOL
+. '' . PHP_EOL
+. '-ö / --öder  ööö äää' . PHP_EOL
+. '             ööö äää' . PHP_EOL
+. '             ööö äää' . PHP_EOL
+. '             ööö äää' . PHP_EOL
+. '             ööö äää' . PHP_EOL
+. '             ööö äää' . PHP_EOL;
 
--ö / --öder  ööö äää
-             ööö äää
-             ööö äää
-             ööö äää
-             ööö äää
-             ööö äää
-
-EOF;
         $this->assertEquals(
             $res,
             $input->getHelpText( 'Test with UTF-8 characters...', 20, true ),
@@ -2523,30 +2521,28 @@ EOF;
 
     public function testGetHelpText()
     {
-        $res = <<<EOF
-Usage: $ {$_SERVER['argv'][0]} [-y <string>] [-e]  [[--] <args>]
-Lala
+        $res = "Usage: $ {$_SERVER['argv'][0]} [-y <string>] [-e]  [[--] <args>]" . PHP_EOL
+. 'Lala' . PHP_EOL
+. '' . PHP_EOL
+. '-y / --yank  Some' . PHP_EOL
+. '             even' . PHP_EOL
+. '             more' . PHP_EOL
+. '             stupid,' . PHP_EOL
+. '             but' . PHP_EOL
+. '             somewhat' . PHP_EOL
+. '             longer' . PHP_EOL
+. '             long' . PHP_EOL
+. '             describtion.' . PHP_EOL
+. '-e / --edit  Sorry,' . PHP_EOL
+. '             there' . PHP_EOL
+. '             is no' . PHP_EOL
+. '             help' . PHP_EOL
+. '             text' . PHP_EOL
+. '             available' . PHP_EOL
+. '             for' . PHP_EOL
+. '             this' . PHP_EOL
+. '             parameter.' . PHP_EOL;
 
--y / --yank  Some
-             even
-             more
-             stupid,
-             but
-             somewhat
-             longer
-             long
-             describtion.
--e / --edit  Sorry,
-             there
-             is no
-             help
-             text
-             available
-             for
-             this
-             parameter.
-
-EOF;
         $this->assertEquals(
             $res,
             $this->input->getHelpText( 'Lala', 20, true, array( 'e', 'y' ) ),
