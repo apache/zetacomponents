@@ -1,0 +1,58 @@
+==============================================
+Design document for ODT parsing and generation
+==============================================
+
+:Author: ts
+
+The scope of this document is to define the design for the ODT (Open Document
+Text) classes of the eZ Document component. The parts of the Document component
+designed in this document do not affect other Open Document formats like
+spreadsheets of graphics. The goal is to define the infrastructure for
+converting existing ODT documents to DocBook XML and to generate new ODT
+documents from existing DocBook representations.
+
+------------
+Requirements
+------------
+
+The following sections describe the requirements of the import and export
+mechanisms for the ODT format, to be implemented in the Document component.
+
+Import
+======
+
+The Document component should be enabled to parse existing ODT documents and to
+convert them to the internal format used by the Document component, which is
+DocBook XML. Requirements for the import process are:
+
+- Parse ODT into an internal representation
+- Convert an internal ODT representation to DocBook XML internal representation
+- Maintaining the content semantics provided by the ODT as good as possible
+- Maintain meta information provided by the ODT as good as possible
+- Optional: Extract styling information from an ODT
+
+Export
+======
+
+The Document component should be enabled to generate new ODT documents from
+existing internal representations (DocBook XML) used by the Document
+component. Requirements for this process are:
+
+- Convert DocBook representation elements to their corresponding ODT
+  representations
+- Maintain the document structure and content / metadata semantics
+- Allow styling of the generated document output
+- Optionally: Allow templating of generated ODT documents
+
+------
+Design
+------
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
