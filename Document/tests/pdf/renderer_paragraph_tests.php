@@ -47,11 +47,11 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
         $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'This' )
         );
-        $mock->expects( $this->at( 26 ) )->method( 'createPage' )->with(
+        $mock->expects( $this->at( 24 ) )->method( 'createPage' )->with(
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
-        $mock->expects( $this->at( 27 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'the' )
+        $mock->expects( $this->at( 25 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'short' )
         );
 
         $docbook = new ezcDocumentDocbook();
@@ -89,11 +89,11 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
         $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'This' )
         );
-        $mock->expects( $this->at( 26 ) )->method( 'createPage' )->with(
+        $mock->expects( $this->at( 24 ) )->method( 'createPage' )->with(
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
-        $mock->expects( $this->at( 27 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'renderer.' )
+        $mock->expects( $this->at( 25 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'the' )
         );
 
         $docbook = new ezcDocumentDocbook();
@@ -131,14 +131,14 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
         $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'This' )
         );
-        $mock->expects( $this->at( 24 ) )->method( 'createPage' )->with(
+        $mock->expects( $this->at( 21 ) )->method( 'createPage' )->with(
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
-        $mock->expects( $this->at( 25 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'the' )
+        $mock->expects( $this->at( 22 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'widow,' )
         );
-        $mock->expects( $this->at( 27 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 29.2, 1. ), $this->equalTo( 'renderer.' )
+        $mock->expects( $this->at( 25 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 29.2, 1. ), $this->equalTo( 'the' )
         );
 
         $docbook = new ezcDocumentDocbook();
@@ -176,13 +176,13 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
         $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'This' )
         );
-        $mock->expects( $this->at( 24 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 96.4, 1. ), $this->equalTo( 'Second' )
+        $mock->expects( $this->at( 22 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 85.2, 1. ), $this->equalTo( 'Second' )
         );
-        $mock->expects( $this->at( 26 ) )->method( 'createPage' )->with(
+        $mock->expects( $this->at( 24 ) )->method( 'createPage' )->with(
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
-        $mock->expects( $this->at( 27 ) )->method( 'drawWord' )->with(
+        $mock->expects( $this->at( 25 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'which' )
         );
 
@@ -221,10 +221,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
         $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'This' )
         );
-        $mock->expects( $this->at( 24 ) )->method( 'createPage' )->with(
+        $mock->expects( $this->at( 22 ) )->method( 'createPage' )->with(
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
-        $mock->expects( $this->at( 25 ) )->method( 'drawWord' )->with(
+        $mock->expects( $this->at( 23 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'Second' )
         );
 
@@ -263,10 +263,10 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
         $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'This' )
         );
-        $mock->expects( $this->at( 24 ) )->method( 'createPage' )->with(
+        $mock->expects( $this->at( 22 ) )->method( 'createPage' )->with(
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
-        $mock->expects( $this->at( 25 ) )->method( 'drawWord' )->with(
+        $mock->expects( $this->at( 23 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'Second' )
         );
 

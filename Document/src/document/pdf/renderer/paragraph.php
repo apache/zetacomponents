@@ -57,83 +57,103 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
         $tokens = $this->tokenize( $text, $tokenizer );
         $lines  = $this->fitTokensInLines( $tokens, $hyphenator, $space->width );
 
-        // Evaluate horizontal starting position
-        $transactions[] = $this->driver->startTransaction();
-        $rendered       = array();
-        $current        = 0;
-        $lineCount      = count( $lines );
-        $lineLimit      = -1;
-        $yPos           = $space->y + $styles['margin']->value['top'];
+        // Transaction wrapping around temporary page creations
+        $transaction = $this->driver->startTransaction();
+
+        $lineCount = count( $lines );
+        $current   = 0;
+        $position  = $space->y;
+        $pageNr    = 0;
+        $wrap      = false;
+        $pages     = array( $pageNr => array(
+            'page'  => $page,
+            'lines' => array(),
+            'space' => $space,
+        ) );
         for ( $line = 0; $line < $lineCount; ++$line )
         {
-            // Check if we will run out of vertical space
-            if ( ( $lineLimit === 0 ) ||
-                 ( $yPos + $line['height'] ) > ( $space->y + $space->height ) )
+            // Render on current page, of there is still enough space
+            if ( ( !$wrap ) &&
+                 ( ( $position + $lines[$line]['height'] ) < ( $pages[$pageNr]['space']->y + $pages[$pageNr]['space']->height ) ) )
             {
-                // Check for orphans on the just closed paragraph part, if
-                // orphans occur move paragraph part to next page.
-                if ( $current < $styles['orphans']->value )
+                ++$current;
+
+                // Check widows, if we are at the last line
+                if ( ( $line === ( $lineCount - 1 ) ) &&
+                     ( $current < $styles['widows']->value ) &&
+                     ( $lineCount >= $styles['widows']->value ) )
                 {
-                    $mainRenderer->checkSkipPrerequisites(
-                        ( $pWidth = $this->calculateTextWidth( $page, $text ) ) +
-                        $styles['text-column-spacing']->value,
-                        $pWidth
-                    );
-                    return false;
+                    $difference = $styles['widows']->value - $current;
+                    $pages[$pageNr - 1]['lines'] = array_slice( $pages[$pageNr - 1]['lines'], 0, -$difference, true );
+                    $pages[$pageNr]['lines'] = array();
+                    $line                   -= $difference + 1;
+                    $current                 = 0;
+                    continue;
                 }
 
-                // Start a new transaction for the next block
-                $transactions[] = $this->driver->startTransaction();
-
-                // Set already used space covered
-                $page->setCovered(
-                    new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $yPos - $space->y )
+                $pages[$pageNr]['lines'][] = array(
+                    'position' => $position,
+                    'tokens'   => $lines[$line],
                 );
+                $position += $lines[$line]['height'] * $styles['line-height']->value;
+                continue;
+            }
 
-                // Evaluate new starting position
+            // Shift to next page
+            $pages[++$pageNr] = array(
+                'page' => $tmpPage = $mainRenderer->getNextRenderingPosition(
+                    ( $pWidth = $this->calculateTextWidth( $page, $text ) ) +
+                    $styles['text-column-spacing']->value,
+                    $pWidth
+                ),
+                'lines' => array(),
+                'space' => $this->evaluateAvailableBoundingBox( $tmpPage, $styles, $width ),
+            );
+            $position = $pages[$pageNr]['space']->y;
+            $current  = 0;
+            $wrap     = false;
+
+            // Handle orphans
+            if ( ( $line < $styles['orphans']->value ) &&
+                 ( $line < $lineCount ) )
+            {
+                $pages[0]['lines'] = array();
+                $line = -1;
+                continue;
+            }
+
+            --$line;
+        }
+
+        $this->driver->revert( $transaction );
+
+        // Render lines
+        // @TODO: also render background etc.
+        $lineNr = 0;
+        foreach ( $pages as $nr => $content )
+        {
+            if ( $nr > 0 )
+            {
+                // Get next rendering position
                 $page = $mainRenderer->getNextRenderingPosition(
                     ( $pWidth = $this->calculateTextWidth( $page, $text ) ) +
                     $styles['text-column-spacing']->value,
                     $pWidth
                 );
-
-                // Calculate newly available space
-                $space      = $this->evaluateAvailableBoundingBox( $page, $styles, $width );
-                $yPos       = $space->y + $styles['margin']->value['top'];
-                $rendered[] = $current;
-                $current    = 0;
-                $lineLimit  = -1;
             }
 
-            $yPos += $this->renderLine( $yPos, $line, $lines[$line], $space, $styles ) * $styles['line-height']->value;
-            ++$current;
-            --$lineLimit;
-
-            // Check for widows
-            if ( ( $line === ( $lineCount - 1 ) ) &&
-                 ( $current < $styles['widows']->value ) &&
-                 ( $lineCount > $styles['widows']->value ) )
+            $space = $content['space'];
+            foreach ( $content['lines'] as $line )
             {
-                // Revert two last rendering calls and limit number of rendered lines
-                $line     -= $current + ( $lastParagraph = array_pop( $rendered ) );
-                $lineLimit = $lastParagraph - ( $styles['widows']->value - $current );
-                $current   = 0;
-
-                // Revert the two last transactions
-                array_pop( $transactions );
-                $this->driver->revert( array_pop( $transactions ) );
-                $page = $this->driver->currentPage();
-                $space = $this->evaluateAvailableBoundingBox( $page, $styles, $width );
-                $yPos  = $space->y + $styles['margin']->value['top'];
+                $this->renderLine( $line['position'], $lineNr++, $line['tokens'], $space, $styles );
             }
         }
 
-        $page->setCovered(
-            new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $yPos - $space->y )
-        );
-
         // Mark used space covered and exit with success return code
-        $page->y = $yPos + $styles['margin']->value['bottom'];
+        $page->setCovered(
+            new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $position - $space->y )
+        );
+        $page->y = $position;
         return true;
     }
 }
