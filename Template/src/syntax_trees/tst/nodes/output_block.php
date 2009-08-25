@@ -68,7 +68,8 @@ class ezcTemplateOutputBlockTstNode extends ezcTemplateBlockTstNode
     {
         return array( 'startBracket'   => $this->startBracket,
                       'endBracket'     => $this->endBracket,
-                      'expressionRoot' => $this->expressionRoot );
+                      'expressionRoot' => $this->expressionRoot,
+                      'isRaw'          => $this->isRaw );
     }
 
     /**
