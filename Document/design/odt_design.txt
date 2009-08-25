@@ -48,6 +48,183 @@ component. Requirements for this process are:
 Design
 ------
 
+In the first development cycle of this feature addition, only the semantic
+information contained in an ODT document will be considered, leaving the style
+information alone. This reduces the semantics of ODT quite a bit, since most of
+the semantics of text elements are defined by styles (e.g. the difference
+between an itemized and an ordered list).
+
+Element mapping
+===============
+
+The following table shows the mapping between DocBook elements and ODT
+elements, which must be realized in the conversion process.
+
+<section>
+^^^^^^^^^
+
+ODT goes an HTML like way for marking sections. A section is introduced by a
+headline "<text:h>" and lasts until a headline on the same or a higher level
+occurs. The headline level is determined by the "text:outline-level" attribute.
+The title of the section is the content of the headline.
+
+<sectioninfo>
+^^^^^^^^^^^^^
+
+There is not possibility of annotating sections with meta information in ODT,
+only the document itself can have some metainformation attached. If the meta
+information is available in ODT, it will be taken for <sectinfo> elements
+within DocBook. The other way around, the meta information of the very first,
+top-most <section> element will be chosen as the ODT meta data.
+
+.. note:: ODT supports annotations. It must be re-checked, how this might
+          provide meta data.
+
+Block level elements
+--------------------
+
+<para>
+^^^^^^
+
+The DocBook <para> element corresponds exactly to the <text:p> element in ODT.
+
+<itemizedList>
+^^^^^^^^^^^^^^
+
+ODT does not now a semantically difference between itemized and e.g. ordered
+lists. Therefore, in the first step, all ODT lists are treated as itemized
+lists and the three kinds of DocBook lists are all converted to standard
+<t:list> blocks in ODT.
+
+.. note:: In future versions of this feature, it should be possible to detect
+          list types from the ODT styles used and to render these styles
+          correctly for at least ordered lists.
+
+TODO
+^^^^
+
+- mediaobject
+- table
+- comment
+- beginnpage
+
+
+Other elements
+^^^^^^^^^^^^^^
+
+There are a lot of DocBook elements, which are currently not supported by the
+conversion from and to ODT. These are:
+
+- orderedlist
+- variablelist
+
+- caution
+- important
+- note
+- tip
+- warning
+
+- blockquote
+- literallayout
+
+Inline elements
+---------------
+
+ODT does only support one tag for inline markup, which is <t:span>. The
+semantical meaning of this markup is unclear and only formatting information is
+provided by styles.
+
+.. note:: It is therefore necessary to detect the semantical meaning of a span
+          through a heuristic in a later stage of this feature.
+
+<emphasis>
+^^^^^^^^^^
+
+All <t:span> elements in an ODT to import will be mapped to the DocBook
+<emphasis> element at the first stage. Further distiguishing will need to
+happen at a later stage.
+
+TODO
+^^^^
+
+- anchor
+- email
+- footnoteref
+- footnote
+- inlinemediaobject
+- link
+- ulink
+
+Other elements
+^^^^^^^^^^^^^^
+- abbrev
+- acronym
+- author
+- citation
+- citetitle
+- literal
+- quote
+- subscript
+- superscript
+
+Table elements
+--------------
+
+In both, DocBook and ODT, the <table> element indicates a table. In ODT it is
+put into the dedicated "table" namespace, since the same table structure is
+used in spreadsheets.
+
+Tables in ODT are roughly structured as follows::
+
+    <table:table>
+        <table:table-columns>
+            <table:table-column/>
+            <table:table-column/>
+            <table:table-column/>
+        </table:table-columns>
+        <table:table-header-rows>
+            <table:table-row>
+                <table:table-cell>
+                    <text:p>Cell A1</text:p>
+                </table:table.cell>
+                <table:table-cell>
+                    <text:p>Cell A2</text:p>
+                </table:table-cell>
+                <table:table-cell>
+                    <!-- contents, mostly <text:p> -->
+                </table:table-cell>
+            </table:table-row>
+        </table:table-header-rows>
+        <table:table-rows>
+            <table:table-row>
+                <table:table-cell table:number-rows-spanned="2">
+                    <!-- contents, mostly <text:p> -->
+                </table:table-cell>
+                <table:table-cell>
+                    <!-- contents, mostly <text:p> -->
+                </table:table-cell>
+                <table:table-cell>
+                    <!-- contents, mostly <text:p> -->
+                </table:table-cell>
+            </table:table-row>
+            <table:table-row>
+                <table:covered-table-cell/>
+                <table:table-cell table:number-columns-spanned="2">
+                    <!-- contents, mostly <text:p> -->
+                </table:table-cell>
+                <table:covered-table-cell/>
+            </table:table-row>
+        </table:table-rows>
+    </table:table>
+
+This is more or less directly translatable to DocBook and vice versa. One major
+issue is, that the currently used DocBook subset does not handle column
+spanning (in ODT the "table:number-columns-spanned" attribute) in any way. To
+support this, the currently implemented Document classes need to fully `support
+informal tables`__ ((X)HTML style).
+
+.. __: http://issues.ez.no/IssueView.php?Id=15348
+
 
 
 ..
