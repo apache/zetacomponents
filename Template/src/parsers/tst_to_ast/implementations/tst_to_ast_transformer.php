@@ -2144,7 +2144,9 @@ throw new ezcTemplateRuntimeException( sprintf(\"". ezcTemplateSourceToTstErrorM
         }
 
         return $this->assignToOutput(
-            new ezcTemplateFunctionCallAstNode( 'ezcTemplateTranslationProvider::translate', array( $string, $context, $compileArray ) ) 
+            new ezcTemplateOutputAstNode( 
+                new ezcTemplateFunctionCallAstNode( 'ezcTemplateTranslationProvider::translate', array( $string, $context, $compileArray ) )
+            )
         );
     }
 

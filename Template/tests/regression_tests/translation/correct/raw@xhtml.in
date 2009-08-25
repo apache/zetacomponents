@@ -1,0 +1,5 @@
+{var $foo = "<br />"}
+{tr "Derick lives at %test." vars "test" => "<br />" context "un"}
+
+{raw $foo}
+{$foo}

@@ -38,5 +38,9 @@
         <source>Test quotes: "test" 'test'.</source>
         <translation>TQ: Test quotes: "test" 'test'.</translation>
     </message>
+    <message>
+        <source>Derick lives at %test.</source>
+        <translation>TQ: Derick lives at &lt;br /&gt;.</translation>
+    </message>
 </context>
 </TS>
