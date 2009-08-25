@@ -164,6 +164,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         'LEGAL'     => array( 215.9, 355.6 ),
         'EXECUTIVE' => array( 184.1, 266.7 ),
         'FOLIO'     => array( 215.9, 330.2 ),
+        'TEST'      => array( 100, 100 ),
     );
 
     /**

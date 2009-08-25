@@ -12,12 +12,25 @@
 /**
  * Test implemenation of PDF driver mocking actual driver behaviour
  */
-class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfTransactionalDriverWrapper
+class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfSvgDriver
 {
     protected $style;
     protected $size;
 
     public $calls = array();
+
+    /**
+     * Show a debug dump of all calls to the driver.
+     * 
+     * @return void
+     */
+    public function debugDump()
+    {
+        foreach ( $this->calls as $nr => $call )
+        {
+            echo $nr, ") ", $call[0], "( ", @implode( ", ", $call[1] ), " )\n";
+        }
+    }
 
     /**
      * Convert values
