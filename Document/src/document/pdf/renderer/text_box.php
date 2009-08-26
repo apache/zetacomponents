@@ -144,9 +144,11 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      * 
      * @param ezcDocumentPdfBoundingBox $space 
      * @param array $styles 
+     * @param bool $renderTop 
+     * @param bool $renderBottom 
      * @return void
      */
-    protected function renderBoxBorder( ezcDocumentPdfBoundingBox $space, array $styles )
+    protected function renderBoxBorder( ezcDocumentPdfBoundingBox $space, array $styles, $renderTop = true, $renderBottom = true )
     {
         $topLeft = array(
             $space->x -
@@ -194,7 +196,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             );
         }
 
-        if ( $styles['border']->value['top']['width'] > 0 )
+        if ( $renderTop && $styles['border']->value['top']['width'] > 0 )
         {
             $this->driver->drawPolyline(
                 array( $topLeft, $topRight ),
@@ -212,7 +214,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
             );
         }
 
-        if ( $styles['border']->value['bottom']['width'] > 0 )
+        if ( $renderBottom && $styles['border']->value['bottom']['width'] > 0 )
         {
             $this->driver->drawPolyline(
                 array( $bottomRight, $bottomLeft ),

@@ -93,7 +93,7 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
 
                 $pages[$pageNr]['lines'][] = array(
                     'position' => $position,
-                    'tokens'   => $lines[$line],
+                    'line'     => $lines[$line],
                 );
                 $position += $lines[$line]['height'] * $styles['line-height']->value;
                 continue;
@@ -142,10 +142,21 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
                 );
             }
 
-            $space = $content['space'];
+            $space         = $content['space'];
+            $lastLine      = end( $content['lines'] );
+            $space->height = $lastLine['position'] + $lastLine['line']['height'] - $space->y;
+
+            $this->renderBoxBackground( $space, $styles );
+            $this->renderBoxBorder(
+                $space,
+                $styles,
+                true,
+                true
+            );
+
             foreach ( $content['lines'] as $line )
             {
-                $this->renderLine( $line['position'], $lineNr++, $line['tokens'], $space, $styles );
+                $this->renderLine( $line['position'], $lineNr++, $line['line'], $space, $styles );
             }
         }
 
