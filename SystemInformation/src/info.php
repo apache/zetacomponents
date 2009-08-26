@@ -284,6 +284,17 @@ class ezcSystemInfo
                     false                                                      // version string
                 );
         }
+        if ( ezcBaseFeatures::hasExtensionSupport( 'XCache' ) )
+        {
+            $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
+                    "XCache",                               // name
+                    "http://xcache.lighttpd.net/",          // url
+                    true,                                   // isEnabled
+                    false,                                  // version int
+                    phpversion( 'XCache' )                  // version string
+                );
+        }
+
         return $phpAcceleratorInfo;
     }
 
