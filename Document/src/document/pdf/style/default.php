@@ -276,6 +276,39 @@ return array (
      'position' => 15,
      'regularExpression' => NULL,
   )),
+  15 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'varlistentry',
+      1 => '> term',
+    ),
+     'formats' => 
+    array (
+      'font-weight' => 'bold',
+    ),
+     'file' => 'style/default.css',
+     'line' => 100,
+     'position' => 21,
+     'regularExpression' => NULL,
+  )),
+  16 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'varlistentry',
+      1 => '> listitem',
+    ),
+     'formats' => 
+    array (
+      'padding-left' => '5mm',
+      'margin-bottom' => '3mm',
+    ),
+     'file' => 'style/default.css',
+     'line' => 104,
+     'position' => 25,
+     'regularExpression' => NULL,
+  )),
 );
 
 ?>

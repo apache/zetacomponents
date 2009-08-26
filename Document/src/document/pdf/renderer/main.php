@@ -78,11 +78,19 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         'http://docbook.org/ns/docbook' => array(
             'article'       => 'initializeDocument',
             'section'       => 'process',
+            'sectioninfo'   => 'ignore',
+
             'para'          => 'renderParagraph',
             'title'         => 'renderTitle',
+
             'mediaobject'   => 'renderMediaObject',
+
             'literallayout' => 'renderLiteralLayout',
-            'sectioninfo'   => 'ignore',
+
+            'variablelist'  => 'process',
+            'varlistentry'  => 'process',
+            'listitem'      => 'renderParagraph',
+            'term'          => 'renderTitle',
         ),
     );
 

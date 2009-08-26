@@ -97,3 +97,12 @@ literallayout {
     font-family:      "monospace";
 }
 
+varlistentry > term {
+    font-weight:      "bold";
+}
+
+varlistentry > listitem {
+    padding-left:     "5mm";
+    margin-bottom:    "3mm";
+}
+
