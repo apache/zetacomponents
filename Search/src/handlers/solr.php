@@ -354,11 +354,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
             $queryString = $queryWord;
         }
         $queryFlags = array( 'q' => $queryString, 'wt' => 'json', 'df' => $defaultField );
-        if ( count( $returnFieldList ) )
-        {
-            $returnFieldList[] = 'score';
-            $queryFlags['fl'] = join( ' ', $returnFieldList );
-        }
+
+        $returnFieldList[] = 'score';
+        $queryFlags['fl'] = join( ' ', $returnFieldList );
+
         if ( count( $highlightFieldList ) )
         {
             $queryFlags['hl'] = 'true';
@@ -395,6 +394,24 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         return $queryFlags;
     }
 
+    private function createDataForHit( $document, $def )
+    {
+        $className = $def->documentType;
+        $obj = new $className;
+
+        $attr = array();
+        foreach ( $def->fields as $field )
+        {
+            $fieldName = $this->mapFieldType( $field->field, $field->type );
+            if ( $field->inResult && isset( $document->$fieldName ) )
+            {
+                $attr[$field->field] = $this->mapFieldValuesForReturn( $field, $document->$fieldName );
+            }
+        }
+        $obj->setState( $attr );
+        return new ezcSearchResultDocument( $document->score, $obj );
+    }
+
     /**
      * Converts a raw solr result into a document using the definition $def
      *
@@ -428,22 +445,10 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
 
         foreach ( $response->response->docs as $document )
         {
-            $className = $def->documentType;
-            $obj = new $className;
-
-            $attr = array();
-            foreach ( $def->fields as $field )
-            {
-                $fieldName = $this->mapFieldType( $field->field, $field->type );
-                if ( $field->inResult && isset( $document->$fieldName ) )
-                {
-                    $attr[$field->field] = $this->mapFieldValuesForReturn( $field, $document->$fieldName );
-                }
-            }
-            $obj->setState( $attr );
+            $resultDocument = $this->createDataForHit( $document, $def );
 
             $idProperty = $def->idProperty;
-            $s->documents[$attr[$idProperty]] = new ezcSearchResultDocument( $document->score, $obj );
+            $s->documents[$resultDocument->document->$idProperty] = $resultDocument;
         }
 
         // process highlighting
@@ -589,6 +594,21 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
         $order = $query->orderByClauses;
 
         return http_build_query( $this->buildQuery( $queryWord, '', array(), $resultFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order ) );
+    }
+
+    /**
+     * Returns the query as a string for debugging purposes
+     *
+     * @param ezcSearchQuerySolr $query
+     * @return string
+     * @ignore
+     */
+    public function getDeleteQuery( ezcSearchDeleteQuerySolr $query )
+    {
+        $queryWord = join( ' AND ', $query->whereClauses );
+        $query = "<delete><query>{$queryWord}</query></delete>";
+
+        return $query;
     }
 
     /**
@@ -881,20 +901,70 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
      * Creates a delete query object with the fields from the definition filled in.
      *
      * @param string $type
-     * @return ezcSearchDeleteQuery
+     * @param ezcSearchDocumentDefinition $definition
+     * @return ezcSearchDeleteQuerySolr
      */
-    public function createDeleteQuery( $type )
+    public function createDeleteQuery( $type, ezcSearchDocumentDefinition $definition )
     {
+        $query = new ezcSearchDeleteQuerySolr( $this, $definition );
+        if ( $type )
+        {
+            $selectFieldNames = array();
+            $query->where( $query->eq( 'ezcsearch_type', $type ) );
+        }
+        return $query;
     }
 
     /**
-     * Builds the delete query and returns the parsed response
+     * Deletes a document by the document's $id
+     *
+     * If the document with ID $id does not exist, no warning is returned.
+     *
+     * @param mixed $id
+     * @param ezcSearchDocumentDefinition $definition
+     */
+    public function deleteById( $id, ezcSearchDocumentDefinition $definition )
+    {
+        $queryString = "<delete><id>{$id}</id></delete>";
+        $this->sendRawPostCommand( 'update', null, $queryString );
+    }
+
+    /**
+     * Deletes documents using the query $query.
+     *
+     * The $query should be created using {@link createDeleteQuery()}.
+     *
+     * @throws ezcSearchQueryException
+     *         if the delete query failed.
      *
      * @param ezcSearchDeleteQuery $query
-     * @return ezcSearchResult
      */
     public function delete( ezcSearchDeleteQuery $query )
     {
+        $result = $this->sendRawPostCommand( 'update', null, $query->getQuery() );
+        $result = json_decode( $result );
+    }
+
+    /**
+     * Finds a document by the document's $id
+     *
+     * @throws ezcSearchIdNotFoundException
+     *         if the document with ID $id did not exist.
+     *
+     * @param mixed $id
+     * @param ezcSearchDocumentDefinition $definition
+     * @return ezcSearchResult
+     */
+    public function findById( $id, ezcSearchDocumentDefinition $definition )
+    {
+        $idProperty = $definition->idProperty;
+        $fieldName = $this->mapFieldType( $definition->fields[$idProperty]->field, $definition->fields[$idProperty]->type );
+        $res = $this->search( "{$fieldName}:$id", $fieldName )->response->docs;
+        if ( count( $res ) != 1 )
+        {
+            throw new ezcSearchIdNotFoundException( $id );
+        }
+        return $this->createDataForHit( $res[0], $definition );
     }
 }
 ?>

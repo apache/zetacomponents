@@ -3,6 +3,16 @@
 
 - Fixed issue #15289: "AND" and "OR" in the query builder are even recognised
   when there is no whitespace around them.
+- Fixed issue #15290: Test suite tries to acces local file.
+- Fixed issue #15294: Index is always re-created when the Zend Search Lucene
+  backend is initialized, wiping out all index data.
+- Fixed issue #15295: The Zend_Search_Lucene backend returns a different result
+  format then the Solr backend.
+- Implemented issue #15086: Added ezcSearchSession->createDeleteQuery() and
+  ezcSearchSession->delete().
+- Implemented issue #15087: Added ezcSearchSession->deleteByID() and
+  ezcSearchSession->findByID() for retrieving and deleting documents by their
+  ID.
 
 
 1.0.5 - Monday 22 June 2009

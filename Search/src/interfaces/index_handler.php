@@ -46,16 +46,24 @@ interface ezcSearchIndexHandler
      * Creates a delete query object with the fields from the definition filled in.
      *
      * @param string $type
+     * @param ezcSearchDocumentDefinition $definition
      * @return ezcSearchDeleteQuery
      */
-    public function createDeleteQuery( $type );
+    public function createDeleteQuery( $type, ezcSearchDocumentDefinition $definition );
 
     /**
      * Builds the delete query and returns the parsed response
      *
      * @param ezcSearchDeleteQuery $query
-     * @return ezcSearchResult
      */
     public function delete( ezcSearchDeleteQuery $query );
+
+    /**
+     * Deletes a document by the document's $id
+     *
+     * @param mixed $id
+     * @param ezcSearchDocumentDefinition $definition
+     */
+    public function deleteById( $id, ezcSearchDocumentDefinition $definition );
 }
 ?>

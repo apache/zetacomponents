@@ -45,7 +45,19 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
          * same filename but the cwd could have been changed.
          */
         $location = realpath( $location );
-        $this->connection = Zend_Search_Lucene::create( $location );
+
+        /* If the $location doesn't exist, ZSL throws a *generic* exception. We
+         * don't care here though and just always assume it is because the
+         * index does not exist. If it doesn't exist, we create it.
+         */
+        try
+        {
+            $this->connection = Zend_Search_Lucene::open( $location );
+        }
+        catch ( Zend_Search_Lucene_Exception $e )
+        {
+            $this->connection = Zend_Search_Lucene::create( $location );
+        }
         $this->inTransaction = 0;
         if ( !$this->connection )
         {
@@ -103,6 +115,25 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
         return $queryString;
     }
 
+    private function createDataForHit( $hit, $def )
+    {
+        $document = $hit->getDocument();
+        $className = $def->documentType;
+        $obj = new $className;
+
+        $attr = array();
+        foreach ( $def->fields as $field )
+        {
+            $fieldName = $this->mapFieldType( $field->field, $field->type );
+            if ( $field->inResult /*&& isset( $document->$fieldName ) */ )
+            {
+                $attr[$field->field] = $this->mapFieldValuesForReturn( $field, $document->$fieldName );
+            }
+        }
+        $obj->setState( $attr );
+        return new ezcSearchResultDocument( $hit->score, $obj );
+    }
+
     /**
      * Converts a raw zendlucene result into a document using the definition $def
      *
@@ -129,24 +160,10 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
             {
                 break;
             }
-            $document = $hit->getDocument();
-
-            $className = $def->documentType;
-            $obj = new $className;
-
-            $attr = array();
-            foreach ( $def->fields as $field )
-            {
-                $fieldName = $this->mapFieldType( $field->field, $field->type );
-                if ( $field->inResult /*&& isset( $document->$fieldName )*/ )
-                {
-                    $attr[$field->field] = $this->mapFieldValuesForReturn( $field, $document->$fieldName );
-                }
-            }
-            $obj->setState( $attr );
+            $resultDocument = $this->createDataForHit( $hit, $def );
 
             $idProperty = $def->idProperty;
-            $s->documents[$attr[$idProperty]] = array( 'meta' => array( 'score' => $hit->score ), 'document' => $obj );
+            $s->documents[$resultDocument->document->$idProperty] = $resultDocument;
         }
 
         return $s;
@@ -504,20 +521,75 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
      * Creates a delete query object with the fields from the definition filled in.
      *
      * @param string $type
+     * @param ezcSearchDocumentDefinition $definition
      * @return ezcSearchDeleteQuery
      */
-    public function createDeleteQuery( $type )
+    public function createDeleteQuery( $type, ezcSearchDocumentDefinition $definition )
     {
+        $query = new ezcSearchDeleteQueryZendLucene( $this, $definition );
+        if ( $type )
+        {
+            $selectFieldNames = array();
+            $query->where( $query->eq( 'ezcsearch_type', $type ) );
+        }
+        return $query;
+    }
+
+    /**
+     * Deletes a document by the document's $id.
+     *
+     * If the document with ID $id does not exist, no warning is returned.
+     *
+     * @param mixed $id
+     * @param ezcSearchDocumentDefinition $definition
+     */
+    public function deleteById( $id, ezcSearchDocumentDefinition $definition )
+    {
+        $idProperty = $definition->idProperty;
+        $fieldName = $this->mapFieldType( $definition->fields[$idProperty]->field, $definition->fields[$idProperty]->type );
+        $res = $this->search( "{$fieldName}:$id" );
+        if ( count( $res ) == 1 )
+        {
+            $this->connection->delete( $res[0]->id );
+        }
     }
 
     /**
      * Builds the delete query and returns the parsed response
      *
      * @param ezcSearchDeleteQuery $query
-     * @return ezcSearchResult
      */
     public function delete( ezcSearchDeleteQuery $query )
     {
+        $queryWord = join( ' AND ', $query->whereClauses );
+
+        $res = $this->search( $queryWord );
+        foreach ( $res as $hit )
+        {
+            $this->connection->delete( $hit->id );
+        }
+    }
+
+    /**
+     * Finds a document by the document's $id
+     *
+     * @throws ezcSearchIdNotFoundException
+     *         if the document with ID $id did not exist.
+     *
+     * @param mixed $id
+     * @param ezcSearchDocumentDefinition $definition
+     * @return ezcSearchResult
+     */
+    public function findById( $id, ezcSearchDocumentDefinition $definition )
+    {
+        $idProperty = $definition->idProperty;
+        $fieldName = $this->mapFieldType( $definition->fields[$idProperty]->field, $definition->fields[$idProperty]->type );
+        $res = $this->search( "{$fieldName}:$id" );
+        if ( count( $res ) != 1 )
+        {
+            throw new ezcSearchIdNotFoundException( $id );
+        }
+        return $this->createDataForHit( $res[0], $definition );
     }
 }
 ?>

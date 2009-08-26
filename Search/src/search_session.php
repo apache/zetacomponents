@@ -191,26 +191,11 @@ class ezcSearchSession
      * @throws ezcSearchQueryException
      *         if the object could not be deleted.
      *
-     * @param object $document The document to delete
-     */
-    public function delete( $document )
-    {
-        return $this->deleteHandler->delete( $document );
-    }
-
-    /**
-     * Deletes documents using the query $query.
-     *
-     * The $query should be created using {@link createDeleteQuery()}.
-     *
-     * @throws ezcSearchQueryException
-     *         if the delete query failed.
-     *
      * @param ezcSearchDeleteQuery $query
      */
-    public function deleteFromQuery( ezcSearchDeleteQuery $query )
+    public function delete( ezcSearchDeleteQuery $query )
     {
-        return $this->deleteHandler->deleteFromQuery( $query );
+        $this->handler->delete( $query );
     }
 
     /**
@@ -220,7 +205,7 @@ class ezcSearchSession
      * <code>
      * $q = $session->createDeleteQuery( 'Person' );
      * $q->where( $q->gt( 'age', $q->bindValue( 15 ) ) );
-     * $session->deleteFromQuery( $q );
+     * $session->delete( $q );
      * </code>
      *
      * @throws ezcSearchException
@@ -228,11 +213,47 @@ class ezcSearchSession
      *
      * @param string $type
      *
-     * @return ezcQueryDelete
+     * @return ezcSearchDeleteQuery
      */
     public function createDeleteQuery( $type )
     {
-        return $this->deleteHandler->createDeleteQuery( $type );
+        $def = $this->definitionManager->fetchDefinition( $type );
+
+        /* We add the ezcsearch_type field to the definition automatically here */
+        $def->fields['ezcsearch_type'] = new ezcSearchDefinitionDocumentField( 'ezcsearch_type', ezcSearchDocumentDefinition::STRING );
+
+        return $this->handler->createDeleteQuery( $type, $def );
+    }
+
+    /**
+     * Deletes a document by the document's $id
+     *
+     * @throws ezcSearchException
+     *         if there is no such document type.
+     *
+     * @param mixed $id
+     * @param string $type
+     */
+    public function deleteById( $id, $type )
+    {
+        $def = $this->definitionManager->fetchDefinition( $type );
+        return $this->handler->deleteById( $id, $def );
+    }
+
+    /**
+     * Find a document by its ID.
+     *
+     * @throws ezcSearchException
+     *         if there is no such document type.
+     *
+     * @param mixed $id
+     * @param string $type
+     * @return ezcSearchResult
+     */
+    public function findById( $id, $type )
+    {
+        $def = $this->definitionManager->fetchDefinition( $type );
+        return $this->handler->findById( $id, $def );
     }
 
     /**

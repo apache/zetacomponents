@@ -32,5 +32,13 @@ interface ezcSearchHandler
      * @return ezcSearchResult
      */
     public function find( ezcSearchFindQuery $query );
+
+    /**
+     * Finds a document by the document's $id
+     *
+     * @param mixed $id
+     * @param ezcSearchDocumentDefinition $definition
+     */
+    public function findById( $id, ezcSearchDocumentDefinition $definition );
 }
 ?>

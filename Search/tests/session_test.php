@@ -371,6 +371,83 @@ class ezcSearchSessionTest extends ezcTestCase
         self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+title_t%3ATwee%5E2%7E2.5&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=999999", $q->getQuery() );
     }
 
+    public function testDeleteById()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 2, count( $r->documents ) );
+        self::assertEquals( '4822deec4153d-one', $r->documents['4822deec4153d-one']->document->id );
+        self::assertEquals( '4822deec4153d-two', $r->documents['4822deec4153d-two']->document->id );
+
+        $session->deleteById( '4822deec4153d-one', 'Article' );
+        $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
+
+        $q = $session->createFindQuery( 'Article' );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
+        self::assertEquals( 1, count( $r->documents ) );
+        self::assertFalse( isset( $r->documents['4822deec4153d-one'] ) );
+        self::assertEquals( '4822deec4153d-two', $r->documents['4822deec4153d-two']->document->id );
+    }
+
+    public function testFindById()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $r = $session->findById( '4822deec4153d-one', 'Article' );
+        self::assertequals( '4822deec4153d-one', $r->document->id );
+
+        $r = $session->findById( '4822deec4153d-two', 'Article' );
+        self::assertEquals( '4822deec4153d-two', $r->document->id );
+    }
+
+    public function testDeleteByIdNonExisting()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        $session->deleteById( '4822deec4153d-three', 'Article' );
+    }
+
+    public function testFindByIdNonExisting()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        try
+        {
+            $r = $session->findById( '4822deec4153d-three', 'Article' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcSearchIdNotFoundException $e )
+        {
+            self::assertEquals( "There is no document with ID '4822deec4153d-three'.", $e->getMessage() );
+        }
+    }
+
+    public function testCreateDeleteQuery()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createDeleteQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Twee' ) );
+        self::assertEquals( "<delete><query>ezcsearch_type_s:Article AND title_t:Twee</query></delete>", $q->getQuery() );
+    }
+
     public function testCreateFindQueryLimit()
     {
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
@@ -524,6 +601,29 @@ class ezcSearchSessionTest extends ezcTestCase
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 2, count( $r->documents ) );
         self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+published_l%3A%5B$timeb1+TO+$timeb2%5D&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=999999", $q->getQuery() );
+    }
+
+    public function testDeleteQuery()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+
+        $q = $session->createDeleteQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Twee' ) );
+        $session->delete( $q );
+        $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
+
+        $q = $session->createFindQuery( 'Article' );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
     }
 
     public function testCreateFindWithPhrase()

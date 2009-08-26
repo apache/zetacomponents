@@ -1,0 +1,1574 @@
+<div class="document" id="implementation-guidelines">
+<h1 class="title">Implementation guidelines</h1>
+
+
+<div class="section" id="general">
+<h1><a class="toc-backref" href="#id3">General</a></h1>
+<p>Only use references where it is really needed, references do not increase
+performance (as one might think). There are many pitfalls with reference usage
+so stay away.</p>
+<p>Don't use @ in front of functions, this makes it much harder to debug. If you
+have to, a comment before it is <em>required</em>.</p>
+<p>Use real static functions, never use fake static (or semi-static)
+functions. Real static functions will not include the $this variable from the
+calling function.</p>
+<p>Avoid dependencies at all costs, each class should be a small a unit as
+possible.</p>
+<ul class="simple"><li>Unit testing depends on it, the more dependencies involved the harder it is
+to test. e.g. to reproduce a valid or invalid environment.</li>
+<li>The components are meant to be used by PEAR and other PHP classes, this means
+it cannot depend on a given configuration system or debug handler.</li>
+<li>PHP uses more memory for opcodes for each included class or general
+code. This means that:<ul><li>Code that is meant to handle non-standard cases, e.g. missing PHP
+extensions, should be placed in a separate class. This will reduce running
+code size for most people.</li>
+<li>defines/constants should be placed as members of a class.</li>
+<li>Avoid using 0 and 1 or empty strings as boolean values, instead use the
+real true and false boolean values. Also checking with === instead of == is
+advised.</li>
+<li>Use exceptions ONLY for exceptional cases, e.g. running out of disk space.</li>
+<li>Never hard code file paths or file names.</li>
+<li>Provide sane default configuration switches, this allows applications to
+use the classes without providing all kinds of switches and also removes
+the need to bundle configuration files.</li>
+<li>Do not use include_once to include class files, rely on PHP 5's autoload
+function</li>
+</ul></li>
+</ul><p>Use join() function instead of implode(), this makes the code easier to read.</p>
+</div>
+<div class="section" id="debugging">
+<h1><a class="toc-backref" href="#id4">Debugging</a></h1>
+<div class="section" id="dumping-data">
+<h2><a class="toc-backref" href="#id5">Dumping data</a></h2>
+<p>Don't use print_r for dumping values of a variable, use var_dump instead. Also
+var_export might be of use.</p>
+</div>
+<div class="section" id="xdebug">
+<h2><a class="toc-backref" href="#id6">Xdebug</a></h2>
+<p>At all times have Xdebug installed and use its features, it will dramatically
+reduce the implementation and debugging time.  Some of the interesting features
+are:</p>
+<ul class="simple"><li>Function traces, this can easily provide clues about performance and
+dependency issues.</li>
+</ul></div>
+<div class="section" id="errors-and-warnings">
+<h2><a class="toc-backref" href="#id7">Errors and warnings</a></h2>
+<p>To avoid dependency on a specific debug class, debugging and error handling
+must only rely on the internal PHP functions.</p>
+<p>To notify a debug message use:</p>
+<blockquote>
+trigger_error( "a debug message" );</blockquote>
+<p>Just make sure you <strong>NEVER</strong> leave debug message in committed code.</p>
+<p>To notify a warning message use:</p>
+<blockquote>
+trigger_error( "a warning message", E_USER_WARNING );</blockquote>
+<p>To notify an error message use:</p>
+<blockquote>
+trigger_error( "an error message", E_USER_ERROR );</blockquote>
+</div>
+</div>
+<div class="section" id="naming-conventions">
+<h1><a class="toc-backref" href="#id8">Naming conventions</a></h1>
+<p>This document describes the naming conventions for the components (be it
+classes, variables or functions). By adhering to these guidelines it should be
+much easier for all developers to use or work with the components. The main
+idea is to have a set of consistent naming while still allowing for differences
+in specific contexts.</p>
+<div class="section" id="general-guidelines">
+<h2><a class="toc-backref" href="#id9">General guidelines</a></h2>
+<p>Avoid names which does not give additional meaning or are unclear. Some
+examples of such names are:</p>
+<blockquote>
+<pre class="literal-block">
+Quick, Smart, Clever, Simple, Fast, Strange, Stupid
+</pre>
+</blockquote>
+<div class="section" id="abbreviations-and-acronyms">
+<h3><a class="toc-backref" href="#id10">Abbreviations and Acronyms</a></h3>
+<p>In general one should not use abbreviations and acronyms unless its known by
+most programmers. Typical examples for known acronyms are:</p>
+<blockquote>
+<pre class="literal-block">
+HTTP, DAV, URL
+</pre>
+</blockquote>
+</div>
+<div class="section" id="recommended-names">
+<h3><a class="toc-backref" href="#id11">Recommended names</a></h3>
+<p>To ensure consistency throughout all components the following naming conventions
+should be used. If the names don't make much sense in a given context other
+names should be found. These recommendations can also be used as prefix/suffix,
+e.g. <em>$srcX</em>, <em>$srcY</em></p>
+<ul><li><p class="first">For file or directory paths use <em>path</em>.</p>
+</li>
+<li><p class="first">For filename without a path use <em>file</em>.</p>
+</li>
+<li><p class="first">For directory name without a path use <em>dir</em>.</p>
+</li>
+<li><p class="first">Use <em>load</em>, <em>save</em> for complete operations on the file system, for instance
+loading an entire <em>INI</em> file.</p>
+</li>
+<li><p class="first">Use <em>read</em>, <em>write</em> for partial operations of data stream, for instance
+storing 10 bytes to a file.</p>
+</li>
+<li><p class="first">Use <em>fetch</em>, <em>store</em> for remote operations, for instance fetching data from a
+web server or database.</p>
+</li>
+<li><p class="first">When adding elements the following naming should be used:</p>
+<ul class="simple"><li>Use <em>add</em> when adding elements without a specific order.</li>
+<li>Use <em>insert</em> when adding elements in a specific order, for instance at a
+given index or position.</li>
+<li>Use <em>append</em> when adding elements to the end.</li>
+<li>Use <em>prepend</em> when adding elements to the beginning.</li>
+</ul></li>
+<li><p class="first">Use <em>create</em> for PHP object creation and <em>generate</em> for operations that
+generate text, code, SQL etc.</p>
+</li>
+<li><p class="first">Use <em>reset</em> for resetting elements in the object.</p>
+</li>
+<li><p class="first">Use <em>getInstance</em> to get an instance in f.e. a singleton pattern.</p>
+</li>
+<li><p class="first">When removing elements the following naming should be used:</p>
+<ul class="simple"><li>Use <em>remove</em> when elements are no longer referenced but not actually
+deleted. For instance removing a file path from a list while still leaving
+the file on the file system.</li>
+<li>Use <em>delete</em> when elements are no longer meant to exists. For instance
+unlinking a file from the file system or deleting a database record.</li>
+</ul></li>
+<li><p class="first">Short names are advised when their context is very clear. An example is a
+copy() function in a File class which has a source and a destination, it is
+quite clear that in this context we are working with files and can use
+abbreviated forms, <em>src</em> and <em>dest</em>.  copy( $src, $dest ) The order of
+source and destination is always source first.</p>
+</li>
+<li><p class="first">Some words are different in British English and American English. It is most
+common to use the American spelling and so all words should follow this.
+Some typical names are:</p>
+<pre class="literal-block">
+initialize, finalize, color, grey
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="section" id="specific-elements">
+<h2><a class="toc-backref" href="#id12">Specific elements</a></h2>
+<p>Each element is explained below:</p>
+<div class="section" id="class-names">
+<h3><a class="toc-backref" href="#id13">Class names</a></h3>
+<p>Classes are named using <a class="reference external" href="http://en.wikipedia.org/wiki/CamelCase">UpperCamelCase</a> and are always prefixed with <em>ezc</em>
+which stands for eZ Components. Do not use more than three words for
+your names and make sure they are not verbs but nouns.</p>
+<p>For exception classes we append "Exception" to the class name, for
+option classes "Options. We do not add a postfix for abstract classes,
+interfaces and structs.</p>
+<p>All classes in one package should start with the same prefix, unless a class
+bundles multiple "main" classes into one package. Examples:</p>
+<pre class="literal-block">
+ezcDb
+ezcDbHandler
+ezcDbPostgresqlHandler
+ezcDbMysqlHandler
+</pre>
+<p>Class names have the form:</p>
+<pre class="literal-block">
+"ezc" ([A-Z][a-z]+)+
+</pre>
+<p>Other examples:</p>
+<pre class="literal-block">
+ezcSystemInformation, ezcTemplate, ezcWebdavServer
+</pre>
+</div>
+<div class="section" id="method-names">
+<h3><a class="toc-backref" href="#id14">Method names</a></h3>
+<p>Methods are named using <a class="reference external" href="http://en.wikipedia.org/wiki/CamelCase">lowerCamelCase</a> and should not use more than three
+words. Methods which change an internal property should be named setXXX() and
+in addition the retrieval method must be named getXXX().  All methods must use
+a verb.</p>
+<blockquote>
+<pre class="literal-block">
+printReport(), validateData(), publish()
+</pre>
+</blockquote>
+</div>
+<div class="section" id="property-names">
+<h3><a class="toc-backref" href="#id15">Property names</a></h3>
+<p>Properties are named using <a class="reference external" href="http://en.wikipedia.org/wiki/CamelCase">lowerCamelCase</a> and should not use more than two
+words. Properties must always use nouns and not verbs.</p>
+<blockquote>
+<pre class="literal-block">
+$name, $path, $author
+</pre>
+</blockquote>
+</div>
+<div class="section" id="parameter-names">
+<h3><a class="toc-backref" href="#id16">Parameter names</a></h3>
+<p>Parameters are named using <a class="reference external" href="http://en.wikipedia.org/wiki/CamelCase">lowerCamelCase</a> and should not use more than two
+words. Parameters must always use nouns and not verbs, the exception are
+booleans which start with <em>is</em>, <em>has</em> etc. and form a question.</p>
+<blockquote>
+<pre class="literal-block">
+$name, $path, $isObject
+</pre>
+</blockquote>
+</div>
+<div class="section" id="constant-names">
+<h3><a class="toc-backref" href="#id17">Constant names</a></h3>
+<p>Constant names should follow the UPPER_CASE_WORDS standard, where an underscore
+separates words.</p>
+</div>
+</div>
+<div class="section" id="special-functions">
+<h2><a class="toc-backref" href="#id18">Special functions</a></h2>
+<p>There are a couple of special functions in PHP, which you should not use
+parenthesis with. These functions are:</p>
+<ul class="simple"><li>include, include_once, require, require_once</li>
+<li>print, echo</li>
+<li>instanceof</li>
+<li>break, continue</li>
+<li>clone, new</li>
+</ul><p>Use them without parenthesis, like:</p>
+<pre class="literal-block">
+require_once 'file.php';
+echo "foo\n";
+clone $class;
+break 2;
+</pre>
+<p>Prefer <em>echo</em> over <em>print</em>, and <em>require_once</em> over <em>include</em>, <em>include_once</em>
+and <em>require</em>. Although none of the "inclusion" functions should be used at all
+in normal code.</p>
+</div>
+</div>
+<div class="section" id="directory-structure">
+<h1><a class="toc-backref" href="#id19">Directory structure</a></h1>
+<div class="section" id="svn-structure">
+<h2><a class="toc-backref" href="#id20">SVN Structure</a></h2>
+<p>The structure in SVN should be as follows:</p>
+<pre class="literal-block">
+trunk/PackageName/src/class1.php
+</pre>
+<p>For example for the Database package:</p>
+<pre class="literal-block">
+trunk/Database/src/db_factory.php
+trunk/Database/src/db_handler_interface.php
+trunk/Database/src/db_handler/mysql.php
+trunk/Database/src/db_handler/postgresql.php
+trunk/Database/src/db_handler/oracle.php
+trunk/Database/src/db_instance.php
+</pre>
+</div>
+<div class="section" id="installed-structure">
+<h2><a class="toc-backref" href="#id21">Installed Structure</a></h2>
+<p>In the installed structure the "trunk/" and "src/" directories
+disappear, and the install path is prepended with "ezc/". This makes for the
+database package (with a default PEAR install path of "/usr/local/lib/php/"):</p>
+<pre class="literal-block">
+/usr/local/lib/php/ezc/Database/db_factory.php
+/usr/local/lib/php/ezc/Database/db_handler_interface.php
+/usr/local/lib/php/ezc/Database/db_handler/mysql.php
+/usr/local/lib/php/ezc/Database/db_handler/postgresql.php
+/usr/local/lib/php/ezc/Database/db_handler/oracle.php
+/usr/local/lib/php/ezc/Database/db_instance.php
+</pre>
+</div>
+<div class="section" id="autoload-arrays">
+<h2><a class="toc-backref" href="#id22">Autoload Arrays</a></h2>
+<p>Every package should have an "autoload array" that describes how to map a
+class name to a filename. The format of such an autoload array is:</p>
+<pre class="literal-block">
+&lt;?php
+    return array(
+        'ezcDbFactory' =&gt; 'Database/db_factory.php',
+        'ezcDbHandlerInterface' =&gt; 'Database/db_handler_interface.php',
+        'ezcDbHandlerMysql' =&gt; 'Database/db_handler/mysql.php',
+        ...
+        'ezcDbInstance' =&gt; 'Database/db_instance.php',
+    );
+?&gt;
+</pre>
+<p>The autoload array files should have an unique name per package, consisting of
+the first part of the class name after "ezc". This is also the reason why the
+first part after "ezc" should always be the same in a package, if not, you need
+two autoload arrays. This can cause problems for some packages, like for the
+Template package and the TemplateTieInLocale package as classes in both of them
+start with "ezcTemplate" (ezcTemplate vs.  ezcTemplateLocale). In this case you
+need to make two autoload arrays. For the Template package this will then be
+"template_autoload.php" and for the TemplateLocale package
+"template_locale_autoload.php". Another problem is with the ImageAnalysis and
+ImageConversion packages. There all classes start with ezcImage*. As the
+ImageConversion package has a second part in the class names, which are not the
+same (ezcImageConverter and ezcImageFiltersShell f.e.), conflicts with the
+classes in ImageAnalysis can occur. Luckily there is only one class in there,
+where the two first parts are unique (ezcImageAnalyzer). Here the autoload file
+for ImageConversion should be "image_autoload.php" and for ImageAnalysis
+"image_analysis_autoload.php".</p>
+<p>Autoload arrays should be placed into the "root" of a package's source
+directory, for example:</p>
+<pre class="literal-block">
+trunk/Database/src/db_autoload.php
+trunk/ImageAnalysis/src/image_analysis_autoload.php
+trunk/ImageConversion/src/image_autoload.php
+</pre>
+<div class="section" id="autoload-files-installation-location">
+<h3><a class="toc-backref" href="#id23">Autoload files installation location</a></h3>
+<p>In our Base package we define a small class "ezcBase" which defines a method
+"autoload" that can be used in an applications __autoload() function. The
+ezcBase package always gets installed into [installdir]/ezc/Base and should be
+included with <em>require</em> in all applications that use the components.</p>
+<p>Because it is important that the ezcBase::autoload() method can find the
+autoload files of all the packages, they need to be installed through the
+package.xml definitions into [installdir]/ezc/autoload/. This means that if the
+Database and ImageAnalysis packages are installed, it looks like:</p>
+<pre class="literal-block">
+[installdir]/ezc/autoload/database_autoload.php
+[installdir]/ezc/autoload/image_analysis_autoload.php
+</pre>
+</div>
+</div>
+</div>
+<div class="section" id="exceptions">
+<h1><a class="toc-backref" href="#id24">Exceptions</a></h1>
+<p>One class per error type. Each exception descents from an abstract exception
+class for the whole component.</p>
+<p>Similar errors can be grouped in one abstract exception class:</p>
+<pre class="literal-block">
+ezcBaseException
+|
++ ezcBaseFileException
+| |
+| + ezcBaseFileNotWritableException ( $filename, $fileType )
+| |
+| + ezcBaseFileNotReadableException ( $filename, $fileType )
+| |
+| + ezcBaseFileCanNotCopyExecption ( $sourceName, $destinationName, $fileType )
+|
++ ezcGraphException
+  |
+  + ezcGraphDatasetAverageInvalidKeysException()
+</pre>
+<p>Exceptions are thrown with only their parameters. The exception class
+is responsible for preparing and formatting the message.</p>
+<p>See <a class="reference internal" href="#exception-class-documentation">Exception Class Documentation</a> on how to document exception classes.</p>
+<div class="section" id="specific-exceptions">
+<h2><a class="toc-backref" href="#id25">Specific Exceptions</a></h2>
+<p>There are a number of exceptions in the ezcBase class that provide common
+exceptions that should be used by all components.</p>
+</div>
+</div>
+<div class="section" id="component-configuration">
+<h1><a class="toc-backref" href="#id26">Component configuration</a></h1>
+<div class="section" id="definition">
+<h2><a class="toc-backref" href="#id27">Definition</a></h2>
+<p>To ensure minimal set of dependencies on different configuration classes and to
+keep things consistent a common way of configuring an object is needed.</p>
+<p>A class consists of <em>required configuration</em> and <em>optional configuration</em> often
+called <em>options</em>.</p>
+<dl class="docutils"><dt>Required configuration</dt>
+<dd>These are configuration settings which the class cannot operate
+without. Typically this can be file to read or server to connect to.</dd>
+<dt>Optional configuration</dt>
+<dd>These settings never modify the state of the object and are usually read
+run-time when an operation is executed. How to deal with Options in
+the implementation can be found in the section <a class="reference internal" href="#options">Options</a>.</dd>
+</dl></div>
+<div class="section" id="initialization">
+<h2><a class="toc-backref" href="#id28">Initialization</a></h2>
+<p>The <em>required</em> configuration is passed in the constructor of the class and if
+possible they should have useful default values. This ensures that the object
+is in a valid state when it is created.</p>
+<p>In addition to the <em>required</em> configuration there should also be an extra
+parameter for initial <em>options</em>. This makes it possible to configure the object
+in one expression. This <em>options</em> parameter should <em>always</em> be the last
+parameter and should default to an empty array.</p>
+<blockquote>
+<pre class="literal-block">
+function __construct( $config1, $config2, array $options = array() )
+{
+}
+</pre>
+</blockquote>
+</div>
+<div class="section" id="modification">
+<h2><a class="toc-backref" href="#id29">Modification</a></h2>
+<p>Modifying <em>required</em> configuration must always be done with custom methods. The
+class and method must be documented so it is clear which methods perform this
+modification</p>
+<blockquote>
+<pre class="literal-block">
+$csv-&gt;openFile( 'myfile.txt' );
+</pre>
+</blockquote>
+<p>Also some configuration may not be allowed to be changed after the object is
+created, in this case the programmer must initialize a new object with the new
+configuration. This ensures that the object is at all times in a valid state.</p>
+<blockquote>
+<pre class="literal-block">
+$users = new ezcCsvReader( 'users.txt' );
+// $users-&gt;openFile( 'groups.txt' ); // Invalid
+$groups = new ezcCsvReader( 'groups.txt' );
+</pre>
+</blockquote>
+<p>Modifying the <em>options</em> are done with a common method called <em>setOptions</em>
+which accepts an associate array of option values keyed with the option name.
+It is also possible to use the <a class="reference internal" href="#option-class">Option Class</a> directly:</p>
+<pre class="literal-block">
+$object-&gt;setOptions( array( 'eolStyle' =&gt; 'native' ) );
+
+$options = new ezcCvsOptions;
+$options-&gt;eolStyle = 'native';
+$object-&gt;setOptions( $options );
+</pre>
+<p>In case the <em>setOptions</em> method is implemented, it must accept both an
+associative array of option values keyed by the option name, and an instance of
+a class that inherits from ezcBaseOptions. See the <a class="reference internal" href="#options-example">Options Example</a>.</p>
+</div>
+<div class="section" id="inspection">
+<h2><a class="toc-backref" href="#id30">Inspection</a></h2>
+<p>If the programmer wants to inspect the current configuration he must either use
+specialized methods for the <em>required</em> configuration or <em>getOptions</em> for the
+<em>options</em>. The <em>getOptions</em> method is not required to be implemented as options
+can simply be retrieve the option class instance by accessing the options
+property.</p>
+<p><em>required</em> configuration:</p>
+<pre class="literal-block">
+$path = $object-&gt;path;
+</pre>
+<p><em>options</em>:</p>
+<pre class="literal-block">
+$eolStyle = $object-&gt;options-&gt;eolStyle;
+</pre>
+<p>In case the <em>getOptions</em> method is implemented, it must return an instance of a
+class that inherits from ezcBaseOptions. See the <a class="reference internal" href="#options-example">Options Example</a>.</p>
+</div>
+<div class="section" id="standards">
+<h2><a class="toc-backref" href="#id31">Standards</a></h2>
+<p>To ensure consistency the following should be followed when defining <em>required</em>
+configuration and <em>options</em>.</p>
+<blockquote>
+<ol class="arabic simple"><li>Options which behave like a flag (enabled/disabled) should use <em>true</em> and
+<em>false</em> as the values and not <em>strings</em> or <em>integers</em>.</li>
+<li><em>Required</em> configuration and <em>options</em> follows the naming standard as for
+<em>properties</em>.</li>
+</ol></blockquote>
+</div>
+<div class="section" id="error-handling">
+<h2><a class="toc-backref" href="#id32">Error handling</a></h2>
+<p>If the object failed to initialise to a sane state from the <em>required</em>
+configuration it must throw an ezcBaseConfigException exception. This ensures
+that the object will not be used in the invalid state.</p>
+<p>If non-existing <em>options</em> are passed then the following exception should be
+thrown, with $name being the configuration option's name:</p>
+<pre class="literal-block">
+throw new ezcBaseConfigException( $name, ezcBaseConfigException::UNKNOWN_CONFIG_SETTING );
+</pre>
+</div>
+<div class="section" id="validation">
+<h2><a class="toc-backref" href="#id33">Validation</a></h2>
+<p>Validation depends a bit on the configuration setting but in general it is
+recommended that the settings are made sure they are of a given type. This
+means that in the worst case the values are cast to the given type and in the
+best case they are validated and proper warning feedback is issued.</p>
+</div>
+</div>
+<div class="section" id="patterns">
+<h1><a class="toc-backref" href="#id34">Patterns</a></h1>
+<div class="section" id="dependency-injection">
+<h2><a class="toc-backref" href="#id35">Dependency Injection</a></h2>
+<p>Some components return objects based on parsed information. This includes the
+Mail and DatabaseSchema components. In some situations it's desirable that the
+classes of the objects can be modified so that the user of a component can use
+his own inherited classes instead. This we call "Dependency Injection".</p>
+<p>The configuration of which class to return has to be done with <a class="reference internal" href="#options">Options</a>.
+In the option class there needs to be a check if the requested class name
+actually inherits the base class that would be used by default, such as in the
+following code:</p>
+<pre class="literal-block">
+function __set( $propertyName, $propertyValue )
+{
+    $parentClassMap = array(
+        'tableClassName' =&gt; 'ezcDbSchemaTable',
+        'fieldClassName' =&gt; 'ezcDbSchemaField',
+        'indexClassName' =&gt; 'ezcDbSchemaIndex',
+        'indexFieldClassName' =&gt; 'ezcDbSchemaIndexField',
+    );
+    switch ( $propertyName )
+    {
+        case 'tableClassName':
+        case 'fieldClassName':
+        case 'indexClassName':
+        case 'indexFieldClassName':
+            if ( !is_string( $propertyValue ) )
+            {
+                throw new ezcBaseValueException( $propertyName, $propertyValue, 'string that contains a class name' );
+            }
+
+            // Check if the passed classname actually implements the
+            // correct parent class. We have to do that with reflection
+            // here unfortunately
+            $parentClass = new ReflectionClass( $parentClassMap[$propertyName] );
+            $handlerClass = new ReflectionClass( $propertyValue );
+            if ( $parentClassMap[$propertyName] !== $propertyValue &amp;&amp; !$handlerClass-&gt;isSubclassOf( $parentClass ) )
+            {
+                throw new ezcBaseInvalidParentClassException( $parentClassMap[$propertyName], $propertyValue );
+            }
+
+            $this-&gt;properties[$propertyName] = $propertyValue;
+            break;
+
+
+        ... other options ...
+    }
+}
+</pre>
+<p>In case there is only one class name to modify, this can of course be
+simplified to something like the following:</p>
+<pre class="literal-block">
+public function __set( $propertyName, $propertyValue )
+{
+    switch ( $propertyName )
+    {
+        case 'mailClass':
+            if ( !is_string( $propertyValue ) )
+            {
+                throw new ezcBaseValueException( $propertyName, $propertyValue, 'string that contains a class name' );
+            }
+
+            // Check if the passed classname actually implements the
+            // correct parent class. We have to do that with reflection
+            // here unfortunately
+            $parentClass = new ReflectionClass( 'ezcMail' );
+            $handlerClass = new ReflectionClass( $propertyValue );
+            if ( 'ezcMail' !== $propertyValue &amp;&amp; !$handlerClass-&gt;isSubclassOf( $parentClass ) )
+            {
+                throw new ezcBaseInvalidParentClassException( 'ezcMail', $propertyValue );
+            }
+            $this-&gt;properties[$propertyName] = $propertyValue;
+            break;
+
+        ... other options ...
+    }
+}
+</pre>
+</div>
+<div class="section" id="singletons">
+<h2><a class="toc-backref" href="#id36">Singletons</a></h2>
+<p>Should use the following syntax:</p>
+<pre class="literal-block">
+/**
+ * @param ezcTranslationBorkFilter Instance
+ */
+static private $instance = null;
+
+/**
+ * Private constructor to prevent non-singleton use
+ */
+private function __construct()
+{
+}
+
+/**
+ * Returns an instance of the class ezcTranslationBorkFilter
+ *
+ * @return ezcTranslationBorkFilter Instance of ezcTranslationBorkFilter
+ */
+public static function getInstance()
+{
+    if ( is_null( self::$instance ) )
+    {
+        self::$instance = new ezcTranslationBorkFilter();
+    }
+    return self::$instance;
+}
+</pre>
+</div>
+<div class="section" id="properties">
+<h2><a class="toc-backref" href="#id37">Properties</a></h2>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id38">Definition</a></h3>
+<p>All properties used in a class need to be stored in the $properties array
+which is defined in the class as follows:</p>
+<pre class="literal-block">
+/**
+ * Holds the properties of this class.
+ *
+ * @var array(string=&gt;mixed)
+ */
+private $properties = array();
+</pre>
+<p>Properties also need an __isset() method implemented for them.</p>
+</div>
+<div class="section" id="property-set-implementation">
+<h3><a class="toc-backref" href="#id39">Property Set Implementation</a></h3>
+<p>The implementation of the properties happens in the __set() and __get() magic
+methods to allow value bounds checking and access control.  The __set() method
+is called with the $name and $value parameters and the implementation of the
+method is as follows:</p>
+<pre class="literal-block">
+/**
+ * Sets the property $name to $value.
+ *
+ * @throws ezcBasePropertyNotFoundException if the property does not exist.
+ * @param string $name
+ * @param mixed $value
+ * @ignore
+ */
+public function __set( $name, $value )
+{
+    switch ( $name )
+    {
+        // cases to check for properties
+        default:
+            throw new ezcBasePropertyNotFoundException( $name );
+    }
+}
+</pre>
+<p>For each property that is available, there needs to be a "case" statement in
+the switch block. Range checking is done like this (including the correct
+exception).</p>
+<pre class="literal-block">
+case 'cols':
+    if ( $value &lt; 1 )
+    {
+        throw new ezcBaseValueException( $name, $value, 'int &gt; 0' );
+    }
+    $this-&gt;properties[$name] = $value;
+    break;
+</pre>
+<p>The 3rd parameter to the ezcBaseValueException constructor defines which type
+of value is allowed. This can be either a plain type (int, array, string)
+or a type combined with a range ("int &gt; 0", "int = 20, 40, 60"). In case
+such an exception can be thrown by the __set() method, add the following code
+to your docblock:</p>
+<pre class="literal-block">
+* @throws ezcBaseValueException if a the value for a property is out of
+*         range.
+</pre>
+<p>Read only properties also need to have a "case" statement. In order to signal
+that a property is read-only, use the following code:</p>
+<pre class="literal-block">
+case 'timestamp':
+    throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
+    break;
+</pre>
+<p>If there is a property that can throw the ezcBasePropertyPermissionException, then you need to add
+the following to the method docblock as well:</p>
+<pre class="literal-block">
+* @throws ezcBasePropertyPermissionException if a read-only property is
+*         tried to be modified.
+</pre>
+</div>
+<div class="section" id="property-get-implementation">
+<h3><a class="toc-backref" href="#id40">Property Get Implementation</a></h3>
+<p>The __get() method is called with the $name parameter and the implementation of
+the method is as follows:</p>
+<pre class="literal-block">
+/**
+ * Returns the value of the property $name.
+ *
+ * @throws ezcBasePropertyNotFoundException if the property does not exist.
+ * @param string $name
+ * @ignore
+ */
+public function __get( $name )
+{
+    switch ( $name )
+    {
+        // cases to check for properties
+    }
+    throw new ezcBasePropertyNotFoundException( $name );
+}
+</pre>
+<p>For each property that is available, there needs to be a "case" statement in
+the switch block:</p>
+<pre class="literal-block">
+case 'cols':
+    return $this-&gt;properties[$name];
+</pre>
+<p>In case a property is an array, you <em>have</em> to cast it to an array like this:</p>
+<pre class="literal-block">
+case 'colArray':
+    return (array) $this-&gt;properties[$name];
+</pre>
+<p>There is no value bounds checking here. In case you want to have
+a write-only property you can use the following code:</p>
+<pre class="literal-block">
+case 'timestamp':
+    throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::WRITE );
+    break;
+</pre>
+<p>If there is a property that can throw the ezcBasePropertyPermissionException,
+then you need to add the following to the method docblock as well:</p>
+<pre class="literal-block">
+* @throws ezcBasePropertyPermissionException if a write-only property is
+*         tried to be read.
+</pre>
+</div>
+<div class="section" id="property-isset-implementation">
+<h3><a class="toc-backref" href="#id41">Property Isset Implementation</a></h3>
+<p>The __isset() method is called with the $name parameter and the implementation of
+the method is as follows:</p>
+<pre class="literal-block">
+/**
+ * Returns true if the property $name is set, otherwise false.
+ *
+ * @param string $name
+ * @return bool
+ * @ignore
+ */
+public function __isset( $name )
+{
+    switch ( $name )
+    {
+        case 'cols':
+        case 'colArray':
+        case 'timestamp':
+            return isset( $this-&gt;properties[$name] );
+
+        default:
+            return false;
+    }
+    // if there is no default case before:
+    return parent::__isset( $name );
+}
+</pre>
+</div>
+<div class="section" id="documentation">
+<h3><a class="toc-backref" href="#id42">Documentation</a></h3>
+<p>See <a class="reference internal" href="#property-documentation">Property Documentation</a> on how to document properties.</p>
+</div>
+</div>
+<div class="section" id="options">
+<h2><a class="toc-backref" href="#id43">Options</a></h2>
+<div class="section" id="introduction">
+<h3><a class="toc-backref" href="#id44">Introduction</a></h3>
+<p>The ezcBaseOptions class is the base class for all option implementations in
+eZ components. Every class that utilizes options to configure the behavior of
+its instances using options must use a derivate of this class to implement the
+options mechanism.</p>
+</div>
+<div class="section" id="implementation">
+<h3><a class="toc-backref" href="#id45">Implementation</a></h3>
+<p>In the following description, a fictional package Foo will be used, which
+contains a fictional class ezcFooBar. The instances of ezcFooBar can be
+configured using options.</p>
+</div>
+<div class="section" id="option-class">
+<h3><a class="toc-backref" href="#id46">Option Class</a></h3>
+<p>The new option handling introduced in version 1.1 allows a much more
+convenient handling of options after object instantiation:</p>
+<pre class="literal-block">
+$foo-&gt;options-&gt;foo = 10;
+</pre>
+<p>Beside that (because of BC reasons), the following access possibility will
+also exist for the classes that used options before. This should <em>not</em> be
+used for new implementations:</p>
+<pre class="literal-block">
+$foo-&gt;options["foo"] = 10;
+</pre>
+<p>This possibility will not be officially documented and its usage will be
+discouraged in favor of the first one, to keep code using eZ components
+consistent.</p>
+<p>To use the new option handling system, you have to
+perform the following steps (still using the Foo package example):</p>
+<ol class="arabic simple"><li>Create a class called ezcFooBarOptions, which extends the ezcBaseOptions
+class.</li>
+<li>For each of the options for ezcFooBar create a private property
+in the ezcFooBarOptions class, and add the default value.</li>
+<li>Create validity checks for each of the options in the __set() method
+of the ezcFooBarOptions.</li>
+</ol></div>
+<div class="section" id="options-example">
+<h3><a class="toc-backref" href="#id47">Options Example</a></h3>
+<p>The ezcFooBar class looks now like:</p>
+<pre class="literal-block">
+/**
+ * ezcFooBar does....
+ *
+ * @property ezcFooBarOptions $options
+ */
+class ezcFooBar
+{
+    /**
+     * Options for the foo bar class
+     */
+    private $options;
+
+    /**
+     * ...
+     * @param ezcFooBarOptions $options
+     */
+    public function __construct( ezcFooBarOptions $options = null )
+    {
+        $this-&gt;options = $options === null ? new ezcFooBarOptions() : $options;
+    }
+
+    public function setOptions( ezcFooBarOptions $options )
+    {
+        $this-&gt;options = $options;
+    }
+
+    public function getOptions()
+    {
+        return $this-&gt;options;
+    }
+
+    /**
+     * Returns the value of the property $name.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name does not exist
+     * @param string $name
+     * @ignore
+     */
+    public function __get( $name )
+    {
+        switch ( $name )
+        {
+            case 'options':
+                return $this-&gt;options;
+                break;
+        }
+        throw new ezcBasePropertyNotFoundException( $name );
+    }
+
+    /**
+     * Sets the property $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name does not exist
+     * @throws ezcBaseValueException
+     *         if $value is not accepted for the property $name
+     * @param string $name
+     * @param mixed $value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'options':
+                if ( !( $value instanceof ezcFooBarOptions ) )
+                {
+                    throw new ezcBaseValueException( 'options', $value, 'instanceof ezcFooBarOptions' );
+                }
+                $this-&gt;options = $value;
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
+    }
+
+    /**
+     * Returns true if the property $name is set, otherwise false.
+     *
+     * @param string $name
+     * @return bool
+     * @ignore
+     */
+    public function __isset( $name )
+    {
+        switch ( $name )
+        {
+            case 'options':
+                return true;
+
+            default:
+                return false;
+        }
+    }
+}
+</pre>
+</div>
+<div class="section" id="option-class-example">
+<h3><a class="toc-backref" href="#id48">Option Class Example</a></h3>
+<p>The option class itself, could look like the following:</p>
+<pre class="literal-block">
+&lt;?php
+/**
+ * File containing the ezcFooBar class
+ *
+ * @package Mail
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+
+/**
+ * Class containing the basic options for foo bar things.
+ *
+ * @property int $timeout
+ *           Specifies the time in seconds until the connection is closed if
+ *           there is no activity through the connection.
+ * @property bool $ssl
+ *           Specifies whether to use an SSL connection or not.
+ *
+ * @package Mail
+ * @version //autogen//
+ */
+class ezcFooBarOptions extends ezcBaseOptions
+{
+    /**
+     * Constructs an object with the specified values.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if $options contains a property not defined
+     * @throws ezcBaseValueException
+     *         if $options contains a property with a value not allowed
+     * @param array(string=&gt;mixed) $options
+     */
+    public function __construct( array $options = array() )
+    {
+        $this-&gt;timeout = 5; // default value for timeout is 5 seconds
+        $this-&gt;ssl = false; // default value for ssl is false
+
+        parent::__construct( $options );
+    }
+
+    /**
+     * Sets the option $name to $value.
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the property $name is not defined
+     * @throws ezcBaseValueException
+     *         if $value is not correct for the property $name
+     * @param string $name
+     * @param mixed $value
+     * @ignore
+     */
+    public function __set( $name, $value )
+    {
+        switch ( $name )
+        {
+            case 'timeout':
+                if ( !is_numeric( $value ) || ( $value &lt; 1 ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'int &gt;= 1' );
+                }
+                $this-&gt;properties[$name] = (int) $value;
+                break;
+
+            case 'ssl':
+                if ( !is_bool( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'bool' );
+                }
+                $this-&gt;properties[$name] = $value;
+                break;
+
+            default:
+                throw new ezcBasePropertyNotFoundException( $name );
+        }
+    }
+}
+?&gt;
+</pre>
+</div>
+<div class="section" id="options-for-static-classes">
+<h3><a class="toc-backref" href="#id49">Options for Static Classes</a></h3>
+<p>In case a static class requires options, then it is impossible to
+have the __set and __get magic methods catch the classname::$options.
+Because of that, for static classes and options the integration in the class
+should go like this:</p>
+<pre class="literal-block">
+/**
+ * ezcFooBar does....
+ *
+ */
+class ezcFooBar
+{
+    /**
+     * Options for the foo bar class
+     * @var ezcFooBarOptions
+     */
+    static private $options;
+
+    /**
+     * Associates an option object with this static class.
+     *
+     * @param ezcFooBarOptions $options
+     */
+    static public function setOptions( ezcFooBarOptions $options )
+    {
+        self::$options = $options;
+    }
+}
+</pre>
+</div>
+</div>
+<div class="section" id="structs">
+<h2><a class="toc-backref" href="#id50">Structs</a></h2>
+<p>Complex arrays are not used in the eZ Components. In many cases we prefer
+to use a very lightweight class with a few methods that can be more
+conveniently used compared to simple arrays. THis is because we can
+control which "keys" are available in those classes. Those light weigth
+classes are called "structs" and can be found in the "structs/" directory
+which is a sub-directory of "src/".</p>
+<div class="section" id="layout">
+<h3><a class="toc-backref" href="#id51">Layout</a></h3>
+<p>Each struct class extends from ezcBaseStruct:</p>
+<pre class="literal-block">
+class ezcBaseRepositoryDirectory extends ezcBaseStruct
+</pre>
+<p>And defines a public property (including documentation) for each
+element in the "array":</p>
+<pre class="literal-block">
+/**
+ * The type of repository. Either "ezc" or "external".
+ *
+ * @var string
+ */
+public $type;
+</pre>
+<p>The constructor of the class accepts all the allowed elements as parameters,
+sets default values, and assigns the values to the class' properties:</p>
+<pre class="literal-block">
+/**
+ * Constructs a new ezcMailAddress with the mail address $email and the
+ * optional name $name.
+ *
+ * @param string $email
+ * @param string $name
+ */
+public function __construct( $email, $name = '', $charset = 'us-ascii' )
+{
+    $this-&gt;name = $name;
+    $this-&gt;email = $email;
+    $this-&gt;charset = $charset;
+}
+</pre>
+<p>A __set_state() method is not required, but recommended. The __set_state()
+method can be used to create an object of this class from a serialized
+PHP variable. The method's implementation looks like:</p>
+<pre class="literal-block">
+static public function __set_state( array $array )
+{
+    return new ezcMailAddress( $array['email'], $array['name'] );
+}
+</pre>
+<p>See also <a class="reference internal" href="#documenting-set-state">Documenting __set_state</a> on how to document this method.</p>
+</div>
+</div>
+</div>
+<div class="section" id="dealing-with-files">
+<h1><a class="toc-backref" href="#id52">Dealing with Files</a></h1>
+<div class="section" id="reading-files">
+<h2><a class="toc-backref" href="#id53">Reading files</a></h2>
+<p>If possible try to use some of the PHP functions for reading in files,
+eg. file(), instead of having custom PHP code.</p>
+<p>Avoid reading in whole files in memory if this is not needed. In this cases you
+should not use file() and the likes. Instead read a chunk of the file into a
+buffer (e.g. 4096 bytes) and work on that.</p>
+</div>
+<div class="section" id="writing-files">
+<h2><a class="toc-backref" href="#id54">Writing files</a></h2>
+<p>When writing to files never assume that only one process will access the same
+file at the same time.  This means you should create code that does either (or
+both):</p>
+<ul class="simple"><li>File locking, lock the file for reading until the writing is finished, this
+avoids other processes reading half-finished files.</li>
+<li>Temporary files, create a new file which is used for writing (locking might
+be a good idea too).  When the file writing is done the original file is
+backed up (renamed/moved) and the new one copied/moved as the original.  (A
+caveat: using tail -f will not work).</li>
+</ul></div>
+</div>
+<div class="section" id="unicode-and-utf-8">
+<h1><a class="toc-backref" href="#id55">Unicode and UTF-8</a></h1>
+<p>All components internally should handle UTF-8, and where possible parsers
+should always return UTF-8 as well.</p>
+<div class="section" id="unicode-caveats">
+<h2><a class="toc-backref" href="#id56">Unicode caveats</a></h2>
+<p>Case handling in PHP 6 will differ from earlier because it uses the current
+locale when doing the operation. This means that in some locales you can have
+non-revertible case changes.</p>
+<p>There is no workaround for this at the moment other than checking for the
+original string and the lowercase string at the same time or using only
+lowercase characters at all times.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h1><a class="toc-backref" href="#id57">Documentation</a></h1>
+<p>This document explains how PHP source and source files should be documented in
+order to meet the required standards for documentation.</p>
+<p>All PHP source should be documented using phpDocumentor syntax. The rest of
+this document is concerned with:</p>
+<ul class="simple"><li>Source that is required to be documented.</li>
+<li>The tags that are required to be used in the various contexts.</li>
+<li>Optional documentation.</li>
+<li>Wording rules.</li>
+</ul><p>In general the examples show in what order the various tags should be used.</p>
+<div class="section" id="file-documentation">
+<h2><a class="toc-backref" href="#id58">File documentation</a></h2>
+<p>Required in all source files with and without a class. PHPDocumentor will
+show a warning message otherwise.</p>
+<p>The following fields are required:</p>
+<ul class="simple"><li>A short (one line) description of the file.</li>
+<li>@version</li>
+<li>@package</li>
+<li>@copyright</li>
+<li>@license</li>
+</ul><p>The following fields are optional:</p>
+<ul class="simple"><li>a longer description of the file if the short description does not suffice.
+Only needed when the file doesn't contain one class.</li>
+<li>@subpackage Tests
+To be used for files/classes that make out a part of the test suite.</li>
+</ul><p>Example:</p>
+<pre class="literal-block">
+/**
+ * Short description of the contents of the file.
+ *
+ * @version //autogen//
+ * @package PackageName
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+</pre>
+</div>
+<div class="section" id="class-documentation">
+<h2><a class="toc-backref" href="#id59">Class documentation</a></h2>
+<p>Required for all classes.</p>
+<p>The following fields are required:</p>
+<ul class="simple"><li>A brief one line description of the class.</li>
+<li>An extensive description of the class. Use examples unless it is obvious how
+to use the class.</li>
+<li>@package</li>
+<li>@version</li>
+</ul><p>The following fields are optional:</p>
+<ul class="simple"><li>@tutorial, if there are relevant tutorials</li>
+<li>@uses, if this class depends on other packages</li>
+<li>@see, if this class has related classes</li>
+<li>@property, @property-read and @property-write are used to document properties
+of normal and <a class="reference internal" href="#option-class">Option Class</a>.</li>
+</ul><p>Example:</p>
+<pre class="literal-block">
+/**
+ * One line description of the class.
+ *
+ * Extensive documentation of the class. Feel free to use some
+ * inline code. For example, the following code is "like this":
+ * &lt;code&gt;
+ * $archive = new ezcArchive( "/tmp/archive.tar.gz" );
+ * $entry = $archive-&gt;getEntry();
+ * print( "First entry in the archive: " . $entry-&gt;getPath() );
+ * &lt;/code&gt;
+ *
+ * Continue documentation.
+ *
+ * @see all_related_classes
+ * @uses other_packages
+ *
+ * @package PackageName
+ * @version //autogen//
+ */
+</pre>
+<div class="section" id="property-documentation">
+<h3><a class="toc-backref" href="#id60">Property Documentation</a></h3>
+<p>This describes a new way of documenting properties, something that
+phpDocumentor does not yet understand directly. However, our patched version
+does.</p>
+<p>Properties are documented in the class' docblock, and not with the __set()
+and __get() methods. Documentation of properties goes as follows:</p>
+<pre class="literal-block">
+* @property        &lt;type&gt; $name  Description
+* @property-read   &lt;type&gt; $name  Description
+* @property-write  &lt;type&gt; $name  Description
+</pre>
+<p>Examples are:</p>
+<pre class="literal-block">
+* @property        string  $pass   password or null
+* @property-read   int     $port   port, only values &gt; 1024 are allowed
+* @property-write  array   $query  complete query string as an associative array
+</pre>
+<p>@property is used for properties that can be read from and written to,
+@property-read is for read-only properties and @property-write for write-only
+properties.</p>
+</div>
+<div class="section" id="exception-class-documentation">
+<h3><a class="toc-backref" href="#id61">Exception Class Documentation</a></h3>
+<p>Exception class documentation follows the following template:</p>
+<pre class="literal-block">
+&lt;?php
+/**
+ * File containing the &lt;exception name&gt; class
+ *
+ * @package &lt;packagename&gt;
+ * @version //autogentag//
+ * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
+/**
+ * Exception for &lt;shortdesc&gt;.
+ * &lt;longdesc&gt;
+ *
+ * @package &lt;packagename&gt;
+ * @version //autogentag//
+ */
+class ezcTemplateElementParserException extends ezcTemplateException
+{
+    /**
+     * Creates a new exception.
+     *
+     * Initializes the exception with the parser error object ($error) and
+     * sets the exception message from it.
+     *
+     * @param ezcTemplateParserError $error The object containing error details.
+     */
+    public function __construct( ezcTemplateParserError $error )
+    {
+        $this-&gt;parserError = $error;
+
+        parent::__construct( $error-&gt;getErrorMessage() );
+    }
+}
+?&gt;
+</pre>
+</div>
+<div class="section" id="structured-arrays">
+<h3><a class="toc-backref" href="#id62">Structured arrays</a></h3>
+<p>Due to efficiency reasons we use a lot of "struct" like objects in
+our Components instead of associative arrays. Those should be documented just
+like normal classes.</p>
+</div>
+</div>
+<div class="section" id="method-documentation">
+<h2><a class="toc-backref" href="#id63">Method documentation</a></h2>
+<p>Required for all methods and functions</p>
+<p>The following fields are required:</p>
+<ul><li><p class="first">A brief (one line) description of what the class does. We use the
+following wording conventions (snatched from the excellent Qt
+documentation)</p>
+<ul class="simple"><li>Wording: First word of description should always be a verb.</li>
+<li>Wording: "Constructs a/the" for all constructors</li>
+<li>Wording: "Returns ...." for all functions returning something except if the
+returned value is not the significant for the duty of the method.</li>
+</ul></li>
+<li><p class="first">@throws, syntax: @throws ExceptionType if [your reason here], like:</p>
+<pre class="literal-block">
+* @throws ezcConfigurationIniFileNotWritable if the current location values
+* cannot be used for storage.
+</pre>
+</li>
+<li><p class="first">@param</p>
+</li>
+<li><p class="first">@return, but only if there is something returned from the method.</p>
+</li>
+</ul><p>The following fields are optional:</p>
+<ul class="simple"><li>A longer description of what the function does. If natural mention the
+various parameters. If used the description field must follow the brief
+description.</li>
+<li>@see, if there are other related methods/functions.</li>
+</ul><p>Example 1: (With object parameters)</p>
+<pre class="literal-block">
+/**
+ * Returns the length of the line defined in the two dimensional space
+ * between $point1 and $point2.
+ *
+ * Example:
+ * &lt;code&gt;
+ * $point1 = new Point( 5, 10 );
+ * $point2 = new Point( 15, 42 );
+ *
+ * $length = getLength( $point1, $point2 );
+ * &lt;/code&gt;
+ *
+ * @see getLength3D()
+ *
+ * @throws PointException if any of the points are imaginary.
+ * @param Point $point1
+ * @param Point $point2
+ * @return int
+ */
+public function getLength2D( Point $point1, Point $point2 )
+{
+</pre>
+<p>Note how the parameters are not documented since they are already
+mentioned in the description.</p>
+<p>Example 2: (Same as above but with optional extra parameter and array
+arguments):</p>
+<pre class="literal-block">
+/**
+ * Returns the length of the line defined in two dimensional space
+ * between point1 and point2.
+ *
+ * @param array $point1     Format array( 'x' =&gt; int, 'y' =&gt; int )
+ * @param array $point2     Format array( 'x' =&gt; int, 'y' =&gt; int )
+ * @param int   $multiplier Multiplies the result by the given factor.
+ * @return int
+ */
+</pre>
+<p>Note how the additional optional parameter <em>is</em> documented since it is not
+mentioned in the normal description. Of course in this case you could choose to
+mention it there instead.</p>
+<div class="section" id="function-parameter-and-return-types">
+<h3><a class="toc-backref" href="#id64">Function parameter and return types</a></h3>
+<ul><li><p class="first">All parameters must be documented with at least their type,
+parameter name and short description. All returns should be documented with
+at least their type. If it is not obvious what the return value/parameter
+does with the short description, it should be described in the long
+description of the method, a description must be written. Do not add
+long descriptions of obvious parameters/return types if they are explained in
+the description text.  This is to avoid cluttering the documentation with
+obvious stuff.</p>
+</li>
+<li><p class="first">Type names should be written as described on this page
+<a class="reference external" href="http://no.php.net/manual/en/language.types.php">http://no.php.net/manual/en/language.types.php</a>. Basically the allowed types
+are:</p>
+<ul class="simple"><li>bool</li>
+<li>int</li>
+<li>float</li>
+<li>string</li>
+<li>array</li>
+<li>object (use class name)</li>
+<li>resource</li>
+<li>mixed (avoid making functions that use mixed parameters/return types)</li>
+</ul></li>
+<li><p class="first">If the type is array, we must describe the requirements to the contents of
+the array. This is done by specifying the type for normal arrays or the
+expected key's and corresponding value type if it is a hash array.</p>
+<p>Example of normal array of integers:</p>
+<pre class="literal-block">
+array(int)
+</pre>
+</li>
+</ul><blockquote>
+<p>Example of a hash array:</p>
+<pre class="literal-block">
+array(string=&gt;valueType)
+</pre>
+</blockquote>
+<ul><li><p class="first">Default values are auto documented, never document the default unless it is
+not obvious what it does.</p>
+</li>
+<li><p class="first">Parameters can be documented in either of the following styles:</p>
+<pre class="literal-block">
+/**
+ * @param array(int) $somewhatLongerName A long description of
+ *                                       myParameter and it doesn't
+ *                                       fit with the 79 characters.
+ */
+
+/**
+ * @param array(int) $somewhatLongerName
+ *        A long description of myParameter and it doesn't fit with the 79
+ *        characters.
+ */
+</pre>
+</li>
+</ul><p>The first format is preferred, but in case the parameters short description does
+not fit behind the type and parameter name on the line, then the multi-line
+comment like in format 2 is preferred. Do not use the "short" description for
+extensive documentation, this should go to the method's long function
+description.</p>
+</div>
+<div class="section" id="documenting-set-and-get">
+<h3><a class="toc-backref" href="#id65">Documenting set and get</a></h3>
+<p>If you use class properties then the __set and __get methods get the following
+documentation:</p>
+<pre class="literal-block">
+/**
+ * Sets the property $name to $value.
+ *
+ * @throws ezcBasePropertyNotFoundException if the property does not exist.
+ * @throws ezcBaseFileNotFoundException when setting the property with an invalid filename.
+ * @param string $name
+ * @param mixed $value
+ * @ignore
+ */
+public function __set( $name, $value )
+
+/**
+ * Returns the value of property $value.
+ *
+ * @throws ezcBasePropertyNotFoundException if the property does not exist.
+ * @param string $name
+ * @param mixed $value
+ * @return mixed
+ * @ignore
+ */
+public function __get( $name )
+</pre>
+<p>For documentation how properties really work, please refer to the section
+<a class="reference internal" href="#property-documentation">Property Documentation</a>.</p>
+</div>
+<div class="section" id="documenting-set-state">
+<h3><a class="toc-backref" href="#id66">Documenting __set_state</a></h3>
+<p>If you have such a method for your class, it should be documented like this:</p>
+<pre class="literal-block">
+/**
+ * Returns a new instance of this class with the data specified by $array.
+ *
+ * $array contains all the data members of this class in the form:
+ * array('member_name'=&gt;value).
+ *
+ * __set_state makes this class exportable with var_export.
+ * var_export() generates code, that calls this method when it
+ * is parsed with PHP.
+ *
+ * @param array(string=&gt;mixed)
+ * @return ezcPhpGeneratoReturnData
+ */
+</pre>
+</div>
+<div class="section" id="documenting-the-properties-variable">
+<h3><a class="toc-backref" href="#id67">Documenting the properties variable</a></h3>
+<p>The properties variable should be documented like this:</p>
+<pre class="literal-block">
+/**
+ * Holds the properties of this class.
+ *
+ * @var array(string=&gt;mixed)
+ */
+</pre>
+</div>
+<div class="section" id="documenting-private-classes">
+<h3><a class="toc-backref" href="#id68">Documenting private classes</a></h3>
+<p>If you are documenting a private class make sure to mark both the file and the
+class docblock with @access private. Documentation for these classes will <em>not</em>
+be generated for the end user documentation.</p>
+<p>It is important that private classes are not exposed anywhere within the public
+classes.</p>
+</div>
+<div class="section" id="documenting-options">
+<h3><a class="toc-backref" href="#id69">Documenting options</a></h3>
+<p>Options should be documented in the class doc block as properties of the option
+class. It should follow directly after the main description. See
+<a class="reference internal" href="#property-documentation">Property Documentation</a> for more information.</p>
+</div>
+<div class="section" id="phpdocumentor-tags-and-required-usage">
+<h3><a class="toc-backref" href="#id70">phpDocumentor tags and required usage</a></h3>
+</div>
+</div>
+<div class="section" id="apichange">
+<h2><a class="toc-backref" href="#id71">@apichange</a></h2>
+<p>Use this in any form of block level to document something that can be removed
+or changed when we bump the major version number of a component.</p>
+</div>
+<div class="section" id="category">
+<h2><a class="toc-backref" href="#id72">@category</a></h2>
+<p>Required in the page level doc blocks in source files of tie-in packages.  That
+is packages directly related to some main package where the separation exists
+only to avoid dependencies.</p>
+</div>
+<div class="section" id="copyright">
+<h2><a class="toc-backref" href="#id73">@copyright</a></h2>
+<p>Required in either the page or class level doc blocks. It should be in the form:</p>
+</div>
+<div class="section" id="deprecated">
+<h2><a class="toc-backref" href="#id74">@deprecated</a></h2>
+<p>Required to use for everything that is deprecated. If a complete page or class
+is deprecated you should add this tag only to the page or class level
+doc block.</p>
+</div>
+<div class="section" id="example">
+<h2><a class="toc-backref" href="#id75">@example</a></h2>
+<p>Optional usage when making big examples. These can be in source files which we
+can then actually check for correct behavior.</p>
+</div>
+<div class="section" id="filesource">
+<h2><a class="toc-backref" href="#id76">@filesource</a></h2>
+<p>Required in the page level documentation.</p>
+</div>
+<div class="section" id="global">
+<h2><a class="toc-backref" href="#id77">@global</a></h2>
+<p>Required when creating global variables. I can't think of any reasons why we
+would want to create that though.</p>
+</div>
+<div class="section" id="ignore">
+<h2><a class="toc-backref" href="#id78">@ignore</a></h2>
+<p>Use if needed. __set, __get and __isset method documentation always get this tag.</p>
+</div>
+<div class="section" id="internal">
+<h2><a class="toc-backref" href="#id79">@internal</a></h2>
+<p>Required when documenting public functionality and you want to add information
+that is developer specific.</p>
+</div>
+<div class="section" id="license">
+<h2><a class="toc-backref" href="#id80">@license</a></h2>
+<p>Required for the documentation of all files. It should always read:</p>
+<pre class="literal-block">
+@license http://ez.no/licenses/new_bsd New BSD License
+</pre>
+</div>
+<div class="section" id="link">
+<h2><a class="toc-backref" href="#id81">@link</a></h2>
+<p>Required when linking in the documentation.</p>
+</div>
+<div class="section" id="package">
+<h2><a class="toc-backref" href="#id82">@package</a></h2>
+<p>Required in the page level doc block of all source files. Always use the
+package name.</p>
+</div>
+<div class="section" id="param">
+<h2><a class="toc-backref" href="#id83">@param</a></h2>
+<p>Required for all function parameters. The type and variable name parameters
+are required. The description should be used if the purpose of the parameter is
+not mentioned in the method description. Documentation of parameters in the
+description is recommended.</p>
+</div>
+<div class="section" id="return">
+<h2><a class="toc-backref" href="#id84">@return</a></h2>
+<p>Required for all methods, and the type parameter is required. This tag should
+not exist for non-returning methods. The description should be used if the
+purpose of the return value is not mentioned in the method description.</p>
+</div>
+<div class="section" id="see">
+<h2><a class="toc-backref" href="#id85">@see</a></h2>
+<p>Required to use when documenting methods or classes that have similar purpose.</p>
+</div>
+<div class="section" id="since">
+<h2><a class="toc-backref" href="#id86">@since</a></h2>
+<p>Required when adding new functionality to a package after the initial release.</p>
+</div>
+<div class="section" id="throws">
+<h2><a class="toc-backref" href="#id87">@throws</a></h2>
+<p>Required for all methods that can throw an exception. You should also mention
+any exceptions that might bubble up.</p>
+</div>
+<div class="section" id="todo">
+<h2><a class="toc-backref" href="#id88">@todo</a></h2>
+<p>Required to use when functionality is not finished. Packages should never
+contain TODO items when they are released.</p>
+</div>
+<div class="section" id="uses">
+<h2><a class="toc-backref" href="#id89">@uses</a></h2>
+<p>Required for classes that have dependencies on other packages. The use should
+display what package you use. Should only be used in class documentation.</p>
+</div>
+<div class="section" id="var">
+<h2><a class="toc-backref" href="#id90">@var</a></h2>
+<p>Required for all class variables. The only allowed syntax is:</p>
+<pre class="literal-block">
+/**
+ * Short description
+ * Longer description that can also span multiple lines, like
+ * this.
+ * @var type
+ */
+private $variableName;
+</pre>
+<p>An example:</p>
+<pre class="literal-block">
+/**
+ * ezcPhpGenerator writes to the file with this name during execution.
+ * When {@link finish()} is called this file is moved to
+ * $resultFileName.
+ * @var string
+ */
+private $tmpFilename;
+</pre>
+</div>
+<div class="section" id="version">
+<h2><a class="toc-backref" href="#id91">@version</a></h2>
+<p>Required in all file <em>and</em> class descriptions. The values are auto generated, so
+just use the format:</p>
+<pre class="literal-block">
+@version //autogentag//
+</pre>
+<!-- Local Variables:
+mode: rst
+fill-column: 79
+End:
+vim: et syn=rst tw=79 -->
+</div>
+</div>
+</div>

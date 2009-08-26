@@ -45,6 +45,72 @@ interface ezcSearchFindQuery extends ezcSearchQuery
      * @return ezcSearchFindQuery
      */
     public function select();
+
+    /**
+     * Registers from which offset to start returning results, and how many results to return.
+     *
+     * $limit controls the maximum number of rows that will be returned.
+     * $offset controls which row that will be the first in the result
+     * set from the total amount of matching rows.
+     *
+     * @param int $limit
+     * @param int $offset
+     * @return ezcSearchQuery
+     */
+    public function limit( $limit, $offset = 0 );
+
+    /**
+     * Tells the query on which field to sort on, and in which order
+     *
+     * You can call orderBy multiple times. Each call will add a
+     * column to order by.
+     *
+     * @param string $column
+     * @param int    $type
+     * @return ezcSearchQuery
+     */
+    public function orderBy( $column, $type = ezcSearchQueryTools::ASC );
+
+    /**
+     * Adds one facet to the query.
+     *
+     * @param string $facet
+     * @return ezcSearchQuery
+     */
+    public function facet( $facet );
+
+    /**
+     * Creates an 'important' clause
+     *
+     * This method accepts a clause and marks it as important.
+     *
+     * @param string $clause
+     * @return string
+     */
+    public function important( $clause );
+
+    /**
+     * Modifies a clause to give it higher weight while searching.
+     *
+     * This method accepts a clause and adds a boost factor.
+     *
+     * @param string $clause
+     * @param float $boostFactor
+     * @return string
+     */
+    public function boost( $clause, $boostFactor );
+
+    /**
+     * Modifies a clause make it fuzzy.
+     *
+     * This method accepts a clause and registers it as a fuzzy search, an
+     * optional fuzz factor is also supported.
+     *
+     * @param string $clause
+     * @param float $fuzzFactor
+     * @return string
+     */
+    public function fuzz( $clause, $fuzzFactor = null );
 }
 
 ?>

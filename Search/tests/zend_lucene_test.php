@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-require 'testfiles/article.php';
+require_once 'testfiles/article.php';
 require_once 'testfiles/test-classes.php';
 
 /**
@@ -155,9 +155,9 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 2, count( $r->documents ) );
-        self::assertEquals( true, isset( $r->documents[$a->id]['meta'] ) );
-        self::assertEquals( true, isset( $r->documents[$a->id]['meta']['score'] ) );
-        self::assertEquals( true, isset( $r->documents[$a->id]['document'] ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]->meta ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]->meta['score'] ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]->document ) );
     }
 
     public function testCreateFindQueryWithAccent()
@@ -404,7 +404,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( '4822deec4153d-one', $r->documents['4822deec4153d-one']['document']->id );
+        self::assertEquals( '4822deec4153d-one', $r->documents['4822deec4153d-one']->document->id );
     }
 
     public function testCreateFindQueryLimitOffset()
@@ -422,7 +422,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( '4822deec4153d-two', $r->documents['4822deec4153d-two']['document']->id );
+        self::assertEquals( '4822deec4153d-two', $r->documents['4822deec4153d-two']->document->id );
     }
 
     public function testCreateFindQueryOrderByDefault()
@@ -441,7 +441,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']['document']->title );
+        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']->document->title );
     }
 
     public function testCreateFindQueryOrderByAsc()
@@ -461,14 +461,14 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']['document']->title );
+        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']->document->title );
     }
 
     public function testCreateFindQueryOrderByDesc()
     {
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
 
-        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $a = new Article( '4822deec4153d-one', 'Test Article Een', 'This is the first article to test', 'the body of the article', time() - 86400 );
         $session->index( $a );
         $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
         $session->index( $a );
@@ -478,9 +478,11 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $q->limit( 1 );
         $q->orderBy( 'title', ezcSearchQueryTools::DESC );
         $r = $session->find( $q );
+
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( 'Test Article Twee', $r->documents['4822deec4153d-two']['document']->title );
+        self::assertTrue( isset( $r->documents['4822deec4153d-two'] ) );
+        self::assertEquals( 'Test Article Twee', $r->documents['4822deec4153d-two']->document->title );
     }
 
     public function testCreateFindQueryWrongField()
@@ -524,6 +526,90 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 2, count( $r->documents ) );
         self::assertEquals( "q=ezcsearch_type_s%3AArticle+AND+published_l%3A%5B$timeb1+TO+$timeb2%5D&wt=json&df=&fl=score+id_s+title_t+summary_t+published_l+author_s+ezcsearch_type_s+score&start=0&rows=10", $q->getQuery() );
+    }
+
+    public function testDeleteById()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+        self::assertEquals( 2, count( $r->documents ) );
+        self::assertEquals( '4822deec4153d-one', $r->documents['4822deec4153d-one']->document->id );
+        self::assertEquals( '4822deec4153d-two', $r->documents['4822deec4153d-two']->document->id );
+
+        $session->deleteById( '4822deec4153d-two', 'Article' );
+
+        $q = $session->createFindQuery( 'Article' );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
+        self::assertEquals( 1, count( $r->documents ) );
+        self::assertFalse( isset( $r->documents['4822deec4153d-two'] ) );
+        self::assertEquals( '4822deec4153d-one', $r->documents['4822deec4153d-one']->document->id );
+    }
+
+    public function testFindById()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( '4822deec4153d-one', 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( '4822deec4153d-two', 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $r = $session->findById( '4822deec4153d-one', 'Article' );
+        self::assertequals( '4822deec4153d-one', $r->document->id );
+
+        $r = $session->findById( '4822deec4153d-two', 'Article' );
+        self::assertEquals( '4822deec4153d-two', $r->document->id );
+    }
+
+    public function testDeleteByIdNonExisting()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        $session->deleteById( '4822deec4153d-three', 'Article' );
+    }
+
+    public function testFindByIdNonExisting()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        try
+        {
+            $r = $session->findById( '4822deec4153d-three', 'Article' );
+            self::fail( 'Expected exception not thrown.' );
+        }
+        catch ( ezcSearchIdNotFoundException $e )
+        {
+            self::assertEquals( "There is no document with ID '4822deec4153d-three'.", $e->getMessage() );
+        }
+    }
+
+    public function testDeleteQuery()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time() - 86400 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Twee', 'This is the second article to test', 'the body of the article', time() );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $r = $session->find( $q );
+        self::assertEquals( 2, $r->resultCount );
+
+        $q = $session->createDeleteQuery( 'Article' );
+        $q->where( $q->eq( 'title', 'Twee' ) );
+        $session->delete( $q );
+
+        $q = $session->createFindQuery( 'Article' );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
     }
 
     public function testCreateFindWithPhrase()
@@ -575,12 +661,12 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $q->where( $q->eq( $findField, $findValue ) );
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
-        self::assertEquals( $string, $r->documents['testId']['document']->string );
-        self::assertEquals( $html, $r->documents['testId']['document']->html );
-        self::assertEquals( $bool, $r->documents['testId']['document']->bool );
-        self::assertEquals( $int, $r->documents['testId']['document']->int );
-        self::assertEquals( $float, $r->documents['testId']['document']->float );
-        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']['document']->date->format( '\sU' ) );
+        self::assertEquals( $string, $r->documents['testId']->document->string );
+        self::assertEquals( $html, $r->documents['testId']->document->html );
+        self::assertEquals( $bool, $r->documents['testId']->document->bool );
+        self::assertEquals( $int, $r->documents['testId']->document->int );
+        self::assertEquals( $float, $r->documents['testId']->document->float );
+        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']->document->date->format( '\sU' ) );
     }
 
     /**
@@ -597,18 +683,18 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $q->where( $q->eq( $findField, $findValue ) );
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
-        self::assertEquals( array( $string ), $r->documents['testId']['document']->string );
-        self::assertEquals( array( $html ), $r->documents['testId']['document']->html );
-        self::assertEquals( array( $bool ), $r->documents['testId']['document']->bool );
-        self::assertEquals( array( $int ), $r->documents['testId']['document']->int );
-        self::assertEquals( array( $float ), $r->documents['testId']['document']->float );
+        self::assertEquals( array( $string ), $r->documents['testId']->document->string );
+        self::assertEquals( array( $html ), $r->documents['testId']->document->html );
+        self::assertEquals( array( $bool ), $r->documents['testId']->document->bool );
+        self::assertEquals( array( $int ), $r->documents['testId']->document->int );
+        self::assertEquals( array( $float ), $r->documents['testId']->document->float );
 
-        self::assertEquals( $string, $r->documents['testId']['document']->string[0] );
-        self::assertEquals( $html, $r->documents['testId']['document']->html[0] );
-        self::assertEquals( $bool, $r->documents['testId']['document']->bool[0] );
-        self::assertEquals( $int, $r->documents['testId']['document']->int[0] );
-        self::assertEquals( $float, $r->documents['testId']['document']->float[0] );
-        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']['document']->date[0]->format( '\sU' ) );
+        self::assertEquals( $string, $r->documents['testId']->document->string[0] );
+        self::assertEquals( $html, $r->documents['testId']->document->html[0] );
+        self::assertEquals( $bool, $r->documents['testId']->document->bool[0] );
+        self::assertEquals( $int, $r->documents['testId']->document->int[0] );
+        self::assertEquals( $float, $r->documents['testId']->document->float[0] );
+        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']->document->date[0]->format( '\sU' ) );
     }
 
     public static function datatypesMulti()
@@ -657,13 +743,13 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         $q->where( $q->eq( $findField, $findValue ) );
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
-        self::assertEquals( $string, $r->documents['testId']['document']->string );
-        self::assertEquals( $html, $r->documents['testId']['document']->html );
-        self::assertEquals( $bool, $r->documents['testId']['document']->bool );
-        self::assertEquals( $int, $r->documents['testId']['document']->int );
-        self::assertEquals( $float, $r->documents['testId']['document']->float );
+        self::assertEquals( $string, $r->documents['testId']->document->string );
+        self::assertEquals( $html, $r->documents['testId']->document->html );
+        self::assertEquals( $bool, $r->documents['testId']->document->bool );
+        self::assertEquals( $int, $r->documents['testId']->document->int );
+        self::assertEquals( $float, $r->documents['testId']->document->float );
 
-        self::assertEquals( date_create( $date[0] )->format( '\sU' ), $r->documents['testId']['document']->date[0]->format( '\sU' ) );
+        self::assertEquals( date_create( $date[0] )->format( '\sU' ), $r->documents['testId']->document->date[0]->format( '\sU' ) );
     }
     */
 }

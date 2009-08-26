@@ -109,7 +109,7 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
 
     public function testIndexDocument2()
     {
-        $content = file_get_contents( '/home/derick/dev/ezcomponents-web/files/parsed_rst/coding_standards.xml' );
+        $content = file_get_contents( $this->testFilesDir . 'coding_standards.xml' );
         $a = new Article( null, 'Test Article', 'This is an article to test', $content, time() );
 
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
@@ -156,9 +156,9 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 2, count( $r->documents ) );
-        self::assertEquals( true, isset( $r->documents[$a->id]['meta'] ) );
-        self::assertEquals( true, isset( $r->documents[$a->id]['meta']['score'] ) );
-        self::assertEquals( true, isset( $r->documents[$a->id]['document'] ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]->meta ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]->meta['score'] ) );
+        self::assertEquals( true, isset( $r->documents[$a->id]->document ) );
     }
 
     public function testCreateFindQueryWithAccent()
@@ -405,7 +405,7 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( '4822deec4153d-one', $r->documents['4822deec4153d-one']['document']->id );
+        self::assertEquals( '4822deec4153d-one', $r->documents['4822deec4153d-one']->document->id );
     }
 
     public function testCreateFindQueryLimitOffset()
@@ -423,7 +423,7 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( '4822deec4153d-two', $r->documents['4822deec4153d-two']['document']->id );
+        self::assertEquals( '4822deec4153d-two', $r->documents['4822deec4153d-two']->document->id );
     }
 
     public function testCreateFindQueryOrderByDefault()
@@ -442,7 +442,7 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']['document']->title );
+        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']->document->title );
     }
 
     public function testCreateFindQueryOrderByAsc()
@@ -462,7 +462,7 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $r = $session->find( $q );
         self::assertEquals( 2, $r->resultCount );
         self::assertEquals( 1, count( $r->documents ) );
-        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']['document']->title );
+        self::assertEquals( 'Test Article Eén', $r->documents['4822deec4153d-one']->document->title );
     }
 
     public function testCreateFindQueryOrderByDesc()
@@ -483,7 +483,7 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         self::assertEquals( 1, count( $r->documents ) );
         self::assertEquals( true, array_key_exists( '4822deec4153d-one', $r->documents ) );
         self::assertEquals( true, array_key_exists( '4822deec4153d-two', $r->documents ) );
-        self::assertEquals( 'Test Article Twee', $r->documents['4822deec4153d-two']['document']->title );
+        self::assertEquals( 'Test Article Twee', $r->documents['4822deec4153d-two']->document->title );
     }
 
     public function testCreateFindQueryWrongField()
@@ -578,12 +578,12 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $q->where( $q->eq( $findField, $findValue ) );
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
-        self::assertEquals( $string, $r->documents['testId']['document']->string );
-        self::assertEquals( $html, $r->documents['testId']['document']->html );
-        self::assertEquals( $bool, $r->documents['testId']['document']->bool );
-        self::assertEquals( $int, $r->documents['testId']['document']->int );
-        self::assertEquals( $float, $r->documents['testId']['document']->float );
-        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']['document']->date->format( '\sU' ) );
+        self::assertEquals( $string, $r->documents['testId']->document->string );
+        self::assertEquals( $html, $r->documents['testId']->document->html );
+        self::assertEquals( $bool, $r->documents['testId']->document->bool );
+        self::assertEquals( $int, $r->documents['testId']->document->int );
+        self::assertEquals( $float, $r->documents['testId']->document->float );
+        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']->document->date->format( '\sU' ) );
     }
 
     /**
@@ -600,18 +600,18 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $q->where( $q->eq( $findField, $findValue ) );
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
-        self::assertEquals( array( $string ), $r->documents['testId']['document']->string );
-        self::assertEquals( array( $html ), $r->documents['testId']['document']->html );
-        self::assertEquals( array( $bool ), $r->documents['testId']['document']->bool );
-        self::assertEquals( array( $int ), $r->documents['testId']['document']->int );
-        self::assertEquals( array( $float ), $r->documents['testId']['document']->float );
+        self::assertEquals( array( $string ), $r->documents['testId']->document->string );
+        self::assertEquals( array( $html ), $r->documents['testId']->document->html );
+        self::assertEquals( array( $bool ), $r->documents['testId']->document->bool );
+        self::assertEquals( array( $int ), $r->documents['testId']->document->int );
+        self::assertEquals( array( $float ), $r->documents['testId']->document->float );
 
-        self::assertEquals( $string, $r->documents['testId']['document']->string[0] );
-        self::assertEquals( $html, $r->documents['testId']['document']->html[0] );
-        self::assertEquals( $bool, $r->documents['testId']['document']->bool[0] );
-        self::assertEquals( $int, $r->documents['testId']['document']->int[0] );
-        self::assertEquals( $float, $r->documents['testId']['document']->float[0] );
-        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']['document']->date[0]->format( '\sU' ) );
+        self::assertEquals( $string, $r->documents['testId']->document->string[0] );
+        self::assertEquals( $html, $r->documents['testId']->document->html[0] );
+        self::assertEquals( $bool, $r->documents['testId']->document->bool[0] );
+        self::assertEquals( $int, $r->documents['testId']->document->int[0] );
+        self::assertEquals( $float, $r->documents['testId']->document->float[0] );
+        self::assertEquals( date_create( "$date" )->format( '\sU' ), $r->documents['testId']->document->date[0]->format( '\sU' ) );
     }
 
     public static function datatypesMulti()
@@ -660,13 +660,13 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         $q->where( $q->eq( $findField, $findValue ) );
         $r = $session->find( $q );
         self::assertEquals( 1, $r->resultCount );
-        self::assertEquals( $string, $r->documents['testId']['document']->string );
-        self::assertEquals( $html, $r->documents['testId']['document']->html );
-        self::assertEquals( $bool, $r->documents['testId']['document']->bool );
-        self::assertEquals( $int, $r->documents['testId']['document']->int );
-        self::assertEquals( $float, $r->documents['testId']['document']->float );
+        self::assertEquals( $string, $r->documents['testId']->document->string );
+        self::assertEquals( $html, $r->documents['testId']->document->html );
+        self::assertEquals( $bool, $r->documents['testId']->document->bool );
+        self::assertEquals( $int, $r->documents['testId']->document->int );
+        self::assertEquals( $float, $r->documents['testId']->document->float );
 
-        self::assertEquals( date_create( $date[0] )->format( '\sU' ), $r->documents['testId']['document']->date[0]->format( '\sU' ) );
+        self::assertEquals( date_create( $date[0] )->format( '\sU' ), $r->documents['testId']->document->date[0]->format( '\sU' ) );
     }
     */
 }
