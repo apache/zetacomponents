@@ -5,6 +5,7 @@
 - Fixed the ezcSystemReaderCantScanOSException class to properly inherit
   from ezcSystemInfoException and ezcBaseException.
 - Implemented issue #15352: Added support for XCache.
+- Removed support for PHP Accelerator, which is for PHP 4 only.
 
 
 1.0.7 - Monday 10 November 2008

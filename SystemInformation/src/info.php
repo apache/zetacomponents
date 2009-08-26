@@ -234,16 +234,6 @@ class ezcSystemInfo
     public static function phpAccelerator()
     {
         $phpAcceleratorInfo = null;
-        if ( isset( $GLOBALS['_PHPA'] ) )
-        {
-            $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
-                    "ionCube PHP Accelerator",          // name
-                    "http://www.php-accelerator.co.uk", // url
-                    $GLOBALS['_PHPA']['ENABLED'],       // isEnabled
-                    $GLOBALS['_PHPA']['iVERSION'],      // version int
-                    $GLOBALS['_PHPA']['VERSION']        // version string
-                );
-        }
         if ( ezcBaseFeatures::hasExtensionSupport( "Turck MMCache" ) )
         {
             $phpAcceleratorInfo = new ezcSystemInfoAccelerator(
