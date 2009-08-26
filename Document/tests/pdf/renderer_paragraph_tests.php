@@ -280,7 +280,242 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
         );
     }
 
-    // @TODO: Implement additional tests for wrapped bordered text
+    public function testRenderParagraphSplittingWithBorderFirstPage()
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'para' ),
+                array(
+                    'line-height'      => '1',
+                    'padding'          => '5',
+                    'margin'           => '5',
+                    'border'           => '1mm solid #A00000',
+                    'background-color' => '#eedbdb',
+                )
+            )
+        ) );
+
+        $mock = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'drawPolyline',
+            'drawPolygon',
+            'createPage',
+            'drawWord',
+        ) );
+
+        // Expectations for first page
+        $mock->expects( $this->at( 0 ) )->method( 'createPage' )->with(
+            $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
+        );
+        $mock->expects( $this->at( 1 ) )->method( 'drawPolygon' )->with(
+            $this->equalTo( array(
+                array( 15, 15 ),
+                array( 85, 15 ),
+                array( 85, 83 ),
+                array( 15, 83 ),
+            ), 1. ),
+            $this->equalTo( array(
+                'red'   => .93,
+                'green' => .86,
+                'blue'  => .86,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 2 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 15.5, 15.5 ), array( 15.5, 82.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 3 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 15.5, 15.5 ), array( 84.5, 15.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 4 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 84.5, 15.5 ), array( 84.5, 82.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 21, 1. ), $this->equalTo( 29, 1. ), $this->equalTo( 'This' )
+        );
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/wrapping.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer( $mock, $this->styles );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+    }
+
+    public function testRenderParagraphSplittingWithBorderSecondPage()
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'para' ),
+                array(
+                    'line-height'      => '1',
+                    'padding'          => '5',
+                    'margin'           => '5',
+                    'border'           => '1mm solid #A00000',
+                    'background-color' => '#eedbdb',
+                )
+            )
+        ) );
+
+        $mock = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'drawPolyline',
+            'drawPolygon',
+            'createPage',
+            'drawWord',
+        ) );
+
+        // Expectations for second page
+        $mock->expects( $this->at( 18 ) )->method( 'createPage' )->with(
+            $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
+        );
+        $mock->expects( $this->at( 19 ) )->method( 'drawPolygon' )->with(
+            $this->equalTo( array(
+                array( 15, 15 ),
+                array( 85, 15 ),
+                array( 85, 83 ),
+                array( 15, 83 ),
+            ), 1. ),
+            $this->equalTo( array(
+                'red'   => .93,
+                'green' => .86,
+                'blue'  => .86,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 20 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 15.5, 15.5 ), array( 15.5, 82.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 21 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 84.5, 15.5 ), array( 84.5, 82.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 22 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 21, 1. ), $this->equalTo( 29, 1. ), $this->equalTo( 'exceeding' )
+        );
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/wrapping.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer( $mock, $this->styles );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+    }
+
+    public function testRenderParagraphSplittingWithBorderLastPage()
+    {
+        // Additional formatting
+        $this->styles->appendStyleDirectives( array(
+            new ezcDocumentPdfCssDirective(
+                array( 'para' ),
+                array(
+                    'line-height'      => '1',
+                    'padding'          => '5',
+                    'margin'           => '5',
+                    'border'           => '1mm solid #A00000',
+                    'background-color' => '#eedbdb',
+                )
+            )
+        ) );
+
+        $mock = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'drawPolyline',
+            'drawPolygon',
+            'createPage',
+            'drawWord',
+        ) );
+
+        // Expectations for third page
+        $mock->expects( $this->at( 38 ) )->method( 'createPage' )->with(
+            $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
+        );
+        $mock->expects( $this->at( 39 ) )->method( 'drawPolygon' )->with(
+            $this->equalTo( array(
+                array( 15, 15 ),
+                array( 85, 15 ),
+                array( 85, 51 ),
+                array( 15, 51 ),
+            ), 1. ),
+            $this->equalTo( array(
+                'red'   => .93,
+                'green' => .86,
+                'blue'  => .86,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 40 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 15.5, 15.5 ), array( 15.5, 50.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 41 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 84.5, 15.5 ), array( 84.5, 50.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 42 ) )->method( 'drawPolyline' )->with(
+            $this->equalTo( array( array( 84.5, 50.5 ), array( 15.5, 50.5 ) ), .1 ),
+            $this->equalTo( array(
+                'red'   => .63,
+                'green' => .0,
+                'blue'  => .0,
+                'alpha' => 0
+            ), .01 )
+        );
+        $mock->expects( $this->at( 43 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 21, 1. ), $this->equalTo( 29, 1. ), $this->equalTo( 'be' )
+        );
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/wrapping.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer( $mock, $this->styles );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+    }
 }
 
 ?>

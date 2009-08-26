@@ -150,8 +150,8 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
             $this->renderBoxBorder(
                 $space,
                 $styles,
-                true,
-                true
+                $nr === 0,
+                $nr + 1 >= count( $pages )
             );
 
             foreach ( $content['lines'] as $line )
