@@ -152,6 +152,7 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
 
             $this->renderBoxBackground( $space, $styles );
             $this->renderBoxBorder( $space, $styles, $nr === 0, $nr + 1 >= count( $pages ) );
+            $this->setBoxCovered( $page, $space, $styles );
 
             // Render actual text contents
             foreach ( $content['lines'] as $line )
@@ -160,11 +161,6 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
             }
         }
 
-        // Mark used space covered and exit with success return code
-        $page->setCovered(
-            new ezcDocumentPdfBoundingBox( $space->x, $space->y, $space->width, $position - $space->y )
-        );
-        $page->y = $position;
         return true;
     }
 }

@@ -229,14 +229,15 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
      *
      * Mark rendered space as convered on the page.
      *
-     * @param ezcDocumentPdfPage $page
-     * @param array $styles
-     * @param float $width
-     * @return mixed
+     * @param ezcDocumentPdfPage $page 
+     * @param ezcDocumentPdfBoundingBox $space 
+     * @param array $styles 
+     * @return void
      */
     protected function setBoxCovered( ezcDocumentPdfPage $page, ezcDocumentPdfBoundingBox $space, array $styles )
     {
         // Apply bounding box modifications
+        $space = clone $space;
         $space->x      -=
             $styles['padding']->value['left'] +
             $styles['border']->value['left']['width'] +

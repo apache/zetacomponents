@@ -28,7 +28,7 @@ class ezcTestDocumentPdfMockDriver extends ezcDocumentPdfSvgDriver
     {
         foreach ( $this->calls as $nr => $call )
         {
-            echo $nr, ") ", $call[0], "( ", @implode( ", ", $call[1] ), " )\n";
+            echo "\n", $nr, ") ", $call[0], "( ", @implode( ", ", $call[1] ), " )";
         }
     }
 

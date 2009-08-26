@@ -177,7 +177,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( 'This' )
         );
         $mock->expects( $this->at( 22 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 85.2, 1. ), $this->equalTo( 'Second' )
+            $this->equalTo( 10, 1. ), $this->equalTo( 82, 1. ), $this->equalTo( 'Second' )
         );
         $mock->expects( $this->at( 24 ) )->method( 'createPage' )->with(
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
