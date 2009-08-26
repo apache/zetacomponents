@@ -272,7 +272,7 @@ class ezcDocumentPdfStyleInferencer
             }
             else
             {
-                $merged[$name] = $value;
+                $merged[$name] = clone $value;
             }
         }
 
@@ -313,7 +313,7 @@ class ezcDocumentPdfStyleInferencer
             }
             else
             {
-                $merged[$name] = $value;
+                $merged[$name] = clone $value;
             }
         }
 
@@ -350,6 +350,45 @@ class ezcDocumentPdfStyleInferencer
     }
 
     /**
+     * Filter the styles
+     *
+     * Filter the styles so that only styles of the specified classes are
+     * returned.
+     * 
+     * @param array $formats 
+     * @param int $types 
+     * @return array void
+     */
+    protected function filterStyles( array $formats, $types )
+    {
+        if ( $types === -1 )
+        {
+            return $formats;
+        }
+
+        // Filter formats to only include formats matching the given category
+        $filtered = array();
+        foreach ( $this->categories as $type => $properties )
+        {
+            if ( !( $type & $types ) )
+            {
+                continue;
+            }
+
+            foreach ( $formats as $name => $value )
+            {
+                if ( in_array( $name, $properties, true ) )
+                {
+                    $filtered[$name] = $value;
+                    unset( $formats[$name] );
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
+    /**
      * Inference formatting rules for element
      *
      * Inference the formatting rules for the passed DOMElement or location id.
@@ -368,7 +407,7 @@ class ezcDocumentPdfStyleInferencer
         $locationId = $element->getLocationId();
         if ( isset( $this->styleCache[$locationId] ) )
         {
-            return $this->styleCache[$locationId];
+            return $this->filterStyles( $this->styleCache[$locationId], $types );
         }
 
         // Check if we are at the root node, otherwise inherit style directives
@@ -398,31 +437,8 @@ class ezcDocumentPdfStyleInferencer
             }
         }
 
-        if ( $types === -1 )
-        {
-            return $formats;
-        }
-
-        // Filter formats to only include formats matching the given category
-        $filtered = array();
-        foreach ( $this->categories as $type => $properties )
-        {
-            if ( !( $type & $types ) )
-            {
-                continue;
-            }
-
-            foreach ( $formats as $name => $value )
-            {
-                if ( in_array( $name, $properties, true ) )
-                {
-                    $filtered[$name] = $value;
-                    unset( $formats[$name] );
-                }
-            }
-        }
-
-        return $filtered;
+        $this->styleCache[$locationId] = $formats;
+        return $this->filterStyles( $formats, $types );
     }
 }
 ?>
