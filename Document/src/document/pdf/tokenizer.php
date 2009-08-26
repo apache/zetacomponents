@@ -31,6 +31,12 @@ abstract class ezcDocumentPdfTokenizer
     const WRAP = 1;
 
     /**
+     * Constant indicating a forced breaking point without rendering a space
+     * character.
+     */
+    const FORCED = 2;
+
+    /**
      * Split string into words
      *
      * This function takes a string and splits it into words. There are

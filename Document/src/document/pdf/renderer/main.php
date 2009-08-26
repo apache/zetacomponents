@@ -76,12 +76,13 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      */
     protected $handlerMapping = array(
         'http://docbook.org/ns/docbook' => array(
-            'article'     => 'initializeDocument',
-            'section'     => 'process',
-            'para'        => 'renderParagraph',
-            'title'       => 'renderTitle',
-            'mediaobject' => 'renderMediaObject',
-            'sectioninfo' => 'ignore',
+            'article'       => 'initializeDocument',
+            'section'       => 'process',
+            'para'          => 'renderParagraph',
+            'title'         => 'renderTitle',
+            'mediaobject'   => 'renderMediaObject',
+            'literallayout' => 'renderLiteralLayout',
+            'sectioninfo'   => 'ignore',
         ),
     );
 
@@ -478,6 +479,50 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         $trans = $this->driver->startTransaction();
         $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
         $this->handleAnchors( $element );
+    }
+
+    /**
+     * Handle calls to paragraph renderer
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
+     * @return void
+     */
+    protected function renderLiteralLayout( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $renderer = new ezcDocumentPdfLiteralBlockRenderer( $this->driver, $this->styles );
+        $page     = $this->driver->currentPage();
+        $styles   = $this->styles->inferenceFormattingRules( $element );
+
+        // Just try to render at current position first
+        $trans = $this->driver->startTransaction();
+        if ( $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
+        {
+            $this->titleTransaction = null;
+            $this->handleAnchors( $element );
+            return true;
+        }
+
+        // Check if something requested a rendering restart at a prior point,
+        // only continue otherwise.
+        if ( ( $this->restart !== false ) ||
+             ( !$this->checkSkipPrerequisites(
+                    ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+                    $styles['text-column-spacing']->value,
+                    $pWidth
+                ) ) )
+        {
+            return false;
+        }
+
+        // If that did not work, switch to the next possible location and start
+        // there.
+        $this->driver->revert( $trans );
+        $this->getNextRenderingPosition(
+            ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+            $styles['text-column-spacing']->value,
+            $pWidth
+        );
+        return $this->renderParagraph( $element );
     }
 
     /**

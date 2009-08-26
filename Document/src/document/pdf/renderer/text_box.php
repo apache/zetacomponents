@@ -690,6 +690,20 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
         $consumed = 0;
         while ( $token = array_shift( $tokens ) )
         {
+            // Handle forced line breaks
+            if ( $token['word'] === ezcDocumentPdfTokenizer::FORCED )
+            {
+                // Continue rendering in next line
+                $consumed = 0;
+                $lines[++$line] = array(
+                    'tokens' => array(),
+                    'height' => 0,
+                    'words'  => 0,
+                    'spaces' => 0,
+                );
+                continue;
+            }
+
             // Pure wrapping tokens are irrleveant to width calculation
             if ( $token['word'] === ezcDocumentPdfTokenizer::WRAP )
             {
@@ -734,6 +748,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfRenderer
                     
                     if ( !isset( $tokens[0] ) ||
                          ( $tokens[0]['word'] === ezcDocumentPdfTokenizer::WRAP ) ||
+                         ( $tokens[0]['word'] === ezcDocumentPdfTokenizer::FORCED ) ||
                          ( $tokens[0]['word'] === ezcDocumentPdfTokenizer::SPACE ) )
                     {
                         // We are allowed to wrap, so we can continue with the

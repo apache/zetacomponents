@@ -257,6 +257,25 @@ return array (
      'position' => 67,
      'regularExpression' => NULL,
   )),
+  14 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'literallayout',
+    ),
+     'formats' => 
+    array (
+      'border' => '1mm solid #d3d7d5',
+      'background-color' => '#f5f5f6',
+      'padding' => '1',
+      'font-size' => '10pt',
+      'font-family' => 'monospace',
+    ),
+     'file' => 'style/default.css',
+     'line' => 92,
+     'position' => 15,
+     'regularExpression' => NULL,
+  )),
 );
 
 ?>

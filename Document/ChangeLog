@@ -9,6 +9,8 @@
 - Implemented #15195: Implement renderer for external link elements.
 - Implemented #15196: Implement renderer for internal link elements and link
   targets.
+- Implemented #15191: Implement renderer for literalblock elements.
+- Implemented: Support for borders and background colors.
 
 
 
