@@ -32,6 +32,10 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
      * Returns a boolean indicator whether the rendering of the full text
      * in the available space succeeded or not.
      *
+     * @TODO: This method does not respect changes in the available text width,
+     * if a paragraph is wrapped to the next page. This would require token
+     * reordering, which is not implemented yet.
+     *
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
@@ -128,7 +132,6 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
         $this->driver->revert( $transaction );
 
         // Render lines
-        // @TODO: also render background etc.
         $lineNr = 0;
         foreach ( $pages as $nr => $content )
         {
@@ -142,18 +145,15 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
                 );
             }
 
+            // Render background & border
             $space         = $content['space'];
             $lastLine      = end( $content['lines'] );
             $space->height = $lastLine['position'] + $lastLine['line']['height'] - $space->y;
 
             $this->renderBoxBackground( $space, $styles );
-            $this->renderBoxBorder(
-                $space,
-                $styles,
-                $nr === 0,
-                $nr + 1 >= count( $pages )
-            );
+            $this->renderBoxBorder( $space, $styles, $nr === 0, $nr + 1 >= count( $pages ) );
 
+            // Render actual text contents
             foreach ( $content['lines'] as $line )
             {
                 $this->renderLine( $line['position'], $lineNr++, $line['line'], $space, $styles );
