@@ -118,7 +118,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
     }
 
     /**
-     * Check if the current nod is an inline element
+     * Check if the current node is an inline element
      *
      * Textual content is only allowed in inline element. This method returns
      * true if the current element is an inline element, otherwise text
