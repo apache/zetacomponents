@@ -47,7 +47,7 @@ class ezcDocumentPdfVariableListRendererTests extends ezcDocumentPdfTestCase
         ) );
     }
 
-    public function testRenderLiterallayout()
+    public function testRenderDefinitionList()
     {
         $mock = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
             'createPage',
@@ -79,6 +79,43 @@ class ezcDocumentPdfVariableListRendererTests extends ezcDocumentPdfTestCase
 
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/variablelist_short.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer( $mock, $this->styles );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+    }
+
+    public function testRenderDefinitionListWrapped()
+    {
+        $mock = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'createPage',
+            'drawWord',
+        ) );
+
+        // Expectations
+        $mock->expects( $this->at( 0 ) )->method( 'createPage' )->with(
+            $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
+        );
+        $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "A" )
+        );
+        $mock->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 29.2, 1. ), $this->equalTo( "is" )
+        );
+        $mock->expects( $this->at( 10 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 15, 1. ), $this->equalTo( 62.8, 1. ), $this->equalTo( "The" )
+        );
+        $mock->expects( $this->at( 20 ) )->method( 'createPage' )->with(
+            $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
+        );
+        $mock->expects( $this->at( 21 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 15, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "to" )
+        );
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/variablelist_long.xml' );
 
         $renderer  = new ezcDocumentPdfMainRenderer( $mock, $this->styles );
         $pdf = $renderer->render(
