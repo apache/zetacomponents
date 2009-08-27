@@ -77,7 +77,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     protected $handlerMapping = array(
         'http://docbook.org/ns/docbook' => array(
             'article'       => 'initializeDocument',
-            'section'       => 'process',
+            'section'       => 'renderBlock',
             'sectioninfo'   => 'ignore',
 
             'para'          => 'renderParagraph',
@@ -87,8 +87,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
             'literallayout' => 'renderLiteralLayout',
 
-            'variablelist'  => 'process',
-            'varlistentry'  => 'process',
+            'itemizedlist'  => 'renderBlock',
+            'orderedlist'   => 'renderBlock',
+            'variablelist'  => 'renderBlock',
+            'varlistentry'  => 'renderBlock',
             'listitem'      => 'renderParagraph',
             'term'          => 'renderTitle',
         ),
@@ -313,7 +315,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param DOMNode $element
      * @return void
      */
-    protected function process( DOMNode $element )
+    public function process( DOMNode $element )
     {
         $childNodes = $element->childNodes;
         $nodeCount  = $childNodes->length;
@@ -392,6 +394,20 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         {
             $part->hookDocumentRendering( $element );
         }
+    }
+
+    /**
+     * Handle calls to block element renderer
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
+     * @return void
+     */
+    protected function renderBlock( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $renderer = new ezcDocumentPdfBlockRenderer( $this->driver, $this->styles );
+        $page     = $this->driver->currentPage();
+        $styles   = $this->styles->inferenceFormattingRules( $element );
+        return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
     }
 
     /**

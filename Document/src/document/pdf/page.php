@@ -68,6 +68,20 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
     public $y;
 
     /**
+     * Horizontal offset in a column
+     * 
+     * @var float
+     */
+    public $xOffset;
+
+    /**
+     * Horizontal width reduction in a column
+     * 
+     * @var float
+     */
+    public $xReduce;
+
+    /**
      * X coordinate of rendering start position
      *
      * @var float
