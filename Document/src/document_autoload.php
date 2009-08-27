@@ -88,6 +88,7 @@ return array(
     'ezcDocumentXsltConverter'                           => 'Document/converters/xslt.php',
     'ezcDocumentXsltConverterOptions'                    => 'Document/options/converter_xslt.php',
     'ezcDocumentAlphaListItemGenerator'                  => 'Document/document/pdf/item_generator/alpha.php',
+    'ezcDocumentBulletListItemGenerator'                 => 'Document/document/pdf/item_generator/bullet.php',
     'ezcDocumentConfluenceWiki'                          => 'Document/document/wiki/confluence.php',
     'ezcDocumentCreoleWiki'                              => 'Document/document/wiki/creole.php',
     'ezcDocumentDocbook'                                 => 'Document/document/xml/docbook.php',

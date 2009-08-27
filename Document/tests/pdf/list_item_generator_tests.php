@@ -111,6 +111,20 @@ class ezcDocumentPdfListItemGeneratorTests extends ezcTestCase
             $generator->getListItem( $number )
         );
     }
+
+    public function testBulletGenerator()
+    {
+        $generator = new ezcDocumentBulletListItemGenerator();
+        $this->assertSame( '-', $generator->getListItem( 23 ) );
+        $this->assertSame( '-', $generator->getListItem( 42 ) );
+    }
+
+    public function testBulletGeneratorCusstomChar()
+    {
+        $generator = new ezcDocumentBulletListItemGenerator( '>' );
+        $this->assertSame( '>', $generator->getListItem( 23 ) );
+        $this->assertSame( '>', $generator->getListItem( 42 ) );
+    }
 }
 
 ?>
