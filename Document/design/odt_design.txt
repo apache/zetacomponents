@@ -4,227 +4,152 @@ Design document for ODT parsing and generation
 
 :Author: ts
 
-The scope of this document is to define the design for the ODT (Open Document
-Text) classes of the eZ Document component. The parts of the Document component
-designed in this document do not affect other Open Document formats like
-spreadsheets of graphics. The goal is to define the infrastructure for
-converting existing ODT documents to DocBook XML and to generate new ODT
-documents from existing DocBook representations.
+The scope of this document is to define the design for a first implementaion of
+ODT (Open Document Text) support in the eZ Document component. The parts of the
+Document component designed in this document do not affect other Open Document
+formats like spreadsheets or graphics. The goal is to define the infrastructure
+for reading and writing ODT documents, i.e. to convert existing ODT documents
+into the internal representation of the Document component (DocBook XML) and to
+generate new ODT documents from an internal representation.
 
 ------------
 Requirements
 ------------
 
-The following sections describe the requirements of the import and export
-mechanisms for the ODT format, to be implemented in the Document component.
+The following sections describe the requirements for the ODT handling in the
+Document component. The first section defines requirements for reading ODT, the
+second for writing ODT and the third section defines requirements for later
+enhancements to be kept in mind during the initial implementation.
 
 Import
 ======
 
-The Document component should be enabled to parse existing ODT documents and to
-convert them to the internal format used by the Document component, which is
-DocBook XML. Requirements for the import process are:
+The Document component should be able to parse existing ODT documents and to
+convert them to the internal format used by the Document component (DocBook
+XML). Requirements for the import process are:
 
-- Parse ODT into an internal representation
-- Convert an internal ODT representation to DocBook XML internal representation
+- Read plain XML ODT files
+- Parse all necessary structural ODT elements
+- Convert ODT elements properly into equivalent or similar DocBook representations
 - Maintaining the content semantics provided by the ODT as good as possible
 - Maintain meta information provided by the ODT as good as possible
-- Optional: Extract styling information from an ODT
+- Develop a first heuristical approach of how ODT styling information can be
+  used to determine semantics of an element.
 
 Export
 ======
 
-The Document component should be enabled to generate new ODT documents from
-existing internal representations (DocBook XML) used by the Document
-component. Requirements for this process are:
+The Document component should be able to generate new ODT documents from an
+existing internal representations (DocBook XML). Requirements for this process
+are:
 
+- Write plain XML ODT files
 - Convert DocBook representation elements to their corresponding ODT
   representations
-- Maintain the document structure and content / metadata semantics
-- Allow styling of the generated document output
-- Optionally: Allow templating of generated ODT documents
+- Maintain the document structure
+- Maintain content and metadata semantics as good as possible
+- Styling of ODT elements.
+
+Later enhancements
+==================
+
+In the first step of ODT integration only rudimentary features for import and
+export should be realized. The following ideas must be kept in mind during the
+design and implementation, to ensure future extensibility.
+
+- Reading / writing of ODT package files (ZIP)
+  - ODF can be presented either as a single XML file or as a ZIP package
+    containg multiple XML files and other related files (e.g. images) in
+    addition.
+  - Reading and writing this format is not necessary from the start, but since
+    it is the default way for users to store ODT, it should be supported later
+    on.
+  - The handling of ZIP files requires a tie-in with the Archive component or
+    similar.
 
 ------
 Design
 ------
 
-In the first development cycle of this feature addition, only the semantic
-information contained in an ODT document will be considered, leaving the style
-information alone. This reduces the semantics of ODT quite a bit, since most of
-the semantics of text elements are defined by styles (e.g. the difference
-between an itemized and an ordered list).
+In the first development cycle, only the structural conversion between ODT and
+DocBook XML will be considered. In addition, rudimentary styling information
+will be taken into account. The reading and writing of ODF packages is not
+considered in this design.
 
-Element mapping
-===============
+Import
+======
 
-The following table shows the mapping between DocBook elements and ODT
-elements, which must be realized in the conversion process.
+Three different steps are necessary to import an ODT document and convert it
+into DocbookXml:
 
-<section>
-^^^^^^^^^
+1. Read the XML data
+2. Preprocess the ODT representation
+3. Actual conversion to DocBook XML representation
 
-ODT goes an HTML like way for marking sections. A section is introduced by a
-headline "<text:h>" and lasts until a headline on the same or a higher level
-occurs. The headline level is determined by the "text:outline-level" attribute.
-The title of the section is the content of the headline.
+Step 1 will be performed through the DOM extension in PHP, the internal
+representation of an ODT will be a DOM treee. The second step performs
+pre-processing on this DOM tree. Pre-processing is e.g. needed to assign
+additional semantics to the ODT elements to achieve a better rendering.
+Finally, the pre-processed DOM tree will be visited, to achieve the actual
+creation of the DocBook XML representation.
 
-<sectioninfo>
-^^^^^^^^^^^^^
-
-There is not possibility of annotating sections with meta information in ODT,
-only the document itself can have some metainformation attached. If the meta
-information is available in ODT, it will be taken for <sectinfo> elements
-within DocBook. The other way around, the meta information of the very first,
-top-most <section> element will be chosen as the ODT meta data.
-
-.. note:: ODT supports annotations. It must be re-checked, how this might
-          provide meta data.
-
-Block level elements
---------------------
-
-<para>
-^^^^^^
-
-The DocBook <para> element corresponds exactly to the <text:p> element in ODT.
-
-<itemizedList>
-^^^^^^^^^^^^^^
-
-ODT does not now a semantically difference between itemized and e.g. ordered
-lists. Therefore, in the first step, all ODT lists are treated as itemized
-lists and the three kinds of DocBook lists are all converted to standard
-<t:list> blocks in ODT.
-
-.. note:: In future versions of this feature, it should be possible to detect
-          list types from the ODT styles used and to render these styles
-          correctly for at least ordered lists.
-
-TODO
-^^^^
-
-- mediaobject
-- table
-- comment
-- beginnpage
-
-
-Other elements
-^^^^^^^^^^^^^^
-
-There are a lot of DocBook elements, which are currently not supported by the
-conversion from and to ODT. These are:
-
-- orderedlist
-- variablelist
-
-- caution
-- important
-- note
-- tip
-- warning
-
-- blockquote
-- literallayout
-
-Inline elements
----------------
-
-ODT does only support one tag for inline markup, which is <t:span>. The
-semantical meaning of this markup is unclear and only formatting information is
-provided by styles.
-
-.. note:: It is therefore necessary to detect the semantical meaning of a span
-          through a heuristic in a later stage of this feature.
-
-<emphasis>
-^^^^^^^^^^
-
-All <t:span> elements in an ODT to import will be mapped to the DocBook
-<emphasis> element at the first stage. Further distiguishing will need to
-happen at a later stage.
-
-TODO
-^^^^
-
-- anchor
-- email
-- footnoteref
-- footnote
-- inlinemediaobject
-- link
-- ulink
-
-Other elements
-^^^^^^^^^^^^^^
-- abbrev
-- acronym
-- author
-- citation
-- citetitle
-- literal
-- quote
-- subscript
-- superscript
-
-Table elements
+Pre-processing
 --------------
 
-In both, DocBook and ODT, the <table> element indicates a table. In ODT it is
-put into the dedicated "table" namespace, since the same table structure is
-used in spreadsheets.
+The step of pre-processing the ODT representation is necessary to assign
+DocBoox semantics to the ODT elements. ODT and DocBook XML have some
+similarities, but also differ widely in some parts. The pre-processing step
+performs manipultations on the ODT representation and potentially adds
+information which is utilized by the latter conversion step to create a correct
+semantical representation.
 
-Tables in ODT are roughly structured as follows::
+This process works similar to filters in the XHTML document import. The class
+level design of this feature is inspired by the XHTML handling: Filters can be
+registered which pre-process the incoming ODT in the given order.
 
-    <table:table>
-        <table:table-columns>
-            <table:table-column/>
-            <table:table-column/>
-            <table:table-column/>
-        </table:table-columns>
-        <table:table-header-rows>
-            <table:table-row>
-                <table:table-cell>
-                    <text:p>Cell A1</text:p>
-                </table:table.cell>
-                <table:table-cell>
-                    <text:p>Cell A2</text:p>
-                </table:table-cell>
-                <table:table-cell>
-                    <!-- contents, mostly <text:p> -->
-                </table:table-cell>
-            </table:table-row>
-        </table:table-header-rows>
-        <table:table-rows>
-            <table:table-row>
-                <table:table-cell table:number-rows-spanned="2">
-                    <!-- contents, mostly <text:p> -->
-                </table:table-cell>
-                <table:table-cell>
-                    <!-- contents, mostly <text:p> -->
-                </table:table-cell>
-                <table:table-cell>
-                    <!-- contents, mostly <text:p> -->
-                </table:table-cell>
-            </table:table-row>
-            <table:table-row>
-                <table:covered-table-cell/>
-                <table:table-cell table:number-columns-spanned="2">
-                    <!-- contents, mostly <text:p> -->
-                </table:table-cell>
-                <table:covered-table-cell/>
-            </table:table-row>
-        </table:table-rows>
-    </table:table>
+A filter may process the following steps on a DOMElement:
 
-This is more or less directly translatable to DocBook and vice versa. One major
-issue is, that the currently used DocBook subset does not handle column
-spanning (in ODT the "table:number-columns-spanned" attribute) in any way. To
-support this, the currently implemented Document classes need to fully `support
-informal tables`__ ((X)HTML style).
+- Add type information to an XML element to determine into which DocBook XML
+  element the element will be converted
+- Add attribute information to determine the attributes in the DocBook XML
+  representation
+- Add additional elements or element hierarchies
 
-.. __: http://issues.ez.no/IssueView.php?Id=15348
+The resulting DOM tree must not necessarily be valid ODT anymore, to reflect
+the latter DocBook structure in a better way.
 
+The first implemented filter will only perform rudimentary operations on the
+DOM to assign basic semantical information to the elements. A second
+implementation will be an additional filter which takes some styling
+information into account to enhance this information. Futher filters can be
+implemented by third parties to extend or replace these mechanisms.
+
+Conversion
+----------
+
+The conversion process itself will mostly visit the DOM tree and utilized the
+information, attached to the elements in the pre-processing step, to generate a
+DocBook XML with the corresponding content. The filter pre-processing step is
+responsible to annotate all significant elements properly so that the
+conversion can use them.
+
+Flat ODT documents (consisting of only 1 XML file), which will purely be
+handled in the first version of ODT support, may contain image content embeded.
+To extract those, the user my specify a target directory or the system temp dir
+will be used as the default. The content will then be referenced in DocBook
+from this location.
+
+Export
+======
+
+The export process for ODT works similar to PDF rendering, except for that is a
+little bit less strict. The internal DocBook representation is converted to the
+desired ODT representation according to its semantics.
+
+Based on the DocBook XML elements, the user can define styles using a
+simplified CSS syntax (see PDF). Each of the style definitions is converted to
+an automatic style in the resulting ODT document. ODT elements affected by a
+certain style get this style applied.
 
 
 ..
