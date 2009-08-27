@@ -91,7 +91,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
             'orderedlist'   => 'renderBlock',
             'variablelist'  => 'renderBlock',
             'varlistentry'  => 'renderBlock',
-            'listitem'      => 'renderParagraph',
+            'listitem'      => 'renderBlock',
             'term'          => 'renderTitle',
         ),
     );
@@ -301,7 +301,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         }
 
         // If there is no space for a new column, create a new page
+        $oldPage = $page;
         $page = $this->driver->appendPage( $this->styles );
+        $page->xOffset = $oldPage->xOffset;
+        $page->xReduce = $oldPage->xReduce;
         foreach ( $this->parts as $part )
         {
             $part->hookPageCreation( $page );

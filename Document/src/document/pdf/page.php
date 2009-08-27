@@ -386,7 +386,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         // Ensure requested area is within the page boundings
         if ( ( $xPos < 0 ) ||
              ( $yPos < 0 ) ||
-             ( ( $xPos + $width ) > $this->width ) ||
+             ( ( $xPos + $this->xOffset + $width ) > $this->width ) ||
              ( ( $yPos + $height ) > $this->height ) )
         {
             return false;
@@ -414,7 +414,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
         // based on found boxes.
         if ( $adjustWidth )
         {
-            $boundings->width = $this->width - $boundings->x;
+            $boundings->width = $this->width - $boundings->x - $this->xOffset - $this->xReduce;
         }
 
         // Start height adjusting with full page height, will be reduced later
@@ -522,6 +522,7 @@ class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
             return $this->testFitRectangle( $boundings->x, $boundings->y, $boundings->width, $boundings->height );
         }
 
+        $boundings->x += $this->xOffset;
         return $boundings;
     }
 

@@ -36,6 +36,7 @@ page {
 
 para {
     margin: "3mm 0mm 1mm 0mm";
+    padding: "0mm";
 }
 
 emphasis {
