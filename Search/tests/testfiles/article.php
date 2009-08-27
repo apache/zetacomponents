@@ -3,7 +3,7 @@ class Article
 {
     public  $id;
     public  $title;
-    private $summary;
+    public  $summary;
     private $body;
     private $published;
     private $author;

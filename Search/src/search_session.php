@@ -92,10 +92,12 @@ class ezcSearchSession
     {
         $def = $this->definitionManager->fetchDefinition( $type );
 
-        /* We add the ezcsearch_type field to the definition automatically here */
+        /* We add the ezcsearch_type field to the definition automatically here, but we delete it as well */
         $def->fields['ezcsearch_type'] = new ezcSearchDefinitionDocumentField( 'ezcsearch_type', ezcSearchDocumentDefinition::STRING );
+        $res = $this->handler->createFindQuery( $type, $def );
+        unset( $def->fields['ezcsearch_type'] );
 
-        return $this->handler->createFindQuery( $type, $def );
+        return $res;
     }
 
     /**
@@ -178,7 +180,10 @@ class ezcSearchSession
      */
     public function update( $document )
     {
-        $this->delete( $document );
+        $type = get_class( $document );
+        $def = $this->definitionManager->fetchDefinition( $type );
+        $idProperty = $def->idProperty;
+        $this->deleteById( $document->$idProperty, $type );
         return $this->index( $document );
     }
 
@@ -219,10 +224,13 @@ class ezcSearchSession
     {
         $def = $this->definitionManager->fetchDefinition( $type );
 
-        /* We add the ezcsearch_type field to the definition automatically here */
+        /* We add the ezcsearch_type field to the definition automatically
+         * here, but we delete it as well */
         $def->fields['ezcsearch_type'] = new ezcSearchDefinitionDocumentField( 'ezcsearch_type', ezcSearchDocumentDefinition::STRING );
+        $res = $this->handler->createDeleteQuery( $type, $def );
+        unset( $def->fields['ezcsearch_type'] );
 
-        return $this->handler->createDeleteQuery( $type, $def );
+        return $res;
     }
 
     /**
