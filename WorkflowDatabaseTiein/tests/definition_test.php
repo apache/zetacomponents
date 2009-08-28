@@ -25,7 +25,7 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
     /**
      * @dataProvider workflowNameProvider
      */
-    public function testSaveAndLoadWorkflow($workflowName)
+    public function testSaveAndLoadWorkflow( $workflowName )
     {
         $xmlWorkflow = $this->xmlStorage->loadByName( $workflowName );
         #$xmlWorkflow->reset();
