@@ -2,7 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Changed default value for the ezcWorkflowEventLogListener::notify() method's
-  $type argument from self::::INFO to ezcWorkflowEventLogListener::INFO to work
+  $type argument from self::INFO to ezcWorkflowEventLogListener::INFO to work
   around an issue in PHP 5.1's Reflection API that breaks the test suite.
 
 
