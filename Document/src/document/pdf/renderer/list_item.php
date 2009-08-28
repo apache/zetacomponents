@@ -19,45 +19,60 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfRenderer
+class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfBlockRenderer
 {
     /**
-     * Render a block level element
-     *
-     * Renders a block level element by applzing margin and padding and
-     * recursing to all nested elements.
-     *
+     * Item generator used for this list
+     * 
+     * @var ezcDocumentListItemGenerator
+     */
+    protected $generator;
+
+    /**
+     * Item number of current item in list
+     * 
+     * @var int
+     */
+    protected $item;
+
+    /**
+     * Construct from item number
+     * 
+     * @param ezcDocumentPdfDriver $driver
+     * @param ezcDocumentPdfStyleInferencer $styles
+     * @param ezcDocumentListItemGenerator $generator 
+     * @param int $item 
+     * @return void
+     */
+    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles, ezcDocumentListItemGenerator $generator, $item )
+    {
+        parent::__construct( $driver, $styles );
+        $this->generator = $generator;
+        $this->item      = $item;
+    }
+
+    /**
+     * Process to render block contents
+     * 
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentPdfInferencableDomElement $block 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
-     * @return bool
+     * @return void
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
+    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
-        // @TODO: Render border and background. This can be quite hard to
-        // estimate, though.
-        $styles         = $this->styles->inferenceFormattingRules( $block );
-        $page->y       += $styles['padding']->value['top'] +
-                          $styles['margin']->value['top'];
-        $page->xOffset += $styles['padding']->value['left'] +
-                          $styles['margin']->value['left'];
-        $page->xReduce += $styles['padding']->value['right'] +
-                          $styles['margin']->value['right'];
+        // Render list item
+        $styles = $this->styles->inferenceFormattingRules( $block );
+        $this->driver->drawWord(
+            $page->x + $page->xOffset - $styles['padding']->value['left'],
+            $page->y + $styles['font-size']->value,
+            $this->generator->getListItem( $this->item )
+        );
 
-        // @TODO: Detect required list item
-        // @TODO: Render bullet.
-
+        // Render list contents
         $mainRenderer->process( $block );
-
-        $page->y       += $styles['padding']->value['bottom'] +
-                          $styles['margin']->value['bottom'];
-        $page->xOffset -= $styles['padding']->value['left'] +
-                          $styles['margin']->value['left'];
-        $page->xReduce -= $styles['padding']->value['right'] +
-                          $styles['margin']->value['right'];
-        return true;
     }
 
     /**

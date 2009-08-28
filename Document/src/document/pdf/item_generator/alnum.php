@@ -19,7 +19,7 @@
  * @access private
  * @version //autogen//
  */
-abstract class ezcDocumentAlnumListItemGenerator
+abstract class ezcDocumentAlnumListItemGenerator extends ezcDocumentListItemGenerator
 {
     /**
      * Constant forcing uppercase alphanumeric list items

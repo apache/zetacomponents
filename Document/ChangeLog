@@ -11,8 +11,9 @@
   targets.
 - Implemented #15191: Implement renderer for literalblock elements.
 - Implemented #15194: Implement renderer for definition list elements.
+- Implemented #15192: Implement renderer for bullet list elements.
+- Implemented #15193: Implement renderer for enumeration list elements.
 - Implemented: Support for borders and background colors.
-
 
 
 1.2.1 - Monday 27 July 2009

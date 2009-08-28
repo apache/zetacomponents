@@ -87,11 +87,11 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
             'literallayout' => 'renderLiteralLayout',
 
-            'itemizedlist'  => 'renderBlock',
-            'orderedlist'   => 'renderBlock',
+            'itemizedlist'  => 'renderList',
+            'orderedlist'   => 'renderList',
             'variablelist'  => 'renderBlock',
             'varlistentry'  => 'renderBlock',
-            'listitem'      => 'renderBlock',
+            'listitem'      => 'renderListItem',
             'term'          => 'renderTitle',
         ),
     );
@@ -408,6 +408,34 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     protected function renderBlock( ezcDocumentPdfInferencableDomElement $element )
     {
         $renderer = new ezcDocumentPdfBlockRenderer( $this->driver, $this->styles );
+        $page     = $this->driver->currentPage();
+        $styles   = $this->styles->inferenceFormattingRules( $element );
+        return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+    }
+
+    /**
+     * Handle calls to List element renderer
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
+     * @return void
+     */
+    protected function renderList( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $renderer = new ezcDocumentPdfListRenderer( $this->driver, $this->styles );
+        $page     = $this->driver->currentPage();
+        $styles   = $this->styles->inferenceFormattingRules( $element );
+        return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+    }
+
+    /**
+     * Handle calls to list item element renderer
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
+     * @return void
+     */
+    protected function renderListItem( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $renderer = new ezcDocumentPdfListItemRenderer( $this->driver, $this->styles, new ezcDocumentNoListItemGenerator(), 0 );
         $page     = $this->driver->currentPage();
         $styles   = $this->styles->inferenceFormattingRules( $element );
         return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );

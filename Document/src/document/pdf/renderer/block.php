@@ -46,7 +46,7 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
         $page->xReduce += $styles['padding']->value['right'] +
                           $styles['margin']->value['right'];
 
-        $mainRenderer->process( $block );
+        $this->process( $page, $hyphenator, $tokenizer, $block, $mainRenderer );
 
         $page->y       += $styles['padding']->value['bottom'] +
                           $styles['margin']->value['bottom'];
@@ -55,6 +55,21 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
         $page->xReduce -= $styles['padding']->value['right'] +
                           $styles['margin']->value['right'];
         return true;
+    }
+
+    /**
+     * Process to render block contents
+     * 
+     * @param ezcDocumentPdfPage $page 
+     * @param ezcDocumentPdfHyphenator $hyphenator 
+     * @param ezcDocumentPdfTokenizer $tokenizer 
+     * @param ezcDocumentPdfInferencableDomElement $block 
+     * @param ezcDocumentPdfMainRenderer $mainRenderer 
+     * @return void
+     */
+    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
+    {
+        $mainRenderer->process( $block );
     }
 
     /**

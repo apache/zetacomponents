@@ -310,6 +310,56 @@ return array (
      'position' => 25,
      'regularExpression' => NULL,
   )),
+  17 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'orderedlist',
+      1 => '> listitem',
+    ),
+     'formats' => 
+    array (
+      'padding-left' => '10mm',
+      'margin-bottom' => '3mm',
+    ),
+     'file' => 'style/default.css',
+     'line' => 110,
+     'position' => 24,
+     'regularExpression' => NULL,
+  )),
+  18 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'itemizedlist',
+      1 => '> listitem',
+    ),
+     'formats' => 
+    array (
+      'padding-left' => '10mm',
+      'margin-bottom' => '3mm',
+    ),
+     'file' => 'style/default.css',
+     'line' => 115,
+     'position' => 25,
+     'regularExpression' => NULL,
+  )),
+  19 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'listitem',
+      1 => '> para',
+    ),
+     'formats' => 
+    array (
+      'margin' => '0mm 0mm 4mm 0mm',
+    ),
+     'file' => 'style/default.css',
+     'line' => 120,
+     'position' => 17,
+     'regularExpression' => NULL,
+  )),
 );
 
 ?>

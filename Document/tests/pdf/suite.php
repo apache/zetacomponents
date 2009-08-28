@@ -30,6 +30,7 @@ require 'renderer_paragraph_tests.php';
 require 'renderer_text_box_tests.php';
 require 'renderer_literallayout_tests.php';
 require 'renderer_variablelist_tests.php';
+require 'renderer_list_tests.php';
 require 'render_text_decorations_tests.php';
 require 'renderer_main_tests.php';
 require 'renderer_footer_part_tests.php';
@@ -66,6 +67,7 @@ class ezcDocumentPdfSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfTextBoxRendererTests::suite() );
         $this->addTest( ezcDocumentPdfLiterallayoutRendererTests::suite() );
         $this->addTest( ezcDocumentPdfVariableListRendererTests::suite() );
+        $this->addTest( ezcDocumentPdfListRendererTests::suite() );
         $this->addTest( ezcDocumentPdfRendererTextDecorationsTests::suite() );
         $this->addTest( ezcDocumentPdfMainRendererTests::suite() );
         $this->addTest( ezcDocumentPdfRendererFooterPartTests::suite() );

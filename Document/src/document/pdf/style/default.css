@@ -107,3 +107,17 @@ varlistentry > listitem {
     margin-bottom:    "3mm";
 }
 
+orderedlist > listitem {
+    padding-left:     "10mm";
+    margin-bottom:    "3mm";
+}
+
+itemizedlist > listitem {
+    padding-left:     "10mm";
+    margin-bottom:    "3mm";
+}
+
+listitem > para {
+    margin: "0mm 0mm 4mm 0mm";
+}
+
