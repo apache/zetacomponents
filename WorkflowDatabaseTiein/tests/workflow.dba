@@ -9,7 +9,7 @@ return array (
         'execution_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
            'default' => NULL,
            'autoIncrement' => true,
@@ -18,17 +18,17 @@ return array (
         'execution_next_thread_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
         'execution_parent' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
-           'notNull' => true,
+           'length' => 10,
+           'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
            'unsigned' => false,
@@ -36,35 +36,35 @@ return array (
         'execution_started' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 11,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
         'execution_threads' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'clob',
+           'type' => 'blob',
            'length' => 0,
-           'notNull' => true,
+           'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
         'execution_variables' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'clob',
+           'type' => 'blob',
            'length' => 0,
-           'notNull' => true,
+           'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
         'execution_waiting_for' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'clob',
+           'type' => 'blob',
            'length' => 0,
-           'notNull' => true,
+           'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
            'unsigned' => false,
@@ -72,9 +72,9 @@ return array (
         'workflow_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
@@ -118,17 +118,17 @@ return array (
         'execution_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
         'node_activated_from' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'clob',
+           'type' => 'blob',
            'length' => 0,
-           'notNull' => true,
+           'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
            'unsigned' => false,
@@ -136,17 +136,17 @@ return array (
         'node_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
         'node_state' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'clob',
+           'type' => 'blob',
            'length' => 0,
-           'notNull' => true,
+           'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
            'unsigned' => false,
@@ -154,9 +154,9 @@ return array (
         'node_thread_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
@@ -196,9 +196,9 @@ return array (
         )),
         'node_configuration' => 
         ezcDbSchemaField::__set_state(array(
-           'type' => 'clob',
+           'type' => 'blob',
            'length' => 0,
-           'notNull' => true,
+           'notNull' => false,
            'default' => NULL,
            'autoIncrement' => false,
            'unsigned' => false,
@@ -206,7 +206,7 @@ return array (
         'node_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
            'default' => NULL,
            'autoIncrement' => true,
@@ -215,9 +215,9 @@ return array (
         'workflow_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
@@ -257,18 +257,18 @@ return array (
         'incoming_node_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
         'outgoing_node_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
@@ -314,9 +314,9 @@ return array (
         'workflow_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
@@ -348,16 +348,16 @@ return array (
         'workflow_created' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 11,
            'notNull' => true,
-           'default' => NULL,
+           'default' => 0,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
         'workflow_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
            'default' => NULL,
            'autoIncrement' => true,
@@ -375,9 +375,9 @@ return array (
         'workflow_version' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
-           'length' => 0,
+           'length' => 10,
            'notNull' => true,
-           'default' => '1',
+           'default' => 1,
            'autoIncrement' => false,
            'unsigned' => false,
         )),
