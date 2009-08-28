@@ -23,10 +23,11 @@ class ezcWorkflowDatabaseTieinDefinitionTest extends ezcWorkflowDatabaseTieinTes
     }
 
     /**
-     * @dataProvider workflowNameProvider
+     * @foodataProvider workflowNameProvider
      */
-    public function testSaveAndLoadWorkflow( $workflowName )
+    public function testSaveAndLoadWorkflow()
     {
+        $workflowName = 'WorkflowWithSubWorkflowParallelSplitActionActionCancelCaseSynchronization';
         $xmlWorkflow = $this->xmlStorage->loadByName( $workflowName );
         #$xmlWorkflow->reset();
 
