@@ -17,26 +17,31 @@
  *   
  * // This step is only required, if you want to add custom or third party extensions
  * // implementations for special clients.
- * $server->configurations[] = new ezcWebdavServerConfiguration(
+ * // Create a new configuration set for the client
+ * $newClientConf = new ezcWebdavServerConfiguration(
  *     // Regular expression to match client name
  *     '(My.*Webdav\s+Cliengt)i',
  *     // Class name of transport handler, extending {@link ezcWebdavTransport}
  *     'myCustomTransportTransport'
- * );  
- * $server->configurations[] = new ezcWebdavServerConfiguration(
- *     // Regular expression to match client name
- *     '(.*Firefox.*)i',
- *     // Class name of transport handler, extending {@link ezcWebdavTransport}
- *     'customWebdavMozillaTransport',
- *     // A custom implementation of {@link ezcWebdavXmlTool}
- *     'customWebdavXmlTool',
- *     // A custom implementation of {@link ezcWebdavPropertyHandler}
- *     'customWebdavPropertyHandler',
- *     // A custom path factory
- *     new customWebdavPathFactory()
- * );  
+ *     // There are more settings you can provide, see {@link 
+ *     // ezcWebdavServerConfiguration}.
+ * );
+ * // Append the configuration at front, because the last configuration is a 
+ * // catch all for misc clients.
+ * $server->configurations->insertBefore( $newClientConf, 0 );
  *
- * // Serve data using file backend with data in "path/"
+ * // If you want to use a different path factory globally, you need to replace 
+ * // it in every configuration.
+ * $myPathFactory = new ezcWebdavBasicPathFactory( 'http://webdav.server/base/path' );
+ * foreach ( $server->configuration as $config )
+ * {
+ *     $config->pathFactory = $myPathFactory;
+ * }
+ *
+ * // Serve data using file backend with data in the local directory "/path"
+ * // Make sure this directory is read and writable for your server and that 
+ * // the umask is set accordingly in the server settings, if you want to 
+ * // access the files as a different user, too.
  * $backend = new ezcWebdavBackendFile( '/path' );
  *
  * // Make the server serve WebDAV requests
