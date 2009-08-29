@@ -182,6 +182,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
 
         $query->update( $this->db->quoteIdentifier( $this->options['prefix'] . 'execution' ) )
               ->where( $query->expr->eq( $this->db->quoteIdentifier( 'execution_id' ), $query->bindValue( (int)$this->id ) ) )
+              ->set( $this->db->quoteIdentifier( 'execution_suspended' ), $query->bindValue( time() ) )
               ->set( $this->db->quoteIdentifier( 'execution_variables' ), $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->variables ) ) )
               ->set( $this->db->quoteIdentifier( 'execution_waiting_for' ), $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->waitingFor ) ) )
               ->set( $this->db->quoteIdentifier( 'execution_threads' ), $query->bindValue( ezcWorkflowDatabaseUtil::serialize( $this->threads ) ) )

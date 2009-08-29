@@ -1,3 +1,5 @@
+- Added execution.execution_suspended field that holds the timestamp of when the
+  execution was suspended (if applicable).
 - Increased compatibility with stricter MySQL server modes.
 - Increased the maximum length of the workflow.workflow_name field to 255.
 

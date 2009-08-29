@@ -43,6 +43,7 @@ CREATE TABLE execution (
   execution_id             INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   execution_parent         INTEGER UNSIGNED     NULL REFERENCES execution.execution_id,
   execution_started        INTEGER          NOT NULL,
+  execution_suspended      INTEGER              NULL,
   execution_variables      BLOB                 NULL,
   execution_waiting_for    BLOB                 NULL,
   execution_threads        BLOB                 NULL,

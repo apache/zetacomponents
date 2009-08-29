@@ -42,6 +42,15 @@ return array (
            'autoIncrement' => false,
            'unsigned' => false,
         )),
+        'execution_suspended' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 11,
+           'notNull' => false,
+           'default' => NULL,
+           'autoIncrement' => false,
+           'unsigned' => false,
+        )),
         'execution_threads' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'blob',
