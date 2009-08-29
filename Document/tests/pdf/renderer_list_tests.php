@@ -129,11 +129,9 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
 
     public function testRenderStackedLists()
     {
-        $this->markTestSkipped( "Causes endless recursion." );
-
         $mock = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
-            'acreatePage',
-            'adrawWord',
+            'createPage',
+            'drawWord',
         ) );
 
         // Expectations
@@ -144,19 +142,25 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "i" )
         );
         $mock->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 20, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "TrueType" )
+            $this->equalTo( 20, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "Paragraph." )
         );
         $mock->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 56, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "fonts." )
+            $this->equalTo( 30, 1. ), $this->equalTo( 30, 1. ), $this->equalTo( "-" )
         );
         $mock->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 33, 1. ), $this->equalTo( "ii" )
+            $this->equalTo( 40, 1. ), $this->equalTo( 30, 1. ), $this->equalTo( "List" )
         );
-        $mock->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 20, 1. ), $this->equalTo( 33, 1. ), $this->equalTo( "PostScript" )
+        $mock->expects( $this->at( 7 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 30, 1. ), $this->equalTo( 45, 1. ), $this->equalTo( "-" )
         );
-        $mock->expects( $this->at( 6 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 64, 1. ), $this->equalTo( 33, 1. ), $this->equalTo( "fonts." )
+        $mock->expects( $this->at( 8 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 40, 1. ), $this->equalTo( 45, 1. ), $this->equalTo( "List" )
+        );
+        $mock->expects( $this->at( 11 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 66, 1. ), $this->equalTo( "ii" )
+        );
+        $mock->expects( $this->at( 12 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 20, 1. ), $this->equalTo( 66, 1. ), $this->equalTo( "PostScript" )
         );
 
         $docbook = new ezcDocumentDocbook();
@@ -167,8 +171,6 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
             $docbook,
             new ezcDocumentPdfDefaultHyphenator()
         );
-
-        $mock->debugDump();
     }
 }
 

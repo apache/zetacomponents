@@ -47,8 +47,7 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $text );
-        $width  = $page->innerWidth / $styles['text-columns']->value -
-            ( $styles['text-column-spacing']->value * ( $styles['text-columns']->value - 1 ) );
+        $width  = $this->calculateTextWidth( $page, $text );
 
         // Evaluate available space
         if ( ( $space = $this->evaluateAvailableBoundingBox( $page, $styles, $width ) ) === false )
