@@ -341,7 +341,8 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         foreach ( $points as $point )
         {
             $pointString .= sprintf( '%.4F,%.4F L ', 
-                ezcDocumentPdfMeasure::create( $point[0] )->get( 'px', 90 ) + $this->offset,
+                ezcDocumentPdfMeasure::create( $point[0] )->get( 'px', 90 ) +
+                    ezcDocumentPdfMeasure::create( $this->offset )->get( 'px', 90 ),
                 ezcDocumentPdfMeasure::create( $point[1] )->get( 'px', 90 )
             );
         }
