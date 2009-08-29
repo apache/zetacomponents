@@ -20,13 +20,6 @@ require_once 'driver_tests.php';
 class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfDriverTests
 {
     /**
-     * Name of the driver class to test
-     * 
-     * @var string
-     */
-    protected $driverClass = 'ezcDocumentPdfHaruDriver';
-
-    /**
      * Expected font widths for calculateWordWidth tests
      * 
      * @var array
@@ -47,14 +40,19 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfDriverTests
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public function setUp()
+    /**
+     * Get driver to test
+     * 
+     * @return ezcDocumentPdfDriver
+     */
+    protected function getDriver()
     {
         if ( !ezcBaseFeatures::hasExtensionSupport( 'haru' ) )
         {
             $this->markTestSkipped( 'This test requires pecl/haru installed.' );
         }
 
-        parent::setUp();
+        return new ezcDocumentPdfHaruDriver();
     }
 }
 

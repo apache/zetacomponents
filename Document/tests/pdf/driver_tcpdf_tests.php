@@ -63,11 +63,6 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfDriverTests
 
     public function setUp()
     {
-        if ( !class_exists( 'TCPDF' ) )
-        {
-            $this->markTestSkipped( 'This test requires the TCPDF class.' );
-        }
-
         parent::setUp();
 
         // Change error reporting - this is evil, but otherwise TCPDF will
@@ -80,6 +75,21 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfDriverTests
     {
         error_reporting( $this->oldErrorReporting );
         parent::tearDown();
+    }
+
+    /**
+     * Get driver to test
+     * 
+     * @return ezcDocumentPdfDriver
+     */
+    protected function getDriver()
+    {
+        if ( !class_exists( 'TCPDF' ) )
+        {
+            $this->markTestSkipped( 'This test requires the TCPDF class.' );
+        }
+
+        return new ezcDocumentPdfHaruDriver();
     }
 }
 

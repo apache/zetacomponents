@@ -20,13 +20,6 @@ require_once 'driver_tests.php';
 class ezcDocumentPdfDriverSvgTests extends ezcDocumentPdfDriverTests
 {
     /**
-     * Name of the driver class to test
-     * 
-     * @var string
-     */
-    protected $driverClass = 'ezcDocumentPdfSvgDriver';
-
-    /**
      * Extension of generated files
      * 
      * @var string
@@ -52,6 +45,16 @@ class ezcDocumentPdfDriverSvgTests extends ezcDocumentPdfDriverTests
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
+    }
+
+    /**
+     * Get driver to test
+     * 
+     * @return ezcDocumentPdfDriver
+     */
+    protected function getDriver()
+    {
+        return new ezcDocumentPdfSvgDriver();
     }
 }
 

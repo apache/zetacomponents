@@ -20,13 +20,6 @@ require_once 'base.php';
 abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 {
     /**
-     * Name of the driver class to test
-     * 
-     * @var string
-     */
-    protected $driverClass = 'StdClass';
-
-    /**
      * Expected font widths for calculateWordWidth tests
      * 
      * @var array
@@ -42,9 +35,16 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         'testUtf8FontWidth'                               => null,
     );
 
+    /**
+     * Get driver to test
+     * 
+     * @return ezcDocumentPdfDriver
+     */
+    abstract protected function getDriver();
+
     public function testEstimateDefaultWordWidthWithoutPageCreation()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
 
         $this->assertEquals(
             $this->expectedWidths[__FUNCTION__],
@@ -55,7 +55,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testEstimateDefaultWordWidth()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
 
         $this->assertEquals(
@@ -67,7 +67,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testEstimateWordWidthDifferentSize()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-size', '14' );
 
@@ -80,7 +80,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testEstimateWordWidthDifferentSizeAndUnit()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-size', '14pt' );
 
@@ -93,7 +93,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testEstimateBoldWordWidth()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-weight', 'bold' );
 
@@ -106,7 +106,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testEstimateMonospaceWordWidth()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'monospace' );
         $driver->setTextFormatting( 'font-size', '12' );
@@ -120,7 +120,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testFontStyleFallback()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'ZapfDingbats' );
         $driver->setTextFormatting( 'font-weight', 'bold' );
@@ -135,7 +135,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testUtf8FontWidth()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
 
         $this->assertEquals(
@@ -147,7 +147,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
 
     public function testRenderHelloWorld()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '10' );
@@ -156,12 +156,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->drawWord( 0, 297, 'The quick brown fox jumps over the lazy dog' );
         $pdf = $driver->save();
 
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderHelloWorldSmallFont()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '4' );
@@ -170,12 +170,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->drawWord( 0, 297, 'The quick brown fox jumps over the lazy dog' );
         $pdf = $driver->save();
 
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderSwitchingFontStates()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-size', '8' );
 
@@ -206,23 +206,23 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->drawWord( 0, 118, 'The quick brown fox jumps over the lazy dog' );
         $pdf = $driver->save();
 
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderUtf8Text()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
 
         $driver->drawWord( 10, 10, 'ℋℇℒℒΩ' );
         $pdf = $driver->save();
 
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderPngImage()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
 
         $driver->drawImage(
@@ -233,12 +233,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         );
         $pdf = $driver->save();
 
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderResizedJpegImage()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
 
         $driver->drawImage(
@@ -248,12 +248,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         );
         $pdf = $driver->save();
 
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderColoredText()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $driver->setTextFormatting( 'font-family', 'sans-serif' );
         $driver->setTextFormatting( 'font-size', '4' );
@@ -264,12 +264,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->drawWord( 10, 10, 'The quick brown fox jumps over the lazy dog.' );
         $pdf = $driver->save();
 
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderPolygon()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $color = new ezcDocumentPdfStyleColorValue();
         $color->parse( '#204a87' );
@@ -284,12 +284,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         );
 
         $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderPolylineClosed()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $color = new ezcDocumentPdfStyleColorValue();
         $color->parse( '#204a87' );
@@ -305,12 +305,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         );
 
         $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderPolylineOpen()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
         $color = new ezcDocumentPdfStyleColorValue();
         $color->parse( '#204a87' );
@@ -327,12 +327,12 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         );
 
         $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testRenderLayeredPolygons()
     {
-        $driver = new $this->driverClass();
+        $driver = $this->getDriver();
         $driver->createPage( 210, 297 );
 
         $color = new ezcDocumentPdfStyleColorValue();
@@ -360,66 +360,65 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         );
 
         $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testAddExternalLink()
     {
-        if ( $this->driverClass === 'ezcDocumentPdfSvgDriver' )
+        $driver = $this->getDriver();
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
         {
             $this->markTestSkipped( 'Not supported by the SVG driver.' );
         }
 
-        $driver = new $this->driverClass();
         $driver->createPage( 100, 100 );
 
         $driver->addExternalLink( 0, 0, 100, 100, 'http://ezcomponents.org/' );
 
         $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testAddInternalLinkWithoutTarget()
     {
-        if ( $this->driverClass === 'ezcDocumentPdfSvgDriver' )
+        $driver = $this->getDriver();
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
         {
             $this->markTestSkipped( 'Not supported by the SVG driver.' );
         }
 
-        $driver = new $this->driverClass();
         $driver->createPage( 100, 100 );
 
         $driver->addInternalLink( 0, 0, 100, 50, 'my_target' );
 
         $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testAddInternalLinkAndTarget()
     {
-        if ( $this->driverClass === 'ezcDocumentPdfSvgDriver' )
+        $driver = $this->getDriver();
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
         {
             $this->markTestSkipped( 'Not supported by the SVG driver.' );
         }
 
-        $driver = new $this->driverClass();
         $driver->createPage( 100, 100 );
 
         $driver->addInternalLink( 0, 0, 100, 50, 'my_target' );
         $driver->addInternalLinkTarget( 'my_target' );
 
         $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 
     public function testAddInternalLinkAndTargetOnNextPage()
     {
-        if ( $this->driverClass === 'ezcDocumentPdfSvgDriver' )
+        $driver = $this->getDriver();
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
         {
             $this->markTestSkipped( 'Not supported by the SVG driver.' );
         }
-
-        $driver = new $this->driverClass();
 
         $driver->createPage( 100, 100 );
         $driver->addInternalLink( 0, 0, 100, 50, 'my_target' );
@@ -428,7 +427,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->addInternalLinkTarget( 'my_target' );
 
         $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, $this->driverClass . '_' . __FUNCTION__ );
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
 }
 
