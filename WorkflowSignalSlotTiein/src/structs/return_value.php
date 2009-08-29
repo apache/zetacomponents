@@ -17,11 +17,15 @@
 class ezcWorkflowSignalSlotReturnValue
 {
     /**
+     * The return value encapsulated by this struct.
+     *
      * @var mixed
      */
     public $value;
 
     /**
+     * Constructor.
+     *
      * @param mixed $value
      * @ignore
      */
