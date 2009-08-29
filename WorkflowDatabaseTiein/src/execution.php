@@ -178,6 +178,8 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
      */
     protected function doSuspend()
     {
+        $this->cleanupTable( 'execution_state' );
+
         $query = $this->db->createUpdateQuery();
 
         $query->update( $this->db->quoteIdentifier( $this->options['prefix'] . 'execution' ) )
@@ -217,7 +219,6 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
     protected function doResume()
     {
         $this->db->beginTransaction();
-        $this->cleanupTable( 'execution_state' );
     }
 
     /**

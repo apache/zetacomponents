@@ -1,3 +1,4 @@
+- Implemented issue #15325: Execution state should be stored atomically.
 - Added execution.execution_suspended field that holds the timestamp of when the
   execution was suspended (if applicable).
 - Increased compatibility with stricter MySQL server modes.
