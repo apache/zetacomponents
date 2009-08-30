@@ -10,7 +10,7 @@ Document component designed in this document do not affect other Open Document
 formats like spreadsheets or graphics. The goal is to define the infrastructure
 for reading and writing ODT documents, i.e. to convert existing ODT documents
 into the internal representation of the Document component (DocBook XML) and to
-generate new ODT documents from an internal representation.
+generate new ODT documents from the internal representation.
 
 ------------
 Requirements
@@ -127,7 +127,7 @@ implemented by third parties to extend or replace these mechanisms.
 Conversion
 ----------
 
-The conversion process itself will mostly visit the DOM tree and utilized the
+The conversion process itself will mostly visit the DOM tree and utilize the
 information, attached to the elements in the pre-processing step, to generate a
 DocBook XML with the corresponding content. The filter pre-processing step is
 responsible to annotate all significant elements properly so that the
@@ -139,8 +139,13 @@ To extract those, the user my specify a target directory or the system temp dir
 will be used as the default. The content will then be referenced in DocBook
 from this location.
 
+.. note:: We should check if it is possible to define and handle data URLs in
+	docbook. May be problematic with other formats though. (kn)
+
 Export
 ======
+
+.. note:: First sentence a bit unclear ;) (kn)
 
 The export process for ODT works similar to PDF rendering, except for that is a
 little bit less strict. The internal DocBook representation is converted to the
