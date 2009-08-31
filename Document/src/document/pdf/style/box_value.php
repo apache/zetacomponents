@@ -68,58 +68,65 @@ abstract class ezcDocumentPdfStyleBoxValue extends ezcDocumentPdfStyleValue
         $subValue      = new $subValueClass();
         $subExpression = $subValue->getRegularExpression();
 
-        $regexp = '(^\s*(?:' .
-            "(?P<m0>(?P<m00>$subExpression))|" .
-            "(?P<m1>(?P<m10>$subExpression)\s+(?P<m11>$subExpression))|" .
-            "(?P<m2>(?P<m20>$subExpression)\s+(?P<m21>$subExpression)\s+(?P<m22>$subExpression))|" .
-            "(?P<m3>(?P<m30>$subExpression)\s+(?P<m31>$subExpression)\s+(?P<m32>$subExpression)\s+(?P<m33>$subExpression))" .
-        ')\s*$)S';
-
-        if ( !preg_match( $regexp, $value, $match ) )
+        // We match the value counts iteratively and not in one singular 
+        // regular expression, because older PHP versions cause segmentation 
+        // faults with the resulting complex regular expression. Even possible, 
+        // it should not be changed back to matching one singular regular 
+        // expression.
+        for ( $i = 1; $i <= 4; ++$i )
         {
-            throw new ezcDocumentParserException( E_PARSE, "Invalid number of elements in measure box specification: $value" );
+            $regexps = array();
+            for ( $j = 1; $j <= $i; ++$j )
+            {
+                $regexps[] = "(?P<m$j>$subExpression)";
+            }
+
+            if ( !preg_match( "(^" . implode( '\\s+', $regexps ) . "$)", $value, $match ) ) 
+            {
+                continue;
+            }
+
+            switch ( $i )
+            {
+                case 1:
+                    $this->value = array(
+                        'top'    => $subValue->parse( $match['m1'] )->value,
+                        'right'  => $subValue->parse( $match['m1'] )->value,
+                        'bottom' => $subValue->parse( $match['m1'] )->value,
+                        'left'   => $subValue->parse( $match['m1'] )->value,
+                    );
+                    return $this;
+
+                case 2:
+                    $this->value = array(
+                        'top'    => $subValue->parse( $match['m1'] )->value,
+                        'right'  => $subValue->parse( $match['m2'] )->value,
+                        'bottom' => $subValue->parse( $match['m1'] )->value,
+                        'left'   => $subValue->parse( $match['m2'] )->value,
+                    );
+                    return $this;
+
+                case 3:
+                    $this->value = array(
+                        'top'    => $subValue->parse( $match['m1'] )->value,
+                        'right'  => $subValue->parse( $match['m2'] )->value,
+                        'bottom' => $subValue->parse( $match['m3'] )->value,
+                        'left'   => $subValue->parse( $match['m2'] )->value,
+                    );
+                    return $this;
+
+                case 4:
+                    $this->value = array(
+                        'top'    => $subValue->parse( $match['m1'] )->value,
+                        'right'  => $subValue->parse( $match['m2'] )->value,
+                        'bottom' => $subValue->parse( $match['m3'] )->value,
+                        'left'   => $subValue->parse( $match['m4'] )->value,
+                    );
+                    return $this;
+            }
         }
 
-        switch ( true )
-        {
-            case !empty( $match['m0'] ):
-                $this->value = array(
-                    'top'    => $subValue->parse( $match['m00'] )->value,
-                    'right'  => $subValue->parse( $match['m00'] )->value,
-                    'bottom' => $subValue->parse( $match['m00'] )->value,
-                    'left'   => $subValue->parse( $match['m00'] )->value,
-                );
-                break;
-
-            case !empty( $match['m1'] ):
-                $this->value = array(
-                    'top'    => $subValue->parse( $match['m10'] )->value,
-                    'right'  => $subValue->parse( $match['m11'] )->value,
-                    'bottom' => $subValue->parse( $match['m10'] )->value,
-                    'left'   => $subValue->parse( $match['m11'] )->value,
-                );
-                break;
-
-            case !empty( $match['m2'] ):
-                $this->value = array(
-                    'top'    => $subValue->parse( $match['m20'] )->value,
-                    'right'  => $subValue->parse( $match['m21'] )->value,
-                    'bottom' => $subValue->parse( $match['m22'] )->value,
-                    'left'   => $subValue->parse( $match['m21'] )->value,
-                );
-                break;
-
-            case !empty( $match['m3'] ):
-                $this->value = array(
-                    'top'    => $subValue->parse( $match['m30'] )->value,
-                    'right'  => $subValue->parse( $match['m31'] )->value,
-                    'bottom' => $subValue->parse( $match['m32'] )->value,
-                    'left'   => $subValue->parse( $match['m33'] )->value,
-                );
-                break;
-        }
-
-        return $this;
+        throw new ezcDocumentParserException( E_PARSE, "Invalid number of elements in measure box specification: $value" );
     }
 
     /**
