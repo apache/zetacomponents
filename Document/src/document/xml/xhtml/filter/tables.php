@@ -14,7 +14,7 @@
  * contents. Eg. are used for layout instead of content markup.
  *
  * The filter checks the number of cells which contain mostly text and when the
- * factor drops below a configured treshold the table is removed from the
+ * factor drops below a configured threshold the table is removed from the
  * content tree.
  *
  * @package Document
@@ -28,7 +28,7 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
      *
      * @var float
      */
-    protected $treshold = .8;
+    protected $threshold = .8;
 
     /**
      * Construct tables filter
@@ -37,12 +37,12 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
      * textual contents requierd for each table not to be deleted. It defaults
      * to .8 (80%).
      *
-     * @param float $treshold
+     * @param float $threshold
      * @return void
      */
-    public function __construct( $treshold = .8 )
+    public function __construct( $threshold = .8 )
     {
-        $this->treshold = (float) $treshold;
+        $this->threshold = (float) $threshold;
     }
 
     /**
@@ -82,7 +82,7 @@ class ezcDocumentXhtmlTablesFilter extends ezcDocumentXhtmlBaseFilter
 
             // Completely remove table, if it does not meet the configured
             // expectations
-            if ( ( $cellContentCount / $cellCount ) < $this->treshold )
+            if ( ( $cellContentCount / $cellCount ) < $this->threshold )
             {
                 $table->parentNode->removeChild( $table );
                 continue;
