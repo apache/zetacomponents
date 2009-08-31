@@ -62,19 +62,19 @@ class ezcDocumentPdfVariableListRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "TTF" )
         );
         $mock->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 15, 1. ), $this->equalTo( 32.2, 1. ), $this->equalTo( "TrueType" )
+            $this->equalTo( 15, 1. ), $this->equalTo( 29.2, 1. ), $this->equalTo( "TrueType" )
         );
         $mock->expects( $this->at( 3 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 51, 1. ), $this->equalTo( 32.2, 1. ), $this->equalTo( "fonts." )
+            $this->equalTo( 51, 1. ), $this->equalTo( 29.2, 1. ), $this->equalTo( "fonts." )
         );
         $mock->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
             $this->equalTo( 10, 1. ), $this->equalTo( 43.4, 1. ), $this->equalTo( "PFA" )
         );
         $mock->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 15, 1. ), $this->equalTo( 57.6, 1. ), $this->equalTo( "PostScript" )
+            $this->equalTo( 15, 1. ), $this->equalTo( 55.4, 1. ), $this->equalTo( "PostScript" )
         );
         $mock->expects( $this->at( 6 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 59, 1. ), $this->equalTo( 57.6, 1. ), $this->equalTo( "fonts." )
+            $this->equalTo( 59, 1. ), $this->equalTo( 55.4, 1. ), $this->equalTo( "fonts." )
         );
 
         $docbook = new ezcDocumentDocbook();
@@ -105,13 +105,13 @@ class ezcDocumentPdfVariableListRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 10, 1. ), $this->equalTo( 29.2, 1. ), $this->equalTo( "is" )
         );
         $mock->expects( $this->at( 10 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 15, 1. ), $this->equalTo( 65.8, 1. ), $this->equalTo( "The" )
+            $this->equalTo( 15, 1. ), $this->equalTo( 62.8, 1. ), $this->equalTo( "The" )
         );
         $mock->expects( $this->at( 20 ) )->method( 'createPage' )->with(
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
         $mock->expects( $this->at( 21 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 15, 1. ), $this->equalTo( 21, 1. ), $this->equalTo( "to" )
+            $this->equalTo( 15, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "to" )
         );
 
         $docbook = new ezcDocumentDocbook();

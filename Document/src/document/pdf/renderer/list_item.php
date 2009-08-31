@@ -64,12 +64,15 @@ class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfBlockRenderer
     protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Render list item
-        $styles = $this->styles->inferenceFormattingRules( $block );
-        $this->driver->drawWord(
-            $page->x + $page->xOffset - $styles['padding']->value['left'],
-            $page->y + $styles['font-size']->value,
-            $this->generator->getListItem( $this->item )
-        );
+        if ( ( $listItem = $this->generator->getListItem( $this->item ) ) !== '' )
+        {
+            $styles = $this->styles->inferenceFormattingRules( $block );
+            $this->driver->drawWord(
+                $page->x + $page->xOffset - $styles['padding']->value['left'],
+                $page->y + $styles['font-size']->value,
+                $listItem
+            );
+        }
 
         // Render list contents
         $mainRenderer->process( $block );
