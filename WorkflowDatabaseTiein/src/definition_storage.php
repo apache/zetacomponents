@@ -191,8 +191,6 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
               $configuration
             );
 
-            $nodes[$node['node_id']]->setId( $node['node_id'] );
-
             if ($nodes[$node['node_id']] instanceof ezcWorkflowNodeFinally &&
                 !isset( $finallyNode ) )
             {
@@ -374,6 +372,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $nodes    = $workflow->nodes;
         $keys     = array_keys( $nodes );
         $numNodes = count( $nodes );
+        $nodeMap  = new SplObjectStorage;
 
         for ( $i = 0; $i < $numNodes; $i++ )
         {
@@ -392,7 +391,12 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
             $statement = $query->prepare();
             $statement->execute();
 
-            $node->setId( $this->db->lastInsertId( $this->db->quoteIdentifier( 'node_node_id_seq' ) ) );
+            $nodeMap->attach(
+              $node,
+              $this->db->lastInsertId(
+                $this->db->quoteIdentifier( 'node_node_id_seq' )
+              )
+            );
         }
 
         // Connect node table rows.
@@ -406,13 +410,15 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
                 $query = $this->db->createInsertQuery();
 
                 $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'node_connection' ) )
-                      ->set( $this->db->quoteIdentifier( 'incoming_node_id' ), $query->bindValue( (int)$node->getId() ) )
-                      ->set( $this->db->quoteIdentifier( 'outgoing_node_id' ), $query->bindValue( (int)$outNode->getId() ) );
+                      ->set( $this->db->quoteIdentifier( 'incoming_node_id' ), $query->bindValue( (int)$nodeMap[$node] ) )
+                      ->set( $this->db->quoteIdentifier( 'outgoing_node_id' ), $query->bindValue( (int)$nodeMap[$outNode] ) );
 
                 $statement = $query->prepare();
                 $statement->execute();
             }
         }
+
+        unset( $nodeMap );
 
         // Write variable handler rows.
         foreach ( $workflow->getVariableHandlers() as $variable => $class )
