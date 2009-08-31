@@ -1,11 +1,11 @@
 MMM DD HH:MM:SS [Info] [default] [default] Started execution #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeStart) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #1(ezcWorkflowNodeStart) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Started thread #0 (1 sibling(s)) for execution #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Activated node #6(ezcWorkflowNodeVariableSet) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeStart) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #3(ezcWorkflowNodeVariableSet) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #1(ezcWorkflowNodeStart) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "x" to "1" for execution #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Activated node #7(ezcWorkflowNodeSubWorkflow) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Executed node #6(ezcWorkflowNodeVariableSet) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeSubWorkflow) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #3(ezcWorkflowNodeVariableSet) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "y" to "1" for execution #0 of workflow "IncrementVariable" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Started execution #0 of workflow "IncrementVariable" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #1(ezcWorkflowNodeStart) for instance #0 of workflow "IncrementVariable" (version 1).
@@ -19,8 +19,8 @@ MMM DD HH:MM:SS [Debug] [default] [default] Executed node #2(ezcWorkflowNodeEnd)
 MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #0 for execution #0 of workflow "IncrementVariable" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Ended execution #0 of workflow "IncrementVariable" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "z" to "2" for execution #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeEnd) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Executed node #7(ezcWorkflowNodeSubWorkflow) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeEnd) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeSubWorkflow) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #0 for execution #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Ended execution #1 of workflow "WorkflowWithSubWorkflowAndVariablePassing" (version 1).

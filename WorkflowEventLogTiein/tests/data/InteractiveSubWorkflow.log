@@ -1,8 +1,8 @@
 MMM DD HH:MM:SS [Info] [default] [default] Started execution #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Activated node #4(ezcWorkflowNodeStart) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #1(ezcWorkflowNodeStart) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Started thread #0 (1 sibling(s)) for execution #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Activated node #6(ezcWorkflowNodeSubWorkflow) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Executed node #4(ezcWorkflowNodeStart) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #3(ezcWorkflowNodeSubWorkflow) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #1(ezcWorkflowNodeStart) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Set variable "foo" to "bar" for execution #2 of workflow "StartInputEnd" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Started execution #2 of workflow "StartInputEnd" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Activated node #1(ezcWorkflowNodeStart) for instance #2 of workflow "StartInputEnd" (version 1).
@@ -21,8 +21,8 @@ MMM DD HH:MM:SS [Debug] [default] [default] Executed node #3(ezcWorkflowNodeInpu
 MMM DD HH:MM:SS [Debug] [default] [default] Executed node #2(ezcWorkflowNodeEnd) for instance #2 of workflow "StartInputEnd" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #0 for execution #2 of workflow "StartInputEnd" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Ended execution #2 of workflow "StartInputEnd" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Activated node #5(ezcWorkflowNodeEnd) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Executed node #6(ezcWorkflowNodeSubWorkflow) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
-MMM DD HH:MM:SS [Debug] [default] [default] Executed node #5(ezcWorkflowNodeEnd) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Activated node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #3(ezcWorkflowNodeSubWorkflow) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
+MMM DD HH:MM:SS [Debug] [default] [default] Executed node #2(ezcWorkflowNodeEnd) for instance #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
 MMM DD HH:MM:SS [Debug] [default] [default] Ended thread #0 for execution #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
 MMM DD HH:MM:SS [Info] [default] [default] Ended execution #1 of workflow "WorkflowWithSubWorkflowStartInputEnd" (version 1).
