@@ -329,14 +329,18 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         $stmt = $query->prepare();
         $stmt->execute();
 
-        $result         = $stmt->fetchAll( PDO::FETCH_ASSOC );
-        $activatedNodes = array();
+        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+        $active = array();
 
         foreach ( $result as $row )
         {
-            $activatedNodes[$row['node_id']] = array(
-              'state' => $row['node_state'],
-              'activated_from' => $row['node_activated_from'],
+            $active[$row['node_id']] = array(
+              'activated_from' => ezcWorkflowDatabaseUtil::unserialize(
+                $row['node_activated_from']
+              ),
+              'state' => ezcWorkflowDatabaseUtil::unserialize(
+                $row['node_state'], null
+              ),
               'thread_id' => $row['node_thread_id']
             );
         }
@@ -345,12 +349,12 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         {
             $nodeId = $node->getId();
 
-            if ( isset( $activatedNodes[$nodeId] ) )
+            if ( isset( $active[$nodeId] ) )
             {
                 $node->setActivationState( ezcWorkflowNode::WAITING_FOR_EXECUTION );
-                $node->setThreadId( $activatedNodes[$nodeId]['thread_id'] );
-                $node->setState( ezcWorkflowDatabaseUtil::unserialize( $activatedNodes[$nodeId]['state'], null ) );
-                $node->setActivatedFrom( ezcWorkflowDatabaseUtil::unserialize( $activatedNodes[$nodeId]['activated_from'] ) );
+                $node->setThreadId( $active[$nodeId]['thread_id'] );
+                $node->setState( $active[$nodeId]['state'], null );
+                $node->setActivatedFrom( $active[$nodeId]['activated_from'] );
 
                 $this->activate( $node, false );
             }
