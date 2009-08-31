@@ -89,7 +89,7 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfDriverTests
             $this->markTestSkipped( 'This test requires the TCPDF class.' );
         }
 
-        return new ezcDocumentPdfHaruDriver();
+        return new ezcDocumentPdfTcpdfDriver();
     }
 }
 
