@@ -272,6 +272,15 @@ return array (
            'autoIncrement' => false,
            'unsigned' => false,
         )),
+        'node_connection_id' => 
+        ezcDbSchemaField::__set_state(array(
+           'type' => 'integer',
+           'length' => 10,
+           'notNull' => true,
+           'default' => NULL,
+           'autoIncrement' => true,
+           'unsigned' => false,
+        )),
         'outgoing_node_id' => 
         ezcDbSchemaField::__set_state(array(
            'type' => 'integer',
@@ -284,17 +293,17 @@ return array (
       ),
        'indexes' => 
       array (
-        'incoming_node_id' => 
+        'primary' => 
         ezcDbSchemaIndex::__set_state(array(
            'indexFields' => 
           array (
-            'incoming_node_id' => 
+            'node_connection_id' => 
             ezcDbSchemaIndexField::__set_state(array(
                'sorting' => NULL,
             )),
           ),
-           'primary' => false,
-           'unique' => false,
+           'primary' => true,
+           'unique' => true,
         )),
       ),
     )),

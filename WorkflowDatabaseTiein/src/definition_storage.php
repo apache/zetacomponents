@@ -229,7 +229,8 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
                                          'node_connection.incoming_node_id',
                                          'node.node_id' ) )
               ->where( $query->expr->eq( 'node.workflow_id',
-                                         $query->bindValue( (int)$workflowId ) ) );
+                                         $query->bindValue( (int)$workflowId ) ) )
+              ->orderBy( $this->db->quoteIdentifier( 'node_connection_id' ) );
 
         $stmt = $query->prepare();
         $stmt->execute();

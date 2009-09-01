@@ -22,10 +22,11 @@ CREATE TABLE node (
 
 DROP TABLE IF EXISTS node_connection;
 CREATE TABLE node_connection (
-  incoming_node_id INTEGER UNSIGNED NOT NULL,
-  outgoing_node_id INTEGER UNSIGNED NOT NULL,
+  node_connection_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  incoming_node_id   INTEGER UNSIGNED NOT NULL,
+  outgoing_node_id   INTEGER UNSIGNED NOT NULL,
 
-  KEY incoming_node_id (incoming_node_id)
+  PRIMARY KEY (node_connection_id)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS variable_handler;
