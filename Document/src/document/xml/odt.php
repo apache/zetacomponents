@@ -140,6 +140,13 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
      */
     protected function transformToDocbook( DOMElement $odt, DOMElement $docbook, $significantWhitespace = false )
     {
+        if ( ( $spaces = $odt->getProperty( 'spaces' ) ) !== false )
+        {
+            $docbook->appendChild(
+                new DOMText( $spaces )
+            );
+        }
+
         if ( ( $tagName = $odt->getProperty( 'type' ) ) !== false )
         {
             $node = new DOMElement( $tagName );
@@ -156,8 +163,10 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
             }
         }
 
-        foreach ( $odt->childNodes as $child )
+        $numChildren = $odt->childNodes->length;
+        for ( $i = 0; $i < $numChildren; ++$i )
         {
+            $child = $odt->childNodes->item( $i );
             switch ( $child->nodeType )
             {
                 case XML_ELEMENT_NODE:
@@ -169,6 +178,8 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
                     break;
 
                 case XML_TEXT_NODE:
+                    // Remove all whitespaces except for a single space
+                    // ODT has <text:s/> and <text:tab/> for those.
                     // Skip pure whitespace text nodes, except for
                     // intentionally converted <br> elements.
                     if ( ( trim( $text = $child->data ) === '' ) &&
@@ -178,18 +189,11 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
                         continue;
                     }
 
-                    if ( ( $odt->getProperty( 'whitespace' ) === 'significant' ) ||
-                         ( $significantWhitespace ) )
-                    {
-                        // Don't normalize inside nodes with significant whitespaces.
-                        $text = new DOMText( $text );
-                        $docbook->appendChild( $text );
-                    }
-                    else
-                    {
-                        $text = new DOMText( preg_replace( '(\s+)', ' ', $text ) );
-                        $docbook->appendChild( $text );
-                    }
+                    $docbook->appendChild(
+                        new DOMText(
+                            preg_replace( array( '( +)', '(\n+)' ), array( ' ', '' ), $child->data )
+                        )
+                    );
                     break;
 
                 case XML_CDATA_SECTION_NODE:

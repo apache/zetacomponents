@@ -39,6 +39,8 @@ class ezcDocumentOdtElementFilter extends ezcDocumentOdtBaseFilter
             // Basic mapping filter
             new ezcDocumentOdtElementParagraphFilter(),
             new ezcDocumentOdtElementHeaderFilter(),
+            new ezcDocumentOdtElementListFilter(),
+            new ezcDocumentOdtElementWhitespaceFilter(),
         );
     }
 

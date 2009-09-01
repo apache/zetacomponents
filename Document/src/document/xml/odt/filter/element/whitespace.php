@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtParagraphFilter class
+ * File containing the ezcDocumentOdtWhitespaceFilter class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentOdtElementParagraphFilter extends ezcDocumentOdtElementBaseFilter
+class ezcDocumentOdtElementWhitespaceFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
      * Filter a single element
@@ -26,14 +26,23 @@ class ezcDocumentOdtElementParagraphFilter extends ezcDocumentOdtElementBaseFilt
      */
     public function filterElement( DOMElement $element )
     {
-        if ( $this->hasSignificantWhitespace( $element ) )
+        $spaces = '';
+        switch ( $element->localName )
         {
-            $element->setProperty( 'type', 'literallayout' );
+            case 's':
+                $spaces = str_repeat(
+                    ' ',
+                    $element->getAttributeNS( ezcDocumentOdt::NS_ODT_TEXT, 'c' )
+                );
+                break;
+            case 'tab':
+                $spaces = "\t";
+                break;
+            case 'line-break':
+                $spaces = "\n";
+                break;
         }
-        else 
-        {
-            $element->setProperty( 'type', 'para' );
-        }
+        $element->setProperty( 'spaces', $spaces );
     }
 
     /**
@@ -46,8 +55,12 @@ class ezcDocumentOdtElementParagraphFilter extends ezcDocumentOdtElementBaseFilt
     {
         $xpath = new DOMXpath( $element->ownerDocument );
         $xpath->registerNamespace( 'text', ezcDocumentOdt::NS_ODT_TEXT );
+
         // @TODO: Really count tabs as significant whitespaces => literal?
-        $whitespaces = $xpath->evaluate( './/text:s|.//text:tab', $element );
+        $whitespaces = $xpath->evaluate(
+            './/text:c|.//text:tab|.//line-break',
+            $element
+        );
 
         return ( $whitespaces instanceof DOMNodeList && $whitespaces->length > 0 );
     }
@@ -64,7 +77,7 @@ class ezcDocumentOdtElementParagraphFilter extends ezcDocumentOdtElementBaseFilt
     public function handles( DOMElement $element )
     {
         return ( $element->namespaceURI === ezcDocumentOdt::NS_ODT_TEXT
-            && $element->localName === 'p' );
+            && ( $element->localName === 's' || $element->localName === 'tab' ) );
     }
 }
 
