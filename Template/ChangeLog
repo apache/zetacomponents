@@ -1,4 +1,4 @@
-1.4.1 - [RELEASEDATE]
+1.4.1 - Tuesday 01 September 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15291: {tr}-block ignores output context.
