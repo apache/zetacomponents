@@ -2,7 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #13244: ezcConfigurationIniWriter::writeSetting() enforces
-  quoting even documented different.
+  quoting even thought it is documented differently.
 - Fixed bug #15309: Hash keys with quotes were not escaped properly internally.
 
 

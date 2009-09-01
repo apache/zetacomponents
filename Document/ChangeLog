@@ -1,4 +1,4 @@
-1.2.? - [RELEASEDATE]
+1.3alpha1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed #15198: ezcDocumentPdf cannot be constructed without pecl/haru.
@@ -6,13 +6,13 @@
 - Implemented #15188: Add support for text colors in drivers.
 - Implemented #15189: Add support for background colors in drivers.
 - Implemented #15190: Add support for text-decoration in drivers.
+- Implemented #15191: Implement renderer for literalblock elements.
+- Implemented #15192: Implement renderer for bullet list elements.
+- Implemented #15193: Implement renderer for enumeration list elements.
+- Implemented #15194: Implement renderer for definition list elements.
 - Implemented #15195: Implement renderer for external link elements.
 - Implemented #15196: Implement renderer for internal link elements and link
   targets.
-- Implemented #15191: Implement renderer for literalblock elements.
-- Implemented #15194: Implement renderer for definition list elements.
-- Implemented #15192: Implement renderer for bullet list elements.
-- Implemented #15193: Implement renderer for enumeration list elements.
 - Implemented: Support for borders and background colors.
 
 

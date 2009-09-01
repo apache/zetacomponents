@@ -1,3 +1,7 @@
+1.4alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- The database schema changed, an upgrade is required.
 - Implemented issue #15325: Execution state should be stored atomically.
 - Fixed issue #15184: Output paths from Exclusive Choice randomly switch.
 - Added execution.execution_suspended field that holds the timestamp of when the
