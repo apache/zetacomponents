@@ -373,7 +373,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $nodes    = $workflow->nodes;
         $keys     = array_keys( $nodes );
         $numNodes = count( $nodes );
-        $nodeMap  = new SplObjectStorage;
+        $nodeMap  = array();
 
         for ( $i = 0; $i < $numNodes; $i++ )
         {
@@ -392,12 +392,7 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
             $statement = $query->prepare();
             $statement->execute();
 
-            $nodeMap->attach(
-              $node,
-              $this->db->lastInsertId(
-                $this->db->quoteIdentifier( 'node_node_id_seq' )
-              )
-            );
+            $nodeMap[$this->db->lastInsertId( $this->db->quoteIdentifier( 'node_node_id_seq' ) )] = $node;
         }
 
         // Connect node table rows.
@@ -408,11 +403,32 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
 
             foreach ( $node->getOutNodes() as $outNode )
             {
+                $incomingNodeId = null;
+                $outgoingNodeId = null;
+
+                foreach ( $nodeMap as $_id => $_node )
+                {
+                    if ( $_node === $node )
+                    {
+                        $incomingNodeId = $_id;
+                    }
+
+                    else if ( $_node === $outNode )
+                    {
+                        $outgoingNodeId = $_id;
+                    }
+
+                    if ( $incomingNodeId !== NULL && $outgoingNodeId !== NULL )
+                    {
+                        break;
+                    }
+                }
+
                 $query = $this->db->createInsertQuery();
 
                 $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'node_connection' ) )
-                      ->set( $this->db->quoteIdentifier( 'incoming_node_id' ), $query->bindValue( (int)$nodeMap[$node] ) )
-                      ->set( $this->db->quoteIdentifier( 'outgoing_node_id' ), $query->bindValue( (int)$nodeMap[$outNode] ) );
+                      ->set( $this->db->quoteIdentifier( 'incoming_node_id' ), $query->bindValue( $incomingNodeId ) )
+                      ->set( $this->db->quoteIdentifier( 'outgoing_node_id' ), $query->bindValue( $outgoingNodeId ) );
 
                 $statement = $query->prepare();
                 $statement->execute();
