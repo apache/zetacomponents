@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS workflow;
 CREATE TABLE workflow (
-  workflow_id                INTEGER      UNSIGNED NOT NULL AUTO_INCREMENT,
-  workflow_name              VARCHAR(255)          NOT NULL,
-  workflow_version           INTEGER      UNSIGNED NOT NULL DEFAULT 1,
-  workflow_created           INTEGER               NOT NULL,
+  workflow_id      INTEGER      UNSIGNED NOT NULL AUTO_INCREMENT,
+  workflow_name    VARCHAR(255)          NOT NULL,
+  workflow_version INTEGER      UNSIGNED NOT NULL DEFAULT 1,
+  workflow_created INTEGER               NOT NULL,
 
   PRIMARY KEY              (workflow_id),
   UNIQUE  KEY name_version (workflow_name, workflow_version)
@@ -31,9 +31,9 @@ CREATE TABLE node_connection (
 
 DROP TABLE IF EXISTS variable_handler;
 CREATE TABLE variable_handler (
-  workflow_id   INTEGER      UNSIGNED NOT NULL REFERENCES workflow.workflow_id,
-  variable      VARCHAR(255)          NOT NULL,
-  class         VARCHAR(255)          NOT NULL,
+  workflow_id INTEGER      UNSIGNED NOT NULL REFERENCES workflow.workflow_id,
+  variable    VARCHAR(255)          NOT NULL,
+  class       VARCHAR(255)          NOT NULL,
 
   PRIMARY KEY (workflow_id, class)
 ) ENGINE=InnoDB;
@@ -56,11 +56,11 @@ CREATE TABLE execution (
 
 DROP TABLE IF EXISTS execution_state;
 CREATE TABLE execution_state (
-  execution_id          INTEGER UNSIGNED NOT NULL REFERENCES execution.execution_id,
-  node_id               INTEGER UNSIGNED NOT NULL REFERENCES node.node_id,
-  node_state            BLOB                 NULL,
-  node_activated_from   BLOB                 NULL,
-  node_thread_id        INTEGER UNSIGNED NOT NULL,
+  execution_id        INTEGER UNSIGNED NOT NULL REFERENCES execution.execution_id,
+  node_id             INTEGER UNSIGNED NOT NULL REFERENCES node.node_id,
+  node_state          BLOB                 NULL,
+  node_activated_from BLOB                 NULL,
+  node_thread_id      INTEGER UNSIGNED NOT NULL,
 
   PRIMARY KEY (execution_id, node_id)
 ) ENGINE=InnoDB;
