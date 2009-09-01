@@ -370,16 +370,10 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         $workflow->version = (int)$workflowVersion;
 
         // Write node table rows.
-        $nodes    = $workflow->nodes;
-        $keys     = array_keys( $nodes );
-        $numNodes = count( $nodes );
-        $nodeMap  = array();
+        $nodeMap = array();
 
-        for ( $i = 0; $i < $numNodes; $i++ )
+        foreach ( $workflow->nodes as $node )
         {
-            $id   = $keys[$i];
-            $node = $nodes[$id];
-
             $query = $this->db->createInsertQuery();
 
             $query->insertInto( $this->db->quoteIdentifier( $this->options['prefix'] . 'node' ) )
@@ -396,11 +390,8 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         }
 
         // Connect node table rows.
-        for ( $i = 0; $i < $numNodes; $i++ )
+        foreach ( $workflow->nodes as $node )
         {
-            $id   = $keys[$i];
-            $node = $nodes[$id];
-
             foreach ( $node->getOutNodes() as $outNode )
             {
                 $incomingNodeId = null;
