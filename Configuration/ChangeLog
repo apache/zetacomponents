@@ -1,4 +1,4 @@
-1.3.4 - [RELEASEDATE]
+1.3.4 - Tuesday 01 September 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Implemented issue #13244: ezcConfigurationIniWriter::writeSetting() enforces
