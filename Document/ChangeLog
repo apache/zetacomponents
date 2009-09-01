@@ -1,4 +1,4 @@
-1.3alpha1 - [RELEASEDATE]
+1.3alpha1 - Tuesday 01 September 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed #15198: ezcDocumentPdf cannot be constructed without pecl/haru.
