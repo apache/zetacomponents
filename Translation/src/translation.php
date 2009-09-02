@@ -88,7 +88,8 @@ class ezcTranslation
      * This method returns a translated string and substitutes the parameters $param
      * in the localized string.
      *
-     * @throws ezcTranslationKeyNotAvailableException when the key is not available
+     * @throws ezcTranslationKeyNotAvailableException when the key is not
+     *         available in the translation definitions
      * @throws ezcTranslationParameterMissingException when not enough
      *         parameters are passed for a parameterized string
      * @param string $key

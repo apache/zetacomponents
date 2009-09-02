@@ -47,7 +47,7 @@ ezcTranslation
   retrieve data. 
 
 ezcTranslationComplementEmptyFilter
-  This class implements a filter that substitutes a missing translated string
+  This class implements a filter that substitutes a missing ("unfinished") translated string
   with its untranslated source. This filter makes sure that all translatable
   strings return some text, even if a particular string has not been translated yet.
   

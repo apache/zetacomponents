@@ -10,8 +10,10 @@
 /**
  * Implements the Bork translation filter.
  *
- * The bork filter mangles non-finished or non-translated text so that it is
- * obvious which text is translatable, but not yet translated.
+ * The bork filter mangles text in cases where the translatable string is
+ * defined in the translation definition, but when it it marked as an
+ * "unfinished" translation.  This makes it obvious which text is translatable,
+ * but not yet translated.
  *
  * @package Translation
  * @version //autogentag//
