@@ -466,11 +466,11 @@ abstract class ezcArchive implements Iterator
         $isWindows = ( substr( php_uname( 's' ), 0, 7 ) == 'Windows' ) ? true : false;
         $entry = $this->current();
         $type = $entry->getType();
-        $fileName = $target ."/". $entry->getPath();
+        $fileName = $target . DIRECTORY_SEPARATOR. $entry->getPath();
 
         if ( $type == ezcArchiveEntry::IS_LINK )
         {
-            $linkName = $target . "/" . $entry->getLink();
+            $linkName = $target . DIRECTORY_SEPARATOR . $entry->getLink();
             if ( !file_exists( $linkName ) )
             {
                 throw new ezcBaseFileNotFoundException( $linkName, "link", "Hard link could not be created." );
@@ -541,11 +541,11 @@ abstract class ezcArchive implements Iterator
                     case ezcArchiveEntry::IS_LINK:
                         if ( $isWindows )
                         {
-                            copy( $target . "/" . $entry->getLink(), $fileName );
+                            copy( $target . DIRECTORY_SEPARATOR . $entry->getLink(), $fileName );
                         }
                         else
                         {
-                            link( $target . "/" . $entry->getLink(), $fileName );
+                            link( $target . DIRECTORY_SEPARATOR . $entry->getLink(), $fileName );
                         }
                         break;
 
@@ -567,16 +567,19 @@ abstract class ezcArchive implements Iterator
                         throw new ezcArchiveValueException( $type );
                 }
 
-                // Change the file, iff the filename exists and iff the intension is to keep it as a file.
-                // The Zip archive stores the symlinks in a file; thus don't change these.
+                // Change the username and group if the filename exists and if
+                // the intention is to keep it as a file. A zip archive
+                // stores the symlinks in a file; thus don't change these.
                 if ( file_exists( $fileName ) && $type == ezcArchiveEntry::IS_FILE )
                 {
                     @chgrp( $fileName, $entry->getGroupId() );
                     @chown( $fileName, $entry->getUserId() );
 
-                    if ( $entry->getPermissions() !== false )
+                    $permissions = $entry->getPermissions();
+
+                    if ( $permissions !== false )
                     {
-                        chmod( $fileName, octdec( $entry->getPermissions() ) );
+                        chmod( $fileName, octdec( $permissions ) );
                     }
 
                     touch( $fileName, $entry->getModificationTime() );
