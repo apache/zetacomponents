@@ -106,6 +106,29 @@ class ezcDocumentOdtElementFilter extends ezcDocumentOdtBaseFilter
             {
                 $this->filterNode( $child );
             }
+
+            // Attempt for new whitespace handling
+            if ( $child->nodeType === XML_TEXT_NODE && trim( $child->data ) === '' )
+            {
+                if ( $child->parentNode->localName === 'p'
+                     && $i > 0
+                     && $child->nextSibling !== null
+                     // Work around for flat ODT, where XML is formatted 
+                     // readable. OOO does not work properly when loading this.
+                     && ( $child->nextSibling->nodeType !== XML_ELEMENT_NODE 
+                          || ( $child->nextSibling->localName !== 'tab' 
+                               && $child->nextSibling->localName !== 'line-break'
+                             )
+                        )
+                   )
+                {
+                    $child->parentNode->replaceChild( new DOMText( ' ' ), $child );
+                }
+                else
+                {
+                    $child->parentNode->removeChild( $child );
+                }
+            }
         }
     }
 }

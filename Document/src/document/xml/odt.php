@@ -178,21 +178,8 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
                     break;
 
                 case XML_TEXT_NODE:
-                    // Remove all whitespaces except for a single space
-                    // ODT has <text:s/> and <text:tab/> for those.
-                    // Skip pure whitespace text nodes, except for
-                    // intentionally converted <br> elements.
-                    if ( ( trim( $text = $child->data ) === '' ) &&
-                         ( !$significantWhitespace ) &&
-                         ( $odt->getProperty( 'whitespace' ) !== 'significant' ) )
-                    {
-                        continue;
-                    }
-
                     $docbook->appendChild(
-                        new DOMText(
-                            preg_replace( array( '( +)', '(\n+)' ), array( ' ', '' ), $child->data )
-                        )
+                        new DOMText( $child->data )
                     );
                     break;
 

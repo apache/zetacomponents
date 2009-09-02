@@ -30,9 +30,10 @@ class ezcDocumentOdtElementWhitespaceFilter extends ezcDocumentOdtElementBaseFil
         switch ( $element->localName )
         {
             case 's':
+                $count = $element->getAttributeNS( ezcDocumentOdt::NS_ODT_TEXT, 'c' );
                 $spaces = str_repeat(
                     ' ',
-                    $element->getAttributeNS( ezcDocumentOdt::NS_ODT_TEXT, 'c' )
+                    ( $count !== '' ? (int) $count : 1 )
                 );
                 break;
             case 'tab':
@@ -77,7 +78,11 @@ class ezcDocumentOdtElementWhitespaceFilter extends ezcDocumentOdtElementBaseFil
     public function handles( DOMElement $element )
     {
         return ( $element->namespaceURI === ezcDocumentOdt::NS_ODT_TEXT
-            && ( $element->localName === 's' || $element->localName === 'tab' ) );
+            && ( $element->localName === 's' 
+                 || $element->localName === 'tab' 
+                 || $element->localName === 'line-break'
+               )
+        );
     }
 }
 
