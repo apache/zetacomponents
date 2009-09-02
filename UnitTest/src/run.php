@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * File contaning the execution script for the eZ Components test runner.
