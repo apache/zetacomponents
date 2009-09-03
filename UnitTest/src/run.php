@@ -14,7 +14,7 @@ require_once 'PHPUnit/Util/Filter.php';
 
 $version = PHPUnit_Runner_Version::id();
 
-if ( version_compare( $version, '3.4.0' ) == -1 && $version !== '@package_version@' )
+if ( version_compare( $version, '3.4.0RC2' ) == -1 && $version !== '@package_version@' )
 {
     die( "PHPUnit 3.4.0 (or later) is required to run this test suite.\n" );
 }
