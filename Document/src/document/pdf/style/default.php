@@ -360,6 +360,38 @@ return array (
      'position' => 17,
      'regularExpression' => NULL,
   )),
+  20 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'blockquote',
+    ),
+     'formats' => 
+    array (
+      'margin' => '2mm 0mm 4mm 10mm',
+    ),
+     'file' => 'style/default.css',
+     'line' => 124,
+     'position' => 12,
+     'regularExpression' => NULL,
+  )),
+  21 => 
+  ezcDocumentPdfCssDirective::__set_state(array(
+     'address' => 
+    array (
+      0 => 'blockquote',
+      1 => '> attribution',
+    ),
+     'formats' => 
+    array (
+      'margin' => '2mm 0mm 4mm 10mm',
+      'font-style' => 'italic',
+    ),
+     'file' => 'style/default.css',
+     'line' => 128,
+     'position' => 26,
+     'regularExpression' => NULL,
+  )),
 );
 
 ?>

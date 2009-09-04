@@ -205,6 +205,7 @@ return array(
     'ezcDocumentOdtOptions'                              => 'Document/options/document_odt.php',
     'ezcDocumentParserOptions'                           => 'Document/options/document_parser.php',
     'ezcDocumentPdf'                                     => 'Document/document/pdf.php',
+    'ezcDocumentPdfBlockquoteRenderer'                   => 'Document/document/pdf/renderer/blockquote.php',
     'ezcDocumentPdfBoundingBox'                          => 'Document/document/pdf/box.php',
     'ezcDocumentPdfCssDirective'                         => 'Document/document/pdf/pcss/directive.php',
     'ezcDocumentPdfCssParser'                            => 'Document/document/pdf/pcss/parser.php',

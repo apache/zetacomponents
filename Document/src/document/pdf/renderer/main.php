@@ -87,6 +87,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
             'literallayout' => 'renderLiteralLayout',
 
+            'blockquote'    => 'renderBlockquote',
+
             'itemizedlist'  => 'renderList',
             'orderedlist'   => 'renderList',
             'variablelist'  => 'renderBlock',
@@ -313,6 +315,42 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     }
 
     /**
+     * Process a single element with the registered renderers.
+     * 
+     * @param DOMElement $element 
+     * @return int
+     */
+    public function processNode( DOMElement $element, $number = 0 )
+    {
+        // Default to docbook namespace, if no namespace is defined
+        $namespace = $element->namespaceURI === null ? 'http://docbook.org/ns/docbook' : $element->namespaceURI;
+
+        if ( !isset( $this->handlerMapping[$namespace] ) ||
+             !isset( $this->handlerMapping[$namespace][$element->tagName] ) )
+        {
+            $this->triggerError(
+                E_NOTICE,
+                "Unknown and unhandled element: {$namespace}:{$element->tagName}."
+            );
+            return $number;
+        }
+
+        $method = $this->handlerMapping[$namespace][$element->tagName];
+        $this->$method( $element, $number );
+
+        // Check if the rendering process should be restarted at an earlier
+        // point
+        if ( $this->restart !== false )
+        {
+            $number = $this->restart;
+            $this->restart = false;
+            return $number;
+        }
+
+        return $number;
+    }
+
+    /**
      * Recurse into DOMDocument tree and call appropriate element handlers
      *
      * @param DOMNode $element
@@ -331,29 +369,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
                 continue;
             }
 
-            // Default to docbook namespace, if no namespace is defined
-            $namespace = $child->namespaceURI === null ? 'http://docbook.org/ns/docbook' : $child->namespaceURI;
-
-            if ( !isset( $this->handlerMapping[$namespace] ) ||
-                 !isset( $this->handlerMapping[$namespace][$child->tagName] ) )
-            {
-                $this->triggerError(
-                    E_NOTICE,
-                    "Unknown and unhandled element: {$namespace}:{$child->tagName}."
-                );
-                continue;
-            }
-
-            $method = $this->handlerMapping[$namespace][$child->tagName];
-            $this->$method( $child, $i );
-
-            // Check if the rendering process should be restarted at an earlier
-            // point
-            if ( $this->restart !== false )
-            {
-                $i = $this->restart;
-                $this->restart = false;
-            }
+            $i = $this->processNode( $child, $i );
         }
     }
 
@@ -408,6 +424,20 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     protected function renderBlock( ezcDocumentPdfInferencableDomElement $element )
     {
         $renderer = new ezcDocumentPdfBlockRenderer( $this->driver, $this->styles );
+        $page     = $this->driver->currentPage();
+        $styles   = $this->styles->inferenceFormattingRules( $element );
+        return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+    }
+
+    /**
+     * Handle calls to block element renderer
+     *
+     * @param ezcDocumentPdfInferencableDomElement $element
+     * @return void
+     */
+    protected function renderBlockquote( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $renderer = new ezcDocumentPdfBlockquoteRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
         $styles   = $this->styles->inferenceFormattingRules( $element );
         return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );

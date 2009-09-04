@@ -121,3 +121,12 @@ listitem > para {
     margin: "0mm 0mm 4mm 0mm";
 }
 
+blockquote {
+    margin: "2mm 0mm 4mm 10mm";
+}
+
+blockquote > attribution {
+    margin:     "1mm 0mm 1mm 5mm";
+    font-style: "italic";
+}
+
