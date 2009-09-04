@@ -238,6 +238,56 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
             new ezcDocumentPdfDefaultHyphenator()
         );
     }
+
+    public static function getItemizedListTypes()
+    {
+        return array(
+            array(
+                '*',
+                array( '*', '*' ),
+            ),
+            array(
+                '✦',
+                array( '✦', '✦' ),
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getItemizedListTypes
+     */
+    public function testRenderItemizedListTypes( $type, array $items )
+    {
+        $mock = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'createPage',
+            'drawWord',
+        ) );
+
+        // Expectations
+        $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( $items[0] )
+        );
+        $mock->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 33, 1. ), $this->equalTo( $items[1] )
+        );
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/bullet_list.xml' );
+
+        // Set numeration type in document
+        $dom   = $docbook->getDomDocument();
+        $xpath = new DOMXPath( $dom );
+        $xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
+        $list  = $xpath->evaluate( '//doc:itemizedlist' )->item( 0 );
+        $list->setAttribute( 'mark', $type );
+        $docbook->setDomDocument( $dom );
+
+        $renderer  = new ezcDocumentPdfMainRenderer( $mock, $this->styles );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+    }
 }
 
 ?>

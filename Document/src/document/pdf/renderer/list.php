@@ -73,8 +73,12 @@ class ezcDocumentPdfListRenderer extends ezcDocumentPdfBlockRenderer
         switch ( $block->tagName )
         {
             case 'itemizedlist':
-                // @TODO: Select based on some configuration
+                if ( $block->hasAttribute( 'mark' ) )
+                {
+                    return new ezcDocumentBulletListItemGenerator( $block->getAttribute( 'mark' ) );
+                }
                 return new ezcDocumentBulletListItemGenerator();
+
             case 'orderedlist':
                 if ( !$block->hasAttribute( 'numeration' ) )
                 {
@@ -96,6 +100,7 @@ class ezcDocumentPdfListRenderer extends ezcDocumentPdfBlockRenderer
                     default:
                         return new ezcDocumentNumberedListItemGenerator();
                 }
+
             default:
                 return new ezcDocumentNoListItemGenerator();
         }
