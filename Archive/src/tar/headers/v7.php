@@ -351,33 +351,33 @@ class ezcArchiveV7Header
     }
 
     /**
-     * Updates the given ezcArchiveFileStructure $struct with the values from this header.
+     * Updates the given ezcArchiveFileStructure $struct with the values from
+     * this header.
      *
-     * If bool $override is false, this method will not overwrite the values from the ezcArchiveFileStructure $struct.
-     * The values that can be set in the archiveFileStructure are: path, gid, uid, type, link, mtime, mode, and size.
+     * The values that can be set in the archiveFileStructure are: path, gid,
+     * uid, type, link, mtime, mode, and size.
      *
      * @param ezcArchiveFileStructure &$struct
-     * @param bool $override
      * @return void
      */
-    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false )
+    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct )
     {
-        if ( !isset( $struct->path ) || $override )
+        if ( !isset( $struct->path ) )
         {
             $struct->path = $this->fileName;
         }
 
-        if ( !isset( $struct->gid ) || $override )
+        if ( !isset( $struct->gid ) )
         {
             $struct->gid = $this->groupId;
         }
 
-        if ( !isset( $struct->uid ) || $override )
+        if ( !isset( $struct->uid ) )
         {
             $struct->uid = $this->userId;
         }
 
-        if ( !isset( $this->type ) || $override )
+        if ( !isset( $this->type ) )
         {
             switch ( $this->type )
             {
@@ -402,22 +402,22 @@ class ezcArchiveV7Header
             }
         }
 
-        if ( !isset( $struct->link ) || $override )
+        if ( !isset( $struct->link ) )
         {
             $struct->link = $this->linkName;
         }
 
-        if ( !isset( $struct->mtime ) || $override )
+        if ( !isset( $struct->mtime ) )
         {
             $struct->mtime = $this->modificationTime;
         }
 
-        if ( !isset( $struct->mode ) || $override )
+        if ( !isset( $struct->mode ) )
         {
             $struct->mode = $this->fileMode;
         }
 
-        if ( !isset( $struct->size ) || $override )
+        if ( !isset( $struct->size ) )
         {
             $struct->size = $this->fileSize;
         }

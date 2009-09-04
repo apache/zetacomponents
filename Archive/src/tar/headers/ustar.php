@@ -331,16 +331,14 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
     /**
      * Updates the given ezcArchiveFileStructure $struct with the values from this header.
      *
-     * If bool $override is false, this method will not overwrite the values from the ezcArchiveFileStructure $struct.
      * The values that can be set in the archiveFileStructure are: path, gid, uid, type, link, mtime, mode, and size.
      *
      * @throws ezcArchiveValueException
      *         if trying to set the structure type to the reserved type
      * @param ezcArchiveFileStructure &$struct
-     * @param bool $override
      * @return void
      */
-    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct, $override = false )
+    public function setArchiveFileStructure( ezcArchiveFileStructure &$struct )
     {
         parent::setArchiveFileStructure( $struct );
 
