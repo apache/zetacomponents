@@ -362,65 +362,36 @@ class ezcArchiveV7Header
      */
     public function setArchiveFileStructure( ezcArchiveFileStructure &$struct )
     {
-        if ( !isset( $struct->path ) )
+        $struct->path = $this->fileName;
+        $struct->gid = $this->groupId;
+        $struct->uid = $this->userId;
+
+        switch ( $this->type )
         {
-            $struct->path = $this->fileName;
+            case "\0":
+            case 0:
+                $struct->type = ezcArchiveEntry::IS_FILE;
+                break;
+
+            case 1:
+                $struct->type = ezcArchiveEntry::IS_LINK;
+                break;
+
+            case 2:
+                $struct->type = ezcArchiveEntry::IS_SYMBOLIC_LINK;
+                break;
         }
 
-        if ( !isset( $struct->gid ) )
+        // trailing slash means directory
+        if ( $this->fileName[ strlen( $this->fileName ) - 1 ] == '/' )
         {
-            $struct->gid = $this->groupId;
+            $struct->type = ezcArchiveEntry::IS_DIRECTORY;
         }
 
-        if ( !isset( $struct->uid ) )
-        {
-            $struct->uid = $this->userId;
-        }
-
-        if ( !isset( $this->type ) )
-        {
-            switch ( $this->type )
-            {
-                case "\0":
-                case 0:
-                    $struct->type = ezcArchiveEntry::IS_FILE;
-                    break;
-
-                case 1:
-                    $struct->type = ezcArchiveEntry::IS_LINK;
-                    break;
-
-                case 2:
-                    $struct->type = ezcArchiveEntry::IS_SYMBOLIC_LINK;
-                    break;
-            }
-
-            // trailing slash means directory
-            if ( $this->fileName[ strlen( $this->fileName ) - 1 ] == '/' )
-            {
-                $struct->type = ezcArchiveEntry::IS_DIRECTORY;
-            }
-        }
-
-        if ( !isset( $struct->link ) )
-        {
-            $struct->link = $this->linkName;
-        }
-
-        if ( !isset( $struct->mtime ) )
-        {
-            $struct->mtime = $this->modificationTime;
-        }
-
-        if ( !isset( $struct->mode ) )
-        {
-            $struct->mode = $this->fileMode;
-        }
-
-        if ( !isset( $struct->size ) )
-        {
-            $struct->size = $this->fileSize;
-        }
+        $struct->link = $this->linkName;
+        $struct->mtime = $this->modificationTime;
+        $struct->mode = $this->fileMode;
+        $struct->size = $this->fileSize;
     }
 }
 ?>

@@ -343,9 +343,6 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
         parent::setArchiveFileStructure( $struct );
 
         $struct->path = $this->filePrefix . $this->fileName;
-        $struct->gid =  $this->groupId;
-        $struct->uid =  $this->userId;
-
         $struct->major = $this->deviceMajorNumber;
         $struct->minor = $this->deviceMinorNumber;
 
