@@ -198,6 +198,7 @@ return array(
     'ezcDocumentOdt'                                     => 'Document/document/xml/odt.php',
     'ezcDocumentOdtDomElement'                           => 'Document/document/xml/odt/element.php',
     'ezcDocumentOdtElementFilter'                        => 'Document/document/xml/odt/filter/element.php',
+    'ezcDocumentOdtElementFootnoteFilter'                => 'Document/document/xml/odt/filter/element/footnote.php',
     'ezcDocumentOdtElementHeaderFilter'                  => 'Document/document/xml/odt/filter/element/header.php',
     'ezcDocumentOdtElementListFilter'                    => 'Document/document/xml/odt/filter/element/list.php',
     'ezcDocumentOdtElementParagraphFilter'               => 'Document/document/xml/odt/filter/element/paragraph.php',
