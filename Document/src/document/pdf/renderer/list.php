@@ -76,8 +76,26 @@ class ezcDocumentPdfListRenderer extends ezcDocumentPdfBlockRenderer
                 // @TODO: Select based on some configuration
                 return new ezcDocumentBulletListItemGenerator();
             case 'orderedlist':
-                // @TODO: Select based on some configuration
-                return new ezcDocumentRomanListItemGenerator();
+                if ( !$block->hasAttribute( 'numeration' ) )
+                {
+                    return new ezcDocumentNumberedListItemGenerator();
+                }
+
+                switch ( $block->getAttribute( 'numeration' ) )
+                {
+                    case 'arabic':
+                        return new ezcDocumentNumberedListItemGenerator();
+                    case 'loweralpha':
+                        return new ezcDocumentAlphaListItemGenerator( ezcDocumentAlnumListItemGenerator::LOWER );
+                    case 'lowerroman':
+                        return new ezcDocumentRomanListItemGenerator( ezcDocumentAlnumListItemGenerator::LOWER );
+                    case 'upperalpha':
+                        return new ezcDocumentAlphaListItemGenerator( ezcDocumentAlnumListItemGenerator::UPPER );
+                    case 'upperroman':
+                        return new ezcDocumentRomanListItemGenerator( ezcDocumentAlnumListItemGenerator::UPPER );
+                    default:
+                        return new ezcDocumentNumberedListItemGenerator();
+                }
             default:
                 return new ezcDocumentNoListItemGenerator();
         }

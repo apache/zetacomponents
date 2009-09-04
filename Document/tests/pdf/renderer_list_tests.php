@@ -99,7 +99,7 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
         $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "i" )
+            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "1" )
         );
         $mock->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
             $this->equalTo( 20, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "TrueType" )
@@ -108,7 +108,7 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 56, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "fonts." )
         );
         $mock->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 33, 1. ), $this->equalTo( "ii" )
+            $this->equalTo( 10, 1. ), $this->equalTo( 33, 1. ), $this->equalTo( "2" )
         );
         $mock->expects( $this->at( 5 ) )->method( 'drawWord' )->with(
             $this->equalTo( 20, 1. ), $this->equalTo( 33, 1. ), $this->equalTo( "PostScript" )
@@ -139,7 +139,7 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 100, 1. ), $this->equalTo( 100, 1. )
         );
         $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "i" )
+            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "1" )
         );
         $mock->expects( $this->at( 2 ) )->method( 'drawWord' )->with(
             $this->equalTo( 20, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( "Paragraph." )
@@ -157,7 +157,7 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 40, 1. ), $this->equalTo( 45, 1. ), $this->equalTo( "List" )
         );
         $mock->expects( $this->at( 11 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 10, 1. ), $this->equalTo( 66, 1. ), $this->equalTo( "ii" )
+            $this->equalTo( 10, 1. ), $this->equalTo( 66, 1. ), $this->equalTo( "2" )
         );
         $mock->expects( $this->at( 12 ) )->method( 'drawWord' )->with(
             $this->equalTo( 20, 1. ), $this->equalTo( 66, 1. ), $this->equalTo( "PostScript" )
@@ -165,6 +165,72 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
 
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/stacked_list.xml' );
+
+        $renderer  = new ezcDocumentPdfMainRenderer( $mock, $this->styles );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+    }
+
+    public static function getOrderedListTypes()
+    {
+        return array(
+            array(
+                'arabic',
+                array( '1', '2' ),
+            ),
+            array(
+                'loweralpha',
+                array( 'a', 'b' ),
+            ),
+            array(
+                'lowerroman',
+                array( 'i', 'ii' ),
+            ),
+            array(
+                'upperalpha',
+                array( 'A', 'B' ),
+            ),
+            array(
+                'upperroman',
+                array( 'I', 'II' ),
+            ),
+            array(
+                'unknown',
+                array( '1', '2' ),
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getOrderedListTypes
+     */
+    public function testRenderOrderedListTypes( $type, array $items )
+    {
+        $mock = $this->getMock( 'ezcTestDocumentPdfMockDriver', array(
+            'createPage',
+            'drawWord',
+        ) );
+
+        // Expectations
+        $mock->expects( $this->at( 1 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 18, 1. ), $this->equalTo( $items[0] )
+        );
+        $mock->expects( $this->at( 4 ) )->method( 'drawWord' )->with(
+            $this->equalTo( 10, 1. ), $this->equalTo( 33, 1. ), $this->equalTo( $items[1] )
+        );
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/ordered_list.xml' );
+
+        // Set numeration type in document
+        $dom   = $docbook->getDomDocument();
+        $xpath = new DOMXPath( $dom );
+        $xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
+        $list  = $xpath->evaluate( '//doc:orderedlist' )->item( 0 );
+        $list->setAttribute( 'numeration', $type );
+        $docbook->setDomDocument( $dom );
 
         $renderer  = new ezcDocumentPdfMainRenderer( $mock, $this->styles );
         $pdf = $renderer->render(
