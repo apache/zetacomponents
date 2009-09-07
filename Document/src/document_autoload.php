@@ -200,6 +200,7 @@ return array(
     'ezcDocumentOdtElementFilter'                        => 'Document/document/xml/odt/filter/element.php',
     'ezcDocumentOdtElementFootnoteFilter'                => 'Document/document/xml/odt/filter/element/footnote.php',
     'ezcDocumentOdtElementHeaderFilter'                  => 'Document/document/xml/odt/filter/element/header.php',
+    'ezcDocumentOdtElementLinkFilter'                    => 'Document/document/xml/odt/filter/element/link.php',
     'ezcDocumentOdtElementListFilter'                    => 'Document/document/xml/odt/filter/element/list.php',
     'ezcDocumentOdtElementParagraphFilter'               => 'Document/document/xml/odt/filter/element/paragraph.php',
     'ezcDocumentOdtElementWhitespaceFilter'              => 'Document/document/xml/odt/filter/element/whitespace.php',

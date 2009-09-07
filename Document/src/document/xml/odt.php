@@ -26,6 +26,8 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
     const NS_ODT_TABLE   = 'urn:oasis:names:tc:opendocument:xmlns:table:1.0';
     const NS_ODT_TEXT    = 'urn:oasis:names:tc:opendocument:xmlns:text:1.0';
 
+    const NS_XLINK = 'http://www.w3.org/1999/xlink';
+
     const NS_EZC = 'http://ezcomponents.org/Document/Odt';
 
     /**

@@ -41,6 +41,7 @@ class ezcDocumentOdtElementFilter extends ezcDocumentOdtBaseFilter
             new ezcDocumentOdtElementHeaderFilter(),
             new ezcDocumentOdtElementListFilter(),
             new ezcDocumentOdtElementFootnoteFilter(),
+            new ezcDocumentOdtElementLinkFilter(),
             new ezcDocumentOdtElementWhitespaceFilter(),
         );
     }
