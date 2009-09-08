@@ -16,21 +16,23 @@
  * the allowed comments, which are common C-style comments:
  *
  * <code>
- *  File       ::= Directive+
- *  Directive  ::= Address '{' Formatting* '}'
- *  Formatting ::= Name ':' '"' Value '"' ';'
- *  Name       ::= [A-Za-z-]+
- *  Value      ::= [^"]+
+ *  File        ::= Directive+
+ *  Directive   ::= Address '{' Formatting* '}'
+ *  Formatting  ::= Name ':' Value ';'
+ *  Name        ::= [A-Za-z-]+
+ *  Value       ::= QuotedValue | RawValue
+ *  QuotedValue ::= '"' [^"]+ '"'
+ *  RawValue    ::= [^;]+
  *
  *  Address     ::= Element ( Rule )*
  *  Rule        ::= '>'? Element
  *  Element     ::= ElementName ( '.' ClassName | '#' ElementId )
  *
  *  ClassName   ::= [A-Za-z_-]+
- *  ElementName ::= XMLName* | '*'
- *  ElementId   ::= XMLName
+ *  ElementName ::= XMLName¹ | '*'
+ *  ElementId   ::= XMLName¹
  *
- *  * XMLName references to http://www.w3.org/TR/REC-xml/#NT-Name
+ *  ¹ XMLName references to http://www.w3.org/TR/REC-xml/#NT-Name
  * </code>
  *
  * @package Document
@@ -78,6 +80,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
         self::T_START         => 'T_START ("{")',
         self::T_END           => 'T_END ("}")',
         self::T_FORMATTING    => 'T_FORMATTING (formatting specification)',
+        self::T_VALUE         => 'T_VALUE (formatting value definition)',
         self::T_EOF           => 'T_EOF (end of file)',
     );
 
@@ -148,6 +151,11 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
     const T_FORMATTING    = 30;
 
     /**
+     * Formatting rule token
+     */
+    const T_VALUE         = 31;
+
+    /**
      * End of file token
      */
     const T_EOF           = 40;
@@ -183,7 +191,18 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
                 'match' => '(\\A\\})S' ),
             array(
                 'type'  => self::T_FORMATTING,
-                'match' => '(\\A(?P<name>[A-Za-z-]+)\\s*:\\s*"(?P<value>[^"]+)"\\s*;)S' ),
+                'match' => '(\\A(?P<name>[A-Za-z-]+)\\s*:)S',
+                'to'    => 'formats' ),
+            array(
+                'state' => 'formats',
+                'type'  => self::T_VALUE,
+                'match' => '(\\A"(?P<value>[^"]+)"\\s*;)S',
+                'to'    => 'default' ),
+            array(
+                'state' => 'formats',
+                'type'  => self::T_VALUE,
+                'match' => '(\\A(?P<value>[^;]+?)\\s*;)S',
+                'to'    => 'default' ),
             array(
                 'type'  => self::T_ADDRESS,
                 'match' => '(\\A' . $xmlName . ')S' ),
@@ -248,17 +267,27 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
         $line     = 1;
         $position = 1;
         $tokens   = array();
+        $state    = 'default';
 
         while ( strlen( $string ) )
         {
             foreach ( $this->expressions as $rule )
             {
-                if ( !preg_match( $rule['match'], $string, $match ) )
+                if ( ( isset( $rule['state'] ) &&
+                       ( $rule['state'] !== $state ) ) ||
+                     !preg_match( $rule['match'], $string, $match ) )
                 {
                     continue;
                 }
 
+                // Remove matched string from input
                 $string = substr( $string, strlen( $match[0] ) );
+
+                // Update tokenizer state
+                if ( isset( $rule['to'] ) )
+                {
+                    $state = $rule['to'];
+                }
 
                 // Update position in file
                 $line     += substr_count( $match[0], "\n" );
@@ -291,7 +320,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
 
             // No matching rule could be found
             return $this->triggerError( E_PARSE,
-                "Could not parse string: " . substr( $string, 0, 20 ),
+                "Could not parse string: '" . substr( $string, 0, 20 ) . "' in state: $state.",
                 $this->file, $line, $position
             );
         }
@@ -375,7 +404,8 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
             while ( $tokens[0]['type'] !== self::T_END )
             {
                 $format = $this->read( array( self::T_FORMATTING ), $tokens );
-                $formats[$format['match']['name']] = $format['match']['value'];
+                $value  = $this->read( array( self::T_VALUE ), $tokens );
+                $formats[$format['match']['name']] = $value['match']['value'];
             }
 
             $this->read( array( self::T_END ), $tokens );
