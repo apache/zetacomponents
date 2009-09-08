@@ -495,7 +495,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
     public function registerFont( $name, $type, array $pathes )
     {
         // This is a bit stupid, but this is only a test driver anyways.
-        $this->fonts[$name][$type] = $name;
+        $this->fonts[$name][$type] = "$name (" . pathinfo( $pathes[0], PATHINFO_FILENAME ) . ")";
     }
 
     /**

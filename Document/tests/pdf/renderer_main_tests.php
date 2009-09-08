@@ -148,6 +148,67 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
         $this->assertPdfDocumentsSimilar( $pdf, __CLASS__ . '_' . __FUNCTION__ );
     }
+
+    public function testRenderUnavailableCustomFont()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/wrapping.xml' );
+
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssLayoutDirective(
+                array( 'article' ),
+                array(
+                    'font-family' => 'my-font',
+                )
+            ),
+        ) );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            $style
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        $this->assertPdfDocumentsSimilar( $pdf, __CLASS__ . '_' . __FUNCTION__ );
+    }
+
+    public function testRenderCustomFont()
+    {
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/wrapping.xml' );
+
+        $style = new ezcDocumentPdfStyleInferencer();
+        $style->appendStyleDirectives( array(
+            new ezcDocumentPdfCssLayoutDirective(
+                array( 'article' ),
+                array(
+                    'font-family' => 'my-font',
+                )
+            ),
+            new ezcDocumentPdfCssDeclarationDirective(
+                '@font-face',
+                array(
+                    'font-family' => 'my-font',
+                    'src'         => 'url( ' . dirname( __FILE__ ) . '/../files/fonts/font.ttf )',
+                )
+            ),
+        ) );
+
+        $renderer  = new ezcDocumentPdfMainRenderer(
+            new ezcDocumentPdfSvgDriver(),
+            $style
+        );
+        $pdf = $renderer->render(
+            $docbook,
+            new ezcDocumentPdfDefaultHyphenator()
+        );
+
+        $this->assertPdfDocumentsSimilar( $pdf, __CLASS__ . '_' . __FUNCTION__ );
+    }
 }
 
 ?>

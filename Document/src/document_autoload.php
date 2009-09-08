@@ -241,6 +241,7 @@ return array(
     'ezcDocumentPdfStyleLineValue'                       => 'Document/document/pdf/style/line_value.php',
     'ezcDocumentPdfStyleMeasureBoxValue'                 => 'Document/document/pdf/style/measure_box_value.php',
     'ezcDocumentPdfStyleMeasureValue'                    => 'Document/document/pdf/style/measure_value.php',
+    'ezcDocumentPdfStyleSrcValue'                        => 'Document/document/pdf/style/src_value.php',
     'ezcDocumentPdfStyleStringValue'                     => 'Document/document/pdf/style/string_value.php',
     'ezcDocumentPdfSvgDriver'                            => 'Document/document/pdf/driver/svg.php',
     'ezcDocumentPdfTcpdfDriver'                          => 'Document/document/pdf/driver/tcpdf.php',

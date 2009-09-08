@@ -253,14 +253,14 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
                 $this->triggerError( E_WARNING, "Missing font-family declaration in @font-face specification.", $font->file, $font->line );
                 continue;
             }
-            $name = $font->formats['font-family'];
+            $name = $font->formats['font-family']->value;
 
             if ( !isset( $font->formats['src'] ) )
             {
                 $this->triggerError( E_WARNING, "Missing src declaration in @font-face specification.", $font->file, $font->line );
                 continue;
             }
-            $pathes = $font->formats['src'];
+            $pathes = $font->formats['src']->value;
 
             $style = ezcDocumentPdfDriver::FONT_PLAIN;
             if ( isset( $font->formats['font-style'] ) &&

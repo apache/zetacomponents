@@ -710,6 +710,49 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
             'Invalid border style string serialization.'
         );
     }
+
+    public static function getUrlStyleValues()
+    {
+        return array(
+            array(
+                "url( foo.ttf )",
+                array(
+                    "foo.ttf"
+                ),
+                "url( foo.ttf )",
+            ),
+            array(
+                "url(foo.ttf),local(font.pfb),url(/some/../path/to/font.foo)",
+                array(
+                    "foo.ttf",
+                    "font.pfb",
+                    "/some/../path/to/font.foo",
+                ),
+                "url( foo.ttf ), url( font.pfb ), url( /some/../path/to/font.foo )",
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getUrlStyleValues
+     */
+    public function testSrcValueHandler( $input, $expectation, $string = '' )
+    {
+        $value = new ezcDocumentPdfStyleSrcValue();
+        $value->parse( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Invalid src style value read.', .01
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid src style string serialization.'
+        );
+    }
 }
 
 ?>

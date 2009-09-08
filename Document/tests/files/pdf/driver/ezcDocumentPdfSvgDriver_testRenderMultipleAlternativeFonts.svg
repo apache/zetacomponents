@@ -3,7 +3,7 @@
   <g id="pages">
     <g>
       <rect x="0mm" y="0mm" width="250mm" height="100mm" style="fill: #ffffff; stroke: #000000; stroke-width: 1px; fill-opacity: 1; stroke-opacity: 1;"/>
-      <text x="0.0000mm" y="10.0000mm" style="font-size: 28.35pt; font-family: my_font; font-style: normal; font-weight: normal; stroke: none; fill: #000000">The quick brown fox jumps over the lazy dog</text>
+      <text x="0.0000mm" y="10.0000mm" style="font-size: 28.35pt; font-family: my_font (fdb_font); font-style: normal; font-weight: normal; stroke: none; fill: #000000">The quick brown fox jumps over the lazy dog</text>
     </g>
   </g>
 </svg>

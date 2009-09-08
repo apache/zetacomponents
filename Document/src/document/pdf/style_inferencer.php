@@ -97,6 +97,7 @@ class ezcDocumentPdfStyleInferencer
         'border-width-right'   => 'ezcDocumentPdfStyleMeasureValue',
         'border-width-bottom'  => 'ezcDocumentPdfStyleMeasureValue',
         'border-width-left'    => 'ezcDocumentPdfStyleMeasureValue',
+        'src'                  => 'ezcDocumentPdfStyleSrcValue',
     );
 
     /**
