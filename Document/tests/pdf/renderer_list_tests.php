@@ -30,13 +30,13 @@ class ezcDocumentPdfListRendererTests extends ezcDocumentPdfTestCase
 
         $this->styles = new ezcDocumentPdfStyleInferencer();
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'font-size' => '8mm',
                 )
             ),
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'page' ),
                 array(
                     'page-size' => 'TEST',

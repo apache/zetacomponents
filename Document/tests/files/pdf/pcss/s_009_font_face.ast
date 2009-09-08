@@ -2,7 +2,8 @@
 
 return array (
   0 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'foo',
@@ -16,31 +17,18 @@ return array (
      'file' => 's_009_font_face.pcss',
      'line' => 1,
      'position' => 8,
-     'regularExpression' => NULL,
   )),
   1 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
-     'address' => 
-    array (
-      0 => 
-      array (
-        'type' => 14,
-        'line' => 6,
-        'position' => 12,
-        'match' => 
-        array (
-          0 => '@font-face',
-        ),
-      ),
-    ),
+  ezcDocumentPdfCssDeclarationDirective::__set_state(array(
+     'address' => '@font-face',
      'formats' => 
     array (
       'font-family' => 'Garamond',
       'src' => 'url(garamond.eot), url(garamond.pfr)',
     ),
      'file' => 's_009_font_face.pcss',
-     'line' => 1,
-     'position' => 8,
+     'line' => 6,
+     'position' => 12,
      'regularExpression' => NULL,
   )),
 );

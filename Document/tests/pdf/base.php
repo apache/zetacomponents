@@ -88,14 +88,14 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'font-family'  => 'serif',
                     'line-height'  => '1',
                 )
             ),
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'title' ),
                 array(
                     'font-family'  => 'sans-serif',

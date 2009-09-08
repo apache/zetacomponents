@@ -68,7 +68,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'orphans' => '0',
@@ -110,7 +110,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'orphans' => '0',
@@ -155,7 +155,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'orphans' => '0',
@@ -200,7 +200,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'orphans' => '2',
@@ -242,7 +242,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'orphans' => '3',
@@ -284,7 +284,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'para' ),
                 array(
                     'line-height'      => '1',
@@ -366,7 +366,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'para' ),
                 array(
                     'line-height'      => '1',
@@ -439,7 +439,7 @@ class ezcDocumentPdfParagraphRendererTests extends ezcDocumentPdfTextBoxRenderer
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'para' ),
                 array(
                     'line-height'      => '1',

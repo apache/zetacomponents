@@ -97,7 +97,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
             dirname( __FILE__ ) . '/../files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
-                new ezcDocumentPdfCssDirective(
+                new ezcDocumentPdfCssLayoutDirective(
                     array( 'article' ),
                     array(
                         'text-columns' => '3',
@@ -129,7 +129,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'page' ),
                 array(
                     'page-size' => 'A6',

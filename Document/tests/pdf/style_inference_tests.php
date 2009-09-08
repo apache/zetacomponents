@@ -53,7 +53,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         $element    = $this->xpath->query( '//doc:article' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'foo' => 'bar',
@@ -75,14 +75,14 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         $element    = $this->xpath->query( '//doc:article' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'foo' => 'bar',
                     'baz' => 'bar',
                 )
             ),
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'foo' => 'blubb',
@@ -105,14 +105,14 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         $element    = $this->xpath->query( '//doc:section' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'foo' => 'bar',
                     'baz' => 'bar',
                 )
             ),
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article', '> section' ),
                 array(
                     'foo' => 'blubb',
@@ -135,7 +135,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         $element    = $this->xpath->query( '//doc:article' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'text-columns' => '1',
@@ -157,7 +157,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         $element    = $this->xpath->query( '//doc:article' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'font-size' => '10',
@@ -181,7 +181,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         try
         {
             $inferencer->appendStyleDirectives( array(
-                new ezcDocumentPdfCssDirective(
+                new ezcDocumentPdfCssLayoutDirective(
                     array( 'article' ),
                     array(
                         'font-size' => 'unparseable',
@@ -206,7 +206,7 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
         $element    = $this->xpath->query( '//doc:article' )->item( 0 );
 
         $inferencer->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective( array( 'article' ), $styles ),
+            new ezcDocumentPdfCssLayoutDirective( array( 'article' ), $styles ),
         ) );
 
         $rules = $inferencer->inferenceFormattingRules( $element );
@@ -402,6 +402,48 @@ class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
     public function testMergeBorder( $styles, $expected )
     {
         $this->assertCorrectMerge( 'border', $styles, $expected );
+    }
+
+    public function testDefinitionExtraction1()
+    {
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
+        $inferencer->appendStyleDirectives( array(
+            $d1 = new ezcDocumentPdfCssDeclarationDirective(
+                '@font-face',
+                array(
+                    'font-size' => '10',
+                )
+            ),
+        ) );
+
+        $this->assertEquals(
+            array( $d1 ),
+            $inferencer->getDefinitions( 'font-face' )
+        );
+    }
+
+    public function testDefinitionExtraction2()
+    {
+        $inferencer = new ezcDocumentPdfStyleInferencer( false );
+        $inferencer->appendStyleDirectives( array(
+            $d1 = new ezcDocumentPdfCssDeclarationDirective(
+                '@font-FACE',
+                array(
+                    'font-size' => '10',
+                )
+            ),
+            new ezcDocumentPdfCssDeclarationDirective(
+                '@unknown',
+                array(
+                    'font-size' => '10',
+                )
+            ),
+        ) );
+
+        $this->assertEquals(
+            array( $d1 ),
+            $inferencer->getDefinitions( 'font-face' )
+        );
     }
 }
 

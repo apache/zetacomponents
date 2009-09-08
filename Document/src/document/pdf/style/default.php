@@ -2,7 +2,8 @@
 
 return array (
   0 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'article',
@@ -29,10 +30,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 1,
      'position' => 8,
-     'regularExpression' => NULL,
   )),
   1 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'page',
@@ -47,10 +48,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 27,
      'position' => 6,
-     'regularExpression' => NULL,
   )),
   2 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'para',
@@ -63,10 +64,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 37,
      'position' => 6,
-     'regularExpression' => NULL,
   )),
   3 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'emphasis',
@@ -78,10 +79,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 42,
      'position' => 10,
-     'regularExpression' => NULL,
   )),
   4 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'ulink',
@@ -94,10 +95,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 46,
      'position' => 7,
-     'regularExpression' => NULL,
   )),
   5 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'link',
@@ -110,10 +111,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 51,
      'position' => 6,
-     'regularExpression' => NULL,
   )),
   6 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'title',
@@ -127,10 +128,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 56,
      'position' => 7,
-     'regularExpression' => NULL,
   )),
   7 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'title',
@@ -142,10 +143,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 62,
      'position' => 7,
-     'regularExpression' => NULL,
   )),
   8 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'section',
@@ -160,10 +161,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 66,
      'position' => 17,
-     'regularExpression' => NULL,
   )),
   9 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'section',
@@ -178,10 +179,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 72,
      'position' => 27,
-     'regularExpression' => NULL,
   )),
   10 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'section',
@@ -196,10 +197,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 77,
      'position' => 37,
-     'regularExpression' => NULL,
   )),
   11 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'section',
@@ -215,10 +216,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 81,
      'position' => 47,
-     'regularExpression' => NULL,
   )),
   12 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'section',
@@ -235,10 +236,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 85,
      'position' => 57,
-     'regularExpression' => NULL,
   )),
   13 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'section',
@@ -256,10 +257,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 89,
      'position' => 67,
-     'regularExpression' => NULL,
   )),
   14 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'literallayout',
@@ -275,10 +276,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 93,
      'position' => 15,
-     'regularExpression' => NULL,
   )),
   15 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'varlistentry',
@@ -291,10 +292,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 101,
      'position' => 21,
-     'regularExpression' => NULL,
   )),
   16 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'varlistentry',
@@ -308,10 +309,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 105,
      'position' => 25,
-     'regularExpression' => NULL,
   )),
   17 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'orderedlist',
@@ -325,10 +326,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 110,
      'position' => 24,
-     'regularExpression' => NULL,
   )),
   18 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'itemizedlist',
@@ -342,10 +343,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 115,
      'position' => 25,
-     'regularExpression' => NULL,
   )),
   19 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'listitem',
@@ -358,10 +359,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 120,
      'position' => 17,
-     'regularExpression' => NULL,
   )),
   20 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'blockquote',
@@ -373,10 +374,10 @@ return array (
      'file' => 'style/default.css',
      'line' => 124,
      'position' => 12,
-     'regularExpression' => NULL,
   )),
   21 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
      'address' => 
     array (
       0 => 'blockquote',
@@ -384,13 +385,12 @@ return array (
     ),
      'formats' => 
     array (
-      'margin' => '2mm 0mm 4mm 10mm',
+      'margin' => '1mm 0mm 1mm 5mm',
       'font-style' => 'italic',
     ),
      'file' => 'style/default.css',
      'line' => 128,
      'position' => 26,
-     'regularExpression' => NULL,
   )),
 );
 

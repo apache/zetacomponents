@@ -42,20 +42,20 @@ class ezcDocumentPdfMediaObjectRendererTests extends ezcDocumentPdfTestCase
             dirname( __FILE__ ) . '/../files/pdf/image.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
-                new ezcDocumentPdfCssDirective(
+                new ezcDocumentPdfCssLayoutDirective(
                     array( 'article' ),
                     array(
                         'text-columns' => '2',
                         'font-size'    => '10pt',
                     )
                 ),
-                new ezcDocumentPdfCssDirective(
+                new ezcDocumentPdfCssLayoutDirective(
                     array( 'title' ),
                     array(
                         'text-columns' => '2',
                     )
                 ),
-                new ezcDocumentPdfCssDirective(
+                new ezcDocumentPdfCssLayoutDirective(
                     array( 'page' ),
                     array(
                         'page-size'    => 'A5',

@@ -406,13 +406,16 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
             
             if ( $tokens[0]['type'] === self::T_DEFINITION )
             {
-                $address = array( $this->read( array( self::T_DEFINITION ), $tokens ) );
+                $addressType  = 'ezcDocumentPdfCssDeclarationDirective';
+                $addressToken = $this->read( array( self::T_DEFINITION ), $tokens );
+                $address      = $addressToken['match'][0];
             }
             else
             {
                 do {
+                    $addressType  = 'ezcDocumentPdfCssLayoutDirective';
                     $addressToken = $this->read( $addressTokens, $tokens );
-                    $address[] = $addressToken['match'][0];
+                    $address[]    = $addressToken['match'][0];
                 }
                 while ( $tokens[0]['type'] !== self::T_START );
             }
@@ -429,7 +432,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
             $this->read( array( self::T_END ), $tokens );
 
             // Create successfully read directive
-            $directives[] = new ezcDocumentPdfCssDirective(
+            $directives[] = new $addressType(
                 $address,
                 $formats,
                 $this->file, $addressToken['line'], $addressToken['position']

@@ -219,6 +219,9 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         $this->tokenizer  = $tokenizer !== null ? $tokenizer : new ezcDocumentPdfDefaultTokenizer();
         $this->document   = $document;
 
+        // Register custom fonts in driver
+        $this->registerFonts();
+
         // Inject custom element class, for style inferencing
         $dom = $document->getDomDocument();
 
@@ -231,6 +234,19 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
         $this->process( $reloaded );
         return $this->driver->save();
+    }
+
+    /**
+     * Register fonts in driver
+     *
+     * Register the font classes specified in the styles with the driver, so 
+     * the driver can use the fonts during the rendering.
+     * 
+     * @return void
+     */
+    protected function registerFonts()
+    {
+        // @TODO: Implement.
     }
 
     /**

@@ -33,7 +33,7 @@ class ezcDocumentPdfRendererFooterPartTests extends ezcDocumentPdfTestCase
 
         $style = new ezcDocumentPdfStyleInferencer();
         $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'article' ),
                 array(
                     'font-family'  => 'serif',
@@ -42,14 +42,14 @@ class ezcDocumentPdfRendererFooterPartTests extends ezcDocumentPdfTestCase
                     'line-height'  => '1',
                 )
             ),
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'title' ),
                 array(
                     'font-family'  => 'sans-serif',
                     'text-columns' => '2',
                 )
             ),
-            new ezcDocumentPdfCssDirective(
+            new ezcDocumentPdfCssLayoutDirective(
                 array( 'page' ),
                 array(
                     'page-size'    => 'A5',

@@ -2,7 +2,7 @@
 
 return array (
   0 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
      'address' => 
     array (
       0 => 'foo',
@@ -18,7 +18,7 @@ return array (
      'regularExpression' => NULL,
   )),
   1 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
      'address' => 
     array (
       0 => 'foo',
@@ -34,7 +34,7 @@ return array (
      'regularExpression' => NULL,
   )),
   2 => 
-  ezcDocumentPdfCssDirective::__set_state(array(
+  ezcDocumentPdfCssLayoutDirective::__set_state(array(
      'address' => 
     array (
       0 => 'foo',

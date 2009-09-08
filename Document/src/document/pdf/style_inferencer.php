@@ -183,7 +183,7 @@ class ezcDocumentPdfStyleInferencer
         $directives = $parser->parseFile( dirname( __FILE__ ) . '/style/default.css' );
 
         // Write parsed object tree back to file
-        /* file_put_contents( $file, "<?php\n\nreturn " . str_replace( dirname( __FILE__ ) . '/', '', var_export( $directives, true ) ) . ";\n\n? >" ); // */
+        file_put_contents( $file, "<?php\n\nreturn " . str_replace( dirname( __FILE__ ) . '/', '', var_export( $directives, true ) ) . ";\n\n?>" ); // */
 
         $this->appendStyleDirectives( $directives );
     }
@@ -428,6 +428,11 @@ class ezcDocumentPdfStyleInferencer
         // Apply all style directives, which match the location ID
         foreach ( $this->styleDirectives as $directive )
         {
+            if ( ! $directive instanceof ezcDocumentPdfCssLayoutDirective )
+            {
+                continue;
+            }
+
             if ( preg_match( $directive->getRegularExpression(), $locationId ) )
             {
                 $formats = $this->mergeFormattingRules(
@@ -439,6 +444,30 @@ class ezcDocumentPdfStyleInferencer
 
         $this->styleCache[$locationId] = $formats;
         return $this->filterStyles( $formats, $types );
+    }
+
+    /**
+     * Get definition directives of given type
+     *
+     * Returns an array of definition directives, which matches the type passed 
+     * as a parameter.
+     * 
+     * @param string $type 
+     * @return array
+     */
+    public function getDefinitions( $type )
+    {
+        $directives = array();
+        foreach ( $this->styleDirectives as $directive )
+        {
+            if ( ( $directive instanceof ezcDocumentPdfCssDeclarationDirective ) &&
+                  ( $directive->getType() === $type ) )
+            {
+                $directives[] = $directive;
+            }
+        }
+
+        return $directives;
     }
 }
 ?>
