@@ -17,12 +17,14 @@
  *
  * <code>
  *  File        ::= Directive+
- *  Directive   ::= Address '{' Formatting* '}'
+ *  Directive   ::= Address | Definition '{' Formatting* '}'
  *  Formatting  ::= Name ':' Value ';'
  *  Name        ::= [A-Za-z-]+
  *  Value       ::= QuotedValue | RawValue
  *  QuotedValue ::= '"' [^"]+ '"'
  *  RawValue    ::= [^;]+
+ *
+ *  Definition  ::= '@' [A-Za-z_-]+
  *
  *  Address     ::= Element ( Rule )*
  *  Rule        ::= '>'? Element
@@ -77,6 +79,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
         self::T_DESC_ADDRESS  => 'T_DESC_ADDRESS (CSS element addressing queries)',
         self::T_ADDRESS_ID    => 'T_ADDRESS_ID (CSS element addressing queries)',
         self::T_ADDRESS_CLASS => 'T_ADDRESS_CLASS (CSS element addressing queries)',
+        self::T_DEFINITION    => 'T_DEFINITION (CSS definition addressing element)',
         self::T_START         => 'T_START ("{")',
         self::T_END           => 'T_END ("}")',
         self::T_FORMATTING    => 'T_FORMATTING (formatting specification)',
@@ -136,6 +139,11 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
     const T_ADDRESS_CLASS = 13;
 
     /**
+     * Definition "address" token
+     */
+    const T_DEFINITION    = 14;
+
+    /**
      * Directive start token
      */
     const T_START         = 20;
@@ -151,7 +159,7 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
     const T_FORMATTING    = 30;
 
     /**
-     * Formatting rule token
+     * Formatting rule value token
      */
     const T_VALUE         = 31;
 
@@ -215,6 +223,9 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
             array(
                 'type'  => self::T_ADDRESS_ID,
                 'match' => '(\\A#' . $xmlName . ')S' ),
+            array(
+                'type'  => self::T_DEFINITION,
+                'match' => '(\\A@[A-Za-z_-]+)S' ),
         );
     }
 
@@ -392,12 +403,19 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
             // Address should always be followed by a start token
             $formats = array();
             $address = array();
-
-            do {
-                $addressToken = $this->read( $addressTokens, $tokens );
-                $address[] = $addressToken['match'][0];
+            
+            if ( $tokens[0]['type'] === self::T_DEFINITION )
+            {
+                $address = array( $this->read( array( self::T_DEFINITION ), $tokens ) );
             }
-            while ( $tokens[0]['type'] !== self::T_START );
+            else
+            {
+                do {
+                    $addressToken = $this->read( $addressTokens, $tokens );
+                    $address[] = $addressToken['match'][0];
+                }
+                while ( $tokens[0]['type'] !== self::T_START );
+            }
 
             $this->read( array( self::T_START ), $tokens );
 
