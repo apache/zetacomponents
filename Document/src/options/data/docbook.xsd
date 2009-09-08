@@ -277,18 +277,24 @@
 
 	<complexType name="table">
 		<choice>
-			<sequence>
+          <sequence>
+                <!-- TODO Mandatory in DocBook, but not yet in Document -->
+                <element name="title" type="string" minOccurs="0" />
 				<element name="tgroup">
 					<complexType>
 						<sequence>
 							<element name="thead" type="doc:tablecontent" minOccurs="0" />
+							<element name="tfoot" type="doc:tablecontent" minOccurs="0" />
 							<element name="tbody" type="doc:tablecontent" maxOccurs="unbounded" />
 						</sequence>
 					</complexType>
 				</element>
 			</sequence>
-			<sequence maxOccurs="unbounded">
+            <sequence maxOccurs="unbounded">
+                <!-- TODO Mandatory in DocBook, but not yet in Document -->
+                <element name="caption" type="string" minOccurs="0" />
 				<element name="thead" type="doc:tablecontent" minOccurs="0" />
+                <element name="tfoot" type="doc:tablecontent" minOccurs="0" />
 				<element name="tbody" type="doc:tablecontent" maxOccurs="unbounded" />
 			</sequence>
 		</choice>
@@ -296,9 +302,10 @@
 	</complexType>
 
 	<complexType name="tablecontent">
-		<sequence maxOccurs="unbounded">
-			<element name="row" type="doc:tablerow" />
-		</sequence>
+        <choice>
+          <element name="row" type="doc:tablerow" maxOccurs="unbounded" />
+          <element name="tr" type="doc:htmltablerow" maxOccurs="unbounded" />
+        </choice>
 		<attributeGroup ref="doc:common" />
 	</complexType>
 
@@ -310,14 +317,26 @@
 	</complexType>
 
 	<complexType name="tablecell">
-		<sequence>
-			<choice minOccurs="0" maxOccurs="unbounded">
-				<group ref="doc:block" />
-			</choice>
-		</sequence>
-		<attribute name="morerows" type="int" />
-		<attributeGroup ref="doc:common" />
+      <group ref="doc:block" minOccurs="0" maxOccurs="unbounded" />
+	  <attribute name="morerows" type="int" />
+	  <attributeGroup ref="doc:common" />
 	</complexType>
+
+    <complexType name="htmltablerow">
+      <choice>
+        <element name="td" type="doc:htmltablecell" maxOccurs="unbounded" />
+        <element name="th" type="doc:htmltablecell" maxOccurs="unbounded" />
+      </choice>
+	  <attributeGroup ref="doc:common" />
+    </complexType>
+
+    <complexType name="htmltablecell">
+      <group ref="doc:block" minOccurs="0" maxOccurs="unbounded" />
+	  <attributeGroup ref="doc:common" />
+      <attribute name="colspan" type="int" default="1" />
+      <attribute name="rowspan" type="int" default="1" />
+      <!--  TODO: what about align and valign? -->
+    </complexType>
 
 	<!--
 		 Common elements
@@ -330,6 +349,7 @@
 		<attribute name="Lang" type="string" />
 		<attribute name="OS" type="string" />
 		<attribute name="Remap" type="string" />
+        <!-- TODO: role is not allowed in <entry/> and <td/> -->
 		<attribute name="Role" type="string" />
 		<attribute name="Revision" type="string" />
 		<attribute name="RevisionFlag" type="doc:revisionFlag" />

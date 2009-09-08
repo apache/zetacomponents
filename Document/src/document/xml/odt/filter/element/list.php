@@ -19,7 +19,11 @@
 class ezcDocumentOdtElementListFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
-     * Mapping table for list elements.
+     * Mapping for list elements.
+     *
+     * Maps ODT list tags to DocBook list tags.
+     *
+     * @var array(string=>string)
      */
     protected $mapping = array(
         'list'      => 'itemizedlist',

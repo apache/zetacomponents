@@ -37,8 +37,9 @@ class ezcDocumentOdtElementFilter extends ezcDocumentOdtBaseFilter
     {
         $this->elementFilter = array(
             // Basic mapping filter
-            new ezcDocumentOdtElementParagraphFilter(),
             new ezcDocumentOdtElementHeaderFilter(),
+            new ezcDocumentOdtElementTableFilter(),
+            new ezcDocumentOdtElementParagraphFilter(),
             new ezcDocumentOdtElementListFilter(),
             new ezcDocumentOdtElementFootnoteFilter(),
             new ezcDocumentOdtElementLinkFilter(),

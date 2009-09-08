@@ -204,6 +204,7 @@ return array(
     'ezcDocumentOdtElementLinkFilter'                    => 'Document/document/xml/odt/filter/element/link.php',
     'ezcDocumentOdtElementListFilter'                    => 'Document/document/xml/odt/filter/element/list.php',
     'ezcDocumentOdtElementParagraphFilter'               => 'Document/document/xml/odt/filter/element/paragraph.php',
+    'ezcDocumentOdtElementTableFilter'                   => 'Document/document/xml/odt/filter/element/table.php',
     'ezcDocumentOdtElementWhitespaceFilter'              => 'Document/document/xml/odt/filter/element/whitespace.php',
     'ezcDocumentOdtOptions'                              => 'Document/options/document_odt.php',
     'ezcDocumentParserOptions'                           => 'Document/options/document_parser.php',
