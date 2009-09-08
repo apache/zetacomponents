@@ -40,11 +40,6 @@ abstract class ezcDocumentPdfDriver
     const FONT_OBLIQUE   = 2;
 
     /**
-     * Underlined text
-     */
-    const FONT_UNDERLINE = 4;
-
-    /**
      * Create a new page
      *
      * Create a new page in the PDF document with the given width and height.
@@ -231,6 +226,30 @@ abstract class ezcDocumentPdfDriver
      * @return void
      */
     public function addInternalLinkTarget( $id )
+    {
+        // @apichange This method should be declared abstract, but can't be
+        // because this would change the internal API.
+        return;
+    }
+
+    /**
+     * Register a font
+     *
+     * Registers a font, which can be used by its name later in the driver. The 
+     * given type is either self::FONT_PLAIN or a bitwise combination of self::FONT_BOLD 
+     * and self::FONT_OBLIQUE.
+     *
+     * The third paramater specifies an array of pathes with references to font 
+     * definition files. Multiple pathes may be specified to provide the same 
+     * font using different types, because not all drivers may process all font 
+     * types.
+     * 
+     * @param string $name 
+     * @param int $type 
+     * @param array $pathes 
+     * @return void
+     */
+    public function registerFont( $name, $type, array $pathes )
     {
         // @apichange This method should be declared abstract, but can't be
         // because this would change the internal API.

@@ -429,6 +429,139 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $pdf = $driver->save();
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
+
+    public function testRenderUnknownFont()
+    {
+        $driver = $this->getDriver();
+
+        $driver->createPage( 250, 100 );
+        $driver->setTextFormatting( 'font-family', 'my_font' );
+        $driver->setTextFormatting( 'font-size', '10' );
+
+        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testRenderPlainTTFFont()
+    {
+        $driver = $this->getDriver();
+
+        try {
+            $driver->registerFont(
+                'my_font',
+                ezcDocumentPdfDriver::FONT_PLAIN,
+                array(
+                    dirname( __FILE__ ) . '/../files/fonts/font.ttf',
+                )
+            );
+        } catch ( ezcBaseFunctionalityNotSupportedException $e )
+        {
+            $this->markTestSkipped( 'Fonts are not supported.' );
+        }
+
+        $driver->createPage( 250, 100 );
+        $driver->setTextFormatting( 'font-family', 'my_font' );
+        $driver->setTextFormatting( 'font-size', '10' );
+
+        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testRenderUnregisteredBoldTTFFont()
+    {
+        $driver = $this->getDriver();
+
+        try {
+            $driver->registerFont(
+                'my_font',
+                ezcDocumentPdfDriver::FONT_PLAIN,
+                array(
+                    dirname( __FILE__ ) . '/../files/fonts/font.ttf',
+                )
+            );
+        } catch ( ezcBaseFunctionalityNotSupportedException $e )
+        {
+            $this->markTestSkipped( 'Fonts are not supported.' );
+        }
+
+        $driver->createPage( 250, 100 );
+        $driver->setTextFormatting( 'font-family', 'my_font' );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->setTextFormatting( 'font-weight', 'bold' );
+
+        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testRenderRegisteredBoldTTFFont()
+    {
+        $driver = $this->getDriver();
+
+        try {
+            $driver->registerFont(
+                'my_font',
+                ezcDocumentPdfDriver::FONT_PLAIN,
+                array(
+                    dirname( __FILE__ ) . '/../files/fonts/font.ttf',
+                )
+            );
+            $driver->registerFont(
+                'my_font',
+                ezcDocumentPdfDriver::FONT_BOLD,
+                array(
+                    dirname( __FILE__ ) . '/../files/fonts/font2.ttf',
+                )
+            );
+        } catch ( ezcBaseFunctionalityNotSupportedException $e )
+        {
+            $this->markTestSkipped( 'Fonts are not supported.' );
+        }
+
+        $driver->createPage( 250, 100 );
+        $driver->setTextFormatting( 'font-family', 'my_font' );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->setTextFormatting( 'font-weight', 'bold' );
+
+        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testRenderMultipleAlternativeFonts()
+    {
+        $driver = $this->getDriver();
+
+        try {
+            $driver->registerFont(
+                'my_font',
+                ezcDocumentPdfDriver::FONT_PLAIN,
+                array(
+                    dirname( __FILE__ ) . '/../files/fonts/fdb_font.fdb',
+                    dirname( __FILE__ ) . '/../files/fonts/ps_font.pfb',
+                    dirname( __FILE__ ) . '/../files/fonts/font.ttf',
+                )
+            );
+        } catch ( ezcBaseFunctionalityNotSupportedException $e )
+        {
+            $this->markTestSkipped( 'Fonts are not supported.' );
+        }
+
+        $driver->createPage( 250, 100 );
+        $driver->setTextFormatting( 'font-family', 'my_font' );
+        $driver->setTextFormatting( 'font-size', '10' );
+
+        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
 }
 
 ?>

@@ -246,7 +246,39 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      */
     protected function registerFonts()
     {
-        // @TODO: Implement.
+        foreach ( $this->styles->getDefinitions( 'font-face' ) as $font )
+        {
+            if ( !isset( $font->formats['font-family'] ) )
+            {
+                $this->triggerError( E_WARNING, "Missing font-family declaration in @font-face specification.", $font->file, $font->line );
+                continue;
+            }
+            $name = $font->formats['font-family'];
+
+            if ( !isset( $font->formats['src'] ) )
+            {
+                $this->triggerError( E_WARNING, "Missing src declaration in @font-face specification.", $font->file, $font->line );
+                continue;
+            }
+            $pathes = $font->formats['src'];
+
+            $style = ezcDocumentPdfDriver::FONT_PLAIN;
+            if ( isset( $font->formats['font-style'] ) &&
+                 ( ( $font->formats['font-style']->value === 'oblique' ) ||
+                   ( $font->formats['font-style']->value === 'italic' ) ) )
+            {
+                $style |= ezcDocumentPdfDriver::FONT_OBLIQUE;
+            }
+
+            if ( isset( $font->formats['font-weight'] ) &&
+                 ( ( $font->formats['font-weight']->value === 'bold' ) ||
+                   ( $font->formats['font-weight']->value === 'bolder' ) ) )
+            {
+                $style |= ezcDocumentPdfDriver::FONT_BOLD;
+            }
+
+            $this->driver->registerFont( $name, $style, $pathes );
+        }
     }
 
     /**

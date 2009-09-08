@@ -205,7 +205,10 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
                 break;
 
             case 'font-family':
-                $this->currentFont['name'] = $value;
+                if ( isset( $this->fonts[$value] ) )
+                {
+                    $this->currentFont['name'] = $value;
+                }
                 break;
 
             case 'font-size':
@@ -470,6 +473,28 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
     public function addInternalLinkTarget( $id )
     {
         // Not yet supported by SVG driver.
+    }
+
+    /**
+     * Register a font
+     *
+     * Registers a font, which can be used by its name later in the driver. The 
+     * given type is either self::FONT_PLAIN or a bitwise combination of self::FONT_BOLD 
+     * and self::FONT_OBLIQUE.
+     *
+     * The third paramater specifies an array of pathes with references to font 
+     * definition files. Multiple pathes may be specified to provide the same 
+     * font using different types, because not all drivers may process all font 
+     * types.
+     * 
+     * @param string $name 
+     * @param int $type 
+     * @param array $pathes 
+     * @return void
+     */
+    public function registerFont( $name, $type, array $pathes )
+    {
+        throw new ezcBaseFunctionalityNotSupportedException( 'Loading fonts', 'This is just a test driver.' );
     }
 
     /**
