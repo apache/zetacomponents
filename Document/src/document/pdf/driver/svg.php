@@ -494,7 +494,8 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      */
     public function registerFont( $name, $type, array $pathes )
     {
-        throw new ezcBaseFunctionalityNotSupportedException( 'Loading fonts', 'This is just a test driver.' );
+        // This is a bit stupid, but this is only a test driver anyways.
+        $this->fonts[$name][$type] = $name;
     }
 
     /**
