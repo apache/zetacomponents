@@ -120,7 +120,7 @@ abstract class ezcConfigurationReader
     abstract public function getLocation();
 
     /**
-     * Returns the name of the configuration to be written.
+     * Returns the name of the configuration to be read.
      *
      * @return string
      */
