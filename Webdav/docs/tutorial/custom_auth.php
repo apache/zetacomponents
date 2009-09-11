@@ -37,7 +37,7 @@ class myCustomAuth extends ezcWebdavDigestAuthenticatorBase
 
     public function authorize( $user, $path, $access = ezcWebdavAuthorizer::ACCESS_READ )
     {
-        if ( $access = ezcWebdavAuthorizer::ACCESS_READ )
+        if ( $access === ezcWebdavAuthorizer::ACCESS_READ )
         {
             return true;
         }
