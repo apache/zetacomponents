@@ -6,6 +6,8 @@
   back-end path works now properly.
 - Fixed issue #15430: Dead property retrieval works correctly now in
   ezcWebdavFileBackend.
+- Fixed issue #15431: Fixed detection of HTTP/HTTPS in
+  ezcWebdavAutomaticPathFactory.
 
 1.1.2 - Tuesday 01 September 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

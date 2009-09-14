@@ -179,5 +179,37 @@ class ezcWebdavAutomaticPathFactoryTest extends ezcTestCase
             $factory->parseUriToPath( $_SERVER['REQUEST_URI'] )
         );
     }
+
+    public function testGenerateHttpUriNoRewrite()
+    {
+        $_SERVER['SCRIPT_FILENAME'] = '/var/www/webdav/htdocs/path/to/webdav.php';
+        $_SERVER['DOCUMENT_ROOT']   = '/var/www/webdav/htdocs/';
+        $_SERVER['REQUEST_URI']     = '/path/to/webdav.php/collection/ressource';
+        $_SERVER['HTTPS']           = 'off';
+        $_SERVER['SERVER_NAME']     = 'webdav';
+        $_SERVER['SERVER_PORT']     = '80';
+
+        $factory = new ezcWebdavAutomaticPathFactory();
+        $this->assertSame(
+            'http://webdav/path/to/webdav.php/collection/ressource',
+            $factory->generateUriFromPath( '/collection/ressource' )
+        );
+    }
+
+    public function testGenerateHttpsUriNoRewrite()
+    {
+        $_SERVER['SCRIPT_FILENAME'] = '/var/www/webdav/htdocs/path/to/webdav.php';
+        $_SERVER['DOCUMENT_ROOT']   = '/var/www/webdav/htdocs/';
+        $_SERVER['REQUEST_URI']     = '/path/to/webdav.php/collection/ressource';
+        $_SERVER['HTTPS']           = 'on';
+        $_SERVER['SERVER_NAME']     = 'webdav';
+        $_SERVER['SERVER_PORT']     = '443';
+
+        $factory = new ezcWebdavAutomaticPathFactory();
+        $this->assertSame(
+            'https://webdav/path/to/webdav.php/collection/ressource',
+            $factory->generateUriFromPath( '/collection/ressource' )
+        );
+    }
 }
 ?>

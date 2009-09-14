@@ -152,8 +152,13 @@ class ezcWebdavAutomaticPathFactory implements ezcWebdavPathFactory
      */
     public function generateUriFromPath( $path )
     {
-        return 'http://' . $_SERVER['SERVER_NAME'] 
-             . ( $_SERVER['SERVER_PORT'] == 80 ? '' : ':' . $_SERVER['SERVER_PORT'] )
+        $proto = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http' );
+        $port = ( $proto === 'http' && $_SERVER['SERVER_PORT'] == 80 || $proto === 'https' && $_SERVER['SERVER_PORT'] == 443 )
+            ? null
+            : $_SERVER['SERVER_PORT'];
+
+        return $proto . '://' . $_SERVER['SERVER_NAME'] 
+             . ( $port !== null ? ':' . $port : '' )
              . $this->serverFile
              . $path
              . ( isset( $this->collectionPathes[$path] ) ? '/' : '' );
