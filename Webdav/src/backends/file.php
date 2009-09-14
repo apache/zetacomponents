@@ -624,7 +624,7 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend implements ezcWebdavLo
         if ( $namespace !== 'DAV:' )
         {
             $properties = $storage->getAllProperties();
-            return $properties[$namespace][$name];
+            return $properties[$namespace][$propertyName];
         }
 
         // Handle live properties
@@ -679,7 +679,7 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend implements ezcWebdavLo
             default:
                 // Handle all other live properties like dead properties
                 $properties = $storage->getAllProperties();
-                return $properties[$namespace][$name];
+                return $properties[$namespace][$propertyName];
         }
     }
 

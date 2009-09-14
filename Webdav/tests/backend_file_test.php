@@ -2370,7 +2370,7 @@ class ezcWebdavFileBackendTest extends ezcTestCase
         );
     }
 
-    public function testGetAccessPropertyFail()
+    public function testGetAccessPropertyStorageDirName()
     {
         mkdir( $this->tempDir . 'backend/somefile.ezc' );
         touch( $this->tempDir . 'backend/somefile.ezc/testfile' );
@@ -2387,6 +2387,63 @@ class ezcWebdavFileBackendTest extends ezcTestCase
         );
 
         $this->assertEquals( 3, count( $response->collection->childs ) );
+    }
+
+    public function testDeadPropertyRetrieval()
+    {
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        $backend->options->useMimeExts = false;
+
+        $newProperties = new ezcWebdavFlaggedPropertyStorage();
+        $newProperties->attach( 
+            $prop = new ezcWebdavDeadProperty( 'foo:', 'bar', "<?xml version=\"1.0\"?>\n<bar xmlns=\"foo:\">some content</bar>\n" ), 
+            ezcWebdavPropPatchRequest::SET
+        );
+
+        $request = new ezcWebdavPropPatchRequest( '/resource' );
+        $request->updates = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->proppatch( $request );
+
+        $this->assertTrue(
+            is_file( $this->tempDir . 'backend/.ezc/resource.xml' ),
+            'Expected creation of property storage.'
+        );
+
+        $request = new ezcWebdavPropFindRequest( '/resource' );
+        $request->prop = $newProperties;
+        $request->validateHeaders();
+        $response = $backend->propfind( $request );
+
+        $responseProperty = new ezcWebdavBasicPropertyStorage();
+        $responseProperty->attach( $prop );
+
+        $responseProperty->rewind();
+        $expectedResponse = new ezcWebdavMultistatusResponse(
+            new ezcWebdavPropFindResponse(
+                new ezcWebdavResource( '/resource' ),
+                new ezcWebdavPropStatResponse(
+                    $responseProperty
+                )
+            )
+        );
+
+        $this->assertEquals(
+            $expectedResponse,
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+
+        $this->assertEquals(
+            new ezcWebdavDeadProperty(
+                'foo:',
+                'bar',
+                "<?xml version=\"1.0\"?>\n<bar xmlns=\"foo:\">some content</bar>\n"
+            ),
+            $backend->getProperty( '/resource', 'bar', 'foo:' )
+        );
     }
 }
 
