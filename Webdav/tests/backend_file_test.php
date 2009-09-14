@@ -2369,6 +2369,25 @@ class ezcWebdavFileBackendTest extends ezcTestCase
             'Lock level not decremented.'
         );
     }
+
+    public function testGetAccessPropertyFail()
+    {
+        mkdir( $this->tempDir . 'backend/somefile.ezc' );
+        touch( $this->tempDir . 'backend/somefile.ezc/testfile' );
+
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+        $backend->options->useMimeExts = false;
+
+        $request = new ezcWebdavGetRequest( '' );
+        $request->validateHeaders();
+        $response = $backend->get( $request );
+
+        $this->assertTrue(
+            ( $response instanceof ezcWebdavGetCollectionResponse )
+        );
+
+        $this->assertEquals( 3, count( $response->collection->childs ) );
+    }
 }
 
 ?>

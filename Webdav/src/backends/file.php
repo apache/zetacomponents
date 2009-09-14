@@ -1025,8 +1025,8 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend implements ezcWebdavLo
         foreach ( $files as $file )
         {
             // Skip files used for somethig else...
-            if ( ( strpos( $file, $this->options->lockFileName ) !== false ) ||
-                 ( strpos( $file, $this->options->propertyStoragePath ) !== false ) )
+            if ( ( strpos( $file, '/' . $this->options->lockFileName ) !== false ) ||
+                 ( strpos( $file, '/' . $this->options->propertyStoragePath ) !== false ) )
             {
                 continue;
             }

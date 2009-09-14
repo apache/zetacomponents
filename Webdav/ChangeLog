@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15434: Corrected error in example code.
+- Fixed issue #15477: Using the property storage file name in the file
+  back-end path works now properly.
 
 
 1.1.2 - Tuesday 01 September 2009
