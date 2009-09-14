@@ -27,6 +27,7 @@ class ezcDocumentOdtOptions extends ezcDocumentXmlOptions
      */
     public function __construct( array $options = array() )
     {
+        $this->imageDir = sys_get_temp_dir();
         parent::__construct( $options );
     }
 
@@ -45,9 +46,16 @@ class ezcDocumentOdtOptions extends ezcDocumentXmlOptions
     {
         switch ( $name )
         {
+            case 'imageDir':
+                if ( !is_string( $value ) || !is_dir( $value ) || !is_writeable( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'Path to a writeable directory.' );
+                }
+                break;
             default:
                 parent::__set( $name, $value );
         }
+        $this->properties[$name] = $value;
     }
 }
 

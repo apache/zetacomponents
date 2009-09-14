@@ -19,6 +19,7 @@ require 'converter_test.php';
 require 'parser_test.php';
 
 require 'document_options_xml_base_test.php';
+require 'document_options_odt_test.php';
 require 'document_xml_base_test.php';
 
 require 'document_docbook_test.php';
@@ -67,6 +68,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentConverterTests::suite() );
 
         $this->addTest( ezcDocumentOptionsXmlBaseTests::suite() );
+        $this->addTest( ezcDocumentOptionsOdtTests::suite() );
         $this->addTest( ezcDocumentXmlBaseTests::suite() );
 
         $this->addTest( ezcDocumentDocbookTests::suite() );
