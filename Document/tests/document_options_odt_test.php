@@ -42,7 +42,6 @@ class ezcDocumentOptionsOdtTests extends ezcDocumentOptionsTestCase
                 'imageDir', sys_get_temp_dir()
             )
         );
-        var_dump( $res );
         return $res;
     }
 
