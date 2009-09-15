@@ -414,7 +414,12 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             $this->initialize();
         }
 
-        // $word = iconv( 'UTF-8', 'UCS-2', $word );
+        // @TODO: This removes a lot of valid characters, obviously. Haru 
+        // cannot handle any Unicode encode, so we need to transform our input 
+        // string in some single-byte-encoding. We use ISO-8859-1 for now, 
+        // since it is common. We can either make this configurable (not kiss), 
+        // or add support for Unicode in haru.
+        $word = iconv( 'UTF-8', 'iso-8859-1//TRANSLIT', $word );
 
         // Ensure font is initialized
         if ( $this->currentFont['font'] === null )
@@ -465,6 +470,13 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         {
             $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
         }
+
+        // @TODO: This removes a lot of valid characters, obviously. Haru 
+        // cannot handle any Unicode encode, so we need to transform our input 
+        // string in some single-byte-encoding. We use ISO-8859-1 for now, 
+        // since it is common. We can either make this configurable (not kiss), 
+        // or add support for Unicode in haru.
+        $word = iconv( 'UTF-8', 'iso-8859-1//TRANSLIT', $word );
 
         $this->currentPage->beginText();
         $this->currentPage->textOut(
