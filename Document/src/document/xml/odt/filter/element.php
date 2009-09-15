@@ -40,6 +40,8 @@ class ezcDocumentOdtElementFilter extends ezcDocumentOdtBaseFilter
             new ezcDocumentOdtElementHeaderFilter(),
             new ezcDocumentOdtElementTableFilter(),
             new ezcDocumentOdtElementParagraphFilter(),
+            new ezcDocumentOdtElementFrameFilter(),
+            new ezcDocumentOdtElementImageFilter(),
             new ezcDocumentOdtElementListFilter(),
             new ezcDocumentOdtElementFootnoteFilter(),
             new ezcDocumentOdtElementLinkFilter(),

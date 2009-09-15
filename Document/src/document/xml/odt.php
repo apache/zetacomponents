@@ -23,6 +23,7 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
     const NS_ODT_OFFICE  = 'urn:oasis:names:tc:opendocument:xmlns:office:1.0';
     const NS_ODT_SCRIPT  = 'urn:oasis:names:tc:opendocument:xmlns:script:1.0';
     const NS_ODT_STYLE   = 'urn:oasis:names:tc:opendocument:xmlns:style:1.0';
+    const NS_ODT_SVG     = 'urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0';
     const NS_ODT_TABLE   = 'urn:oasis:names:tc:opendocument:xmlns:table:1.0';
     const NS_ODT_TEXT    = 'urn:oasis:names:tc:opendocument:xmlns:text:1.0';
 
@@ -51,6 +52,7 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
             $options );
 
         $this->filters = array(
+            new ezcDocumentOdtImageFilter( $this->options ),
             new ezcDocumentOdtElementFilter(),
         );
     }

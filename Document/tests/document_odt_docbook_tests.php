@@ -248,8 +248,17 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
             $this->markTestSkipped( "Comparision file '$to' not yet defined." );
         }
 
+        $tempDir = $this->createTempDir( 'odt_tests_' ) . '/';
+        $imgDir = $tempDir . 'img';
+
+        mkdir( $imgDir );
+
+        $options = new ezcDocumentOdtOptions();
+        $options->imageDir = $imgDir;
+
         $document = new ezcDocumentOdt();
         $document->setFilters( array(
+            new ezcDocumentOdtImageFilter( $options ),
             new ezcDocumentOdtElementFilter(),
         ) );
         $document->loadFile( $from );
@@ -257,8 +266,9 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
         $docbook = $document->getAsDocbook();
         $xml = $docbook->save();
 
+        $xml = $this->verifyAndReplaceImages( basename( $to, '.xml' ), $xml );
+
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'odt_tests_' ) . '/';
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         $this->assertTrue( $docbook->validateString( $xml ) );
@@ -271,6 +281,51 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
 
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
+    }
+
+    /**
+     * Verify extracted images from an FODT and replace their links for 
+     * comparison.
+     * 
+     * @param string $testDir Name of the current test sub-dir
+     * @param string $xml 
+     * @return string XML with image refs replaced
+     */
+    protected function verifyAndReplaceImages( $testDir, $xml )
+    {
+        $dom = new DOMDocument();
+        $dom->loadXml( $xml );
+
+        $xpath = new DOMXPath( $dom );
+        $xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
+
+        $images = $xpath->query( '//doc:imagedata' );
+
+        $i = 1;
+        foreach ( $images as $image )
+        {
+            $refFile = "Document/tests/files/odt/tests/$testDir/$i.png";
+            if ( !file_exists( $refFile ) )
+            {
+                $this->fail( "Image reference with '$refFile' does not exist." );
+            }
+
+            $imageFile = $image->getAttribute( 'fileref' );
+
+            var_dump( file_exists( $imageFile ), file_exists( $refFile ) );
+
+            $this->assertFileEquals(
+                $refFile,
+                $imageFile,
+                "Extracted image $i did not match ref file '$refFile'."
+            );
+            
+            $image->setAttribute( 'fileref', $refFile );
+
+            ++$i;
+        }
+
+        return $dom->saveXml();
     }
 }
 
