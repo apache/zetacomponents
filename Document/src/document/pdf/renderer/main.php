@@ -78,7 +78,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         'http://docbook.org/ns/docbook' => array(
             'article'       => 'initializeDocument',
             'section'       => 'renderBlock',
-            'sectioninfo'   => 'ignore',
+            'sectioninfo'   => 'appendMetaData',
 
             'para'          => 'renderParagraph',
             'title'         => 'renderTitle',
@@ -460,6 +460,57 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         foreach ( $this->parts as $part )
         {
             $part->hookDocumentRendering( $element );
+        }
+    }
+
+    /**
+     * Append document metadata
+     * 
+     * @param ezcDocumentPdfInferencableDomElement $element 
+     * @return void
+     */
+    protected function appendMetaData( ezcDocumentPdfInferencableDomElement $element )
+    {
+        $childNodes = $element->childNodes;
+        $nodeCount  = $childNodes->length;
+
+        // Default metadata values
+        $metadata = array(
+            'created'  => date( 'r' ),
+            'modified' => date( 'r' ),
+        );
+
+        // Fields mapped to metadata identifiers
+        $fields = array(
+            'http://docbook.org/ns/docbook' => array(
+                'title'    => 'title',
+                'author'   => 'author',
+                'authors'  => 'author',
+                'subtitle' => 'subject',
+                'pubdate'  => 'created',
+                'date'     => 'modified',
+            ),
+        );
+
+        for ( $i = 0; $i < $nodeCount; ++$i )
+        {
+            $child = $childNodes->item( $i );
+            if ( $child->nodeType !== XML_ELEMENT_NODE )
+            {
+                continue;
+            }
+
+            $namespace = $element->namespaceURI === null ? 'http://docbook.org/ns/docbook' : $element->namespaceURI;
+            if ( isset( $fields[$namespace] ) &&
+                 isset( $fields[$namespace][$child->tagName] ) )
+            {
+                $metadata[$fields[$namespace][$child->tagName]] = $child->textContent;
+            }
+        }
+
+        foreach ( $metadata as $key => $value )
+        {
+            $this->driver->setMetaData( $key, $value );
         }
     }
 

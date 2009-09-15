@@ -521,6 +521,24 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     }
 
     /**
+     * Set metadata
+     *
+     * Set document meta data. The meta data types are identified by a list of 
+     * keys, common to PDF, like: title, author, subject, created, modified.
+     *
+     * The values are passed like embedded in the docbook document and might 
+     * need to be reformatted.
+     * 
+     * @param string $key 
+     * @param string $value 
+     * @return void
+     */
+    public function setMetaData( $key, $value )
+    {
+        return $this->driver->setMetaData( $key, $value );
+    }
+
+    /**
      * Generate and return PDF
      *
      * Return the generated binary PDF content as a string.

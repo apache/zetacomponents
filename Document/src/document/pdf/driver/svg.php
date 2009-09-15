@@ -43,6 +43,13 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
     protected $pages;
 
     /**
+     * Root node for metadata
+     *
+     * @var DOMElement
+     */
+    protected $metadata;
+
+    /**
      * Root node of current page
      *
      * @var DOMElement
@@ -135,6 +142,17 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         $this->pages = $this->document->createElement( 'g' );
         $this->pages = $this->svg->appendChild( $this->pages );
         $this->pages->setAttribute( 'id', 'pages' );
+
+        $metadata = $this->document->createElement( 'metadata' );
+        $metadata = $this->svg->appendChild( $metadata );
+
+        $rdfNs = 'http://www.w3.org/1999/02/22-rdf-syntax-ns';
+        $rdf = $this->document->createElementNS( $rdfNs, 'rdf:RDF' );
+        $metadata->appendChild( $rdf );
+
+        $this->metadata = $this->document->createElementNS( $rdfNs, 'rdf:Description' );
+        $this->metadata = $rdf->appendChild( $this->metadata );
+        $this->setMetaData( 'creator', 'eZ Components - Document //autogen//' );
     }
 
     /**
@@ -496,6 +514,38 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
     {
         // This is a bit stupid, but this is only a test driver anyways.
         $this->fonts[$name][$type] = "$name (" . pathinfo( $pathes[0], PATHINFO_FILENAME ) . ")";
+    }
+
+    /**
+     * Set metadata
+     *
+     * Set document meta data. The meta data types are identified by a list of 
+     * keys, common to PDF, like: title, author, subject, created, modified.
+     *
+     * The values are passed like embedded in the docbook document and might 
+     * need to be reformatted.
+     * 
+     * @param string $key 
+     * @param string $value 
+     * @return void
+     */
+    public function setMetaData( $key, $value )
+    {
+        // We ignore dates here, because it would make stuff harder to test.
+        $mapping = array(
+            'title' => 'title',
+            'author' => 'author',
+            'subject' => 'subject',
+            'creator' => 'creator',
+        );
+
+        if ( !isset( $mapping[$key] ) )
+        {
+            return;
+        }
+
+        $info = $this->document->createElementNS( 'http://purl.org/dc/elements/1.1/', 'dc:' . $mapping[$key], htmlspecialchars( $value ) );
+        $this->metadata->appendChild( $info );
     }
 
     /**

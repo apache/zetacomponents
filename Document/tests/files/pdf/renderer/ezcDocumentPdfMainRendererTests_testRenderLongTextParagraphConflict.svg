@@ -396,4 +396,13 @@
       <text x="350.6810mm" y="264.7000mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">processing.</text>
     </g>
   </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">DBGP - A common debugger protocol for languages and debugger UI communication</dc:title>
+        <dc:author xmlns:dc="http://purl.org/dc/elements/1.1/">Shane Caraveo, ActiveState &lt;shanec@ActiveState.com&gt;  Derick Rethans &lt;derick@derickrethans.nl&gt;</dc:author>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
 </svg>

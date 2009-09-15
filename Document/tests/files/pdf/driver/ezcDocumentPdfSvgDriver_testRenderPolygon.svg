@@ -6,4 +6,11 @@
       <path d="M 35.4331,35.4331 L 708.6614,35.4331 L 372.0472,1016.9291 z " style="stroke: none; fill: #204a87;"/>
     </g>
   </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
 </svg>

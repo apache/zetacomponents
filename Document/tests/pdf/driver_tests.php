@@ -562,6 +562,76 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $pdf = $driver->save();
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
+
+    public function testSetDocumentMetaDataTitle()
+    {
+        $driver = $this->getDriver();
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document metadata test.' );
+
+        $driver->setMetaData( 'title', 'Test document title' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testSetDocumentMetaDataAuthor()
+    {
+        $driver = $this->getDriver();
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document metadata test.' );
+
+        $driver->setMetaData( 'author', 'Kore Nordmann' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testSetDocumentMetaDataSubject()
+    {
+        $driver = $this->getDriver();
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document metadata test.' );
+
+        $driver->setMetaData( 'subject', 'Test document subject' );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testSetDocumentMetaDataCreated()
+    {
+        $driver = $this->getDriver();
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document metadata test.' );
+
+        $driver->setMetaData( 'created', date( 'r', 12345678 ) );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testSetDocumentMetaDataModified()
+    {
+        $driver = $this->getDriver();
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document metadata test.' );
+
+        $driver->setMetaData( 'modified', date( 'r', 12345678 ) );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
 }
 
 ?>

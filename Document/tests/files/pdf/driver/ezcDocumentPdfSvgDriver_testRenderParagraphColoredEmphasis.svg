@@ -21,4 +21,11 @@
       <text x="17.2000mm" y="41.6000mm" style="font-size: 22.68pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #ce5c00">stacked.</text>
     </g>
   </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
 </svg>

@@ -7,4 +7,11 @@
       <path d="M 708.6614,1016.9291 L 372.0472,35.4331 L 35.4331,1016.9291" style="stroke: #2e3436; stroke-width: 1.0000mm; fill: none;"/>
     </g>
   </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
 </svg>

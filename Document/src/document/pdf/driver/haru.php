@@ -220,6 +220,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     {
         $this->document = new HaruDoc();
         $this->document->setPageMode( HaruDoc::PAGE_MODE_USE_THUMBS );
+        $this->document->setInfoAttr( HaruDoc::INFO_CREATOR, 'eZ Components - Document //autogen//' );
         $this->pages = array();
 
         $this->dummyDoc = new HaruDoc();
@@ -744,6 +745,64 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             }
         }
 
+    }
+
+    /**
+     * Set metadata
+     *
+     * Set document meta data. The meta data types are identified by a list of 
+     * keys, common to PDF, like: title, author, subject, created, modified.
+     *
+     * The values are passed like embedded in the docbook document and might 
+     * need to be reformatted.
+     * 
+     * @param string $key 
+     * @param string $value 
+     * @return void
+     */
+    public function setMetaData( $key, $value )
+    {
+        if ( $this->document === null )
+        {
+            $this->initialize();
+        }
+
+        switch ( $key )
+        {
+            case 'title':
+                $this->document->setInfoAttr( HaruDoc::INFO_TITLE, $value );
+                break;
+            case 'author':
+                $this->document->setInfoAttr( HaruDoc::INFO_AUTHOR, $value );
+                break;
+            case 'subject':
+                $this->document->setInfoAttr( HaruDoc::INFO_SUBJECT, $value );
+                break;
+            case 'created':
+                $date = new DateTime( $value, new DateTimeZone( 'UTC' ) );
+                $this->document->setInfoDateAttr( HaruDoc::INFO_CREATION_DATE,
+                    $date->format( 'Y' ),
+                    $date->format( 'm' ),
+                    $date->format( 'd' ),
+                    $date->format( 'H' ),
+                    $date->format( 'i' ),
+                    $date->format( 's' ),
+                    "", 0, 0
+                );
+                break;
+            case 'modified':
+                $date = new DateTime( $value, new DateTimeZone( 'UTC' ) );
+                $this->document->setInfoDateAttr( HaruDoc::INFO_MOD_DATE,
+                    $date->format( 'Y' ),
+                    $date->format( 'm' ),
+                    $date->format( 'd' ),
+                    $date->format( 'H' ),
+                    $date->format( 'i' ),
+                    $date->format( 's' ),
+                    "", 0, 0
+                );
+                break;
+        }
     }
 
     /**

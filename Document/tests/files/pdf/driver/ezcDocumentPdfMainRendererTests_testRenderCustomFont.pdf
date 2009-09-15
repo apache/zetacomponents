@@ -39,4 +39,11 @@
       <text x="168.9080mm" y="35.1600mm" style="font-size: 12.00pt; font-family: my-font (font); font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">course.</text>
     </g>
   </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
 </svg>

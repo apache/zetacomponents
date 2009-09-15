@@ -438,4 +438,13 @@
       <text x="189.1694mm" y="176.9444mm" style="font-size: 10.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">hen...'</text>
     </g>
   </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Lothl&#xF3;rien</dc:title>
+        <dc:author xmlns:dc="http://purl.org/dc/elements/1.1/">John Ronald Reuel Tolkien</dc:author>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
 </svg>

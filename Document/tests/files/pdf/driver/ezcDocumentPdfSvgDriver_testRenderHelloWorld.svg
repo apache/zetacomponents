@@ -7,4 +7,11 @@
       <text x="0.0000mm" y="297.0000mm" style="font-size: 28.35pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: normal; stroke: none; fill: #000000">The quick brown fox jumps over the lazy dog</text>
     </g>
   </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
 </svg>
