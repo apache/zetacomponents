@@ -13,7 +13,7 @@ require_once 'base.php';
 
 // Try to include TCPDF class from external/tcpdf.
 // @TODO: Maybe also search the include path...
-if ( file_exists( $path = dirname( __FILE__ ) . '/../external/tcpdf/tcpdf.php' ) )
+if ( file_exists( $path = dirname( __FILE__ ) . '/../external/tcpdf-4.8/tcpdf.php' ) )
 {
     include $path;
 }
