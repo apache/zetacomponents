@@ -251,26 +251,28 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
      *
      * You may of course just call an existing converter for this conversion.
      *
+     * @TODO: Handle ODT converter options.
      * @param ezcDocumentDocbook $document
      * @return void
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
         /*
-         * @TODO
+         * @TODO: Re-activate validation.
+         *
         if ( $this->options->validate &&
              $document->validateString( $document ) !== true )
         {
             $this->triggerError( E_WARNING, "You try to convert an invalid docbook document. This may lead to invalid output." );
         }
+        */
 
         $this->path = $document->getPath();
 
-        $converter = new ezcDocumentDocbookToHtmlConverter();
+        $converter = new ezcDocumentDocbookToOdtConverter();
         $converter->options->errorReporting = $this->options->errorReporting;
         $doc = $converter->convert( $document );
         $this->document = $doc->getDomDocument();
-        */
     }
 
     /**
@@ -282,7 +284,7 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
      */
     public function save()
     {
-        $source = $this->document->saveXml( $this->document, LIBXML_NOEMPTYTAG );
+        $source = $this->document->saveXml( $this->document );
         return $source;
     }
 
