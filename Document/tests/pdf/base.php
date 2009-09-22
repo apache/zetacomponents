@@ -58,6 +58,8 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
 
         // Normalize dates in generated PDF
         $content = preg_replace( '(([\\( ])D:\\d+)', '$1D:20000101010000', $content );
+        // This damages the PDF files
+        // $content = preg_replace( '((^| )(\\d+\\.\\d\\d)\\d+)', '$1$2', $content );
 
         // Store file for manual inspection if the test case fails
         file_put_contents( $this->tempDir . $baseName, $content );
