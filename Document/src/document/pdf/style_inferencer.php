@@ -123,6 +123,7 @@ class ezcDocumentPdfStyleInferencer
      */
     protected $categories = array(
         self::TEXT => array(
+            'direction',
             'text-decoration',
             'text-align',
             'font-size',

@@ -110,6 +110,35 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
     }
 
     /**
+     * Reverses a string
+     *
+     * Similar to PHPs strrev() function, but also works for UTF-8 strings.
+     * 
+     * @param string $string 
+     * @return string
+     */
+    protected function strrev( $string )
+    {
+        if ( !is_string( $string ) || empty( $string ) )
+        {
+            return $string;
+        }
+
+        if ( strlen( $string ) === ( $length = iconv_strlen( $string, 'UTF-8' ) ) )
+        {
+            // Single only contains of single-byte characters
+            return strrev( $string );
+        }
+
+        $reverted = '';
+        for ( $c = $length; $c > 0; --$c )
+        {
+            $reverted .= iconv_substr( $string, $c - 1, 1, 'UTF-8' );
+        }
+        return $reverted;
+    }
+
+    /**
      * Render a single line and return the used height
      *
      * @param float $position
@@ -131,7 +160,20 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
             }
         }
 
-        switch ( $styles['text-align']->value )
+        // Reverse alignement, if direction is set to "right-to-left"
+        $align = $styles['text-align']->value;
+        if ( $styles['direction']->value === 'rtl' )
+        {
+            switch ( $align )
+            {
+                case 'right':
+                    $align = 'left';
+                default:
+                    $align = 'right';
+            }
+        }
+
+        switch ( $align )
         {
             case 'center':
                 $offset = ( $space->width - $lineWidth - ( $line['spaces'] * $spaceWidth ) ) / 2;
@@ -159,9 +201,23 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
                 $offset = 0;
         }
 
+        // Reverse tokens and words, if direction is set to "right-to-left"
+        $tokens = $line['tokens'];
+        if ( $styles['direction']->value === 'rtl' )
+        {
+            $tokens = array_reverse( $tokens );
+            foreach ( $tokens as $nr => $token )
+            {
+                if ( is_string( $token['word'] ) )
+                {
+                    $tokens[$nr]['word'] = $this->strrev( $token['word'] );
+                }
+            }
+        }
+
         // Default to left alignement
         $xPos = $space->x + $offset;
-        foreach ( $line['tokens'] as $token )
+        foreach ( $tokens as $token )
         {
             if ( $token['word'] === ezcDocumentPdfTokenizer::SPACE )
             {

@@ -4,6 +4,7 @@
 - Implemented #15220: Implement renderer for blockquote elements.
 - Implemented #15224: Implement support for custom fonts in PDF rendering.
 - Implemented #15217: Write document metadata in PDFs.
+- Implemented #15221: Implement support for RTL languages in PDF renderer.
 
 
 1.3alpha1 - Tuesday 01 September 2009
