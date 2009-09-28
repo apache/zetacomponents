@@ -17,6 +17,8 @@
  */
 class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
 {
+    const WRITE_RESULTS = false;
+
     protected static $testDocuments = null;
 
     public static function suite()
@@ -125,8 +127,14 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
         );
 
         // Store test file, to have something to compare on failure
-        $tempDir = $this->createTempDir( 'docbook_odt_custom_' ) . '/';
-        file_put_contents( $tempDir . basename( $to ), $xml = $created->save() );
+        $tempDir  = $this->createTempDir( 'docbook_odt_custom_' ) . '/';
+        $tempFile = $tempDir . basename( $to );
+        file_put_contents( $tempFile, $xml = $created->save() );
+
+        if ( self::WRITE_RESULTS )
+        {
+            copy( $tempFile, $to );
+        }
 
         /*
         $this->assertTrue(
