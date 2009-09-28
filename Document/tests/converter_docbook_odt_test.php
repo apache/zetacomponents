@@ -101,8 +101,6 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
             }
         }
 
-        var_dump( self::$testDocuments );
-
         return self::$testDocuments;
     }
 
