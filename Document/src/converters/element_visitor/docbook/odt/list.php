@@ -48,7 +48,7 @@ class ezcDocumentDocbookToOdtListHandler extends ezcDocumentDocbookToOdtBaseHand
         $list->setAttributeNS(
             ezcDocumentOdt::NS_ODT_TEXT,
             'text:style-name',
-            'L1'
+            'List_Numbered_Numeric'
         );
         
         $root->appendChild( $list );

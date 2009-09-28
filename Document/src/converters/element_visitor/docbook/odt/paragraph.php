@@ -39,7 +39,7 @@ class ezcDocumentDocbookToOdtParagraphHandler extends ezcDocumentDocbookToOdtBas
         $p->setAttributeNS(
             ezcDocumentOdt::NS_ODT_TEXT,
             'text:style-name',
-            'Text_20_body'
+            'Text_Body'
         );
         $root->appendChild( $p );
 
