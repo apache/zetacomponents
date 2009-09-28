@@ -478,6 +478,10 @@ class ezcGraphChartElementNumericAxis extends ezcGraphChartElementAxis
                 )
             );
         }
+        elseif ( $this->properties['formatString'] !== null )
+        {
+            return sprintf( $this->properties['formatString'], $this->properties['min'] + ( $step * $this->properties['majorStep'] ) );
+        }
         else
         {
             return $this->properties['min'] + ( $step * $this->properties['majorStep'] );

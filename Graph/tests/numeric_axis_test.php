@@ -1090,6 +1090,38 @@ class ezcGraphNumericAxisTest extends ezcTestCase
             );
         }
     }
+
+    public function testRenderedLabelsWithLabelFormatString()
+    {
+        try
+        {
+            $chart = new ezcGraphLineChart();
+
+            $chart->yAxis->formatString = '%d $';
+
+            $chart->data['sampleData'] = new ezcGraphArrayDataSet( array( 'sample 1' => 234, 'sample 2' => -21, 'sample 3' => 324, 'sample 4' => 120, 'sample 5' => 1) );
+            $chart->render( 500, 200 );
+        }
+        catch ( ezcGraphFontRenderingException $e )
+        {
+            // Ignore
+        }
+
+        $steps = $chart->yAxis->getSteps();
+
+        $expectedLabels = array(
+            '-100 $', '0 $', '100 $', '200 $', '300 $', '400 $',
+        );
+
+        foreach ( $steps as $nr => $step )
+        {
+            $this->assertSame(
+                $step->label,
+                $expectedLabels[$nr],
+                'Label not as expected'
+            );
+        }
+    }
 }
 
 ?>
