@@ -74,8 +74,44 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
         );
         $root->appendChild( $table );
 
+        $this->createCellDefinition( $node, $table );
+
         $converter->visitChildren( $node, $table );
         return $root;
+    }
+
+    /**
+     * Creates the ODT cell defintions.
+     * 
+     * @param DOMElement $docBookTable 
+     * @param DOMElement $odtTable 
+     * @return void
+     */
+    protected function createCellDefinition( $docBookTable, $odtTable )
+    {
+        $rows = $docBookTable->getElementsByTagName( 'tr' );
+        
+        if ( $rows->length !== 0 )
+        {
+            $firstRow = $rows->item( 0 );
+            foreach ( $firstRow->childNodes as $cell )
+            {
+                if ( $cell->nodeType !== XML_ELEMENT_NODE || ( $cell->localName !== 'td' && $cell->localName !== 'th' ) )
+                {
+                    continue;
+                }
+                $count = ( $cell->hasAttribute( 'colspan' ) ? (int) $cell->getAttribute( 'colspan' ) : 1 );
+                for ( $i = 0; $i < $count; ++$i )
+                {
+                    $odtCell = $odtTable->ownerDocument->createElementNS(
+                        ezcDocumentOdt::NS_ODT_TABLE,
+                        'table-column'
+                    );
+                    $odtTable->appendChild( $odtCell );
+                }
+            }
+        }
+
     }
 
     /**
@@ -175,6 +211,8 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
             'string'
         );
         $root->appendChild( $tableCell );
+
+        // @TODO: Colspan / rowspan
 
         $converter->visitChildren( $node, $tableCell );
         return $root;
