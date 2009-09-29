@@ -156,6 +156,157 @@ simplified CSS syntax (see PDF). Each of the style definitions is converted to
 an automatic style in the resulting ODT document. ODT elements affected by a
 certain style get this style applied.
 
+Styles
+======
+
+A style is defined for each styling information. There is no direct assignement
+of layouting elements to styling information, but always a style in between.
+The <style/> element has the following properties:
+
+name
+    The internal name of the style. Must be unique over all styles, in
+    concatenation with the style:family.
+displayname
+    Name of the style to display in GUIs. If left out, the name is used.
+family
+    Family collection of the style. One of (in context of text documents):
+    text
+        Style that might be applied to any piece of text.
+    paragraph
+        Style for complete paragraphs and headings.
+    section
+        Style to be applied to sections of text in text documents (@TODO: Not
+        handled yet!).
+    ruby
+        Not handled, yet.
+    table
+    table-column
+    table-row
+    table-cell
+    table-page
+    chart
+    default
+    graphic
+parent-style-name
+    Identifies a parten style. Style properties of the parent are inherited and
+    maybe overwritten. If no parent style is specified, the default style for
+    the styles family will be the base for inheritence.
+next-style-name
+    Next paragraph style. If a new paragraph is started after the element this
+    style is applied to, this paragraph will have the style named in this
+    element. Only sensible for editing in a GUI.
+list-style-name
+    Style used in headings and paragraphs of lists contained in the styled
+    element, only if the lists have no list-style applied themselves.
+master-page-name
+    Styles with a master page applied will force a page break before the
+    element and load the styles from the master-page then.
+data-style-name
+    Styling of table cells (e.g. formulas, currencies, ...).
+class
+    Information for GUIs, to sort styles into categories. 
+default-outline-level
+    "Transforms" a paragraph into some kind of heading, without making it a
+    heading itself. Senseless.
+
+Style mappings (replacing a style conditionally with another style) will not be
+taken into account, yet.
+
+Types of styles
+---------------
+
+default-style
+    Default styles must be defined for each used style family. The default
+    style is always the base of inheritance for the style family.
+page-layout
+    Definition of the global page properties, format and stuff.
+header-style / footer-style
+    Styling of the header and footer area.
+master-page
+    Definition of a master page. Defines header / footer, forms, styles for the
+    page and more.
+
+Table templates
+---------------
+
+Not yet handled.
+
+Font face declaration
+---------------------
+
+Correspond to the @font-face declaration of CSS2.
+
+Data styles
+-----------
+
+Not yet handled.
+
+List styles
+-----------
+
+Define properties of a list (not its content!). A style for each list level. If
+no style exists for a specific level, the next lower level style is used. If
+none is defined, a default style is used. name and display-name properties as
+ususal. Can have the consecutive-numbering attribute defined, to specify if
+different list levels restart numbering or not
+
+List styles
+-----------
+
+Define properties of a list (not its content!). A style for each list level. If
+no style exists for a specific level, the next lower level style is used. If
+none is defined, a default style is used. name and display-name properties as
+ususal. Can have the consecutive-numbering attribute defined, to specify if
+different list levels restart numbering or not.
+
+List-level styles
+^^^^^^^^^^^^^^^^^
+
+A list-level style commonly has a level attribute, defining, to which
+list-level the style is applied. All other attribute depend on the type of
+list. A list may contain different kinds of lists, depending on the depth of
+the level.
+
+Number level styles
+~~~~~~~~~~~~~~~~~~~
+
+Defining an enumeration list level using a list-level-style-number element. Has
+the following attributes:
+
+style-name
+    Defines the text style for list item numbers.
+num-format
+    Defines the formatting of the list item numbers.
+display-levels
+    Defines how many level numberings to display (e.g. 1.2.3 or just 1.2).
+start-value
+    Defines the first number to be used by the very first element of the
+    defined level.
+
+Bullet level style
+~~~~~~~~~~~~~~~~~~
+
+Attributes defining a list level to be an item list.
+
+text-style
+    Style for the bullet character.
+bullet-character
+    A unicode character to be used as the bullet.
+num-format-prefix / num-format-suffix
+    Prefix and suffix to be placed before / after a bullet.
+bullet-relative-size
+    Relative size (percentage, integer) of the bullet in respect to the item
+    content.
+
+Image level style
+~~~~~~~~~~~~~~~~~
+
+Creates items preceeded by images. The image to be used is either referenced or
+stored using base64 encoded binary data.
+
+
+
+
 
 ..
    Local Variables:
