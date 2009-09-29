@@ -130,7 +130,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 0 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 130., 180., 140., 208.3 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 109.4, 180., 140., 208.3 ), 1. ),
                 $this->equalTo( 'sample 1' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 140, 180 ) ) )
@@ -139,7 +139,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 1 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 210., 180., 220., 236.6 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 197.6, 180., 220., 236.6 ), 1. ),
                 $this->equalTo( 'sample 2' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 220, 180 ) ) )
@@ -148,7 +148,7 @@ class ezcGraphAxisRotatedRendererTest extends ezcGraphTestCase
             ->expects( $this->at( 4 ) )
             ->method( 'drawText' )
             ->with(
-                $this->equalTo( new ezcGraphBoundings( 450., 180., 460., 208.3 ), 1. ),
+                $this->equalTo( new ezcGraphBoundings( 429.4, 180., 460., 208.3 ), 1. ),
                 $this->equalTo( 'sample 5' ),
                 $this->equalTo( ezcGraph::TOP | ezcGraph::RIGHT ),
                 $this->equalTo( new ezcGraphRotation( -45, new ezcGraphCoordinate( 460, 180 ) ) )

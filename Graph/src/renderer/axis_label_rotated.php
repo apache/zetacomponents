@@ -273,11 +273,17 @@ class ezcGraphAxisRotatedLabelRenderer extends ezcGraphAxisLabelRenderer
         $labelLength = sqrt(
             pow(
                 $xSpace * $this->direction->y +
-                $axisSpaceFactor * $this->offset * ( $end->x - $start->x ),
+                ( $this->labelOffset ? 
+                    $axisSpaceFactor * $this->offset * ( $end->x - $start->x ) :
+                    $ySpace * 2 * $this->direction->x
+                ),
                 2 ) +
             pow(
                 $ySpace * $this->direction->x +
-                $axisSpaceFactor * $this->offset * ( $end->y - $start->y ),
+                ( $this->labelOffset ? 
+                    $axisSpaceFactor * $this->offset * ( $end->y - $start->y ) :
+                    $xSpace * 2 * $this->direction->y
+                ),
                 2 )
         );
 

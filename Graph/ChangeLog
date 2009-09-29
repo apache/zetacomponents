@@ -1,7 +1,9 @@
-1.5alpha2 - Tuesday 01 September 2009
+1.5alpha2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed #15578: formatString not working with numeric axis.
+- Fixed #15537: Graph shows to small and truncated rotated axis labels.
+
 
 1.5alpha1 - Tuesday 01 September 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
