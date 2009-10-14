@@ -10,32 +10,99 @@
  */
 
 /**
- * Class representing an ODT style.
+ * Base class for ODT styles.
  *
  * @property-read string $name The style name.
  * @property-read constant $family The style family.
+ * @property ezcDocumentOdtStyle $parentStyle The parent style object.
+ * @property ezcDocumentOdtStyle $nextStyle Next paragraph style to be applied.
+ * @property ezcDocumentOdtStyle $listStyle The style for lists in the styled element.
+ * @property ArrayObject $formattingProperties ArrayObject of ezc
+ *
  * @package Document
  * @version //autogen//
  * @access private
  */
 class ezcDocumentOdtStyle
 {
-    const FAMILY_CHART = 'chart';
-    const FAMILY_COLUMN = 'column';
-    const FAMILY_CONTROL = 'control';
-    const FAMILY_DEFAULT = 'default';
-    const FAMILY_DRAWING-PAGE = 'drawing-page';
-    const FAMILY_GRAPHIC = 'graphic';
-    const FAMILY_PARAGRAPH = 'paragraph';
-    const FAMILY_PRESENTATION = 'presentation';
-    const FAMILY_RUBY = 'ruby';
-    const FAMILY_SECTION = 'section';
-    const FAMILY_TABLE-CELL = 'table-cell';
+    /**
+     * Table column style. 
+     */
+    const FAMILY_COLUMN       = 'column';
+
+    /**
+     * Graphic style. Only supported for graphic frames.
+     */
+    const FAMILY_GRAPHIC      = 'graphic';
+
+    /**
+     * Paragraph style.
+     */
+    const FAMILY_PARAGRAPH    = 'paragraph';
+
+    /**
+     * Section style.
+     *
+     * @TODO: How to support this?
+     */
+    const FAMILY_SECTION      = 'section';
+
+    /**
+     * Table cell style.
+     */
+    const FAMILY_TABLE_CELL   = 'table-cell';
+
+    /**
+     * Table column style. 
+     */
     const FAMILY_TABLE_COLUMN = 'table-column';
-    const FAMILY_TABLE-PAGE = 'table-page';
-    const FAMILY_TABLE-ROW = 'table-row';
-    const FAMILY_TABLE = 'table';
-    const FAMILY_TEXT = 'text';
+    
+    /**
+     * Table row style. 
+     */
+    const FAMILY_TABLE_ROW    = 'table-row';
+    
+    /**
+     * Tabke style. 
+     */
+    const FAMILY_TABLE        = 'table';
+
+    /**
+     * General text style 
+     */
+    const FAMILY_TEXT         = 'text';
+
+    /**
+     * Char style. Not supported 
+     */
+    const FAMILY_CHART        = 'chart';
+
+    /**
+     * Form control style. Not supported. 
+     */
+    const FAMILY_CONTROL      = 'control';
+
+    /**
+     * Style for a drawing page. Not supported. 
+     */
+    const FAMILY_DRAWING_PAGE = 'drawing-page';
+
+    /**
+     * Presentation style. Not supported. 
+     */
+    const FAMILY_PRESENTATION = 'presentation';
+
+    /**
+     * Ruby style.
+     *
+     * @TODO: Do we need to suppor this? 
+     */
+    const FAMILY_RUBY         = 'ruby';
+
+    /**
+     * Table page style. Only for spreadsheets, therefore not supported.
+     */
+    const FAMILY_TABLE_PAGE   = 'table-page';
 
     /**
      * Properties
@@ -43,20 +110,30 @@ class ezcDocumentOdtStyle
      * @var array(string=>mixed)
      */
     protected $properties = array(
-        'name'            => null,
-        'family'          => null,
-        'parentStyleName' => null,
-        'parentStyle'     => null,
-        'nextStyleName'   => null,
-        'nextStyle'       => null,
-        'listStyleName'   => null,
-        'listStyle'       => null,
+        'name'                 => null,
+        'family'               => null,
+        'parentStyle'          => null,
+        'nextStyle'            => null,
+        'listStyle'            => null,
+        'formattingProperties' => null,
     );
 
-    public function __construct( $name, $family )
+    /**
+     * Creates a new style.
+     *
+     * Creates a style in the given style $family with the given $name. $family 
+     * must be one of the FAMILY_* constants. $name can be an arbitrary string. 
+     * Note that $name and $family properties can not be changed at a later 
+     * time.
+     * 
+     * @param const $family 
+     * @param string $name 
+     */
+    public function __construct( $family, $name )
     {
-        $this->properties['name']   = $name;
         $this->properties['family'] = $family;
+        $this->properties['name']   = $name;
+        $this->formattingProperties = new ezcDocumentOdtFormattingPropertyCollection();
     }
 
     /**
@@ -74,21 +151,18 @@ class ezcDocumentOdtStyle
             case 'name':
             case 'family':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
-            case 'parentStyleName':
-            case 'nextStyleName':
-            case 'listStyleName':
-                if ( !is_string( $value ) && $value !== null )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'string or null' );
-                }
-                break;
             case 'parentStyle':
             case 'nextStyle':
             case 'listStyle':
-                // @TODO: Different kinds of styles?
                 if ( !( $value instanceof ezcDocumentOdtStyle ) && $value !== null )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcDocumentOdtStyle or null' );
+                }
+                break;
+            case 'formattingProperties':
+                if ( !is_object( $value ) || !( $value instanceof ezcDocumentOdtFormattingPropertyCollection ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ArrayObject' );
                 }
                 break;
             default:
