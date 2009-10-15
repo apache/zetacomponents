@@ -106,7 +106,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
      */
     public function testMeasureBoxValueHandler( $input, $expectation, $string )
     {
-        $value = new ezcDocumentPdfStyleMeasureBoxValue();
+        $value = new ezcDocumentPcssStyleMeasureBoxValue();
         $value->parse( $input );
 
         $this->assertEquals(
@@ -293,7 +293,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
      */
     public function testColorValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleColorValue();
+        $value = new ezcDocumentPcssStyleColorValue();
         $value->parse( $input );
 
         $this->assertEquals(
@@ -312,7 +312,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
     public function testInvalidColorSpecification()
     {
         try {
-            $value = new ezcDocumentPdfStyleColorValue();
+            $value = new ezcDocumentPcssStyleColorValue();
             $value->parse( 'something invalid' );
             $this->fail( 'Expected ezcDocumentParserException.' );
         } catch ( ezcDocumentParserException $e )
@@ -345,7 +345,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
      */
     public function testLineValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleLineValue();
+        $value = new ezcDocumentPcssStyleLineValue();
         $value->parse( $input );
 
         $this->assertEquals(
@@ -442,7 +442,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
      */
     public function testBorderValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleBorderValue();
+        $value = new ezcDocumentPcssStyleBorderValue();
         $value->parse( $input );
 
         $this->assertEquals(
@@ -529,7 +529,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
      */
     public function testColorBoxValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleColorBoxValue();
+        $value = new ezcDocumentPcssStyleColorBoxValue();
         $value->parse( $input );
 
         $this->assertEquals(
@@ -576,7 +576,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
      */
     public function testLineBoxValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleLineBoxValue();
+        $value = new ezcDocumentPcssStyleLineBoxValue();
         $value->parse( $input );
 
         $this->assertEquals(
@@ -695,7 +695,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
      */
     public function testBorderBoxValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleBorderBoxValue();
+        $value = new ezcDocumentPcssStyleBorderBoxValue();
         $value->parse( $input );
 
         $this->assertEquals(
@@ -738,7 +738,7 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
      */
     public function testSrcValueHandler( $input, $expectation, $string = '' )
     {
-        $value = new ezcDocumentPdfStyleSrcValue();
+        $value = new ezcDocumentPcssStyleSrcValue();
         $value->parse( $input );
 
         $this->assertEquals(

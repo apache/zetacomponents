@@ -34,11 +34,11 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
-     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentLocateableDomElement $text 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $text );
@@ -363,14 +363,14 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
      * included whitespace characters, each associated with its markup
      * elements.
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @param ezcDocumentPdfTokenizer $tokenizer
      * @return array
      */
-    protected function tokenize( ezcDocumentPdfInferencableDomElement $element, ezcDocumentPdfTokenizer $tokenizer, $recursed = false )
+    protected function tokenize( ezcDocumentLocateableDomElement $element, ezcDocumentPdfTokenizer $tokenizer, $recursed = false )
     {
         $tokens = array();
-        $rules  = $this->styles->inferenceFormattingRules( $element, ezcDocumentPdfStyleInferencer::TEXT );
+        $rules  = $this->styles->inferenceFormattingRules( $element, ezcDocumentPcssStyleInferencer::TEXT );
 
         // Do not inherit background and border rules from paragraph
         if ( !$recursed )

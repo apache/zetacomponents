@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfLocateable interface
+ * File containing the ezcDocumentLocateable interface
  *
  * @package Document
  * @version //autogen//
@@ -17,7 +17,7 @@
  * @access private
  * @version //autogen//
  */
-interface ezcDocumentPdfLocateable
+interface ezcDocumentLocateable
 {
     /**
      * Get elements location ID

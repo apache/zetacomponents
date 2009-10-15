@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleLineBoxValue class
+ * File containing the ezcDocumentPcssStyleLineBoxValue class
  *
  * @package Document
  * @version //autogen//
@@ -16,16 +16,16 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleLineBoxValue extends ezcDocumentPdfStyleBoxValue
+class ezcDocumentPcssStyleLineBoxValue extends ezcDocumentPcssStyleBoxValue
 {
     /**
      * Get sub value handler
      * 
-     * @return ezcDocumentPdfStyleValue
+     * @return ezcDocumentPcssStyleValue
      */
     protected function getSubValue()
     {
-        return 'ezcDocumentPdfStyleLineValue';
+        return 'ezcDocumentPcssStyleLineValue';
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfCssParser class
+ * File containing the ezcDocumentPcssParser class
  *
  * @package Document
  * @version //autogen//
@@ -41,7 +41,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfCssParser extends ezcDocumentParser
+class ezcDocumentPcssParser extends ezcDocumentParser
 {
     /**
      * Currently parsed file, stored for additional error context
@@ -406,14 +406,14 @@ class ezcDocumentPdfCssParser extends ezcDocumentParser
             
             if ( $tokens[0]['type'] === self::T_DEFINITION )
             {
-                $addressType  = 'ezcDocumentPdfCssDeclarationDirective';
+                $addressType  = 'ezcDocumentPcssDeclarationDirective';
                 $addressToken = $this->read( array( self::T_DEFINITION ), $tokens );
                 $address      = $addressToken['match'][0];
             }
             else
             {
                 do {
-                    $addressType  = 'ezcDocumentPdfCssLayoutDirective';
+                    $addressType  = 'ezcDocumentPcssLayoutDirective';
                     $addressToken = $this->read( $addressTokens, $tokens );
                     $address[]    = $addressToken['match'][0];
                 }

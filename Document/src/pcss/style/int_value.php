@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleStringValue class
+ * File containing the ezcDocumentPcssStyleIntValue class
  *
  * @package Document
  * @version //autogen//
@@ -10,34 +10,14 @@
  */
 
 /**
- * Style directive value representation
+ * Style directive integer value representation
  *
  * @package Document
  * @access private
  * @version //autogen//
  */
-abstract class ezcDocumentPdfStyleValue extends ezcBaseStruct
+class ezcDocumentPcssStyleIntValue extends ezcDocumentPcssStyleValue
 {
-    /**
-     * Directive value
-     *
-     * @var mixed
-     */
-    public $value;
-
-    /**
-     * Construct value
-     *
-     * Optionally pass a parsed representation of the value.
-     * 
-     * @param mixed $value 
-     * @return void
-     */
-    public function __construct( $value = null )
-    {
-        $this->value = $value;
-    }
-
     /**
      * Parse value string representation
      *
@@ -45,9 +25,14 @@ abstract class ezcDocumentPdfStyleValue extends ezcBaseStruct
      * representation.
      * 
      * @param string $value 
-     * @return ezcDocumentPdfStyleValue
+     * @return void
      */
-    abstract public function parse( $value );
+    public function parse( $value )
+    {
+        $this->value = (int) $value;
+
+        return $this;
+    }
 
     /**
      * Get regular expression matching the value
@@ -58,13 +43,19 @@ abstract class ezcDocumentPdfStyleValue extends ezcBaseStruct
      * 
      * @return string
      */
-    abstract public function getRegularExpression();
+    public function getRegularExpression()
+    {
+        return '\d+';
+    }
 
     /**
      * Convert value to string
      *
      * @return string
      */
-    abstract public function __toString();
+    public function __toString()
+    {
+        return (string) $value;
+    }
 }
 ?>

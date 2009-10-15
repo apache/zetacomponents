@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleMeasureBoxValue class
+ * File containing the ezcDocumentPcssStyleColorBoxValue class
  *
  * @package Document
  * @version //autogen//
@@ -10,22 +10,22 @@
  */
 
 /**
- * Style directive measure box value representation
+ * Style directive color box value representation
  *
  * @package Document
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleMeasureBoxValue extends ezcDocumentPdfStyleBoxValue
+class ezcDocumentPcssStyleColorBoxValue extends ezcDocumentPcssStyleBoxValue
 {
     /**
      * Get sub value handler
      * 
-     * @return ezcDocumentPdfStyleValue
+     * @return ezcDocumentPcssStyleValue
      */
     protected function getSubValue()
     {
-        return 'ezcDocumentPdfStyleMeasureValue';
+        return 'ezcDocumentPcssStyleColorValue';
     }
 }
 

@@ -39,12 +39,12 @@ class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfBlockRenderer
      * Construct from item number
      * 
      * @param ezcDocumentPdfDriver $driver
-     * @param ezcDocumentPdfStyleInferencer $styles
+     * @param ezcDocumentPcssStyleInferencer $styles
      * @param ezcDocumentListItemGenerator $generator 
      * @param int $item 
      * @return void
      */
-    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles, ezcDocumentListItemGenerator $generator, $item )
+    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPcssStyleInferencer $styles, ezcDocumentListItemGenerator $generator, $item )
     {
         parent::__construct( $driver, $styles );
         $this->generator = $generator;
@@ -57,11 +57,11 @@ class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfBlockRenderer
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
-     * @param ezcDocumentPdfInferencableDomElement $block 
+     * @param ezcDocumentLocateableDomElement $block 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return void
      */
-    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
+    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Render list item
         if ( ( $listItem = $this->generator->getListItem( $this->item ) ) !== '' )
@@ -83,10 +83,10 @@ class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfBlockRenderer
      *
      * Get list item generator for the list generator.
      * 
-     * @param ezcDocumentPdfInferencableDomElement $block 
+     * @param ezcDocumentLocateableDomElement $block 
      * @return void
      */
-    protected function getListItemGenerator( ezcDocumentPdfInferencableDomElement $block )
+    protected function getListItemGenerator( ezcDocumentLocateableDomElement $block )
     {
 
     }

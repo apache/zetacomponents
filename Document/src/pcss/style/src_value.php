@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleSrcValue class
+ * File containing the ezcDocumentPcssStyleSrcValue class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleSrcValue extends ezcDocumentPdfStyleValue
+class ezcDocumentPcssStyleSrcValue extends ezcDocumentPcssStyleValue
 {
     /**
      * Parse value string representation

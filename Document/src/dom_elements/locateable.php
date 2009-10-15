@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfInferencableDomElement class
+ * File containing the ezcDocumentLocateableDomElement class
  *
  * @package Document
  * @version //autogen//
@@ -23,7 +23,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfInferencableDomElement extends DOMElement implements ezcDocumentPdfLocateable
+class ezcDocumentLocateableDomElement extends DOMElement implements ezcDocumentLocateable
 {
     /**
      * Calculated location Id

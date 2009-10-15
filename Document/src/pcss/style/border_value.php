@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleMeasureValue class
+ * File containing the ezcDocumentPcssStyleMeasureValue class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
+class ezcDocumentPcssStyleBorderValue extends ezcDocumentPcssStyleValue
 {
     /**
      * Default value
@@ -54,13 +54,13 @@ class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
      * representation.
      * 
      * @param string $value 
-     * @return ezcDocumentPdfStyleValue
+     * @return ezcDocumentPcssStyleValue
      */
     public function parse( $value )
     {
-        $widthParser = new ezcDocumentPdfStyleMeasureValue();
-        $styleParser  = new ezcDocumentPdfStyleLineValue();
-        $colorParser = new ezcDocumentPdfStyleColorValue();
+        $widthParser = new ezcDocumentPcssStyleMeasureValue();
+        $styleParser  = new ezcDocumentPcssStyleLineValue();
+        $colorParser = new ezcDocumentPcssStyleColorValue();
 
         $regexp = '(^\s*' .
             '(?:(?P<width>' . $widthParser->getRegularExpression() . ')\s*)?' .
@@ -103,9 +103,9 @@ class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
      */
     public function getRegularExpression()
     {
-        $widthParser = new ezcDocumentPdfStyleMeasureValue();
-        $styleParser  = new ezcDocumentPdfStyleLineValue();
-        $colorParser = new ezcDocumentPdfStyleColorValue();
+        $widthParser = new ezcDocumentPcssStyleMeasureValue();
+        $styleParser  = new ezcDocumentPcssStyleLineValue();
+        $colorParser = new ezcDocumentPcssStyleColorValue();
 
         return '(?:' .
             '(?:' . $widthParser->getRegularExpression() . '\s*)?' .
@@ -122,9 +122,9 @@ class ezcDocumentPdfStyleBorderValue extends ezcDocumentPdfStyleValue
     public function __toString()
     {
         return 
-            new ezcDocumentPdfStyleMeasureValue( $this->value['width'] ) . ' ' .
-            new ezcDocumentPdfStyleLineValue( $this->value['style'] ) . ' ' .
-            new ezcDocumentPdfStyleColorValue( $this->value['color'] );
+            new ezcDocumentPcssStyleMeasureValue( $this->value['width'] ) . ' ' .
+            new ezcDocumentPcssStyleLineValue( $this->value['style'] ) . ' ' .
+            new ezcDocumentPcssStyleColorValue( $this->value['color'] );
     }
 }
 

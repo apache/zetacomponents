@@ -28,9 +28,9 @@ class ezcDocumentPdfLiterallayoutRendererTests extends ezcDocumentPdfTestCase
     {
         parent::setUp();
 
-        $this->styles = new ezcDocumentPdfStyleInferencer();
+        $this->styles = new ezcDocumentPcssStyleInferencer();
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'page' ),
                 array(
                     'page-size' => 'TEST',
@@ -38,7 +38,7 @@ class ezcDocumentPdfLiterallayoutRendererTests extends ezcDocumentPdfTestCase
                     'padding'   => '10',
                 )
             ),
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'literallayout' ),
                 array(
                     'font-size' => '6mm',

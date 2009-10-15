@@ -258,12 +258,12 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
 
         // Cause and record calls
         $transaction = $this->driver->startTransaction();
-        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page1 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->drawWord( 0, 0, 'Paragraphs' );
 
         $this->assertSame( $page1, $this->driver->currentPage() );
 
-        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page2 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->drawWord( 44, 0, 'are' );
 
         $this->assertNotSame( $page1, $page2 );
@@ -281,7 +281,7 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
         $this->mock->expects( $this->once() )->method( 'createPage' );
 
         // Cause and record calls
-        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page1 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->drawWord( 0, 0, 'Paragraphs' );
 
         $this->assertSame( $page1, $this->driver->currentPage() );
@@ -300,13 +300,13 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
         $this->mock->expects( $this->once() )->method( 'createPage' );
 
         // Cause and record calls
-        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page1 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->drawWord( 0, 0, 'Paragraphs' );
 
         $this->assertSame( $page1, $this->driver->currentPage() );
 
         $transaction = $this->driver->startTransaction();
-        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page2 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->drawWord( 44, 0, 'are' );
 
         $this->assertNotSame( $page1, $page2 );
@@ -323,12 +323,12 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
         $this->mock->expects( $this->once() )->method( 'drawWord' );
 
         // Cause and record calls
-        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page1 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->drawWord( 0, 0, 'Paragraphs' );
 
         $this->assertSame( $page1, $this->driver->currentPage() );
 
-        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page2 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
 
         $this->assertNotSame( $page1, $page2 );
         $this->assertSame( $page2, $this->driver->currentPage() );
@@ -357,9 +357,9 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
         );
 
         // Cause and record calls
-        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page1 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->drawWord( 0, 0, 'Paragraphs' );
-        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page2 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->goBackOnePage();
 
         $this->assertSame( $page1, $this->driver->currentPage() );
@@ -384,13 +384,13 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
         );
 
         // Cause and record calls
-        $page1 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page1 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->drawWord( 0, 0, 'Paragraphs' );
-        $page2 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page2 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->driver->goBackOnePage();
 
         $transaction = $this->driver->startTransaction();
-        $page3 = $this->driver->appendPage( new ezcDocumentPdfStyleInferencer() );
+        $page3 = $this->driver->appendPage( new ezcDocumentPcssStyleInferencer() );
         $this->assertSame( $page2, $page3 );
         $this->driver->drawWord( 44, 0, 'left' );
         $this->driver->revert( $transaction );

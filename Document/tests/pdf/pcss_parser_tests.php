@@ -1,6 +1,6 @@
 <?php
 /**
- * ezcDocumentPdfCssParserTests
+ * ezcDocumentPcssParserTests
  * 
  * @package Document
  * @version //autogen//
@@ -15,7 +15,7 @@
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfCssParserTests extends ezcTestCase
+class ezcDocumentPcssParserTests extends ezcTestCase
 {
     protected static $testDocuments = null;
 
@@ -55,7 +55,7 @@ class ezcDocumentPdfCssParserTests extends ezcTestCase
             $this->markTestSkipped( "Comparision file '$to' not yet defined." );
         }
 
-        $parser     = new ezcDocumentPdfCssParser();
+        $parser     = new ezcDocumentPcssParser();
         $directives = $parser->parseFile( $from );
 
         // Change file locations to something not depending on the current test
@@ -118,12 +118,12 @@ class ezcDocumentPdfCssParserTests extends ezcTestCase
      */
     public function testParseErroneousPdfCssFile( $file, $message )
     {
-        $parser = new ezcDocumentPdfCssParser();
+        $parser = new ezcDocumentPcssParser();
 
         try
         {
             $directives = $parser->parseFile( $file );
-            $this->fail( 'Expected ezcDocumentPdfCssParserException.' );
+            $this->fail( 'Expected ezcDocumentPcssParserException.' );
         }
         catch ( ezcDocumentParserException $e )
         {

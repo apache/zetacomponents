@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleLineValue class
+ * File containing the ezcDocumentPcssStyleLineValue class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleLineValue extends ezcDocumentPdfStyleValue
+class ezcDocumentPcssStyleLineValue extends ezcDocumentPcssStyleValue
 {
     /**
      * Line styles regular expression

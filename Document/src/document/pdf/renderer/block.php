@@ -30,11 +30,11 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
-     * @param ezcDocumentPdfInferencableDomElement $block 
+     * @param ezcDocumentLocateableDomElement $block 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // @TODO: Render border and background. This can be quite hard to
         // estimate, though.
@@ -63,11 +63,11 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
-     * @param ezcDocumentPdfInferencableDomElement $block 
+     * @param ezcDocumentLocateableDomElement $block 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return void
      */
-    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
+    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         $mainRenderer->process( $block );
     }
@@ -314,10 +314,10 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
      * page layout settings.
      *
      * @param ezcDocumentPdfPage $page
-     * @param ezcDocumentPdfInferencableDomElement $text
+     * @param ezcDocumentLocateableDomElement $text
      * @return float
      */
-    public function calculateTextWidth( ezcDocumentPdfPage $page, ezcDocumentPdfInferencableDomElement $text )
+    public function calculateTextWidth( ezcDocumentPdfPage $page, ezcDocumentLocateableDomElement $text )
     {
         // Inference page styles
         $rules = $this->styles->inferenceFormattingRules( $text );

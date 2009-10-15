@@ -27,11 +27,11 @@ class ezcDocumentPdfLiteralBlockRenderer extends ezcDocumentPdfWrappingTextBoxRe
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
-     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentLocateableDomElement $text 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Use a special tokenizer and hyphenator for literal blocks
         return parent::render(

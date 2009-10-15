@@ -2,7 +2,7 @@
 
 return array (
   0 => 
-  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+  ezcDocumentPcssLayoutDirective::__set_state(array(
      'address' => 
     array (
       0 => 'foo',

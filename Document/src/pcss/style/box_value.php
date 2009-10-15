@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleBoxValue class
+ * File containing the ezcDocumentPcssStyleBoxValue class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-abstract class ezcDocumentPdfStyleBoxValue extends ezcDocumentPdfStyleValue
+abstract class ezcDocumentPcssStyleBoxValue extends ezcDocumentPcssStyleValue
 {
     /**
      * Default value

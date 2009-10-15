@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleMeasureBoxValue class
+ * File containing the ezcDocumentPcssStyleMeasureBoxValue class
  *
  * @package Document
  * @version //autogen//
@@ -16,16 +16,16 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleBorderBoxValue extends ezcDocumentPdfStyleBoxValue
+class ezcDocumentPcssStyleBorderBoxValue extends ezcDocumentPcssStyleBoxValue
 {
     /**
      * Get sub value handler
      * 
-     * @return ezcDocumentPdfStyleValue
+     * @return ezcDocumentPcssStyleValue
      */
     protected function getSubValue()
     {
-        return 'ezcDocumentPdfStyleBorderValue';
+        return 'ezcDocumentPcssStyleBorderValue';
     }
 }
 

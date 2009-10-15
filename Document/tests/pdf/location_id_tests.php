@@ -28,7 +28,7 @@ class ezcDocumentPdfLocationIdTests extends ezcTestCase
     public function setUp()
     {
         $this->document = new DOMDocument();
-        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
+        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentLocateableDomElement' );
 
         $this->document->load( dirname( __FILE__ ) . '/../files/docbook/pdf/location_ids.xml' );
 

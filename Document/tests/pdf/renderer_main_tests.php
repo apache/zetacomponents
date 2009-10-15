@@ -36,7 +36,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         try {
             $renderer  = new ezcDocumentPdfMainRenderer(
                 new ezcDocumentPdfSvgDriver(),
-                new ezcDocumentPdfStyleInferencer()
+                new ezcDocumentPcssStyleInferencer()
             );
 
             $pdf = $renderer->render(
@@ -56,7 +56,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
 
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
-            new ezcDocumentPdfStyleInferencer(),
+            new ezcDocumentPcssStyleInferencer(),
             E_PARSE
         );
 
@@ -97,7 +97,7 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
             dirname( __FILE__ ) . '/../files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
-                new ezcDocumentPdfCssLayoutDirective(
+                new ezcDocumentPcssLayoutDirective(
                     array( 'article' ),
                     array(
                         'text-columns' => '3',
@@ -127,9 +127,9 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/internal_links.xml' );
 
-        $style = new ezcDocumentPdfStyleInferencer();
+        $style = new ezcDocumentPcssStyleInferencer();
         $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'page' ),
                 array(
                     'page-size' => 'A6',
@@ -154,9 +154,9 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/wrapping.xml' );
 
-        $style = new ezcDocumentPdfStyleInferencer();
+        $style = new ezcDocumentPcssStyleInferencer();
         $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'article' ),
                 array(
                     'font-family' => 'my-font',
@@ -181,15 +181,15 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/wrapping.xml' );
 
-        $style = new ezcDocumentPdfStyleInferencer();
+        $style = new ezcDocumentPcssStyleInferencer();
         $style->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'article' ),
                 array(
                     'font-family' => 'my-font',
                 )
             ),
-            new ezcDocumentPdfCssDeclarationDirective(
+            new ezcDocumentPcssDeclarationDirective(
                 '@font-face',
                 array(
                     'font-family' => 'my-font',

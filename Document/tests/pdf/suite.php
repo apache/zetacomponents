@@ -64,7 +64,7 @@ class ezcDocumentPdfSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfMeasureTests::suite() );
         $this->addTest( ezcDocumentPdfImageHandlerTests::suite() );
         $this->addTest( ezcDocumentPdfPageTests::suite() );
-        $this->addTest( ezcDocumentPdfCssParserTests::suite() );
+        $this->addTest( ezcDocumentPcssParserTests::suite() );
         $this->addTest( ezcDocumentPdfParagraphRendererTests::suite() );
         $this->addTest( ezcDocumentPdfTextBoxRendererTests::suite() );
         $this->addTest( ezcDocumentPdfLiterallayoutRendererTests::suite() );

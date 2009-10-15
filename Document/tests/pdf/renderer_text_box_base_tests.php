@@ -43,22 +43,22 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
         parent::setUp();
 
         $this->document = new DOMDocument();
-        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
+        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentLocateableDomElement' );
 
         $this->document->load( dirname( __FILE__ ) . '/../files/pdf/paragraph.xml' );
 
         $this->xpath = new DOMXPath( $this->document );
         $this->xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
 
-        $this->styles = new ezcDocumentPdfStyleInferencer();
+        $this->styles = new ezcDocumentPcssStyleInferencer();
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'article' ),
                 array(
                     'font-size' => '8mm',
                 )
             ),
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'page' ),
                 array(
                     'page-size' => 'TEST',
@@ -66,7 +66,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
                     'padding'   => '10',
                 )
             ),
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'margin'  => '0mm',
@@ -125,7 +125,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'text-align' => 'justify',
@@ -174,7 +174,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'text-align' => 'center',
@@ -223,7 +223,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'text-align' => 'right',
@@ -272,7 +272,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'font-weight' => 'bold',
@@ -321,13 +321,13 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'text-align' => 'justify',
                 )
             ),
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'font-weight' => 'bold',
@@ -382,7 +382,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'font-weight' => 'bold',
@@ -432,7 +432,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'font-weight' => 'bold',
@@ -484,7 +484,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'font-weight' => 'bold',
@@ -533,7 +533,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'line-height' => '1',
@@ -651,7 +651,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'line-height' => '1',
@@ -701,7 +701,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'line-height' => '1',
@@ -751,7 +751,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'line-height'      => '1',
@@ -819,7 +819,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'line-height'      => '1',

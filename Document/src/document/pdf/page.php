@@ -22,7 +22,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfPage implements ezcDocumentPdfLocateable
+class ezcDocumentPdfPage implements ezcDocumentLocateable
 {
     /**
      * Already covered areas, given as an arrays of ezcDocumentPdfBoundingBox

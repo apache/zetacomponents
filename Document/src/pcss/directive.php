@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfCssDirective class
+ * File containing the ezcDocumentPcssDirective class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-abstract class ezcDocumentPdfCssDirective extends ezcBaseStruct
+abstract class ezcDocumentPcssDirective extends ezcBaseStruct
 {
     /**
      * Directive address

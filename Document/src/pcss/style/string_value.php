@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleMeasureValue class
+ * File containing the ezcDocumentPcssStyleStringValue class
  *
  * @package Document
  * @version //autogen//
@@ -10,13 +10,13 @@
  */
 
 /**
- * Style directive measure value representation
+ * Style directive string value representation
  *
  * @package Document
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleMeasureValue extends ezcDocumentPdfStyleValue
+class ezcDocumentPcssStyleStringValue extends ezcDocumentPcssStyleValue
 {
     /**
      * Parse value string representation
@@ -29,11 +29,11 @@ class ezcDocumentPdfStyleMeasureValue extends ezcDocumentPdfStyleValue
      */
     public function parse( $value )
     {
-        $this->value = ezcDocumentPdfMeasure::create( $value )->get();
+        $this->value = (string) $value;
 
         return $this;
     }
-    
+
     /**
      * Get regular expression matching the value
      *
@@ -45,7 +45,7 @@ class ezcDocumentPdfStyleMeasureValue extends ezcDocumentPdfStyleValue
      */
     public function getRegularExpression()
     {
-        return '(?:[+-]?\s*(?:\d*\.)?\d+)(?:mm|px|pt|in)?';
+        return '\S+';
     }
 
     /**
@@ -55,8 +55,7 @@ class ezcDocumentPdfStyleMeasureValue extends ezcDocumentPdfStyleValue
      */
     public function __toString()
     {
-        return sprintf( '%.2Fmm', $this->value );
+        return $this->value;
     }
 }
-
 ?>

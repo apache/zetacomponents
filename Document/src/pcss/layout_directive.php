@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfCssDirective class
+ * File containing the ezcDocumentPcssDirective class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfCssLayoutDirective extends ezcDocumentPdfCssDirective
+class ezcDocumentPcssLayoutDirective extends ezcDocumentPcssDirective
 {
     /**
      * Regular expression compiled from directive address
@@ -118,11 +118,11 @@ class ezcDocumentPdfCssLayoutDirective extends ezcDocumentPdfCssDirective
      * Recreate directive from var_export
      *
      * @param array $properties
-     * @return ezcDocumentPdfCssDirective
+     * @return ezcDocumentPcssDirective
      */
     public static function __set_state( $properties )
     {
-        return new ezcDocumentPdfCssLayoutDirective(
+        return new ezcDocumentPcssLayoutDirective(
             $properties['address'],
             $properties['formats'],
             $properties['file'],

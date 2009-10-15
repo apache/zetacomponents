@@ -30,7 +30,7 @@ class ezcDocumentPdfRenderRtlTests extends ezcDocumentPdfTestCase
             dirname( __FILE__ ) . '/../files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
-                new ezcDocumentPdfCssLayoutDirective(
+                new ezcDocumentPcssLayoutDirective(
                     array( 'article' ),
                     array(
                         'direction' => 'rtl',
@@ -46,7 +46,7 @@ class ezcDocumentPdfRenderRtlTests extends ezcDocumentPdfTestCase
             dirname( __FILE__ ) . '/../files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
-                new ezcDocumentPdfCssLayoutDirective(
+                new ezcDocumentPcssLayoutDirective(
                     array( 'para' ),
                     array(
                         'direction' => 'rtl',
@@ -62,7 +62,7 @@ class ezcDocumentPdfRenderRtlTests extends ezcDocumentPdfTestCase
             dirname( __FILE__ ) . '/../files/pdf/long_text.xml',
             __CLASS__ . '_' . __FUNCTION__ . '.svg',
             array(
-                new ezcDocumentPdfCssLayoutDirective(
+                new ezcDocumentPcssLayoutDirective(
                     array( 'title' ),
                     array(
                         'direction' => 'rtl',

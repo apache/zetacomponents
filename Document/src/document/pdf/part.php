@@ -47,7 +47,7 @@ abstract class ezcDocumentPdfPart
     /**
      * Reference to style inferencer
      *
-     * @var ezcDocumentPdfStyleInferencer
+     * @var ezcDocumentPcssStyleInferencer
      */
     protected $styles;
 
@@ -59,10 +59,10 @@ abstract class ezcDocumentPdfPart
      *
      * @param ezcDocumentPdfMainRenderer $renderer
      * @param ezcDocumentPdfDriver $driver
-     * @param ezcDocumentPdfStyleInferencer $styles
+     * @param ezcDocumentPcssStyleInferencer $styles
      * @return void
      */
-    public function registerContext( ezcDocumentPdfMainRenderer $renderer, ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles )
+    public function registerContext( ezcDocumentPdfMainRenderer $renderer, ezcDocumentPdfDriver $driver, ezcDocumentPcssStyleInferencer $styles )
     {
         $this->renderer = $renderer;
         $this->driver   = $driver;
@@ -100,10 +100,10 @@ abstract class ezcDocumentPdfPart
      *
      * Hook called when a new document is created.
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    public function hookDocumentCreation( ezcDocumentPdfInferencableDomElement $element )
+    public function hookDocumentCreation( ezcDocumentLocateableDomElement $element )
     {
     }
 

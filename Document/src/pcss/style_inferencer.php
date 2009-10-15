@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleInferencer class
+ * File containing the ezcDocumentPcssStyleInferencer class
  *
  * @package Document
  * @version //autogen//
@@ -30,7 +30,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleInferencer
+class ezcDocumentPcssStyleInferencer
 {
     /**
      * Style cache
@@ -61,43 +61,43 @@ class ezcDocumentPdfStyleInferencer
      * @var array
      */
     protected $valueParserClasses = array(
-        'font-size'            => 'ezcDocumentPdfStyleMeasureValue',
-        'line-height'          => 'ezcDocumentPdfStyleMeasureValue',
-        'margin'               => 'ezcDocumentPdfStyleMeasureBoxValue',
-        'margin-top'           => 'ezcDocumentPdfStyleMeasureValue',
-        'margin-right'         => 'ezcDocumentPdfStyleMeasureValue',
-        'margin-bottom'        => 'ezcDocumentPdfStyleMeasureValue',
-        'margin-left'          => 'ezcDocumentPdfStyleMeasureValue',
-        'padding'              => 'ezcDocumentPdfStyleMeasureBoxValue',
-        'padding-top'          => 'ezcDocumentPdfStyleMeasureValue',
-        'padding-right'        => 'ezcDocumentPdfStyleMeasureValue',
-        'padding-bottom'       => 'ezcDocumentPdfStyleMeasureValue',
-        'padding-left'         => 'ezcDocumentPdfStyleMeasureValue',
-        'text-columns'         => 'ezcDocumentPdfStyleIntValue',
-        'text-columns-spacing' => 'ezcDocumentPdfStyleMeasureValue',
-        'color'                => 'ezcDocumentPdfStyleColorValue',
-        'background-color'     => 'ezcDocumentPdfStyleColorValue',
-        'border'               => 'ezcDocumentPdfStyleBorderBoxValue',
-        'border-top'           => 'ezcDocumentPdfStyleBorderValue',
-        'border-right'         => 'ezcDocumentPdfStyleBorderValue',
-        'border-bottom'        => 'ezcDocumentPdfStyleBorderValue',
-        'border-left'          => 'ezcDocumentPdfStyleBorderValue',
-        'border-style'         => 'ezcDocumentPdfStyleLineBoxValue',
-        'border-style-top'     => 'ezcDocumentPdfStyleLineValue',
-        'border-style-right'   => 'ezcDocumentPdfStyleLineValue',
-        'border-style-bottom'  => 'ezcDocumentPdfStyleLineValue',
-        'border-style-left'    => 'ezcDocumentPdfStyleLineValue',
-        'border-color'         => 'ezcDocumentPdfStyleColorBoxValue',
-        'border-color-top'     => 'ezcDocumentPdfStyleColorValue',
-        'border-color-right'   => 'ezcDocumentPdfStyleColorValue',
-        'border-color-bottom'  => 'ezcDocumentPdfStyleColorValue',
-        'border-color-left'    => 'ezcDocumentPdfStyleColorValue',
-        'border-width'         => 'ezcDocumentPdfStyleMeasureBoxValue',
-        'border-width-top'     => 'ezcDocumentPdfStyleMeasureValue',
-        'border-width-right'   => 'ezcDocumentPdfStyleMeasureValue',
-        'border-width-bottom'  => 'ezcDocumentPdfStyleMeasureValue',
-        'border-width-left'    => 'ezcDocumentPdfStyleMeasureValue',
-        'src'                  => 'ezcDocumentPdfStyleSrcValue',
+        'font-size'            => 'ezcDocumentPcssStyleMeasureValue',
+        'line-height'          => 'ezcDocumentPcssStyleMeasureValue',
+        'margin'               => 'ezcDocumentPcssStyleMeasureBoxValue',
+        'margin-top'           => 'ezcDocumentPcssStyleMeasureValue',
+        'margin-right'         => 'ezcDocumentPcssStyleMeasureValue',
+        'margin-bottom'        => 'ezcDocumentPcssStyleMeasureValue',
+        'margin-left'          => 'ezcDocumentPcssStyleMeasureValue',
+        'padding'              => 'ezcDocumentPcssStyleMeasureBoxValue',
+        'padding-top'          => 'ezcDocumentPcssStyleMeasureValue',
+        'padding-right'        => 'ezcDocumentPcssStyleMeasureValue',
+        'padding-bottom'       => 'ezcDocumentPcssStyleMeasureValue',
+        'padding-left'         => 'ezcDocumentPcssStyleMeasureValue',
+        'text-columns'         => 'ezcDocumentPcssStyleIntValue',
+        'text-columns-spacing' => 'ezcDocumentPcssStyleMeasureValue',
+        'color'                => 'ezcDocumentPcssStyleColorValue',
+        'background-color'     => 'ezcDocumentPcssStyleColorValue',
+        'border'               => 'ezcDocumentPcssStyleBorderBoxValue',
+        'border-top'           => 'ezcDocumentPcssStyleBorderValue',
+        'border-right'         => 'ezcDocumentPcssStyleBorderValue',
+        'border-bottom'        => 'ezcDocumentPcssStyleBorderValue',
+        'border-left'          => 'ezcDocumentPcssStyleBorderValue',
+        'border-style'         => 'ezcDocumentPcssStyleLineBoxValue',
+        'border-style-top'     => 'ezcDocumentPcssStyleLineValue',
+        'border-style-right'   => 'ezcDocumentPcssStyleLineValue',
+        'border-style-bottom'  => 'ezcDocumentPcssStyleLineValue',
+        'border-style-left'    => 'ezcDocumentPcssStyleLineValue',
+        'border-color'         => 'ezcDocumentPcssStyleColorBoxValue',
+        'border-color-top'     => 'ezcDocumentPcssStyleColorValue',
+        'border-color-right'   => 'ezcDocumentPcssStyleColorValue',
+        'border-color-bottom'  => 'ezcDocumentPcssStyleColorValue',
+        'border-color-left'    => 'ezcDocumentPcssStyleColorValue',
+        'border-width'         => 'ezcDocumentPcssStyleMeasureBoxValue',
+        'border-width-top'     => 'ezcDocumentPcssStyleMeasureValue',
+        'border-width-right'   => 'ezcDocumentPcssStyleMeasureValue',
+        'border-width-bottom'  => 'ezcDocumentPcssStyleMeasureValue',
+        'border-width-left'    => 'ezcDocumentPcssStyleMeasureValue',
+        'src'                  => 'ezcDocumentPcssStyleSrcValue',
     );
 
     /**
@@ -181,7 +181,7 @@ class ezcDocumentPdfStyleInferencer
         }
 
         // If the file does not exist parse the PCSS style file
-        $parser     = new ezcDocumentPdfCssParser();
+        $parser     = new ezcDocumentPcssParser();
         $directives = $parser->parseFile( dirname( __FILE__ ) . '/style/default.css' );
 
         // Write parsed object tree back to file
@@ -209,7 +209,7 @@ class ezcDocumentPdfStyleInferencer
             {
                 try
                 {
-                    $valueHandler = isset( $this->valueParserClasses[$name] ) ? $this->valueParserClasses[$name] : 'ezcDocumentPdfStyleStringValue';
+                    $valueHandler = isset( $this->valueParserClasses[$name] ) ? $this->valueParserClasses[$name] : 'ezcDocumentPcssStyleStringValue';
                     $styleDirectives[$nr]->formats[$name] = new $valueHandler();
                     $styleDirectives[$nr]->formats[$name]->parse( $value );
                 }
@@ -302,7 +302,7 @@ class ezcDocumentPdfStyleInferencer
             {
                 if ( !isset( $merged['border'] ) )
                 {
-                    $merged['border'] = new ezcDocumentPdfStyleBorderBoxValue();
+                    $merged['border'] = new ezcDocumentPcssStyleBorderBoxValue();
                 }
 
                 foreach ( $merged['border']->value as $position => $dummy )
@@ -400,10 +400,10 @@ class ezcDocumentPdfStyleInferencer
      * Of not cached, the formatting rules will be inferenced using the
      * algorithm described in the class header.
      *
-     * @param ezcDocumentPdfLocateable $element
+     * @param ezcDocumentLocateable $element
      * @return array
      */
-    public function inferenceFormattingRules( ezcDocumentPdfLocateable $element, $types = -1 )
+    public function inferenceFormattingRules( ezcDocumentLocateable $element, $types = -1 )
     {
         // Check style cache early, to speed things up.
         $locationId = $element->getLocationId();
@@ -430,7 +430,7 @@ class ezcDocumentPdfStyleInferencer
         // Apply all style directives, which match the location ID
         foreach ( $this->styleDirectives as $directive )
         {
-            if ( ! $directive instanceof ezcDocumentPdfCssLayoutDirective )
+            if ( ! $directive instanceof ezcDocumentPcssLayoutDirective )
             {
                 continue;
             }
@@ -462,7 +462,7 @@ class ezcDocumentPdfStyleInferencer
         $directives = array();
         foreach ( $this->styleDirectives as $directive )
         {
-            if ( ( $directive instanceof ezcDocumentPdfCssDeclarationDirective ) &&
+            if ( ( $directive instanceof ezcDocumentPcssDeclarationDirective ) &&
                   ( $directive->getType() === $type ) )
             {
                 $directives[] = $directive;

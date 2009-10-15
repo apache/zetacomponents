@@ -27,11 +27,11 @@ class ezcDocumentPdfListRenderer extends ezcDocumentPdfBlockRenderer
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
-     * @param ezcDocumentPdfInferencableDomElement $block 
+     * @param ezcDocumentLocateableDomElement $block 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return void
      */
-    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
+    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         $childNodes = $block->childNodes;
         $nodeCount  = $childNodes->length;
@@ -65,10 +65,10 @@ class ezcDocumentPdfListRenderer extends ezcDocumentPdfBlockRenderer
      *
      * Get list item generator for the list generator.
      * 
-     * @param ezcDocumentPdfInferencableDomElement $block 
+     * @param ezcDocumentLocateableDomElement $block 
      * @return ezcDocumentListItemGenerator
      */
-    protected function getListItemGenerator( ezcDocumentPdfInferencableDomElement $block )
+    protected function getListItemGenerator( ezcDocumentLocateableDomElement $block )
     {
         switch ( $block->tagName )
         {

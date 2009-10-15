@@ -118,7 +118,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentPdfDriver $driver
      * @return void
      */
-    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPdfStyleInferencer $styles, $errorReporting = 15 )
+    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPcssStyleInferencer $styles, $errorReporting = 15 )
     {
         $this->driver = new ezcDocumentPdfTransactionalDriverWrapper();
         $this->driver->setDriver( $driver );
@@ -229,7 +229,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         // class. Just registering it on the existing document seems not to
         // work in all cases.
         $reloaded = new DOMDocument();
-        $reloaded->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
+        $reloaded->registerNodeClass( 'DOMElement', 'ezcDocumentLocateableDomElement' );
         $reloaded->loadXml( $dom->saveXml() );
 
         $this->process( $reloaded );
@@ -424,10 +424,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Ignore elements, which should not be rendered
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function ignore( ezcDocumentPdfInferencableDomElement $element )
+    protected function ignore( ezcDocumentLocateableDomElement $element )
     {
         // Just do nothing.
     }
@@ -435,10 +435,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Initialize document according to detected root node
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function initializeDocument( ezcDocumentPdfInferencableDomElement $element )
+    protected function initializeDocument( ezcDocumentLocateableDomElement $element )
     {
         // Call hooks for started document
         foreach ( $this->parts as $part )
@@ -466,10 +466,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Append document metadata
      * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     * @param ezcDocumentLocateableDomElement $element 
      * @return void
      */
-    protected function appendMetaData( ezcDocumentPdfInferencableDomElement $element )
+    protected function appendMetaData( ezcDocumentLocateableDomElement $element )
     {
         $childNodes = $element->childNodes;
         $nodeCount  = $childNodes->length;
@@ -517,10 +517,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Handle calls to block element renderer
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderBlock( ezcDocumentPdfInferencableDomElement $element )
+    protected function renderBlock( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfBlockRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
@@ -531,10 +531,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Handle calls to block element renderer
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderBlockquote( ezcDocumentPdfInferencableDomElement $element )
+    protected function renderBlockquote( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfBlockquoteRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
@@ -545,10 +545,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Handle calls to List element renderer
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderList( ezcDocumentPdfInferencableDomElement $element )
+    protected function renderList( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfListRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
@@ -559,10 +559,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Handle calls to list item element renderer
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderListItem( ezcDocumentPdfInferencableDomElement $element )
+    protected function renderListItem( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfListItemRenderer( $this->driver, $this->styles, new ezcDocumentNoListItemGenerator(), 0 );
         $page     = $this->driver->currentPage();
@@ -573,10 +573,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Handle calls to paragraph renderer
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderParagraph( ezcDocumentPdfInferencableDomElement $element )
+    protected function renderParagraph( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfWrappingTextBoxRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
@@ -617,10 +617,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Handle calls to title renderer
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderTitle( ezcDocumentPdfInferencableDomElement $element, $position )
+    protected function renderTitle( ezcDocumentLocateableDomElement $element, $position )
     {
         $styles   = $this->styles->inferenceFormattingRules( $element );
         $renderer = new ezcDocumentPdfTitleRenderer( $this->driver, $this->styles );
@@ -651,10 +651,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Handle calls to media object renderer
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderMediaObject( ezcDocumentPdfInferencableDomElement $element )
+    protected function renderMediaObject( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfMediaObjectRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
@@ -668,10 +668,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     /**
      * Handle calls to paragraph renderer
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderLiteralLayout( ezcDocumentPdfInferencableDomElement $element )
+    protected function renderLiteralLayout( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfLiteralBlockRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
@@ -715,10 +715,10 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * Finds all anchors somewhere in the current element and adds reference
      * targets for them.
      * 
-     * @param ezcDocumentPdfInferencableDomElement $element 
+     * @param ezcDocumentLocateableDomElement $element 
      * @return void
      */
-    protected function handleAnchors( ezcDocumentPdfInferencableDomElement $element )
+    protected function handleAnchors( ezcDocumentLocateableDomElement $element )
     {
         $xpath = new DOMXPath( $element->ownerDocument );
         $xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );

@@ -28,9 +28,9 @@ class ezcDocumentPdfBlockquoteRendererTests extends ezcDocumentPdfTestCase
     {
         parent::setUp();
 
-        $this->styles = new ezcDocumentPdfStyleInferencer();
+        $this->styles = new ezcDocumentPcssStyleInferencer();
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'page' ),
                 array(
                     'page-size' => 'TEST',
@@ -38,7 +38,7 @@ class ezcDocumentPdfBlockquoteRendererTests extends ezcDocumentPdfTestCase
                     'padding'   => '10',
                 )
             ),
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'blockquote' ),
                 array(
                     'font-size' => '6mm',

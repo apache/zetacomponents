@@ -171,10 +171,10 @@ class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart
      *
      * Hook called when a new document is created.
      *
-     * @param ezcDocumentPdfInferencableDomElement $element
+     * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    public function hookDocumentCreation( ezcDocumentPdfInferencableDomElement $element )
+    public function hookDocumentCreation( ezcDocumentLocateableDomElement $element )
     {
         $this->document = $element;
 

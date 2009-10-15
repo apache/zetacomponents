@@ -216,10 +216,10 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     /**
      * Create and append a new page
      *
-     * @param ezcDocumentPdfStyleInferencer $inferencer
+     * @param ezcDocumentPcssStyleInferencer $inferencer
      * @return void
      */
-    public function appendPage( ezcDocumentPdfStyleInferencer $inferencer )
+    public function appendPage( ezcDocumentPcssStyleInferencer $inferencer )
     {
         $current = $this->transactions[$this->transaction]->currentPage;
         // Check if the next page already exists

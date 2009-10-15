@@ -57,7 +57,7 @@ class ezcDocumentPdf extends ezcDocument
     /**
      * Container for style directives.
      *
-     * @var ezcDocumentPdfStyleInferencer
+     * @var ezcDocumentPcssStyleInferencer
      */
     protected $styles;
 
@@ -88,7 +88,7 @@ class ezcDocumentPdf extends ezcDocument
             new ezcDocumentPdfOptions() :
             $options );
 
-        $this->styles   = new ezcDocumentPdfStyleInferencer();
+        $this->styles   = new ezcDocumentPcssStyleInferencer();
     }
 
     /**
@@ -116,7 +116,7 @@ class ezcDocumentPdf extends ezcDocument
      */
     public function loadStyles( $file )
     {
-        $parser = new ezcDocumentPdfCssParser();
+        $parser = new ezcDocumentPcssParser();
         $this->styles->appendStyleDirectives(
             $parser->parseFile( $file )
         );

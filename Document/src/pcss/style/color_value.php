@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfStyleMeasureValue class
+ * File containing the ezcDocumentPcssStyleMeasureValue class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfStyleColorValue extends ezcDocumentPdfStyleValue
+class ezcDocumentPcssStyleColorValue extends ezcDocumentPcssStyleValue
 {
     /**
      * Sub regular expression for short hexadecimal color notation

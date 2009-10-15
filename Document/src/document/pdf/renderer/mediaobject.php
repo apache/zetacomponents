@@ -26,11 +26,11 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
-     * @param ezcDocumentPdfInferencableDomElement $text 
+     * @param ezcDocumentLocateableDomElement $text 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentPdfInferencableDomElement $media, ezcDocumentPdfMainRenderer $mainRenderer )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $media, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $media );

@@ -2,7 +2,7 @@
 
 return array (
   0 => 
-  ezcDocumentPdfCssLayoutDirective::__set_state(array(
+  ezcDocumentPcssLayoutDirective::__set_state(array(
      'regularExpression' => NULL,
      'address' => 
     array (
@@ -19,7 +19,7 @@ return array (
      'position' => 8,
   )),
   1 => 
-  ezcDocumentPdfCssDeclarationDirective::__set_state(array(
+  ezcDocumentPcssDeclarationDirective::__set_state(array(
      'address' => '@font-face',
      'formats' => 
     array (

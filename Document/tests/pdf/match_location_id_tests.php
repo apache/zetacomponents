@@ -28,7 +28,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     public function setUp()
     {
         $this->document = new DOMDocument();
-        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
+        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentLocateableDomElement' );
 
         $this->document->load( dirname( __FILE__ ) . '/../files/docbook/pdf/location_ids.xml' );
 
@@ -40,7 +40,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:article' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article' ),
             array()
         );
@@ -56,7 +56,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:article' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( '> article' ),
             array()
         );
@@ -72,7 +72,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:section' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( '> section' ),
             array()
         );
@@ -88,7 +88,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:section' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article' ),
             array()
         );
@@ -104,7 +104,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:article' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article', '#some_id' ),
             array()
         );
@@ -120,7 +120,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:article' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article', '.class' ),
             array()
         );
@@ -136,7 +136,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:article' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article', '.class', '#some_id' ),
             array()
         );
@@ -152,7 +152,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:section' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'section', '#paragraph_with_inline_markup' ),
             array()
         );
@@ -168,7 +168,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:section' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article', 'section' ),
             array()
         );
@@ -184,7 +184,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:section' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article', 'section' ),
             array()
         );
@@ -200,7 +200,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:sectioninfo' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article', 'sectioninfo' ),
             array()
         );
@@ -216,7 +216,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:sectioninfo' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'article', '> sectioninfo' ),
             array()
         );
@@ -232,7 +232,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:sectioninfo' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'section', '#paragraph' ),
             array()
         );
@@ -248,7 +248,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:para' )->item( 1 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'para', '.note_warning' ),
             array()
         );
@@ -264,7 +264,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:para' )->item( 1 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'para', '.note' ),
             array()
         );
@@ -280,7 +280,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:para' )->item( 1 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'para', '.warning' ),
             array()
         );
@@ -296,7 +296,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:para' )->item( 1 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( 'para', '.not' ),
             array()
         );
@@ -312,7 +312,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:para' )->item( 1 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( '.note' ),
             array()
         );
@@ -328,7 +328,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:para' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( '.note' ),
             array()
         );
@@ -344,7 +344,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:section' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( '#paragraph_with_inline_markup' ),
             array()
         );
@@ -360,7 +360,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:article' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( '#paragraph_with_inline_markup' ),
             array()
         );
@@ -376,7 +376,7 @@ class ezcDocumentPdfMatchLocationIdTests extends ezcTestCase
     {
         $element = $this->xpath->query( '//doc:para' )->item( 0 );
 
-        $directive = new ezcDocumentPdfCssLayoutDirective(
+        $directive = new ezcDocumentPcssLayoutDirective(
             array( '#paragraph_with_inline_markup' ),
             array()
         );

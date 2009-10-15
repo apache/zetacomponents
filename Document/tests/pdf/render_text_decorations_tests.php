@@ -48,22 +48,22 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
         parent::setUp();
 
         $this->document = new DOMDocument();
-        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPdfInferencableDomElement' );
+        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentLocateableDomElement' );
 
         $this->document->load( dirname( __FILE__ ) . '/../files/pdf/paragraph.xml' );
 
         $this->xpath = new DOMXPath( $this->document );
         $this->xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
 
-        $this->styles = new ezcDocumentPdfStyleInferencer();
+        $this->styles = new ezcDocumentPcssStyleInferencer();
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'article' ),
                 array(
                     'font-size' => '8mm',
                 )
             ),
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'para' ),
                 array(
                     'margin' => '0mm',
@@ -166,7 +166,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'color' => '#ce5c00',
@@ -185,7 +185,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'background-color' => '#d3d7cf',
@@ -204,7 +204,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'text-decoration' => 'line-through',
@@ -223,7 +223,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'text-decoration' => 'overline',
@@ -242,7 +242,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'text-decoration' => 'underline',
@@ -261,7 +261,7 @@ class ezcDocumentPdfRendererTextDecorationsTests extends ezcDocumentPdfTestCase
     {
         // Additional formatting
         $this->styles->appendStyleDirectives( array(
-            new ezcDocumentPdfCssLayoutDirective(
+            new ezcDocumentPcssLayoutDirective(
                 array( 'emphasis' ),
                 array(
                     'background-color' => '#d3d7cf',
