@@ -13,6 +13,10 @@
  * Wrapper class around DOMElement to store additional information
  * associated with DOMElement nodes.
  *
+ * The storage of additional information is realized using a static object 
+ * attribute, since dynamic attributes do not seem to work in DOMElement 
+ * derived classes.
+ *
  * @package Document
  * @version //autogen//
  * @access private
@@ -41,7 +45,7 @@ class ezcDocumentXhtmlDomElement extends DOMElement
      * Namespace URI for the custom ID setting, for the association with
      * the node data.
      */
-    const NS_URI = 'http://ezcomponents.org/Document/Xhtml';
+    const NS_URI = 'http://ezcomponents.org/Document';
 
     /**
      * Get property associated with node
