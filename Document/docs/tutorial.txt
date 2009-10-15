@@ -23,7 +23,7 @@ conversions from and to other formats. Not each format can express the same
 semantics, so there may be some information lost, which is `documented in a
 dedicated document`__.
 
-.. figure:: img/architecture.png
+.. figure:: img/document-architecture.png
    :alt:    Conversion architecture in document component
     Figure 1: Conversion architecture in document component
 
