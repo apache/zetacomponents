@@ -76,7 +76,7 @@ class ezcDocumentXhtmlFootnoteElementFilter extends ezcDocumentXhtmlElementBaseF
             'label' => $label,
         ) );
 
-        $paragraph = new ezcDocumentXhtmlDomElement( 'span', $this->footnotes[$footnoteName] );
+        $paragraph = new ezcDocumentPropertyContainerDomElement( 'span', $this->footnotes[$footnoteName] );
         $element->appendChild( $paragraph );
         $paragraph->setProperty( 'type', 'para' );
     }

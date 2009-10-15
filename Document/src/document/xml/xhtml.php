@@ -59,7 +59,7 @@ class ezcDocumentXhtml extends ezcDocumentXmlBase implements ezcDocumentValidati
 
         // Load XML document
         $this->document = new DOMDocument();
-        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentXhtmlDomElement' );
+        $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPropertyContainerDomElement' );
 
         // Use the loadHtml method here, as it for example convers tag names
         // and attribute names to lower case, and handles some more errors

@@ -89,7 +89,6 @@ class ezcDocumentOdtImageFilter extends ezcDocumentOdtBaseFilter
             'xlink:href',
             $fileName
         );
-        echo "$fileName\n";
     }
 }
 

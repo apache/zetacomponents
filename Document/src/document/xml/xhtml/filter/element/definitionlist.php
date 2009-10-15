@@ -32,7 +32,7 @@ class ezcDocumentXhtmlDefinitionListElementFilter extends ezcDocumentXhtmlElemen
     {
         // We need to create invalid markup here, as there is no surrounding
         // element allowed for groups of dt and dd elements.
-        $entry = new ezcDocumentXhtmlDomElement( 'div' );
+        $entry = new ezcDocumentPropertyContainerDomElement( 'div' );
 
         $term   = $element->cloneNode( true );
         $parent = $element->parentNode;

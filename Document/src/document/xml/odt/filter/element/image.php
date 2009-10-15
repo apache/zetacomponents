@@ -30,7 +30,7 @@ class ezcDocumentOdtElementImageFilter extends ezcDocumentOdtElementBaseFilter
 
         $element->setProperty( 'type', 'imageobject' );
 
-        $imageData = new ezcDocumentOdtDomElement(
+        $imageData = new ezcDocumentPropertyContainerDomElement(
             'imagedata',
             null,
             ezcDocumentOdt::NS_EZC

@@ -47,11 +47,11 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
         }
 
         // Create the descendant nodes
-        $imageObject = new ezcDocumentXhtmlDomElement( 'span' );
+        $imageObject = new ezcDocumentPropertyContainerDomElement( 'span' );
         $element->appendChild( $imageObject );
         $imageObject->setProperty( 'type', 'imageobject' );
 
-        $imageData = new ezcDocumentXhtmlDomElement( 'span' );
+        $imageData = new ezcDocumentPropertyContainerDomElement( 'span' );
         $imageObject->appendChild( $imageData );
         $imageData->setProperty( 'type', 'imagedata' );
         $attributes = array(
@@ -78,11 +78,11 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
              ( $text = trim( $this->extractText( $element->parentNode ) ) ) )
         {
             // Create the docbook caption node structure
-            $textObject = new ezcDocumentXhtmlDomElement( 'span' );
+            $textObject = new ezcDocumentPropertyContainerDomElement( 'span' );
             $element->appendChild( $textObject );
             $textObject->setProperty( 'type', 'caption' );
 
-            $phrase = new ezcDocumentXhtmlDomElement( 'span', htmlspecialchars( $text ) );
+            $phrase = new ezcDocumentPropertyContainerDomElement( 'span', htmlspecialchars( $text ) );
             $textObject->appendChild( $phrase );
             $phrase->setProperty( 'type', 'para' );
         }
@@ -90,11 +90,11 @@ class ezcDocumentXhtmlImageElementFilter extends ezcDocumentXhtmlElementBaseFilt
         // Keep textual image annotations
         if ( $element->hasAttribute( 'alt' ) )
         {
-            $textObject = new ezcDocumentXhtmlDomElement( 'span' );
+            $textObject = new ezcDocumentPropertyContainerDomElement( 'span' );
             $element->appendChild( $textObject );
             $textObject->setProperty( 'type', 'textobject' );
 
-            $phrase = new ezcDocumentXhtmlDomElement( 'span', htmlspecialchars( $element->getAttribute( 'alt' ) ) );
+            $phrase = new ezcDocumentPropertyContainerDomElement( 'span', htmlspecialchars( $element->getAttribute( 'alt' ) ) );
             $textObject->appendChild( $phrase );
             $phrase->setProperty( 'type', 'para' );
         }

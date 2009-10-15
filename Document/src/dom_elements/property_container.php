@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentXhtmlDomElement class
+ * File containing the ezcDocumentPropertyContainerDomElement class
  *
  * @package Document
  * @version //autogen//
@@ -21,7 +21,7 @@
  * @version //autogen//
  * @access private
  */
-class ezcDocumentXhtmlDomElement extends DOMElement
+class ezcDocumentPropertyContainerDomElement extends DOMElement
 {
     /**
      * Static property container shared with all nodes.

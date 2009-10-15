@@ -29,7 +29,7 @@ class ezcDocumentXhtmlHeaderElementFilter extends ezcDocumentXhtmlElementBaseFil
     {
         // Create new parent node if we found a header and aggregate everything
         // below the actual header into this node.
-        $section = new ezcDocumentXhtmlDomElement( 'div' );
+        $section = new ezcDocumentPropertyContainerDomElement( 'div' );
 
         $parent = $element->parentNode;
 

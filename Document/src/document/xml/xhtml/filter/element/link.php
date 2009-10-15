@@ -28,7 +28,7 @@ class ezcDocumentXhtmlLinkElementFilter extends ezcDocumentXhtmlElementBaseFilte
     {
         if ( $element->hasAttribute( 'name' ) )
         {
-            $span = new ezcDocumentXhtmlDomElement( 'span' );
+            $span = new ezcDocumentPropertyContainerDomElement( 'span' );
             $element->parentNode->insertBefore( $span, $element );
 
             // The a element is an anchor

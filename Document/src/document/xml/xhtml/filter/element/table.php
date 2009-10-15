@@ -64,7 +64,7 @@ class ezcDocumentXhtmlTableElementFilter extends ezcDocumentXhtmlElementBaseFilt
                 // Move nodes to new subnode
                 $lastNode = end( $aggregated );
                 $parent   = $lastNode->parentNode;
-                $newNode  = new ezcDocumentXhtmlDomElement( $type );
+                $newNode  = new ezcDocumentPropertyContainerDomElement( $type );
                 $parent->insertBefore( $newNode, $lastNode );
                 $newNode->setProperty( 'type', $type );
 

@@ -158,7 +158,6 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
         }
 
         return self::$testDocuments;
-        return array_slice( self::$tableTestDocuments, 0, 0 );
     }
 
     /**
@@ -311,8 +310,6 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
             }
 
             $imageFile = $image->getAttribute( 'fileref' );
-
-            var_dump( file_exists( $imageFile ), file_exists( $refFile ) );
 
             $this->assertFileEquals(
                 $refFile,

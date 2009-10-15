@@ -34,7 +34,7 @@ class ezcDocumentOdtElementHeaderFilter extends ezcDocumentOdtElementBaseFilter
         $parent = $element->parentNode;
         $siblings = $parent->childNodes;
 
-        $section = new ezcDocumentOdtDomElement(
+        $section = new ezcDocumentPropertyContainerDomElement(
             'section',
             null,
             ezcDocumentOdt::NS_EZC

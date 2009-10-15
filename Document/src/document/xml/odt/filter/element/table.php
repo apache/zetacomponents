@@ -37,7 +37,7 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
     /**
      * Filter a single element
      *
-     * @param ezcDocumentOdtDomElement $element
+     * @param ezcDocumentPropertyContainerDomElement $element
      * @return void
      */
     public function filterElement( DOMElement $element )
@@ -52,7 +52,7 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
      *
-     * @param ezcDocumentOdtDomElement $element
+     * @param ezcDocumentPropertyContainerDomElement $element
      * @return void
      */
     public function handles( DOMElement $element )
@@ -64,16 +64,16 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
     /**
      * Converts the <table:table/> element.
      * 
-     * @param ezcDocumentOdtDomElement $element 
+     * @param ezcDocumentPropertyContainerDomElement $element 
      * @return void
      */
-    protected function convertTable( ezcDocumentOdtDomElement $element )
+    protected function convertTable( ezcDocumentPropertyContainerDomElement $element )
     {
         $element->setProperty( 'type', 'table' );
         if ( $element->hasAttributeNS( ezcDocumentOdt::NS_ODT_TABLE, 'name' ) )
         {
             $caption = $element->insertBefore(
-                new ezcDocumentOdtDomElement(
+                new ezcDocumentPropertyContainerDomElement(
                     'caption',
                     $element->getAttributeNS( ezcDocumentOdt::NS_ODT_TABLE, 'name' ),
                     ezcDocumentOdt::NS_EZC
@@ -85,7 +85,7 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
         $this->aggregateRows( $element );
     }
 
-    protected function aggregateRows( ezcDocumentOdtDomElement $element )
+    protected function aggregateRows( ezcDocumentPropertyContainerDomElement $element )
     {
         // @TODO: Does ODT support multiple heads? Does DocBook support that?
         $body = $element->ownerDocument->createElementNS( ezcDocumentOdt::NS_EZC, 'tbody' );
@@ -121,10 +121,10 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
     /**
      * Convert the <table:table-column/> element.
      * 
-     * @param ezcDocumentOdtDomElement $element 
+     * @param ezcDocumentPropertyContainerDomElement $element 
      * @return void
      */
-    protected function convertColumn( ezcDocumentOdtDomElement $element )
+    protected function convertColumn( ezcDocumentPropertyContainerDomElement $element )
     {
         // @TODO: Not supported by our DocBook sub-set. Should we?
         // $element->setProperty( 'type', 'col' );
@@ -133,10 +133,10 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
     /**
      * Convert the <table:table-header-rows/> element.
      * 
-     * @param ezcDocumentOdtDomElement $element 
+     * @param ezcDocumentPropertyContainerDomElement $element 
      * @return void
      */
-    protected function convertHeader( ezcDocumentOdtDomElement $element )
+    protected function convertHeader( ezcDocumentPropertyContainerDomElement $element )
     {
         $element->setProperty( 'type', 'thead' );
     }
@@ -144,10 +144,10 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
     /**
      * Convert the <table:table-row/> element.
      * 
-     * @param ezcDocumentOdtDomElement $element 
+     * @param ezcDocumentPropertyContainerDomElement $element 
      * @return void
      */
-    protected function convertRow( ezcDocumentOdtDomElement $element )
+    protected function convertRow( ezcDocumentPropertyContainerDomElement $element )
     {
         $element->setProperty( 'type', 'tr' );
     }
@@ -155,10 +155,10 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
     /**
      * Convert the <table:table-cell/> element.
      * 
-     * @param ezcDocumentOdtDomElement $element 
+     * @param ezcDocumentPropertyContainerDomElement $element 
      * @return void
      */
-    protected function convertCell( ezcDocumentOdtDomElement $element )
+    protected function convertCell( ezcDocumentPropertyContainerDomElement $element )
     {
         $element->setProperty( 'type', 'td' );
         $attrs = $element->getProperty( 'attributes' );

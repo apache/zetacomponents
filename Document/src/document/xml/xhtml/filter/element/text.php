@@ -62,7 +62,7 @@ class ezcDocumentXhtmlTextToParagraphFilter extends ezcDocumentXhtmlElementBaseF
                 {
                     // Move nodes to new subnode
                     $lastNode = end( $aggregated );
-                    $newNode = new ezcDocumentXhtmlDomElement( 'p' );
+                    $newNode = new ezcDocumentPropertyContainerDomElement( 'p' );
                     $child->parentNode->insertBefore( $newNode, $lastNode );
 
                     // Append all aggregated nodes

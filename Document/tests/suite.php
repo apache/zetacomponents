@@ -19,7 +19,6 @@ require 'converter_test.php';
 require 'parser_test.php';
 
 require 'document_options_xml_base_test.php';
-require 'document_options_odt_test.php';
 require 'document_xml_base_test.php';
 
 require 'document_docbook_test.php';
@@ -41,6 +40,9 @@ require 'document_wiki_tests.php';
 require 'document_xhtml_docbook_tests.php';
 require 'document_xhtml_validation_tests.php';
 
+require 'document_odt_docbook_tests.php';
+require 'document_options_odt_test.php';
+
 require 'document_ezxml_tests.php';
 
 require 'pdf/suite.php';
@@ -50,6 +52,7 @@ require 'converter_docbook_html_xsl_test.php';
 require 'converter_docbook_rst_test.php';
 require 'converter_docbook_wiki_test.php';
 require 'converter_docbook_ezxml_test.php';
+require 'converter_docbook_odt_test.php';
 
 class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 {
@@ -68,7 +71,6 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentConverterTests::suite() );
 
         $this->addTest( ezcDocumentOptionsXmlBaseTests::suite() );
-        $this->addTest( ezcDocumentOptionsOdtTests::suite() );
         $this->addTest( ezcDocumentXmlBaseTests::suite() );
 
         $this->addTest( ezcDocumentDocbookTests::suite() );
@@ -90,6 +92,9 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentXhtmlDocbookTests::suite() );
         $this->addTest( ezcDocumentXhtmlValidationTests::suite() );
 
+        $this->addTest( ezcDocumentOptionsOdtTests::suite() );
+        $this->addTest( ezcDocumentOdtDocbookTests::suite() );
+
         $this->addTest( ezcDocumentEzXmlTests::suite() );
 
         $this->addTest( ezcDocumentPdfSuite::suite() );
@@ -99,6 +104,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentConverterDocbookToRstTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToWikiTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToEzXmlTests::suite() );
+        $this->addTest( ezcDocumentConverterDocbookToOdtTests::suite() );
     }
 }
 
