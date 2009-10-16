@@ -15,11 +15,9 @@ return array(
     'ezcTestDatabaseSettings'       => 'UnitTest/test/database_settings.php',
     'ezcTestImageCase'              => 'UnitTest/test/image_case.php',
     'ezcTestPrinter'                => 'UnitTest/test/printer.php',
-    'ezcTestNewPrinter'             => 'UnitTest/test/new_printer.php',
     'ezcTestRegressionSuite'        => 'UnitTest/regression_suite.php',
     'ezcTestRegressionTest'         => 'UnitTest/regression_test.php',
     'ezcTestRunner'                 => 'UnitTest/test/runner.php',
-    'ezcTestNewRunner'              => 'UnitTest/test/new_runner.php',
     'ezcTestSettings'               => 'UnitTest/test/settings.php',
 );
 ?>

@@ -20,48 +20,68 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  */
 class ezcTestPrinter extends PHPUnit_TextUI_ResultPrinter
 {
-    public function __construct( $verbose = false )
+    protected $depth = 0;
+    protected $maxLength = 0;
+
+    public function startTestSuite( PHPUnit_Framework_TestSuite $suite )
     {
-        parent::__construct( null, $verbose );
+        if ( $this->maxLength == 0 )
+        {
+            $iterator = new RecursiveIteratorIterator(
+              new PHPUnit_Util_TestSuiteIterator( $suite ),
+              RecursiveIteratorIterator::SELF_FIRST
+            );
+
+            foreach ( $iterator as $item )
+            {
+                if ( $item instanceof PHPUnit_Framework_TestSuite )
+                {
+                    $name = $item->getName();
+
+                    if ( $name == '' )
+                    {
+                        $name = '[No name given]';
+                    }
+                    else
+                    {
+                        $name = explode( '::', $name );
+                        $name = array_pop( $name );
+                    }
+
+                    $this->maxLength = max( $this->maxLength, strlen( $name ) );
+                    $item->setName( $name );
+                }
+            }
+        }
+
+        if ( $this->depth > 0 )
+        {
+            parent::write( "\n" );
+        }
+
+        if ( $this->depth == 1 )
+        {
+            parent::write( "\n" );
+        }
+
+        parent::write(
+          str_pad(
+            str_repeat( '  ', $this->depth++ ) . $suite->getName() . ': ' ,
+            40,
+            ' ',
+            STR_PAD_RIGHT
+          )
+        );
+    }
+
+    public function endTestSuite( PHPUnit_Framework_TestSuite $suite )
+    {
+        $this->depth--;
     }
 
     protected function writeProgress( $progress )
     {
         $this->write( $progress );
-    }
-
-    public function startTestSuite( PHPUnit_Framework_TestSuite $suite )
-    {
-        if ( isset( $this->numberOfTests ) && empty( $this->numberOfTests ) )
-        {
-            $this->numberOfTests[0] = 0;
-        }
-
-        parent::write( "\n" );
-
-        $name    = $suite->getName() == '' ? '[No name given]' : $suite->getName(); 
-        $padding = str_repeat( '  ', $this->depth++ );
-
-        parent::write( $padding . str_pad(  $name . ': ' , 40, ' ', STR_PAD_RIGHT ) );
-    }
-
-    public function endTestSuite( PHPUnit_Framework_TestSuite $suite )
-    {
-        if ( isset( $this->depth ) )
-        {
-            $this->depth--;
-        }
-    }
-
-    /** 
-     * Write everything except the:  .. by Sebastian Bergmann.\n\n strings.
-     */
-    public function write( $string )
-    {
-        if ( strlen( $string ) < 23 || strcmp( "by Sebastian Bergmann.\n\n", substr( $string, -24 ) ) != 0 )
-        {
-            parent::write( $string );
-        }
     }
 }
 ?>
