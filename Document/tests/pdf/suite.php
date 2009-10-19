@@ -20,12 +20,9 @@ require 'driver_svg_tests.php';
 require 'driver_transactions_tests.php';
 require 'hyphenator_tests.php';
 require 'tokenizer_tests.php';
-require 'location_id_tests.php';
-require 'match_location_id_tests.php';
 require 'measure_tests.php';
 require 'image_handler.php';
 require 'page_tests.php';
-require 'pcss_parser_tests.php';
 require 'renderer_paragraph_tests.php';
 require 'renderer_text_box_tests.php';
 require 'renderer_literallayout_tests.php';
@@ -36,8 +33,6 @@ require 'renderer_rtl_tests.php';
 require 'render_text_decorations_tests.php';
 require 'renderer_main_tests.php';
 require 'renderer_footer_part_tests.php';
-require 'style_inference_tests.php';
-require 'value_parser_tests.php';
 require 'renderer_mediaobject_tests.php';
 require 'tests.php';
 
@@ -59,12 +54,9 @@ class ezcDocumentPdfSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfTransactionalDriverWrapperTests::suite() );
         $this->addTest( ezcDocumentPdfHyphenatorTests::suite() );
         $this->addTest( ezcDocumentPdfTokenizerTests::suite() );
-        $this->addTest( ezcDocumentPdfLocationIdTests::suite() );
-        $this->addTest( ezcDocumentPdfMatchLocationIdTests::suite() );
         $this->addTest( ezcDocumentPdfMeasureTests::suite() );
         $this->addTest( ezcDocumentPdfImageHandlerTests::suite() );
         $this->addTest( ezcDocumentPdfPageTests::suite() );
-        $this->addTest( ezcDocumentPcssParserTests::suite() );
         $this->addTest( ezcDocumentPdfParagraphRendererTests::suite() );
         $this->addTest( ezcDocumentPdfTextBoxRendererTests::suite() );
         $this->addTest( ezcDocumentPdfLiterallayoutRendererTests::suite() );
@@ -75,8 +67,6 @@ class ezcDocumentPdfSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfRendererTextDecorationsTests::suite() );
         $this->addTest( ezcDocumentPdfMainRendererTests::suite() );
         $this->addTest( ezcDocumentPdfRendererFooterPartTests::suite() );
-        $this->addTest( ezcDocumentPdfStyleInferenceTests::suite() );
-        $this->addTest( ezcDocumentPdfValueParserTests::suite() );
         $this->addTest( ezcDocumentPdfMediaObjectRendererTests::suite() );
         $this->addTest( ezcDocumentPdfTests::suite() );
     }

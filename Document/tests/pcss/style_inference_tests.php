@@ -15,7 +15,7 @@
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfStyleInferenceTests extends ezcTestCase
+class ezcDocumentPcssStyleInferenceTests extends ezcTestCase
 {
     protected $document;
     protected $xpath;

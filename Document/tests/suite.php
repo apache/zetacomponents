@@ -45,6 +45,12 @@ require 'document_options_odt_test.php';
 
 require 'document_ezxml_tests.php';
 
+require 'pcss/location_id_tests.php';
+require 'pcss/match_location_id_tests.php';
+require 'pcss/parser_test.php';
+require 'pcss/style_inference_tests.php';
+require 'pcss/value_parser_tests.php';
+
 require 'pdf/suite.php';
 
 require 'converter_docbook_html_test.php';
@@ -96,6 +102,12 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentOdtDocbookTests::suite() );
 
         $this->addTest( ezcDocumentEzXmlTests::suite() );
+
+        $this->addTest( ezcDocumentPcssLocationIdTests::suite() );
+        $this->addTest( ezcDocumentPcssMatchLocationIdTests::suite() );
+        $this->addTest( ezcDocumentPcssParserTests::suite() );
+        $this->addTest( ezcDocumentPcssValueParserTests::suite() );
+        $this->addTest( ezcDocumentPcssStyleInferenceTests::suite() );
 
         $this->addTest( ezcDocumentPdfSuite::suite() );
 

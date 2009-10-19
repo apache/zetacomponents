@@ -29,7 +29,7 @@ class ezcDocumentPcssParserTests extends ezcTestCase
         if ( self::$testDocuments === null )
         {
             // Get a list of all test files from the respektive folder
-            $testFiles = glob( dirname( __FILE__ ) . '/../files/pdf/pcss/s_*.pcss' );
+            $testFiles = glob( dirname( __FILE__ ) . '/../files/pcss/s_*.pcss' );
 
             // Create array with the test file and the expected result file
             foreach ( $testFiles as $file )
@@ -87,27 +87,27 @@ class ezcDocumentPcssParserTests extends ezcTestCase
 //        return array();
         return array(
             array(
-                dirname( __FILE__ ) . '/../files/pdf/pcss/e_001_missing_address.pcss',
+                dirname( __FILE__ ) . '/../files/pcss/e_001_missing_address.pcss',
                 'Parse error: Fatal error: \'Expected one of: T_ADDRESS (CSS element addressing queries), T_DESC_ADDRESS (CSS element addressing queries), T_ADDRESS_ID (CSS element addressing queries), T_ADDRESS_CLASS (CSS element addressing queries), found T_START ("{").\' in file \'$file\' in line 1 at position 2.',
             ),
             array(
-                dirname( __FILE__ ) . '/../files/pdf/pcss/e_002_invalid_address.pcss',
+                dirname( __FILE__ ) . '/../files/pcss/e_002_invalid_address.pcss',
                 "Parse error: Fatal error: 'Could not parse string: '0123\n' in state: default.' in file '\$file' in line 1 at position 1.",
             ),
             array(
-                dirname( __FILE__ ) . '/../files/pdf/pcss/e_003_missing_start.pcss',
+                dirname( __FILE__ ) . '/../files/pcss/e_003_missing_start.pcss',
                 'Parse error: Fatal error: \'Expected one of: T_ADDRESS (CSS element addressing queries), T_DESC_ADDRESS (CSS element addressing queries), T_ADDRESS_ID (CSS element addressing queries), T_ADDRESS_CLASS (CSS element addressing queries), found T_FORMATTING (formatting specification).\' in file \'$file\' in line 2 at position 11.',
             ),
             array(
-                dirname( __FILE__ ) . '/../files/pdf/pcss/e_004_missing_end.pcss',
+                dirname( __FILE__ ) . '/../files/pcss/e_004_missing_end.pcss',
                 'Parse error: Fatal error: \'Expected one of: T_FORMATTING (formatting specification), found T_EOF (end of file).\' in file \'$file\' in line 3 at position 1.',
             ),
             array(
-                dirname( __FILE__ ) . '/../files/pdf/pcss/e_005_missing_end_2.pcss',
+                dirname( __FILE__ ) . '/../files/pcss/e_005_missing_end_2.pcss',
                 'Parse error: Fatal error: \'Expected one of: T_FORMATTING (formatting specification), found T_ADDRESS (CSS element addressing queries).\' in file \'$file\' in line 4 at position 5.',
             ),
             array(
-                dirname( __FILE__ ) . '/../files/pdf/pcss/e_006_invalid_rule.pcss',
+                dirname( __FILE__ ) . '/../files/pcss/e_006_invalid_rule.pcss',
                 "Parse error: Fatal error: 'Could not parse string: ';\n}\n' in state: default.' in file '\$file' in line 2 at position 8.",
             ),
         );

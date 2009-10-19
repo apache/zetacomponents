@@ -15,7 +15,7 @@
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfValueParserTests extends ezcTestCase
+class ezcDocumentPcssValueParserTests extends ezcTestCase
 {
     protected $document;
     protected $xpath;
