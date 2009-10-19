@@ -18,6 +18,7 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
 {
     const NS_ODT_CONFIG  = 'urn:oasis:names:tc:opendocument:xmlns:config:1.0';
     const NS_ODT_DRAWING = 'urn:oasis:names:tc:opendocument:xmlns:drawing:1.0';
+    const NS_ODT_FO      = 'urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0'
     const NS_ODT_META    = 'urn:oasis:names:tc:opendocument:xmlns:meta:1.0';
     const NS_ODT_NUMBER  = 'urn:oasis:names:tc:opendocument:xmlns:data style:1.0';
     const NS_ODT_OFFICE  = 'urn:oasis:names:tc:opendocument:xmlns:office:1.0';
