@@ -753,6 +753,63 @@ class ezcDocumentPdfValueParserTests extends ezcTestCase
             'Invalid src style string serialization.'
         );
     }
+
+    public static function getListStyleValues()
+    {
+        return array(
+            array(
+                'single',
+                array( 'single' ),
+                'single'
+            ),
+            array(
+                'single     ',
+                array( 'single' ),
+                'single'
+            ),
+            array(
+                'first second',
+                array( 'first', 'second' ),
+                'first second'
+            ),
+            array(
+                'first     second   ',
+                array( 'first', 'second' ),
+                'first second'
+            ),
+            array(
+                '    first              second    ',
+                array( 'first', 'second' ),
+                'first second'
+            ),
+            array(
+                '    first              second                  third',
+                array( 'first', 'second', 'third' ),
+                'first second third'
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getListStyleValues
+     */
+    public function testListValueHandler( $input, $expectation, $string = '' )
+    {
+        $value = new ezcDocumentPcssStyleListValue();
+        $value->parse( $input );
+
+        $this->assertEquals(
+            $expectation,
+            $value->value,
+            'Incorrect list value read.'
+        );
+
+        $this->assertEquals(
+            $string,
+            (string) $value,
+            'Invalid list value string serialization.'
+        );
+    }
 }
 
 ?>
