@@ -242,10 +242,6 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
      */
     public function testCommonConversions( $from, $to )
     {
-        if ( !is_file( $to ) )
-        {
-            $this->markTestSkipped( "Comparision file '$to' not yet defined." );
-        }
 
         $tempDir = $this->createTempDir( 'odt_tests_' ) . '/';
         $imgDir = $tempDir . 'img';
@@ -271,6 +267,11 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
         file_put_contents( $tempDir . basename( $to ), $xml );
 
         $this->assertTrue( $docbook->validateString( $xml ) );
+
+        if ( !is_file( $to ) )
+        {
+            $this->fail( "Missing comparison file '$to'." );
+        }
 
         $this->assertEquals(
             file_get_contents( $to ),
