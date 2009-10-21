@@ -89,7 +89,56 @@ class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcTestCase
     public static function getTextPropertyTestSets()
     {
         return array_merge(
-            self::getTextDecorationTestSets()
+            self::getTextDecorationTestSets(),
+            self::getFontTestSets()
+        );
+    }
+
+    /**
+     * Test sets for the 'text-decoration' style attribute.
+     */
+    public static function getFontTestSets()
+    {
+        return array(
+            'font-size' => array(
+                // styles
+                array(
+                    'font-size' => new ezcDocumentPcssStyleMeasureValue( 23 )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'font-size', '23mm' ),
+                    array( ezcDocumentOdt::NS_ODT_STYLE, 'font-size-asian', '23mm' ),
+                    array( ezcDocumentOdt::NS_ODT_STYLE, 'font-size-complex', '23mm' ),
+                )
+            ),
+            'font-name' => array(
+                // styles
+                array(
+                    'font-name' => new ezcDocumentPcssStyleStringValue( 'DejaVu Sans' )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'font-name', 'DejaVu Sans' ),
+                    array( ezcDocumentOdt::NS_ODT_STYLE, 'font-name-asian', 'DejaVu Sans' ),
+                    array( ezcDocumentOdt::NS_ODT_STYLE, 'font-name-complex', 'DejaVu Sans' ),
+                )
+            ),
+            'font-weight' => array(
+                // styles
+                array(
+                    'font-weight' => new ezcDocumentPcssStyleStringValue( '600' )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute weight, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'font-weight', '600' ),
+                    array( ezcDocumentOdt::NS_ODT_STYLE, 'font-weight-asian', '600' ),
+                    array( ezcDocumentOdt::NS_ODT_STYLE, 'font-weight-complex', '600' ),
+                )
+            ),
         );
     }
 

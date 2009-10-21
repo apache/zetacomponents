@@ -4,7 +4,9 @@ class ezcDocumentOdtTextStylePropertyGenerator implements ezcDocumentOdtStylePro
 {
     protected $attributeConverterMap = array(
         'text-decoration' => 'convertTextDecoration',
-        'font-size' => 'convertFontSize',
+        'font-size'       => 'convertFontSize',
+        'font-name'       => 'convertFontProperty',
+        'font-weight'     => 'convertFontProperty',
     );
 
     /**
@@ -38,15 +40,15 @@ class ezcDocumentOdtTextStylePropertyGenerator implements ezcDocumentOdtStylePro
      * 
      * @param DOMElement $prop 
      * @param string $styleName 
-     * @param mixed $styleValue 
+     * @param ezcDocumentPcssStyleValue $styleValue 
      * @return void
      */
-    protected function convertAttribute( DOMElement $prop, $styleName, $styleValue )
+    protected function convertAttribute( DOMElement $prop, $styleName, ezcDocumentPcssStyleValue $styleValue )
     {
         if ( isset( $this->attributeConverterMap[$styleName] ) )
         {
             $method = $this->attributeConverterMap[$styleName];
-            $this->$method( $prop, $styleValue );
+            $this->$method( $prop, $styleName, $styleValue );
         }
     }
 
@@ -54,10 +56,11 @@ class ezcDocumentOdtTextStylePropertyGenerator implements ezcDocumentOdtStylePro
      * Converts the "text-decoration" style attribute.
      * 
      * @param DOMElement $prop 
-     * @param mixed $value 
+     * @param string $styleName
+     * @param ezcDocumentPcssStyleListValue $value 
      * @return void
      */
-    protected function convertTextDecoration( DOMElement $prop, $value )
+    protected function convertTextDecoration( DOMElement $prop, $styleName, ezcDocumentPcssStyleListValue $value )
     {
         foreach ( $value->value as $listElement )
         {
@@ -123,7 +126,80 @@ class ezcDocumentOdtTextStylePropertyGenerator implements ezcDocumentOdtStylePro
         }
     }
 
-    protected function convertFontSize(  )
+    /**
+     * Converts the "font-size" style attribute.
+     * 
+     * @param DOMElement $prop 
+     * @param string $styleName
+     * @param ezcDocumentPcssStyleMeasureValue $value 
+     * @return void
+     */
+    protected function convertFontSize( DOMElement $prop, $styleName, ezcDocumentPcssStyleMeasureValue $value )
+    {
+        $this->convertFontProperty(
+            $prop,
+            $styleName,
+            new ezcDocumentPcssStyleStringValue(
+                "{$value->value}mm"
+            )
+        );
+    }
+
+    /**
+     * Converts the "font-name" style attribute.
+     * 
+     * @param DOMElement $prop 
+     * @param string $styleName
+     * @param ezcDocumentPcssStyleStringValue $value 
+     * @return void
+     * @TODO Need to convert this from font-family before calling the text 
+     *       property generator (register font decl)!
+     */
+    protected function convertFontName( DOMElement $prop, $styleName, ezcDocumentPcssStyleStringValue $value )
+    {
+        $prop->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_FO,
+            'fo:font-name',
+            $value->value
+        );
+        $prop->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_STYLE,
+            'style:font-name-asian',
+            $value->value
+        );
+        $prop->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_STYLE,
+            'style:font-name-complex',
+            $value->value
+        );
+    }
+
+    /**
+     * Converts the "font-*" style attributes.
+     * 
+     * @param DOMElement $prop 
+     * @param string $styleName
+     * @param ezcDocumentPcssStyleStringValue $value 
+     * @return void
+     */
+    protected function convertFontProperty( DOMElement $prop, $styleName, ezcDocumentPcssStyleStringValue $value )
+    {
+        $prop->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_FO,
+            "fo:{$styleName}",
+            $value->value
+        );
+        $prop->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_STYLE,
+            "style:{$styleName}-asian",
+            $value->value
+        );
+        $prop->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_STYLE,
+            "style:{$styleName}-complex",
+            $value->value
+        );
+    }
 }
 
 ?>
