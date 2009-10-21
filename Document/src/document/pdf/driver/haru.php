@@ -245,8 +245,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         $this->pages[] = $this->currentPage = $this->document->addPage();
 
-        $this->currentPage->setWidth( ezcDocumentPdfMeasure::create( $width )->get( 'pt' ) );
-        $this->currentPage->setHeight( ezcDocumentPdfMeasure::create( $height )->get( 'pt' ) );
+        $this->currentPage->setWidth( ezcDocumentPcssMeasure::create( $width )->get( 'pt' ) );
+        $this->currentPage->setHeight( ezcDocumentPcssMeasure::create( $height )->get( 'pt' ) );
         $this->currentPage->setTextRenderingMode( HaruPage::FILL );
 
         // The current font might need to be recreated for the new page.
@@ -363,7 +363,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
                 break;
 
             case 'font-size':
-                $this->currentFont['size'] = ezcDocumentPdfMeasure::create( $value )->get( 'pt' );
+                $this->currentFont['size'] = ezcDocumentPcssMeasure::create( $value )->get( 'pt' );
 
                 if ( $this->currentFont['font'] !== null )
                 {
@@ -430,11 +430,11 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         if ( $this->currentPage )
         {
-            return ezcDocumentPdfMeasure::create( $this->currentPage->getTextWidth( $word ) . 'pt' )->get();
+            return ezcDocumentPcssMeasure::create( $this->currentPage->getTextWidth( $word ) . 'pt' )->get();
         }
         else
         {
-            return ezcDocumentPdfMeasure::create( $this->dummyDoc->getCurrentPage()->getTextWidth( $word ) . 'pt' )->get();
+            return ezcDocumentPcssMeasure::create( $this->dummyDoc->getCurrentPage()->getTextWidth( $word ) . 'pt' )->get();
         }
     }
 
@@ -448,7 +448,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function getCurrentLineHeight()
     {
-        return ezcDocumentPdfMeasure::create( $this->currentFont['size'] . 'pt' )->get();
+        return ezcDocumentPcssMeasure::create( $this->currentFont['size'] . 'pt' )->get();
     }
 
     /**
@@ -481,8 +481,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         $this->currentPage->beginText();
         $this->currentPage->textOut(
-            ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
-            $this->currentPage->getHeight() - ezcDocumentPdfMeasure::create( $y )->get( 'pt' ),
+            ezcDocumentPcssMeasure::create( $x )->get( 'pt' ),
+            $this->currentPage->getHeight() - ezcDocumentPcssMeasure::create( $y )->get( 'pt' ),
             $word
         );
         $this->currentPage->endText();
@@ -526,10 +526,10 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
         $this->currentPage->drawImage(
             $image,
-            ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
-            $this->currentPage->getHeight() - ezcDocumentPdfMeasure::create( $y )->get( 'pt' ) -
-                ( $height = ezcDocumentPdfMeasure::create( $height )->get( 'pt' ) ),
-            ezcDocumentPdfMeasure::create( $width )->get( 'pt' ),
+            ezcDocumentPcssMeasure::create( $x )->get( 'pt' ),
+            $this->currentPage->getHeight() - ezcDocumentPcssMeasure::create( $y )->get( 'pt' ) -
+                ( $height = ezcDocumentPcssMeasure::create( $height )->get( 'pt' ) ),
+            ezcDocumentPcssMeasure::create( $width )->get( 'pt' ),
             $height
         );
     }
@@ -548,17 +548,17 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             if ( $first )
             {
                 $this->currentPage->moveTo(
-                    ezcDocumentPdfMeasure::create( $point[0] )->get( 'pt' ),
+                    ezcDocumentPcssMeasure::create( $point[0] )->get( 'pt' ),
                     $this->currentPage->getHeight() -
-                        ezcDocumentPdfMeasure::create( $point[1] )->get( 'pt' )
+                        ezcDocumentPcssMeasure::create( $point[1] )->get( 'pt' )
                 );
             }
             else
             {
                 $this->currentPage->lineTo(
-                    ezcDocumentPdfMeasure::create( $point[0] )->get( 'pt' ),
+                    ezcDocumentPcssMeasure::create( $point[0] )->get( 'pt' ),
                     $this->currentPage->getHeight() -
-                        ezcDocumentPdfMeasure::create( $point[1] )->get( 'pt' )
+                        ezcDocumentPcssMeasure::create( $point[1] )->get( 'pt' )
                 );
             }
             $first = false;
@@ -611,7 +611,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     public function drawPolyline( array $points, array $color, $width, $close = true )
     {
         $this->currentPage->setRgbStroke( $color['red'], $color['green'], $color['blue'] );
-        $this->currentPage->setLineWidth( ezcDocumentPdfMeasure::create( $width )->get( 'pt' ) );
+        $this->currentPage->setLineWidth( ezcDocumentPcssMeasure::create( $width )->get( 'pt' ) );
         $this->drawPath( $points );
         $this->currentPage->stroke( $close );
     }
@@ -634,12 +634,12 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     {
         $this->currentPage->createURLAnnotation(
             array(
-                ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
+                ezcDocumentPcssMeasure::create( $x )->get( 'pt' ),
                 $this->currentPage->getHeight() -
-                    ezcDocumentPdfMeasure::create( $y + $height )->get( 'pt' ),
-                ezcDocumentPdfMeasure::create( $x + $width )->get( 'pt' ),
+                    ezcDocumentPcssMeasure::create( $y + $height )->get( 'pt' ),
+                ezcDocumentPcssMeasure::create( $x + $width )->get( 'pt' ),
                 $this->currentPage->getHeight() -
-                    ezcDocumentPdfMeasure::create( $y )->get( 'pt' ),
+                    ezcDocumentPcssMeasure::create( $y )->get( 'pt' ),
             ),
             $url
         );
@@ -699,12 +699,12 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
 
             $page->createLinkAnnotation(
                 array(
-                    ezcDocumentPdfMeasure::create( $x )->get( 'pt' ),
+                    ezcDocumentPcssMeasure::create( $x )->get( 'pt' ),
                     $this->currentPage->getHeight() -
-                        ezcDocumentPdfMeasure::create( $y + $height )->get( 'pt' ),
-                    ezcDocumentPdfMeasure::create( $x + $width )->get( 'pt' ),
+                        ezcDocumentPcssMeasure::create( $y + $height )->get( 'pt' ),
+                    ezcDocumentPcssMeasure::create( $x + $width )->get( 'pt' ),
                     $this->currentPage->getHeight() -
-                        ezcDocumentPdfMeasure::create( $y )->get( 'pt' ),
+                        ezcDocumentPcssMeasure::create( $y )->get( 'pt' ),
                 ),
                 $this->internalTargets[$target]
             );

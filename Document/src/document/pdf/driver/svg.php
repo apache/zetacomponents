@@ -230,7 +230,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
                 break;
 
             case 'font-size':
-                $this->currentFont['size'] = ezcDocumentPdfMeasure::create( $value )->get( 'pt' );
+                $this->currentFont['size'] = ezcDocumentPcssMeasure::create( $value )->get( 'pt' );
                 break;
 
             case 'color':
@@ -257,7 +257,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      */
     public function calculateWordWidth( $word )
     {
-        return ezcDocumentPdfMeasure::create(
+        return ezcDocumentPcssMeasure::create(
             ( $this->currentFont['size'] * iconv_strlen( $word, 'UTF-8' ) * .43 ) . 'pt'
         )->get();
     }
@@ -272,7 +272,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      */
     public function getCurrentLineHeight()
     {
-        return ezcDocumentPdfMeasure::create( $this->currentFont['size'] . 'pt' )->get();
+        return ezcDocumentPcssMeasure::create( $this->currentFont['size'] . 'pt' )->get();
     }
 
     /**
@@ -362,9 +362,9 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
         foreach ( $points as $point )
         {
             $pointString .= sprintf( '%.4F,%.4F L ', 
-                ezcDocumentPdfMeasure::create( $point[0] )->get( 'px', 90 ) +
-                    ezcDocumentPdfMeasure::create( $this->offset )->get( 'px', 90 ),
-                ezcDocumentPdfMeasure::create( $point[1] )->get( 'px', 90 )
+                ezcDocumentPcssMeasure::create( $point[0] )->get( 'px', 90 ) +
+                    ezcDocumentPcssMeasure::create( $this->offset )->get( 'px', 90 ),
+                ezcDocumentPcssMeasure::create( $point[1] )->get( 'px', 90 )
             );
         }
 

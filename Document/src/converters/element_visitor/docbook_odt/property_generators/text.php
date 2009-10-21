@@ -122,6 +122,8 @@ class ezcDocumentOdtTextStylePropertyGenerator implements ezcDocumentOdtStylePro
             }
         }
     }
+
+    protected function convertFontSize(  )
 }
 
 ?>

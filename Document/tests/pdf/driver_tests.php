@@ -228,8 +228,8 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $driver->drawImage(
             dirname( __FILE__ ) . '/../files/pdf/images/logo-white.png', 'image/png',
             50, 50,
-            ezcDocumentPdfMeasure::create( '113px' )->get(),
-            ezcDocumentPdfMeasure::create( '57px' )->get()
+            ezcDocumentPcssMeasure::create( '113px' )->get(),
+            ezcDocumentPcssMeasure::create( '57px' )->get()
         );
         $pdf = $driver->save();
 
@@ -322,7 +322,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
                 array( 10, 10 ),
             ),
             $color->value,
-            ezcDocumentPdfMeasure::create( '1pt' )->get(),
+            ezcDocumentPcssMeasure::create( '1pt' )->get(),
             false
         );
 

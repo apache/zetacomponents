@@ -29,7 +29,7 @@ class ezcDocumentPcssStyleMeasureValue extends ezcDocumentPcssStyleValue
      */
     public function parse( $value )
     {
-        $this->value = ezcDocumentPdfMeasure::create( $value )->get();
+        $this->value = ezcDocumentPcssMeasure::create( $value )->get();
 
         return $this;
     }

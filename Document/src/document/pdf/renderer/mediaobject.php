@@ -125,14 +125,14 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
      * @param array $styles
      * @param ezcDocumentPdfPage $page
      * @param ezcDocumentPdfImage $image
-     * @return ezcDocumentPdfMeasure
+     * @return ezcDocumentPcssMeasure
      */
     public function getMediaBoxWidth( array $styles, ezcDocumentPdfPage $page, ezcDocumentPdfImage $image )
     {
         if ( $styles['text-columns']->value <= 1 )
         {
             // Just use the full inner width, we do not support floating yet.
-            return new ezcDocumentPdfMeasure( $page->innerWidth );
+            return new ezcDocumentPcssMeasure( $page->innerWidth );
         }
 
         $imageWidth  = $image->getDimensions();
@@ -151,7 +151,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
             ++$spanning;
         }
 
-        return $this->width = new ezcDocumentPdfMeasure( $width );
+        return $this->width = new ezcDocumentPcssMeasure( $width );
     }
 
     /**

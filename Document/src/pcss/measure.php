@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfMeasure class
+ * File containing the ezcDocumentPcssMeasure class
  *
  * @package Document
  * @version //autogen//
@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfMeasure
+class ezcDocumentPcssMeasure
 {
     /**
      * Internal value representation
@@ -56,11 +56,11 @@ class ezcDocumentPdfMeasure
      * this simple wrpper class easier.
      *
      * @param mixed $value
-     * @return ezcDocumentPdfMeasure
+     * @return ezcDocumentPcssMeasure
      */
     public static function create( $value )
     {
-        return new ezcDocumentPdfMeasure( $value );
+        return new ezcDocumentPcssMeasure( $value );
     }
 
     /**

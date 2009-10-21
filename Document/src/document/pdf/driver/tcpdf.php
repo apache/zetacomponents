@@ -305,7 +305,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
                 break;
 
             case 'font-size':
-                $this->currentFont['size'] = ezcDocumentPdfMeasure::create( $value )->get( 'pt' );
+                $this->currentFont['size'] = ezcDocumentPcssMeasure::create( $value )->get( 'pt' );
                 $this->document->setFontSize( $this->currentFont['size'] );
                 break;
 
@@ -350,7 +350,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function getCurrentLineHeight()
     {
-        return ezcDocumentPdfMeasure::create( $this->currentFont['size'] . 'pt' )->get();
+        return ezcDocumentPcssMeasure::create( $this->currentFont['size'] . 'pt' )->get();
     }
 
     /**
@@ -368,7 +368,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function drawWord( $x, $y, $word )
     {
-        $size = ezcDocumentPdfMeasure::create( $this->currentFont['size'] . 'pt' )->get();
+        $size = ezcDocumentPcssMeasure::create( $this->currentFont['size'] . 'pt' )->get();
         $this->document->setXY( $x, (float) round( $y - $size, 4 ) );
         $this->document->Write( $size, $word );
     }

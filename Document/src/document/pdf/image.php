@@ -103,7 +103,7 @@ class ezcDocumentPdfImage
      * Get image dimensions
      *
      * Return an array with the image dimensions. The array will look like:
-     * array( ezcDocumentPdfMeasure $width, ezcDocumentPdfMeasure $height ).
+     * array( ezcDocumentPcssMeasure $width, ezcDocumentPcssMeasure $height ).
      *
      * @return array
      */

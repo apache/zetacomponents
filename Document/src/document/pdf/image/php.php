@@ -59,8 +59,8 @@ class ezcDocumentPdfPhpImageHandler extends ezcDocumentPdfImageHandler
 
         $this->cache[$file] = array(
             'dimensions' => array(
-                new ezcDocumentPdfMeasure( $data[0] . 'px' ),
-                new ezcDocumentPdfMeasure( $data[1] . 'px' ),
+                new ezcDocumentPcssMeasure( $data[0] . 'px' ),
+                new ezcDocumentPcssMeasure( $data[1] . 'px' ),
             ),
             'mimetype'   => $data['mime'],
         );
@@ -71,7 +71,7 @@ class ezcDocumentPdfPhpImageHandler extends ezcDocumentPdfImageHandler
      * Get image dimensions
      *
      * Return an array with the image dimensions. The array will look like:
-     * array( ezcDocumentPdfMeasure $width, ezcDocumentPdfMeasure $height ).
+     * array( ezcDocumentPcssMeasure $width, ezcDocumentPcssMeasure $height ).
      *
      * @param string $file
      * @return array

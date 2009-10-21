@@ -318,7 +318,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
                 ),
                 $styles['color']->value,
                 // @TODO: How thick should line-throughs be?
-                ezcDocumentPdfMeasure::create( '1px' )->get(),
+                ezcDocumentPcssMeasure::create( '1px' )->get(),
                 false
             );
         }
@@ -332,7 +332,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
                 ),
                 $styles['color']->value,
                 // @TODO: How thick should overlines be?
-                ezcDocumentPdfMeasure::create( '1px' )->get(),
+                ezcDocumentPcssMeasure::create( '1px' )->get(),
                 false
             );
         }
@@ -346,7 +346,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
                 ),
                 $styles['color']->value,
                 // @TODO: How thick should underlines be?
-                ezcDocumentPdfMeasure::create( '1px' )->get(),
+                ezcDocumentPcssMeasure::create( '1px' )->get(),
                 false
             );
         }

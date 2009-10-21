@@ -84,7 +84,7 @@ class ezcDocumentPdfFooterOptions extends ezcDocumentOptions
                 break;
 
             case 'height':
-                $this->properties[$name] = ezcDocumentPdfMeasure::create( $value );
+                $this->properties[$name] = ezcDocumentPcssMeasure::create( $value );
                 break;
 
             case 'pageNumberOffset':

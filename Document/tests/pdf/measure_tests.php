@@ -18,7 +18,7 @@ require_once dirname( __FILE__ ) . '/../helper/pdf_mocked_driver.php';
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPdfMeasureTests extends ezcDocumentPdfTestCase
+class ezcDocumentPcssMeasureTests extends ezcDocumentPdfTestCase
 {
     public static function suite()
     {
@@ -51,7 +51,7 @@ class ezcDocumentPdfMeasureTests extends ezcDocumentPdfTestCase
      */
     public function testValueConversion( $input, $unit, $expected )
     {
-        $measure = new ezcDocumentPdfMeasure( $input );
+        $measure = new ezcDocumentPcssMeasure( $input );
         $this->assertEquals(
             $expected,
             $measure->get( $unit ),
@@ -63,7 +63,7 @@ class ezcDocumentPdfMeasureTests extends ezcDocumentPdfTestCase
     public function testUnparsableValue()
     {
         try {
-            ezcDocumentPdfMeasure::create( '10 mm' )->get();
+            ezcDocumentPcssMeasure::create( '10 mm' )->get();
             $this->fail( 'Expected ezcDocumentParserException.' );
         }
         catch ( ezcDocumentParserException $e )
@@ -75,7 +75,7 @@ class ezcDocumentPdfMeasureTests extends ezcDocumentPdfTestCase
         $driver = new ezcTestDocumentPdfMockDriver();
 
         try {
-            ezcDocumentPdfMeasure::create( '10foo' )->get();
+            ezcDocumentPcssMeasure::create( '10foo' )->get();
             $this->fail( 'Expected ezcDocumentParserException.' );
         }
         catch ( ezcDocumentParserException $e )
@@ -87,7 +87,7 @@ class ezcDocumentPdfMeasureTests extends ezcDocumentPdfTestCase
         $driver = new ezcTestDocumentPdfMockDriver();
 
         try {
-            ezcDocumentPdfMeasure::create( '10mm' )->get( 'foo' );
+            ezcDocumentPcssMeasure::create( '10mm' )->get( 'foo' );
             $this->fail( 'Expected ezcDocumentParserException.' );
         }
         catch ( ezcDocumentParserException $e )

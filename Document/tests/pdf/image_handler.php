@@ -37,7 +37,7 @@ class ezcDocumentPdfImageHandlerTests extends ezcDocumentPdfTestCase
             $image->getMimeType()
         );
         $this->assertEquals(
-            array( new ezcDocumentPdfMeasure( '113px' ), new ezcDocumentPdfMeasure( '57px' ) ),
+            array( new ezcDocumentPcssMeasure( '113px' ), new ezcDocumentPcssMeasure( '57px' ) ),
             $image->getDimensions()
         );
     }
@@ -67,9 +67,9 @@ class ezcDocumentPdfImageHandlerTests extends ezcDocumentPdfTestCase
         return array(
             array( 'files/pdf/images/logo-white.eps', false ),
             array( 'files/pdf/images/logo-white.pdf', false ),
-            array( 'files/pdf/images/logo-white.png', array( new ezcDocumentPdfMeasure( '113px' ), new ezcDocumentPdfMeasure( '57px' ) ) ),
+            array( 'files/pdf/images/logo-white.png', array( new ezcDocumentPcssMeasure( '113px' ), new ezcDocumentPcssMeasure( '57px' ) ) ),
             array( 'files/pdf/images/logo-white.svg', false ),
-            array( 'files/pdf/images/logo-white.png', array( new ezcDocumentPdfMeasure( '113px' ), new ezcDocumentPdfMeasure( '57px' ) ) ),
+            array( 'files/pdf/images/logo-white.png', array( new ezcDocumentPcssMeasure( '113px' ), new ezcDocumentPcssMeasure( '57px' ) ) ),
         );
     }
 
