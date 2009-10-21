@@ -19,7 +19,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDocumentErrorReporting
+class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDocumentErrorReporting, ezcDocumentPdfRendererWrappable
 {
     /**
      * Hyphenator used to split up words

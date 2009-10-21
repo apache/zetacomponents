@@ -58,10 +58,10 @@ class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfBlockRenderer
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentLocateableDomElement $block 
-     * @param ezcDocumentPdfMainRenderer $mainRenderer 
+     * @param ezcDocumentPdfRendererWrappable $mainRenderer 
      * @return void
      */
-    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
+    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfRendererWrappable $mainRenderer )
     {
         // Render list item
         if ( ( $listItem = $this->generator->getListItem( $this->item ) ) !== '' )

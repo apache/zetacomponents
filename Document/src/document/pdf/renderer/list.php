@@ -28,10 +28,10 @@ class ezcDocumentPdfListRenderer extends ezcDocumentPdfBlockRenderer
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentLocateableDomElement $block 
-     * @param ezcDocumentPdfMainRenderer $mainRenderer 
+     * @param ezcDocumentPdfRendererWrappable $mainRenderer 
      * @return void
      */
-    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
+    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfRendererWrappable $mainRenderer )
     {
         $childNodes = $block->childNodes;
         $nodeCount  = $childNodes->length;

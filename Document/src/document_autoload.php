@@ -67,6 +67,7 @@ return array(
     'ezcDocumentPdfFooterPdfPart'                        => 'Document/document/pdf/part/footer.php',
     'ezcDocumentPdfHyphenator'                           => 'Document/document/pdf/hyphenator.php',
     'ezcDocumentPdfImageHandler'                         => 'Document/document/pdf/image/handler.php',
+    'ezcDocumentPdfRendererWrappable'                    => 'Document/document/pdf/renderer/wrapable.php',
     'ezcDocumentPdfTableColumnWidthCalculator'           => 'Document/document/pdf/table_column_width_calculator.php',
     'ezcDocumentPdfTokenizer'                            => 'Document/document/pdf/tokenizer.php',
     'ezcDocumentPdfWrappingTextBoxRenderer'              => 'Document/document/pdf/renderer/paragraph.php',
