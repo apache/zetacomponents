@@ -3,10 +3,12 @@
 class ezcDocumentOdtTextStylePropertyGenerator implements ezcDocumentOdtStylePropertyGenerator
 {
     protected $attributeConverterMap = array(
-        'text-decoration' => 'convertTextDecoration',
-        'font-size'       => 'convertFontSize',
-        'font-name'       => 'convertFontProperty',
-        'font-weight'     => 'convertFontProperty',
+        'text-decoration'  => 'convertTextDecoration',
+        'font-size'        => 'convertFontSize',
+        'font-name'        => 'convertFontProperty',
+        'font-weight'      => 'convertFontProperty',
+        'color'            => 'convertColorProperty',
+        'background-color' => 'convertColorProperty',
     );
 
     /**
@@ -199,6 +201,40 @@ class ezcDocumentOdtTextStylePropertyGenerator implements ezcDocumentOdtStylePro
             "style:{$styleName}-complex",
             $value->value
         );
+    }
+
+    /**
+     * Converts color style attributes.
+     * 
+     * @param DOMElement $prop 
+     * @param string $styleName
+     * @param ezcDocumentPcssStyleColorValue $value 
+     * @return void
+     */
+    protected function convertColorProperty( DOMElement $prop, $styleName, ezcDocumentPcssStyleColorValue $value )
+    {
+        if ( $value->value['alpha'] >= .5 )
+        {
+            $prop->setAttributeNS(
+                ezcDocumentOdt::NS_ODT_FO,
+                "fo:{$styleName}",
+                'transparent'
+            );
+        }
+        else
+        {
+            $prop->setAttributeNS(
+                ezcDocumentOdt::NS_ODT_FO,
+                "fo:{$styleName}",
+                sprintf(
+                    '#%02x%02x%02x',
+                    round( $value->value['red'] * 255 ),
+                    round( $value->value['green'] * 255 ),
+                    round( $value->value['blue'] * 255 )
+                )
+            );
+
+        }
     }
 }
 

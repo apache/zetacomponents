@@ -35,7 +35,7 @@ class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcDocumentOdtStylePr
     }
 
     /**
-     * @dataProvider getTextDecorationTestSets
+     * @dataProvider getTextPropertyTestSets
      */
     public function testConvertTextProperties( $styles, $expectedAttributes )
     {
@@ -54,14 +54,79 @@ class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcDocumentOdtStylePr
      */
     public static function getTextPropertyTestSets()
     {
-        return array_merge(
+        $res = array_merge(
             self::getTextDecorationTestSets(),
-            self::getFontTestSets()
+            self::getFontTestSets(),
+            self::getColorTestSets()
+        );
+        return $res;
+    }
+
+    /**
+     * Test sets for color style attributes.
+     */
+    public static function getColorTestSets()
+    {
+        return array(
+            'color non-transparent' => array(
+                // styles
+                array(
+                    'color' => new ezcDocumentPcssStyleColorValue(
+                        array(
+                            'red'   => 1.0,
+                            'green' => 1.0,
+                            'blue'  => 1.0,
+                            'alpha' => 0.4,
+                        )
+                    )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'color', '#ffffff' ),
+                )
+            ),
+            'color transparent' => array(
+                // styles
+                array(
+                    'color' => new ezcDocumentPcssStyleColorValue(
+                        array(
+                            'red'   => 1.0,
+                            'green' => 1.0,
+                            'blue'  => 1.0,
+                            'alpha' => 0.5,
+                        )
+                    )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'color', 'transparent' ),
+                )
+            ),
+            'color value' => array(
+                // styles
+                array(
+                    'color' => new ezcDocumentPcssStyleColorValue(
+                        array(
+                            'red'   => 0.75294117647059,
+                            'green' => 1.0,
+                            'blue'  => 0,
+                            'alpha' => 0.0,
+                        )
+                    )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'color', '#c0ff00' ),
+                )
+            ),
         );
     }
 
     /**
-     * Test sets for the 'text-decoration' style attribute.
+     * Test sets for font style attributes.
      */
     public static function getFontTestSets()
     {
