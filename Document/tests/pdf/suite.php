@@ -20,7 +20,6 @@ require 'driver_svg_tests.php';
 require 'driver_transactions_tests.php';
 require 'hyphenator_tests.php';
 require 'tokenizer_tests.php';
-require 'measure_tests.php';
 require 'image_handler.php';
 require 'page_tests.php';
 require 'renderer_paragraph_tests.php';
@@ -55,7 +54,6 @@ class ezcDocumentPdfSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfTransactionalDriverWrapperTests::suite() );
         $this->addTest( ezcDocumentPdfHyphenatorTests::suite() );
         $this->addTest( ezcDocumentPdfTokenizerTests::suite() );
-        $this->addTest( ezcDocumentPcssMeasureTests::suite() );
         $this->addTest( ezcDocumentPdfImageHandlerTests::suite() );
         $this->addTest( ezcDocumentPdfPageTests::suite() );
         $this->addTest( ezcDocumentPdfParagraphRendererTests::suite() );

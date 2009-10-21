@@ -47,6 +47,7 @@ require 'document_ezxml_tests.php';
 
 require 'pcss/location_id_tests.php';
 require 'pcss/match_location_id_tests.php';
+require 'pcss/measure_tests.php';
 require 'pcss/parser_test.php';
 require 'pcss/style_inference_tests.php';
 require 'pcss/value_parser_tests.php';
@@ -105,6 +106,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentPcssLocationIdTests::suite() );
         $this->addTest( ezcDocumentPcssMatchLocationIdTests::suite() );
+        $this->addTest( ezcDocumentPcssMeasureTests::suite() );
         $this->addTest( ezcDocumentPcssParserTests::suite() );
         $this->addTest( ezcDocumentPcssValueParserTests::suite() );
         $this->addTest( ezcDocumentPcssStyleInferenceTests::suite() );

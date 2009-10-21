@@ -9,16 +9,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'base.php';
-require_once dirname( __FILE__ ) . '/../helper/pdf_mocked_driver.php';
-
 /**
  * Test suite for class.
  * 
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentPcssMeasureTests extends ezcDocumentPdfTestCase
+class ezcDocumentPcssMeasureTests extends ezcTestCase
 {
     public static function suite()
     {
