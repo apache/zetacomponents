@@ -300,6 +300,110 @@ class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcDocumentOdtStylePr
             ),
         );
     }
+
+    /**
+     * @dataProvider getTextAlignTestSets
+     */
+    public function testConvertMiscProperty( $styleValue, $expectedAttributes )
+    {
+        $converter = new ezcDocumentOdtDefaultStyleConverter();
+        $converter->convert( $this->domElement, 'text-align', $styleValue );
+
+        $this->assertAttributesCorrect(
+            $expectedAttributes
+        );
+    }
+
+    public static function getTextAlignTestSets()
+    {
+        return array(
+            array(
+                // style
+                new ezcDocumentPcssStyleStringValue( 'center' ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'text-align', 'center' ),
+                )
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getMarginTestSets
+     */
+    public function testConvertMarginProperty( $styleValue, $expectedAttributes )
+    {
+        $converter = new ezcDocumentOdtMarginStyleConverter();
+        $converter->convert( $this->domElement, 'margin', $styleValue );
+
+        $this->assertAttributesCorrect(
+            $expectedAttributes
+        );
+    }
+
+    /**
+     * Test sets for the 'margin' style attribute.
+     */
+    public static function getMarginTestSets()
+    {
+        return array(
+            'margin full' => array(
+                // style
+                new ezcDocumentPcssStyleMeasureBoxValue(
+                    array(
+                        'top'    => 1,
+                        'left'   => 2,
+                        'bottom' => 3,
+                        'right'  => 4
+                    )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-top', '1mm' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-left', '2mm' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-bottom', '3mm' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-right', '4mm' ),
+                )
+            ),
+            'margin missings' => array(
+                // style
+                new ezcDocumentPcssStyleMeasureBoxValue(
+                    array(
+                        'top'    => 1,
+                        'right'  => 4
+                    )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-top', '1mm' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-right', '4mm' ),
+                )
+            ),
+            'margin empty' => array(
+                // style
+                new ezcDocumentPcssStyleMeasureBoxValue(
+                    array(
+                        'top'    => 1,
+                        'left'   => 0,
+                        'bottom' => 3,
+                        'right'  => null
+                    )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-top', '1mm' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-left', '0mm' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-bottom', '3mm' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'margin-right', '0mm' ),
+                )
+            ),
+       );
+    }
+
 }
 
 ?>

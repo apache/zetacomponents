@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtMiscStyleConverter implements ezcDocumentOdtStyleConverter
+class ezcDocumentOdtDefaultStyleConverter implements ezcDocumentOdtStyleConverter
 {
     /**
      * Converts CSS styles directly without value conversion.
