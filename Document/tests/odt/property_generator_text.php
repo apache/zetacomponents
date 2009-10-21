@@ -9,13 +9,15 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once 'property_generator_test.php';
+
 /**
  * Test suite for class.
  * 
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcTestCase
+class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcDocumentOdtStylePropertyGeneratorTest
 {
     protected $domElement;
 
@@ -28,11 +30,7 @@ class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcTestCase
 
     public function setUp()
     {
-        $domDocument = new DOMDocument();
-        $this->domElement = $domDocument->appendChild(
-            $domDocument->createElement( 'parent' )
-        );
-
+        parent::setUp();
         $this->propGenerator = new ezcDocumentOdtTextStylePropertyGenerator();
     }
 
@@ -41,51 +39,19 @@ class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcTestCase
      */
     public function testConvertTextProperties( $styles, $expectedAttributes )
     {
-        $this->propGenerator->createProperty(
-            $this->domElement,
-            $styles
-        );
-
-        $children = $this->domElement->getElementsByTagNameNS(
+        $this->performTestConvertProperties(
             ezcDocumentOdt::NS_ODT_STYLE,
-            'text-properties'
+            'text-properties',
+            $styles,
+            $expectedAttributes
         );
-
-        $this->assertEquals(
-            1,
-            $children->length,
-            'Inconsistent number of property elements.'
-        );
-
-        $txtProp = $children->item( 0 );
-
-        $this->assertEquals(
-            count( $expectedAttributes ),
-            $txtProp->attributes->length,
-            'Inconsistent number of text property element attributes.'
-        );
-
-        foreach ( $expectedAttributes as $attrDef )
-        {
-            $this->assertTrue(
-                $txtProp->hasAttributeNS(
-                    $attrDef[0],
-                    $attrDef[1]
-                ),
-                "Missing attribute '{$attrDef[0]}:{$attrDef[1]}'."
-            );
-            $this->assertEquals(
-                $attrDef[2],
-                ( $actAttrVal = $txtProp->getAttributeNS(
-                    $attrDef[0],
-                    $attrDef[1]
-                ) ),
-                "Attribute '{$attrDef[0]}:{$attrDef[1]}' has incorrect value '$actAttrVal', expected '{$attrDef[2]}'."
-            );
-
-        }
     }
 
+    /**
+     * Returns the test sets.
+     * 
+     * @return void
+     */
     public static function getTextPropertyTestSets()
     {
         return array_merge(
