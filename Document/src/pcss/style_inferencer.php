@@ -75,6 +75,7 @@ class ezcDocumentPcssStyleInferencer
         'padding-left'         => 'ezcDocumentPcssStyleMeasureValue',
         'text-columns'         => 'ezcDocumentPcssStyleIntValue',
         'text-columns-spacing' => 'ezcDocumentPcssStyleMeasureValue',
+        'text-decoration'      => 'ezcDocumentPcssStyleListValue',
         'color'                => 'ezcDocumentPcssStyleColorValue',
         'background-color'     => 'ezcDocumentPcssStyleColorValue',
         'border'               => 'ezcDocumentPcssStyleBorderBoxValue',
