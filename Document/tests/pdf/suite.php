@@ -34,6 +34,7 @@ require 'render_text_decorations_tests.php';
 require 'renderer_main_tests.php';
 require 'renderer_footer_part_tests.php';
 require 'renderer_mediaobject_tests.php';
+require 'table_column_width_tests.php';
 require 'tests.php';
 
 class ezcDocumentPdfSuite extends PHPUnit_Framework_TestSuite
@@ -68,6 +69,7 @@ class ezcDocumentPdfSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPdfMainRendererTests::suite() );
         $this->addTest( ezcDocumentPdfRendererFooterPartTests::suite() );
         $this->addTest( ezcDocumentPdfMediaObjectRendererTests::suite() );
+        $this->addTest( ezcDocumentPdfTableColumnWidthCalculatorTests::suite() );
         $this->addTest( ezcDocumentPdfTests::suite() );
     }
 }

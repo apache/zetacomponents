@@ -17,6 +17,9 @@
  *           Tokenizer used to split strings into single words
  * @property ezcDocumentPdfDriver $driver
  *           Driver used to generate the actual PDF
+ * @property ezcDocumentPdfTableColumnWidthCalculator $tableColumnWidthCalculator
+ *           Class responsible to obtain sensible column width values from a 
+ *           table specification by introspecting its contents.
  * @property int $errorReporting
  *           Error reporting level. All errors with a severity greater or equel
  *           then the defined level are converted to exceptions. All other
@@ -41,6 +44,7 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
         $this->errorReporting = 15; // E_PARSE | E_ERROR | E_WARNING | E_NOTICE
         $this->hyphenator     = new ezcDocumentPdfDefaultHyphenator();
         $this->tokenizer      = new ezcDocumentPdfDefaultTokenizer();
+        $this->tableColumnWidthCalculator = new ezcDocumentPdfDefaultTableColumnWidthCalculator();
 
         // @TODO: There might be a better default:
         $this->driver     = new ezcDocumentPdfHaruDriver();
@@ -85,6 +89,15 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
                 if ( !$value instanceof ezcDocumentPdfDriver )
                 {
                     throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentPdfDriver' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'tableColumnWidthCalculator':
+                if ( !$value instanceof ezcDocumentPdfTableColumnWidthCalculator )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentPdfTableColumnWidthCalculator' );
                 }
 
                 $this->properties[$name] = $value;
