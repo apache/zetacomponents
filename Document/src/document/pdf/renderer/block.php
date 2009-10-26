@@ -31,10 +31,10 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentLocateableDomElement $block 
-     * @param ezcDocumentPdfRendererWrappable $mainRenderer 
+     * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfRendererWrappable $mainRenderer )
+    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // @TODO: Render border and background. This can be quite hard to
         // estimate, though.
@@ -64,10 +64,10 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentLocateableDomElement $block 
-     * @param ezcDocumentPdfRendererWrappable $mainRenderer 
+     * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return void
      */
-    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfRendererWrappable $mainRenderer )
+    protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         $mainRenderer->process( $block );
     }
