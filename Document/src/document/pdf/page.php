@@ -352,12 +352,41 @@ class ezcDocumentPdfPage implements ezcDocumentLocateable
      * There is no check for overlapping of covered areas in here, so that you
      * can add bounding boxes wrapping multiple already existing rectangles.
      *
+     * Returns an array specifying the transaction and ID of the cover action. 
+     * This tupel may be used later to call the uncover() method, to remove 
+     * this coverage area again.
+     *
      * @param ezcDocumentPdfBoundingBox $rectangle
-     * @return void
+     * @param mixed $id
+     * @return array
      */
-    public function setCovered( ezcDocumentPdfBoundingBox $rectangle )
+    public function setCovered( ezcDocumentPdfBoundingBox $rectangle, $id = null )
     {
         $this->covered[$this->transaction][] = $rectangle;
+        return array( $this->transaction, count( $this->covered[$this->transaction] ) - 1 );
+    }
+
+    /**
+     * Uncover area
+     *
+     * Uncover the area specified by the ID returned by the setCovered() 
+     * method.
+     *
+     * Will return false, if the given ID is unknown in the transaction.
+     * 
+     * @param array $id 
+     * @return bool
+     */
+    public function uncover( array $id )
+    {
+        if ( isset( $this->covered[$id[0]] ) &&
+             isset( $this->covered[$id[0]][$id[1]] ) )
+        {
+            unset( $this->covered[$id[0]][$id[1]] );
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -455,5 +455,21 @@ class ezcDocumentPdfPageTests extends ezcTestCase
             $page->testFitRectangle( null, 10, 100, 80 )
         );
     }
+
+    public function testUncoverArea()
+    {
+        $page = new ezcDocumentPdfPage( 1, 100, 100 );
+        $page->startTransaction( 1 );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 0, 50, 50 ) );
+        $id = $page->setCovered( new ezcDocumentPdfBoundingBox( 0, 50, 50, 50 ) );
+        $page->setCovered( new ezcDocumentPdfBoundingBox( 50, 0, 50, 50 ) );
+        $this->assertEquals( false, $page->testFitRectangle( 10, 60, 30, 30 ) );
+
+        $page->uncover( $id );
+        $this->assertEquals(
+            new ezcDocumentPdfBoundingBox( 10, 60, 30, 30 ),
+            $page->testFitRectangle( 10, 60, 30, 30 )
+        );
+    }
 }
 ?>
