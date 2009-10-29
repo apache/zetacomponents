@@ -61,7 +61,7 @@ class ezcDocumentPdfBlockquoteRenderer extends ezcDocumentPdfBlockRenderer
         $textRenderer = new ezcDocumentPdfTextBoxRenderer( $this->driver, $this->styles );
         foreach ( $attributions as $attribution )
         {
-            $textRenderer->render( $page, $hyphenator, $tokenizer, $attribution, $mainRenderer );
+            $textRenderer->renderNode( $page, $hyphenator, $tokenizer, $attribution, $mainRenderer );
         }
     }
 }

@@ -110,7 +110,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -159,7 +159,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -208,7 +208,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -257,7 +257,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -306,7 +306,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -367,7 +367,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcTestDocumentPdfHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -417,7 +417,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -469,7 +469,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -518,7 +518,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -567,7 +567,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -600,7 +600,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -636,7 +636,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -686,7 +686,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -736,7 +736,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -804,7 +804,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),
@@ -904,7 +904,7 @@ class ezcDocumentPdfTextBoxRendererBaseTests extends ezcDocumentPdfTestCase
 
         $rendererClass = $this->renderer;
         $renderer  = new $rendererClass( $driver, $this->styles );
-        $this->assertTrue( $renderer->render(
+        $this->assertTrue( $renderer->renderNode(
             $this->page,
             new ezcDocumentPdfDefaultHyphenator(),
             new ezcDocumentPdfDefaultTokenizer(),

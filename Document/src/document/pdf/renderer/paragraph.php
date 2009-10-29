@@ -43,11 +43,11 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
-    public function render( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
+    public function renderNode( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
     {
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $text );
-        $width  = $this->calculateTextWidth( $page, $text );
+        $width  = $mainRenderer->calculateTextWidth( $page, $text );
 
         // Evaluate available space
         if ( ( $space = $this->evaluateAvailableBoundingBox( $page, $styles, $width ) ) === false )
@@ -105,7 +105,7 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
             // Shift to next page
             $pages[++$pageNr] = array(
                 'page' => $tmpPage = $mainRenderer->getNextRenderingPosition(
-                    ( $pWidth = $this->calculateTextWidth( $page, $text ) ) +
+                    ( $pWidth = $mainRenderer->calculateTextWidth( $page, $text ) ) +
                     $styles['text-column-spacing']->value,
                     $pWidth
                 ),
@@ -138,7 +138,7 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
             {
                 // Get next rendering position
                 $page = $mainRenderer->getNextRenderingPosition(
-                    ( $pWidth = $this->calculateTextWidth( $page, $text ) ) +
+                    ( $pWidth = $mainRenderer->calculateTextWidth( $page, $text ) ) +
                     $styles['text-column-spacing']->value,
                     $pWidth
                 );

@@ -131,3 +131,19 @@ blockquote > attribution {
     font-style: italic;
 }
 
+table {
+    margin: 2mm 0mm;
+//    border: 1px solid #d3d7d5;
+//    padding: 0px 1px 1px 0px;
+}
+
+table entry {
+//    margin: 1px 0px 0px 1px;
+//    border: 1px solid #d3d7d5;
+//    padding: 1mm;
+}
+
+table thead entry {
+    font-weight: bold;
+}
+

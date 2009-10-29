@@ -108,7 +108,8 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
 
         $renderer  = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
-            $style
+            $style,
+            new ezcDocumentPdfOptions()
         );
         $pdf = $renderer->render(
             $docbook,

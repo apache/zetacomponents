@@ -183,7 +183,7 @@ class ezcDocumentPdf extends ezcDocument
         $renderer = new ezcDocumentPdfMainRenderer(
             $this->options->driver,
             $this->styles,
-            $this->options->errorReporting
+            $this->options
         );
 
         foreach ( $this->pdfParts as $part )

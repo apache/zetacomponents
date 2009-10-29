@@ -56,7 +56,7 @@ class ezcDocumentPdfListRenderer extends ezcDocumentPdfBlockRenderer
             }
 
             $renderer = new ezcDocumentPdfListItemRenderer( $this->driver, $this->styles, $itemGenerator, $listItem++ );
-            $renderer->render( $page, $hyphenator, $tokenizer, $child, $mainRenderer );
+            $renderer->renderNode( $page, $hyphenator, $tokenizer, $child, $mainRenderer );
         }
     }
 

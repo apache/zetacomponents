@@ -54,10 +54,12 @@ class ezcDocumentPdfMainRendererTests extends ezcDocumentPdfTestCase
         $docbook = new ezcDocumentDocbook();
         $docbook->loadFile( dirname( __FILE__ ) . '/../files/pdf/unknown.xml' );
 
-        $renderer  = new ezcDocumentPdfMainRenderer(
+        $options  = new ezcDocumentPdfOptions();
+        $options->errorReporting = E_PARSE;
+        $renderer = new ezcDocumentPdfMainRenderer(
             new ezcDocumentPdfSvgDriver(),
             new ezcDocumentPcssStyleInferencer(),
-            E_PARSE
+            $options
         );
 
         $pdf = $renderer->render(

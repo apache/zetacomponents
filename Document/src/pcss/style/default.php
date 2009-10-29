@@ -393,6 +393,53 @@ return array (
      'line' => 129,
      'position' => 26,
   )),
+  22 => 
+  ezcDocumentPcssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
+     'address' => 
+    array (
+      0 => 'table',
+    ),
+     'formats' => 
+    array (
+      'margin' => '2mm 0mm',
+    ),
+     'file' => 'style/default.css',
+     'line' => 134,
+     'position' => 7,
+  )),
+  23 => 
+  ezcDocumentPcssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
+     'address' => 
+    array (
+      0 => 'table',
+      1 => 'entry',
+    ),
+     'formats' => 
+    array (
+    ),
+     'file' => 'style/default.css',
+     'line' => 140,
+     'position' => 13,
+  )),
+  24 => 
+  ezcDocumentPcssLayoutDirective::__set_state(array(
+     'regularExpression' => NULL,
+     'address' => 
+    array (
+      0 => 'table',
+      1 => 'thead',
+      2 => 'entry',
+    ),
+     'formats' => 
+    array (
+      'font-weight' => 'bold',
+    ),
+     'file' => 'style/default.css',
+     'line' => 146,
+     'position' => 19,
+  )),
 );
 
 ?>

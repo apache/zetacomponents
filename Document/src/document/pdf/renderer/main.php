@@ -89,6 +89,8 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
             'blockquote'    => 'renderBlockquote',
 
+            'table'         => 'renderTable',
+
             'itemizedlist'  => 'renderList',
             'orderedlist'   => 'renderList',
             'variablelist'  => 'renderBlock',
@@ -113,17 +115,27 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     protected $errorReporting = 15;
 
     /**
+     * PDF renderer options
+     * 
+     * @var ezcDocumentPdfOptions
+     */
+    protected $options;
+
+    /**
      * Construct renderer from driver to use
      *
-     * @param ezcDocumentPdfDriver $driver
+     * @param ezcDocumentPdfDriver $driver 
+     * @param ezcDocumentPcssStyleInferencer $styles 
+     * @param ezcDocumentPdfOptions $options 
      * @return void
      */
-    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPcssStyleInferencer $styles, $errorReporting = 15 )
+    public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPcssStyleInferencer $styles, ezcDocumentPdfOptions $options = null )
     {
         $this->driver = new ezcDocumentPdfTransactionalDriverWrapper();
         $this->driver->setDriver( $driver );
-        $this->styles = $styles;
-        $this->errorReporting = $errorReporting;
+        $this->styles         = $styles;
+        $this->options        = $options;
+        $this->errorReporting = $options !== null ? $options->errorReporting : 15;
     }
 
     /**
@@ -320,6 +332,27 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
     }
 
     /**
+     * Calculate text width
+     *
+     * Calculate the available horizontal space for texts depending on the
+     * page layout settings.
+     *
+     * @param ezcDocumentPdfPage $page
+     * @param ezcDocumentLocateableDomElement $text
+     * @return float
+     */
+    public function calculateTextWidth( ezcDocumentPdfPage $page, ezcDocumentLocateableDomElement $text )
+    {
+        // Inference page styles
+        $rules = $this->styles->inferenceFormattingRules( $text );
+
+        return ( $page->innerWidth -
+                ( $rules['text-column-spacing']->value * ( $rules['text-columns']->value - 1 ) )
+            ) / $rules['text-columns']->value
+            - $page->xOffset - $page->xReduce;
+    }
+
+    /**
      * Get next rendering position
      *
      * If the current space has been exceeded this method calculates
@@ -427,7 +460,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function ignore( ezcDocumentLocateableDomElement $element )
+    private function ignore( ezcDocumentLocateableDomElement $element )
     {
         // Just do nothing.
     }
@@ -438,7 +471,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function initializeDocument( ezcDocumentLocateableDomElement $element )
+    private function initializeDocument( ezcDocumentLocateableDomElement $element )
     {
         // Call hooks for started document
         foreach ( $this->parts as $part )
@@ -469,7 +502,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element 
      * @return void
      */
-    protected function appendMetaData( ezcDocumentLocateableDomElement $element )
+    private function appendMetaData( ezcDocumentLocateableDomElement $element )
     {
         $childNodes = $element->childNodes;
         $nodeCount  = $childNodes->length;
@@ -520,12 +553,11 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderBlock( ezcDocumentLocateableDomElement $element )
+    private function renderBlock( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfBlockRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
-        $styles   = $this->styles->inferenceFormattingRules( $element );
-        return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+        return $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this );
     }
 
     /**
@@ -534,12 +566,24 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderBlockquote( ezcDocumentLocateableDomElement $element )
+    private function renderBlockquote( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfBlockquoteRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
-        $styles   = $this->styles->inferenceFormattingRules( $element );
-        return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+        return $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+    }
+
+    /**
+     * Handle calls to table element renderer
+     *
+     * @param ezcDocumentLocateableDomElement $element
+     * @return void
+     */
+    private function renderTable( ezcDocumentLocateableDomElement $element )
+    {
+        $renderer = new ezcDocumentPdfTableRenderer( $this->driver, $this->styles, $this->options );
+        $page     = $this->driver->currentPage();
+        return $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this );
     }
 
     /**
@@ -548,12 +592,11 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderList( ezcDocumentLocateableDomElement $element )
+    private function renderList( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfListRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
-        $styles   = $this->styles->inferenceFormattingRules( $element );
-        return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+        return $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this );
     }
 
     /**
@@ -562,12 +605,11 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderListItem( ezcDocumentLocateableDomElement $element )
+    private function renderListItem( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfListItemRenderer( $this->driver, $this->styles, new ezcDocumentNoListItemGenerator(), 0 );
         $page     = $this->driver->currentPage();
-        $styles   = $this->styles->inferenceFormattingRules( $element );
-        return $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+        return $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this );
     }
 
     /**
@@ -576,7 +618,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderParagraph( ezcDocumentLocateableDomElement $element )
+    private function renderParagraph( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfWrappingTextBoxRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
@@ -584,7 +626,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
-        if ( $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
+        if ( $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
         {
             $this->titleTransaction = null;
             $this->handleAnchors( $element );
@@ -595,7 +637,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         // only continue otherwise.
         if ( ( $this->restart !== false ) ||
              ( !$this->checkSkipPrerequisites(
-                    ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+                    ( $pWidth = $this->calculateTextWidth( $page, $element ) ) +
                     $styles['text-column-spacing']->value,
                     $pWidth
                 ) ) )
@@ -607,7 +649,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         // there.
         $this->driver->revert( $trans );
         $this->getNextRenderingPosition(
-            ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+            ( $pWidth = $this->calculateTextWidth( $page, $element ) ) +
             $styles['text-column-spacing']->value,
             $pWidth
         );
@@ -620,7 +662,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderTitle( ezcDocumentLocateableDomElement $element, $position )
+    private function renderTitle( ezcDocumentLocateableDomElement $element, $position )
     {
         $styles   = $this->styles->inferenceFormattingRules( $element );
         $renderer = new ezcDocumentPdfTitleRenderer( $this->driver, $this->styles );
@@ -633,7 +675,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
             'xPos'        => $page->x,
             'position'    => $position,
         );
-        if ( $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
+        if ( $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
         {
             $this->handleAnchors( $element );
             return true;
@@ -641,7 +683,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         $this->driver->revert( $this->titleTransaction['transaction'] );
 
         $this->getNextRenderingPosition(
-            ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+            ( $pWidth = $this->calculateTextWidth( $page, $element ) ) +
             $styles['text-column-spacing']->value,
             $pWidth
         );
@@ -654,14 +696,14 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderMediaObject( ezcDocumentLocateableDomElement $element )
+    private function renderMediaObject( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfMediaObjectRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
-        $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this );
+        $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this );
         $this->handleAnchors( $element );
     }
 
@@ -671,7 +713,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element
      * @return void
      */
-    protected function renderLiteralLayout( ezcDocumentLocateableDomElement $element )
+    private function renderLiteralLayout( ezcDocumentLocateableDomElement $element )
     {
         $renderer = new ezcDocumentPdfLiteralBlockRenderer( $this->driver, $this->styles );
         $page     = $this->driver->currentPage();
@@ -679,7 +721,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
 
         // Just try to render at current position first
         $trans = $this->driver->startTransaction();
-        if ( $renderer->render( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
+        if ( $renderer->renderNode( $page, $this->hyphenator, $this->tokenizer, $element, $this ) )
         {
             $this->titleTransaction = null;
             $this->handleAnchors( $element );
@@ -690,7 +732,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         // only continue otherwise.
         if ( ( $this->restart !== false ) ||
              ( !$this->checkSkipPrerequisites(
-                    ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+                    ( $pWidth = $this->calculateTextWidth( $page, $element ) ) +
                     $styles['text-column-spacing']->value,
                     $pWidth
                 ) ) )
@@ -702,7 +744,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
         // there.
         $this->driver->revert( $trans );
         $this->getNextRenderingPosition(
-            ( $pWidth = $renderer->calculateTextWidth( $page, $element ) ) +
+            ( $pWidth = $this->calculateTextWidth( $page, $element ) ) +
             $styles['text-column-spacing']->value,
             $pWidth
         );
@@ -718,7 +760,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * @param ezcDocumentLocateableDomElement $element 
      * @return void
      */
-    protected function handleAnchors( ezcDocumentLocateableDomElement $element )
+    private function handleAnchors( ezcDocumentLocateableDomElement $element )
     {
         $xpath = new DOMXPath( $element->ownerDocument );
         $xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );

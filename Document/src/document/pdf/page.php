@@ -344,7 +344,7 @@ class ezcDocumentPdfPage implements ezcDocumentLocateable
     }
 
     /**
-     * Set space covored
+     * Set space covered
      *
      * Append a rectangle of already covered space. This space will then not be
      * reused for any other objects on the page.
