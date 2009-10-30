@@ -57,7 +57,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      *
      * Convert documents of the given type to the requested type.
      *
-     * @param ezcDocumentDocument $source
+     * @param ezcDocumentDocbook $source
      * @return ezcDocumentDocument
      */
     public function convert( $source )
@@ -146,18 +146,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
         switch ( $node->nodeType )
         {
             case XML_ELEMENT_NODE:
-                if ( isset( $this->visitorElementHandler[$this->defaultNamespace][$node->tagName] ) )
-                {
-                    $root = $this->visitorElementHandler[$this->defaultNamespace][$node->tagName]->handle( $this, $node, $root );
-                }
-                else
-                {
-                    // Trigger notice for unhandled elements
-                    $this->triggerError( E_NOTICE, "Unhandled element '{$node->tagName}'." );
-
-                    // Recurse into element nodes anyways
-                    $this->visitChildren( $node, $root );
-                }
+                $root = $this->visitElement( $node, $root );
                 break;
 
             case XML_TEXT_NODE:
@@ -165,6 +154,34 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
                 break;
         }
 
+        return $root;
+    }
+
+    /**
+     * Visit DOMElement nodes.
+     * 
+     * @param DOMNode $node 
+     * @param mixed $root 
+     * @return void
+     */
+    protected function visitElement( DOMNode $node, $root )
+    {
+        if ( isset( $this->visitorElementHandler[$this->defaultNamespace][$node->tagName] ) )
+        {
+            $root = $this->visitorElementHandler[$this->defaultNamespace][$node->tagName]->handle(
+                $this,
+                $node,
+                $root
+            );
+        }
+        else
+        {
+            // Trigger notice for unhandled elements
+            $this->triggerError( E_NOTICE, "Unhandled element '{$node->tagName}'." );
+
+            // Recurse into element nodes anyways
+            $this->visitChildren( $node, $root );
+        }
         return $root;
     }
 

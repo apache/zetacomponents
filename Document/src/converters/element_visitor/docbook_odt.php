@@ -92,6 +92,47 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
     }
 
     /**
+     * Convert documents between two formats
+     *
+     * Convert documents of the given type to the requested type.
+     *
+     * @param ezcDocumentDocbook $source
+     * @return ezcDocumentOdt
+     */
+    public function convert( $source )
+    {
+        $destination = $this->initializeDocument();
+
+        $docBookDom = $this->makeLocateable( $source->getDomDocument() );
+
+        $destination = $this->visitChildren(
+            $docBookDom,
+            $destination
+        );
+
+        return $this->createDocument( $destination );
+    }
+
+    /**
+     * Reloads the DOMDocument of the given DocBook to make its elements 
+     * locateable.
+     * 
+     * @param DOMDocument $docBook 
+     * @return DOMDocument
+     */
+    protected function makeLocateable( DOMDocument $docBook )
+    {
+        // Reload the XML document to a DOMDocument with a custom element
+        // class. Just registering it on the existing document seems not to
+        // work in all cases.
+        $reloaded = new DOMDocument();
+        $reloaded->registerNodeClass( 'DOMElement', 'ezcDocumentLocateableDomElement' );
+        $reloaded->loadXml( $docBook->saveXml() );
+
+        return $reloaded;
+    }
+
+    /**
      * Initialize destination document
      *
      * Initialize the structure which the destination document could be build
