@@ -347,7 +347,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
 
         $xpath     = new DOMXPath( $block->ownerDocument );
         $xPosition = $page->x;
-        foreach ( $xpath->query( './*/*/*[local-name() = "row"] | ./*/*[local-name() = "row"]', $block ) as $nr => $row )
+        foreach ( $xpath->query( './*/*/*[local-name() = "row"] | ./*/*[local-name() = "row"]', $block ) as $row )
         {
             $xOffset         = 0;
             $this->cellBoxes = array();

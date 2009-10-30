@@ -45,6 +45,15 @@ class ezcDocumentPdfTableRendererTests extends ezcDocumentPdfTestCase
             array()
         );
     }
+
+    public function testRenderStackedTable()
+    {
+        $this->renderFullDocument(
+            dirname( __FILE__ ) . '/../files/pdf/stacked_table.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array()
+        );
+    }
 }
 
 ?>
