@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" streamable="true">
+  <g id="pages">
+    <g>
+      <rect x="0mm" y="0mm" width="210mm" height="297mm" style="fill: #ffffff; stroke: #000000; stroke-width: 1px; fill-opacity: 1; stroke-opacity: 1;"/>
+      <text x="16.0000mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">Simple</text>
+      <text x="41.4847mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">tables</text>
+      <path d="M 57.3179,172.3573 L 685.5266,172.3573 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,174.8573 L 241.3499,174.8573 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">A</text>
+      <path d="M 243.8499,174.8573 L 425.3818,174.8573 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="69.9962mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">B</text>
+      <path d="M 427.8818,174.8573 L 683.0266,174.8573 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="121.9342mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">A</text>
+      <text x="125.5748mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">and</text>
+      <text x="132.8562mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">B</text>
+      <path d="M 59.8179,174.8573 L 59.8179,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,174.8573 L 241.3499,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,212.3671 L 59.8179,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 243.8499,174.8573 L 243.8499,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,174.8573 L 425.3818,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,212.3671 L 243.8499,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 427.8818,174.8573 L 427.8818,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,174.8573 L 683.0266,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,212.3671 L 427.8818,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,214.8671 L 241.3499,214.8671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 243.8499,214.8671 L 425.3818,214.8671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="69.9962mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 427.8818,214.8671 L 683.0266,214.8671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="121.9342mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 59.8179,214.8671 L 59.8179,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,214.8671 L 241.3499,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,252.3770 L 59.8179,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 243.8499,214.8671 L 243.8499,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,214.8671 L 425.3818,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,252.3770 L 243.8499,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 427.8818,214.8671 L 427.8818,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,214.8671 L 683.0266,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,252.3770 L 427.8818,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,254.8770 L 241.3499,254.8770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 243.8499,254.8770 L 425.3818,254.8770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="69.9962mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 427.8818,254.8770 L 683.0266,254.8770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="121.9342mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 59.8179,254.8770 L 59.8179,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,254.8770 L 241.3499,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,292.3868 L 59.8179,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 243.8499,254.8770 L 243.8499,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,254.8770 L 425.3818,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,292.3868 L 243.8499,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 427.8818,254.8770 L 427.8818,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,254.8770 L 683.0266,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,292.3868 L 427.8818,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,294.8868 L 241.3499,294.8868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="91.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 243.8499,294.8868 L 425.3818,294.8868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="69.9962mm" y="91.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 427.8818,294.8868 L 683.0266,294.8868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="121.9342mm" y="91.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 59.8179,294.8868 L 59.8179,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,294.8868 L 241.3499,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,332.3967 L 59.8179,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 243.8499,294.8868 L 243.8499,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,294.8868 L 425.3818,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,332.3967 L 243.8499,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 427.8818,294.8868 L 427.8818,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,294.8868 L 683.0266,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,332.3967 L 427.8818,332.3967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,334.8967 L 241.3499,334.8967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="102.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 243.8499,334.8967 L 425.3818,334.8967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="69.9962mm" y="102.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 427.8818,334.8967 L 683.0266,334.8967 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="121.9342mm" y="102.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 59.8179,334.8967 L 59.8179,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,334.8967 L 241.3499,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 241.3499,372.4065 L 59.8179,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 243.8499,334.8967 L 243.8499,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,334.8967 L 425.3818,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 425.3818,372.4065 L 243.8499,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 427.8818,334.8967 L 427.8818,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,334.8967 L 683.0266,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,372.4065 L 427.8818,372.4065 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 57.3179,172.3573 L 57.3179,374.9065 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 685.5266,172.3573 L 685.5266,374.9065 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 685.5266,374.9065 L 57.3179,374.9065 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 57.3179,396.1663 L 685.5266,396.1663 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,398.6663 L 245.0305,398.6663 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="120.9222mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">Inputs</text>
+      <path d="M 247.5305,398.6663 L 432.7431,398.6663 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 435.2431,398.6663 L 683.0266,398.6663 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="124.0117mm" y="120.9222mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">Output</text>
+      <path d="M 59.8179,398.6663 L 59.8179,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,398.6663 L 245.0305,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,436.1762 L 59.8179,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 247.5305,398.6663 L 247.5305,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,398.6663 L 432.7431,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,436.1762 L 247.5305,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 435.2431,398.6663 L 435.2431,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,398.6663 L 683.0266,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,436.1762 L 435.2431,436.1762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,438.6762 L 245.0305,438.6762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="132.2139mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">A</text>
+      <path d="M 247.5305,438.6762 L 432.7431,438.6762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="71.0350mm" y="132.2139mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">B</text>
+      <path d="M 435.2431,438.6762 L 683.0266,438.6762 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="124.0117mm" y="132.2139mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">A</text>
+      <text x="127.6523mm" y="132.2139mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">or</text>
+      <text x="133.1133mm" y="132.2139mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">B</text>
+      <path d="M 59.8179,438.6762 L 59.8179,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,438.6762 L 245.0305,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,476.1860 L 59.8179,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 247.5305,438.6762 L 247.5305,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,438.6762 L 432.7431,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,476.1860 L 247.5305,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 435.2431,438.6762 L 435.2431,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,438.6762 L 683.0266,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,476.1860 L 435.2431,476.1860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,478.6860 L 245.0305,478.6860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="143.5056mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 247.5305,478.6860 L 432.7431,478.6860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="71.0350mm" y="143.5056mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 435.2431,478.6860 L 683.0266,478.6860 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="124.0117mm" y="143.5056mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 59.8179,478.6860 L 59.8179,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,478.6860 L 245.0305,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,516.1959 L 59.8179,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 247.5305,478.6860 L 247.5305,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,478.6860 L 432.7431,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,516.1959 L 247.5305,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 435.2431,478.6860 L 435.2431,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,478.6860 L 683.0266,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,516.1959 L 435.2431,516.1959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,518.6959 L 245.0305,518.6959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="154.7972mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 247.5305,518.6959 L 432.7431,518.6959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="71.0350mm" y="154.7972mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 435.2431,518.6959 L 683.0266,518.6959 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="124.0117mm" y="154.7972mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 59.8179,518.6959 L 59.8179,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,518.6959 L 245.0305,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,556.2057 L 59.8179,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 247.5305,518.6959 L 247.5305,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,518.6959 L 432.7431,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,556.2057 L 247.5305,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 435.2431,518.6959 L 435.2431,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,518.6959 L 683.0266,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,556.2057 L 435.2431,556.2057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,558.7057 L 245.0305,558.7057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="166.0889mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">False</text>
+      <path d="M 247.5305,558.7057 L 432.7431,558.7057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="71.0350mm" y="166.0889mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 435.2431,558.7057 L 683.0266,558.7057 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="124.0117mm" y="166.0889mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 59.8179,558.7057 L 59.8179,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,558.7057 L 245.0305,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,596.2156 L 59.8179,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 247.5305,558.7057 L 247.5305,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,558.7057 L 432.7431,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,596.2156 L 247.5305,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 435.2431,558.7057 L 435.2431,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,558.7057 L 683.0266,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,596.2156 L 435.2431,596.2156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,598.7156 L 245.0305,598.7156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="177.3806mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 247.5305,598.7156 L 432.7431,598.7156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="71.0350mm" y="177.3806mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 435.2431,598.7156 L 683.0266,598.7156 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="124.0117mm" y="177.3806mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">True</text>
+      <path d="M 59.8179,598.7156 L 59.8179,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,598.7156 L 245.0305,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 245.0305,636.2254 L 59.8179,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 247.5305,598.7156 L 247.5305,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,598.7156 L 432.7431,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 432.7431,636.2254 L 247.5305,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 435.2431,598.7156 L 435.2431,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,598.7156 L 683.0266,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,636.2254 L 435.2431,636.2254 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 57.3179,396.1663 L 57.3179,638.7254 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 685.5266,396.1663 L 685.5266,638.7254 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 685.5266,638.7254 L 57.3179,638.7254 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+    </g>
+  </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+</svg>

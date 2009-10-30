@@ -186,7 +186,7 @@ class ezcDocumentPcssStyleInferencer
         $directives = $parser->parseFile( dirname( __FILE__ ) . '/style/default.css' );
 
         // Write parsed object tree back to file
-        /* file_put_contents( $file, "<?php\n\nreturn " . str_replace( dirname( __FILE__ ) . '/', '', var_export( $directives, true ) ) . ";\n\n? >" ); // */
+        file_put_contents( $file, "<?php\n\nreturn " . str_replace( dirname( __FILE__ ) . '/', '', var_export( $directives, true ) ) . ";\n\n?>" ); // */
 
         $this->appendStyleDirectives( $directives );
     }

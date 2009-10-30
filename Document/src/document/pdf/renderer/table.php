@@ -44,6 +44,14 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     protected $covered = array();
 
     /**
+     * Boxes for all currently drawn cells so their border can be renderer once 
+     * the row baseline is known.
+     * 
+     * @var array
+     */
+    protected $cellBoxes = array();
+
+    /**
      * Construct renderer from driver to use
      *
      * @param ezcDocumentPdfDriver $driver 
@@ -77,8 +85,6 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
         $this->hyphenator = $hyphenator;
         $this->tokenizer  = $tokenizer;
 
-        // @TODO: Render border and background. This can be quite hard to
-        // estimate, though.
         $styles         = $this->styles->inferenceFormattingRules( $block );
         $page->y       += $styles['padding']->value['top'] +
                           $styles['margin']->value['top'];
@@ -131,6 +137,9 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
      */
     public function _getNextRenderingPosition( $move, $width )
     {
+        // @TODO: Implement
+        // @TODO: This needs to implement the rendering of side borders on page 
+        // wrapping (for cells and tables).
         return $this->driver->currentPage();
     }
 
@@ -149,6 +158,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
      */
     protected function renderCell( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $cell, array $styles, ezcDocumentPdfBoundingBox $space, $start, $width )
     {
+        $styles        = $this->styles->inferenceFormattingRules( $cell );
         $this->covered = array();
 
         // Mark space used, which will be covered by the other table cells
@@ -172,9 +182,20 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
             ) );
         }
 
+        // Evaluate available space for box
         $page->x = $space->x + $start * $space->width;
         $page->y = $space->y;
-        $this->cellWidth = $width * $space->width;
+
+        $this->cellBoxes[] = array(
+            'box'    => $box = $this->evaluateAvailableBoundingBox( $page, $styles, $width * $space->width ),
+            'styles' => $styles,
+        );
+        $this->cellWidth = $box->width;
+        $this->renderTopBorder( $styles, $box );
+
+        // Render cell contents
+        $page->x = $box->x;
+        $page->y = $box->y;
         $this->process( $cell );
         $page->x = $space->x;
 
@@ -183,6 +204,125 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
             $page->uncover( $id );
             unset( $this->covered[$nr] );
         }
+
+        return $page->y;
+    }
+
+    /**
+     * Render top border
+     *
+     * Render the top border of the given space
+     * 
+     * @param array $styles 
+     * @param ezcDocumentPdfBoundingBox $space 
+     * @return void
+     */
+    protected function renderTopBorder( array $styles, ezcDocumentPdfBoundingBox $space )
+    {
+        $topLeft = array(
+            $space->x -
+                $styles['padding']->value['left'] -
+                $styles['border']->value['left']['width'] / 2,
+            $space->y -
+                $styles['padding']->value['top'] -
+                $styles['border']->value['top']['width'] / 2,
+        );
+        $topRight = array(
+            $space->x +
+                $styles['padding']->value['right'] +
+                $styles['border']->value['right']['width'] / 2 +
+                $space->width,
+            $space->y -
+                $styles['padding']->value['top'] -
+                $styles['border']->value['top']['width'] / 2,
+        );
+
+        if ( $styles['border']->value['top']['width'] > 0 )
+        {
+            $this->driver->drawPolyline(
+                array( $topLeft, $topRight ),
+                $styles['border']->value['top']['color'],
+                $styles['border']->value['top']['width']
+            );
+        }
+    }
+
+    /**
+     * Render top border
+     *
+     * Render the top border of the given space
+     * 
+     * @param array $styles 
+     * @param ezcDocumentPdfBoundingBox $space 
+     * @return void
+     */
+    protected function renderBottomBorder( array $styles, ezcDocumentPdfBoundingBox $space )
+    {
+        $bottomRight = array(
+            $space->x +
+                $styles['padding']->value['right'] +
+                $styles['border']->value['right']['width'] / 2 +
+                $space->width,
+            $space->y +
+                $styles['padding']->value['bottom'] +
+                $styles['border']->value['bottom']['width'] / 2 +
+                $space->height,
+        );
+        $bottomLeft = array(
+            $space->x -
+                $styles['padding']->value['left'] -
+                $styles['border']->value['left']['width'] / 2,
+            $space->y +
+                $styles['padding']->value['bottom'] +
+                $styles['border']->value['bottom']['width'] / 2 +
+                $space->height,
+        );
+
+        if ( $styles['border']->value['bottom']['width'] > 0 )
+        {
+            $this->driver->drawPolyline(
+                array( $bottomRight, $bottomLeft ),
+                $styles['border']->value['bottom']['color'],
+                $styles['border']->value['bottom']['width']
+            );
+        }
+    }
+
+    /**
+     * Set cell box covered
+     *
+     * Mark rendered space as convered on the page.
+     *
+     * @param ezcDocumentPdfPage $page 
+     * @param ezcDocumentPdfBoundingBox $space 
+     * @param array $styles 
+     * @return void
+     */
+    protected function setCellCovered( ezcDocumentPdfPage $page, ezcDocumentPdfBoundingBox $space, array $styles )
+    {
+        // Apply bounding box modifications
+        $space = clone $space;
+        $space->x      -=
+            $styles['padding']->value['left'] +
+            $styles['border']->value['left']['width'] +
+            $styles['margin']->value['left'];
+        $space->width  +=
+            $styles['padding']->value['left'] +
+            $styles['padding']->value['right'] +
+            $styles['border']->value['left']['width'] +
+            $styles['border']->value['right']['width'] +
+            $styles['margin']->value['left'] +
+            $styles['margin']->value['right'];
+        $space->y      -=
+            $styles['padding']->value['top'] +
+            $styles['border']->value['top']['width'] +
+            $styles['margin']->value['top'];
+        $space->height +=
+            $styles['padding']->value['top'] +
+            $styles['border']->value['top']['width'] +
+            $styles['margin']->value['top'];
+        $page->setCovered( $space );
+        $page->y += $space->height;
     }
 
     /**
@@ -201,18 +341,45 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
         $styles            = $this->styles->inferenceFormattingRules( $block );
         $renderWidth       = $mainRenderer->calculateTextWidth( $page, $block );
 
-        $xpath = new DOMXPath( $block->ownerDocument );
-        foreach ( $xpath->query( './*/*/*[local-name() = "row"] | ./*/*[local-name() = "row"]', $block ) as $row )
-        {
-            $space = $this->evaluateAvailableBoundingBox( $page, $styles, $renderWidth );
+        $space = $this->evaluateAvailableBoundingBox( $page, $styles, $renderWidth );
+        $box   = clone $space;
+        $this->renderTopBorder( $styles, $box );
 
-            $xPos = 0;
+        $xpath     = new DOMXPath( $block->ownerDocument );
+        $xPosition = $page->x;
+        foreach ( $xpath->query( './*/*/*[local-name() = "row"] | ./*/*[local-name() = "row"]', $block ) as $nr => $row )
+        {
+            $xOffset         = 0;
+            $this->cellBoxes = array();
+            $positions       = array();
             foreach ( $xpath->query( './*[local-name() = "entry"]', $row ) as $nr => $cell )
             {
-                $this->renderCell( $page, $hyphenator, $tokenizer, $cell, $styles, $space, $xPos, $tableColumnWidths[$nr] );
-                $xPos += $tableColumnWidths[$nr];
+                $positions[] = $this->renderCell( $page, $hyphenator, $tokenizer, $cell, $styles, $space, $xOffset, $tableColumnWidths[$nr] );
+                $xOffset    += $tableColumnWidths[$nr];
             }
+
+            $page->x = $xPosition;
+            foreach ( $this->cellBoxes as $cell )
+            {
+                $cell['box']->height = max( $positions ) - $cell['box']->y;
+                $this->renderBoxBorder( $cell['box'], $cell['styles'], false );
+                $this->setCellCovered( $page, $cell['box'], $styles );
+            }
+
+            // Set page->y again, since setBoxCovered() increased it, which we 
+            // do not want in this case.
+            $page->y = max( $positions );
+
+            $space->y = $page->y = $page->y +
+                $cell['styles']['padding']->value['bottom'] +
+                $cell['styles']['border']->value['bottom']['width'] +
+                $cell['styles']['margin']->value['bottom'];
         }
+
+        // @TODO: This does obviously not work for multi-page tables. In this 
+        // case the page y offset needs to be assumed as the top of the box.
+        $box->height = $space->y - $box->y;
+        $this->renderBoxBorder( $box, $styles, false );
     }
 }
 

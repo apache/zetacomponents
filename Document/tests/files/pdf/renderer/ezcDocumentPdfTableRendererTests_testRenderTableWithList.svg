@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" streamable="true">
+  <g id="pages">
+    <g>
+      <rect x="0mm" y="0mm" width="210mm" height="297mm" style="fill: #ffffff; stroke: #000000; stroke-width: 1px; fill-opacity: 1; stroke-opacity: 1;"/>
+      <text x="16.0000mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">Table</text>
+      <text x="37.8440mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">with</text>
+      <text x="56.0473mm" y="40.4667mm" style="font-size: 24.00pt; font-family: Bitstream Vera Sans; font-style: normal; font-weight: bold; stroke: none; fill: #000000">list</text>
+      <path d="M 57.3179,172.3573 L 685.5266,172.3573 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,174.8573 L 225.1910,174.8573 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">col</text>
+      <text x="25.3397mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">1</text>
+      <path d="M 227.6910,174.8573 L 683.0266,174.8573 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="65.4358mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">col</text>
+      <text x="72.7172mm" y="57.7583mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: bold; stroke: none; fill: #2e3436">2</text>
+      <path d="M 59.8179,174.8573 L 59.8179,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 225.1910,174.8573 L 225.1910,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 225.1910,212.3671 L 59.8179,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 227.6910,174.8573 L 227.6910,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,174.8573 L 683.0266,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,212.3671 L 227.6910,212.3671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,214.8671 L 225.1910,214.8671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">1</text>
+      <path d="M 227.6910,214.8671 L 683.0266,214.8671 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="65.4358mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">Second</text>
+      <text x="78.1782mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">column</text>
+      <text x="90.9205mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">of</text>
+      <text x="96.3815mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">row</text>
+      <text x="103.6628mm" y="69.0500mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">1.</text>
+      <path d="M 59.8179,214.8671 L 59.8179,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 225.1910,214.8671 L 225.1910,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 225.1910,252.3770 L 59.8179,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 227.6910,214.8671 L 227.6910,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,214.8671 L 683.0266,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,252.3770 L 227.6910,252.3770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,254.8770 L 225.1910,254.8770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">2</text>
+      <path d="M 227.6910,254.8770 L 683.0266,254.8770 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="65.4358mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">Second</text>
+      <text x="78.1782mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">column</text>
+      <text x="90.9205mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">of</text>
+      <text x="96.3815mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">row</text>
+      <text x="103.6628mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">2.</text>
+      <text x="109.1238mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">Second</text>
+      <text x="121.8662mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">line</text>
+      <text x="130.9678mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">of</text>
+      <text x="136.4288mm" y="80.3417mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">paragraph.</text>
+      <path d="M 59.8179,254.8770 L 59.8179,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 225.1910,254.8770 L 225.1910,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 225.1910,292.3868 L 59.8179,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 227.6910,254.8770 L 227.6910,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,254.8770 L 683.0266,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,292.3868 L 227.6910,292.3868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 59.8179,294.8868 L 225.1910,294.8868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="18.0583mm" y="91.6333mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">3</text>
+      <path d="M 227.6910,294.8868 L 683.0266,294.8868 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <text x="67.1414mm" y="91.3389mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">-</text>
+      <text x="77.1414mm" y="91.3389mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">Second</text>
+      <text x="89.8837mm" y="91.3389mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">column</text>
+      <text x="102.6261mm" y="91.3389mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">of</text>
+      <text x="108.0871mm" y="91.3389mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">row</text>
+      <text x="115.3684mm" y="91.3389mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">3.</text>
+      <text x="67.1414mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">-</text>
+      <text x="77.1414mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">Second</text>
+      <text x="89.8837mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">item</text>
+      <text x="98.9854mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">in</text>
+      <text x="104.4464mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">bullet</text>
+      <text x="117.1887mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">list</text>
+      <text x="126.2904mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">(row</text>
+      <text x="135.3921mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">3,</text>
+      <text x="140.8531mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">column</text>
+      <text x="153.5954mm" y="104.9250mm" style="font-size: 12.00pt; font-family: Bitstream Vera Serif; font-style: normal; font-weight: normal; stroke: none; fill: #2e3436">2).</text>
+      <path d="M 59.8179,294.8868 L 59.8179,407.8396 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 225.1910,294.8868 L 225.1910,407.8396 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 225.1910,407.8396 L 59.8179,407.8396 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 227.6910,294.8868 L 227.6910,407.8396 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,294.8868 L 683.0266,407.8396 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 683.0266,407.8396 L 227.6910,407.8396 z " style="stroke: #d3d7d5; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 57.3179,172.3573 L 57.3179,410.3396 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 685.5266,172.3573 L 685.5266,410.3396 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+      <path d="M 685.5266,410.3396 L 57.3179,410.3396 z " style="stroke: #babdb6; stroke-width: 0.3528mm; fill: none;"/>
+    </g>
+  </g>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns">
+      <rdf:Description>
+        <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">eZ Components - Document //autogen//</dc:creator>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+</svg>

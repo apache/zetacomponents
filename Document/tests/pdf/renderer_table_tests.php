@@ -36,6 +36,15 @@ class ezcDocumentPdfTableRendererTests extends ezcDocumentPdfTestCase
             array()
         );
     }
+
+    public function testRenderTableWithList()
+    {
+        $this->renderFullDocument(
+            dirname( __FILE__ ) . '/../files/pdf/tables_with_list.xml',
+            __CLASS__ . '_' . __FUNCTION__ . '.svg',
+            array()
+        );
+    }
 }
 
 ?>

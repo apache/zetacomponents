@@ -59,6 +59,7 @@ return array (
     ),
      'formats' => 
     array (
+      'border' => 'none',
       'margin' => '3mm 0mm 1mm 0mm',
       'padding' => '0mm',
     ),
@@ -78,7 +79,7 @@ return array (
       'font-weight' => 'bold',
     ),
      'file' => 'style/default.css',
-     'line' => 43,
+     'line' => 44,
      'position' => 10,
   )),
   4 => 
@@ -94,7 +95,7 @@ return array (
       'color' => '#204a87',
     ),
      'file' => 'style/default.css',
-     'line' => 47,
+     'line' => 48,
      'position' => 7,
   )),
   5 => 
@@ -110,7 +111,7 @@ return array (
       'color' => '#204a87',
     ),
      'file' => 'style/default.css',
-     'line' => 52,
+     'line' => 53,
      'position' => 6,
   )),
   6 => 
@@ -127,7 +128,7 @@ return array (
       'color' => '#000000',
     ),
      'file' => 'style/default.css',
-     'line' => 57,
+     'line' => 58,
      'position' => 7,
   )),
   7 => 
@@ -142,7 +143,7 @@ return array (
       'font-size' => '32pt',
     ),
      'file' => 'style/default.css',
-     'line' => 63,
+     'line' => 64,
      'position' => 7,
   )),
   8 => 
@@ -160,7 +161,7 @@ return array (
       'margin' => '10mm 0mm 4mm 0mm',
     ),
      'file' => 'style/default.css',
-     'line' => 67,
+     'line' => 68,
      'position' => 17,
   )),
   9 => 
@@ -178,7 +179,7 @@ return array (
       'text-columns' => '1',
     ),
      'file' => 'style/default.css',
-     'line' => 73,
+     'line' => 74,
      'position' => 27,
   )),
   10 => 
@@ -196,7 +197,7 @@ return array (
       'font-size' => '18pt',
     ),
      'file' => 'style/default.css',
-     'line' => 78,
+     'line' => 79,
      'position' => 37,
   )),
   11 => 
@@ -215,7 +216,7 @@ return array (
       'font-size' => '16pt',
     ),
      'file' => 'style/default.css',
-     'line' => 82,
+     'line' => 83,
      'position' => 47,
   )),
   12 => 
@@ -235,7 +236,7 @@ return array (
       'font-size' => '14pt',
     ),
      'file' => 'style/default.css',
-     'line' => 86,
+     'line' => 87,
      'position' => 57,
   )),
   13 => 
@@ -256,7 +257,7 @@ return array (
       'font-size' => '12pt',
     ),
      'file' => 'style/default.css',
-     'line' => 90,
+     'line' => 91,
      'position' => 67,
   )),
   14 => 
@@ -275,7 +276,7 @@ return array (
       'font-family' => 'monospace',
     ),
      'file' => 'style/default.css',
-     'line' => 94,
+     'line' => 95,
      'position' => 15,
   )),
   15 => 
@@ -291,7 +292,7 @@ return array (
       'font-weight' => 'bold',
     ),
      'file' => 'style/default.css',
-     'line' => 102,
+     'line' => 103,
      'position' => 21,
   )),
   16 => 
@@ -308,7 +309,7 @@ return array (
       'margin-bottom' => '3mm',
     ),
      'file' => 'style/default.css',
-     'line' => 106,
+     'line' => 107,
      'position' => 25,
   )),
   17 => 
@@ -325,7 +326,7 @@ return array (
       'margin-bottom' => '3mm',
     ),
      'file' => 'style/default.css',
-     'line' => 111,
+     'line' => 112,
      'position' => 24,
   )),
   18 => 
@@ -342,7 +343,7 @@ return array (
       'margin-bottom' => '3mm',
     ),
      'file' => 'style/default.css',
-     'line' => 116,
+     'line' => 117,
      'position' => 25,
   )),
   19 => 
@@ -358,7 +359,7 @@ return array (
       'margin' => '0mm 0mm 4mm 0mm',
     ),
      'file' => 'style/default.css',
-     'line' => 121,
+     'line' => 122,
      'position' => 17,
   )),
   20 => 
@@ -373,7 +374,7 @@ return array (
       'margin' => '2mm 0mm 4mm 10mm',
     ),
      'file' => 'style/default.css',
-     'line' => 125,
+     'line' => 126,
      'position' => 12,
   )),
   21 => 
@@ -390,7 +391,7 @@ return array (
       'font-style' => 'italic',
     ),
      'file' => 'style/default.css',
-     'line' => 129,
+     'line' => 130,
      'position' => 26,
   )),
   22 => 
@@ -403,9 +404,11 @@ return array (
      'formats' => 
     array (
       'margin' => '2mm 0mm',
+      'border' => '1px solid #babdb6',
+      'padding' => '0px 1px 1px 0px',
     ),
      'file' => 'style/default.css',
-     'line' => 134,
+     'line' => 135,
      'position' => 7,
   )),
   23 => 
@@ -418,9 +421,12 @@ return array (
     ),
      'formats' => 
     array (
+      'margin' => '1px 0px 0px 1px',
+      'border' => '1px solid #d3d7d5',
+      'padding' => '1mm',
     ),
      'file' => 'style/default.css',
-     'line' => 140,
+     'line' => 141,
      'position' => 13,
   )),
   24 => 
@@ -437,7 +443,7 @@ return array (
       'font-weight' => 'bold',
     ),
      'file' => 'style/default.css',
-     'line' => 146,
+     'line' => 147,
      'position' => 19,
   )),
 );
