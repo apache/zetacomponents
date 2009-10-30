@@ -37,6 +37,7 @@ class ezcDocumentDocbookToOdtLiteralLayoutHandler extends ezcDocumentDocbookToOd
             ezcDocumentOdt::NS_ODT_TEXT,
             'p'
         );
+        $this->styler->applyStyles( $node, $p );
 
         $converter->visitChildren( $node, $p );
         return $root;

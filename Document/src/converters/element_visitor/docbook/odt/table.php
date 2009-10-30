@@ -75,6 +75,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
         $root->appendChild( $table );
 
         $this->createCellDefinition( $node, $table );
+        $this->styler->applyStyles( $node, $table );
 
         $converter->visitChildren( $node, $table );
         return $root;
@@ -108,6 +109,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
                         'table-column'
                     );
                     $odtTable->appendChild( $odtCell );
+                    // @TODO: Any styling necessary here?
                 }
             }
         }
@@ -147,6 +149,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
             'table-header-rows'
         );
         $root->appendChild( $tableHeaderRows );
+        $this->styler->applyStyles( $node, $tableHeaderRows );
 
         $converter->visitChildren( $node, $tableHeaderRows );
         return $root;
@@ -184,6 +187,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
             'table-row'
         );
         $root->appendChild( $tableRow );
+        $this->styler->applyStyles( $node, $tableRow );
 
         $converter->visitChildren( $node, $tableRow );
         return $root;
@@ -199,7 +203,6 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
      */
     protected function handleTd( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // @TODO: Determine style
         $tableCell = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_TABLE,
             'table-cell'
@@ -211,6 +214,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
             'string'
         );
         $root->appendChild( $tableCell );
+        $this->styler->applyStyles( $node, $tableCell );
 
         // @TODO: Colspan / rowspan
 

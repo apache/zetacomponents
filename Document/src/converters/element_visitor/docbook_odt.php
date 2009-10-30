@@ -43,10 +43,12 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 $options
         );
 
+        $styler = $this->options->styler;
+
         // Initlize common element handlers
         $this->visitorElementHandler = array(
             'docbook' => array(
-                'article'           => $ignore = new ezcDocumentDocbookToOdtIgnoreHandler(),
+                'article'           => $ignore = new ezcDocumentDocbookToOdtIgnoreHandler( $styler ),
                 'book'              => $ignore,
                 // 'sect1info'         => $header = new ezcDocumentDocbookToOdtHeadHandler(),
                 // 'sect2info'         => $header,
@@ -59,33 +61,33 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 // 'sect3'             => $section,
                 // 'sect4'             => $section,
                 // 'sect5'             => $section,
-                'section'           => $section = new ezcDocumentDocbookToOdtSectionHandler(),
+                'section'           => $section = new ezcDocumentDocbookToOdtSectionHandler( $styler ),
                 'title'             => $section,
-                'para'              => new ezcDocumentDocbookToOdtParagraphHandler(),
-                'emphasis'          => $inline = new ezcDocumentDocbookToOdtInlineHandler(),
+                'para'              => new ezcDocumentDocbookToOdtParagraphHandler( $styler ),
+                'emphasis'          => $inline = new ezcDocumentDocbookToOdtInlineHandler( $styler ),
                 // 'literal'           => $mapper,
-                'ulink'             => new ezcDocumentDocbookToOdtUlinkHandler(),
+                'ulink'             => new ezcDocumentDocbookToOdtUlinkHandler( $styler ),
                 // 'link'              => new ezcDocumentDocbookToOdtInternalLinkHandler(),
                 // 'anchor'            => new ezcDocumentDocbookToOdtAnchorHandler(),
-                'inlinemediaobject' => $media = new ezcDocumentDocbookToOdtMediaObjectHandler(),
+                'inlinemediaobject' => $media = new ezcDocumentDocbookToOdtMediaObjectHandler( $styler ),
                 'mediaobject'       => $media,
                 // 'blockquote'        => new ezcDocumentDocbookToOdtBlockquoteHandler(),
-                'itemizedlist'      => $list = new ezcDocumentDocbookToOdtListHandler,
+                'itemizedlist'      => $list = new ezcDocumentDocbookToOdtListHandler( $styler ),
                 // 'orderedlist'       => $mapper,
-                'listitem'          => $mapper = new ezcDocumentDocbookToOdtMappingHandler(),
+                'listitem'          => $mapper = new ezcDocumentDocbookToOdtMappingHandler( $styler ),
                 // 'note'              => $special = new ezcDocumentDocbookToOdtSpecialParagraphHandler(),
                 // 'tip'               => $special,
                 // 'warning'           => $special,
                 // 'important'         => $special,
                 // 'caution'           => $special,
-                'literallayout'     => new ezcDocumentDocbookToOdtLiteralLayoutHandler(),
-                'footnote'          => new ezcDocumentDocbookToOdtFootnoteHandler(),
+                'literallayout'     => new ezcDocumentDocbookToOdtLiteralLayoutHandler( $styler ),
+                'footnote'          => new ezcDocumentDocbookToOdtFootnoteHandler( $styler ),
                 // 'comment'           => new ezcDocumentDocbookToOdtCommentHandler(),
                 // 'beginpage'         => $mapper,
                 // 'variablelist'      => $mapper,
                 // 'varlistentry'      => new ezcDocumentDocbookToOdtDefinitionListEntryHandler(),
                 // 'entry'             => new ezcDocumentDocbookToOdtTableCellHandler(),
-                'table'             => $table = new ezcDocumentDocbookToOdtTableHandler(),
+                'table'             => $table = new ezcDocumentDocbookToOdtTableHandler( $styler ),
                 'tbody'             => $table,
                 'thead'             => $table,
                 'caption'           => $table,
@@ -112,15 +114,17 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
 
         $docBookDom = $this->makeLocateable( $source->getDomDocument() );
 
-        $this->styleInfo = new ezcDocumentOdtStyleInformation(
-            $destination->ownerDocument->getElementsByTagNameNS(
-                ezcDocumentOdt::NS_ODT_OFFICE,
-                'styles'
-            )->item( 0 ),
-            $destination->ownerDocument->getElementsByTagNameNS(
-                ezcDocumentOdt::NS_ODT_OFFICE,
-                'font-face-decls'
-            )->item( 0 )
+        $this->options->styler->init(
+            new ezcDocumentOdtStyleInformation(
+                $destination->ownerDocument->getElementsByTagNameNS(
+                    ezcDocumentOdt::NS_ODT_OFFICE,
+                    'styles'
+                )->item( 0 ),
+                $destination->ownerDocument->getElementsByTagNameNS(
+                    ezcDocumentOdt::NS_ODT_OFFICE,
+                    'font-face-decls'
+                )->item( 0 )
+            )
         );
 
         $destination = $this->visitChildren(
@@ -222,14 +226,6 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
             $root->appendChild( $text );
         }
 
-        return $root;
-    }
-
-    protected function visitElement( DOMElement $node, $root )
-    {
-        $root = parent::visitElement( $node, $root );
-        // @TODO: Not sure, if this simple interface works. Need to re-check.
-        $this->options->styler->applyStyles( $this->styleInfo, $node, $root );
         return $root;
     }
 }

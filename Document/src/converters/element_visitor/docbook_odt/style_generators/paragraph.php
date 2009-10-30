@@ -80,7 +80,7 @@ class ezcDocumentOdtParagraphStyleGenerator
     public function createStyle( ezcDocumentOdtStyleInformation $styleInfo, DOMElement $odtElement, array $styleAttributes )
     {
         $style = $styleInfo->styleSection->appendChild(
-            $styleSection->documentElement->createElementNS(
+            $styleInfo->styleSection->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
                 'style'
             )

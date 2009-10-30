@@ -36,6 +36,7 @@ class ezcDocumentDocbookToOdtInlineHandler extends ezcDocumentDocbookToOdtBaseHa
             ezcDocumentOdt::NS_ODT_TEXT,
             'span'
         );
+        $this->styler->applyStyles( $node, $inline );
 
         $converter->visitChildren( $node, $inline );
         return $root;

@@ -31,7 +31,6 @@ class ezcDocumentDocbookToOdtParagraphHandler extends ezcDocumentDocbookToOdtBas
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // @TODO: Determine style.
         $p = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_TEXT,
             'p'
@@ -42,6 +41,7 @@ class ezcDocumentDocbookToOdtParagraphHandler extends ezcDocumentDocbookToOdtBas
             'Text_Body'
         );
         $root->appendChild( $p );
+        $this->styler->applyStyles( $node, $p );
 
         $converter->visitChildren( $node, $p );
         return $root;

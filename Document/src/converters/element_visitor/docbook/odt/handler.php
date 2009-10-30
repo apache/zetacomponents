@@ -16,6 +16,22 @@
  */
 abstract class ezcDocumentDocbookToOdtBaseHandler extends ezcDocumentElementVisitorHandler
 {
+    /**
+     * ODT styler. 
+     * 
+     * @var ezcDocumentOdtStyler
+     */
+    protected $styler;
+
+    /**
+     * Creates a new handler which utilizes the given $styler. 
+     * 
+     * @param ezcDocumentOdtStyler $styler 
+     */
+    public function __construct( ezcDocumentOdtStyler $styler )
+    {
+        $this->styler = $styler;
+    }
 }
 
 ?>

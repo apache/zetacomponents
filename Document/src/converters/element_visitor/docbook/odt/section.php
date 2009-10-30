@@ -44,18 +44,13 @@ class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseH
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'h'
             );
-            // @TODO: Style.
-            $h->setAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'text:style-name',
-                'Heading_' . $this->level
-            );
             $h->setAttributeNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'text:outline-level',
                 $this->level
             );
             $root->appendChild( $h );
+            $this->styler->applyStyles( $node, $h );
 
             $converter->visitChildren( $node, $h );
         }

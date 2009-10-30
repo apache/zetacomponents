@@ -48,7 +48,6 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
 
         $imageData = $this->extractAndValidateImageData( $node );
 
-        // @TODO: Determine style.
         $frame = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_DRAWING,
             'frame'
@@ -58,6 +57,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
             'draw:name',
             'graphics' . $drawingId
         );
+        $this->styler->applyStyles( $node, $frame );
 
         $anchorType = 'paragraph';
         if ( $node->localName === 'mediaobject' )

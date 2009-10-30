@@ -9,6 +9,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once 'odt/test_classes/styler.php';
+
 /**
  * Test suite for class.
  * 
@@ -25,66 +27,6 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
-
-    /*
-
-    public function testOdtConverterOptionsFormatOutput()
-    {
-        $options = new ezcDocumentOdtConverterOptions();
-        $options->formatOutput = false;
-
-        try
-        {
-            $options->formatOutput = 0;
-            $this->fail( 'Expected ezcBaseValueException.' );
-        }
-        catch ( ezcBaseValueException $e )
-        {}
-    }
-
-    public function testOdtConverterOptionsDublinCoreMetadata()
-    {
-        $options = new ezcDocumentOdtConverterOptions();
-        $options->dublinCoreMetadata = false;
-
-        try
-        {
-            $options->dublinCoreMetadata = 0;
-            $this->fail( 'Expected ezcBaseValueException.' );
-        }
-        catch ( ezcBaseValueException $e )
-        {}
-    }
-
-    public function testOdtConverterOptionsStyleSheets()
-    {
-        $options = new ezcDocumentOdtConverterOptions();
-        $options->styleSheets = array( 'url' );
-        $options->styleSheets = null;
-
-        try
-        {
-            $options->styleSheets = 0;
-            $this->fail( 'Expected ezcBaseValueException.' );
-        }
-        catch ( ezcBaseValueException $e )
-        {}
-    }
-
-    public function testOdtConverterOptionsUnknownOption()
-    {
-        $options = new ezcDocumentOdtConverterOptions();
-
-        try
-        {
-            $options->notExistingOption = 0;
-            $this->fail( 'Expected ezcBasePropertyNotFoundException.' );
-        }
-        catch ( ezcBasePropertyNotFoundException $e )
-        {}
-    }
-
-    */
 
     public static function getTestDocuments()
     {
@@ -109,7 +51,7 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
     /**
      * @dataProvider getTestDocuments
      */
-    public function testLoadXmlDocumentFromFile( $from, $to )
+    public function testConvertDocBookOdt( $from, $to )
     {
         if ( !is_file( $to ) )
         {
@@ -150,6 +92,29 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
 
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
+    }
+
+    public function testStylerCalled()
+    {
+        $testDocs = self::getTestDocuments();
+
+        if ( count( $testDocs ) < 1 )
+        {
+            throw new RuntimeException( 'Missing test documents.' );
+        }
+
+        $doc = new ezcDocumentDocbook();
+        $doc->loadFile( $testDocs[0][0] );
+
+        $stylerMock = new ezcDocumentOdtTestStyler();
+        $converter = new ezcDocumentDocbookToOdtConverter(
+            new ezcDocumentDocbookToOdtConverterOptions(
+                array( 'styler' => $stylerMock )
+            )
+        );
+        $created = $converter->convert( $doc );
+
+        var_dump( $stylerMock );
     }
 }
 
