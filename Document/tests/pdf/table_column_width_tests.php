@@ -56,7 +56,7 @@ class ezcDocumentPdfTableColumnWidthCalculatorTests extends ezcTestCase
     public function testTableColumnWidthEstimation( $file, $query, $expectation )
     {
         $doc = new DOMDocument();
-        $doc->load( __DIR__ . '/../files/pdf/' . $file );
+        $doc->load( dirname( __FILE__ ) . '/../files/pdf/' . $file );
 
         $xpath = new DOMXPath( $doc );
         $xpath->registerNamespace( 'doc', 'http://docbook.org/ns/docbook' );
