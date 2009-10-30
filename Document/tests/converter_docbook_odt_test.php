@@ -94,7 +94,10 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
         $this->removeTempDir();
     }
 
-    public function testStylerCalled()
+    /**
+     * @dataProvider getTestDocuments
+     */
+    public function testStylerCalls()
     {
         $testDocs = self::getTestDocuments();
 
@@ -114,7 +117,17 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
         );
         $created = $converter->convert( $doc );
 
-        var_dump( $stylerMock );
+        $this->assertTrue(
+            $stylerMock->styleInfo->styleSection instanceof DOMElement
+        );
+        $this->assertTrue(
+            $stylerMock->styleInfo->fontFaceDecls instanceof DOMElement
+        );
+
+        $this->assertEquals(
+            38,
+            count( $stylerMock->seenElements )
+        );
     }
 }
 
