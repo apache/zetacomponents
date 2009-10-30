@@ -35,11 +35,6 @@ class ezcDocumentDocbookToOdtParagraphHandler extends ezcDocumentDocbookToOdtBas
             ezcDocumentOdt::NS_ODT_TEXT,
             'p'
         );
-        $p->setAttributeNS(
-            ezcDocumentOdt::NS_ODT_TEXT,
-            'text:style-name',
-            'Text_Body'
-        );
         $root->appendChild( $p );
         $this->styler->applyStyles( $node, $p );
 

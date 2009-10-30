@@ -16,7 +16,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentOdtParagraphStyleGenerator
+class ezcDocumentOdtParagraphStyleGenerator extends ezcDocumentOdtStyleGenerator
 {
     /**
      * Paragraph property generator. 
@@ -33,20 +33,9 @@ class ezcDocumentOdtParagraphStyleGenerator
     protected $textPropertyGenerator;
 
     /**
-     * Style counters.
-     * 
-     * @var array(string=>int)
-     */
-    protected $styleCounters = array(
-        'h' => 0,
-        'p' => 0,
-    );
-
-    /**
      * Creates a new style genertaor.
      * 
-     * @param DOMElement $styles 
-     * @param DOMElement $fontFaceDecls 
+     * @param ezcDocumentOdtStyleConverterManager $styleConverters 
      */
     public function __construct( ezcDocumentOdtStyleConverterManager $styleConverters )
     {
@@ -67,7 +56,7 @@ class ezcDocumentOdtParagraphStyleGenerator
     public function handles( DOMElement $odtElement )
     {
         return (
-            $odtElement->tagName === 'h' || $odtElement->tagName === 'p'
+            $odtElement->localName === 'h' || $odtElement->localName === 'p'
         );
     }
     
@@ -79,6 +68,8 @@ class ezcDocumentOdtParagraphStyleGenerator
      */
     public function createStyle( ezcDocumentOdtStyleInformation $styleInfo, DOMElement $odtElement, array $styleAttributes )
     {
+        $styleName = $this->getUniqueStyleName( $odtElement->localName );
+
         $style = $styleInfo->styleSection->appendChild(
             $styleInfo->styleSection->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
@@ -94,12 +85,12 @@ class ezcDocumentOdtParagraphStyleGenerator
         $style->setAttributeNS(
             ezcDocumentOdt::NS_ODT_STYLE,
             'style:name',
-            ( $styleName = $odtElement->tagName . ( ++$this->styleCounters[$odtElement->tagName] ) )
+            $styleName
         );
 
         $odtElement->setAttributeNS(
             ezcDocumentOdt::NS_ODT_TEXT,
-            'text:style',
+            'text:style-name',
             $styleName
         );
 
