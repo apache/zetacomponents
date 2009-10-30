@@ -17,65 +17,48 @@ class ezcDocumentOdtStyleGenerator
     protected $fontFaceDecls;
 
     /**
-     * Mapping of property types to styles they contain.
+     * Style converter manager. 
      * 
-     * @var array(string=>array(string))
+     * @var ezcDocumentOdtStyleConverterManager
      */
-    protected $propertyStyleMap = array();
+    protected $styleConverters;
 
     /**
-     * Mapping of CSS style names to converter objects.
+     * Set of style generators to use. 
      * 
-     * @var array(string=>ezcDocumentOdtStyleConverter)
+     * @var array(ezcDocumentOdtStyleGenerator)
      */
-    protected $styleConversionMap = array();
+    protected $styleGenerators;
 
     /**
-     * Creates a new style generator for the given $styleSection.
+     * Creates a new style generator for the given $odtDocument using 
+     * $styleConverters.
      *
-     * $styleSection must be the <office:styles> DOMElement, $odtFontFaceDecls 
-     * the <office:font-face-decls> DOMElement. Styles will be generated into 
-     * these 2 DOMElements.
+     * Creates a new style generator for the given $odtDocument. The style 
+     * generator will make use of the given $styleConverters to convert between 
+     * CSS and ODT styles.
      * 
-     * @param DOMElement $odtStyleSection 
-     * @param DOMElement $odtFontFaceDecls 
+     * @param DOMDocument $odtDocument 
+     * @param ezcDocumentOdtStyleConverterManager $styleConverters 
      */
-    public function __construct( DOMElement $odtStyleSection, DOMElement $odtFontFaceDecls )
+    public function __construct( DOMDocument $odtDocument, ezcDocumentOdtStyleConverterManager $styleConverters )
     {
-        $this->styleSection  = $odtStyleSection;
-        $this->fontFaceDecls = $odtFontFaceDecls;
 
-        $this->propertyStyleMap = array(
-            'text' => array(
-                'text-decoration',
-                'font-size',
-                'font-name',
-                'font-weight',
-                'color',
-                'background-color',
-            ),
-            'paragraph' => array(
-                'text-align',
-                'widows',
-                'orphans',
-                'text-indent',
-                'margin',
-            ),
+        $this->styleConverters = $styleConverters;
+        $this->styleSection = $odtDocument->getElementByTagNameNS(
+            ezcDocumentOdt::NS_ODT_OFFICE,
+            'styles'
+        );
+        $this->fontFaceDecls = $odtDocument->getElementByTagNameNS(
+            ezcDocumentOdt::NS_ODT_OFFICE,
+            'font-face-decls'
         );
 
-        $this->styleConversionMap = array(
-            'text-decoration'  => new ezcDocumentOdtTextDecorationStyleConverter(),
-            'font-size'        => new ezcDocumentOdtFontSizeStyleConverter(),
-            'font-name'        => ( $font = new ezcDocumentOdtFontStyleConverter() ),
-            'font-weight'      => $font,
-            'color'            => ( $color = new ezcDocumentOdtColorStyleConverter() ),
-            'background-color' => $color,
-            // misc conversions, automatically with this converter
-            // 'text-align'       => ( $misc = new ezcDocumentOdtMiscStyleConverter() ),
-            // 'widows'           => $misc,
-            // 'orphans'          => $misc,
-            // 'text-indent'      => $misc,
-            // 'margin'           => new ezcDocumentOdtMarginStyleConverter(),
+        // @TODO: Make configurable
+        $this->styleGenerators[] = new ezcDocumentOdtParagraphStyleGenerator(
+            $this->styleSection,
+            $this->fontFaceDecls,
+            $styleConverters
         );
     }
 
@@ -89,10 +72,17 @@ class ezcDocumentOdtStyleGenerator
      * corresponding attributes to reference this style.
      * 
      * @param DOMElement $odtElement 
-     * @param array $style 
+     * @param array $styles
      */
-    public function applyStyle( DOMElement $odtElement, array $style )
+    public function applyStyle( DOMElement $odtElement, array $styles )
     {
+        foreach ( $this->styleGenerators as $generator )
+        {
+            if ( $generator->handles( $odtElement ) )
+            {
+                $generator->createStyle( $odtElement, $styles );
+            }
+        }
     }
 }
 

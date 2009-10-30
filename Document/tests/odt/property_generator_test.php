@@ -17,7 +17,44 @@
  */
 abstract class ezcDocumentOdtStylePropertyGeneratorTest extends ezcTestCase
 {
+    protected $styleConverters;
 
+    public function setup()
+    {
+        $this->styleConverters = new ezcDocumentOdtStyleConverterManager();
+    }
+
+    protected function getDomElementFixture()
+    {
+        $domDocument = new DOMDocument();
+        return $domDocument->appendChild(
+             $domDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_STYLE,
+                'style'
+             )
+        );
+    }
+    
+    protected function assertPropertyExists( $exptectedNs, $expectedName, array $expectedProperties, DOMElement $actualParent )
+    {
+        $props = $actualParent->getElementsByTagNameNS(
+            $exptectedNs,
+            $expectedName
+        );
+        $this->assertEquals( 1, $props->length );
+
+        $prop = $props->item( 0 );
+
+        foreach ( $expectedProperties as $propDef )
+        {
+            $this->assertTrue(
+                $prop->hasAttributeNs(
+                    $propDef[0],
+                    $propDef[1]
+                )
+            );
+        }
+    }
 }
 
 ?>

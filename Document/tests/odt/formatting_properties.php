@@ -29,8 +29,10 @@ class ezcDocumentOdtFormattingPropertiesTest extends ezcTestCase
         );
 
         $this->assertAttributeEquals(
-            ezcDocumentOdtFormattingProperties::PROPERTIES_TEXT,
-            'type',
+            array(
+                'type' => ezcDocumentOdtFormattingProperties::PROPERTIES_TEXT
+            ),
+            'properties',
             $props
         );
     }

@@ -9,15 +9,13 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-require_once 'property_generator_test.php';
-
 /**
  * Test suite for class.
  * 
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentOdtTextStylePropertyGeneratorTest extends ezcDocumentOdtStylePropertyGeneratorTest
+class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
 {
     protected $domElement;
 

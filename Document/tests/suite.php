@@ -54,6 +54,8 @@ require 'pcss/value_parser_tests.php';
 
 require 'pdf/suite.php';
 
+require 'odt/suite.php';
+
 require 'converter_docbook_html_test.php';
 require 'converter_docbook_html_xsl_test.php';
 require 'converter_docbook_rst_test.php';
@@ -112,6 +114,8 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPcssStyleInferenceTests::suite() );
 
         $this->addTest( ezcDocumentPdfSuite::suite() );
+
+        $this->addTest( ezcDocumentOdtSuite::suite() );
 
         $this->addTest( ezcDocumentConverterDocbookToHtmlTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );
