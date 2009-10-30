@@ -28,6 +28,7 @@ class ezcDocumentDocbookToOdtConverterOptions extends ezcDocumentConverterOption
     public function __construct( array $options = array() )
     {
         $this->template = dirname( __FILE__ ) . '/data/template.fodt';
+        $this->styler   = new ezcDocumentOdtStyler();
         parent::__construct( $options );
     }
 
@@ -51,12 +52,18 @@ class ezcDocumentDocbookToOdtConverterOptions extends ezcDocumentConverterOption
                 {
                     throw new ezcBaseValueException( $name, $value, 'file, readable' );
                 }
-                $this->properties[$name] = $value;
+                break;
+            case 'styler':
+                if ( !is_object( $value ) || !( $value instanceof ezcDocumentOdtStyler ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcDocumentOdtStyler' );
+                }
                 break;
             default:
                 parent::__set( $name, $value );
                 break;
         }
+        $this->properties[$name] = $value;
     }
 }
 

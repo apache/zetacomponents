@@ -164,7 +164,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
      * @param mixed $root 
      * @return void
      */
-    protected function visitElement( DOMNode $node, $root )
+    protected function visitElement( DOMElement $node, $root )
     {
         if ( isset( $this->visitorElementHandler[$this->defaultNamespace][$node->tagName] ) )
         {

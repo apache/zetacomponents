@@ -21,6 +21,13 @@
 class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverter
 {
     /**
+     * Style information for the document to style. 
+     * 
+     * @var ezcDocumentOdtStyleInfo
+     */
+    protected $styleInfo;
+
+    /**
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
@@ -105,6 +112,17 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
 
         $docBookDom = $this->makeLocateable( $source->getDomDocument() );
 
+        $this->styleInfo = new ezcDocumentOdtStyleInformation(
+            $destination->ownerDocument->getElementsByTagNameNS(
+                ezcDocumentOdt::NS_ODT_OFFICE,
+                'styles'
+            )->item( 0 ),
+            $destination->ownerDocument->getElementsByTagNameNS(
+                ezcDocumentOdt::NS_ODT_OFFICE,
+                'font-face-decls'
+            )->item( 0 )
+        );
+
         $destination = $this->visitChildren(
             $docBookDom,
             $destination
@@ -152,6 +170,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
             ezcDocumentOdt::NS_ODT_OFFICE,
             'text'
         );
+
         if ( $rootElements->length !== 1 )
         {
             // @TODO: Throw proper exception
@@ -203,6 +222,14 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
             $root->appendChild( $text );
         }
 
+        return $root;
+    }
+
+    protected function visitElement( DOMElement $node, $root )
+    {
+        $root = parent::visitElement( $node, $root );
+        // @TODO: Not sure, if this simple interface works. Need to re-check.
+        $this->options->styler->applyStyles( $this->styleInfo, $node, $root );
         return $root;
     }
 }

@@ -19,20 +19,6 @@
 class ezcDocumentOdtParagraphStyleGenerator
 {
     /**
-     * Style section.
-     * 
-     * @var DOMElement
-     */
-    protected $styles;
-
-    /**
-     * Font face declaration.
-     * 
-     * @var $fontFaceDecls
-     */
-    protected $fontFaceDecls;
-
-    /**
      * Paragraph property generator. 
      * 
      * @var ezcDocumentOdtStyleParagraphPropertyGenerator
@@ -62,11 +48,8 @@ class ezcDocumentOdtParagraphStyleGenerator
      * @param DOMElement $styles 
      * @param DOMElement $fontFaceDecls 
      */
-    public function __construct( DOMElement $styles, DOMElement $fontFaceDecls, ezcDocumentOdtStyleConverterManager $styleConverters )
+    public function __construct( ezcDocumentOdtStyleConverterManager $styleConverters )
     {
-        $this->styles        = $styles;
-        $this->fontFaceDecls = $fontFaceDecls;
-
         $this->paragraphPropertyGenerator = new ezcDocumentOdtStyleParagraphPropertyGenerator(
             $styleConverters
         );
@@ -94,9 +77,9 @@ class ezcDocumentOdtParagraphStyleGenerator
      * @param DOMElement $odtElement 
      * @param array(string=>ezcDocumentPcssStyleValue) $styleAttributes 
      */
-    public function createStyle( DOMElement $odtElement, array $styleAttributes )
+    public function createStyle( ezcDocumentOdtStyleInformation $styleInfo, DOMElement $odtElement, array $styleAttributes )
     {
-        $style = $this->styleSection->appendChild(
+        $style = $styleInfo->styleSection->appendChild(
             $styleSection->documentElement->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
                 'style'
