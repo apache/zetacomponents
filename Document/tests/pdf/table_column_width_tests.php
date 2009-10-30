@@ -38,9 +38,14 @@ class ezcDocumentPdfTableColumnWidthCalculatorTests extends ezcTestCase
                 array( .3, .3, .4 ),
             ),
             array(
-                'simple_tables.xml',
-                '//doc:table[3]',
+                'tables_with_list.xml',
+                '//doc:table[1]',
                 array( .268, .732 ),
+            ),
+            array(
+                'stacked_table.xml',
+                '//doc:table[1]',
+                array( .143, .143, .714 ),
             ),
         );
     }
