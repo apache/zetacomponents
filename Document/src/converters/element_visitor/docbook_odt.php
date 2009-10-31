@@ -229,7 +229,12 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
      */
     protected function visitText( DOMText $node, $root )
     {
-        $root->appendChild( $this->textProcessor->processText( $node, $root ) );
+        $resNodes = $this->textProcessor->processText( $node, $root );
+
+        foreach ( $resNodes as $resNode )
+        {
+            $root->appendChild( $resNode );
+        }
 
         return $root;
     }

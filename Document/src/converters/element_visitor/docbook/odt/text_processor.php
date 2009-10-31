@@ -18,7 +18,7 @@ class ezcDocumentOdtTextProcessor
      * 
      * @param DOMText $textNode 
      * @param DOMElement $newRoot 
-     * @return DOMText|DOMFragment
+     * @return array(DOMNode)
      */
     public function processText( DOMText $textNode, DOMElement $newRoot )
     {
@@ -26,7 +26,7 @@ class ezcDocumentOdtTextProcessor
 
         if ( strpos( $parent->getLocationId(), '/literallayout' ) === false )
         {
-            return new DOMText( $textNode->data );
+            return array( new DOMText( $textNode->data ) );
         }
         return $this->processSpaces( $textNode, $newRoot );
     }
@@ -40,11 +40,11 @@ class ezcDocumentOdtTextProcessor
      * 
      * @param DOMText $textNode 
      * @param DOMElement $newRoot 
-     * @return DOMDocumentFragment
+     * @return array(DOMNode)
      */
     protected function processSpaces( DOMText $textNode, DOMElement $newRoot )
     {
-        $frag = $newRoot->ownerDocument->createDocumentFragment();
+        $res = array();
 
         // Match more than 2 spaces and tabs and line breaks
         preg_match_all(
@@ -61,24 +61,20 @@ class ezcDocumentOdtTextProcessor
             $matchLength = iconv_strlen( $match[0] );
 
             // Append text prepending the current match
-            $frag->appendChild(
-                new DOMText(
-                    iconv_substr(
-                        $textNode->data,
-                        $startOffset,
-                        $match[1] - $startOffset
-                    )
-                    // Append 1 normal space, if spaces matched (ODT specs)
-                    . ( $matchType === 's' ? ' ' : '' )
+            $res[] = new DOMText(
+                iconv_substr(
+                    $textNode->data,
+                    $startOffset,
+                    $match[1] - $startOffset
                 )
+                // Append 1 normal space, if spaces matched (ODT specs)
+                . ( $matchType === 's' ? ' ' : '' )
             );
 
             // Create space element
-            $spaceElement = $frag->appendChild(
-                $newRoot->ownerDocument->createElementNS(
-                    ezcDocumentOdt::NS_ODT_TEXT,
-                    $matchType
-                )
+            $spaceElement = $newRoot->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                $matchType
             );
             
             // Set counter attribute
@@ -88,20 +84,19 @@ class ezcDocumentOdtTextProcessor
                 // For normal spaces, a single one is kept in tact (ODT specs)
                 $matchLength - ( $matchType === 's' ? 1 : 0 )
             );
+            $res[] = $spaceElement;
 
             $startOffset = $match[1] + $matchLength;
         }
         // Append rest of the text after the last match
         if ( $startOffset < iconv_strlen( $textNode->data ) )
         {
-            $frag->appendChild(
-                new DOMText(
-                    iconv_substr( $textNode->data, $startOffset )
-                )
+            $res[] = new DOMText(
+                iconv_substr( $textNode->data, $startOffset )
             );
         }
 
-        return $frag;
+        return $res;
     }
 
     /**
