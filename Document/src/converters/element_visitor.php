@@ -117,7 +117,7 @@ abstract class ezcDocumentElementVisitorConverter extends ezcDocumentConverter
         {
             if ( $this->storage->contains( $child ) )
             {
-                $this->triggerError( E_WARNING, "Dublicate node processing '{$child->tagName}'." );
+                $this->triggerError( E_WARNING, "Duplicate node processing '{$child->tagName}'." );
                 continue;
             }
             else
