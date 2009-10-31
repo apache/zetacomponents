@@ -9,7 +9,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-
 /**
  * Dispatcher and manager for style creation in ODT documents.
  *
@@ -38,6 +37,13 @@ class ezcDocumentOdtStyler
     protected $styleGenerators;
 
     /**
+     * Style sections for the current ODT document. 
+     * 
+     * @var ezcDocumentOdtStyleInformation
+     */
+    protected $styleInfo;
+
+    /**
      * Style inferencer on DocBook source. 
      * 
      * @var ezcDocumentPcssStyleInferencer
@@ -45,11 +51,11 @@ class ezcDocumentOdtStyler
     protected $styleInferencer;
 
     /**
-     * Style sections for the current ODT document. 
+     * PCSS parser. 
      * 
-     * @var ezcDocumentOdtStyleInformation
+     * @var ezcDocumentPcssParser
      */
-    protected $styleInfo;
+    protected $styleParser;
 
     /**
      * Creates a new ODT document styler.
@@ -58,14 +64,17 @@ class ezcDocumentOdtStyler
      * called before {@link applyStyles()} can be used. Otherwise an exception 
      * is thrown.
      * 
-     * @param DOMDocument $odtDocument 
      * @param ezcDocumentOdtStyleConverterManager $styleConverters 
      */
-    public function __construct()
+    public function __construct( ezcDocumentOdtStyleConverterManager $styleConverters = null )
     {
-        // @TODO: Make configurable
+        $this->styleConverters   = ( $styleConverters === null
+            ? new ezcDocumentOdtStyleConverterManager()
+            : $styleConverters
+        );
         $this->styleInferencer   = new ezcDocumentPcssStyleInferencer();
-        $this->styleConverters   = new ezcDocumentOdtStyleConverterManager();
+
+        // @TODO: Make configurable
         $this->styleGenerators[] = new ezcDocumentOdtParagraphStyleGenerator(
             $this->styleConverters
         );
@@ -107,6 +116,62 @@ class ezcDocumentOdtStyler
                 $generator->createStyle( $this->styleInfo, $odtElement, $styles );
             }
         }
+    }
+
+    /**
+     * Adds the given PCSS $stylesheet definitions.
+     *
+     * Adds the PCSS styles given as a string in $stylesheet to the styler.
+     * 
+     * @param string $stylesheet 
+     */
+    public function addStylesheet( $stylesheet )
+    {
+        $parser = $this->createStyleParser();
+        $this->styleInferencer->appendStyleDirectives(
+            $parser->parseString( $stylesheet )
+        );
+    }
+
+    /**
+     * Adds a PCSS stylesheet from the given file.
+     *
+     * Reads the given PCSS $file and adds the contained stylesheets to the 
+     * styler.
+     * 
+     * @param string $file 
+     */
+    public function addStylesheetFile( $file )
+    {
+        $parser = $this->createStyleParser();
+        
+        if ( !file_exists( $file ) )
+        {
+            throw new ezcBaseFileNotFoundException( $file, 'PCSS' );
+        }
+        if ( !is_readable( $file ) )
+        {
+            throw new ezcBaseFilePermissionException( $file, ezcBaseFileException::READ );
+        }
+
+        $this->styleInferencer->appendStyleDirectives(
+            $parser->parseFile( $file )
+        );
+    }
+
+    /**
+     * Returns a PCSS style parser instance.
+     *
+     * Initializes the $styleParser, if it has not been initialized, yet. Returns 
+     * the instance of the style parser to use.
+     */
+    protected function createStyleParser()
+    {
+        if ( !isset( $this->styleParser ) )
+        {
+            $this->styleParser = new ezcDocumentPcssParser();
+        }
+        return $this->styleParser;
     }
 }
 

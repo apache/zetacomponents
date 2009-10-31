@@ -23,6 +23,8 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
 
     protected static $testDocuments = null;
 
+    protected static $css;
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
@@ -46,6 +48,18 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
         }
 
         return self::$testDocuments;
+    }
+
+    public static function getCustomCss()
+    {
+        if ( !isset( self::$css ) )
+        {
+            $parser = new ezcDocumentPcssParser();
+            self::$css = $parser->parseFile(
+                dirname( __FILE__ ) . '/odt/test_data/test_styles.pcss'
+            );
+        }
+        return self::$css;
     }
 
     /**
