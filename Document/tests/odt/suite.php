@@ -20,6 +20,7 @@ require_once 'paragraph_property_generator_test.php';
 require_once 'text_property_generator_test.php';
 require_once 'style.php';
 require_once 'style_converters.php';
+require_once 'text_processor_test.php';
 
 class ezcDocumentOdtSuite extends PHPUnit_Framework_TestSuite
 {
@@ -39,6 +40,7 @@ class ezcDocumentOdtSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentOdtStyleTextPropertyGeneratorTest::suite() );
         $this->addTest( ezcDocumentOdtStyleTest::suite() );
         $this->addTest( ezcDocumentOdtStyleConvertersTest::suite() );
+        $this->addTest( ezcDocumentOdtTextProcessorTest::suite() );
     }
 }
 
