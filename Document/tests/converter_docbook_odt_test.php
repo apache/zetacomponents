@@ -19,7 +19,7 @@ require_once 'odt/test_classes/styler.php';
  */
 class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
 {
-    const WRITE_RESULTS = false;
+    const WRITE_RESULTS = true;
 
     protected static $testDocuments = null;
 
@@ -50,18 +50,6 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
         return self::$testDocuments;
     }
 
-    public static function getCustomCss()
-    {
-        if ( !isset( self::$css ) )
-        {
-            $parser = new ezcDocumentPcssParser();
-            self::$css = $parser->parseFile(
-                dirname( __FILE__ ) . '/odt/test_data/test_styles.pcss'
-            );
-        }
-        return self::$css;
-    }
-
     /**
      * @dataProvider getTestDocuments
      */
@@ -76,6 +64,8 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
         $doc->loadFile( $from );
 
         $converter = new ezcDocumentDocbookToOdtConverter();
+        $converter->options->styler->addStylesheetFile( dirname( __FILE__ ) . '/odt/test_data/test_styles.pcss' );
+
         $created = $converter->convert( $doc );
 
         $this->assertTrue(

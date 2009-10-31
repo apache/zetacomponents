@@ -122,8 +122,8 @@
     <text:notes-configuration text:note-class="endnote" text:citation-style-name="Text_Body" text:citation-body-style-name="Text_Body" text:master-page-name="Endnote" style:num-format="i" text:start-value="0"/>
     <text:linenumbering-configuration text:number-lines="false" text:offset="0.1965in" style:num-format="1" text:number-position="left" text:increment="5"/>
     <style:style style:family="paragraph" style:name="p1">
-      <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm"/>
     </style:style>
   </office:styles>
   <office:automatic-styles>

@@ -122,7 +122,7 @@
     <text:notes-configuration text:note-class="endnote" text:citation-style-name="Text_Body" text:citation-body-style-name="Text_Body" text:master-page-name="Endnote" style:num-format="i" text:start-value="0"/>
     <text:linenumbering-configuration text:number-lines="false" text:offset="0.1965in" style:num-format="1" text:number-position="left" text:increment="5"/>
     <style:style style:family="paragraph" style:name="h1">
-      <style:text-properties fo:font-size="8.4666666753027mm" style:font-size-asian="8.4666666753027mm" style:font-size-complex="8.4666666753027mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#000000"/>
+      <style:text-properties fo:font-size="20mm" style:font-size-asian="20mm" style:font-size-complex="20mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#0000ff"/>
       <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="10mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p1">
