@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtStyler class.
+ * File containing the ezcDocumentOdtPcssStyler class.
  *
  * @access private
  * @package Document
@@ -10,17 +10,18 @@
  */
 
 /**
- * Dispatcher and manager for style creation in ODT documents.
+ * PCSS based ODT styler.
  *
- * An instance of this class is used to dispatch and manage style generation in 
- * {@link ezcDocumentDocbookToOdtConverter}.
+ * This styler is based on the PCSS (simplified CSS rules) styling mechanism.  
+ * You can use the {@link addStylesheetFile()} and {@link addStylesheet()} 
+ * methods to add custom PCSS styles to it. It is used as the default in the 
+ * {@link ezcDocumentDocbookToOdtConverterOptions}.
  *
  * @access private
  * @package Document
  * @version //autogen//
- * @TODO: Create interface and rename.
  */
-class ezcDocumentOdtStyler
+class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
 {
     /**
      * Style converter manager. 

@@ -28,7 +28,7 @@ class ezcDocumentDocbookToOdtConverterOptions extends ezcDocumentConverterOption
     public function __construct( array $options = array() )
     {
         $this->template = dirname( __FILE__ ) . '/data/template.fodt';
-        $this->styler   = new ezcDocumentOdtStyler();
+        $this->styler   = new ezcDocumentOdtPcssStyler();
         parent::__construct( $options );
     }
 

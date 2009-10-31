@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtTestStyler extends ezcDocumentOdtStyler
+class ezcDocumentOdtTestStyler implements ezcDocumentOdtStyler
 {
     public $styleInfo;
 
