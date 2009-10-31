@@ -28,6 +28,13 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
     protected $styleInfo;
 
     /**
+     * Text node processor.
+     * 
+     * @var ezcDocumentOdtTextProcessor
+     */
+    protected $textProcessor;
+
+    /**
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
@@ -42,6 +49,8 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 new ezcDocumentDocbookToOdtConverterOptions() :
                 $options
         );
+
+        $this->textProcessor = new ezcDocumentOdtTextProcessor();
 
         $styler = $this->options->styler;
 
@@ -220,11 +229,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
      */
     protected function visitText( DOMText $node, $root )
     {
-        if ( trim( $wholeText = $node->data ) !== '' )
-        {
-            $text = new DOMText( $wholeText );
-            $root->appendChild( $text );
-        }
+        $root->appendChild( $this->textProcessor->processText( $node, $root ) );
 
         return $root;
     }

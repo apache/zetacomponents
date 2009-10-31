@@ -305,14 +305,11 @@
     <style:master-page style:name="Standard" style:page-layout-name="Default"/>
   </office:master-styles>
   <office:body>
-    <office:text>
-      <text:sequence-decls>
-        <text:sequence-decl text:display-outline-level="0" text:name="Illustration"/>
-        <text:sequence-decl text:display-outline-level="0" text:name="Table"/>
-        <text:sequence-decl text:display-outline-level="0" text:name="Text"/>
-        <text:sequence-decl text:display-outline-level="0" text:name="Drawing"/>
-      </text:sequence-decls>
-      <text:h text:outline-level="1" text:style-name="h1">Some listing</text:h>
-    </office:text>
+    <office:text><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
+  
+    <text:h text:outline-level="1" text:style-name="h1">Some listing</text:h>
+    <text:p text:style-name="p1"> <s xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="3"/>if ( $foo == $bar )<line-break xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="1"/>{<line-break xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="1"/> <s xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="3"/>$foo = 123;<line-break xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="1"/> <s xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="1"/>$bar = 23;<line-break xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="1"/><tab xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="1"/>$tab = 1;<line-break xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="1"/><tab xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="2"/>$tab2 = 2;<line-break xmlns="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:default="urn:oasis:names:tc:opendocument:xmlns:text:1.0" default:c="1"/>}</text:p>
+  
+</office:text>
   </office:body>
 </office:document>

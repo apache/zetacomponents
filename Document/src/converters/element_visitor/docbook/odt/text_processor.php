@@ -92,7 +92,7 @@ class ezcDocumentOdtTextProcessor
             $startOffset = $match[1] + $matchLength;
         }
         // Append rest of the text after the last match
-        if ( $startOffset < iconv_strlen( $textNode->data ) - 1 )
+        if ( $startOffset < iconv_strlen( $textNode->data ) )
         {
             $frag->appendChild(
                 new DOMText(

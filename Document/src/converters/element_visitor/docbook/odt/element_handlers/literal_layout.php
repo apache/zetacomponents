@@ -32,10 +32,11 @@ class ezcDocumentDocbookToOdtLiteralLayoutHandler extends ezcDocumentDocbookToOd
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
         // @TODO: Determine style.
-        // @TODO: From here on, whitespaces need to be handled explicitly!
-        $p = $root->ownerDocument->createElementNS(
-            ezcDocumentOdt::NS_ODT_TEXT,
-            'p'
+        $p = $root->appendChild(
+            $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'p'
+            )
         );
         $this->styler->applyStyles( $node, $p );
 
