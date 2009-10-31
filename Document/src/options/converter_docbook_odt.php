@@ -11,6 +11,14 @@
 /**
  * Class containing the basic options for the ezcDocumentToOdtConverter.
  *
+ * @property string $template
+ *           The base ODT template file to load for generated ODTs. The default 
+ *           template resides in /data/template.fodt in the component 
+ *           directory.
+ * @property ezcDocumentOdtStyler $styler
+ *           Styler to use for generating ODTs. By default, an {@link 
+ *           ezcDocumentOdtPcssStyler} is used.
+ *
  * @package Document
  * @version //autogen//
  */
