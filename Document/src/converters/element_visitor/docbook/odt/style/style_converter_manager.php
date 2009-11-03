@@ -47,6 +47,7 @@ class ezcDocumentOdtStyleConverterManager extends ArrayObject
         $this['orphans']          = $default;
         $this['text-indent']      = $default;
         $this['margin']           = new ezcDocumentOdtMarginStyleConverter();
+        $this['border']           = new ezcDocumentOdtBorderStyleConverter();
     }
 
     /**

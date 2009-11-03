@@ -124,7 +124,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
         }
         if ( !$handled )
         {
-            echo "DocBook element '{$docBookElement->localName}' not handled. No style generated for ODT element '{$odtElement->localName}'.\n";
+            // echo "DocBook element '{$docBookElement->localName}' not handled. No style generated for ODT element '{$odtElement->localName}'.\n";
         }
     }
 

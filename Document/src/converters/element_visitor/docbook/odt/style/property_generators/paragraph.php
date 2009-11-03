@@ -35,6 +35,7 @@ class ezcDocumentOdtStyleParagraphPropertyGenerator extends ezcDocumentOdtStyleP
                 'orphans',
                 'text-indent',
                 'margin',
+                'border',
             )
         );
     }

@@ -42,7 +42,8 @@ class ezcDocumentOdtStyleParagraphPropertyGeneratorTest extends ezcDocumentOdtSt
                 'widows',
                 'orphans',
                 'text-indent',
-                'margin'
+                'margin',
+                'border',
             ),
             'styleAttributes',
             $gen

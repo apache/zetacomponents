@@ -402,6 +402,83 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
        );
     }
 
+    /**
+     * @dataProvider getBorderTestSets
+     */
+    public function testConvertBorderProperty( $styleValue, $expectedAttributes )
+    {
+        $converter = new ezcDocumentOdtBorderStyleConverter();
+        $converter->convert( $this->domElement, 'border', $styleValue );
+
+        $this->assertAttributesCorrect(
+            $expectedAttributes
+        );
+    }
+
+    /**
+     * Test sets for the 'margin' style attribute.
+     */
+    public static function getBorderTestSets()
+    {
+        return array(
+            'border full' => array(
+                // style
+                new ezcDocumentPcssStyleBorderBoxValue(
+                    array(
+                        'top' => array(
+                            'width' => 1,
+                            'style' => 'solid',
+                            'color' => array(
+                                'red'   => 1,
+                                'green' => 0,
+                                'blue'  => 0,
+                                'alpha' => 0
+                            )
+                        ),
+                        'left' => array(
+                            'width' => 10,
+                            'style' => 'solid',
+                            'color' => array(
+                                'red'   => 0,
+                                'green' => 1,
+                                'blue'  => 0,
+                                'alpha' => 0
+                            )
+                        ),
+                        'bottom' => array(
+                            'width' => 1,
+                            'style' => 'solid',
+                            'color' => array(
+                                'red'   => 0,
+                                'green' => 0,
+                                'blue'  => 1,
+                                'alpha' => .8
+                            )
+                        ),
+                        'right' => array(
+                            'width' => 1,
+                            'style' => 'dotted',
+                            'color' => array(
+                                'red'   => .3,
+                                'green' => .2,
+                                'blue'  => .4,
+                                'alpha' => .2
+                            )
+                        ),
+                    )
+                ),
+                // expected attributes
+                array(
+                    // NS, attribute name, value
+                    array( ezcDocumentOdt::NS_ODT_FO, 'border-top', '1mm solid #ff0000' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'border-left', '10mm solid #00ff00' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'border-bottom', '1mm solid transparent' ),
+                    array( ezcDocumentOdt::NS_ODT_FO, 'border-right', '1mm dotted #4d3366' ),
+                )
+            ),
+       );
+    }
+
 }
 
 ?>
