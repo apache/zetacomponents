@@ -452,7 +452,7 @@
         <text:p text:style-name="p19">4 whitespaces before and 3 in between next line</text:p>
         <text:p text:style-name="p20"> <text:s text:c="3"/>next line <text:s text:c="2"/>in between</text:p>
         <text:p text:style-name="p21">2 tabs before and 3 in between next line</text:p>
-        <text:p text:style-name="p22"><text:tab text:c="2"/>next line<text:tab text:c="3"/>in between</text:p>
+        <text:p text:style-name="p22"><text:tab/><text:tab/>next line<text:tab/><text:tab/><text:tab/>in between</text:p>
       
     
   

@@ -137,153 +137,37 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
         // 0  => "Some text "
         // 1  => <text:s c="2"/>
         // 2  => "with multiple"
-        // 3  => <text:tab c="3"/>
-        // 4  => "whitespaces in"
-        // 5  => <text:line-break c="2"/>
-        // 6  => " "
-        // 7  => <text:tab c="1"/>
-        // 8  => " "
-        // 9  => <text:s c="1"/>
-        // 10 => "it."
+        // 3  => <text:tab/>
+        // 4  => <text:tab/>
+        // 5  => <text:tab/>
+        // 6  => "whitespaces in"
+        // 7  => <text:line-break/>
+        // 8  => <text:line-break/>
+        // 9  => " "
+        // 10  => <text:tab/>
+        // 11  => " "
+        // 12  => <text:s c="1"/>
+        // 13 => "it."
 
         $this->assertEquals(
-            11,
+            14,
             count( $res )
         );
 
-        $this->assertEquals(
-            XML_TEXT_NODE,
-            $res[0]->nodeType
-        );
-        $this->assertEquals(
-            "Some text ",
-            $res[0]->wholeText
-        );
-
-        $this->assertEquals(
-            XML_ELEMENT_NODE,
-            $res[1]->nodeType
-        );
-        $this->assertEquals(
-            's',
-            $res[1]->localName
-        );
-        $this->assertEquals(
-            '2',
-            $res[1]->getAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'c'
-            )
-        );
-
-        $this->assertEquals(
-            XML_TEXT_NODE,
-            $res[2]->nodeType
-        );
-        $this->assertEquals(
-            "with multiple",
-            $res[2]->wholeText
-        );
-
-        $this->assertEquals(
-            XML_ELEMENT_NODE,
-            $res[3]->nodeType
-        );
-        $this->assertEquals(
-            'tab',
-            $res[3]->localName
-        );
-        $this->assertEquals(
-            3,
-            $res[3]->getAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'c'
-            )
-        );
-
-        $this->assertEquals(
-            XML_TEXT_NODE,
-            $res[4]->nodeType
-        );
-        $this->assertEquals(
-            "whitespaces in",
-            $res[4]->wholeText
-        );
-
-        $this->assertEquals(
-            XML_ELEMENT_NODE,
-            $res[5]->nodeType
-        );
-        $this->assertEquals(
-            'line-break',
-            $res[5]->localName
-        );
-        $this->assertEquals(
-            2,
-            $res[5]->getAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'c'
-            )
-        );
-
-        $this->assertEquals(
-            XML_TEXT_NODE,
-            $res[6]->nodeType
-        );
-        $this->assertEquals(
-            " ",
-            $res[6]->wholeText
-        );
-
-        $this->assertEquals(
-            XML_ELEMENT_NODE,
-            $res[7]->nodeType
-        );
-        $this->assertEquals(
-            'tab',
-            $res[7]->localName
-        );
-        $this->assertEquals(
-            1,
-            $res[7]->getAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'c'
-            )
-        );
-
-        $this->assertEquals(
-            XML_TEXT_NODE,
-            $res[8]->nodeType
-        );
-        $this->assertEquals(
-            " ",
-            $res[8]->wholeText
-        );
-
-        $this->assertEquals(
-            XML_ELEMENT_NODE,
-            $res[9]->nodeType
-        );
-        $this->assertEquals(
-            's',
-            $res[9]->localName
-        );
-        $this->assertEquals(
-            1,
-            $res[9]->getAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'c'
-            )
-        );
-
-        $this->assertEquals(
-            XML_TEXT_NODE,
-            $res[10]->nodeType
-        );
-        $this->assertEquals(
-            "it.",
-            $res[10]->wholeText
-        );
+        $this->assertTextNode(  $res[0],  "Some text " );
+        $this->assertSpaceNode( $res[1],  2 );
+        $this->assertTextNode(  $res[2],  "with multiple" );
+        $this->assertTabNode(   $res[3] );
+        $this->assertTabNode(   $res[4] );
+        $this->assertTabNode(   $res[5] );
+        $this->assertTextNode(  $res[6],  "whitespaces in" );
+        $this->assertBreakNode( $res[7] );
+        $this->assertBreakNode( $res[8] );
+        $this->assertTextNode(  $res[9],  " " );
+        $this->assertTabNode(   $res[10] );
+        $this->assertTextNode(  $res[11], " " );
+        $this->assertSpaceNode( $res[12], 1 );
+        $this->assertTextNode(  $res[13], "it." );
     }
 
     protected function dumpDom( DOMNode $node, $indent = '' )
@@ -307,6 +191,75 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
                 $this->dumpDom( $child );
             }
         }
+    }
+
+    protected function assertTextNode( DOMNode $node, $text )
+    {
+        $this->assertEquals(
+            XML_TEXT_NODE,
+            $node->nodeType
+        );
+        $this->assertEquals(
+            $text,
+            $node->wholeText
+        );
+    }
+
+    protected function assertSpaceNode( $node, $count )
+    {
+        $this->assertEquals(
+            XML_ELEMENT_NODE,
+            $node->nodeType
+        );
+        $this->assertEquals(
+            's',
+            $node->localName
+        );
+        $this->assertEquals(
+            (string) $count,
+            $node->getAttributeNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'c'
+            )
+        );
+    }
+
+    protected function assertTabNode( $node )
+    {
+        $this->assertEquals(
+            XML_ELEMENT_NODE,
+            $node->nodeType
+        );
+        $this->assertEquals(
+            'tab',
+            $node->localName
+        );
+        // Not allowed, must be repeated!
+        $this->assertFalse(
+            $node->hasAttributeNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'c'
+            )
+        );
+    }
+
+    protected function assertBreakNode( $node )
+    {
+        $this->assertEquals(
+            XML_ELEMENT_NODE,
+            $node->nodeType
+        );
+        $this->assertEquals(
+            'line-break',
+            $node->localName
+        );
+        // Not allowed, must be repeated!
+        $this->assertFalse(
+            $node->hasAttributeNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'c'
+            )
+        );
     }
 }
 

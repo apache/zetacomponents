@@ -71,20 +71,10 @@ class ezcDocumentOdtTextProcessor
                 . ( $matchType === 's' ? ' ' : '' )
             );
 
-            // Create space element
-            $spaceElement = $newRoot->ownerDocument->createElementNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                $matchType
+            $res = array_merge(
+                $res,
+                $this->repeatSpace( $matchType, $matchLength, $newRoot )
             );
-            
-            // Set counter attribute
-            $spaceElement->setAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'text:c',
-                // For normal spaces, a single one is kept in tact (ODT specs)
-                $matchLength - ( $matchType === 's' ? 1 : 0 )
-            );
-            $res[] = $spaceElement;
 
             $startOffset = $match[1] + $matchLength;
         }
@@ -97,6 +87,38 @@ class ezcDocumentOdtTextProcessor
         }
 
         return $res;
+    }
+
+    protected function repeatSpace( $spaceType, $length, DOMElement $root )
+    {
+        $spaces = array();
+        if ( $spaceType === 's' )
+        {
+            // Simple spaces use the count attribute
+            $spaceElement = $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                $spaceType
+            );
+            $spaceElement->setAttributeNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'text:c',
+                // For normal spaces, a single one is kept in tact (ODT specs)
+                $length - 1
+            );
+            $spaces[] = $spaceElement;
+        }
+        else
+        {
+            // Tabs and new-lines are simply repeated
+            for ( $i = 0; $i < $length; ++$i )
+            {
+                $spaces[] = $root->ownerDocument->createElementNS(
+                    ezcDocumentOdt::NS_ODT_TEXT,
+                    $spaceType
+                );
+            }
+        }
+        return $spaces;
     }
 
     /**
