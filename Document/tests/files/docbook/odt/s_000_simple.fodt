@@ -149,6 +149,9 @@
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
       <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm"/>
     </style:style>
+    <style:style style:family="text" style:name="span1">
+      <style:text-properties style:text-underline-type="single" style:text-underline-style="solid" style:text-underline-width="auto" style:text-underline-color="font-color" fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436" fo:background-color="#00cc00"/>
+    </style:style>
     <style:style style:family="paragraph" style:name="p6">
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
       <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm"/>
@@ -406,7 +409,7 @@
     <text:p text:style-name="p4">One empty line above</text:p>
     
       <text:h text:outline-level="2" text:style-name="h2">Second heading</text:h>
-      <text:p text:style-name="p5">Some plain text. </text:p>
+      <text:p text:style-name="p5">Some plain text. <text:span text:style-name="span1">Some bold text.</text:span></text:p>
       <text:p text:style-name="p6"/>
       <text:list text:style-name="List_Numbered_Numeric">
         <text:list-item>

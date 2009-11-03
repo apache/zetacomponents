@@ -31,11 +31,11 @@ class ezcDocumentDocbookToOdtInlineHandler extends ezcDocumentDocbookToOdtBaseHa
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // @TODO: Determine style.
         $inline = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_TEXT,
             'span'
         );
+        $root->appendChild( $inline );
         $this->styler->applyStyles( $node, $inline );
 
         $converter->visitChildren( $node, $inline );

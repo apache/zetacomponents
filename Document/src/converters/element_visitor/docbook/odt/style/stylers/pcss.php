@@ -79,6 +79,9 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
         $this->styleGenerators[] = new ezcDocumentOdtParagraphStyleGenerator(
             $this->styleConverters
         );
+        $this->styleGenerators[] = new ezcDocumentOdtTextStyleGenerator(
+            $this->styleConverters
+        );
     }
 
     /**
@@ -110,12 +113,18 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
     public function applyStyles( ezcDocumentLocateable $docBookElement, DOMElement $odtElement )
     {
         $styles = $this->styleInferencer->inferenceFormattingRules( $docBookElement );
+        $handled = false;
         foreach ( $this->styleGenerators as $generator )
         {
             if ( $generator->handles( $odtElement ) )
             {
                 $generator->createStyle( $this->styleInfo, $odtElement, $styles );
+                $handled = true;
             }
+        }
+        if ( !$handled )
+        {
+            echo "DocBook element '{$docBookElement->localName}' not handled. No style generated for ODT element '{$odtElement->localName}'.\n";
         }
     }
 

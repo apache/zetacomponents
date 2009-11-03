@@ -247,6 +247,7 @@ return array(
     'ezcDocumentOdtStyleTextPropertyGenerator'           => 'Document/converters/element_visitor/docbook/odt/style/property_generators/text.php',
     'ezcDocumentOdtTextDecorationStyleConverter'         => 'Document/converters/element_visitor/docbook/odt/style/style_converters/text_decoration.php',
     'ezcDocumentOdtTextProcessor'                        => 'Document/converters/element_visitor/docbook/odt/text_processor.php',
+    'ezcDocumentOdtTextStyleGenerator'                   => 'Document/converters/element_visitor/docbook/odt/style/style_generators/text.php',
     'ezcDocumentParserOptions'                           => 'Document/options/document_parser.php',
     'ezcDocumentPcssDeclarationDirective'                => 'Document/pcss/declaration_directive.php',
     'ezcDocumentPcssLayoutDirective'                     => 'Document/pcss/layout_directive.php',
