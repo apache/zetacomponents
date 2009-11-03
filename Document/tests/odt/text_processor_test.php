@@ -61,8 +61,16 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
         $res = $this->proc->processText( $in, $this->targetRoot );
 
         $this->assertTrue(
-            ( $res instanceof DOMNode )
+            is_array( $res )
         );
+        $this->assertEquals(
+            1,
+            count( $res )
+        );
+        $this->assertTrue(
+            ( $res = $res[0] ) instanceof DOMNode
+        );
+
         $this->assertEquals(
             XML_TEXT_NODE,
             $res->nodeType
@@ -88,26 +96,24 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
         $res = $this->proc->processText( $in, $this->targetRoot );
 
         $this->assertTrue(
-            ( $res instanceof DOMNode )
+            is_array( $res )
         );
-        $this->assertEquals(
-            XML_DOCUMENT_FRAG_NODE,
-            $res->nodeType
-        );
-
         $this->assertEquals(
             1,
-            $res->childNodes->length
+            count( $res )
+        );
+        $this->assertTrue(
+            ( $res[0] instanceof DOMNode )
         );
 
         $this->assertEquals(
             XML_TEXT_NODE,
-            $res->childNodes->item( 0 )->nodeType
+            $res[0]->nodeType
         );
 
         $this->assertEquals(
             $in->wholeText,
-            $res->childNodes->item( 0 )->wholeText
+            $res[0]->wholeText
         );
     }
 
@@ -125,11 +131,7 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
         $res = $this->proc->processText( $in, $this->targetRoot );
 
         $this->assertTrue(
-            ( $res instanceof DOMNode )
-        );
-        $this->assertEquals(
-            XML_DOCUMENT_FRAG_NODE,
-            $res->nodeType
+            is_array( $res )
         );
 
         // 0  => "Some text "
@@ -146,29 +148,29 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
 
         $this->assertEquals(
             11,
-            $res->childNodes->length
+            count( $res )
         );
 
         $this->assertEquals(
             XML_TEXT_NODE,
-            $res->childNodes->item( 0 )->nodeType
+            $res[0]->nodeType
         );
         $this->assertEquals(
             "Some text ",
-            $res->childNodes->item( 0 )->wholeText
+            $res[0]->wholeText
         );
 
         $this->assertEquals(
             XML_ELEMENT_NODE,
-            $res->childNodes->item( 1 )->nodeType
+            $res[1]->nodeType
         );
         $this->assertEquals(
             's',
-            $res->childNodes->item( 1 )->localName
+            $res[1]->localName
         );
         $this->assertEquals(
             '2',
-            $res->childNodes->item( 1 )->getAttributeNS(
+            $res[1]->getAttributeNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'c'
             )
@@ -176,24 +178,24 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
 
         $this->assertEquals(
             XML_TEXT_NODE,
-            $res->childNodes->item( 2 )->nodeType
+            $res[2]->nodeType
         );
         $this->assertEquals(
             "with multiple",
-            $res->childNodes->item( 2 )->wholeText
+            $res[2]->wholeText
         );
 
         $this->assertEquals(
             XML_ELEMENT_NODE,
-            $res->childNodes->item( 3 )->nodeType
+            $res[3]->nodeType
         );
         $this->assertEquals(
             'tab',
-            $res->childNodes->item( 3 )->localName
+            $res[3]->localName
         );
         $this->assertEquals(
             3,
-            $res->childNodes->item( 3 )->getAttributeNS(
+            $res[3]->getAttributeNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'c'
             )
@@ -201,24 +203,24 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
 
         $this->assertEquals(
             XML_TEXT_NODE,
-            $res->childNodes->item( 4 )->nodeType
+            $res[4]->nodeType
         );
         $this->assertEquals(
             "whitespaces in",
-            $res->childNodes->item( 4 )->wholeText
+            $res[4]->wholeText
         );
 
         $this->assertEquals(
             XML_ELEMENT_NODE,
-            $res->childNodes->item( 5 )->nodeType
+            $res[5]->nodeType
         );
         $this->assertEquals(
             'line-break',
-            $res->childNodes->item( 5 )->localName
+            $res[5]->localName
         );
         $this->assertEquals(
             2,
-            $res->childNodes->item( 5 )->getAttributeNS(
+            $res[5]->getAttributeNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'c'
             )
@@ -226,24 +228,24 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
 
         $this->assertEquals(
             XML_TEXT_NODE,
-            $res->childNodes->item( 6 )->nodeType
+            $res[6]->nodeType
         );
         $this->assertEquals(
             " ",
-            $res->childNodes->item( 6 )->wholeText
+            $res[6]->wholeText
         );
 
         $this->assertEquals(
             XML_ELEMENT_NODE,
-            $res->childNodes->item( 7 )->nodeType
+            $res[7]->nodeType
         );
         $this->assertEquals(
             'tab',
-            $res->childNodes->item( 7 )->localName
+            $res[7]->localName
         );
         $this->assertEquals(
             1,
-            $res->childNodes->item( 7 )->getAttributeNS(
+            $res[7]->getAttributeNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'c'
             )
@@ -251,24 +253,24 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
 
         $this->assertEquals(
             XML_TEXT_NODE,
-            $res->childNodes->item( 8 )->nodeType
+            $res[8]->nodeType
         );
         $this->assertEquals(
             " ",
-            $res->childNodes->item( 8 )->wholeText
+            $res[8]->wholeText
         );
 
         $this->assertEquals(
             XML_ELEMENT_NODE,
-            $res->childNodes->item( 9 )->nodeType
+            $res[9]->nodeType
         );
         $this->assertEquals(
             's',
-            $res->childNodes->item( 9 )->localName
+            $res[9]->localName
         );
         $this->assertEquals(
             1,
-            $res->childNodes->item( 9 )->getAttributeNS(
+            $res[9]->getAttributeNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'c'
             )
@@ -276,11 +278,11 @@ class ezcDocumentOdtTextProcessorTest extends ezcTestCase
 
         $this->assertEquals(
             XML_TEXT_NODE,
-            $res->childNodes->item( 10 )->nodeType
+            $res[10]->nodeType
         );
         $this->assertEquals(
             "it.",
-            $res->childNodes->item( 10 )->wholeText
+            $res[10]->wholeText
         );
     }
 
