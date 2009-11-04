@@ -50,6 +50,7 @@ class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseH
                 $this->level
             );
             $root->appendChild( $h );
+
             $this->styler->applyStyles( $node, $h );
 
             $converter->visitChildren( $node, $h );

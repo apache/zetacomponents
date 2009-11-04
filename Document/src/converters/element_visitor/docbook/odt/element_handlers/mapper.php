@@ -57,6 +57,7 @@ class ezcDocumentDocbookToOdtMappingHandler extends ezcDocumentDocbookToOdtBaseH
             $targetElementData[1]
         );
         $root->appendChild( $targetElement );
+
         $this->styler->applyStyles( $node, $targetElement );
 
         $converter->visitChildren( $node, $targetElement );

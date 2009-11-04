@@ -36,6 +36,7 @@ class ezcDocumentDocbookToOdtParagraphHandler extends ezcDocumentDocbookToOdtBas
             'p'
         );
         $root->appendChild( $p );
+
         $this->styler->applyStyles( $node, $p );
 
         $converter->visitChildren( $node, $p );

@@ -82,7 +82,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'mediaobject'       => $media,
                 // 'blockquote'        => new ezcDocumentDocbookToOdtBlockquoteHandler(),
                 'itemizedlist'      => $list = new ezcDocumentDocbookToOdtListHandler( $styler ),
-                // 'orderedlist'       => $mapper,
+                'orderedlist'       => $list,
                 'listitem'          => $mapper = new ezcDocumentDocbookToOdtMappingHandler( $styler ),
                 // 'note'              => $special = new ezcDocumentDocbookToOdtSpecialParagraphHandler(),
                 // 'tip'               => $special,

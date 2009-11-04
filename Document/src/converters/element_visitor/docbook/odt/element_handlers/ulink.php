@@ -47,6 +47,7 @@ class ezcDocumentDocbookToOdtUlinkHandler extends ezcDocumentDocbookToOdtBaseHan
         );
 
         $root->appendChild( $a );
+
         $this->styler->applyStyles( $node, $a );
 
         $converter->visitChildren( $node, $a );

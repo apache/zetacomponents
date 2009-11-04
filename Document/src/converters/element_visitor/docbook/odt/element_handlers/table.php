@@ -75,6 +75,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
         $root->appendChild( $table );
 
         $this->createCellDefinition( $node, $table );
+
         $this->styler->applyStyles( $node, $table );
 
         $converter->visitChildren( $node, $table );
@@ -149,6 +150,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
             'table-header-rows'
         );
         $root->appendChild( $tableHeaderRows );
+
         $this->styler->applyStyles( $node, $tableHeaderRows );
 
         $converter->visitChildren( $node, $tableHeaderRows );
@@ -187,6 +189,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
             'table-row'
         );
         $root->appendChild( $tableRow );
+
         $this->styler->applyStyles( $node, $tableRow );
 
         $converter->visitChildren( $node, $tableRow );
@@ -214,6 +217,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
             'string'
         );
         $root->appendChild( $tableCell );
+
         $this->styler->applyStyles( $node, $tableCell );
 
         // @TODO: Colspan / rowspan

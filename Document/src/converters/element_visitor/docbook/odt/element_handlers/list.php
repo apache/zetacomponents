@@ -44,15 +44,9 @@ class ezcDocumentDocbookToOdtListHandler extends ezcDocumentDocbookToOdtBaseHand
             ezcDocumentOdt::NS_ODT_TEXT,
             'list'
         );
-        // @TODO: Handle in styler!
-        $list->setAttributeNS(
-            ezcDocumentOdt::NS_ODT_TEXT,
-            'text:style-name',
-            'List_Numbered_Numeric'
-        );
-        $this->styler->applyStyles( $node, $list );
-        
         $root->appendChild( $list );
+
+        $this->styler->applyStyles( $node, $list );
 
         $converter->visitChildren( $node, $list );
         return $root;

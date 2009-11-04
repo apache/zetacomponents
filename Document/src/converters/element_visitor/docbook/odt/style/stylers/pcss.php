@@ -52,6 +52,13 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
     protected $styleInferencer;
 
     /**
+     * Style pre-processors. 
+     * 
+     * @var array(ezcDocumentOdtPcssStylePreprocessor)
+     */
+    protected $stylePreProcessors = array();
+
+    /**
      * PCSS parser. 
      * 
      * @var ezcDocumentPcssParser
@@ -82,6 +89,12 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
         $this->styleGenerators[] = new ezcDocumentOdtTextStyleGenerator(
             $this->styleConverters
         );
+        $this->styleGenerators[] = new ezcDocumentOdtListStyleGenerator(
+            $this->styleConverters
+        );
+
+        // @TODO: Make configurable
+        $this->stylePreProcessors[] = new ezcDocumentOdtPcssListStylePreprocessor();
     }
 
     /**
@@ -112,7 +125,12 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      */
     public function applyStyles( ezcDocumentLocateable $docBookElement, DOMElement $odtElement )
     {
-        $styles = $this->styleInferencer->inferenceFormattingRules( $docBookElement );
+        $styles = $this->preProcessStyles(
+            $docBookElement,
+            $odtElement,
+            $this->styleInferencer->inferenceFormattingRules( $docBookElement )
+        );
+
         $handled = false;
         foreach ( $this->styleGenerators as $generator )
         {
@@ -126,6 +144,28 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
         {
             // echo "DocBook element '{$docBookElement->localName}' not handled. No style generated for ODT element '{$odtElement->localName}'.\n";
         }
+    }
+
+    /**
+     * Pre-process styles using $stylePreProcessors.
+     * 
+     * @param DOMElement $docBookElement 
+     * @param DOMElement $odtElement 
+     * @param array $styles 
+     * @return array
+     */
+    protected function preProcessStyles( DOMElement $docBookElement, DOMElement $odtElement, array $styles )
+    {
+        foreach ( $this->stylePreProcessors as $preProcessor )
+        {
+            $styles = $preProcessor->process(
+                $this->styleInfo,
+                $docBookElement,
+                $odtElement,
+                $styles
+            );
+        }
+        return $styles;
     }
 
     /**

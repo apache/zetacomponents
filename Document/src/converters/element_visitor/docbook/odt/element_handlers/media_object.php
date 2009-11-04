@@ -57,6 +57,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
             'draw:name',
             'graphics' . $drawingId
         );
+
         $this->styler->applyStyles( $node, $frame );
 
         $anchorType = 'paragraph';
