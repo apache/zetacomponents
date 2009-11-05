@@ -27,6 +27,7 @@ return array(
     'ezcArchiveUstarHeader'               => 'Archive/tar/headers/ustar.php',
     'ezcArchiveUstarTar'                  => 'Archive/tar/ustar.php',
     'ezcArchiveBlockFile'                 => 'Archive/file/block_file.php',
+    'ezcArchiveCallback'                  => 'Archive/interfaces/callback.php',
     'ezcArchiveCentralDirectoryEndHeader' => 'Archive/zip/headers/central_directory_end.php',
     'ezcArchiveCentralDirectoryHeader'    => 'Archive/zip/headers/central_directory.php',
     'ezcArchiveCharacterFile'             => 'Archive/file/character_file.php',

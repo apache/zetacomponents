@@ -1,3 +1,12 @@
+1.4alpha1 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #15457: When extracting Ustar-archives that feature a
+  prefix/filename long-filename, the directory is not separated properly.
+- Implemented issue #15389: Provide an option to set the permissions, user ID
+  and group ID of extracted files and directories.
+
+
 1.3.4 - Tuesday 01 September 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

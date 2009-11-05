@@ -33,6 +33,8 @@ class ezcArchiveGnuTarTest extends ezcArchivePaxTarTest // use the Pax tests
         $this->complexFile = $this->createTempFile( "tar_gnu_file_dir_symlink_link.tar" );
         $blockFile = new ezcArchiveBlockFile( $this->complexFile );
         $this->complexArchive = new ezcArchiveGnuTar( $blockFile );
+
+        $this->setUsersGid();
     }
 
     protected function tearDown()

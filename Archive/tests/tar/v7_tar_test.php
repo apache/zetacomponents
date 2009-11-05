@@ -26,6 +26,7 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
     protected $complexFile;
     protected $tarFormat;
     protected $tarMimeFormat;
+    protected $usersGid;
 
     public function createTempFile( $file )
     {
@@ -54,6 +55,19 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         $blockFile = new ezcArchiveBlockFile( $this->complexFile );
         $this->complexArchive = new ezcArchiveV7Tar( $blockFile );
         unset( $blockFile );
+
+        $this->setUsersGid();
+    }
+
+    protected function setUsersGid()
+    {
+        // figure out the GID for "users" for tests
+        $this->usersGid = 1000; // default
+        if ( posix_geteuid() === 0 && function_exists( 'posix_getgrnam' ) )
+        {
+            $info = posix_getgrnam( 'users' );
+            $this->usersGid = $info['gid'];
+        }
     }
 
     protected function tearDown()
@@ -283,6 +297,49 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
             exec( 'copy "' . $dir . '\gnu\files\bla\file3.txt" "' . $dir . '\gnu\files\file3.txt"' );
         }
         $this->compareDirectories( "$dir/gnu", "$dir/php" );
+
+        $stat = stat( "$dir/php/files/bla/file3.txt" );
+        $this->assertEquals( 0644, $stat['mode'] & 07777 );
+        $this->assertEquals( 1000, $stat['uid'] );
+        $this->assertEquals( $this->usersGid, $stat['gid'] );
+    }
+
+    public function testExtractComplexArchiveModPerms()
+    {
+        $options = new ezcArchiveOptions;
+        $options->extractCallback = new testExtractCallback;
+
+        $this->complexArchive->setOptions( $options );
+        $dir =  $this->getTempDir();
+        mkdir( $dir . "/php" );
+        mkdir( $dir . "/gnu" );
+
+        foreach ( $this->complexArchive as $entry )
+        {
+            $this->complexArchive->extractCurrent( $dir ."/php" );
+        }
+
+        exec( "tar -xf " . $this->complexFile . " -C $dir/gnu" );
+
+        // make corrections that emulate symlink in Windows
+        if ( $this->isWindows() )
+        {
+            exec( 'attrib -r ' . $dir . '\gnu\files\file3.txt.lnk' );
+            exec( 'del "' . $dir . '\gnu\files\file3.txt.lnk"' );
+            exec( 'copy "' . $dir . '\gnu\files\bla\file3.txt" "' . $dir . '\gnu\files\file3.txt"' );
+        }
+        $this->compareDirectories( "$dir/gnu", "$dir/php" );
+        $options->extractCallback = null;
+
+        $stat = stat( "$dir/php/files/bla/file3.txt" );
+        $this->assertEquals( 0600, $stat['mode'] & 07777 );
+        $this->assertEquals( 1000, $stat['uid'] );
+        $this->assertEquals( $this->usersGid, $stat['gid'] );
+
+        $stat = stat( "$dir/php/files/bla" );
+        $this->assertEquals( 0700, $stat['mode'] & 07777 );
+        $this->assertEquals( 1000, $stat['uid'] );
+        $this->assertEquals( $this->usersGid, $stat['gid'] );
     }
 
     public function testInvalidChecksum()

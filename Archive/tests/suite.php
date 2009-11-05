@@ -26,6 +26,7 @@ require_once( "zip/zip_test.php");
 
 require_once( "archive_test.php");
 require_once( "file_type.php");
+require 'archive_options_test.php';
 
 /**
  * @package Archive
@@ -39,6 +40,7 @@ class ezcArchiveSuite extends PHPUnit_Framework_TestSuite
 		parent::__construct();
         $this->setName( "Archive" );
 
+		$this->addTest( ezcArchiveOptionsTest::suite() );
 		$this->addTest( ezcArchiveTest::suite() );
 		$this->addTest( ezcArchiveFileTypeTest::suite() );
 		$this->addTest( ezcArchiveBlockFileTest::suite() );

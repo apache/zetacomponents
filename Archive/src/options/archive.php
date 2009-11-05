@@ -13,6 +13,10 @@
  *
  * @property bool $readOnly
  *           Whether the archive should be opened in read only mode.
+ * @property ezcArchiveCallback $extractCallback
+ *           Callback object to be used for every directory and file creation
+ *           action, so that permissions, user and group may be changed
+ *           depending on user preferences. See {@link ezcArchiveCallback}.
  *
  * @package Archive
  * @version //autogen//
@@ -31,6 +35,7 @@ class ezcArchiveOptions extends ezcBaseOptions
     public function __construct( array $options = array() )
     {
         $this->readOnly = false;
+        $this->extractCallback = null;
 
         parent::__construct( $options );
     }
@@ -54,6 +59,14 @@ class ezcArchiveOptions extends ezcBaseOptions
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'bool' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
+            case 'extractCallback':
+                if ( !is_null( $value ) && !( is_object( $value ) && in_array( 'ezcArchiveCallback', class_parents( $value ) ) ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'instance of ezcArchiveCallback' );
                 }
                 $this->properties[$name] = $value;
                 break;

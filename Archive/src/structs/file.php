@@ -50,6 +50,20 @@ class ezcArchiveFileStructure extends ezcBaseStruct
     public $gid;
 
     /**
+     * The user name (only for some supported formats).
+     *
+     * @var string
+     */
+    public $userName = null;
+
+    /**
+     * The group name (only for some supported formats).
+     *
+     * @var string
+     */
+    public $groupName = null;
+
+    /**
      * Last modification time timestamp.
      *
      * @var int

@@ -79,7 +79,8 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
             case "deviceMajorNumber":
             case "deviceMinorNumber":
             case "filePrefix":
-                return $this->properties[ $name ] = $value;
+                $this->properties[$name] = $value;
+                return;
         }
 
         return parent::__set( $name, $value );
@@ -150,7 +151,37 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
 
             // Append the decoded array to the header.
             $this->properties = array_merge( $this->properties, $decoded );
+
+            $this->handleOwner();
          }
+    }
+
+    /**
+     * This method sets the correct owner in the headers.
+     *
+     * This only works if PHP has the posix extension compiled in and
+     * when the effective user ID is 0 (root).
+     */
+    protected function handleOwner()
+    {
+        if ( !ezcBaseFeatures::hasFunction( 'posix_getpwuid' ) )
+        {
+            return;
+        }
+
+        $t =& $this->properties;
+
+        if ( posix_geteuid() === 0 && isset( $t['userName'] ) && $t['userName'] !== '' )
+        {
+            if ( ( $userName = posix_getpwnam( $t['userName'] ) ) !== false )
+            {
+                $t['userId'] = $userName['uid'];
+            }
+            if ( ( $groupName = posix_getgrnam( $t['groupName'] ) ) !== false )
+            {
+                $t['groupId'] = $groupName['gid'];
+            }
+        }
     }
 
     /**
@@ -342,9 +373,18 @@ class ezcArchiveUstarHeader extends ezcArchiveV7Header
     {
         parent::setArchiveFileStructure( $struct );
 
-        $struct->path = $this->filePrefix . $this->fileName;
+        if ( $this->filePrefix != '' )
+        {
+            $struct->path = $this->filePrefix . DIRECTORY_SEPARATOR . $this->fileName;
+        }
+        else
+        {
+            $struct->path = $this->fileName;
+        }
         $struct->major = $this->deviceMajorNumber;
         $struct->minor = $this->deviceMinorNumber;
+        $struct->userName = $this->userName;
+        $struct->groupName = $this->groupName;
 
         // Override the link type.
         switch ( $this->type )

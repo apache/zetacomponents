@@ -33,6 +33,8 @@ class ezcArchivePaxTarTest extends ezcArchiveUstarTarTest // Extend the Ustar te
         $this->complexFile = $this->createTempFile( "tar_pax_file_dir_symlink_link.tar" );
         $blockFile = new ezcArchiveBlockFile( $this->complexFile );
         $this->complexArchive = new ezcArchivePaxTar( $blockFile );
+
+        $this->setUsersGid();
     }
 
     protected function tearDown()

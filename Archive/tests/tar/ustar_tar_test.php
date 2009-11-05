@@ -33,6 +33,8 @@ class ezcArchiveUstarTarTest extends ezcArchiveV7TarTest // Extend the V7 tests 
         $blockFile = new ezcArchiveBlockFile( $this->complexFile );
         $this->complexArchive = new ezcArchiveUstarTar( $blockFile );
         unset( $blockFile );
+
+        $this->setUsersGid();
     }
 
     protected function tearDown()

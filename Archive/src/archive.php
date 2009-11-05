@@ -141,6 +141,13 @@ abstract class ezcArchive implements Iterator
     protected $file = null;
 
     /**
+     * Holds the options if passed to the open method.
+     *
+     * @var ezcArchiveOptions
+     */
+    protected $options;
+
+    /**
      * Use the {@link open()} method to get an instance of this class.
      */
     private function __construct()
@@ -287,7 +294,9 @@ abstract class ezcArchive implements Iterator
         }
 
         $af = new ezcArchiveBlockFile( $archiveName, true, 512, $options->readOnly );
-        return self::getTarInstance( $af, $type );
+        $instance = self::getTarInstance( $af, $type );
+        $instance->options = $options;
+        return $instance;
     }
 
     /**
@@ -304,6 +313,16 @@ abstract class ezcArchive implements Iterator
             $options = new ezcArchiveOptions;
         }
         return $options;
+    }
+
+    /**
+     * This method associates a new $options object with this archive.
+     *
+     * @param ezcArchiveOptions $options
+     */
+    public function setOptions( ezcArchiveOptions $options )
+    {
+        $this->options = $options;
     }
 
     /**
@@ -567,22 +586,41 @@ abstract class ezcArchive implements Iterator
                         throw new ezcArchiveValueException( $type );
                 }
 
+                if ( $type == ezcArchiveEntry::IS_SYMBOLIC_LINK && posix_geteuid() == 0 )
+                {
+                    $user = $entry->getUserId();
+                    $group = $entry->getGroupId();
+                    @lchown( $fileName, $user );
+                    @lchgrp( $fileName, $group );
+                }
+
                 // Change the username and group if the filename exists and if
                 // the intention is to keep it as a file. A zip archive
                 // stores the symlinks in a file; thus don't change these.
-                if ( file_exists( $fileName ) && $type == ezcArchiveEntry::IS_FILE )
+                if ( file_exists( $fileName ) && ( $type == ezcArchiveEntry::IS_FILE || $type == ezcArchiveEntry::IS_DIRECTORY ) )
                 {
-                    @chgrp( $fileName, $entry->getGroupId() );
-                    @chown( $fileName, $entry->getUserId() );
+                    $group = $entry->getGroupId();
+                    $user  = $entry->getUserId();
+                    $time  = $entry->getModificationTime();
+                    $perms = octdec( $entry->getPermissions() );
 
-                    $permissions = $entry->getPermissions();
-
-                    if ( $permissions !== false )
+                    if ( $this->options && $this->options->extractCallback )
                     {
-                        chmod( $fileName, octdec( $permissions ) );
+                        $this->options->extractCallback->{$type == ezcArchiveEntry::IS_DIRECTORY ? 'createDirectoryCallback' : 'createFileCallback'}( $fileName, $perms, $user, $group );
                     }
 
-                    touch( $fileName, $entry->getModificationTime() );
+                    if ( posix_geteuid() === 0 )
+                    {
+                        @chgrp( $fileName, $group );
+                        @chown( $fileName, $user );
+                    }
+
+                    if ( $perms != false )
+                    {
+                        chmod( $fileName, $perms );
+                    }
+
+                    touch( $fileName, $time );
                 }
             }
 
@@ -694,7 +732,16 @@ abstract class ezcArchive implements Iterator
                 // make all slashes to be '/'
                 $dirName = str_replace( '/', '\\', $dirName );
             }
-            mkdir( $dirName, 0777, true );
+
+            // Call the callback, to see whether we need to change permissions
+            $permissions = 0777;
+            $dummy = null;
+            if ( $this->options && $this->options->extractCallback )
+            {
+                $this->options->extractCallback->createDirectoryCallback( $dirName, $permissions, $dummy, $dummy );
+            }
+
+            mkdir( $dirName, $permissions, true );
         }
     }
 
