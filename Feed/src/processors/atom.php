@@ -438,12 +438,12 @@ class ezcFeedAtom extends ezcFeedProcessor implements ezcFeedParser
 
         if ( $version !== null )
         {
-            $this->generateMetaData( $elementTag, 'version', $version );
+            $this->addAttribute( $elementTag, 'version', $version );
         }
 
         if ( $url !== null )
         {
-            $this->generateMetaData( $elementTag, 'uri', $url );
+            $this->addAttribute( $elementTag, 'uri', $url );
         }
     }
 

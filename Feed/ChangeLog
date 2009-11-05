@@ -4,6 +4,7 @@
 - Implemented feature request #14076: Language attribute for feed items. Based
   on a patch from Emanuel Sprung.
 - Implemented feature request #14292: Support atom:link in RSS feeds.
+- Fixed issue #15748: generator tag in atom feed invalid.
 - Fixed rendering of the cloud element in RSS2.
 - Fixed parsing of the atom:link element in RSS2.
 
