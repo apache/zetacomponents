@@ -44,12 +44,26 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     protected $covered = array();
 
     /**
+     * Box of the whole table
+     * 
+     * @var array
+     */
+    protected $tableBox = array();
+
+    /**
      * Boxes for all currently drawn cells so their border can be renderer once 
      * the row baseline is known.
      * 
      * @var array
      */
     protected $cellBoxes = array();
+
+    /**
+     * The last page the current cell rendered contents on
+     * 
+     * @var ezcDocumentPdfPage
+     */
+    protected $lastPageForCell;
 
     /**
      * Construct renderer from driver to use
@@ -135,12 +149,42 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
      * @param float $width
      * @return ezcDocumentPdfPage
      */
-    public function _getNextRenderingPosition( $move, $width )
+    public function getNextRenderingPosition( $move, $width )
     {
-        // @TODO: Implement
-        // @TODO: This needs to implement the rendering of side borders on page 
-        // wrapping (for cells and tables).
-        return $this->driver->currentPage();
+        // Close all table cells
+        $oldPage = $this->driver->currentPage();
+        foreach ( $this->cellBoxes as $cell )
+        {
+            $cell['box']->height = ( $oldPage->startY + $oldPage->innerHeight ) - $cell['box']->y;
+            $this->renderBoxBorder( $cell['box'], $cell['styles'], false );
+        }
+
+        // Close table border
+        $this->tableBox['box']->height = ( $oldPage->startY + $oldPage->innerHeight ) - $this->tableBox['box']->y;
+        $this->renderBoxBorder( $this->tableBox['box'], $this->tableBox['styles'], false, false );
+
+        // Call parent handler to get next rendering position
+        $page = parent::getNextRenderingPosition( $move, $width );
+
+        if ( $page === $oldPage )
+        {
+            $this->lastPageForCell = $page;
+            return $page;
+        }
+
+        // Update all boxes to start on top of the new page
+        foreach ( $this->cellBoxes as $cell )
+        {
+            $cell['box']->y = $page->y;
+            $this->renderTopBorder( $cell['styles'], $cell['box'] );
+        }
+
+        // Maintain horizontal rendering position
+        $page->x = $oldPage->x;
+        $page->y = $page->startY;
+
+        $this->tableBox['box']->y = $page->y;
+        return $this->lastPageForCell = $page;
     }
 
     /**
@@ -158,8 +202,8 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
      */
     protected function renderCell( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $cell, array $styles, ezcDocumentPdfBoundingBox $space, $start, $width )
     {
-        $styles        = $this->styles->inferenceFormattingRules( $cell );
-        $this->covered = array();
+        $styles         = $this->styles->inferenceFormattingRules( $cell );
+        $this->covered  = array();
 
         // Mark space used, which will be covered by the other table cells
         if ( $start > 0 )
@@ -186,8 +230,14 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
         $page->x = $space->x + $start * $space->width;
         $page->y = $space->y;
 
+        if ( ( $box = $this->evaluateAvailableBoundingBox( $page, $styles, $width * $space->width ) ) === false )
+        {
+            $page = $this->getNextRenderingPosition( 0, $space->width );
+            $box  = $this->evaluateAvailableBoundingBox( $page, $styles, $width * $space->width );
+        }
+
         $this->cellBoxes[] = array(
-            'box'    => $box = $this->evaluateAvailableBoundingBox( $page, $styles, $width * $space->width ),
+            'box'    => $box,
             'styles' => $styles,
         );
         $this->cellWidth = $box->width;
@@ -196,6 +246,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
         // Render cell contents
         $page->x = $box->x;
         $page->y = $box->y;
+        $this->lastPageForCell = $page;
         $this->process( $cell );
         $page->x = $space->x;
 
@@ -205,7 +256,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
             unset( $this->covered[$nr] );
         }
 
-        return $page->y;
+        return array( $this->lastPageForCell->orderedId, $this->lastPageForCell->y );
     }
 
     /**
@@ -243,47 +294,6 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
                 array( $topLeft, $topRight ),
                 $styles['border']->value['top']['color'],
                 $styles['border']->value['top']['width']
-            );
-        }
-    }
-
-    /**
-     * Render top border
-     *
-     * Render the top border of the given space
-     * 
-     * @param array $styles 
-     * @param ezcDocumentPdfBoundingBox $space 
-     * @return void
-     */
-    protected function renderBottomBorder( array $styles, ezcDocumentPdfBoundingBox $space )
-    {
-        $bottomRight = array(
-            $space->x +
-                $styles['padding']->value['right'] +
-                $styles['border']->value['right']['width'] / 2 +
-                $space->width,
-            $space->y +
-                $styles['padding']->value['bottom'] +
-                $styles['border']->value['bottom']['width'] / 2 +
-                $space->height,
-        );
-        $bottomLeft = array(
-            $space->x -
-                $styles['padding']->value['left'] -
-                $styles['border']->value['left']['width'] / 2,
-            $space->y +
-                $styles['padding']->value['bottom'] +
-                $styles['border']->value['bottom']['width'] / 2 +
-                $space->height,
-        );
-
-        if ( $styles['border']->value['bottom']['width'] > 0 )
-        {
-            $this->driver->drawPolyline(
-                array( $bottomRight, $bottomLeft ),
-                $styles['border']->value['bottom']['color'],
-                $styles['border']->value['bottom']['width']
             );
         }
     }
@@ -342,33 +352,56 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
         $renderWidth       = $mainRenderer->calculateTextWidth( $page, $block );
 
         $space = $this->evaluateAvailableBoundingBox( $page, $styles, $renderWidth );
-        $box   = clone $space;
+        $this->tableBox = array(
+            'box'    => $box = clone $space,
+            'styles' => $styles,
+        );
         $this->renderTopBorder( $styles, $box );
 
         $xpath     = new DOMXPath( $block->ownerDocument );
         $xPosition = $page->x;
-        foreach ( $xpath->query( './*/*/*[local-name() = "row"] | ./*/*[local-name() = "row"]', $block ) as $row )
+        foreach ( $xpath->query( './*/*/*[local-name() = "row"] | ./*/*[local-name() = "row"]', $block ) as $rowNr => $row )
         {
             $xOffset         = 0;
             $this->cellBoxes = array();
             $positions       = array();
+            $pageStartId     = $page->orderedId;
+            $lastPage        = array();
             foreach ( $xpath->query( './*[local-name() = "entry"]', $row ) as $nr => $cell )
             {
-                $positions[] = $this->renderCell( $page, $hyphenator, $tokenizer, $cell, $styles, $space, $xOffset, $tableColumnWidths[$nr] );
-                $xOffset    += $tableColumnWidths[$nr];
+                list( $pageId, $position ) = $this->renderCell( $page, $hyphenator, $tokenizer, $cell, $styles, $space, $xOffset, $tableColumnWidths[$nr] );
+                $positions[$pageId][]      = $position;
+                $xOffset                  += $tableColumnWidths[$nr];
+                $lastPage[$pageId]         = $this->lastPageForCell;
+
+                // Go back to page, where each cell in the row shoudl start the 
+                // rendering
+                while ( $this->driver->currentPage()->orderedId !== $pageStartId )
+                {
+                    $this->driver->goBackOnePage();
+                }
+            }
+
+            $lastPageId = max( array_keys( $positions ) );
+            $page       = $lastPage[$lastPageId];
+
+            // Forward page to last page used during cell rendering
+            while ( $this->driver->currentPage()->orderedId !== $lastPageId )
+            {
+                $this->driver->appendPage( $this->styles );
             }
 
             $page->x = $xPosition;
             foreach ( $this->cellBoxes as $cell )
             {
-                $cell['box']->height = max( $positions ) - $cell['box']->y;
+                $cell['box']->height = max( $positions[$lastPageId] ) - $cell['box']->y;
                 $this->renderBoxBorder( $cell['box'], $cell['styles'], false );
                 $this->setCellCovered( $page, $cell['box'], $styles );
             }
 
             // Set page->y again, since setBoxCovered() increased it, which we 
             // do not want in this case.
-            $page->y = max( $positions );
+            $page->y = max( $positions[$lastPageId] );
 
             $space->y = $page->y = $page->y +
                 $cell['styles']['padding']->value['bottom'] +
@@ -376,8 +409,6 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
                 $cell['styles']['margin']->value['bottom'];
         }
 
-        // @TODO: This does obviously not work for multi-page tables. In this 
-        // case the page y offset needs to be assumed as the top of the box.
         $box->height = $space->y - $box->y;
         $this->renderBoxBorder( $box, $styles, false );
     }

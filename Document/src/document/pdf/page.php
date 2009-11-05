@@ -124,6 +124,27 @@ class ezcDocumentPdfPage implements ezcDocumentLocateable
     protected $innerHeight;
 
     /**
+     * ID of the page.
+     *
+     * This ID defines an order on the pages. It is *not* sequential, there
+     * might always be holes in the sequence.
+     *
+     * But a page creted later in the rendering process will always have a 
+     * higher number then the pages before.
+     * 
+     * @var int
+     */
+    protected $orderedId;
+
+    /**
+     * Global static ID provider to dertermine page creation order. This is 
+     * required for the $orderedId property.
+     *
+     * @var int
+     */
+    static protected $idCounter = 1;
+
+    /**
      * Array of pages sizes
      *
      * Associates known page size identifiers the actual size in millimeters.
@@ -198,6 +219,7 @@ class ezcDocumentPdfPage implements ezcDocumentLocateable
         $this->height      = (float) $height;
         $this->innerWidth  = $innerWidth === null ? $this->width : (float) $innerWidth;
         $this->innerHeight = $innerHeight === null ? $this->height : (float) $innerHeight;
+        $this->orderedId   = ++self::$idCounter;
     }
 
     /**
@@ -288,6 +310,8 @@ class ezcDocumentPdfPage implements ezcDocumentLocateable
                 return $this->innerWidth;
             case 'innerHeight':
                 return $this->innerHeight;
+            case 'orderedId':
+                return $this->orderedId;
         }
     }
 
