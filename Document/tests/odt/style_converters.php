@@ -291,7 +291,7 @@ class ezcDocumentOdtPcssConvertersTest extends ezcTestCase
                 // expected attributes
                 array(
                     // NS, attribute name, value
-                    array( ezcDocumentOdt::NS_ODT_FO, 'font-name', 'DejaVu Sans' ),
+                    array( ezcDocumentOdt::NS_ODT_STYLE, 'font-name', 'DejaVu Sans' ),
                     array( ezcDocumentOdt::NS_ODT_STYLE, 'font-name-asian', 'DejaVu Sans' ),
                     array( ezcDocumentOdt::NS_ODT_STYLE, 'font-name-complex', 'DejaVu Sans' ),
                 )

@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtPcssFontSizeConverter extends ezcDocumentOdtPcssFontConverter
+class ezcDocumentOdtPcssFontSizeConverter implements ezcDocumentOdtPcssConverter
 {
     /**
      * Converts the 'font-size' CSS style.
@@ -15,12 +15,22 @@ class ezcDocumentOdtPcssFontSizeConverter extends ezcDocumentOdtPcssFontConverte
      */
     public function convert( DOMElement $targetProperty, $styleName, ezcDocumentPcssStyleValue $styleValue )
     {
-        parent::convert(
-            $targetProperty,
-            $styleName,
-            new ezcDocumentPcssStyleStringValue(
-                "{$styleValue->value}mm"
-            )
+        $mmValue = sprintf( '%smm', $styleValue->value );
+
+        $targetProperty->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_FO,
+            "fo:{$styleName}",
+            $mmValue
+        );
+        $targetProperty->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_STYLE,
+            "style:{$styleName}-asian",
+            $mmValue
+        );
+        $targetProperty->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_STYLE,
+            "style:{$styleName}-complex",
+            $mmValue
         );
     }
 }

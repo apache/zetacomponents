@@ -68,7 +68,7 @@ class ezcDocumentOdtStyleTextPropertyGeneratorTest extends ezcDocumentOdtStylePr
             ezcDocumentOdt::NS_ODT_STYLE,
             'text-properties',
             array(
-                array( ezcDocumentOdt::NS_ODT_FO, 'font-name' )
+                array( ezcDocumentOdt::NS_ODT_STYLE, 'font-name' )
             ),
             $parent
         );
