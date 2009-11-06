@@ -32,7 +32,7 @@ abstract class ezcDocumentOdtStylePropertyGenerator
     /**
      * Style converters to be used. 
      * 
-     * @var ezcDocumentOdtStyleConverterManager
+     * @var ezcDocumentOdtPcssConverterManager
      */
     protected $styleConverters;
 
@@ -42,7 +42,7 @@ abstract class ezcDocumentOdtStylePropertyGenerator
      * Must be overwritten by the actual implementation to fill the list of 
      * $styles to be applied to the property.
      */
-    public function __construct( ezcDocumentOdtStyleConverterManager $styleConverters, array $styleAttributes )
+    public function __construct( ezcDocumentOdtPcssConverterManager $styleConverters, array $styleAttributes )
     {
         $this->styleConverters = $styleConverters;
         $this->styleAttributes = $styleAttributes;

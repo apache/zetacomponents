@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtStyleConverterManager class.
+ * File containing the ezcDocumentOdtPcssConverterManager class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Manager for ezcDocumentOdtStyleConverter instances.
+ * Manager for ezcDocumentOdtPcssConverter instances.
  *
  * An instance of this class is used to handle style converters. It uses the 
  * {@link ArrayAccess} interface to access style converters by the name of 
@@ -20,7 +20,7 @@
  * @access private
  * @version //autogen//
  */
-class ezcDocumentOdtStyleConverterManager extends ArrayObject
+class ezcDocumentOdtPcssConverterManager extends ArrayObject
 {
     /**
      * Creates a new style converter manager.
@@ -36,18 +36,18 @@ class ezcDocumentOdtStyleConverterManager extends ArrayObject
      */
     protected function init()
     {
-        $this['text-decoration']  = new ezcDocumentOdtTextDecorationStyleConverter();
-        $this['font-size']        = new ezcDocumentOdtFontSizeStyleConverter();
-        $this['font-name']        = ( $font = new ezcDocumentOdtFontStyleConverter() );
+        $this['text-decoration']  = new ezcDocumentOdtPcssTextDecorationConverter();
+        $this['font-size']        = new ezcDocumentOdtPcssFontSizeConverter();
+        $this['font-name']        = ( $font = new ezcDocumentOdtPcssFontConverter() );
         $this['font-weight']      = $font;
-        $this['color']            = ( $color = new ezcDocumentOdtColorStyleConverter() );
+        $this['color']            = ( $color = new ezcDocumentOdtPcssColorConverter() );
         $this['background-color'] = $color;
-        $this['text-align']       = ( $default = new ezcDocumentOdtDefaultStyleConverter() );
+        $this['text-align']       = ( $default = new ezcDocumentOdtDefaultPcssConverter() );
         $this['widows']           = $default;
         $this['orphans']          = $default;
         $this['text-indent']      = $default;
-        $this['margin']           = new ezcDocumentOdtMarginStyleConverter();
-        $this['border']           = new ezcDocumentOdtBorderStyleConverter();
+        $this['margin']           = new ezcDocumentOdtPcssMarginConverter();
+        $this['border']           = new ezcDocumentOdtPcssBorderConverter();
     }
 
     /**
@@ -57,7 +57,7 @@ class ezcDocumentOdtStyleConverterManager extends ArrayObject
      * $value must be the style converter itself.
      * 
      * @param string $key 
-     * @param ezcDocumentOdtStyleConverter $value 
+     * @param ezcDocumentOdtPcssConverter $value 
      */
     public function offsetSet( $key, $value )
     {
@@ -65,12 +65,12 @@ class ezcDocumentOdtStyleConverterManager extends ArrayObject
         {
             throw new ezcBaseValueException( 'key', $key, 'string' );
         }
-        if ( !is_object( $value ) || !( $value instanceof ezcDocumentOdtStyleConverter ) )
+        if ( !is_object( $value ) || !( $value instanceof ezcDocumentOdtPcssConverter ) )
         {
             throw new ezcBaseValueException(
                 'value',
                 $key,
-                'ezcDocumentOdtStyleConverter'
+                'ezcDocumentOdtPcssConverter'
             );
         }
         parent::offsetSet( $key, $value );

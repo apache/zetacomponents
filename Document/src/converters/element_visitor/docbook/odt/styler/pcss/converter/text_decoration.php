@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtTextDecorationStyleConverter implements ezcDocumentOdtStyleConverter
+class ezcDocumentOdtPcssTextDecorationConverter implements ezcDocumentOdtPcssConverter
 {
     /**
      * Converts the 'text-decoration' CSS style.

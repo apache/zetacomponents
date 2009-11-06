@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtFontStyleConverter implements ezcDocumentOdtStyleConverter
+class ezcDocumentOdtPcssFontConverter implements ezcDocumentOdtPcssConverter
 {
     /**
      * Converts the 'font-*' CSS styles.

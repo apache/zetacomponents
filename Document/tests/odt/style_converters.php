@@ -15,7 +15,7 @@
  * @package Document
  * @subpackage Tests
  */
-class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
+class ezcDocumentOdtPcssConvertersTest extends ezcTestCase
 {
     protected $domElement;
 
@@ -65,7 +65,7 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
      */
     public function testConvertTextDecoration( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtTextDecorationStyleConverter();
+        $converter = new ezcDocumentOdtPcssTextDecorationConverter();
         $converter->convert( $this->domElement, 'text-decoration', $styleValue );
 
         $this->assertAttributesCorrect(
@@ -140,7 +140,7 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
      */
     public function testConvertColor( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtColorStyleConverter();
+        $converter = new ezcDocumentOdtPcssColorConverter();
         $converter->convert( $this->domElement, 'color', $styleValue );
 
         $this->assertAttributesCorrect(
@@ -210,7 +210,7 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
      */
     public function testConvertBackgroundColor( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtColorStyleConverter();
+        $converter = new ezcDocumentOdtPcssColorConverter();
         $converter->convert( $this->domElement, 'background-color', $styleValue );
 
         $this->assertAttributesCorrect(
@@ -241,7 +241,7 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
      */
     public function testConvertFontSize( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtFontSizeStyleConverter();
+        $converter = new ezcDocumentOdtPcssFontSizeConverter();
         $converter->convert( $this->domElement, 'font-size', $styleValue );
 
         $this->assertAttributesCorrect(
@@ -274,7 +274,7 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
      */
     public function testConvertMiscFontProperty( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtFontStyleConverter();
+        $converter = new ezcDocumentOdtPcssFontConverter();
         $converter->convert( $this->domElement, 'font-name', $styleValue );
 
         $this->assertAttributesCorrect(
@@ -304,7 +304,7 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
      */
     public function testConvertMiscProperty( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtDefaultStyleConverter();
+        $converter = new ezcDocumentOdtDefaultPcssConverter();
         $converter->convert( $this->domElement, 'text-align', $styleValue );
 
         $this->assertAttributesCorrect(
@@ -332,7 +332,7 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
      */
     public function testConvertMarginProperty( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtMarginStyleConverter();
+        $converter = new ezcDocumentOdtPcssMarginConverter();
         $converter->convert( $this->domElement, 'margin', $styleValue );
 
         $this->assertAttributesCorrect(
@@ -407,7 +407,7 @@ class ezcDocumentOdtStyleConvertersTest extends ezcTestCase
      */
     public function testConvertBorderProperty( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtBorderStyleConverter();
+        $converter = new ezcDocumentOdtPcssBorderConverter();
         $converter->convert( $this->domElement, 'border', $styleValue );
 
         $this->assertAttributesCorrect(

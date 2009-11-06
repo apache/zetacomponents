@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtStyleConverterTools
+class ezcDocumentOdtPcssConverterTools
 {
     /**
      * Serializes a color value.

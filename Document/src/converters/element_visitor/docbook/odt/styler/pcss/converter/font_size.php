@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtFontSizeStyleConverter extends ezcDocumentOdtFontStyleConverter
+class ezcDocumentOdtPcssFontSizeConverter extends ezcDocumentOdtPcssFontConverter
 {
     /**
      * Converts the 'font-size' CSS style.

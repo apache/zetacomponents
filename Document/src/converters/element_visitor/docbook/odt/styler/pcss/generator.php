@@ -24,7 +24,7 @@ abstract class ezcDocumentOdtStyleGenerator
     /**
      * Style converters. 
      * 
-     * @var ezcDocumentOdtStyleConverterManager
+     * @var ezcDocumentOdtPcssConverterManager
      */
     protected $styleConverters;
 
@@ -38,9 +38,9 @@ abstract class ezcDocumentOdtStyleGenerator
     /**
      * Creates a new style genertaor.
      * 
-     * @param ezcDocumentOdtStyleConverterManager $styleConverters 
+     * @param ezcDocumentOdtPcssConverterManager $styleConverters 
      */
-    public function __construct( ezcDocumentOdtStyleConverterManager $styleConverters )
+    public function __construct( ezcDocumentOdtPcssConverterManager $styleConverters )
     {
         $this->styleConverters = $styleConverters;
     }

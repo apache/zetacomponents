@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtColorStyleConverter implements ezcDocumentOdtStyleConverter
+class ezcDocumentOdtPcssColorConverter implements ezcDocumentOdtPcssConverter
 {
     /**
      * Converts the 'font-*' CSS styles.
@@ -18,7 +18,7 @@ class ezcDocumentOdtColorStyleConverter implements ezcDocumentOdtStyleConverter
         $targetProperty->setAttributeNS(
             ezcDocumentOdt::NS_ODT_FO,
             "fo:{$styleName}",
-            ezcDocumentOdtStyleConverterTools::serializeColor( $styleValue->value )
+            ezcDocumentOdtPcssConverterTools::serializeColor( $styleValue->value )
         );
     }
 }

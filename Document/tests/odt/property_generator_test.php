@@ -21,7 +21,7 @@ abstract class ezcDocumentOdtStylePropertyGeneratorTest extends ezcTestCase
 
     public function setup()
     {
-        $this->styleConverters = new ezcDocumentOdtStyleConverterManager();
+        $this->styleConverters = new ezcDocumentOdtPcssConverterManager();
     }
 
     protected function getDomElementFixture()

@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtBorderStyleConverter implements ezcDocumentOdtStyleConverter
+class ezcDocumentOdtPcssBorderConverter implements ezcDocumentOdtPcssConverter
 {
     /**
      * Converts CSS 'border' style.
@@ -24,7 +24,7 @@ class ezcDocumentOdtBorderStyleConverter implements ezcDocumentOdtStyleConverter
                     "%smm %s %s",
                     $borderValues['width'],
                     $borderValues['style'],
-                    ezcDocumentOdtStyleConverterTools::serializeColor( $borderValues['color'] )
+                    ezcDocumentOdtPcssConverterTools::serializeColor( $borderValues['color'] )
                 )
             );
         }

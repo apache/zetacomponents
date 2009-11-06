@@ -26,7 +26,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
     /**
      * Style converter manager. 
      * 
-     * @var ezcDocumentOdtStyleConverterManager
+     * @var ezcDocumentOdtPcssConverterManager
      */
     protected $styleConverters;
 
@@ -54,7 +54,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
     /**
      * Style pre-processors. 
      * 
-     * @var array(ezcDocumentOdtPcssStylePreprocessor)
+     * @var array(ezcDocumentOdtPcssPreprocessor)
      */
     protected $stylePreProcessors = array();
 
@@ -72,12 +72,12 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * called before {@link applyStyles()} can be used. Otherwise an exception 
      * is thrown.
      * 
-     * @param ezcDocumentOdtStyleConverterManager $styleConverters 
+     * @param ezcDocumentOdtPcssConverterManager $styleConverters 
      */
-    public function __construct( ezcDocumentOdtStyleConverterManager $styleConverters = null )
+    public function __construct( ezcDocumentOdtPcssConverterManager $styleConverters = null )
     {
         $this->styleConverters   = ( $styleConverters === null
-            ? new ezcDocumentOdtStyleConverterManager()
+            ? new ezcDocumentOdtPcssConverterManager()
             : $styleConverters
         );
         $this->styleInferencer   = new ezcDocumentPcssStyleInferencer();

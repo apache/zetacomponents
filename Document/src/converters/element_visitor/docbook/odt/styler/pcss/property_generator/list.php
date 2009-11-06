@@ -23,9 +23,9 @@ class ezcDocumentOdtStyleListPropertyGenerator extends ezcDocumentOdtStyleProper
     /**
      * Creates a new paragraph-properties generator.
      * 
-     * @param ezcDocumentOdtStyleConverterManager $styleConverters 
+     * @param ezcDocumentOdtPcssConverterManager $styleConverters 
      */
-    public function __construct( ezcDocumentOdtStyleConverterManager $styleConverters )
+    public function __construct( ezcDocumentOdtPcssConverterManager $styleConverters )
     {
         parent::__construct(
             $styleConverters,

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtStyleConverter interface.
+ * File containing the ezcDocumentOdtPcssConverter interface.
  *
  * @package Document
  * @version //autogen//
@@ -20,7 +20,7 @@
  * @access private
  * @version //autogen//
  */
-interface ezcDocumentOdtStyleConverter
+interface ezcDocumentOdtPcssConverter
 {
     /**
      * Convert the given $styleValue and apply it to the $targetProperty.

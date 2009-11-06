@@ -42,9 +42,9 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
     /**
      * Creates a new style genertaor.
      * 
-     * @param ezcDocumentOdtStyleConverterManager $styleConverters 
+     * @param ezcDocumentOdtPcssConverterManager $styleConverters 
      */
-    public function __construct( ezcDocumentOdtStyleConverterManager $styleConverters )
+    public function __construct( ezcDocumentOdtPcssConverterManager $styleConverters )
     {
         parent::__construct( $styleConverters );
         $this->textStyleGenerator = new ezcDocumentOdtTextStyleGenerator(

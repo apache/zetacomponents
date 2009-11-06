@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtPcssStylePreprocessor interface.
+ * File containing the ezcDocumentOdtPcssPreprocessor interface.
  *
  * @access private
  * @package Document
@@ -23,7 +23,7 @@
  * @package Document
  * @version //autogen//
  */
-interface ezcDocumentOdtPcssStylePreprocessor
+interface ezcDocumentOdtPcssPreprocessor
 {
     /**
      * Pre-process styles and return them.

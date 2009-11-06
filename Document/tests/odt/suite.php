@@ -39,7 +39,7 @@ class ezcDocumentOdtSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentOdtStyleParagraphPropertyGeneratorTest::suite() );
         $this->addTest( ezcDocumentOdtStyleTextPropertyGeneratorTest::suite() );
         $this->addTest( ezcDocumentOdtStyleTest::suite() );
-        $this->addTest( ezcDocumentOdtStyleConvertersTest::suite() );
+        $this->addTest( ezcDocumentOdtPcssConvertersTest::suite() );
         $this->addTest( ezcDocumentOdtTextProcessorTest::suite() );
     }
 }

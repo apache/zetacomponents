@@ -1,6 +1,6 @@
 <?php
 
-class ezcDocumentOdtMarginStyleConverter implements ezcDocumentOdtStyleConverter
+class ezcDocumentOdtPcssMarginConverter implements ezcDocumentOdtPcssConverter
 {
     /**
      * Converts CSS 'margin' style.
