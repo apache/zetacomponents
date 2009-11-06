@@ -131,6 +131,10 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 )->item( 0 ),
                 $destination->ownerDocument->getElementsByTagNameNS(
                     ezcDocumentOdt::NS_ODT_OFFICE,
+                    'automatic-styles'
+                )->item( 0 ),
+                $destination->ownerDocument->getElementsByTagNameNS(
+                    ezcDocumentOdt::NS_ODT_OFFICE,
                     'font-face-decls'
                 )->item( 0 )
             )

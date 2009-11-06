@@ -92,6 +92,15 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
         $this->styleGenerators[] = new ezcDocumentOdtListStyleGenerator(
             $this->styleConverters
         );
+        $this->styleGenerators[] = new ezcDocumentOdtTableStyleGenerator(
+            $this->styleConverters
+        );
+        $this->styleGenerators[] = new ezcDocumentOdtTableRowStyleGenerator(
+            $this->styleConverters
+        );
+        $this->styleGenerators[] = new ezcDocumentOdtTableCellStyleGenerator(
+            $this->styleConverters
+        );
 
         // @TODO: Make configurable
         $this->stylePreProcessors[] = new ezcDocumentOdtPcssListStylePreprocessor();

@@ -26,6 +26,13 @@ class ezcDocumentOdtStyleInformation extends ezcBaseStruct
     public $styleSection;
 
     /**
+     * Automatic style section of the target ODT. 
+     * 
+     * @var mixed
+     */
+    public $automaticStyleSection;
+
+    /**
      * Font face declaration section of the target ODT. 
      * 
      * @var DOMElement
@@ -39,12 +46,14 @@ class ezcDocumentOdtStyleInformation extends ezcBaseStruct
      * DOMDocument.
      * 
      * @param DOMElement $styleSection 
+     * @param DOMElement $automaticStyleSection 
      * @param DOMElement $fontFaceDecls 
      */
-    public function __construct( DOMElement $styleSection, DOMElement $fontFaceDecls )
+    public function __construct( DOMElement $styleSection, DOMElement $automaticStyleSection, DOMElement $fontFaceDecls )
     {
-        $this->styleSection  = $styleSection;
-        $this->fontFaceDecls = $fontFaceDecls;
+        $this->styleSection          = $styleSection;
+        $this->automaticStyleSection = $automaticStyleSection;
+        $this->fontFaceDecls         = $fontFaceDecls;
     }
 }
 

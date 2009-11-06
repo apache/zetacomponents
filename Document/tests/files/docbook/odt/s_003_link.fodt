@@ -122,10 +122,6 @@
     <text:notes-configuration text:note-class="footnote" text:citation-style-name="Text_Body" text:citation-body-style-name="Text_Body" style:num-format="1" text:start-value="0" text:footnotes-position="page" text:start-numbering-at="document"/>
     <text:notes-configuration text:note-class="endnote" text:citation-style-name="Text_Body" text:citation-body-style-name="Text_Body" text:master-page-name="Endnote" style:num-format="i" text:start-value="0"/>
     <text:linenumbering-configuration text:number-lines="false" text:offset="0.1965in" style:num-format="1" text:number-position="left" text:increment="5"/>
-    <style:style style:family="paragraph" style:name="p1">
-      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
-      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
-    </style:style>
   </office:styles>
   <office:automatic-styles>
     <style:style style:name="Emphasis" style:family="text">
@@ -297,6 +293,10 @@
       <style:header-style/>
       <style:footer-style/>
     </style:page-layout>
+    <style:style style:family="paragraph" style:name="p1">
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+    </style:style>
   </office:automatic-styles>
   <office:master-styles>
     <style:master-page style:name="Standard" style:page-layout-name="Default"/>

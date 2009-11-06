@@ -132,8 +132,8 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
     protected function createNewListStyle( DOMElement $odtElement, ezcDocumentOdtStyleInformation $styleInfo )
     {
 
-        $listStyle = $styleInfo->styleSection->appendChild(
-            $styleInfo->styleSection->ownerDocument->createElementNS(
+        $listStyle = $styleInfo->automaticStyleSection->appendChild(
+            $styleInfo->automaticStyleSection->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'list-style'
             )
@@ -288,13 +288,13 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
             'style-name'
         );
 
-        $xpath = new DOMXpath( $styleInfo->styleSection->ownerDocument );
+        $xpath = new DOMXpath( $styleInfo->automaticStyleSection->ownerDocument );
         $xpath->registerNamespace( ezcDocumentOdt::NS_ODT_TEXT, 'text' );
         $xpath->registerNamespace( ezcDocumentOdt::NS_ODT_STYLE, 'style' );
 
         $styleList = $xpath->query(
             "text:list-style[@style:name='{$styleName}']",
-            $styleInfo->styleSection
+            $styleInfo->automaticStyleSection
         );
         
         if ( $styleList->length !== 1 )

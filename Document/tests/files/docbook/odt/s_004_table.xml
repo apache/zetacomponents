@@ -7,7 +7,7 @@
         <td>
           <para>Head 1,1</para>
         </td>
-        <td>
+        <td class="headmiddle">
           <para>Head 1,2</para>
         </td>
         <td>
@@ -19,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr class="head">
         <td>
           <para>Body 2,1</para>
         </td>
@@ -40,7 +40,7 @@
         <td>
           <para>Body 3,3</para>
         </td>
-        <td>
+        <td id="specialcell">
           <para>Body 3,4</para>
         </td>
       </tr>
