@@ -95,16 +95,15 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 // 'beginpage'         => $mapper,
                 // 'variablelist'      => $mapper,
                 // 'varlistentry'      => new ezcDocumentDocbookToOdtDefinitionListEntryHandler(),
-                // 'entry'             => new ezcDocumentDocbookToOdtTableCellHandler(),
-                'table'             => $table = new ezcDocumentDocbookToOdtTableHandler( $styler ),
+                'entry'             => $table = new ezcDocumentDocbookToOdtTableHandler( $styler ),
+                'table'             => $table,
                 'tbody'             => $table,
                 'thead'             => $table,
                 'caption'           => $table,
                 'tr'                => $table,
                 'td'                => $table,
-                // @TODO: Needs to be handled
-                // 'row'               => $mapper,
-                // 'tgroup'            => $ignore = new ezcDocumentDocbookToOdtIgnoreHandler(),
+                'row'               => $table,
+                'tgroup'            => $ignore,
             )
         );
     }

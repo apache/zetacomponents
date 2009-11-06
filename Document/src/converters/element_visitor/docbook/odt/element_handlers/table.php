@@ -31,6 +31,9 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
         'tbody'   => 'handleTbody',
         'tr'      => 'handleTr',
         'td'      => 'handleTd',
+        // Old style DocBook tables
+        'row'     => 'handleTr',
+        'entry'   => 'handleTd'
     );
 
     /**
@@ -92,13 +95,21 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
     protected function createCellDefinition( $docBookTable, $odtTable )
     {
         $rows = $docBookTable->getElementsByTagName( 'tr' );
+
+        // No XHTML style rows found, look for old style rows
+        if ( $rows->length === 0 )
+        {
+            $rows = $docBookTable->getElementsByTagName( 'row' );
+        }
         
         if ( $rows->length !== 0 )
         {
             $firstRow = $rows->item( 0 );
             foreach ( $firstRow->childNodes as $cell )
             {
-                if ( $cell->nodeType !== XML_ELEMENT_NODE || ( $cell->localName !== 'td' && $cell->localName !== 'th' ) )
+                if ( $cell->nodeType !== XML_ELEMENT_NODE
+                     || ( $cell->localName !== 'td' && $cell->localName !== 'th' && $cell->localName !== 'entry' )
+                )
                 {
                     continue;
                 }
