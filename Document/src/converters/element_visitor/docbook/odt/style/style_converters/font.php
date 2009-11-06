@@ -16,7 +16,7 @@ class ezcDocumentOdtFontStyleConverter implements ezcDocumentOdtStyleConverter
     public function convert( DOMElement $targetProperty, $styleName, ezcDocumentPcssStyleValue $styleValue )
     {
         $targetProperty->setAttributeNS(
-            ezcDocumentOdt::NS_ODT_FO,
+            ezcDocumentOdt::NS_ODT_STYLE,
             "fo:{$styleName}",
             $styleValue->value
         );

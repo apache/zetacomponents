@@ -242,6 +242,7 @@ return array(
     'ezcDocumentOdtMarginStyleConverter'                 => 'Document/converters/element_visitor/docbook/odt/style/style_converters/margin.php',
     'ezcDocumentOdtOptions'                              => 'Document/options/document_odt.php',
     'ezcDocumentOdtParagraphStyleGenerator'              => 'Document/converters/element_visitor/docbook/odt/style/style_generators/paragraph.php',
+    'ezcDocumentOdtPcssFontStylePreprocessor'            => 'Document/converters/element_visitor/docbook/odt/style/stylers/pcss/preprocessors/font.php',
     'ezcDocumentOdtPcssListStylePreprocessor'            => 'Document/converters/element_visitor/docbook/odt/style/stylers/pcss/preprocessors/list.php',
     'ezcDocumentOdtPcssStylePreprocessor'                => 'Document/converters/element_visitor/docbook/odt/style/stylers/pcss/preprocessor.php',
     'ezcDocumentOdtPcssStyler'                           => 'Document/converters/element_visitor/docbook/odt/style/stylers/pcss.php',

@@ -15,6 +15,7 @@
     <style:font-face style:name="Times New Roman" svg:font-family="'Times New Roman'" style:font-family-generic="roman" style:font-pitch="variable"/>
     <style:font-face style:name="Arial" svg:font-family="Arial" style:font-family-generic="swiss" style:font-pitch="variable"/>
     <style:font-face style:name="DejaVu Sans" svg:font-family="'DejaVu Sans'" style:font-family-generic="system" style:font-pitch="variable"/>
+    <style:font-face style:name="sans-serif" svg:font-family="sans-serif" style:font-family-generic="system" style:font-pitch="variable"/>
   </office:font-face-decls>
   <office:styles>
     <style:default-style style:family="graphic">
@@ -122,19 +123,19 @@
     <text:notes-configuration text:note-class="endnote" text:citation-style-name="Text_Body" text:citation-body-style-name="Text_Body" text:master-page-name="Endnote" style:num-format="i" text:start-value="0"/>
     <text:linenumbering-configuration text:number-lines="false" text:offset="0.1965in" style:num-format="1" text:number-position="left" text:increment="5"/>
     <style:style style:family="paragraph" style:name="p1">
-      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+      <style:text-properties style:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
       <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p2">
-      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+      <style:text-properties style:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
       <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p3">
-      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+      <style:text-properties style:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
       <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p4">
-      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+      <style:text-properties style:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
       <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
     </style:style>
   </office:styles>

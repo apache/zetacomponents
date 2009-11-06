@@ -95,6 +95,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
 
         // @TODO: Make configurable
         $this->stylePreProcessors[] = new ezcDocumentOdtPcssListStylePreprocessor();
+        $this->stylePreProcessors[] = new ezcDocumentOdtPcssFontStylePreprocessor();
     }
 
     /**
