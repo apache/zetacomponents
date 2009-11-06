@@ -134,6 +134,22 @@ class ezcSearchSessionTest extends ezcTestCase
         self::assertEquals( 1, $r->resultCount );
     }
 
+    public function testIndexDocumentWithBrokenUtf8()
+    {
+        $a = new Article( null, 'Test Article', file_get_contents( dirname( __FILE__ ) . '/testfiles/issue15623-broken-utf8.xml' ), 'This is an article to test', time() );
+
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+        $session->index( $a );
+        $this->backend->sendRawPostCommand( 'update', array( 'wt' => 'json' ), '<commit/>' );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'summary', 'ferences' ) );
+        $r = $session->find( $q );
+        var_dump( $r );
+        self::assertEquals( 1, $r->resultCount );
+        die();
+    }
+
     public function testUpdateDocument1()
     {
         $a = new Article( null, 'Test Article', 'This is an article to test', 'the body of the article', time() );

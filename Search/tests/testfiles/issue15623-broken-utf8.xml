@@ -1,0 +1,14 @@
+<div class="section" id="general">
+<p>Only use r√√ferences where it is really needed, references do not increase
+performance (as one might think). There are many pitfalls with reference usage
+so stay away.</p>
+<p>Don't use @ in front of functions, this makes it much harder to debug. If
+you have to, a comment before it is <em>required</em>.</p>
+<p>Use real static functions, never use fake static (or semi-static)
+functions. Real static functions will not include the $this variable from the
+calling function.</p>
+<p>Avoid dependencies at all costs, each class should be a small a unit as
+possible.</p>
+<p>Use join() function instead of implode(), this makes the code easier to
+read.</p>
+</div>
