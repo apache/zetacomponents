@@ -1,5 +1,29 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtPcssListStylePreprocessor class.
+ *
+ * @access private
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
+/**
+ * List style pre-processor.
+ *
+ * Pre-processes list styles, since DocBook stores list bullet and numbering 
+ * format in an attribute. An instance of this class creates custom PCSS 
+ * properties for this information as follows:
+ *
+ * - list-type = "bullet" / "number"
+ * - list-bullet = bullet character to use
+ * - list-number = number representative format
+ *
+ * @access private
+ * @package Document
+ * @version //autogen//
+ */
 class ezcDocumentOdtPcssListStylePreprocessor
 {
     /**
