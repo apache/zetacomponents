@@ -282,6 +282,29 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
     }
 
     /**
+     * Select page given by its ordered ID
+     *
+     * Set the page given by its ordered ID active. If page could not be found 
+     * the method will return false, and true otherwise.
+     * 
+     * @param int $orderedId 
+     * @return bool
+     */
+    public function selectPage( $orderedId )
+    {
+        foreach ( $this->pages as $nr => $page )
+        {
+            if ( $page->orderedId === $orderedId )
+            {
+                $this->transactions[$this->transaction]->currentPage = $nr;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Create a new page
      *
      * Create a new page in the PDF document with the given width and height.

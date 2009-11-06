@@ -66,6 +66,16 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     protected $lastPageForCell;
 
     /**
+     * Additional borders to render
+     *
+     * A list of borders to render, detected on page wrapps. Delayed to not be 
+     * reverted by reverted transactions in sub renderers.
+     * 
+     * @var array
+     */
+    protected $additionalBorders = array();
+
+    /**
      * Construct renderer from driver to use
      *
      * @param ezcDocumentPdfDriver $driver 
@@ -153,15 +163,25 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     {
         // Close all table cells
         $oldPage = $this->driver->currentPage();
-        foreach ( $this->cellBoxes as $cell )
+        foreach ( $this->cellBoxes as $nr => $cell )
         {
+            if ( isset( $this->additionalBorders[$oldPage->orderedId] ) &&
+                 isset( $this->additionalBorders[$oldPage->orderedId][$nr] ) )
+            {
+                continue;
+            }
+
             $cell['box']->height = ( $oldPage->startY + $oldPage->innerHeight ) - $cell['box']->y;
-            $this->renderBoxBorder( $cell['box'], $cell['styles'], false );
+            $this->additionalBorders[$oldPage->orderedId][$nr] = array( clone $cell['box'], $cell['styles'], false );
         }
 
         // Close table border
-        $this->tableBox['box']->height = ( $oldPage->startY + $oldPage->innerHeight ) - $this->tableBox['box']->y;
-        $this->renderBoxBorder( $this->tableBox['box'], $this->tableBox['styles'], false, false );
+        if ( !isset( $this->additionalBorders[$oldPage->orderedId] ) ||
+             !isset( $this->additionalBorders[$oldPage->orderedId]['table'] ) )
+        {
+            $this->tableBox['box']->height = ( $oldPage->startY + $oldPage->innerHeight ) - $this->tableBox['box']->y;
+            $this->additionalBorders[$oldPage->orderedId]['table'] = array( clone $this->tableBox['box'], $this->tableBox['styles'], false, false );
+        }
 
         // Call parent handler to get next rendering position
         $page = parent::getNextRenderingPosition( $move, $width );
@@ -237,8 +257,8 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
         }
 
         $this->cellBoxes[] = array(
-            'box'    => $box,
-            'styles' => $styles,
+            'box'     => $box,
+            'styles'  => $styles,
         );
         $this->cellWidth = $box->width;
         $this->renderTopBorder( $styles, $box );
@@ -353,8 +373,8 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
 
         $space = $this->evaluateAvailableBoundingBox( $page, $styles, $renderWidth );
         $this->tableBox = array(
-            'box'    => $box = clone $space,
-            'styles' => $styles,
+            'box'     => $box = clone $space,
+            'styles'  => $styles,
         );
         $this->renderTopBorder( $styles, $box );
 
@@ -376,20 +396,25 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
 
                 // Go back to page, where each cell in the row shoudl start the 
                 // rendering
-                while ( $this->driver->currentPage()->orderedId !== $pageStartId )
+                $this->driver->selectPage( $pageStartId );
+            }
+
+            // Close borders
+            foreach ( $this->additionalBorders as $page => $borders )
+            {
+                $this->driver->selectPage( $page );
+                foreach ( $borders as $border )
                 {
-                    $this->driver->goBackOnePage();
+                    call_user_func_array( array( $this, 'renderBoxBorder' ), $border );
                 }
             }
+            $this->additionalBorders = array();
 
             $lastPageId = max( array_keys( $positions ) );
             $page       = $lastPage[$lastPageId];
 
             // Forward page to last page used during cell rendering
-            while ( $this->driver->currentPage()->orderedId !== $lastPageId )
-            {
-                $this->driver->appendPage( $this->styles );
-            }
+            $this->driver->selectPage( $lastPageId );
 
             $page->x = $xPosition;
             foreach ( $this->cellBoxes as $cell )
