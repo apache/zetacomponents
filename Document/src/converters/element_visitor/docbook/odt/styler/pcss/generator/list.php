@@ -247,7 +247,6 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
     protected function calculateListMargin( DOMElement $listStyle, $level, $margin, $padding )
     {
         $previousMargin = 0;
-        echo "Level $level, margin $margin, padding $padding\n";
 
         foreach( $listStyle->childNodes as $listStyleChild )
         {
@@ -271,8 +270,6 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
                 break;
             }
         }
-
-        echo "  Previous margin $previousMargin, full margin " . ( $previousMargin + $margin + $padding ) . "\n";
 
         return $previousMargin + $margin + $padding;
     }
