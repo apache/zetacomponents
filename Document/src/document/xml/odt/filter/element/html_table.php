@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtTableFilter class
+ * File containing the ezcDocumentOdtHtmlTableFilter class
  *
  * @package Document
  * @version //autogen//
@@ -10,13 +10,15 @@
  */
 
 /**
- * Filter for ODT <text:p> elements.
+ * Filter for ODT <table:table> elements.
+ *
+ * This filter generates XHTML style tables in DocBook.
  *
  * @package Document
  * @version //autogen//
  * @access private
  */
-class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
+class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
      * Mapping for table elements. 

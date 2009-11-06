@@ -225,6 +225,7 @@ return array(
     'ezcDocumentOdtElementFootnoteFilter'                => 'Document/document/xml/odt/filter/element/footnote.php',
     'ezcDocumentOdtElementFrameFilter'                   => 'Document/document/xml/odt/filter/element/frame.php',
     'ezcDocumentOdtElementHeaderFilter'                  => 'Document/document/xml/odt/filter/element/header.php',
+    'ezcDocumentOdtElementHtmlTableFilter'               => 'Document/document/xml/odt/filter/element/html_table.php',
     'ezcDocumentOdtElementImageFilter'                   => 'Document/document/xml/odt/filter/element/image.php',
     'ezcDocumentOdtElementLinkFilter'                    => 'Document/document/xml/odt/filter/element/link.php',
     'ezcDocumentOdtElementListFilter'                    => 'Document/document/xml/odt/filter/element/list.php',
