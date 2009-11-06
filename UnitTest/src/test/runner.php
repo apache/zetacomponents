@@ -182,7 +182,6 @@ class ezcTestRunner extends PHPUnit_TextUI_Command
     protected function getTestSuite( $directory, $package )
     {
         $suitePath = implode( '/', array( $directory, '..', $this->release, $package, self::SUITE_FILENAME ) );
-
         if ( file_exists( $suitePath ) )
         {
             require_once( $suitePath );
