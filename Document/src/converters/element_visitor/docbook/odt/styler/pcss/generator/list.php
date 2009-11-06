@@ -149,7 +149,7 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
             'text:style-name',
             $styleName
         );
-        // @TODO: OOO attaches IDs to root lists, so do we, for now.
+        // OOO attaches IDs to root lists, so do we.
         $odtElement->setAttributeNS(
             ezcDocumentOdt::NS_XML,
             'xml:id',
@@ -172,6 +172,13 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
      */
     protected function createListLevelStyle( ezcDocumentOdtStyleInformation $styleInfo, $listStyle, $level, $styleAttributes )
     {
+        $styleAttributes['margin']->value['left'] = $this->calculateListMargin(
+            $listStyle,
+            $level,
+            $styleAttributes['margin']->value['left'],
+            $styleAttributes['padding']->value['left']
+        );
+
         $listLevelStyle = $listStyle->appendChild(
             $listStyle->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
@@ -222,6 +229,52 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
                 $styleAttributes['list-number']->value
             );
         }
+    }
+
+    /**
+     * Calculates the absolue left margin for the current list level.
+     *
+     * This methdod extracts the previous list levels margin from $listStyle as 
+     * the base for the margin on $level. This margin + the given $margin +
+     * $padding are returned as the absolute margin for $level.
+     * 
+     * @param DOMElement $listStyle 
+     * @param int $level 
+     * @param int $margin 
+     * @param int $padding 
+     * @return int
+     */
+    protected function calculateListMargin( DOMElement $listStyle, $level, $margin, $padding )
+    {
+        $previousMargin = 0;
+        echo "Level $level, margin $margin, padding $padding\n";
+
+        foreach( $listStyle->childNodes as $listStyleChild )
+        {
+            if ( $listStyleChild->nodeType === XML_ELEMENT_NODE
+              && strpos( $listStyleChild->localName, 'list-level-style-' ) === 0
+              && $listStyleChild->hasAttributeNS( ezcDocumentOdt::NS_ODT_TEXT, 'level' )
+              && $listStyleChild->getAttributeNS( ezcDocumentOdt::NS_ODT_TEXT, 'level' ) == ( $level - 1 )
+            )
+            {
+                $alignementProps = $listStyleChild->getElementsByTagNameNS(
+                    ezcDocumentOdt::NS_ODT_STYLE,
+                    'list-level-label-alignment'
+                );
+                if ( $alignementProps->length === 1 )
+                {
+                    $previousMargin = (int) $alignementProps->item( 0 )->getAttributeNS(
+                        ezcDocumentOdt::NS_ODT_FO,
+                        'margin-left'
+                    );
+                }
+                break;
+            }
+        }
+
+        echo "  Previous margin $previousMargin, full margin " . ( $previousMargin + $margin + $padding ) . "\n";
+
+        return $previousMargin + $margin + $padding;
     }
 
     /**

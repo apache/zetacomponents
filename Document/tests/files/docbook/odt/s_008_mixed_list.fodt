@@ -130,22 +130,22 @@
     <text:list-style style:name="l1">
       <text:list-level-style-bullet text:level="1" text:style-name="list-level-style-bullet1" style:num-suffix="." text:bullet-char="♺">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="10mm" fo:text-indent="-10mm" fo:margin-left="10mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="15mm" fo:text-indent="-5mm" fo:margin-left="15mm"/>
         </style:list-level-properties>
       </text:list-level-style-bullet>
       <text:list-level-style-number text:level="2" text:style-name="list-level-style-number1" style:num-suffix="." style:num-format="i">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="10mm" fo:text-indent="-10mm" fo:margin-left="10mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="40mm" fo:text-indent="-10mm" fo:margin-left="40mm"/>
         </style:list-level-properties>
       </text:list-level-style-number>
       <text:list-level-style-number text:level="3" text:style-name="list-level-style-number2" style:num-suffix="." style:num-format="a">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="10mm" fo:text-indent="-10mm" fo:margin-left="10mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="65mm" fo:text-indent="-10mm" fo:margin-left="65mm"/>
         </style:list-level-properties>
       </text:list-level-style-number>
-      <text:list-level-style-bullet text:level="4" text:style-name="list-level-style-bullet2" style:num-suffix="." text:bullet-char="◼">
+      <text:list-level-style-bullet text:level="4" text:style-name="list-level-style-bullet2" style:num-suffix="." text:bullet-char="⚫">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="20mm" fo:text-indent="-10mm" fo:margin-left="20mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="80mm" fo:text-indent="-5mm" fo:margin-left="80mm"/>
         </style:list-level-properties>
       </text:list-level-style-bullet>
     </text:list-style>
@@ -161,21 +161,21 @@
     </style:style>
     <style:style style:family="paragraph" style:name="p2">
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
-      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
     </style:style>
     <style:style style:family="text" style:name="list-level-style-number2">
       <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p3">
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
-      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p4">
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
-      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
     </style:style>
     <style:style style:family="text" style:name="list-level-style-bullet2">
-      <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#00ff00"/>
+      <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p5">
       <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
@@ -187,7 +187,7 @@
     </style:style>
     <style:style style:family="paragraph" style:name="p7">
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
-      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p8">
       <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>

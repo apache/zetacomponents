@@ -162,7 +162,7 @@
     <text:list-style style:name="l1">
       <text:list-level-style-bullet text:level="1" text:style-name="list-level-style-bullet1" style:num-suffix="." text:bullet-char="⚫">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="10mm" fo:text-indent="-10mm" fo:margin-left="10mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="15mm" fo:text-indent="-5mm" fo:margin-left="15mm"/>
         </style:list-level-properties>
       </text:list-level-style-bullet>
     </text:list-style>
@@ -188,7 +188,7 @@
     <text:list-style style:name="l2">
       <text:list-level-style-bullet text:level="1" text:style-name="list-level-style-bullet2" style:num-suffix="." text:bullet-char="⚫">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="10mm" fo:text-indent="-10mm" fo:margin-left="10mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="20mm" fo:text-indent="-5mm" fo:margin-left="20mm"/>
         </style:list-level-properties>
       </text:list-level-style-bullet>
     </text:list-style>
@@ -214,7 +214,7 @@
     <text:list-style style:name="l3">
       <text:list-level-style-bullet text:level="1" text:style-name="list-level-style-bullet3" style:num-suffix="." text:bullet-char="⚫">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="10mm" fo:text-indent="-10mm" fo:margin-left="10mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="25mm" fo:text-indent="-5mm" fo:margin-left="25mm"/>
         </style:list-level-properties>
       </text:list-level-style-bullet>
     </text:list-style>

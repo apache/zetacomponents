@@ -78,23 +78,23 @@ class ezcDocumentOdtStyleListPropertyGenerator extends ezcDocumentOdtStyleProper
             )
         );
 
-        // @TODO: Not found in specs, but in OOO generated docs.
+        // This is from ODF specs 1.3, but used by OOO already
         $alignementProp->setAttributeNS(
             ezcDocumentOdt::NS_ODT_TEXT,
             'text:label-followed-by',
             'listtab'
         );
-        // Guessed as good as we can by margin
+        // As defined by OOO
         $alignementProp->setAttributeNS(
             ezcDocumentOdt::NS_ODT_TEXT,
             'text:list-tab-stop-position',
             sprintf( '%smm', $styles['margin']->value['left'] )
         );
-        // Hard coded for now, since we cannot determine it properly here
+        // Indentation of list bullet/number as negative padding
         $alignementProp->setAttributeNS(
             ezcDocumentOdt::NS_ODT_FO,
             'fo:text-indent',
-            sprintf( '%smm', -10 )
+            sprintf( '%smm', - $styles['padding']->value['left'] )
         );
         $alignementProp->setAttributeNS(
             ezcDocumentOdt::NS_ODT_FO,
