@@ -40,7 +40,7 @@
         <td>
           <para>Body 3,3</para>
         </td>
-        <td id="specialcell">
+        <td ID="specialcell">
           <para>Body 3,4</para>
         </td>
       </tr>
