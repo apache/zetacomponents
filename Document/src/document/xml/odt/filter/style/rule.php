@@ -1,0 +1,44 @@
+<?php
+/**
+ * File containing the ezcDocumentOdtStyleFilterRule interface.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
+
+/**
+ * Interface for style filter rules.
+ *
+ * A style filter rule must implement this interface.
+ *
+ * @package Document
+ * @version //autogen//
+ * @access private
+ */
+interface ezcDocumentOdtStyleFilterRule
+{
+    /**
+     * Returns if the given $odtElement is handled by the rule.
+     * 
+     * @param DOMElement $odtElement 
+     * @return bool
+     */
+    public function handles( DOMElement $odtElement );
+
+    /**
+     * Filter the given $odtElement based on the given $style.
+     *
+     * This method will only be called when handles returned true for the given 
+     * $odtElement. The method may manipulate the $odtElement, especially its 
+     * attributes, based on the style information.
+     * 
+     * @param DOMElement $odtElement 
+     * @param ezcDocumentOdtStyle $style 
+     */
+    public function filter( DOMElement $odtElement, ezcDocumentOdtStyle $style );
+}
+
+?>

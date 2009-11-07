@@ -57,6 +57,7 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
         $this->filters = array(
             new ezcDocumentOdtImageFilter( $this->options ),
             new ezcDocumentOdtElementFilter(),
+            new ezcDocumentOdtStyleFilter(),
         );
     }
 

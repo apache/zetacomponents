@@ -252,10 +252,13 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
         $options->imageDir = $imgDir;
 
         $document = new ezcDocumentOdt();
-        $document->setFilters( array(
-            new ezcDocumentOdtImageFilter( $options ),
-            new ezcDocumentOdtElementFilter(),
-        ) );
+        $document->setFilters(
+            array(
+                new ezcDocumentOdtImageFilter( $options ),
+                new ezcDocumentOdtElementFilter(),
+                new ezcDocumentOdtStyleFilter(),
+            )
+        );
         $document->loadFile( $from );
 
         $docbook = $document->getAsDocbook();

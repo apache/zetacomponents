@@ -95,7 +95,7 @@ class ezcDocumentOdtStyle
     /**
      * Ruby style.
      *
-     * @TODO: Do we need to suppor this? 
+     * @TODO: Do we need to support this? 
      */
     const FAMILY_RUBY         = 'ruby';
 
@@ -112,9 +112,6 @@ class ezcDocumentOdtStyle
     protected $properties = array(
         'name'                 => null,
         'family'               => null,
-        'parentStyle'          => null,
-        'nextStyle'            => null,
-        'listStyle'            => null,
         'formattingProperties' => null,
     );
 
@@ -151,18 +148,10 @@ class ezcDocumentOdtStyle
             case 'name':
             case 'family':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
-            case 'parentStyle':
-            case 'nextStyle':
-            case 'listStyle':
-                if ( !( $value instanceof ezcDocumentOdtStyle ) && $value !== null )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'ezcDocumentOdtStyle or null' );
-                }
-                break;
             case 'formattingProperties':
                 if ( !is_object( $value ) || !( $value instanceof ezcDocumentOdtFormattingPropertyCollection ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'ArrayObject' );
+                    throw new ezcBaseValueException( $name, $value, 'ezcDocumentOdtFormattingPropertyCollection' );
                 }
                 break;
             default:
