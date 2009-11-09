@@ -1,4 +1,4 @@
-1.0.7 - [RELEASEDATE]
+1.0.7 - Monday 09 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15267: Solr handler did not force the UTF-8 charset for
