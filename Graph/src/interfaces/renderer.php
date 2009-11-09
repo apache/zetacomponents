@@ -507,7 +507,7 @@ abstract class ezcGraphRenderer
                 // Draw optional gleam
                 if ( $this->options->legendSymbolGleam !== false )
                 {
-                    $this->driver->drawPolygon(
+                    $return = $this->driver->drawPolygon(
                         array(
                             $topLeft = new ezcGraphCoordinate( 
                                 $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) * $this->options->legendSymbolGleamSize, 
@@ -575,7 +575,7 @@ abstract class ezcGraphRenderer
                 // Draw optional gleam
                 if ( $this->options->legendSymbolGleam !== false )
                 {
-                    $this->driver->drawPolygon(
+                    $return = $this->driver->drawPolygon(
                         array(
                             new ezcGraphCoordinate( 
                                 $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
@@ -625,7 +625,7 @@ abstract class ezcGraphRenderer
                 // Draw optional gleam
                 if ( $this->options->legendSymbolGleam !== false )
                 {
-                    $this->driver->drawCircle(
+                    $return = $this->driver->drawCircle(
                         new ezcGraphCoordinate( 
                             $boundings->x0 + ( $boundings->x1 - $boundings->x0 ) / 2, 
                             $boundings->y0 + ( $boundings->y1 - $boundings->y0 ) / 2
