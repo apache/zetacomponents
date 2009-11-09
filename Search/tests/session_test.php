@@ -145,9 +145,7 @@ class ezcSearchSessionTest extends ezcTestCase
         $q = $session->createFindQuery( 'Article' );
         $q->where( $q->eq( 'summary', 'ferences' ) );
         $r = $session->find( $q );
-        var_dump( $r );
         self::assertEquals( 1, $r->resultCount );
-        die();
     }
 
     public function testUpdateDocument1()
