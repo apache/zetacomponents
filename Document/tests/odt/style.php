@@ -33,62 +33,11 @@ class ezcDocumentOdtStyleTest extends ezcTestCase
             array(
                 'name'                 => 'testTableStyle',
                 'family'               => ezcDocumentOdtStyle::FAMILY_TABLE,
-                'parentStyle'          => null,
-                'nextStyle'            => null,
-                'listStyle'            => null,
                 'formattingProperties' => new ezcDocumentOdtFormattingPropertyCollection()
             ),
             'properties',
             $style
         );
-    }
-
-    public function testSetParentStyleSuccess()
-    {
-        $style = new ezcDocumentOdtStyle(
-            ezcDocumentOdtStyle::FAMILY_TABLE,
-            'testTableStyle'
-        );
-        $parentStyle = new ezcDocumentOdtStyle(
-            ezcDocumentOdtStyle::FAMILY_TABLE,
-            'testTableParentStyle'
-        );
-
-        $style->parentStyle = $parentStyle;
-
-        $this->assertSame( $parentStyle, $style->parentStyle );
-    }
-
-    public function testSetNextStyleSuccess()
-    {
-        $style = new ezcDocumentOdtStyle(
-            ezcDocumentOdtStyle::FAMILY_TABLE,
-            'testTableStyle'
-        );
-        $nextStyle = new ezcDocumentOdtStyle(
-            ezcDocumentOdtStyle::FAMILY_TEXT,
-            'testNextStyle'
-        );
-
-        $style->nextStyle = $nextStyle;
-
-        $this->assertSame( $nextStyle, $style->nextStyle );
-    }
-
-    public function testSetListStyleSuccess()
-    {
-        $style = new ezcDocumentOdtStyle(
-            ezcDocumentOdtStyle::FAMILY_TABLE,
-            'testTableStyle'
-        );
-        $listStyle = new ezcDocumentOdtStyle(
-            ezcDocumentOdtStyle::FAMILY_PARAGRAPH,
-            'testListStyle'
-        );
-
-        $style->listStyle = $listStyle;
-
-        $this->assertSame( $listStyle, $style->listStyle );
     }
 
     public function testSetFormattingPropertiesSuccess()
