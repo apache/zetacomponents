@@ -1,4 +1,4 @@
-1.1.3 - [RELEASEDATE]
+1.1.3 - Monday 09 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15430: Dead property retrieval works correctly now in
