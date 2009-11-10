@@ -70,7 +70,7 @@ class ezcDocumentPdfBlockquoteRendererTests extends ezcDocumentPdfTestCase
             $this->equalTo( 20, 1. ), $this->equalTo( 29.4, 1. ), $this->equalTo( "which" )
         );
         $mock->expects( $this->at( 13 ) )->method( 'drawWord' )->with(
-            $this->equalTo( 30, 1. ), $this->equalTo( 46.8, 1. ), $this->equalTo( "Name" )
+            $this->equalTo( 25, 1. ), $this->equalTo( 46.8, 1. ), $this->equalTo( "Name" )
         );
 
         $docbook = new ezcDocumentDocbook();
