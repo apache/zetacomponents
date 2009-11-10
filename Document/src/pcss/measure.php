@@ -19,9 +19,9 @@
 class ezcDocumentPcssMeasure
 {
     /**
-     * Internal value representation
+     * Internal value representation in millimeters
      *
-     * @var mixed
+     * @var float
      */
     protected $value;
 
@@ -38,6 +38,13 @@ class ezcDocumentPcssMeasure
     protected $resolution = 72;
 
     /**
+     * Cache for conversions, to not reparse the same value again.
+     *
+     * @var array
+     */
+    protected static $cache = array();
+
+    /**
      * Construct measure from input value
      *
      * @param mixed $value
@@ -45,7 +52,22 @@ class ezcDocumentPcssMeasure
      */
     public function __construct( $value )
     {
-        $this->value = $value;
+        $key = '_' . $value;
+        if ( isset( self::$cache[$key] ) )
+        {
+            $this->value = self::$cache[$key];
+            return;
+        }
+
+        if ( !preg_match( '(^\s*(?P<value>[+-]?\s*(?:\d*\.)?\d+)(?P<unit>[A-Za-z]+)?\s*$)S', $value, $match ) )
+        {
+            throw new ezcDocumentParserException( E_PARSE, "Could not parse '{$this->value}' as size value." );
+        }
+
+        $value = (float) $match['value'];
+        $input = isset( $match['unit'] ) ? strtolower( $match['unit'] ) : 'mm';
+
+        self::$cache[$key] = $this->value = $value / ( $f = $this->getUnitFactor( $input, $this->resolution ) );
     }
 
     /**
@@ -122,23 +144,8 @@ class ezcDocumentPcssMeasure
      */
     public function get( $format = 'mm', $resolution = null )
     {
-        if ( !preg_match( '(^\s*(?P<value>[+-]?\s*(?:\d*\.)?\d+)(?P<unit>[A-Za-z]+)?\s*$)S', $this->value, $match ) )
-        {
-            throw new ezcDocumentParserException( E_PARSE, "Could not parse '{$this->value}' as size value." );
-        }
-
-        if ( $resolution === null )
-        {
-            $resolution = $this->resolution;
-        }
-
-        $value = (float) $match['value'];
-        $input = isset( $match['unit'] ) ? strtolower( $match['unit'] ) : 'mm';
-
-        $inputFactor  = $this->getUnitFactor( $input, $resolution );
-        $outputFactor = $this->getUnitFactor( $format, $resolution );
-
-        return $value / $inputFactor * $outputFactor;
+        $resolution = $resolution === null ? $this->resolution : $resolution;
+        return $this->value * $this->getUnitFactor( $format, $resolution );
     }
 }
 
