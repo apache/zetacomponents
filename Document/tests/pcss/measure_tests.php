@@ -9,6 +9,8 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
+require_once dirname( __FILE__ ) . '/../helper/pdf_mocked_driver.php';
+
 /**
  * Test suite for class.
  * 
