@@ -6,15 +6,17 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  */
 
 /**
  * Visit docbook sections
  *
+ * Visitor for DocBoo
  *
- * @TODO: Implement.
  * @package Document
  * @version //autogen//
+ * @access private
  */
 class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseHandler
 {

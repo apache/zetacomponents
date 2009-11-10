@@ -6,6 +6,7 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  */
 
 /**
@@ -13,9 +14,9 @@
  *
  * Visit docbook tables and transform them into ODT tables.
  *
- * @TODO: Old DocBook table style should be supported.
  * @package Document
  * @version //autogen//
+ * @access private
  */
 class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHandler
 {

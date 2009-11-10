@@ -21,13 +21,6 @@
 class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverter
 {
     /**
-     * Style information for the document to style. 
-     * 
-     * @var ezcDocumentOdtStyleInfo
-     */
-    protected $styleInfo;
-
-    /**
      * Text node processor.
      * 
      * @var ezcDocumentOdtTextProcessor
@@ -122,22 +115,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
 
         $docBookDom = $this->makeLocateable( $source->getDomDocument() );
 
-        $this->options->styler->init(
-            new ezcDocumentOdtStyleInformation(
-                $destination->ownerDocument->getElementsByTagNameNS(
-                    ezcDocumentOdt::NS_ODT_OFFICE,
-                    'styles'
-                )->item( 0 ),
-                $destination->ownerDocument->getElementsByTagNameNS(
-                    ezcDocumentOdt::NS_ODT_OFFICE,
-                    'automatic-styles'
-                )->item( 0 ),
-                $destination->ownerDocument->getElementsByTagNameNS(
-                    ezcDocumentOdt::NS_ODT_OFFICE,
-                    'font-face-decls'
-                )->item( 0 )
-            )
-        );
+        $this->options->styler->init( $destination->ownerDocument );
 
         $destination = $this->visitChildren(
             $docBookDom,
@@ -193,8 +171,6 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
             throw new RuntimeException( "Broken ODT template '{$this->options->template}'. Missing body element." );
         }
         $root = $rootElements->item( 0 );
-
-        // @TODO: Set generator
 
         return $root;
     }

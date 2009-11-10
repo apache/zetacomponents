@@ -122,10 +122,7 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
         $created = $converter->convert( $doc );
 
         $this->assertTrue(
-            $stylerMock->styleInfo->styleSection instanceof DOMElement
-        );
-        $this->assertTrue(
-            $stylerMock->styleInfo->fontFaceDecls instanceof DOMElement
+            $stylerMock->odtDocument instanceof DOMDocument
         );
 
         $this->assertEquals(

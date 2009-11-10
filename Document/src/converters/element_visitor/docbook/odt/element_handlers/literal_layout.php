@@ -6,15 +6,18 @@
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
  */
 
 /**
  * Visit paragraphs.
  *
- * Visit docbook paragraphs and transform them into ODT paragraphs.
+ * Visit docbook literal layout paragraphs and transform them into ODT 
+ * paragraphs.
  *
  * @package Document
  * @version //autogen//
+ * @access private
  */
 class ezcDocumentDocbookToOdtLiteralLayoutHandler extends ezcDocumentDocbookToOdtBaseHandler
 {

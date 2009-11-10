@@ -2,13 +2,13 @@
 
 class ezcDocumentOdtTestStyler implements ezcDocumentOdtStyler
 {
-    public $styleInfo;
+    public $odtDocument;
 
     public $seenElements = array();
 
-    public function init( ezcDocumentOdtStyleInformation $styleInfo )
+    public function init( DOMDocument $odtDocument )
     {
-        $this->styleInfo = $styleInfo;
+        $this->odtDocument = $odtDocument;
     }
 
     public function applyStyles( ezcDocumentLocateable $docBookElement, DOMElement $odtElement )

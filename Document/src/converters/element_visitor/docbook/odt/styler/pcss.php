@@ -113,11 +113,24 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * This method *must* be called *before* {@link applyStyles()} is called 
      * at all. Otherwise an exception will be thrown.
      * 
-     * @param ezcDocumentOdtStyleInformation $styleInfo 
+     * @param DOMDocument $odtDocument
      */
-    public function init( ezcDocumentOdtStyleInformation $styleInfo )
+    public function init( DOMDocument $odtDocument )
     {
-        $this->styleInfo = $styleInfo;
+        $this->styleInfo = new ezcDocumentOdtStyleInformation(
+            $odtDocument->getElementsByTagNameNS(
+                ezcDocumentOdt::NS_ODT_OFFICE,
+                'styles'
+            )->item( 0 ),
+            $odtDocument->getElementsByTagNameNS(
+                ezcDocumentOdt::NS_ODT_OFFICE,
+                'automatic-styles'
+            )->item( 0 ),
+            $odtDocument->getElementsByTagNameNS(
+                ezcDocumentOdt::NS_ODT_OFFICE,
+                'font-face-decls'
+            )->item( 0 )
+        );
     }
 
     /**

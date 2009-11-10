@@ -29,11 +29,9 @@ interface ezcDocumentOdtStyler
      * the {@link ezcDocumentDocbookToOdtConverter} whenever a new ODT document 
      * is to be converted.
      * 
-     * @param ezcDocumentOdtStyleInformation $styleInfo 
-     * @TODO: Refactor to give ODT document here and only use the style info 
-     *        struct in the PCSS styler.
+     * @param DOMDocument $odtDocument
      */
-    public function init( ezcDocumentOdtStyleInformation $styleInfo );
+    public function init( DOMDocument $odtDocument );
 
     /**
      * Applies the style information associated with $docBookElement to 
