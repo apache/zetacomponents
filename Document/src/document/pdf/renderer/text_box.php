@@ -515,6 +515,18 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
             // Apply current styles
             foreach ( $token['style'] as $style => $value )
             {
+                // Only pass whitelist of properties to the backend. This is not really 
+                // the right place to do this, but it reduces the amount of calls to 
+                // the backend and the size of the call log massively.
+                if ( !( ( $style === 'font-style' ) ||
+                        ( $style === 'font-weight' ) ||
+                        ( $style === 'color' ) ||
+                        ( $style === 'font-size' ) ||
+                        ( $style === 'font-family' ) ) )
+                {
+                    continue;
+                }
+
                 $this->driver->setTextFormatting( $style, $value->value );
             }
 
