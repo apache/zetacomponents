@@ -126,30 +126,26 @@ class ezcDocumentPdfTransactionalDriverWrapper extends ezcDocumentPdfDriver
 
         // Order calls using the page number they are called for, for all
         // transactions to commit.
-        $grouped = array( array() );
-        foreach ( $this->transactions as $id => $transactions )
+        $lastPage = count( $this->pages ) ? max( array_keys( $this->pages ) ) : 0;
+        for ( $page = 0; $page <= $lastPage; ++$page )
         {
-            foreach ( $transactions->calls as $page => $calls )
+            foreach ( $this->transactions as $id => $transactions )
             {
-                foreach ( $calls as $call )
+                if ( !isset( $transactions->calls[$page] ) )
                 {
-                    $grouped[$page][] = $call;
+                    continue;
                 }
-            }
 
-            $this->transactions[$id]->calls = array();
-            if ( $id === $transaction )
-            {
-                break;
-            }
-        }
+                foreach ( $transactions->calls[$page] as $call )
+                {
+                    call_user_func_array( array( $this->driver, $call[0] ), $call[1] );
+                }
 
-        // Execute ordered calls
-        foreach ( $grouped as $page => $calls )
-        {
-            foreach ( $calls as $call )
-            {
-                call_user_func_array( array( $this->driver, $call[0] ), $call[1] );
+                $this->transactions[$id]->calls[$page] = array();
+                if ( $id === $transaction )
+                {
+                    continue 2;
+                }
             }
         }
 
