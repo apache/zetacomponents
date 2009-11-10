@@ -21,10 +21,10 @@
               <title>Section Title 6</title>
             </section>
           </section>
-          <section ID="section_title_5">
+          <section ID="section_title_5_2">
             <sectioninfo/>
             <title>Section Title 5</title>
-            <section ID="section_title_6">
+            <section ID="section_title_6_2">
               <sectioninfo/>
               <title>Section Title 6</title>
               <section ID="section_title_7">
@@ -35,10 +35,10 @@
                   <title>Section Title 8</title>
                 </section>
               </section>
-              <section ID="section_title_7">
+              <section ID="section_title_7_2">
                 <sectioninfo/>
                 <title>Section Title 7</title>
-                <section ID="section_title_8">
+                <section ID="section_title_8_2">
                   <sectioninfo/>
                   <title>Section Title 8</title>
                   <section ID="section_title_9">
@@ -59,13 +59,13 @@
           </section>
         </section>
       </section>
-      <section ID="section_title_3">
+      <section ID="section_title_3_2">
         <sectioninfo/>
         <title>Section Title 3</title>
-        <section ID="section_title_4">
+        <section ID="section_title_4_2">
           <sectioninfo/>
           <title>Section Title 4</title>
-          <section ID="section_title_5">
+          <section ID="section_title_5_3">
             <sectioninfo/>
             <title>Section Title 5</title>
           </section>

@@ -120,6 +120,13 @@ abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
     protected $errors = array();
 
     /**
+     * Array of already generated IDs, so none will be used twice.
+     * 
+     * @var array
+     */
+    protected $usedIDs = array();
+
+    /**
      * Unused reference target
      */
     const UNUSED    = 1;
@@ -705,6 +712,32 @@ abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
         {
             $id = 'id_' . $id;
         }
+
+        return $id;
+    }
+
+    /**
+     * Calculate unique ID
+     *
+     * Calculate a valid identifier, which is unique for this document.
+     * 
+     * @param string $string 
+     * @return string
+     */
+    protected function calculateUniqueId( $string )
+    {
+        $id = $this->calculateId( $string );
+
+        // Ensure uniqueness of IDs
+        if ( isset( $this->usedIDs[$id] ) )
+        {
+            $i = 2;
+            do {
+                $tryId = $id . '_' . $i++;
+            } while ( isset( $this->usedIDs[$tryId] ) );
+            $id = $tryId;
+        }
+        $this->usedIDs[$id] = true;
 
         return $id;
     }

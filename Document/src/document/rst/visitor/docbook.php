@@ -182,7 +182,7 @@ class ezcDocumentRstDocbookVisitor extends ezcDocumentRstVisitor
     protected function visitSection( DOMNode $root, ezcDocumentRstNode $node )
     {
         $section = $this->document->createElement( 'section' );
-        $section->setAttribute( 'ID', $this->calculateId( $this->nodeToString( $node->title ) ) );
+        $section->setAttribute( 'ID', $this->calculateUniqueId( $this->nodeToString( $node->title ) ) );
         $root->appendChild( $section );
 
         $title = $this->document->createElement( 'title' );

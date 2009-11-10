@@ -30,12 +30,12 @@ Section Title 5
 Section Title 6
 ~~~~~~~~~~~~~~~
 
-.. _section_title_5:
+.. _section_title_5_2:
 
 Section Title 5
 ^^^^^^^^^^^^^^^
 
-.. _section_title_6:
+.. _section_title_6_2:
 
 Section Title 6
 ~~~~~~~~~~~~~~~
@@ -50,12 +50,12 @@ Section Title 7
 Section Title 8
 ***************
 
-.. _section_title_7:
+.. _section_title_7_2:
 
 Section Title 7
 ```````````````
 
-.. _section_title_8:
+.. _section_title_8_2:
 
 Section Title 8
 ***************
@@ -75,17 +75,17 @@ Section Title 10
 Section Title 11
 ////////////////
 
-.. _section_title_3:
+.. _section_title_3_2:
 
 Section Title 3
 ===============
 
-.. _section_title_4:
+.. _section_title_4_2:
 
 Section Title 4
 ---------------
 
-.. _section_title_5:
+.. _section_title_5_3:
 
 Section Title 5
 ^^^^^^^^^^^^^^^
