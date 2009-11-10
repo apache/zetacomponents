@@ -21,6 +21,9 @@
  * comitting or calling save() on the driver proxy any modifying (write)
  * operations are actually issued on the proxied driver.
  *
+ * The prupose of this class is explained in more detail in the class 
+ * documentation of the ezcDocumentPdfMainRenderer class.
+ *
  * @package Document
  * @access private
  * @version //autogen//
