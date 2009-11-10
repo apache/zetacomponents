@@ -54,7 +54,7 @@ class ezcDocumentOdtStyleTextPropertyGenerator extends ezcDocumentOdtStyleProper
         $prop = $parent->appendChild(
             $parent->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
-                'text-properties'
+                'style:text-properties'
             )
         );
         $this->applyStyleAttributes(

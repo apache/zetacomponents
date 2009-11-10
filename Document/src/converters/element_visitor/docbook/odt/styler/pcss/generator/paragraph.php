@@ -73,7 +73,7 @@ class ezcDocumentOdtParagraphStyleGenerator extends ezcDocumentOdtStyleGenerator
         $style = $styleInfo->automaticStyleSection->appendChild(
             $styleInfo->automaticStyleSection->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
-                'style'
+                'style:style'
             )
         );
 

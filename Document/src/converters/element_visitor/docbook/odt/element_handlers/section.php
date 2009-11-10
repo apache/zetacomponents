@@ -40,16 +40,17 @@ class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseH
     {
         if ( $node->localName === 'title' )
         {
-            $h = $root->ownerDocument->createElementNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'h'
+            $h = $root->appendChild(
+                $root->ownerDocument->createElementNS(
+                    ezcDocumentOdt::NS_ODT_TEXT,
+                    'text:h'
+                )
             );
             $h->setAttributeNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
                 'text:outline-level',
                 $this->level
             );
-            $root->appendChild( $h );
 
             $this->styler->applyStyles( $node, $h );
 

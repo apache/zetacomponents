@@ -48,9 +48,11 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
 
         $imageData = $this->extractAndValidateImageData( $node );
 
-        $frame = $root->ownerDocument->createElementNS(
-            ezcDocumentOdt::NS_ODT_DRAWING,
-            'frame'
+        $frame = $root->appendChild(
+            $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_DRAWING,
+                'draw:frame'
+            )
         );
         $frame->setAttributeNS(
             ezcDocumentOdt::NS_ODT_DRAWING,
@@ -94,20 +96,20 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
             );
         }
 
-        $root->appendChild( $frame );
-
-        $image = $root->ownerDocument->createElementNS(
-            ezcDocumentOdt::NS_ODT_DRAWING,
-            'image'
+        $image = $frame->appendChild(
+            $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_DRAWING,
+                'draw:image'
+            )
         );
-        $frame->appendChild( $image );
 
-        $binaryData = $root->ownerDocument->createElementNS(
-            ezcDocumentOdt::NS_ODT_OFFICE,
-            'binary-data',
-            base64_encode( file_get_contents( $imageData->getAttribute( 'fileref' ) ) )
+        $binaryData = $image->appendChild(
+            $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_OFFICE,
+                'office:binary-data',
+                base64_encode( file_get_contents( $imageData->getAttribute( 'fileref' ) ) )
+            )
         );
-        $image->appendChild( $binaryData );
 
         return $root;
     }

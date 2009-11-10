@@ -31,11 +31,10 @@ class ezcDocumentDocbookToOdtLiteralLayoutHandler extends ezcDocumentDocbookToOd
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // @TODO: Determine style.
         $p = $root->appendChild(
             $root->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
-                'p'
+                'text:p'
             )
         );
         $this->styler->applyStyles( $node, $p );

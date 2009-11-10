@@ -48,7 +48,7 @@ class ezcDocumentDocbookToOdtFootnoteHandler extends ezcDocumentDocbookToOdtBase
 
         $textNote = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_TEXT,
-            'note'
+            'text:note'
         );
         $textNote->setAttributeNS(
             ezcDocumentOdt::NS_ODT_TEXT,
@@ -64,7 +64,7 @@ class ezcDocumentDocbookToOdtFootnoteHandler extends ezcDocumentDocbookToOdtBase
 
         $noteCitation = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_TEXT,
-            'note-citation',
+            'text:note-citation',
             $label
         );
         $noteCitation->setAttributeNS(
@@ -76,7 +76,7 @@ class ezcDocumentDocbookToOdtFootnoteHandler extends ezcDocumentDocbookToOdtBase
 
         $noteBody = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_TEXT,
-            'note-body'
+            'text:note-body'
         );
         $textNote->appendChild( $noteBody );
 

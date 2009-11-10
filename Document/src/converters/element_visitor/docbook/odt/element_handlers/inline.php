@@ -33,7 +33,7 @@ class ezcDocumentDocbookToOdtInlineHandler extends ezcDocumentDocbookToOdtBaseHa
     {
         $inline = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_TEXT,
-            'span'
+            'text:span'
         );
         $root->appendChild( $inline );
 

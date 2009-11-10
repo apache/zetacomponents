@@ -50,7 +50,7 @@ class ezcDocumentOdtStyleListPropertyGenerator extends ezcDocumentOdtStyleProper
         $prop = $parent->appendChild(
             $parent->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
-                'list-level-properties'
+                'style:list-level-properties'
             )
         );
         $prop->setAttributeNS(
@@ -74,7 +74,7 @@ class ezcDocumentOdtStyleListPropertyGenerator extends ezcDocumentOdtStyleProper
         $alignementProp = $prop->appendChild(
             $prop->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
-                'list-level-label-alignment'
+                'style:list-level-label-alignment'
             )
         );
 

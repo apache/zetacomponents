@@ -31,18 +31,9 @@ class ezcDocumentDocbookToOdtListHandler extends ezcDocumentDocbookToOdtBaseHand
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // @TODO: Determine style.
-        // $style = 'itemizedListStyle';
-        // switch ( $node->localName )
-        // {
-            // case 'itemizedlist':
-            // default:
-                // $style = 'itemizedListStyle';
-        // }
-
         $list = $root->ownerDocument->createElementNS(
             ezcDocumentOdt::NS_ODT_TEXT,
-            'list'
+            'text:list'
         );
         $root->appendChild( $list );
 

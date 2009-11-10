@@ -135,7 +135,7 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
         $listStyle = $styleInfo->automaticStyleSection->appendChild(
             $styleInfo->automaticStyleSection->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
-                'list-style'
+                'text:list-style'
             )
         );
         $listStyle->setAttributeNS(
@@ -182,7 +182,7 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
         $listLevelStyle = $listStyle->appendChild(
             $listStyle->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
-                'list-level-style-' . $styleAttributes['list-type']->value
+                'text:list-level-style-' . $styleAttributes['list-type']->value
             )
         );
 

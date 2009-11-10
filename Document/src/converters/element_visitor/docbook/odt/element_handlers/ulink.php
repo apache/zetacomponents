@@ -31,9 +31,11 @@ class ezcDocumentDocbookToOdtUlinkHandler extends ezcDocumentDocbookToOdtBaseHan
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        $a = $root->ownerDocument->createElementNS(
-            ezcDocumentOdt::NS_ODT_TEXT,
-            'a'
+        $a = $root->appendChild(
+            $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'text:a'
+            )
         );
         $a->setAttributeNS(
             ezcDocumentOdt::NS_XLINK,
@@ -45,8 +47,6 @@ class ezcDocumentDocbookToOdtUlinkHandler extends ezcDocumentDocbookToOdtBaseHan
             'xlink:href',
             $node->getAttribute( 'url' )
         );
-
-        $root->appendChild( $a );
 
         $this->styler->applyStyles( $node, $a );
 

@@ -87,7 +87,7 @@ class ezcDocumentOdtPcssFontStylePreprocessor
         $fontDecl = $fontFaceDecls->appendChild(
             $fontFaceDecls->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
-                'font-face'
+                'style:font-face'
             )
         );
         $fontDecl->setAttributeNS(

@@ -97,7 +97,7 @@ class ezcDocumentOdtTextProcessor
             // Simple spaces use the count attribute
             $spaceElement = $root->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
-                $spaceType
+                "text:{$spaceType}"
             );
             $spaceElement->setAttributeNS(
                 ezcDocumentOdt::NS_ODT_TEXT,
@@ -114,7 +114,7 @@ class ezcDocumentOdtTextProcessor
             {
                 $spaces[] = $root->ownerDocument->createElementNS(
                     ezcDocumentOdt::NS_ODT_TEXT,
-                    $spaceType
+                    "text:{$spaceType}"
                 );
             }
         }

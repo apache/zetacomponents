@@ -1,5 +1,23 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtStyleInferencer class.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ */
 
+/**
+ * An instance of this class inferences a style for an ODT element.
+ *
+ * An instance of this class parses the styles of an ODT document defined for a 
+ * certain element and returns an object representation of this style.
+ *
+ * @package Document
+ * @version //autogen//
+ * @access private
+ */
 class ezcDocumentOdtStyleInferencer
 {
     /**

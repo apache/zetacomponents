@@ -50,7 +50,7 @@ class ezcDocumentOdtStyleTablePropertyGenerator extends ezcDocumentOdtStylePrope
         $prop = $parent->appendChild(
             $parent->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
-                'table-properties'
+                'style:table-properties'
             )
         );
 

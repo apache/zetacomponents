@@ -54,7 +54,7 @@ class ezcDocumentOdtStyleParagraphPropertyGenerator extends ezcDocumentOdtStyleP
         $prop = $parent->appendChild(
             $parent->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_STYLE,
-                'paragraph-properties'
+                'style:paragraph-properties'
             )
         );
         $this->applyStyleAttributes(

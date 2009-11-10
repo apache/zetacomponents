@@ -31,11 +31,12 @@ class ezcDocumentDocbookToOdtParagraphHandler extends ezcDocumentDocbookToOdtBas
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        $p = $root->ownerDocument->createElementNS(
-            ezcDocumentOdt::NS_ODT_TEXT,
-            'p'
+        $p = $root->appendChild(
+            $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'text:p'
+            )
         );
-        $root->appendChild( $p );
 
         $this->styler->applyStyles( $node, $p );
 

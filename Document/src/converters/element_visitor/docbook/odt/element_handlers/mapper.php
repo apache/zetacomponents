@@ -29,7 +29,7 @@ class ezcDocumentDocbookToOdtMappingHandler extends ezcDocumentDocbookToOdtBaseH
      * @var array(string=>array(string))
      */
     protected $mapping = array(
-        'listitem' => array( ezcDocumentOdt::NS_ODT_TEXT, 'list-item' )
+        'listitem' => array( ezcDocumentOdt::NS_ODT_TEXT, 'text:list-item' )
     );
 
     /**
@@ -52,11 +52,12 @@ class ezcDocumentDocbookToOdtMappingHandler extends ezcDocumentDocbookToOdtBaseH
         }
         $targetElementData = $this->mapping[$node->localName];
 
-        $targetElement = $root->ownerDocument->createElementNS(
-            $targetElementData[0],
-            $targetElementData[1]
+        $targetElement = $root->appendChild(
+            $root->ownerDocument->createElementNS(
+                $targetElementData[0],
+                $targetElementData[1]
+            )
         );
-        $root->appendChild( $targetElement );
 
         $this->styler->applyStyles( $node, $targetElement );
 
