@@ -1087,6 +1087,36 @@ This template outputs::
 
 See the Raw_ section for more information. 
 
+Additional required escaping
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Even inside XHTML there are still different output contexts, which might
+require different escaping. For example when using variables inside JavaScript
+the default escaping is *not sufficient*, but additional characters are
+required to be escaped, like shown in the following example. If the following
+template is called with the ``$input = '\' ); alert( \' XSS Alert ';``, it will
+show an JavaScript alert box, even with XHTML context escaping::
+
+    {use $input}
+    <body onLoad="JavaScript: doSomething( '{$input}' );">
+    ...
+
+To work around this issue you can either write a custom template function which
+wraps around the PHP function ``addslashes()`` or do the following in your
+template::
+
+    {use $input}
+    <body onLoad="JavaScript: doSomething( '{
+        str_find_replace( "'", "\\'",
+            str_find_replace( '"', '\\"',
+                str_find_replace( '\\', '\\\\', $input )
+            )
+        )}' );">
+    ...
+
+This should be safe afterwards. Remember that there might be other contexts in
+your XHTML files, like other client side scripting languages, which again
+require different additional output escaping.
 
 No Context
 ``````````
