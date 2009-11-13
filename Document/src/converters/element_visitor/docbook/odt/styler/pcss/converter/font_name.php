@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtPcssFontConverter class.
+ * File containing the ezcDocumentOdtPcssFontNameConverter class.
  *
  * @package Document
  * @version //autogen//
@@ -10,16 +10,16 @@
  */
 
 /**
- * Style converter for font style properties.
+ * Style converter for the special font-name style property.
  *
  * @package Document
  * @access private
  * @version //autogen//
  */
-class ezcDocumentOdtPcssFontConverter implements ezcDocumentOdtPcssConverter
+class ezcDocumentOdtPcssFontNameConverter implements ezcDocumentOdtPcssConverter
 {
     /**
-     * Converts the 'font-*' CSS styles.
+     * Converts the special 'font-name' CSS style property.
      *
      * This method receives a $targetProperty DOMElement and converts the given 
      * style with $styleName and $styleValue to attributes on this 
@@ -32,8 +32,8 @@ class ezcDocumentOdtPcssFontConverter implements ezcDocumentOdtPcssConverter
     public function convert( DOMElement $targetProperty, $styleName, ezcDocumentPcssStyleValue $styleValue )
     {
         $targetProperty->setAttributeNS(
-            ezcDocumentOdt::NS_ODT_FO,
-            "fo:{$styleName}",
+            ezcDocumentOdt::NS_ODT_STYLE,
+            "style:{$styleName}",
             $styleValue->value
         );
         $targetProperty->setAttributeNS(

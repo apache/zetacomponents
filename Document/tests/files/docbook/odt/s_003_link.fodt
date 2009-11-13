@@ -8,8 +8,6 @@
     <meta:generator>OpenOffice.org/3.0$Linux OpenOffice.org_project/300m15$Build-9379</meta:generator>
     <meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0" meta:page-count="1" meta:paragraph-count="23" meta:word-count="81" meta:character-count="389"/>
   </office:meta>
-  <office:settings/>
-  <office:scripts/>
   <office:font-face-decls>
     <style:font-face style:name="OpenSymbol" svg:font-family="OpenSymbol"/>
     <style:font-face style:name="Times New Roman" svg:font-family="'Times New Roman'" style:font-family-generic="roman" style:font-pitch="variable"/>
@@ -294,8 +292,8 @@
       <style:footer-style/>
     </style:page-layout>
     <style:style style:family="paragraph" style:name="p1">
-      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" style:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
       <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
   </office:automatic-styles>
   <office:master-styles>

@@ -94,11 +94,11 @@ class ezcDocumentOdtParagraphStyleGenerator extends ezcDocumentOdtStyleGenerator
             $styleName
         );
 
-        $this->textPropertyGenerator->createProperty(
+        $this->paragraphPropertyGenerator->createProperty(
             $style,
             $styleAttributes
         );
-        $this->paragraphPropertyGenerator->createProperty(
+        $this->textPropertyGenerator->createProperty(
             $style,
             $styleAttributes
         );

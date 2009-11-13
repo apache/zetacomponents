@@ -19,7 +19,7 @@ require_once 'odt/test_classes/styler.php';
  */
 class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
 {
-    const WRITE_RESULTS = false;
+    const WRITE_RESULTS = true;
 
     protected static $testDocuments = null;
 
@@ -75,19 +75,17 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
         // Store test file, to have something to compare on failure
         $tempDir  = $this->createTempDir( 'docbook_odt_custom_' ) . '/';
         $tempFile = $tempDir . basename( $to );
-        file_put_contents( $tempFile, $xml = $created->save() );
+        file_put_contents( $tempFile, ( $xml = $created->save() ) );
 
         if ( self::WRITE_RESULTS )
         {
             copy( $tempFile, $to );
         }
 
-        /*
         $this->assertTrue(
-            ( $errors = $created->validateString( $xml ) ) === true,
+            ( $errors = $created->validateString( $xml ) ),
             ( is_array( $errors ) ? implode( PHP_EOL, $errors ) : 'Expected true' )
         );
-        */
 
         $this->assertEquals(
             file_get_contents( $to ),

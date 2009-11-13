@@ -31,7 +31,6 @@ class ezcDocumentOdtStyleTableCellPropertyGenerator extends ezcDocumentOdtStyleP
             $styleConverters,
             array(
                 'vertical-align',
-                'text-align',
                 'background-color',
                 'border',
                 'padding',

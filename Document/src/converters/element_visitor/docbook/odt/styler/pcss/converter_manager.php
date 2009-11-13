@@ -38,8 +38,8 @@ class ezcDocumentOdtPcssConverterManager extends ArrayObject
     {
         $this['text-decoration']  = new ezcDocumentOdtPcssTextDecorationConverter();
         $this['font-size']        = new ezcDocumentOdtPcssFontSizeConverter();
-        $this['font-name']        = ( $font = new ezcDocumentOdtPcssFontConverter() );
-        $this['font-weight']      = $font;
+        $this['font-name']        = new ezcDocumentOdtPcssFontNameConverter();
+        $this['font-weight']      = ( $font = new ezcDocumentOdtPcssFontConverter() );
         $this['color']            = ( $color = new ezcDocumentOdtPcssColorConverter() );
         $this['background-color'] = $color;
         $this['text-align']       = ( $default = new ezcDocumentOdtDefaultPcssConverter() );

@@ -261,15 +261,11 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
      */
     public function createFromDocbook( ezcDocumentDocbook $document )
     {
-        /*
-         * @TODO: Re-activate validation.
-         *
         if ( $this->options->validate &&
              $document->validateString( $document ) !== true )
         {
             $this->triggerError( E_WARNING, "You try to convert an invalid docbook document. This may lead to invalid output." );
         }
-        */
 
         $this->path = $document->getPath();
 
@@ -306,26 +302,36 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
      */
     public function validateFile( $file )
     {
-        /*
-         * @TODO
         $oldSetting = libxml_use_internal_errors( true );
         libxml_clear_errors();
+
         $document = new DOMDocument();
         $document->load( $file );
-        $document->schemaValidate( dirname( __FILE__ ) . '/xhtml/schema/xhtml1-transitional.xsd' );
+        $res = $this->performValidation( $document );
+
+        libxml_use_internal_errors( $oldSetting );
+
+        return $res;
+    }
+
+    private function performValidation( DOMDocument $document )
+    {
+        $document->relaxNGValidate(
+            dirname( __FILE__ ) . '/odt/data/odf_1.2.rng'
+        );
 
         // Get all errors
         $xmlErrors = libxml_get_errors();
         $errors = array();
         foreach ( $xmlErrors as $error )
         {
-            $errors[] = new ezcDocumentValidationError( $error );
+            $errors[] = ezcDocumentValidationError::createFromLibXmlError(
+                $error
+            );
         }
         libxml_clear_errors();
-        libxml_use_internal_errors( $oldSetting );
 
         return ( count( $errors ) ? $errors : true );
-        */
     }
 
     /**
@@ -342,26 +348,16 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
      */
     public function validateString( $string )
     {
-        /*
-         * @TODO
         $oldSetting = libxml_use_internal_errors( true );
         libxml_clear_errors();
+
         $document = new DOMDocument();
         $document->loadXml( $string );
-        $document->schemaValidate( dirname( __FILE__ ) . '/xhtml/schema/xhtml1-transitional.xsd' );
+        $res = $this->performValidation( $document );
 
-        // Get all errors
-        $xmlErrors = libxml_get_errors();
-        $errors = array();
-        foreach ( $xmlErrors as $error )
-        {
-            $errors[] = ezcDocumentValidationError::createFromLibXmlError( $error );
-        }
-        libxml_clear_errors();
         libxml_use_internal_errors( $oldSetting );
 
-        return ( count( $errors ) ? $errors : true );
-        */
+        return $res;
     }
 }
 

@@ -247,6 +247,7 @@ return array(
     'ezcDocumentOdtPcssConverterManager'                 => 'Document/converters/element_visitor/docbook/odt/styler/pcss/converter_manager.php',
     'ezcDocumentOdtPcssConverterTools'                   => 'Document/converters/element_visitor/docbook/odt/styler/pcss/converter_tools.php',
     'ezcDocumentOdtPcssFontConverter'                    => 'Document/converters/element_visitor/docbook/odt/styler/pcss/converter/font.php',
+    'ezcDocumentOdtPcssFontNameConverter'                => 'Document/converters/element_visitor/docbook/odt/styler/pcss/converter/font_name.php',
     'ezcDocumentOdtPcssFontSizeConverter'                => 'Document/converters/element_visitor/docbook/odt/styler/pcss/converter/font_size.php',
     'ezcDocumentOdtPcssFontStylePreprocessor'            => 'Document/converters/element_visitor/docbook/odt/styler/pcss/preprocessor/font.php',
     'ezcDocumentOdtPcssListStylePreprocessor'            => 'Document/converters/element_visitor/docbook/odt/styler/pcss/preprocessor/list.php',
