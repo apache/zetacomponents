@@ -167,8 +167,10 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
 
         if ( $rootElements->length !== 1 )
         {
-            // @TODO: Throw proper exception
-            throw new RuntimeException( "Broken ODT template '{$this->options->template}'. Missing body element." );
+            throw new ezcDocumentInvalidOdtException(
+                $rootElements,
+                "Broken ODT template '{$this->options->template}'. Missing or duplicate body element."
+            );
         }
         $root = $rootElements->item( 0 );
 
@@ -188,10 +190,9 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
     {
         $document = $content->ownerDocument;
 
-        // @TODO: Anything to do here?
-
         $odt = new ezcDocumentOdt();
         $odt->setDomDocument( $document );
+
         return $odt;
     }
 
@@ -201,7 +202,6 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
      * Visit a text node in the source document and transform it to the
      * destination result
      *
-     * @TODO: Needs to be revised for literallayout handling.
      * @param DOMText $node
      * @param mixed $root
      * @return mixed

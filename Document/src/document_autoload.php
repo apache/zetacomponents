@@ -13,6 +13,8 @@ return array(
     'ezcDocumentException'                               => 'Document/exceptions/exception.php',
     'ezcDocumentConversionException'                     => 'Document/exceptions/conversion.php',
     'ezcDocumentErroneousXmlException'                   => 'Document/exceptions/erroneous_xml.php',
+    'ezcDocumentInvalidDocbookException'                 => 'Document/exceptions/invalid_docbook.php',
+    'ezcDocumentInvalidOdtException'                     => 'Document/exceptions/invalid_odt.php',
     'ezcDocumentMissingVisitorException'                 => 'Document/exceptions/missing_visitor.php',
     'ezcDocumentOdtFormattingPropertiesExistException'   => 'Document/exceptions/odt/formatting_properties_exist.php',
     'ezcDocumentParserException'                         => 'Document/exceptions/parser.php',

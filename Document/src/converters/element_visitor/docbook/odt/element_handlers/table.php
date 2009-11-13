@@ -52,8 +52,9 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
     {
         if ( !isset( $this->methodMap[$node->localName] ) )
         {
-            // @TODO: Correct exception
-            throw new RuntimeException( "Table element {$node->localName} cannot be handled." );
+            // This only occurs when the handler is assigned to an unknown 
+            // node, which should not happen at all.
+            throw new ezcDocumentMissingVisitorException( $node->localName );
         }
 
         $method = $this->methodMap[$node->localName];

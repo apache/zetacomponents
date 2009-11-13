@@ -49,9 +49,13 @@ class ezcDocumentDocbookToOdtMappingHandler extends ezcDocumentDocbookToOdtBaseH
     {
         if ( !isset( $this->mapping[$node->localName] ) )
         {
-            // @TODO: Throw proper exception
-            throw new RuntimeException( "Unhandled DocBook element '{$node->localName}'." );
+            // This only occurs if the mapper is assigned to an unknown 
+            // element, which should not happen at all.
+            throw new ezcDocumentMissingVisitorException(
+                $node->localName
+            );
         }
+
         $targetElementData = $this->mapping[$node->localName];
 
         $targetElement = $root->appendChild(

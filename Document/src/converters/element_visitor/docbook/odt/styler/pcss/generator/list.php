@@ -64,7 +64,7 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
     public function handles( DOMElement $odtElement )
     {
         return (
-            $odtElement->localName === 'list' || $odtElement->localName === 'list-item'
+            $odtElement->localName === 'list'
         );
     }
     
@@ -76,14 +76,20 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
      */
     public function createStyle( ezcDocumentOdtStyleInformation $styleInfo, DOMElement $odtElement, array $styleAttributes )
     {
-        switch ( $odtElement->localName )
+        $baseListDef = $this->getBaseList( $odtElement );
+
+        if ( $baseListDef['list'] === null )
         {
-            case 'list':
-                $this->createListStyle( $styleInfo, $odtElement, $styleAttributes );
-                break;
-            case 'list-item':
-                // $this->createListItemStyle( $styleInfo, $odtElement, $styleAttributes );
+            $listStyle = $this->createNewListStyle( $odtElement, $styleInfo );
+            $level = 1;
         }
+        else
+        {
+            $listStyle = $this->retrieveListStyle( $baseListDef['list'], $styleInfo );
+            $level = $baseListDef['depth'];
+        }
+
+        $this->createListLevelStyle( $styleInfo, $listStyle, $level, $styleAttributes );
     }
 
     /**
@@ -101,20 +107,6 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
      */
     protected function createListStyle( ezcDocumentOdtStyleInformation $styleInfo, DOMElement $list, array $styleAttributes )
     {
-        $baseListDef = $this->getBaseList( $list );
-
-        if ( $baseListDef['list'] === null )
-        {
-            $listStyle = $this->createNewListStyle( $list, $styleInfo );
-            $level = 1;
-        }
-        else
-        {
-            $listStyle = $this->retrieveListStyle( $baseListDef['list'], $styleInfo );
-            $level = $baseListDef['depth'];
-        }
-
-        $this->createListLevelStyle( $styleInfo, $listStyle, $level, $styleAttributes );
     }
 
     /**

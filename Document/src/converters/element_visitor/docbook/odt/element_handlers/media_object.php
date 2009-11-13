@@ -134,15 +134,28 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
 
         if ( !$imageData->hasAttribute( 'fileref' ) )
         {
-            // @TODO: Correct exception
-            throw new RuntimeException( 'Missing "fileref" attribute im image data.' );
+            throw new ezcDocumentInvalidDocbookException(
+                $imageData,
+                'Missing "fileref" attribute.'
+            );
         }
 
         $fileName = $imageData->getAttribute( 'fileref' );
-        if ( !is_file( $fileName ) || !is_readable( $fileName ) )
+        if ( !is_file( $fileName ) )
         {
-            // @TODO: Correct exception
-            throw new RuntimeException( "Image file '$fileName' does not exist or is not accessible." );
+            throw new ezcBaseFileNotFoundException(
+                $fileName,
+                null,
+                'Referenced in "fileref" attribute.'
+            );
+        }
+        if ( !is_readable( $fileName ) )
+        {
+            throw new ezcBaseFilePermissionException(
+                $fileName,
+                ezcBaseFileException::READ,
+                'Referenced in "fileref" attribute.'
+            );
         }
 
         // No validation of image type. OOO should be reading all kinds of 

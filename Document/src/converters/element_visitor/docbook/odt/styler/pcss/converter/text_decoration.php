@@ -1,5 +1,24 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtPcssTextDecorationConverter class.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
 
+/**
+ * Style converter for text-decoration style properties.
+ *
+ * @TODO: ODT supports much more fine-graned text-decoration properties than 
+ *        PCSS currently supports. Should try to support more ODT features in 
+ *        latter versions.
+ * @package Document
+ * @access private
+ * @version //autogen//
+ */
 class ezcDocumentOdtPcssTextDecorationConverter implements ezcDocumentOdtPcssConverter
 {
     /**
@@ -20,7 +39,6 @@ class ezcDocumentOdtPcssTextDecorationConverter implements ezcDocumentOdtPcssCon
             switch ( $listElement )
             {
                 case 'line-through':
-                    // @TODO: ODF supports much more fine graned properties.
                     $targetProperty->setAttributeNS(
                         ezcDocumentOdt::NS_ODT_STYLE,
                         'style:text-line-through-type',
@@ -43,7 +61,6 @@ class ezcDocumentOdtPcssTextDecorationConverter implements ezcDocumentOdtPcssCon
                     );
                     break;
                 case 'underline':
-                    // @TODO: ODF supports much more fine graned properties.
                     $targetProperty->setAttributeNS(
                         ezcDocumentOdt::NS_ODT_STYLE,
                         'style:text-underline-type',
@@ -66,7 +83,6 @@ class ezcDocumentOdtPcssTextDecorationConverter implements ezcDocumentOdtPcssCon
                     );
                     break;
                 case 'overline':
-                    // @TODO: Not supported by ODF?
                     break;
                 case 'blink':
                     $targetProperty->setAttributeNS(
