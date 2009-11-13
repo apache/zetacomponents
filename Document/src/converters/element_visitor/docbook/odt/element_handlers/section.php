@@ -28,6 +28,13 @@ class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseH
     protected $level = 0;
 
     /**
+     * Last auto-generated section ID.
+     * 
+     * @var int
+     */
+    protected $lastSectionId = 0;
+
+    /**
      * Handle a node
      *
      * Handle / transform a given node, and return the result of the
@@ -61,14 +68,38 @@ class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseH
         else
         {
             ++$this->level;
+
+            $section = $root->appendChild(
+                $root->ownerDocument->createElementNS(
+                    ezcDocumentOdt::NS_ODT_TEXT,
+                    'text:section'
+                )
+            );
+            $section->setAttributeNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'text:name',
+                ( $node->hasAttribute( 'ID' )
+                    ? $node->getAttribute( 'ID' )
+                    : $this->generateId()
+                )
+            );
             
-            // @TODO: Handling of ID and internal ref?
-            $converter->visitChildren( $node, $root );
+            $converter->visitChildren( $node, $section );
 
             --$this->level;
         }
 
         return $root;
+    }
+
+    /**
+     * Generates a section ID.
+     * 
+     * @return string
+     */
+    protected function generateId()
+    {
+        return 'ezcDocumentSectionId' . ++$this->lastSectionId;
     }
 }
 

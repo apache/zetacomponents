@@ -14,7 +14,7 @@
     <style:font-face style:name="Arial" svg:font-family="Arial" style:font-family-generic="swiss" style:font-pitch="variable"/>
     <style:font-face style:name="DejaVu Sans" svg:font-family="'DejaVu Sans'" style:font-family-generic="system" style:font-pitch="variable"/>
     <style:font-face style:name="serif" svg:font-family="serif" style:font-family-generic="system" style:font-pitch="variable"/>
-    <style:font-face style:name="DejaVuSansMono" svg:font-family="DejaVuSansMono" style:font-family-generic="system" style:font-pitch="variable"/>
+    <style:font-face style:name="sans-serif" svg:font-family="sans-serif" style:font-family-generic="system" style:font-pitch="variable"/>
   </office:font-face-decls>
   <office:styles>
     <style:default-style style:family="graphic">
@@ -297,8 +297,31 @@
       <style:text-properties fo:font-size="20mm" style:font-size-asian="20mm" style:font-size-complex="20mm" style:font-name="serif" style:font-name-asian="serif" style:font-name-complex="serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#0000ff"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p1">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="0mm" fo:margin-left="0mm" fo:border-top="0.35277777813761mm solid #ff0000" fo:border-right="0.35277777813761mm solid #ff0000" fo:border-bottom="0.35277777813761mm solid #ff0000" fo:border-left="0.35277777813761mm solid #ff0000"/>
-      <style:text-properties fo:font-size="3.5277777813761mm" style:font-size-asian="3.5277777813761mm" style:font-size-complex="3.5277777813761mm" style:font-name="DejaVuSansMono" style:font-name-asian="DejaVuSansMono" style:font-name-complex="DejaVuSansMono" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#ffc0c0" fo:background-color="#f5f5f6"/>
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p2">
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p3">
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p4">
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p5">
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p6">
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+    </style:style>
+    <style:style style:family="text" style:name="span1">
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
   </office:automatic-styles>
   <office:master-styles>
@@ -306,9 +329,15 @@
   </office:master-styles>
   <office:body>
     <office:text><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
-  <text:section text:name="ezcDocumentSectionId1">
-    <text:h text:outline-level="1" text:style-name="h1">Some listing</text:h>
-    <text:p text:style-name="p1"> <text:s text:c="3"/>if ( $foo == $bar )<text:line-break/>{<text:line-break/> <text:s text:c="3"/>$foo = 123;<text:line-break/> <text:s text:c="1"/>$bar = 23;<text:line-break/><text:tab/>$tab = 1;<text:line-break/><text:tab/><text:tab/>$tab2 = 2;<text:line-break/>}</text:p>
+  <text:section text:name="various_types_of_hyperlink_targets">
+    
+    <text:h text:outline-level="1" text:style-name="h1">Various types of hyperlink targets</text:h>
+    <text:p text:style-name="p1">Clicking on this internal hyperlink will take us to the <text:a xlink:type="simple" xlink:href="target">target</text:a> below.</text:p>
+    <text:p text:style-name="p2">The hyperlink target above points to this paragraph.</text:p>
+    <text:p text:style-name="p3">The targets "target1" and "target2" are synonyms; they both point to this paragraph.</text:p>
+    <text:p text:style-name="p4">See the <text:a xlink:type="simple" xlink:href="http://www.python.org">Python</text:a> home page or the <text:a xlink:type="simple" xlink:href="http://mail.python.org/pipermail/doc-sig/">archive</text:a> for info.</text:p>
+    <text:p text:style-name="p5"><text:a xlink:type="simple" xlink:href="jdoe@example.com">Write to me</text:a> with your questions.</text:p>
+    <text:p text:style-name="p6">This <text:a xlink:type="simple" xlink:href="underscore_">link</text:a> refers to a file called <text:span text:style-name="span1">underscore_</text:span>.</text:p>
   </text:section>
 </office:text>
   </office:body>

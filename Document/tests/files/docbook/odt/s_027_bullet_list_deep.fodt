@@ -14,7 +14,7 @@
     <style:font-face style:name="Arial" svg:font-family="Arial" style:font-family-generic="swiss" style:font-pitch="variable"/>
     <style:font-face style:name="DejaVu Sans" svg:font-family="'DejaVu Sans'" style:font-family-generic="system" style:font-pitch="variable"/>
     <style:font-face style:name="serif" svg:font-family="serif" style:font-family-generic="system" style:font-pitch="variable"/>
-    <style:font-face style:name="DejaVuSansMono" svg:font-family="DejaVuSansMono" style:font-family-generic="system" style:font-pitch="variable"/>
+    <style:font-face style:name="sans-serif" svg:font-family="sans-serif" style:font-family-generic="system" style:font-pitch="variable"/>
   </office:font-face-decls>
   <office:styles>
     <style:default-style style:family="graphic">
@@ -296,9 +296,55 @@
       <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="10mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm solid #000000" fo:border-right="0mm solid #000000" fo:border-bottom="0mm solid #000000" fo:border-left="0mm solid #000000"/>
       <style:text-properties fo:font-size="20mm" style:font-size-asian="20mm" style:font-size-complex="20mm" style:font-name="serif" style:font-name-asian="serif" style:font-name-complex="serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#0000ff"/>
     </style:style>
+    <text:list-style style:name="l1">
+      <text:list-level-style-bullet text:level="1" text:style-name="list-level-style-bullet1" style:num-suffix="." text:bullet-char="⚫">
+        <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="15mm" fo:text-indent="-5mm" fo:margin-left="15mm"/>
+        </style:list-level-properties>
+      </text:list-level-style-bullet>
+      <text:list-level-style-bullet text:level="2" text:style-name="list-level-style-bullet2" style:num-suffix="." text:bullet-char="⚫">
+        <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="30mm" fo:text-indent="-5mm" fo:margin-left="30mm"/>
+        </style:list-level-properties>
+      </text:list-level-style-bullet>
+    </text:list-style>
+    <style:style style:family="text" style:name="list-level-style-bullet1">
+      <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
+    </style:style>
     <style:style style:family="paragraph" style:name="p1">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="0mm" fo:margin-left="0mm" fo:border-top="0.35277777813761mm solid #ff0000" fo:border-right="0.35277777813761mm solid #ff0000" fo:border-bottom="0.35277777813761mm solid #ff0000" fo:border-left="0.35277777813761mm solid #ff0000"/>
-      <style:text-properties fo:font-size="3.5277777813761mm" style:font-size-asian="3.5277777813761mm" style:font-size-complex="3.5277777813761mm" style:font-name="DejaVuSansMono" style:font-name-asian="DejaVuSansMono" style:font-name-complex="DejaVuSansMono" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#ffc0c0" fo:background-color="#f5f5f6"/>
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p2">
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p3">
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:family="text" style:name="list-level-style-bullet2">
+      <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p4">
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p5">
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p6">
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p7">
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p8">
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
   </office:automatic-styles>
   <office:master-styles>
@@ -306,9 +352,29 @@
   </office:master-styles>
   <office:body>
     <office:text><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
-  <text:section text:name="ezcDocumentSectionId1">
-    <text:h text:outline-level="1" text:style-name="h1">Some listing</text:h>
-    <text:p text:style-name="p1"> <text:s text:c="3"/>if ( $foo == $bar )<text:line-break/>{<text:line-break/> <text:s text:c="3"/>$foo = 123;<text:line-break/> <text:s text:c="1"/>$bar = 23;<text:line-break/><text:tab/>$tab = 1;<text:line-break/><text:tab/><text:tab/>$tab2 = 2;<text:line-break/>}</text:p>
+  <text:section text:name="bullet_list">
+    
+    <text:h text:outline-level="1" text:style-name="h1">Bullet list</text:h>
+    <text:list text:style-name="l1" xml:id="list8">
+      <text:list-item>
+        <text:p text:style-name="p1">This is the first bullet list item.  The blank line above the first list item is required; blank lines between list items (such as below this paragraph) are optional.</text:p>
+      </text:list-item>
+      <text:list-item>
+        <text:p text:style-name="p2">This is the first paragraph in the second item in the list.</text:p>
+        <text:p text:style-name="p3">This is the second paragraph in the second item in the list. The blank line above this paragraph is required.  The left edge of this paragraph lines up with the paragraph above, both indented relative to the bullet.</text:p>
+        <text:list>
+          <text:list-item>
+            <text:p text:style-name="p4">This is a sublist.  The bullet lines up with the left edge of the text blocks above.  A sublist is a new list so requires a blank line above and below.</text:p>
+            <text:p text:style-name="p5">A sublist may of course have multiple paragraphs, too.</text:p>
+          </text:list-item>
+        </text:list>
+        <text:p text:style-name="p6">And after a sublist there may also follow more paragraphs.</text:p>
+      </text:list-item>
+      <text:list-item>
+        <text:p text:style-name="p7">This is the third item of the main list.</text:p>
+      </text:list-item>
+    </text:list>
+    <text:p text:style-name="p8">This paragraph is not part of the list.</text:p>
   </text:section>
 </office:text>
   </office:body>
