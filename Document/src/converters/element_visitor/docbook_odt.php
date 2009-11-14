@@ -61,7 +61,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'literal'           => $inline,
                 'ulink'             => new ezcDocumentDocbookToOdtUlinkHandler( $styler ),
                 // 'link'              => new ezcDocumentDocbookToOdtInternalLinkHandler(),
-                // 'anchor'            => new ezcDocumentDocbookToOdtAnchorHandler(),
+                'anchor'            => new ezcDocumentDocbookToOdtAnchorHandler( $styler ),
                 'inlinemediaobject' => $media = new ezcDocumentDocbookToOdtMediaObjectHandler( $styler ),
                 'mediaobject'       => $media,
                 // 'blockquote'        => new ezcDocumentDocbookToOdtBlockquoteHandler(),
