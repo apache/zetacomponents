@@ -274,7 +274,7 @@ class ezcDocumentOdtPcssConvertersTest extends ezcTestCase
      */
     public function testConvertMiscFontProperty( $styleValue, $expectedAttributes )
     {
-        $converter = new ezcDocumentOdtPcssFontConverter();
+        $converter = new ezcDocumentOdtPcssFontNameConverter();
         $converter->convert( $this->domElement, 'font-name', $styleValue );
 
         $this->assertAttributesCorrect(
