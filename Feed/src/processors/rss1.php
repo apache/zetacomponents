@@ -82,6 +82,14 @@ class ezcFeedRss1 extends ezcFeedProcessor implements ezcFeedParser
             return false;
         }
 
+        $namespaceUri = $xml->documentElement->lookupNamespaceURI( null );
+
+        // RSS 0.90
+        if ( $namespaceUri === "http://channel.netscape.com/rdf/simple/0.9/" )
+        {
+            return false;
+        }
+
         return true;
     }
 

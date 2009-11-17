@@ -484,5 +484,47 @@ class ezcFeedTest extends ezcFeedTestCase
         // assert that the enclosure element is inside the generated XML feed
         $this->assertEquals( true, strpos( $xml, '<enclosure url="http://example.com/enclosure.mp3"/>' ) !== false );
     }
+
+    /**
+     * Test for issue #15625: RSS 0.90 feeds are parsed as RSS 1.0 feeds
+     * It tests if when parsing an RSS 0.90 feed the parser throws an ezcFeedParseErrorException
+     */	
+    public function testParseRss090()
+    {
+        try
+        {
+            $xml = <<<EOT
+<?xml version="1.0"?>
+<rdf:RDF
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns="http://channel.netscape.com/rdf/simple/0.9/">
+
+  <channel>
+    <title>Mozilla Dot Org</title>
+    <link>http://www.mozilla.org</link>
+    <description>the Mozilla Organization
+      web site</description>
+  </channel>
+
+  <image>
+    <title>Mozilla</title>
+    <url>http://www.mozilla.org/images/moz.gif</url>
+    <link>http://www.mozilla.org</link>
+  </image>
+
+  <item>
+    <title>New Status Updates</title>
+    <link>http://www.mozilla.org/status/</link>
+  </item>
+</rdf:RDF>
+EOT;
+
+            $feed = ezcFeed::parseContent( $xml );
+            $this->fail( "Expected exception was not thrown." );
+        }
+        catch ( ezcFeedParseErrorException $e )
+        {
+        }
+    }
 }
 ?>
