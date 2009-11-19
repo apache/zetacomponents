@@ -1,3 +1,13 @@
+1.0.8 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #15380: iconv notice in Zend_Search_Lucene backend.
+- Fixed issue #15381: Another iconv notice in Zend_Search_Lucene backend.
+- Fixed issue #15382: Zend_Search_Lucene->deleteById did not really remove the
+  entry because Zend_Search_Lucene wouldn't find the item by just the ID.
+  Workaround added.
+
+
 1.0.7 - Monday 09 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

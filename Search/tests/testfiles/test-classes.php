@@ -156,4 +156,28 @@ class ezcTestIgnoreWriteStreamFilter
         return PSFS_PASS_ON;
     }
 }
+
+class Document implements ezcBasePersistable
+{
+    public function __construct( $id = null, $string = null )
+    {
+        $this->id     = $id;
+        $this->string = $string;
+    }
+
+    public function getState()
+    {
+        return array(
+            'id'    => $this->id,
+            'title' => $this->string,
+            'body'  => $this->string,
+        );
+    }
+
+    public function setState( array $state )
+    {
+        $this->id    = $state['id'];
+        $this->title = $state['title'];
+    }
+}
 ?>

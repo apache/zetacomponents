@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<document>
+    <field type="id">id</field>
+    <field type="string" boost="2">title</field>
+    <field inResult="false" type="text">body</field>
+</document>

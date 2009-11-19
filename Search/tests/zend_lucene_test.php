@@ -165,6 +165,26 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
         self::assertEquals( 'This is an article to test', $r->documents[$a->id]->document->summary );
     }
 
+    // test for bug #15832
+    public function testUpdateDocument2()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $session->index( new Document( 1, 'Test' ) );
+        $session->update( new Document( 1, 'Something else' ) );
+
+        $session->index( new Document( 2, 'Test' ) );
+
+        $queryBuilder = new ezcSearchQueryBuilder();
+        $query = $session->createFindQuery( 'Document' );
+        $queryBuilder->parseSearchQuery( $query, 'Test', array( 'title', 'body' ) );
+        $r = $session->find( $query );
+
+        self::assertEquals( 2, $r->documents[2]->document->id );
+        self::assertEquals( 'Test', $r->documents[2]->document->title );
+        self::assertEquals( 1, $r->resultCount );
+    }
+
     public function testCreateFindQuery1()
     {
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );

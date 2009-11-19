@@ -63,6 +63,9 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
         {
             throw new ezcSearchCanNotConnectException( 'zendlucene', $location );
         }
+
+        // Set proper default encoding for query parser
+        Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding( 'UTF-8' );
     }
 
     /**
@@ -510,7 +513,7 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
                         break;
 
                     default:
-                        $doc->addField( Zend_Search_Lucene_Field::Text( $field->field, $value ) );
+                        $doc->addField( Zend_Search_Lucene_Field::Text( $field->field, $value, 'UTF-8' ) );
                 }
             }
         }
@@ -547,7 +550,7 @@ class ezcSearchZendLuceneHandler implements ezcSearchHandler, ezcSearchIndexHand
     {
         $idProperty = $definition->idProperty;
         $fieldName = $this->mapFieldType( $definition->fields[$idProperty]->field, $definition->fields[$idProperty]->type );
-        $res = $this->search( "{$fieldName}:$id" );
+        $res = $this->search( "ezcsearch_type:{$definition->documentType} AND {$fieldName}:$id" );
         if ( count( $res ) == 1 )
         {
             $this->connection->delete( $res[0]->id );
