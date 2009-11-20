@@ -67,6 +67,15 @@ class ezcDocumentPdfDefaultTableColumnWidthCalculator extends ezcDocumentPdfTabl
             $textFactors[$nr] /= $sum;
         }
 
+        $textFactors = array_map( 'sqrt', $textFactors );
+
+        // Normalize values
+        $sum = array_sum( $textFactors );
+        foreach ( $textFactors as $nr => $factor )
+        {
+            $textFactors[$nr] /= $sum;
+        }
+
         return $textFactors;
     }
 }

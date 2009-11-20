@@ -35,6 +35,9 @@ class ezcDocumentPdfTableRendererTests extends ezcDocumentPdfTestCase
             array( dirname( __FILE__ ) . '/../files/pdf/tables_with_list.xml' ),
             array( dirname( __FILE__ ) . '/../files/pdf/stacked_table.xml' ),
             array( dirname( __FILE__ ) . '/../files/pdf/wrapped_table.xml' ),
+            array( dirname( __FILE__ ) . '/../files/pdf/irregular_tables_1.xml' ),
+            array( dirname( __FILE__ ) . '/../files/pdf/irregular_tables_2.xml' ),
+            array( dirname( __FILE__ ) . '/../files/pdf/irregular_tables_3.xml' ),
         );
     }
 
