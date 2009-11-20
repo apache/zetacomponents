@@ -28,40 +28,22 @@ class ezcDocumentPdfTableRendererTests extends ezcDocumentPdfTestCase
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public function testRenderSimpleTables()
+    public static function getTableDocuments()
     {
-        $this->renderFullDocument(
-            dirname( __FILE__ ) . '/../files/pdf/simple_tables.xml',
-            __CLASS__ . '_' . __FUNCTION__ . '.svg',
-            array()
+        return array(
+            array( dirname( __FILE__ ) . '/../files/pdf/simple_tables.xml' ),
+            array( dirname( __FILE__ ) . '/../files/pdf/tables_with_list.xml' ),
+            array( dirname( __FILE__ ) . '/../files/pdf/stacked_table.xml' ),
+            array( dirname( __FILE__ ) . '/../files/pdf/wrapped_table.xml' ),
         );
     }
 
-    public function testRenderTableWithList()
+    /**
+     * @dataProvider getTableDocuments
+     */
+    public function testRenderTables( $file )
     {
-        $this->renderFullDocument(
-            dirname( __FILE__ ) . '/../files/pdf/tables_with_list.xml',
-            __CLASS__ . '_' . __FUNCTION__ . '.svg',
-            array()
-        );
-    }
-
-    public function testRenderStackedTable()
-    {
-        $this->renderFullDocument(
-            dirname( __FILE__ ) . '/../files/pdf/stacked_table.xml',
-            __CLASS__ . '_' . __FUNCTION__ . '.svg',
-            array()
-        );
-    }
-
-    public function testRenderPageWrappedTable()
-    {
-        $this->renderFullDocument(
-            dirname( __FILE__ ) . '/../files/pdf/wrapped_table.xml',
-            __CLASS__ . '_' . __FUNCTION__ . '.svg',
-            array()
-        );
+        $this->renderFullDocument( $file, __CLASS__ . '_' . basename( $file, '.xml' ) . '.svg', array() );
     }
 }
 
