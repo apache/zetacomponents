@@ -13,7 +13,7 @@
     </blockquote>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="test.png" width="256" depth="23" align=" right"/>
+        <imagedata fileref="images/heart.png" width="256" depth="23" align=" right"/>
       </imageobject>
       <textobject> Some alternative text.</textobject>
       <caption>
@@ -25,7 +25,7 @@
     </blockquote>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="test.png" width="256" depth="23" align=" right"/>
+        <imagedata fileref="images/heart.png" width="256" depth="23" align=" right"/>
       </imageobject>
       <textobject> Some alternative text.</textobject>
     </mediaobject>
