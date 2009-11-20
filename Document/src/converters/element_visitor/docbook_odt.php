@@ -98,8 +98,8 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 // @TODO: Need to handle these in a way
                 'blockquote'        => $ignore,
                 'attribution'       => $ignore,
-                'variablelist'      => $ignore,
-                'varlistentry'      => $ignore,
+                'variablelist'      => $deepIgnore = new ezcDocumentDocbookToOdtIgnoreHandler( $styler, true ),
+                'varlistentry'      => $deepIgnore,
             )
         );
     }

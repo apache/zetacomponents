@@ -19,6 +19,28 @@
 class ezcDocumentDocbookToOdtIgnoreHandler extends ezcDocumentDocbookToOdtBaseHandler
 {
     /**
+     * If child elements should also be ignored. 
+     * 
+     * @var bool
+     */
+    protected $deepIgnore;
+
+    /**
+     * Creates a new ignore handler.
+     *
+     * If $deepIgnore is set to true, child elements of the ignored element 
+     * will also not be visited. 
+     * 
+     * @param ezcDocumentOdtStyler $styler
+     * @param bool $deepIgnore 
+     */
+    public function __construct( ezcDocumentOdtStyler $styler, $deepIgnore = false )
+    {
+        parent::__construct( $styler );
+        $this->deepIgnore = $deepIgnore;
+    }
+
+    /**
      * Handle a node
      *
      * Handle / transform a given node, and return the result of the
@@ -31,7 +53,11 @@ class ezcDocumentDocbookToOdtIgnoreHandler extends ezcDocumentDocbookToOdtBaseHa
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        return $converter->visitChildren( $node, $root );
+        if ( !$this->deepIgnore )
+        {
+            return $converter->visitChildren( $node, $root );
+        }
+        return $root;
     }
 }
 
