@@ -47,49 +47,77 @@ class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseH
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        if ( $node->localName === 'title' )
+        switch ( $node->localName )
         {
-            $h = $root->appendChild(
-                $root->ownerDocument->createElementNS(
-                    ezcDocumentOdt::NS_ODT_TEXT,
-                    'text:h'
-                )
-            );
-            $h->setAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'text:outline-level',
-                $this->level
-            );
-
-            $this->styler->applyStyles( $node, $h );
-
-            $converter->visitChildren( $node, $h );
-        }
-        else
-        {
-            ++$this->level;
-
-            $section = $root->appendChild(
-                $root->ownerDocument->createElementNS(
-                    ezcDocumentOdt::NS_ODT_TEXT,
-                    'text:section'
-                )
-            );
-            $section->setAttributeNS(
-                ezcDocumentOdt::NS_ODT_TEXT,
-                'text:name',
-                ( $node->hasAttribute( 'ID' )
-                    ? $node->getAttribute( 'ID' )
-                    : $this->generateId()
-                )
-            );
-            
-            $converter->visitChildren( $node, $section );
-
-            --$this->level;
+            case 'section':
+                $this->handleSection( $converter, $node, $root );
+                break;
+            case 'title':
+                $this->handleTitle( $converter, $node, $root );
+                break;
+            case 'sectioninfo':
+                // @TODO
+                break;
         }
 
         return $root;
+    }
+
+    /**
+     * Handles the <title/> element.
+     * 
+     * @param ezcDocumentElementVisitorConverter $converter 
+     * @param DOMElement $node 
+     * @param mixed $root
+     */
+    protected function handleTitle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
+    {
+        $h = $root->appendChild(
+            $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'text:h'
+            )
+        );
+        $h->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_TEXT,
+            'text:outline-level',
+            $this->level
+        );
+
+        $this->styler->applyStyles( $node, $h );
+
+        $converter->visitChildren( $node, $h );
+    }
+
+    /**
+     * Handles the <section/> element.
+     * 
+     * @param ezcDocumentElementVisitorConverter $converter 
+     * @param DOMElement $node 
+     * @param mixed $root
+     */
+    protected function handleSection( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
+    {
+        ++$this->level;
+
+        $section = $root->appendChild(
+            $root->ownerDocument->createElementNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'text:section'
+            )
+        );
+        $section->setAttributeNS(
+            ezcDocumentOdt::NS_ODT_TEXT,
+            'text:name',
+            ( $node->hasAttribute( 'ID' )
+                ? $node->getAttribute( 'ID' )
+                : $this->generateId()
+            )
+        );
+        
+        $converter->visitChildren( $node, $section );
+
+        --$this->level;
     }
 
     /**

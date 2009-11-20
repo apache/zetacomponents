@@ -62,9 +62,9 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
             'docbook' => array(
                 'article'           => $ignore = new ezcDocumentDocbookToOdtIgnoreHandler( $styler ),
                 'book'              => $ignore,
-                // @TODO: Need to find a way to handle the meta data.
-                'sectioninfo'       => $ignore,
                 'section'           => $section = new ezcDocumentDocbookToOdtSectionHandler( $styler ),
+                // @TODO: Need to find a way to handle the meta data.
+                'sectioninfo'       => $section,
                 'title'             => $section,
                 'para'              => $paragraph = new ezcDocumentDocbookToOdtParagraphHandler( $styler ),
                 'emphasis'          => $inline = new ezcDocumentDocbookToOdtInlineHandler( $styler ),
