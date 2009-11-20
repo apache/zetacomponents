@@ -45,6 +45,7 @@ class ezcDbSchemaPgsqlReader extends ezcDbSchemaCommonSqlReader implements ezcDb
        
         'char' => 'text',
         'varchar' => 'text',
+        'character' => 'text',
         'binary' => 'blob',
         'varbinary' => 'blob',
         'tinyblob' => 'blob',

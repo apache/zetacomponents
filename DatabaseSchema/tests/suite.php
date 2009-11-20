@@ -32,6 +32,8 @@ require_once 'persistent_test.php';
 
 require_once 'custom_class_test.php';
 
+require_once 'oracle_nodb_test.php';
+
 /**
  * @package DatabaseSchema
  * @subpackage Tests
@@ -83,6 +85,8 @@ class ezcDatabaseSchemaSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDatabaseSchemaPersistentTest::suite() );
         $this->addTest( ezcDatabaseSchemaCustomClassesTest::suite() );
+
+        $this->addTest( ezcDatabaseSchemaOracleNoDbTest::suite() );
     }
 
     public static function suite()

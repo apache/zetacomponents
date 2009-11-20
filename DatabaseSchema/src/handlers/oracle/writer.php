@@ -17,6 +17,13 @@
 class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbSchemaDiffDbWriter
 {
     /**
+     * Constant for the maximum identifier length.
+     *
+     * @var int
+     */
+    const IDENTIFIER_MAX_LENGTH = 30;
+
+    /**
      * Contains a type map from DbSchema types to Oracle native types.
      *
      * @var array
@@ -165,38 +172,41 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         $fieldPos = $result['field_pos'];
 
         // emulation of autoincrement through adding sequence, trigger and constraint
-        $oldName = "{$tableName}_{$fieldPos}";
-        $sequence = $db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$oldName}_seq'" )->fetchAll();
+        $oldName = $this->generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
+        $oldNameTrigger = $this->generateSuffixCompositeIdentName( $tableName, $fieldPos, "trg" );
+        $sequence = $db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$oldName}'" )->fetchAll();
         if ( count( $sequence) > 0  )
         {
             // assuming that if the seq exists, the trigger exists too
-            $db->query( "DROP SEQUENCE \"{$oldName}_seq\"" );
-            $db->query( "DROP TRIGGER \"{$oldName}_trg\"" );
+            $db->query( "DROP SEQUENCE \"{$oldName}\"" );
+            $db->query( "DROP TRIGGER \"{$oldNameTrigger}\"" );
         }
         // --END--
 
         // New sequence names, using field names
-        $newName = "{$tableName}_{$autoIncrementFieldName}";
+        $newName = $this->generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
+        $newNameTrigger = $this->generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
         // Emulation of autoincrement through adding sequence, trigger and constraint
-        $sequences = $db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$newName}_seq'" )->fetchAll();
+        $sequences = $db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$newName}'" )->fetchAll();
         if ( count( $sequences ) > 0  )
         {
-            $db->query( "DROP SEQUENCE \"{$newName}_seq\"" );
+            $db->query( "DROP SEQUENCE \"{$newName}\"" );
         }
 
-        $db->exec( "CREATE SEQUENCE \"{$newName}_seq\" start with 1 increment by 1 nomaxvalue" );
-        $db->exec( "CREATE OR REPLACE TRIGGER \"{$newName}_trg\" ".
+        $db->exec( "CREATE SEQUENCE \"{$newName}\" start with 1 increment by 1 nomaxvalue" );
+        $db->exec( "CREATE OR REPLACE TRIGGER \"{$newNameTrigger}\" ".
                                   "before insert on \"{$tableName}\" for each row ".
                                   "begin ".
-                                  "select \"{$newName}_seq\".nextval into :new.\"{$autoIncrementFieldName}\" from dual; ".
+                                  "select \"{$newName}\".nextval into :new.\"{$autoIncrementFieldName}\" from dual; ".
                                   "end;" );
 
-        $constraint = $db->query( "SELECT constraint_name FROM user_cons_columns WHERE constraint_name = '{$tableName}_pkey'" )->fetchAll();
+        $constraintName = $this->generateSuffixedIdentName( array( $tableName ), "pkey" );
+        $constraint = $db->query( "SELECT constraint_name FROM user_cons_columns WHERE constraint_name = '{$constraintName}'" )->fetchAll();
         if ( count( $constraint) > 0  )
         {
-            $db->query( "ALTER TABLE \"$tableName\" DROP CONSTRAINT \"{$tableName}_pkey\"" );
+            $db->query( "ALTER TABLE \"$tableName\" DROP CONSTRAINT \"{$constraintName}\"" );
         }
-        $db->exec( "ALTER TABLE \"{$tableName}\" ADD CONSTRAINT \"{$tableName}_pkey\" PRIMARY KEY ( \"{$autoIncrementFieldName}\" )" );
+        $db->exec( "ALTER TABLE \"{$tableName}\" ADD CONSTRAINT \"{$constraintName}\" PRIMARY KEY ( \"{$autoIncrementFieldName}\" )" );
         $this->context['skip_primary'] = true;
     }
 
@@ -294,13 +304,16 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
 
             if ( $fieldDefinition->autoIncrement && !$this->context['skip_primary'] )
             {
-                $autoincrementSQL[] = "CREATE SEQUENCE \"{$tableName}_{$fieldName}_seq\" start with 1 increment by 1 nomaxvalue";
-                $autoincrementSQL[] = "CREATE OR REPLACE TRIGGER \"{$tableName}_{$fieldName}_trg\" ".
+                $sequenceName = $this->generateSuffixCompositeIdentName( $tableName, $fieldName, "seq" );
+                $triggerName = $this->generateSuffixCompositeIdentName( $tableName, $fieldName, "trg" );
+                $constraintName = $this->generateSuffixedIdentName( array( $tableName ), "pkey" );
+                $autoincrementSQL[] = "CREATE SEQUENCE \"{$sequenceName}\" start with 1 increment by 1 nomaxvalue";
+                $autoincrementSQL[] = "CREATE OR REPLACE TRIGGER \"{$triggerName}\" ".
                                           "before insert on \"{$tableName}\" for each row ".
                                           "begin ".
-                                          "select \"{$tableName}_{$fieldName}_seq\".nextval into :new.\"{$fieldName}\" from dual; ".
+                                          "select \"{$sequenceName}\".nextval into :new.\"{$fieldName}\" from dual; ".
                                           "end;";
-                $autoincrementSQL[] = "ALTER TABLE \"{$tableName}\" ADD CONSTRAINT \"{$tableName}_pkey\" PRIMARY KEY ( \"{$fieldName}\" )";
+                $autoincrementSQL[] = "ALTER TABLE \"{$tableName}\" ADD CONSTRAINT \"{$constraintName}\" PRIMARY KEY ( \"{$fieldName}\" )";
                 $this->context['skip_primary'] = true;
             }
             $fieldCounter++;
@@ -321,6 +334,45 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         {
             $fieldsSQL[] = $this->generateAddIndexSql( $tableName, $indexName, $indexDefinition );
         }
+    }
+
+    /**
+     * Generate composite identifier name for sequence or triggers and looking for oracle 30 chars ident restriction.
+     * 
+     * @param string $tableName
+     * @param string $fieldName
+     * @param string $suffix
+     * @return string
+     */
+    protected function generateSuffixCompositeIdentName( $tableName, $fieldName, $suffix )
+    {
+        return $this->generateSuffixedIdentName( array( $tableName, $fieldName ), $suffix );
+    }
+
+    /**
+     * Generate single identifier name for constraints for example obeying oracle 30 chars ident restriction.
+     * 
+     * @param array $identNames
+     * @param string $suffix
+     * @return string
+     */
+    protected function generateSuffixedIdentName( array $identNames, $suffix )
+    {
+        $ident = implode( "_", $identNames ) . "_" . $suffix;
+        $i = 0;
+        $last = -1;
+
+        while ( strlen( $ident ) > self::IDENTIFIER_MAX_LENGTH )
+        {
+            if ( strlen( $identNames[$i] ) > 1 || $last == $i )
+            {
+                $identNames[$i] = substr( $identNames[$i], 0, strlen( $identNames[$i] ) - 1 );
+                $last = $i;
+            }
+            $i = ( $i + 1 ) % count( $identNames );
+            $ident = implode( "_", $identNames ) . "_" . $suffix;
+        }
+        return $ident;
     }
 
     /**
