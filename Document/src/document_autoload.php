@@ -159,6 +159,7 @@ return array(
     'ezcDocumentDocbookToOdtLiteralLayoutHandler'        => 'Document/converters/element_visitor/docbook/odt/element_handlers/literal_layout.php',
     'ezcDocumentDocbookToOdtMappingHandler'              => 'Document/converters/element_visitor/docbook/odt/element_handlers/mapper.php',
     'ezcDocumentDocbookToOdtMediaObjectHandler'          => 'Document/converters/element_visitor/docbook/odt/element_handlers/media_object.php',
+    'ezcDocumentDocbookToOdtPageBreakHandler'            => 'Document/converters/element_visitor/docbook/odt/element_handlers/page_break.php',
     'ezcDocumentDocbookToOdtParagraphHandler'            => 'Document/converters/element_visitor/docbook/odt/element_handlers/paragraph.php',
     'ezcDocumentDocbookToOdtSectionHandler'              => 'Document/converters/element_visitor/docbook/odt/element_handlers/section.php',
     'ezcDocumentDocbookToOdtTableHandler'                => 'Document/converters/element_visitor/docbook/odt/element_handlers/table.php',

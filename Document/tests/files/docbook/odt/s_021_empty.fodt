@@ -295,7 +295,7 @@
     <style:master-page style:name="Standard" style:page-layout-name="Default"/>
   </office:master-styles>
   <office:body>
-    <office:text>
+    <office:text text:use-soft-page-breaks="true">
       <text:sequence-decls>
         <text:sequence-decl text:display-outline-level="0" text:name="Illustration"/>
         <text:sequence-decl text:display-outline-level="0" text:name="Table"/>

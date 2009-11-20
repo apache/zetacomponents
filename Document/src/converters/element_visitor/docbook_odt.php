@@ -85,7 +85,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'literallayout'     => new ezcDocumentDocbookToOdtLiteralLayoutHandler( $styler ),
                 'footnote'          => new ezcDocumentDocbookToOdtFootnoteHandler( $styler ),
                 'comment'           => new ezcDocumentDocbookToOdtCommentHandler( $styler ),
-                // 'beginpage'         => $mapper,
+                'beginpage'         => new ezcDocumentDocbookToOdtPageBreakHandler( $styler ),
                 'entry'             => $table = new ezcDocumentDocbookToOdtTableHandler( $styler ),
                 'table'             => $table,
                 'tbody'             => $table,

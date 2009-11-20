@@ -312,7 +312,7 @@
     <style:master-page style:name="Standard" style:page-layout-name="Default"/>
   </office:master-styles>
   <office:body>
-    <office:text><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
+    <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:p text:style-name="p1">Here is a footnote<text:note text:id="ftn1" text:note-class="footnote"><text:note-citation text:label="1">1</text:note-citation><text:note-body><text:p text:style-name="p2">Test footnote 1. Auto numbered.</text:p></text:note-body></text:note>. Here is an end note<text:note text:id="ftni" text:note-class="footnote"><text:note-citation text:label="i">i</text:note-citation><text:note-body><text:p text:style-name="p3">This is an end note 1.</text:p></text:note-body></text:note>. And a not auto-numbered foot note<text:note text:id="ftnx" text:note-class="footnote"><text:note-citation text:label="x">x</text:note-citation><text:note-body><text:p text:style-name="p4">Test footnote x. Not auto-numbered.</text:p></text:note-body></text:note></text:p>
 </office:text>
   </office:body>
