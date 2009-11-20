@@ -36,6 +36,8 @@ class ezcDocumentOdtStyleParagraphPropertyGenerator extends ezcDocumentOdtStyleP
                 'text-indent',
                 'margin',
                 'border',
+                // Custom, @see ezcDocumentOdtPcssParagraphStylePreprocessor
+                'break-before',
             )
         );
     }

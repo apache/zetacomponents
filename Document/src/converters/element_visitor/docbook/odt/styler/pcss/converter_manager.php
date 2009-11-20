@@ -48,6 +48,7 @@ class ezcDocumentOdtPcssConverterManager extends ArrayObject
         $this['text-indent']      = $default;
         $this['margin']           = new ezcDocumentOdtPcssMarginConverter();
         $this['border']           = new ezcDocumentOdtPcssBorderConverter();
+        $this['break-before']     = $default;
     }
 
     /**

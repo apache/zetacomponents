@@ -301,7 +301,7 @@
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p2">
-      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff" fo:break-before="page"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
   </office:automatic-styles>

@@ -255,6 +255,7 @@ return array(
     'ezcDocumentOdtPcssFontStylePreprocessor'            => 'Document/converters/element_visitor/docbook/odt/styler/pcss/preprocessor/font.php',
     'ezcDocumentOdtPcssListStylePreprocessor'            => 'Document/converters/element_visitor/docbook/odt/styler/pcss/preprocessor/list.php',
     'ezcDocumentOdtPcssMarginConverter'                  => 'Document/converters/element_visitor/docbook/odt/styler/pcss/converter/margin.php',
+    'ezcDocumentOdtPcssParagraphStylePreprocessor'       => 'Document/converters/element_visitor/docbook/odt/styler/pcss/preprocessor/paragraph.php',
     'ezcDocumentOdtPcssPreprocessor'                     => 'Document/converters/element_visitor/docbook/odt/styler/pcss/preprocessor.php',
     'ezcDocumentOdtPcssStyler'                           => 'Document/converters/element_visitor/docbook/odt/styler/pcss.php',
     'ezcDocumentOdtPcssTextDecorationConverter'          => 'Document/converters/element_visitor/docbook/odt/styler/pcss/converter/text_decoration.php',
