@@ -28,6 +28,16 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
     protected $textProcessor;
 
     /**
+     * Stores the base dir to be used during a conversion process.
+     *
+     * This is either the base dir of the document converted, if set, or the 
+     * current working dir, if a document from string is processed.
+     * 
+     * @var string
+     */
+    private $docBaseDir;
+
+    /**
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
@@ -64,7 +74,6 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'anchor'            => new ezcDocumentDocbookToOdtAnchorHandler( $styler ),
                 'inlinemediaobject' => $media = new ezcDocumentDocbookToOdtMediaObjectHandler( $styler ),
                 'mediaobject'       => $media,
-                // 'blockquote'        => new ezcDocumentDocbookToOdtBlockquoteHandler(),
                 'itemizedlist'      => $list = new ezcDocumentDocbookToOdtListHandler( $styler ),
                 'orderedlist'       => $list,
                 'listitem'          => $mapper = new ezcDocumentDocbookToOdtMappingHandler( $styler ),
@@ -75,10 +84,8 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'caution'           => $paragraph,
                 'literallayout'     => new ezcDocumentDocbookToOdtLiteralLayoutHandler( $styler ),
                 'footnote'          => new ezcDocumentDocbookToOdtFootnoteHandler( $styler ),
-                // 'comment'           => new ezcDocumentDocbookToOdtCommentHandler(),
+                'comment'           => new ezcDocumentDocbookToOdtCommentHandler( $styler ),
                 // 'beginpage'         => $mapper,
-                // 'variablelist'      => $mapper,
-                // 'varlistentry'      => new ezcDocumentDocbookToOdtDefinitionListEntryHandler(),
                 'entry'             => $table = new ezcDocumentDocbookToOdtTableHandler( $styler ),
                 'table'             => $table,
                 'tbody'             => $table,
@@ -88,6 +95,11 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'td'                => $table,
                 'row'               => $table,
                 'tgroup'            => $ignore,
+                // @TODO: Need to handle these in a way
+                'blockquote'        => $ignore,
+                'attribution'       => $ignore,
+                'variablelist'      => $ignore,
+                'varlistentry'      => $ignore,
             )
         );
     }
@@ -108,12 +120,33 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
 
         $this->options->styler->init( $destination->ownerDocument );
 
+        if ( ( $this->docBaseDir = $source->getPath() ) === null )
+        {
+            $this->docBaseDir = getcwd();
+        }
+        $this->docBaseDir = realpath( $this->docBaseDir );
+
         $destination = $this->visitChildren(
             $docBookDom,
             $destination
         );
 
         return $this->createDocument( $destination );
+    }
+
+    /**
+     * Returns the base dir for the currently converted document.
+     *
+     * The API of this method is not exposed, yet, since it still might change. 
+     * There should be an option to override the value returned here by the 
+     * user, especially for latter usage with ODTs (in contrast to FODTs).
+     * 
+     * @access private
+     * @return string
+     */
+    public function getDocBaseDir()
+    {
+        return $this->docBaseDir;
     }
 
     /**

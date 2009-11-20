@@ -5,7 +5,7 @@
     <title>Complex directives</title>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="mylogo.jpeg"/>
+        <imagedata fileref="images/mylogo.png"/>
       </imageobject>
       <textobject>   My Logo</textobject>
       <caption>
@@ -17,7 +17,7 @@
     </mediaobject>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="larch.png"/>
+        <imagedata fileref="images/red_light.png"/>
       </imageobject>
     </mediaobject>
     <note> This is a paragraph</note>
@@ -29,7 +29,7 @@
     <caution> modify at your own risk!</caution>
     <mediaobject>
       <imageobject>
-        <imagedata fileref="larch.png"/>
+        <imagedata fileref="images/green_light.png"/>
       </imageobject>
     </mediaobject>
   </section>

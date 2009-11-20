@@ -149,6 +149,7 @@ return array(
     'ezcDocumentDocbookToHtmlXsltConverter'              => 'Document/converters/xslt/docbook_html.php',
     'ezcDocumentDocbookToHtmlXsltConverterOptions'       => 'Document/options/converter_docbook_html_xslt.php',
     'ezcDocumentDocbookToOdtAnchorHandler'               => 'Document/converters/element_visitor/docbook/odt/element_handlers/anchor.php',
+    'ezcDocumentDocbookToOdtCommentHandler'              => 'Document/converters/element_visitor/docbook/odt/element_handlers/comment.php',
     'ezcDocumentDocbookToOdtConverter'                   => 'Document/converters/element_visitor/docbook_odt.php',
     'ezcDocumentDocbookToOdtConverterOptions'            => 'Document/options/converter_docbook_odt.php',
     'ezcDocumentDocbookToOdtFootnoteHandler'             => 'Document/converters/element_visitor/docbook/odt/element_handlers/footnote.php',

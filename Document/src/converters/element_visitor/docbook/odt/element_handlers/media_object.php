@@ -16,8 +16,6 @@
  * FODT, only PNG images may be inlined. It is checked, that no other objects 
  * are inlined here.
  *
- * @TODO: For later version: Maybe a tiein with ImageConversion, to inline 
- *        other image types.
  * @TODO: For later versions: Supporting non flat ODT, we can bundle images and 
  *        simply refer to them.
  * @package Document
@@ -48,7 +46,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
     {
         $drawingId = ++$this->counter;
 
-        $imageData = $this->extractAndValidateImageData( $node );
+        $imageData = $this->extractImageData( $node );
 
         $frame = $root->appendChild(
             $root->ownerDocument->createElementNS(
@@ -105,11 +103,30 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
             )
         );
 
+        if ( !file_exists( $imgFile = $converter->getDocBaseDir() . DIRECTORY_SEPARATOR . $imageData->getAttribute( 'fileref' ) ) )
+        {
+            throw new ezcBaseFileNotFoundException(
+                $imgFile,
+                'DocBook referenced image'
+            );
+        }
+        if ( !is_readable( $imgFile ) )
+        {
+            throw new ezcBaseFilePermissionException(
+                $imgFile,
+                ezcBaseFileException::READ
+            );
+        }
+
         $binaryData = $image->appendChild(
             $root->ownerDocument->createElementNS(
                 ezcDocumentOdt::NS_ODT_OFFICE,
                 'office:binary-data',
-                base64_encode( file_get_contents( $imageData->getAttribute( 'fileref' ) ) )
+                base64_encode(
+                    file_get_contents(
+                        $imgFile
+                    )
+                )
             )
         );
 
@@ -123,7 +140,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
      * @param DOMNode $node 
      * @return DOMNode
      */
-    protected function extractAndValidateImageData( DOMNode $node )
+    protected function extractImageData( DOMNode $node )
     {
         $imageDataElems = $node->getElementsByTagName( 'imagedata' );
         if ( $imageDataElems->length !== 1 )
@@ -140,27 +157,6 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
             );
         }
 
-        $fileName = $imageData->getAttribute( 'fileref' );
-        if ( !is_file( $fileName ) )
-        {
-            throw new ezcBaseFileNotFoundException(
-                $fileName,
-                null,
-                'Referenced in "fileref" attribute.'
-            );
-        }
-        if ( !is_readable( $fileName ) )
-        {
-            throw new ezcBaseFilePermissionException(
-                $fileName,
-                ezcBaseFileException::READ,
-                'Referenced in "fileref" attribute.'
-            );
-        }
-
-        // No validation of image type. OOO should be reading all kinds of 
-        // images.
-        
         return $imageData;
     }
 
