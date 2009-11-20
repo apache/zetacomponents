@@ -59,6 +59,8 @@ class ezcDocumentOdtStyleTablePropertyGenerator extends ezcDocumentOdtStylePrope
             $styles
         );
         $this->setFixedAttributes( $prop );
+
+        return $prop;
     }
 
     protected function setFixedAttributes( DOMElement $prop )

@@ -61,6 +61,8 @@ class ezcDocumentOdtStyleTableCellPropertyGenerator extends ezcDocumentOdtStyleP
             $styles
         );
         $this->setFixedAttributes( $prop );
+
+        return $prop;
     }
 
     /**

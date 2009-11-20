@@ -60,6 +60,8 @@ class ezcDocumentOdtStyleListPropertyGenerator extends ezcDocumentOdtStyleProper
         );
 
         $this->createLabelAllignement( $prop, $styles );
+
+        return $prop;
     }
 
     /**

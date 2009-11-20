@@ -57,6 +57,8 @@ class ezcDocumentOdtStyleTableRowPropertyGenerator extends ezcDocumentOdtStylePr
             $prop,
             $styles
         );
+
+        return $prop;
     }
 }
 

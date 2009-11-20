@@ -61,6 +61,8 @@ class ezcDocumentOdtStyleParagraphPropertyGenerator extends ezcDocumentOdtStyleP
             $prop,
             $styles
         );
+
+        return $prop;
     }
 }
 
