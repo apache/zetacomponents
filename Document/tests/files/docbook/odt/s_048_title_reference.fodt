@@ -13,6 +13,8 @@
     <style:font-face style:name="Times New Roman" svg:font-family="'Times New Roman'" style:font-family-generic="roman" style:font-pitch="variable"/>
     <style:font-face style:name="Arial" svg:font-family="Arial" style:font-family-generic="swiss" style:font-pitch="variable"/>
     <style:font-face style:name="DejaVu Sans" svg:font-family="'DejaVu Sans'" style:font-family-generic="system" style:font-pitch="variable"/>
+    <style:font-face style:name="serif" svg:font-family="serif" style:font-family-generic="system" style:font-pitch="variable"/>
+    <style:font-face style:name="sans-serif" svg:font-family="sans-serif" style:font-family-generic="system" style:font-pitch="variable"/>
   </office:font-face-decls>
   <office:styles>
     <style:default-style style:family="graphic">
@@ -290,18 +292,38 @@
       <style:header-style/>
       <style:footer-style/>
     </style:page-layout>
+    <style:style style:family="paragraph" style:name="h1">
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="10mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm solid #000000" fo:border-right="0mm solid #000000" fo:border-bottom="0mm solid #000000" fo:border-left="0mm solid #000000"/>
+      <style:text-properties fo:font-size="20mm" style:font-size-asian="20mm" style:font-size-complex="20mm" style:font-name="serif" style:font-name-asian="serif" style:font-name-complex="serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#0000ff"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p1">
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="h2">
+      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="10mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm solid #000000" fo:border-right="0mm solid #000000" fo:border-bottom="0mm solid #000000" fo:border-left="0mm solid #000000"/>
+      <style:text-properties fo:font-size="15mm" style:font-size-asian="15mm" style:font-size-complex="15mm" style:font-name="DejaVu Sans" style:font-name-asian="DejaVu Sans" style:font-name-complex="DejaVu Sans" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#00ff00"/>
+    </style:style>
+    <style:style style:family="paragraph" style:name="p2">
+      <style:paragraph-properties fo:text-align="center" fo:widows="3" fo:orphans="3" fo:margin-top="3mm" fo:margin-right="0mm" fo:margin-bottom="1mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
+      <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
+    </style:style>
   </office:automatic-styles>
   <office:master-styles>
     <style:master-page style:name="Standard" style:page-layout-name="Default"/>
   </office:master-styles>
   <office:body>
-    <office:text text:use-soft-page-breaks="true">
-      <text:sequence-decls>
-        <text:sequence-decl text:display-outline-level="0" text:name="Illustration"/>
-        <text:sequence-decl text:display-outline-level="0" text:name="Table"/>
-        <text:sequence-decl text:display-outline-level="0" text:name="Text"/>
-        <text:sequence-decl text:display-outline-level="0" text:name="Drawing"/>
-      </text:sequence-decls>
-    </office:text>
+    <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
+  <text:section text:name="title_references">
+    
+    <text:h text:outline-level="1" text:style-name="h1">Title references</text:h>
+    <text:p text:style-name="p1">The text contains references to the <text:reference-ref text:ref-name="subtitle">Subtitle</text:reference-ref> and even to the document title: <text:reference-ref text:ref-name="title_references">Title references</text:reference-ref>.</text:p>
+    <text:section text:name="subtitle">
+      
+      <text:h text:outline-level="2" text:style-name="h2">Subtitle</text:h>
+      <text:p text:style-name="p2">This refernces, like: <text:reference-ref text:ref-name="subtitle">Subtitle</text:reference-ref> may occur multiple times, of course.</text:p>
+    </text:section>
+  </text:section>
+</office:text>
   </office:body>
 </office:document>

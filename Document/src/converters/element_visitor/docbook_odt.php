@@ -70,7 +70,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'emphasis'          => $inline = new ezcDocumentDocbookToOdtInlineHandler( $styler ),
                 'literal'           => $inline,
                 'ulink'             => new ezcDocumentDocbookToOdtUlinkHandler( $styler ),
-                // 'link'              => new ezcDocumentDocbookToOdtInternalLinkHandler(),
+                'link'              => new ezcDocumentDocbookToOdtLinkHandler( $styler ),
                 'anchor'            => new ezcDocumentDocbookToOdtAnchorHandler( $styler ),
                 'inlinemediaobject' => $media = new ezcDocumentDocbookToOdtMediaObjectHandler( $styler ),
                 'mediaobject'       => $media,

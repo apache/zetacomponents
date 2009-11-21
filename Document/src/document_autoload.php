@@ -155,6 +155,7 @@ return array(
     'ezcDocumentDocbookToOdtFootnoteHandler'             => 'Document/converters/element_visitor/docbook/odt/element_handlers/footnote.php',
     'ezcDocumentDocbookToOdtIgnoreHandler'               => 'Document/converters/element_visitor/docbook/odt/element_handlers/ignore.php',
     'ezcDocumentDocbookToOdtInlineHandler'               => 'Document/converters/element_visitor/docbook/odt/element_handlers/inline.php',
+    'ezcDocumentDocbookToOdtLinkHandler'                 => 'Document/converters/element_visitor/docbook/odt/element_handlers/link.php',
     'ezcDocumentDocbookToOdtListHandler'                 => 'Document/converters/element_visitor/docbook/odt/element_handlers/list.php',
     'ezcDocumentDocbookToOdtLiteralLayoutHandler'        => 'Document/converters/element_visitor/docbook/odt/element_handlers/literal_layout.php',
     'ezcDocumentDocbookToOdtMappingHandler'              => 'Document/converters/element_visitor/docbook/odt/element_handlers/mapper.php',
