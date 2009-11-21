@@ -333,7 +333,7 @@
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="line_blocks">
     
-    <text:h text:outline-level="1" text:style-name="h1">Line blocks</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="line_blocks"/>Line blocks</text:h>
     <text:p text:style-name="p1">Lend us a couple of bob till Thursday.<text:line-break/>I'm absolutely skint.<text:line-break/>But I'm expecting a postal order and I can pay you back<text:line-break/>as soon as it comes.<text:line-break/>Love, Ewan.<text:line-break/></text:p>
     <text:p text:style-name="p2">Another one:</text:p>
     <text:p text:style-name="p3">This is a line block. <text:s text:c="1"/>It ends with a blank line.<text:line-break/> <text:s text:c="3"/>New lines begin with a vertical bar ("|").<text:line-break/> <text:s text:c="3"/>Line breaks and initial indent are significant, and preserved.<text:line-break/> <text:s text:c="7"/>Continuation lines are also possible. <text:s text:c="1"/>A long line that is intended<text:line-break/>to wrap should begin with a space in place of the vertical bar.<text:line-break/> <text:s text:c="3"/>The left edge of a continuation line need not be aligned with<text:line-break/>the left edge of the text above it.<text:line-break/></text:p>

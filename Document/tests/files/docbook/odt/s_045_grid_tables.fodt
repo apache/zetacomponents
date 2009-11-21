@@ -1119,7 +1119,7 @@
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="grid_tables">
     
-    <text:h text:outline-level="1" text:style-name="h1">Grid tables</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="grid_tables"/>Grid tables</text:h>
     <table:table table:style-name="table1"><table:table-column/><table:table-column/><table:table-column/>
       
         <table:table-header-rows>

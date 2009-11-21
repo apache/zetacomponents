@@ -380,7 +380,7 @@
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="enumerated_lists">
     
-    <text:h text:outline-level="1" text:style-name="h1">Enumerated lists</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="enumerated_lists"/>Enumerated lists</text:h>
     <text:list text:style-name="l1" xml:id="list10">
       <text:list-item>
         <text:p text:style-name="p1">This is an enumerated list.</text:p>

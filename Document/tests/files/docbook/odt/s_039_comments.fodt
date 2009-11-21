@@ -312,7 +312,7 @@
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="comments">
     
-    <text:h text:outline-level="1" text:style-name="h1">Comments</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="comments"/>Comments</text:h>
     <text:p text:style-name="p1">Different types of comments</text:p>
     <!--This is a comment-->
     <!--_so: is this!

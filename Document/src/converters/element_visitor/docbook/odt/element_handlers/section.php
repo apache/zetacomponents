@@ -83,10 +83,41 @@ class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseH
             'text:outline-level',
             $this->level
         );
+        $this->createRefMark( $h, $node );
 
         $this->styler->applyStyles( $node, $h );
 
         $converter->visitChildren( $node, $h );
+    }
+
+
+    /**
+     * createRefMark 
+     * 
+     * @param mixed $h 
+     * @param mixed $node 
+     * @return void
+     */
+    protected function createRefMark( $h, $node )
+    {
+        $nodeParent = $node->parentNode;
+        if ( $nodeParent !== null
+             && $nodeParent->nodeType === XML_ELEMENT_NODE
+             && ( $nodeParent->hasAttribute( 'id' ) || $nodeParent->hasAttribute( 'ID' ) )
+           )
+        {
+            $ref = $h->appendChild(
+                $h->ownerDocument->createElementNS(
+                    ezcDocumentOdt::NS_ODT_TEXT,
+                    'text:reference-mark'
+                )
+            );
+            $ref->setAttributeNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'text:name',
+                ( $nodeParent->hasAttribute( 'id' ) ? $nodeParent->getAttribute( 'id' ) : $nodeParent->getAttribute( 'ID' ) )
+            );
+        }
     }
 
     /**

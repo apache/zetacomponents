@@ -331,7 +331,7 @@
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="various_types_of_hyperlink_targets">
     
-    <text:h text:outline-level="1" text:style-name="h1">Various types of hyperlink targets</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="various_types_of_hyperlink_targets"/>Various types of hyperlink targets</text:h>
     <text:p text:style-name="p1">Clicking on this internal hyperlink will take us to the <text:a xlink:type="simple" xlink:href="target">target</text:a> below.</text:p>
     <text:p text:style-name="p2">The hyperlink target above points to this paragraph.</text:p>
     <text:p text:style-name="p3">The targets "target1" and "target2" are synonyms; they both point to this paragraph.</text:p>

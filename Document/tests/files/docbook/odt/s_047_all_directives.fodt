@@ -365,7 +365,7 @@
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="all_known_directives">
     
-    <text:h text:outline-level="1" text:style-name="h1">All known directives</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="all_known_directives"/>All known directives</text:h>
     <text:p text:style-name="p1"> Just a note!</text:p>
     <text:p text:style-name="p2"> You might want to use these more!</text:p>
     <text:p text:style-name="p3"> Be careful about this!</text:p>
@@ -382,11 +382,11 @@
     <text:p text:style-name="p8">And you can even inline other RST files.</text:p>
     <text:section text:name="main_title">
       
-      <text:h text:outline-level="2" text:style-name="h2">Main Title</text:h>
+      <text:h text:outline-level="2" text:style-name="h2"><text:reference-mark text:name="main_title"/>Main Title</text:h>
       <text:p text:style-name="p9">Hello world</text:p>
       <text:section text:name="subsection">
         
-        <text:h text:outline-level="3" text:style-name="h3">Subsection</text:h>
+        <text:h text:outline-level="3" text:style-name="h3"><text:reference-mark text:name="subsection"/>Subsection</text:h>
         <text:p text:style-name="p10">A bit more text, which exceeds one line to test for a simple paragraph with more then one line.</text:p>
       </text:section>
     </text:section>

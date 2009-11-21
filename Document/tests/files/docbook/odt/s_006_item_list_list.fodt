@@ -357,7 +357,7 @@
   <office:body>
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="dense_bullet_list">
-    <text:h text:outline-level="1" text:style-name="h1">Dense bullet list</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="dense_bullet_list"/>Dense bullet list</text:h>
     <text:list text:style-name="l1" xml:id="list4">
       <text:list-item>
         <text:p text:style-name="p1">List level 1 should have a recycling sign as bullets from "mark" in DocBook</text:p>

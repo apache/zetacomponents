@@ -348,7 +348,7 @@
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="blockquotes">
     
-    <text:h text:outline-level="1" text:style-name="h1">Blockquotes</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="blockquotes"/>Blockquotes</text:h>
     <text:p text:style-name="p1">This is an ordinary paragraph, introducing a block quote.</text:p>
     
       

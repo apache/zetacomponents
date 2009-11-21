@@ -316,11 +316,11 @@
     <office:text text:use-soft-page-breaks="true"><text:sequence-decls><text:sequence-decl text:display-outline-level="0" text:name="Illustration"/><text:sequence-decl text:display-outline-level="0" text:name="Table"/><text:sequence-decl text:display-outline-level="0" text:name="Text"/><text:sequence-decl text:display-outline-level="0" text:name="Drawing"/></text:sequence-decls>
   <text:section text:name="title_references">
     
-    <text:h text:outline-level="1" text:style-name="h1">Title references</text:h>
+    <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="title_references"/>Title references</text:h>
     <text:p text:style-name="p1">The text contains references to the <text:reference-ref text:ref-name="subtitle">Subtitle</text:reference-ref> and even to the document title: <text:reference-ref text:ref-name="title_references">Title references</text:reference-ref>.</text:p>
     <text:section text:name="subtitle">
       
-      <text:h text:outline-level="2" text:style-name="h2">Subtitle</text:h>
+      <text:h text:outline-level="2" text:style-name="h2"><text:reference-mark text:name="subtitle"/>Subtitle</text:h>
       <text:p text:style-name="p2">This refernces, like: <text:reference-ref text:ref-name="subtitle">Subtitle</text:reference-ref> may occur multiple times, of course.</text:p>
     </text:section>
   </text:section>
