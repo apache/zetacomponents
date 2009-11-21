@@ -25,6 +25,16 @@
 class ezcDocumentDocbookToOdtConverterOptions extends ezcDocumentConverterOptions
 {
     /**
+     * Valid length measures.
+     *
+     * @var array(string)
+     * @access private
+     */
+    public static $validLengthMeasures = array(
+        'cm', 'mm', 'in', 'pt', 'pc', 'px'
+    );
+
+    /**
      * Constructs an object with the specified values.
      *
      * @throws ezcBasePropertyNotFoundException
@@ -35,8 +45,9 @@ class ezcDocumentDocbookToOdtConverterOptions extends ezcDocumentConverterOption
      */
     public function __construct( array $options = array() )
     {
-        $this->template = dirname( __FILE__ ) . '/data/template.fodt';
-        $this->styler   = new ezcDocumentOdtPcssStyler();
+        $this->template      = dirname( __FILE__ ) . '/data/template.fodt';
+        $this->styler        = new ezcDocumentOdtPcssStyler();
+        $this->lengthMeasure = 'px';
         parent::__construct( $options );
     }
 
@@ -65,6 +76,12 @@ class ezcDocumentDocbookToOdtConverterOptions extends ezcDocumentConverterOption
                 if ( !is_object( $value ) || !( $value instanceof ezcDocumentOdtStyler ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'ezcDocumentOdtStyler' );
+                }
+                break;
+            case 'lengthMeasure':
+                if ( !is_string( $value ) || !in_array( $value, self::$validLengthMeasures ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, implode( ', ', self::$validLengthMeasures ) );
                 }
                 break;
             default:

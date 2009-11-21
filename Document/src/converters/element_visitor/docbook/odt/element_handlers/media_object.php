@@ -62,16 +62,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
 
         $this->styler->applyStyles( $node, $frame );
 
-        $anchorType = 'paragraph';
-        if ( $node->localName === 'mediaobject' )
-        {
-            $anchorType = 'page';
-            // @TODO: Usually needs a anchor-page-number.
-        }
-        else if ( $this->isInsideText( $node ) )
-        {
-            $anchorType = 'char';
-        }
+        $anchorType = $this->detectAnchorTye( $node );
 
         $frame->setAttributeNS(
             ezcDocumentOdt::NS_ODT_TEXT,
@@ -84,7 +75,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
             $frame->setAttributeNS(
                 ezcDocumentOdt::NS_ODT_SVG,
                 'svg:width',
-                $imageData->getAttribute( 'width' )
+                $this->correctLengthMeasure( $converter, $imageData->getAttribute( 'width' ) )
             );
         }
         if ( $imageData->hasAttribute( 'depth' ) )
@@ -92,7 +83,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
             $frame->setAttributeNS(
                 ezcDocumentOdt::NS_ODT_SVG,
                 'svg:height',
-                $imageData->getAttribute( 'depth' )
+                $this->correctLengthMeasure( $converter, $imageData->getAttribute( 'depth' ) )
             );
         }
 
@@ -134,6 +125,27 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
     }
 
     /**
+     * Correct length measure value.
+     *
+     * ODT does not define a default for length measures. This method checks if 
+     * a valid measure is already given in $length and appends the 
+     * $lengthMeasure given in the converter options otherwise.
+     * 
+     * @param ezcDocumentElementVisitorConverter $converter 
+     * @param string $length 
+     * @return string
+     */
+    protected function correctLengthMeasure( ezcDocumentElementVisitorConverter $converter, $length )
+    {
+        if ( in_array( substr( $length, -2, 2 ), ezcDocumentDocbookToOdtConverterOptions::$validLengthMeasures ) )
+        {
+            return $length;
+        }
+        // @TODO: Validate that number without measure is given
+        return $length . $converter->options->lengthMeasure;
+    }
+
+    /**
      * Extracts the imagedata part of a media object and validates the file 
      * existence.
      * 
@@ -161,6 +173,59 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
     }
 
     /**
+     * Detects and returns the anchortype of the given $node.
+     *
+     * Detects the correct ODT anchortype for the given DocBoom mediaobject 
+     * which can be:
+     *
+     * - 'page' if the image frame is bound to a specific page
+     * - 'paragraph' if the frame is bound to a specific paragraph
+     * - 'char' if the frame is bound to a specific character in a paragraph
+     * 
+     * @param DOMElement $node 
+     * @return string
+     */
+    protected function detectAnchorTye( DOMElement $node )
+    {
+        $anchorType = 'page';
+
+        if ( !$this->isInsidePara( $node ) )
+        {
+            return $anchorType;
+        }
+        $anchorType = 'paragraph';
+
+        if ( !$this->isInsideText( $node ) )
+        {
+            return $anchorType;
+        }
+        $anchorType = 'char';
+
+        return $anchorType;
+    }
+
+    /**
+     * Checks if $node is descendant of a <para/>.
+     *
+     * @param DOMNode $node 
+     * @return bool
+     */
+    protected function isInsidePara( DOMNode $node )
+    {
+        $parent = $node->parentNode;
+
+        if ( $parent === null )
+        {
+            return false;
+        }
+        if ( $parent->localName === 'para' )
+        {
+            return true;
+        }
+        return $this->isInsidePara( $parent );
+    }
+
+    /**
      * Checks if $node occurs in between plain text.
      *
      * @param DOMNode $node 
@@ -168,21 +233,23 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
      */
     protected function isInsideText( DOMNode $node )
     {
-        $currentNode = $node;
+        $prevSib = $node->previousSibling;
 
-        while( $currentNode->previousSibling !== null )
+        if ( $prevSib === null )
         {
-            $currentNode = $currentNode->previousSibling;
-            switch ( true )
-            {
-                case ( $currentNode->nodeType === XML_TEXT_NODE && trim( $currentNode->nodeValue ) !== '' ):
-                    return true;
-                case ( $currentNode->nodeType === XML_ELEMENT_NODE ):
-                    return true;
-            }
+            return false;
+        }
+        if ( $prevSib->nodeType === XML_TEXT_NODE && trim( $prevSib->nodeValue ) !== '' )
+        {
+            return true;
+        }
+        if ( $prevSib->nodeType === XML_ELEMENT_NODE )
+        {
+            // Spans or other inline elements
+            return true;
         }
 
-        return false;
+        return $this->isInsideText( $prevSib );
     }
 }
 
