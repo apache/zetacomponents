@@ -12,6 +12,7 @@ class ezcDocumentOdtStyleExtractor
 
         $this->xpath = new DOMXpath( $odt );
         $this->xpath->registerNamespace( 'style', ezcDocumentOdt::NS_ODT_STYLE );
+        $this->xpath->registerNamespace( 'text',  ezcDocumentOdt::NS_ODT_TEXT );
     }
 
     /**
@@ -40,6 +41,29 @@ class ezcDocumentOdtStyleExtractor
         if ( $styles->length !== 1 )
         {
             throw new RuntimeException( "Style of family '$family' with name '$name' not found." );
+        }
+        return $styles->item( 0 );
+    }
+
+    /**
+     * Extracts the list style identified by $name.
+     *
+     * Returns the DOMElement for the list style identified by $name.
+     *
+     * @TODO: Make $name optional and allow extraction of default list styles.
+     *
+     * @param mixed $name 
+     * @return void
+     */
+    public function extractListStyle( $name )
+    {
+        $xpath = '//text:list-style[@style:name="' . $name . '"]';
+
+        $styles = $this->xpath->query( $xpath );
+
+        if ( $styles->length !== 1 )
+        {
+            throw new RuntimeException( "List style with name '$name' not found." );
         }
         return $styles->item( 0 );
     }
