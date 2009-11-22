@@ -44,6 +44,7 @@ class ezcDocumentOdtStyleParagraphPropertyGeneratorTest extends ezcDocumentOdtSt
                 'text-indent',
                 'margin',
                 'border',
+                'break-before',
             ),
             'styleAttributes',
             $gen
