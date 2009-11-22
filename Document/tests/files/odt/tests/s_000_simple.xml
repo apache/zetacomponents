@@ -10,7 +10,7 @@
       <title>Second heading</title>
       <para>Some plain text. <emphasis>Some bold text.</emphasis></para>
       <para/>
-      <itemizedlist>
+      <orderedlist>
         <listitem>
           <para>Number one</para>
         </listitem>
@@ -20,7 +20,7 @@
         <listitem>
           <para>Number three</para>
         </listitem>
-      </itemizedlist>
+      </orderedlist>
       <para>Para</para>
       <itemizedlist>
         <listitem>
@@ -34,7 +34,7 @@
         </listitem>
       </itemizedlist>
       <para>Para 2</para>
-      <itemizedlist>
+      <orderedlist>
         <listitem>
           <para>Item a</para>
         </listitem>
@@ -44,7 +44,7 @@
         <listitem>
           <para>Item c</para>
         </listitem>
-      </itemizedlist>
+      </orderedlist>
       <para>Para 3</para>
       <section>
         <title>Third level head</title>

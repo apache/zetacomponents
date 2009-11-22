@@ -29,16 +29,17 @@ interface ezcDocumentOdtStyleFilterRule
     public function handles( DOMElement $odtElement );
 
     /**
-     * Filter the given $odtElement based on the given $style.
+     * Filter the given $odtElement based on the style information available 
+     * through $styleInferencer.
      *
      * This method will only be called when handles returned true for the given 
      * $odtElement. The method may manipulate the $odtElement, especially its 
      * attributes, based on the style information.
      * 
      * @param DOMElement $odtElement 
-     * @param ezcDocumentOdtStyle $style 
+     * @param ezcDocumentOdtStyleInferencer $styleInferencer
      */
-    public function filter( DOMElement $odtElement, ezcDocumentOdtStyle $style );
+    public function filter( DOMElement $odtElement, ezcDocumentOdtStyleInferencer $styleInferencer );
 }
 
 ?>

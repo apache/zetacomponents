@@ -42,6 +42,7 @@ class ezcDocumentOdtStyleFilter extends ezcDocumentOdtBaseFilter
     {
         $this->rules = array(
             new ezcDocumentOdtEmphasisStyleFilterRule(),
+            new ezcDocumentOdtListLevelStyleFilterRule(),
         );
     }
 
@@ -79,11 +80,7 @@ class ezcDocumentOdtStyleFilter extends ezcDocumentOdtBaseFilter
         {
             if ( $rule->handles( $element ) )
             {
-                if ( $style === null )
-                {
-                    $style = $this->styleInferencer->getStyle( $element );
-                }
-                $rule->filter( $element, $style );
+                $rule->filter( $element, $this->styleInferencer );
             }
         }
 

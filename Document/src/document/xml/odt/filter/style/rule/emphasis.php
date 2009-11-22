@@ -23,8 +23,9 @@ class ezcDocumentOdtEmphasisStyleFilterRule implements ezcDocumentOdtStyleFilter
      * @param DOMElement $odtElement 
      * @param ezcDocumentOdtStyle $style 
      */
-    public function filter( DOMElement $odtElement, ezcDocumentOdtStyle $style )
+    public function filter( DOMElement $odtElement, ezcDocumentOdtStyleInferencer $styleInferencer )
     {
+        $style = $styleInferencer->getStyle( $odtElement );
         $textProps = $style->formattingProperties->getProperties(
             ezcDocumentOdtFormattingProperties::PROPERTIES_TEXT
         );
