@@ -14,10 +14,8 @@
  *
  * @property-read string $name The style name.
  * @property-read constant $family The style family.
- * @property ezcDocumentOdtStyle $parentStyle The parent style object.
- * @property ezcDocumentOdtStyle $nextStyle Next paragraph style to be applied.
- * @property ezcDocumentOdtStyle $listStyle The style for lists in the styled element.
- * @property ArrayObject $formattingProperties ArrayObject of ezc
+ * @property ezcDocumentOdtFormattingPropertyCollection $formattingProperties
+ *           Formatting properties valid for this style.
  *
  * @package Document
  * @version //autogen//
@@ -42,8 +40,6 @@ class ezcDocumentOdtStyle
 
     /**
      * Section style.
-     *
-     * @TODO: How to support this?
      */
     const FAMILY_SECTION      = 'section';
 

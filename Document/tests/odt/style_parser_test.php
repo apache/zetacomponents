@@ -78,6 +78,60 @@ class ezcDocumentOdtStyleParserTest extends ezcTestCase
             $prop['margin-top']
         );
     }
+
+    public function testListStyleNumberSuccess()
+    {
+        $name   = 'L3';
+        $dom    = $this->xpath->query(
+            '//text:list-style[@style:name="' . $name . '"]'
+        )->item( 0 );
+
+        $style = $this->parser->parseListStyle( $dom, $name );
+
+        $this->assertEquals(
+            $name,
+            $style->name
+        );
+        $this->assertEquals(
+            10,
+            count( $style->listLevels )
+        );
+        $this->assertType(
+            'ezcDocumentOdtListLevelStyleNumber',
+            $style->listLevels[1]
+        );
+        $this->assertEquals(
+            'a',
+            $style->listLevels[1]->numFormat
+        );
+    }
+
+    public function testListStyleBulletSuccess()
+    {
+        $name   = 'L2';
+        $dom    = $this->xpath->query(
+            '//text:list-style[@style:name="' . $name . '"]'
+        )->item( 0 );
+
+        $style = $this->parser->parseListStyle( $dom, $name );
+
+        $this->assertEquals(
+            $name,
+            $style->name
+        );
+        $this->assertEquals(
+            10,
+            count( $style->listLevels )
+        );
+        $this->assertType(
+            'ezcDocumentOdtListLevelStyleBullet',
+            $style->listLevels[1]
+        );
+        $this->assertEquals(
+            '•',
+            $style->listLevels[1]->bulletChar
+        );
+    }
 }
 
 ?>
