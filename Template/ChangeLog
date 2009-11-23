@@ -1,7 +1,7 @@
 1.4.2 - [RELEASDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Documented #011072: Possible different output contextes inside XHTML
+- Implemented issue #11072: Possible different output contexts inside XHTML.
 
 
 1.4.1 - Tuesday 01 September 2009
