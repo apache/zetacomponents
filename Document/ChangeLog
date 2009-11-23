@@ -4,6 +4,7 @@
 - Implemented additional element conversions from DocBook to ODT.
 - Implemented filtering based on styles while converting from ODT to DocBook.
 
+
 1.3alpha2 - Monday 09 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
