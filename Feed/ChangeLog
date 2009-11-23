@@ -1,4 +1,4 @@
-1.3beta1 - [RELEASEDATE]
+1.3beta1 - Monday 23 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15625: RSS 0.90 feeds are parsed as RSS 1.0 feeds.
