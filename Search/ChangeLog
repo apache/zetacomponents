@@ -1,4 +1,4 @@
-1.0.8 - [RELEASEDATE]
+1.0.8 - Monday 23 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15380: iconv notice in Zend_Search_Lucene backend.
