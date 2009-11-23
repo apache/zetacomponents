@@ -61,7 +61,7 @@ class ezcDocumentPcssMeasure
 
         if ( !preg_match( '(^\s*(?P<value>[+-]?\s*(?:\d*\.)?\d+)(?P<unit>[A-Za-z]+)?\s*$)S', $value, $match ) )
         {
-            throw new ezcDocumentParserException( E_PARSE, "Could not parse '{$this->value}' as size value." );
+            throw new ezcDocumentParserException( E_PARSE, "Could not parse '{$value}' as size value." );
         }
 
         $value = (float) $match['value'];
