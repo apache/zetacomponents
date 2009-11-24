@@ -52,6 +52,12 @@
  * @property bool $highlightLines
  *           If true, it adds lines to highlight the values position on the 
  *           axis.
+ * @property float $highlightXOffset
+ *           Horizontal offset for highlight strings, applied to all chart 
+ *           highlight strings
+ * @property float $highlightYOffset
+ *           Vertical offset for highlight strings, applied to all chart 
+ *           highlight strings
  * @property true $stackBars
  *           Stack bars
  *
