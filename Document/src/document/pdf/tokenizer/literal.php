@@ -88,7 +88,7 @@ class ezcDocumentPdfLiteralTokenizer extends ezcDocumentPdfTokenizer
         {
             $string =
                 substr( $string, 0, $position ) .
-                str_repeat( ' ', ( $tabwidth + 1 ) - ( ( $position + $offset ) % $tabwidth ) ) .
+                str_repeat( ' ', $tabwidth - ( ( $position + $offset ) % $tabwidth ) ) .
                 substr( $string, $position + 1 );
         }
 
