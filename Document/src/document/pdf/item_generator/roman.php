@@ -10,10 +10,13 @@
  */
 
 /**
- * Numbered list item generator
+ * Roman number list item generator
  *
- * Generator for list items, like bullet list items, and more important
- * enumerated lists.
+ * Generator for roman numbered list items. Basically converts the list item 
+ * number into a roman number and returns that. Roman numbering is only 
+ * properly support up to numbers of about 1000. Lists with more items will 
+ * generate strange to read numbers, because they can only be represented using 
+ * lots of repetitions of the "M" representing 1000.
  *
  * @package Document
  * @access private

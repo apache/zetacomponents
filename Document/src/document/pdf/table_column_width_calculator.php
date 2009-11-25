@@ -13,7 +13,8 @@
  * Table column width calculator
  *
  * Base class for a table column width calculator, which is responsible to 
- * estimate / guess / calculate sensible column width for a docbook table definition.
+ * estimate / guess / calculate sensible column width for a docbook table
+ * definitions.
  *
  * @package Document
  * @version //autogen//

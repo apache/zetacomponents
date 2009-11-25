@@ -12,8 +12,8 @@
 /**
  * Numbered list item generator
  *
- * Generator for list items, like bullet list items, and more important
- * enumerated lists.
+ * Generator for list items using common arabic numbers. Just returns the 
+ * number of the given list item as a string.
  *
  * @package Document
  * @access private

@@ -12,7 +12,10 @@
  * Pdf driver based on pecl/haru
  *
  * Haru is a pecl extension for PDF rendering, based on libahru, available at
- * http://libharu.org.
+ * http://libharu.org. The haru library does not yet implement support for any 
+ * unicode encodings, so there will be issues with non-ASCII characters 
+ * occuring in the passed texts. On the other hand it is the fastest driver 
+ * currently available for PDF rendering.
  *
  * The extension can be installed using the pear command:
  *

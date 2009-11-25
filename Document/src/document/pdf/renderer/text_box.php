@@ -15,6 +15,11 @@
  * Tries to render a single text box into the available space, and aborts if
  * not possible.
  *
+ * Implements the basic methods for tokenizing the text, style based text 
+ * fitting into lines, etc. Should be extended by all classes implementing more 
+ * specific text rendering algorithms, since those base methods are implemented 
+ * generally enough to be reused.
+ *
  * @package Document
  * @access private
  * @version //autogen//
@@ -126,7 +131,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
 
         if ( strlen( $string ) === ( $length = iconv_strlen( $string, 'UTF-8' ) ) )
         {
-            // Single only contains of single-byte characters
+            // String only contains of single-byte characters
             return strrev( $string );
         }
 

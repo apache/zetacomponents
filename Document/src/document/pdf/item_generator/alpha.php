@@ -12,8 +12,12 @@
 /**
  * Numbered list item generator
  *
- * Generator for list items, like bullet list items, and more important
- * enumerated lists.
+ * Generator for alphabetical list items. Generated list items start with "a" 
+ * to "z" and will use more characters for lists with more then 26 list items, 
+ * like "ab" for the 28th list item.
+ *
+ * Basically implements a number recoding to base 26, only using alphabetical 
+ * characters.
  *
  * @package Document
  * @access private

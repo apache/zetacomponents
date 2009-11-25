@@ -12,8 +12,13 @@
 /**
  * List item generator
  *
- * Generator for list items, like bullet list items, and more important
+ * Generator for list items, like bullet list items, and more important,
  * enumerated lists.
+ *
+ * Intended to return a list item, which is most likely a single character, 
+ * based on the passed number. The list item generator implementation is 
+ * choosen in the list renderer, depending on the properties of the element to 
+ * render.
  *
  * @package Document
  * @access private

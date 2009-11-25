@@ -12,8 +12,8 @@
 /**
  * List item generator
  *
- * Generator for list items, like bullet list items, and more important
- * enumerated lists.
+ * Simple bullet list item generator, which returns the character passed to the 
+ * constructor for each list item.
  *
  * @package Document
  * @access private

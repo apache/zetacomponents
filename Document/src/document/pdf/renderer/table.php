@@ -10,10 +10,14 @@
  */
 
 /**
- * Renders a list
+ * Renders a table
  *
  * Tries to render a table into the available space, and aborts if
  * not possible.
+ *
+ * A more detailed explanation of the main renderer stacking used for tbale 
+ * rendering and the page level transaction ahndling can be found in the class 
+ * level docblock of the ezcDocumentPdfMainRenderer class.
  *
  * @package Document
  * @access private

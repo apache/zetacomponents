@@ -14,6 +14,9 @@
  *
  * Renders a single title including its inline markup.
  *
+ * Titles are simply common text boxes, without any special required wrapping 
+ * handling.
+ *
  * @package Document
  * @access private
  * @version //autogen//

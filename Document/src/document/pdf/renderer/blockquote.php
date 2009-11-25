@@ -10,10 +10,13 @@
  */
 
 /**
- * Renders a list
+ * Renders a blockquote
  *
- * Tries to render a list into the available space, and aborts if
- * not possible.
+ * Renders a blockquote and its attributions. A blockquote is basically an 
+ * indented common paragraph, with the styling given by the used CSS file.
+ *
+ * The annotations precede the actual quote in Docbook, but will be rendered 
+ * below the quote by this renderer.
  *
  * @package Document
  * @access private

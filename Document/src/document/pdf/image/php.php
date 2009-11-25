@@ -10,11 +10,11 @@
  */
 
 /**
- * PDF image handler
+ * PHP image handler
  *
- * Abstract base class for image handlers. Should be extended by classes, which
- * can handle a set of image types and provide information about image mime
- * types and dimensions.
+ * Basic image handler which can detect mime type and dimensions of some images 
+ * using the PHP function getimagesize(). It therefore can analyse all images 
+ * covered by the PHP function, which is available by default.
  *
  * @package Document
  * @access private

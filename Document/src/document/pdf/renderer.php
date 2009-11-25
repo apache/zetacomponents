@@ -12,6 +12,13 @@
 /**
  * Abstract renderer base class
  *
+ * Implements some basic rendering methods, which are required by all 
+ * renderers. Should be extended to render elements in Docbook documents, which 
+ * are not yet handled.
+ *
+ * To use a new ccustom renderer one needs to register it in the main renderer, 
+ * which by default is implemented in the class ezcDocumentPdfMainRenderer.
+ *
  * @package Document
  * @access private
  * @version //autogen//

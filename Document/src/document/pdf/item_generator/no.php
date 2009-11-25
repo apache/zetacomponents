@@ -12,8 +12,8 @@
 /**
  * Numbered list item generator
  *
- * Generator for list items, like bullet list items, and more important
- * enumerated lists.
+ * Generates empty list items, ust for definition lists, where no list item is 
+ * desired.
  *
  * @package Document
  * @access private

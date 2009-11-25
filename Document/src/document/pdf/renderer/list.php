@@ -15,6 +15,12 @@
  * Tries to render a list into the available space, and aborts if
  * not possible.
  *
+ * The getListItemGenerator() determines which list items are used for list 
+ * depending on the element context, like the name of the list, or optional 
+ * attributes in the list providing more styling information.
+ *
+ * List items styles cannot be overwritten using CSS with this renderer.
+ *
  * @package Document
  * @access private
  * @version //autogen//

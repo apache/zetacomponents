@@ -12,8 +12,14 @@
 /**
  * PDF image handler
  *
- * Class handling image references, extracting their mime type and dimentsions.
- * Additional handler classes may be registered for yet unhandled file types.
+ * Class handling image references, extracting their mime type and dimensions.
+ * Dispatches to concrete handler, which claim that they are able to handle the 
+ * current image and requests dimensions and mime type from the handler.
+ *
+ * By default only one handler is registered, which uses PHPs getimagesize() 
+ * function to handle all images, which getimagesize() can handle. For other 
+ * image types additional handlers can be registered using the registerImageHander() 
+ * method.
  *
  * @package Document
  * @access private

@@ -19,6 +19,11 @@
  * Introspects the contents of a table and guesses based on included media and 
  * number of words in a cell what a reasonable column width might be.
  *
+ * Since this implementation is mostly based on the count and length of words 
+ * in one column, it might return unreasonably small column sizes for single 
+ * columns. This might lead to columns, where not even a single characters fits 
+ * in, which may cause problems while rendering.
+ *
  * @package Document
  * @version //autogen//
  */

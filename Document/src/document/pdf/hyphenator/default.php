@@ -12,6 +12,10 @@
 /**
  * Default hyphenation implementation, which does no word splitting at all.
  *
+ * Because no splitting is applied at all, it should work for all languages, 
+ * but might produce bad results for short lines. Extend the base class and 
+ * register your own hyphenator for better results.
+ *
  * @package Document
  * @access private
  * @version //autogen//

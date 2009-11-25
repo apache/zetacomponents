@@ -10,9 +10,18 @@
  */
 
 /**
- * Paragraph renderer
+ * Media object renderer
  *
- * Renders a single paragraph including its inline markup.
+ * Renders a media object, an image, at the current text rendering position. 
+ * The image is automatically scaled down to the available dimensions.
+ *
+ * Explicit width and height definitions for the image are not yet taken into 
+ * account. The image won't be scaled down explicitely, but it is left to the 
+ * driver to handle the ccaling, so that also high resolution images could be 
+ * embedded.
+ *
+ * Also renders an optional image title, if set as a caption in the docbook 
+ * source.
  *
  * @package Document
  * @access private

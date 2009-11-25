@@ -16,7 +16,12 @@
  *
  * It especially encodes information about already covered / blocked areas on
  * one PDF page, and offers methods to check if a new content block fits on the
- * page an, where it does fir on the page.
+ * page an, where it does fit on the page.
+ *
+ * The testing for new boxes, where they fit on the page and in which 
+ * dimensions they fit, is implemented in the testFitRectangle() method. The 
+ * method implementation is optimized for speed, since it is called *a lot* 
+ * during the rendering process.
  *
  * @package Document
  * @access private

@@ -10,10 +10,12 @@
  */
 
 /**
- * Renders a single text box
+ * General block renderer
  *
- * Tries to render a single text box into the available space, and aborts if
- * not possible.
+ * Implements the methods to render the border for block level elements, like 
+ * list items. Also applies margin and padding to the rendered item. For custom 
+ * rendering implementations inside of the rendered block you may overwrite the 
+ * process() method.
  *
  * @package Document
  * @access private

@@ -13,7 +13,9 @@
  * SVG renderer for PDF driver, useful for manual introspection and test
  * comparisions.
  *
- * ONLY FOR TESTING.
+ * ONLY FOR TESTING - especially, since the text width estimation does not 
+ * work properly without using SVG glyph support. The generated XML files are 
+ * therefore only used for easy comparision of the general rendering results.
  *
  * @package Document
  * @access private

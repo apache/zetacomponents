@@ -12,8 +12,10 @@
 /**
  * List item generator
  *
- * Generator for list items, like bullet list items, and more important
- * enumerated lists.
+ * Abstract base class for alphanumeric list item generators, which implements 
+ * an applyStyle() method and an additional constructor argument, so that all 
+ * alphanumeric list item generators extending from this class cann be called 
+ * to generate lower- and uppercase variants of their list items.
  *
  * @package Document
  * @access private

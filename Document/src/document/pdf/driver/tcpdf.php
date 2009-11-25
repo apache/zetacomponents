@@ -22,12 +22,18 @@
  *    interfere with your application code
  *  - Uses eval() in several places, which results in non-cacheable OP-Codes.
  *
+ * On the other hand TCPDF can handle UTF-8 just fine, and therefore supports a 
+ * braod range of unicode characters.
+ *
  * The driver can be used by setting the respective option on the
- * PDF document wrapper:
+ * PDF document wrapper, you need to download and load the TCPDF implementation 
+ * yourself.
  *
  * <code>
  *  // Load the docbook document and create a PDF from it
  *  $pdf = new ezcDocumentPdf();
+ *
+ *  include '/path/to/tcpdf.php';
  *  $pdf->options->driver = new ezcDocumentPdfTcpdfDriver();
  *  $pdf->createFromDocbook( $docbook );
  *  file_put_contents( __FILE__ . '.pdf', $pdf );

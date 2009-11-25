@@ -12,7 +12,8 @@
 /**
  * Bounding box
  *
- * Bounding box, used to specify rectangular covered or availalable areas.
+ * Simple struct, representing a bounding box, used to specify rectangular 
+ * covered or availalable areas.
  *
  * @package Document
  * @access private

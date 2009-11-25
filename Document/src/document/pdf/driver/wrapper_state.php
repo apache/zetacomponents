@@ -10,16 +10,11 @@
  */
 
 /**
- * PDF driver proxy, which records write calls to proxied driver, wraps them
- * into transactions to optionally revert or commit them later.
+ * Driver wrapper state.
  *
- * Since page layouting algorithms are basically always backtracking algorithms
- * they always try to render something, and need to recursively revert already
- * "rendered" stuff. This proxy class for all driver classes records calls,
- * optionally assiciates them with transaction identifies and allows to
- * selectively revert or commint groups of such calls to the backend. Only when
- * comitting or calling save() on the driver proxy any modifying (write)
- * operations are actually issued on the proxied driver.
+ * Struct representing a state in the transactional driver wrapper. For a more 
+ * detailed explanation of the concept behind the transactional driver wrapper, 
+ * see the class level doc block in ezcDocumentPdfMainRenderer class.
  *
  * @package Document
  * @access private

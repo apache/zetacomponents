@@ -16,6 +16,9 @@
  * of words into hyphens, for better text wrapping especially in justified
  * paragraphs.
  *
+ * A proper hyphenation implementation should most probably be based on 
+ * dicstionary files, provided by external tools.
+ *
  * @package Document
  * @access private
  * @version //autogen//

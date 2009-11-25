@@ -77,19 +77,6 @@ class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfBlockRenderer
         // Render list contents
         $mainRenderer->process( $block );
     }
-
-    /**
-     * Get list item generator
-     *
-     * Get list item generator for the list generator.
-     * 
-     * @param ezcDocumentLocateableDomElement $block 
-     * @return void
-     */
-    protected function getListItemGenerator( ezcDocumentLocateableDomElement $block )
-    {
-
-    }
 }
 
 ?>
