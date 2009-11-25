@@ -55,10 +55,23 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
      */
     protected function processStandardHeaders()
     {
+        $this->processProtocol();
+        $this->processHost();
+        $this->processDate();
+        $this->processVariables();
+        $this->processReferrer();
+        $this->processUri();
+        $this->processBody();
+        $this->processRequestId();
+    }
+
+    /**
+     * Processes the request protocol. 
+     */
+    protected function processProtocol()
+    {
         $req = $this->request;
-        $req->date = isset( $_SERVER['REQUEST_TIME'] )
-            ? new DateTime( "@{$_SERVER['REQUEST_TIME']}" )
-            : new DateTime();
+
         if ( isset( $_SERVER['REQUEST_METHOD'] ) )
         {
             switch ( $_SERVER['REQUEST_METHOD'] )
@@ -76,13 +89,57 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
                     $req->protocol = 'http-get';
             }
         }
-        $req->host = isset( $_SERVER['HTTP_HOST'] )
+    }
+
+    /**
+     * Processes the request host.
+     */
+    protected function processHost()
+    {
+        $this->request->host = isset( $_SERVER['HTTP_HOST'] )
             ? $_SERVER['HTTP_HOST']
             : (
                 isset( $_SERVER['SERVER_NAME'] )
                     ? $_SERVER['SERVER_NAME']
                     : 'localhost.localdomain'
-              );
+            );
+    }
+
+    /**
+     * Processes the request date.
+     */
+    protected function processDate()
+    {
+        $this->request->date = isset( $_SERVER['REQUEST_TIME'] )
+            ? new DateTime( "@{$_SERVER['REQUEST_TIME']}" )
+            : new DateTime();
+    }
+
+    /**
+     * Processes the request variables.
+     */
+    protected function processVariables()
+    {
+        $this->request->variables =& $_REQUEST;
+    }
+
+    /**
+     * Processes the referrer.
+     */
+    protected function processReferrer()
+    {
+        $this->request->referrer = isset( $_SERVER['HTTP_REFERER'] )
+            ? $_SERVER['HTTP_REFERER']
+            : null;
+    }
+
+    /**
+     * Processes the request URI.
+     */
+    protected function processUri()
+    {
+        $req = $this->request;
+
         $req->uri = isset( $_SERVER['REQUEST_URI'] )
             ? $_SERVER['REQUEST_URI']
             : '';
@@ -92,11 +149,23 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
         $req->uri = urldecode( $req->uri );
         // remove the prefix from the URI
         $req->uri = preg_replace( '@^' . preg_quote( $this->properties['prefix'] ) . '@', '', $req->uri );
-        $req->requestId = $req->host . $req->uri;
-        $req->referrer = isset( $_SERVER['HTTP_REFERER'] )
-            ? $_SERVER['HTTP_REFERER']
-            : null;
-        $req->variables =& $_REQUEST;
+    }
+
+    /**
+     * Processes the request ID from host and URI.
+     */
+    protected function processRequestId()
+    {
+        $this->request->requestId = $this->request->host . $this->request->uri;
+    }
+
+    /**
+     * Processes the request body for PUT requests.
+     */
+    protected function processBody()
+    {
+        $req = $this->request;
+
         if ( $req->protocol == 'http-put' )
         {
             $req->body = file_get_contents( "php://input" );
