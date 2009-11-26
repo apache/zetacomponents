@@ -8,6 +8,14 @@ class ezcDocumentTestDummyDirective extends ezcDocumentRstDirective
     }
 }
 
+class ezcDocumentTestDummyRole extends ezcDocumentRstTextRole
+{
+    public function toDocbook( DOMDocument $document, DOMElement $root )
+    {
+        // Just do nothing
+    }
+}
+
 class ezcDocumentTestDummyXhtmlDirective extends ezcDocumentRstDirective implements ezcDocumentRstXhtmlDirective
 {
     public function toDocbook( DOMDocument $document, DOMElement $root )

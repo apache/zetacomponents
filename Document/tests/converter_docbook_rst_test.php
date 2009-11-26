@@ -31,13 +31,28 @@ class ezcDocumentConverterDocbookToRstTests extends ezcTestCase
         $doc = new ezcDocumentDocbook();
         $doc->loadFile( dirname( __FILE__ ) . '/files/docbook/rst/s_001_empty.xml' );
 
-        $wiki = new ezcDocumentWiki();
-        $wiki->createFromDocbook( $doc );
+        $rst = new ezcDocumentRst();
+        $rst->createFromDocbook( $doc );
 
         $this->assertSame(
-            $wiki->save(),
+            $rst->save(),
             file_get_contents( dirname( __FILE__ ) . '/files/docbook/rst/s_001_empty.txt' )
         );
+    }
+
+    public function testCreateDocumentFromErrneousDocbook()
+    {
+        $doc = new ezcDocumentDocbook();
+        $doc->options->failOnError = false;
+        $doc->loadFile( dirname( __FILE__ ) . '/files/docbook/errorneous.xml' );
+
+        $rst = new ezcDocumentRst();
+        try 
+        {
+            $rst->createFromDocbook( $doc );
+            $this->fail( 'Expected ezcDocumentVisitException.' );
+        } catch ( ezcDocumentVisitException $e )
+        { /* Expected */ }
     }
 
     public function testCustomeElementHandler()
@@ -48,10 +63,10 @@ class ezcDocumentConverterDocbookToRstTests extends ezcTestCase
         $converter = new ezcDocumentDocbookToRstConverter();
         $converter->setElementHandler( 'docbook', 'address', new myAddressElementHandler() );
 
-        $wiki = $converter->convert( $doc );
+        $rst = $converter->convert( $doc );
 
         $this->assertSame(
-            $wiki->save(),
+            $rst->save(),
             file_get_contents( dirname( __FILE__ ) . '/files/docbook/rst/h_001_address.txt' )
         );
     }

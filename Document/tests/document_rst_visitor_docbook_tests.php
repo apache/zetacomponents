@@ -65,6 +65,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         $document->registerDirective( 'book', 'ezcDocumentTestDummyDirective' );
         $document->registerDirective( 'function', 'ezcDocumentTestDummyDirective' );
         $document->registerDirective( 'replace', 'ezcDocumentTestDummyDirective' );
+        $document->registerRole( 'my_role', 'ezcDocumentTestDummyRole' );
 
         $document->loadFile( $from );
 
