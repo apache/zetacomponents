@@ -40,7 +40,7 @@ class ezcDocumentXsltConverterOptions extends ezcDocumentConverterOptions
     {
         if ( !isset( $this->properties['xslt'] ) )
         {
-            $this->xslt = null;
+            $this->properties['xslt'] = null;
         }
 
         if ( !isset( $this->properties['parameters'] ) )

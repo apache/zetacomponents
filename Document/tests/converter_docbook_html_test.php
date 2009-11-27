@@ -67,6 +67,21 @@ class ezcDocumentConverterDocbookToHtmlTests extends ezcTestCase
         { /* Expected */ }
     }
 
+    public function testHtmlConverterOptionsHeaderLevel()
+    {
+        $options = new ezcDocumentHtmlConverterOptions();
+        $options->headerLevel = 1;
+        $options->headerLevel = 2;
+
+        try
+        {
+            $options->headerLevel = 7;
+            $this->fail( 'Expected ezcBaseValueException.' );
+        }
+        catch ( ezcBaseValueException $e )
+        { /* Expected */ }
+    }
+
     public function testHtmlConverterOptionsUnknownOption()
     {
         $options = new ezcDocumentHtmlConverterOptions();

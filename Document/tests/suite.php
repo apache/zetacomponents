@@ -63,6 +63,22 @@ require 'converter_docbook_wiki_test.php';
 require 'converter_docbook_ezxml_test.php';
 require 'converter_docbook_odt_test.php';
 
+require 'converter_options_docbook_ezxml_tests.php';
+require 'converter_options_ezxml_docbook_tests.php';
+require 'converter_options_rst_tests.php';
+require 'converter_options_tests.php';
+require 'converter_options_wiki_tests.php';
+require 'converter_options_xslt_tests.php';
+require 'document_docbook_options_tests.php';
+require 'document_ezxml_options_tests.php';
+require 'document_options_tests.php';
+require 'document_pdf_footer_options_tests.php';
+require 'document_pdf_options_tests.php';
+require 'document_rst_options_tests.php';
+require 'document_wiki_options_tests.php';
+require 'document_xhtml_options_tests.php';
+
+
 class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
@@ -123,6 +139,21 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentConverterDocbookToWikiTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToEzXmlTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToOdtTests::suite() );
+
+        $this->addTest( ezcConverterRstOptionsTests::suite() );
+        $this->addTest( ezcDocumentWikiOptionsTests::suite() );
+        $this->addTest( ezcDocumentRstOptionsTests::suite() );
+        $this->addTest( ezcDocumentPdfOptionsTests::suite() );
+        $this->addTest( ezcConverterOptionsTests::suite() );
+        $this->addTest( ezcDocumentOptionsTests::suite() );
+        $this->addTest( ezcConverterXsltOptionsTests::suite() );
+        $this->addTest( ezcDocumentXhtmlOptionsTests::suite() );
+        $this->addTest( ezcDocumentEzXmlOptionsTests::suite() );
+        $this->addTest( ezcDocumentDocbookOptionsTests::suite() );
+        $this->addTest( ezcDocumentPdfFooterOptionsTests::suite() );
+        $this->addTest( ezcConverterDocbookEzXmlOptionsTests::suite() );
+        $this->addTest( ezcConverterEzXmlDocbookOptionsTests::suite() );
+        $this->addTest( ezcConverterWikiOptionsTests::suite() );
     }
 }
 

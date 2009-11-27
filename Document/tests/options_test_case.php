@@ -104,11 +104,22 @@ abstract class ezcDocumentOptionsTestCase extends ezcTestCase
         $class = $this->getOptionsClassName();
         $option = new $class();
 
-        $this->assertSame(
-            $value,
-            $option->$property,
-            "Default value in option class '$class' of property '$property' is not '$value'."
-        );
+        if ( is_object( $option->$property ) )
+        {
+            $this->assertEquals(
+                $value,
+                $option->$property,
+                "Default value in option class '$class' of property '$property' is wrong."
+            );
+        }
+        else
+        {
+            $this->assertSame(
+                $value,
+                $option->$property,
+                "Default value in option class '$class' of property '$property' is not '$value'."
+            );
+        }
     }
 
     /**

@@ -20,10 +20,6 @@
  * @property ezcDocumentPdfTableColumnWidthCalculator $tableColumnWidthCalculator
  *           Class responsible to obtain sensible column width values from a 
  *           table specification by introspecting its contents.
- * @property int $errorReporting
- *           Error reporting level. All errors with a severity greater or equel
- *           then the defined level are converted to exceptions. All other
- *           errors are just stored in errors property of the parser class.
  *
  * @package Document
  * @version //autogen//
@@ -41,7 +37,6 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->errorReporting = 15; // E_PARSE | E_ERROR | E_WARNING | E_NOTICE
         $this->hyphenator     = new ezcDocumentPdfDefaultHyphenator();
         $this->tokenizer      = new ezcDocumentPdfDefaultTokenizer();
         $this->tableColumnWidthCalculator = new ezcDocumentPdfDefaultTableColumnWidthCalculator();
@@ -98,16 +93,6 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
                 if ( !$value instanceof ezcDocumentPdfTableColumnWidthCalculator )
                 {
                     throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentPdfTableColumnWidthCalculator' );
-                }
-
-                $this->properties[$name] = $value;
-                break;
-
-            case 'errorReporting':
-                if ( !is_int( $value ) ||
-                     ( ( $value & E_PARSE ) === 0 ) )
-                {
-                    throw new ezcBaseValueException( $name, $value, 'int & E_PARSE' );
                 }
 
                 $this->properties[$name] = $value;

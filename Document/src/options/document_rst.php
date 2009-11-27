@@ -63,8 +63,8 @@ class ezcDocumentRstOptions extends ezcDocumentOptions
                 break;
 
             case 'xhtmlVisitorOptions':
-                if ( !is_object( $value ) &&
-                     ( $value instanceof ezcDocumentHtmlConverterOptions ) )
+                if ( !is_object( $value ) ||
+                     !( $value instanceof ezcDocumentHtmlConverterOptions ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentHtmlConverterOptions' );
                 }

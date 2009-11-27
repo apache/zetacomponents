@@ -11,8 +11,6 @@
 /**
  * Class containing the basic options for the ezcDocumentEzXml class
  *
- * @property bool $indentXml
- *           Indent XML on output
  * @property string $relaxNgSchema
  *           Relax NG schema which is used to validate the eZ Publish 3
  *           documents.
@@ -33,7 +31,6 @@ class ezcDocumentEzXmlOptions extends ezcDocumentXmlOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->indentXml     = false;
         $this->relaxNgSchema = dirname( __FILE__ ) . '/../document/xml/ezxml/schema/ezxml_schema.rng';
 
         parent::__construct( $options );
@@ -54,16 +51,12 @@ class ezcDocumentEzXmlOptions extends ezcDocumentXmlOptions
     {
         switch ( $name )
         {
-            case 'indentXml':
-                if ( !is_bool( $value ) )
+            case 'relaxNgSchema':
+                if ( !is_file( $value ) || !is_readable( $value ) )
                 {
-                    throw new ezcBaseValueException( $name, $value, 'bool' );
+                    throw new ezcBaseValueException( $name, $value, 'RelaxNG schema file' );
                 }
 
-                $this->properties[$name] = (bool) $value;
-                break;
-
-            case 'relaxNgSchema':
                 $this->properties[$name] = (string) $value;
                 break;
 
