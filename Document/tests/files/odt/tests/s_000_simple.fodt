@@ -720,11 +720,12 @@
             <text:span text:style-name="T2">Third level head</text:span> 
          </text:h>
          <text:p text:style-name="Text_20_body">
-            <text:span text:style-name="T2">4 whitespaces before and 3 in between next line</text:span> 
+           <text:span text:style-name="T2">4 whitespaces <![CDATA[before and 3]]> in between next line</text:span> 
          </text:p>
+         <!-- some comment -->
          <text:p text:style-name="Text_20_body">
             <text:span text:style-name="T2">
-               <text:s text:c="4"/>next line <text:s text:c="2"/>in between</text:span> 
+              <text:s text:c="4"/>next line <text:s text:c="2"/>in between</text:span> 
          </text:p>
          <text:p text:style-name="Text_20_body">
             <text:span text:style-name="T2">2 tabs before and 3 in between next line</text:span> 

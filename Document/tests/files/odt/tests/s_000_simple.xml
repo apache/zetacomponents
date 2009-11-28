@@ -48,7 +48,8 @@
       <para>Para 3</para>
       <section>
         <title>Third level head</title>
-        <para>4 whitespaces before and 3 in between next line</para>
+        <para>4 whitespaces <![CDATA[before and 3]]> in between next line</para>
+        <comment> some comment </comment>
         <literallayout>    next line   in between</literallayout>
         <para>2 tabs before and 3 in between next line</para>
         <literallayout>		next line			in between</literallayout>

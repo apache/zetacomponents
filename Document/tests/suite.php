@@ -52,6 +52,8 @@ require 'pcss/parser_test.php';
 require 'pcss/style_inference_tests.php';
 require 'pcss/value_parser_tests.php';
 
+require_once 'list_bullet_guesser_test.php';
+
 require 'pdf/suite.php';
 
 require 'odt/suite.php';
@@ -128,6 +130,8 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentPcssParserTests::suite() );
         $this->addTest( ezcDocumentPcssValueParserTests::suite() );
         $this->addTest( ezcDocumentPcssStyleInferenceTests::suite() );
+
+        $this->addTest( ezcDocumentListBulletGuesserTest::suite() );
 
         $this->addTest( ezcDocumentPdfSuite::suite() );
 

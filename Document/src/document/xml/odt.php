@@ -165,8 +165,7 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
             {
                 foreach ( $attributes as $name => $value )
                 {
-                    // @TODO: Doesn't DOM handle this?
-                    $node->setAttribute( $name, htmlspecialchars( $value ) );
+                    $node->setAttribute( $name, $value );
                 }
             }
         }
@@ -192,21 +191,20 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
                     break;
 
                 case XML_CDATA_SECTION_NODE:
-//                    $data = new DOMCharacterData();
-//                    $data->appendData( $child->data );
-//                    $docbook->appendChild( $data );
+                    $docbook->appendChild(
+                        $docbook->ownerDocument->createCDATASection(
+                            $child->data
+                        )
+                    );
                     break;
 
-                case XML_ENTITY_NODE:
+                // case XML_ENTITY_NODE:
                     // Seems not required, as entities in the source document
                     // are automatically transformed back to their text
                     // targets.
-                    break;
+                    // break;
 
                 case XML_COMMENT_NODE:
-                    // Ignore comments
-                    break;
-
                     $comment = new DOMElement( 'comment', $child->data );
                     $docbook->appendChild( $comment );
                     break;
@@ -255,7 +253,6 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
      *
      * You may of course just call an existing converter for this conversion.
      *
-     * @TODO: Handle ODT converter options.
      * @param ezcDocumentDocbook $document
      * @return void
      */
@@ -314,6 +311,14 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
         return $res;
     }
 
+    /**
+     * Performs the actual validation on the given $document.
+     *
+     * Returns true on success, an array of errors otherwise.
+     * 
+     * @param DOMDocument $document 
+     * @return array(ezcDocumentValidationError)|true
+     */
     private function performValidation( DOMDocument $document )
     {
         $document->relaxNGValidate(

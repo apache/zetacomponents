@@ -46,6 +46,28 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
         return self::$testDocuments;
     }
 
+    public function testBadMarkup()
+    {
+        $document = new ezcDocumentOdt();
+
+        try
+        {
+            $document->loadString(
+                file_get_contents(
+                    dirname( __FILE__ ) . '/files/odt/bad_markup/broken_xml.fodt'
+                )
+            );
+            $this->fail( 'Exception not thrown on load of invalid markup.' );
+        }
+        catch ( ezcDocumentErroneousXmlException $e )
+        {
+            $this->assertEquals(
+                'Errors occured while parsing the XML.',
+                $e->getMessage()
+            );
+        }
+    }
+
     /**
      * @dataProvider getTestDocuments
      */
@@ -94,6 +116,7 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
     }
+
 
     /**
      * Verify extracted images from an FODT and replace their links for 
