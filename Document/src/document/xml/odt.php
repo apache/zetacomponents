@@ -80,9 +80,6 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
         $this->document = new DOMDocument();
         $this->document->registerNodeClass( 'DOMElement', 'ezcDocumentPropertyContainerDomElement' );
 
-        // Use the loadHtml method here, as it for example convers tag names
-        // and attribute names to lower case, and handles some more errors
-        // common in HTML documents.
         $this->document->loadXml( $string );
 
         $errors = ( $this->options->failOnError ?

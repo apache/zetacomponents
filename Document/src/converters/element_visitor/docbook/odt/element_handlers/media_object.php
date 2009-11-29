@@ -46,7 +46,14 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
     {
         $drawingId = ++$this->counter;
 
-        $imageData = $this->extractImageData( $node );
+        if ( ( $imageData = $this->extractImageData( $node ) ) === false )
+        {
+            $converter->triggerError(
+                E_PARSE,
+                'Missing information in <meadiaobject /> or <inlinemediaobject />.'
+            );
+            return $root;
+        }
 
         $frame = $root->appendChild(
             $root->ownerDocument->createElementNS(
@@ -100,18 +107,18 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
 
         if ( $imgPath === false )
         {
-            throw new ezcBaseFileNotFoundException(
-                $imgFile,
-                'DocBook referenced image'
+            $converter->triggerError(
+                E_WARNING, "Could not find image '$imgFile'."
             );
+            return $root;
         }
 
         if ( !is_readable( $imgPath ) )
         {
-            throw new ezcBaseFilePermissionException(
-                $imgPath,
-                ezcBaseFileException::READ
+            $converter->triggerError(
+                E_WARNING, "Image not readable '$imgFile'."
             );
+            return $root;
         }
 
         $binaryData = $image->appendChild(
@@ -151,8 +158,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
     }
 
     /**
-     * Extracts the imagedata part of a media object and validates the file 
-     * existence.
+     * Extracts the imagedata part of a media object.
      * 
      * @param DOMNode $node 
      * @return DOMNode
@@ -162,16 +168,13 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
         $imageDataElems = $node->getElementsByTagName( 'imagedata' );
         if ( $imageDataElems->length !== 1 )
         {
-            throw new RuntimeException( "Media object without imagedata element." );
+            return false;
         }
         $imageData = $imageDataElems->item( 0 );
 
         if ( !$imageData->hasAttribute( 'fileref' ) )
         {
-            throw new ezcDocumentInvalidDocbookException(
-                $imageData,
-                'Missing "fileref" attribute.'
-            );
+            return false;
         }
 
         return $imageData;
