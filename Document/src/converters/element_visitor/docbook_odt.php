@@ -38,6 +38,15 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
     private $docBaseDir;
 
     /**
+     * Image locator object.
+     *
+     * Updated on each conversion. 
+     * 
+     * @var ezcDocumentOdtImageLocator
+     */
+    private $imageLocator;
+
+    /**
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
@@ -120,11 +129,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
 
         $this->options->styler->init( $destination->ownerDocument );
 
-        if ( ( $this->docBaseDir = $source->getPath() ) === null )
-        {
-            $this->docBaseDir = getcwd();
-        }
-        $this->docBaseDir = realpath( $this->docBaseDir );
+        $this->imageLocator = new ezcDocumentOdtImageLocator( $source );
 
         $destination = $this->visitChildren(
             $docBookDom,
@@ -135,18 +140,13 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
     }
 
     /**
-     * Returns the base dir for the currently converted document.
-     *
-     * The API of this method is not exposed, yet, since it still might change. 
-     * There should be an option to override the value returned here by the 
-     * user, especially for latter usage with ODTs (in contrast to FODTs).
+     * Returns the image locator for the current conversion.
      * 
-     * @access private
-     * @return string
+     * @return ezcDocumentOdtImageLocator
      */
-    public function getDocBaseDir()
+    public function getImageLocator()
     {
-        return $this->docBaseDir;
+        return $this->imageLocator;
     }
 
     /**

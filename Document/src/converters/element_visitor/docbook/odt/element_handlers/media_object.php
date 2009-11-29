@@ -94,17 +94,22 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
             )
         );
 
-        if ( !file_exists( $imgFile = $converter->getDocBaseDir() . DIRECTORY_SEPARATOR . $imageData->getAttribute( 'fileref' ) ) )
+        $imgPath = $converter->getImageLocator()->locateImage(
+            ( $imgFile = $imageData->getAttribute( 'fileref' ) )
+        );
+
+        if ( $imgPath === false )
         {
             throw new ezcBaseFileNotFoundException(
                 $imgFile,
                 'DocBook referenced image'
             );
         }
-        if ( !is_readable( $imgFile ) )
+
+        if ( !is_readable( $imgPath ) )
         {
             throw new ezcBaseFilePermissionException(
-                $imgFile,
+                $imgPath,
                 ezcBaseFileException::READ
             );
         }
@@ -115,7 +120,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
                 'office:binary-data',
                 base64_encode(
                     file_get_contents(
-                        $imgFile
+                        $imgPath
                     )
                 )
             )

@@ -244,6 +244,7 @@ return array(
     'ezcDocumentOdtFormattingProperties'                 => 'Document/document/xml/odt/formatting/properties.php',
     'ezcDocumentOdtFormattingPropertyCollection'         => 'Document/document/xml/odt/formatting/property_collection.php',
     'ezcDocumentOdtImageFilter'                          => 'Document/document/xml/odt/filter/image.php',
+    'ezcDocumentOdtImageLocator'                         => 'Document/converters/element_visitor/docbook/odt/image_locator.php',
     'ezcDocumentOdtListLevelStyleBullet'                 => 'Document/document/xml/odt/list_level_style/bullet.php',
     'ezcDocumentOdtListLevelStyleFilterRule'             => 'Document/document/xml/odt/filter/style/rule/list_level.php',
     'ezcDocumentOdtListLevelStyleNumber'                 => 'Document/document/xml/odt/list_level_style/number.php',

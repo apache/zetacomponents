@@ -71,6 +71,24 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
     /**
      * @dataProvider getTestDocuments
      */
+    public function testCreateFromDocbook( $to, $from )
+    {
+        // Tested for correctness in converter tests!
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->loadFile( $from );
+
+        $document = new ezcDocumentOdt();
+        $document->createFromDocbook( $docbook );
+        
+        $this->assertNotNull(
+            $document->getDomDocument()
+        );
+    }
+
+    /**
+     * @dataProvider getTestDocuments
+     */
     public function testCommonConversions( $from, $to )
     {
 
