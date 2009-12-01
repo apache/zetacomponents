@@ -327,15 +327,15 @@ class ezcPhpGenerator
         {
             if ( $this->includeStartEndTags )
             {
-                $this->write( '?>' );
+                $this->write( '?'.'>' );
             }
             fclose( $this->fileResource );
             $this->fileResource = null;
 
-            if ( rename( $this->tmpFilename, $this->resultFilename ) === false )
+            // Sigh, rename is also noisy if it can't rename
+            if ( @rename( $this->tmpFilename, $this->resultFilename ) === false )
             {
-                throw new ezcPhpGeneratorException( "ezcPhpGenerator could not open the file '{$fileName}' for writing.",
-                                                    ezcPhpGeneratorException::FILE_RENAME_FAILED );
+                throw new ezcPhpGeneratorException( "ezcPhpGenerator could not open the file '{$this->resultFilename}' for writing." );
             }
         }
     }

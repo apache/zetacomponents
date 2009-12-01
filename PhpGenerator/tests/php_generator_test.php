@@ -571,6 +571,26 @@ class ezcPhpGeneratorTest extends ezcTestCase
         $this->fail( "Writing to a dir that does not exist did not fail." );
     }
 
+    // test for issue #15870: Incorrect error handling in
+    // ezcPhpGenerator::finish() (with patch)
+    public function testWriteToDir()
+    {
+        @mkdir( "/tmp/ezcPhpGenerator" );
+        try
+        {
+            $generator = new ezcPhpGenerator( "/tmp/ezcPhpGenerator" );
+            $generator->finish();
+
+            rmdir( "/tmp/ezcPhpGenerator" );
+            $this->fail( "Writing to a dir that does not exist did not fail." );
+        }
+        catch ( ezcPhpGeneratorException $e )
+        {
+            $this->assertEquals( "ezcPhpGenerator could not open the file '/tmp/ezcPhpGenerator' for writing.", $e->getMessage() );
+        }
+        rmdir( "/tmp/ezcPhpGenerator" );
+    }
+
     // if this test fails and needs to be changed,
     // you need to change the class example in PhpGenerator
     public function testExample()

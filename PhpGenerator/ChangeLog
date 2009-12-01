@@ -1,3 +1,10 @@
+1.0.5 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #15870: Incorrect error handling in ezcPhpGenerator::finish(), an
+  exception is now thrown in case ezcPhpGenerator can't write.
+
+
 1.0.4 - Monday 02 July 2007
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
