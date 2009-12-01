@@ -34,17 +34,16 @@ getAsDocbook() and createFromDocbook().
 Additionally the document component can render documents in the following
 output formats. Those formats cannot be read, but just generated:
 
-- PDF__
+- PDF
 
 __ http://docutils.sourceforge.net/rst.html
 __ http://www.w3.org/TR/xhtml1/
 __ http://www.docbook.org/
 __ Document_conversion.html
-__ ezxml
-__ creole
-__ dokuwiki
-__ confluence
-__ pdf
+__ http://ez.no/doc/ez_publish/technical_manual/4_0/reference/xml_tags
+__ http://www.wikicreole.org/
+__ http://www.dokuwiki.org/dokuwiki
+__ http://confluence.atlassian.com/renderer/notationhelp.action?section=all
 
 Markup languages
 ================
