@@ -107,6 +107,7 @@ class ezcDbSchema
      */
     public function __construct( array $schema, $data = array() )
     {
+        self::initOptions();
         $this->schema = $schema;
         $this->data = $data;
     }
