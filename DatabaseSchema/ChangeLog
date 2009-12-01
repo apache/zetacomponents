@@ -1,3 +1,10 @@
+1.4.3 - [RELEASEDATE]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fixed issue #15612: DbSchema does not obey Max Ident Length of 30 constraint
+  for AutoIncrement Simulation. (Patch by Benjamin Eberlei)
+
+
 1.4.2 - Monday 05 January 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

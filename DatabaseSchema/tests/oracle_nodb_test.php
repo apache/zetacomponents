@@ -17,16 +17,16 @@ class ezcDatabaseSchemaOracleNoDbTest extends ezcTestCase
         $oracleWriter = new ezcDbSchemaOracleWriter();
         $ddl = $oracleWriter->convertToDDL( $schema );
 
-        $this->assertEquals( 7, count( $ddl ), "Invalid DDL query stack size. Queries might be shifted and following assertions are invalid!" );
+        $this->assertEquals( 6, count( $ddl ), "Invalid DDL query stack size. Queries might be shifted and following assertions are invalid!" );
         for ( $i = 0; $i < count( $ddl ); $i++ )
         {
             $this->assertNotContains( 'veryverylongtablename_veryverylong_id_seq', $ddl[$i] );
             $this->assertNotContains( 'veryverylongtablename_veryverylong_id_trg', $ddl[$i] );
         }
 
+        $this->assertContains( 'veryverylongtab_veryverylo_seq', $ddl[2] );
         $this->assertContains( 'veryverylongtab_veryverylo_seq', $ddl[3] );
-        $this->assertContains( 'veryverylongtab_veryverylo_seq', $ddl[4] );
-        $this->assertContains( 'veryverylongtab_veryverylo_trg', $ddl[4] );
+        $this->assertContains( 'veryverylongtab_veryverylo_trg', $ddl[3] );
         $this->assertEquals( 30, strlen( 'veryverylongtab_veryverylo_seq' ) );
     }
 
@@ -45,13 +45,13 @@ class ezcDatabaseSchemaOracleNoDbTest extends ezcTestCase
         $oracleWriter = new ezcDbSchemaOracleWriter();
         $ddl = $oracleWriter->convertToDDL( $schema );
 
-        $this->assertEquals( 7, count( $ddl ), "Invalid DDL query stack size. Queries might be shifted and following assertions are invalid!" );
+        $this->assertEquals( 6, count( $ddl ), "Invalid DDL query stack size. Queries might be shifted and following assertions are invalid!" );
         for ( $i = 0; $i < count( $ddl ); $i++ )
         {
             $this->assertNotContains( 'ultraultraultraveryverylongtablename_pkey', $ddl[$i] );
         }
 
-        $this->assertContains( 'ultraultraveryverylongtab_pkey', $ddl[5] );
+        $this->assertContains( 'ultraultraveryverylongtab_pkey', $ddl[4] );
         $this->assertEquals( 30, strlen( 'ultraultraveryverylongtab_pkey' ) );
     }
 

@@ -546,7 +546,8 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     {
         if ( $indexName == 'primary' ) // handling primary indexes
         {
-            $this->queries[] = "ALTER TABLE \"$tableName\" DROP CONSTRAINT \"{$tableName}_pkey\"";
+            $constraintName = $this->generateSuffixedIdentName( array( $tableName ), "pkey");
+            $this->queries[] = "ALTER TABLE \"$tableName\" DROP CONSTRAINT \"{$constraintName}\"";
         }
         else
         {
