@@ -343,7 +343,7 @@
   <text:section text:name="dense_bullet_list">
     
     <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="dense_bullet_list"/>Dense bullet list</text:h>
-    <text:list text:style-name="l1" xml:id="list9">
+    <text:list text:style-name="l1" xml:id="list1">
       <text:list-item>
         <text:p text:style-name="p1">This is a special case for bullet lists, where</text:p>
         <text:list>

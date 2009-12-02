@@ -37,7 +37,7 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
      *
      * @var int 
      */
-    protected static $id = 0;
+    protected $id = 0;
 
     /**
      * Creates a new style genertaor.
@@ -141,11 +141,12 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
             'text:style-name',
             $styleName
         );
+
         // OOO attaches IDs to root lists, so do we.
         $odtElement->setAttributeNS(
             ezcDocumentOdt::NS_XML,
             'xml:id',
-            sprintf( "%s%s", 'list', ++self::$id )
+            sprintf( "%s%s", 'list', ++$this->id )
         );
 
         return $listStyle;

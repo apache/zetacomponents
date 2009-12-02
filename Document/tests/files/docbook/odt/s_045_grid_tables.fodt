@@ -1320,7 +1320,7 @@
               
             </table:table-cell>
             <table:table-cell office:value-type="string" table:style-name="table-cell50">
-              <text:list text:style-name="l1" xml:id="list15">
+              <text:list text:style-name="l1" xml:id="list1">
                 <text:list-item/>
               </text:list>
             </table:table-cell>

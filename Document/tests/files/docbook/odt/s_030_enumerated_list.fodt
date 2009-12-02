@@ -381,7 +381,7 @@
   <text:section text:name="enumerated_lists">
     
     <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="enumerated_lists"/>Enumerated lists</text:h>
-    <text:list text:style-name="l1" xml:id="list10">
+    <text:list text:style-name="l1" xml:id="list1">
       <text:list-item>
         <text:p text:style-name="p1">This is an enumerated list.</text:p>
       </text:list-item>
@@ -390,7 +390,7 @@
       </text:list-item>
     </text:list>
     <text:p text:style-name="p3">And a deeper list:</text:p>
-    <text:list text:style-name="l2" xml:id="list11">
+    <text:list text:style-name="l2" xml:id="list2">
       <text:list-item>
         <text:p text:style-name="p4">Item 1 initial text.</text:p>
         <text:list>

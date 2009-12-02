@@ -872,7 +872,7 @@
               <text:p text:style-name="p40">3      </text:p>
             </table:table-cell>
             <table:table-cell office:value-type="string" table:style-name="table-cell41">
-              <text:list text:style-name="l1" xml:id="list14">
+              <text:list text:style-name="l1" xml:id="list1">
                 <text:list-item>
                   <text:p text:style-name="p41">Second column of row 3.</text:p>
                 </text:list-item>

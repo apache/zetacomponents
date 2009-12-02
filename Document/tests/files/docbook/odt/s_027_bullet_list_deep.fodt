@@ -355,7 +355,7 @@
   <text:section text:name="bullet_list">
     
     <text:h text:outline-level="1" text:style-name="h1"><text:reference-mark text:name="bullet_list"/>Bullet list</text:h>
-    <text:list text:style-name="l1" xml:id="list8">
+    <text:list text:style-name="l1" xml:id="list1">
       <text:list-item>
         <text:p text:style-name="p1">This is the first bullet list item.  The blank line above the first list item is required; blank lines between list items (such as below this paragraph) are optional.</text:p>
       </text:list-item>
