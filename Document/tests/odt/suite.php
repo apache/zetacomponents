@@ -25,6 +25,13 @@ require_once 'list_level_style_test.php';
 require_once 'style_parser_test.php';
 require_once 'style_extractor_test.php';
 
+/**
+ * This file is not in use, yet, therefore not tested.
+ */
+PHPUnit_Util_Filter::addFileToFilter(
+    dirname( __FILE__ ) . '/../../src/document/xml/odt/filter/element/html_table.php'
+);
+
 class ezcDocumentOdtSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
