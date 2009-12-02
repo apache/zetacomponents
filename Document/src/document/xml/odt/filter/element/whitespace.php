@@ -47,26 +47,6 @@ class ezcDocumentOdtElementWhitespaceFilter extends ezcDocumentOdtElementBaseFil
     }
 
     /**
-     * Returns if significant whitespaces occur in the paragraph.
-     * 
-     * @param DOMElement $element 
-     * @return bool
-     */
-    protected function hasSignificantWhitespace( DOMElement $element ) 
-    {
-        $xpath = new DOMXpath( $element->ownerDocument );
-        $xpath->registerNamespace( 'text', ezcDocumentOdt::NS_ODT_TEXT );
-
-        // @TODO: Really count tabs as significant whitespaces => literal?
-        $whitespaces = $xpath->evaluate(
-            './/text:c|.//text:tab|.//line-break',
-            $element
-        );
-
-        return ( $whitespaces instanceof DOMNodeList && $whitespaces->length > 0 );
-    }
-
-    /**
      * Check if filter handles the current element
      *
      * Returns a boolean value, indicating weather this filter can handle

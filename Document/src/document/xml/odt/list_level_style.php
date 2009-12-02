@@ -26,7 +26,7 @@ abstract class ezcDocumentOdtListLevelStyle
      * 
      * @var array(string=>mixed)
      */
-    protected $properties = array(
+    private $properties = array(
         'level'     => null,
         'textStyle' => null,
     );

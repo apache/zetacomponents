@@ -26,21 +26,11 @@ class ezcDocumentOdtListLevelStyleBullet extends ezcDocumentOdtListLevelStyle
      * 
      * @var array(string=>mixed)
      */
-    protected $properties = array(
+    private $properties = array(
         'bulletChar' => '',
         'numPrefix'  => '',
         'numSuffix'  => '',
     );
-
-    /**
-     * Creates a new list-level style.
-     * 
-     * @param int $level 
-     */
-    public function __construct( $level )
-    {
-        parent::__construct( $level );
-    }
 
     /**
      * Sets the property $name to $value.
@@ -55,7 +45,7 @@ class ezcDocumentOdtListLevelStyleBullet extends ezcDocumentOdtListLevelStyle
         switch ( $name )
         {
             case 'bulletChar':
-                if ( !is_string( $value ) && strlen( $value ) !== 1 )
+                if ( !is_string( $value ) || iconv_strlen( $value, 'UTF-8' ) !== 1 )
                 {
                     throw new ezcBaseValueException( $name, $value, 'string, length = 1' );
                 }

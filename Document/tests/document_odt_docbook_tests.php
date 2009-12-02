@@ -68,6 +68,53 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
         }
     }
 
+    public function testInvalidDocBook()
+    {
+
+        $docbook = new ezcDocumentDocbook();
+        $docbook->options->validate = false;
+        $docbook->loadFile( dirname( __FILE__ ) . '/files/docbook/invalid.xml' );
+
+        $document = new ezcDocumentOdt();
+        $document->options->validate = true;
+
+        try
+        {
+            $document->createFromDocbook( $docbook );
+            $this->fail( 'Exception not thrown on conversion of invalid docbook.' );
+        }
+        catch ( ezcDocumentVisitException $e ) {}
+    }
+
+    public function testValidateFileSuccess()
+    {
+        $document = new ezcDocumentOdt();
+
+        $actRes = $document->validateFile(
+            dirname( __FILE__ ) . '/files/odt/tests/s_000_simple.fodt'
+        );
+
+        $this->assertTrue( $actRes );
+    }
+
+    public function testValidateFileFailure()
+    {
+        $document = new ezcDocumentOdt();
+
+        $actRes = $document->validateFile(
+            dirname( __FILE__ ) . '/files/odt/invalid/s_000_simple.fodt'
+        );
+
+        $this->assertType(
+            'array',
+            $actRes
+        );
+        $this->assertEquals(
+            1,
+            count( $actRes )
+        );
+    }
+
     /**
      * @dataProvider getTestDocuments
      */
