@@ -2,7 +2,6 @@
 /**
  * File containing the ezcDocumentOdtPcssStyler class.
  *
- * @access private
  * @package Document
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
@@ -17,7 +16,6 @@
  * methods to add custom PCSS styles to it. It is used as the default in the 
  * {@link ezcDocumentDocbookToOdtConverterOptions}.
  *
- * @access private
  * @package Document
  * @version //autogen//
  */
@@ -28,42 +26,42 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * 
      * @var ezcDocumentOdtPcssConverterManager
      */
-    protected $styleConverters;
+    private $styleConverters;
 
     /**
      * Set of style generators to use. 
      * 
      * @var array(ezcDocumentOdtStyleGenerator)
      */
-    protected $styleGenerators;
+    private $styleGenerators;
 
     /**
      * Style sections for the current ODT document. 
      * 
      * @var ezcDocumentOdtStyleInformation
      */
-    protected $styleInfo;
+    private $styleInfo;
 
     /**
      * Style inferencer on DocBook source. 
      * 
      * @var ezcDocumentPcssStyleInferencer
      */
-    protected $styleInferencer;
+    private $styleInferencer;
 
     /**
      * Style pre-processors. 
      * 
      * @var array(ezcDocumentOdtPcssPreprocessor)
      */
-    protected $stylePreProcessors = array();
+    private $stylePreProcessors = array();
 
     /**
      * PCSS parser. 
      * 
      * @var ezcDocumentPcssParser
      */
-    protected $styleParser;
+    private $styleParser;
 
     /**
      * Creates a new ODT document styler.
@@ -71,15 +69,11 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * Creates a new styler. Note that {@link init()} must be 
      * called before {@link applyStyles()} can be used. Otherwise an exception 
      * is thrown.
-     * 
-     * @param ezcDocumentOdtPcssConverterManager $styleConverters 
      */
-    public function __construct( ezcDocumentOdtPcssConverterManager $styleConverters = null )
+    public function __construct()
     {
-        $this->styleConverters   = ( $styleConverters === null
-            ? new ezcDocumentOdtPcssConverterManager()
-            : $styleConverters
-        );
+        // @TODO: Make configurable
+        $this->styleConverters   = new ezcDocumentOdtPcssConverterManager();
         $this->styleInferencer   = new ezcDocumentPcssStyleInferencer();
 
         // @TODO: Make configurable
@@ -115,6 +109,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * at all. Otherwise an exception will be thrown.
      * 
      * @param DOMDocument $odtDocument
+     * @access private
      */
     public function init( DOMDocument $odtDocument )
     {
@@ -146,6 +141,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * @param DOMElement $odtElement 
      * @param array $styles
      * @throws ezcDocumentOdtStylerNotInitializedException
+     * @access private
      */
     public function applyStyles( ezcDocumentLocateable $docBookElement, DOMElement $odtElement )
     {
@@ -178,7 +174,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * @param array $styles 
      * @return array
      */
-    protected function preProcessStyles( DOMElement $docBookElement, DOMElement $odtElement, array $styles )
+    private function preProcessStyles( DOMElement $docBookElement, DOMElement $odtElement, array $styles )
     {
         foreach ( $this->stylePreProcessors as $preProcessor )
         {
@@ -239,7 +235,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * Initializes the $styleParser, if it has not been initialized, yet. Returns 
      * the instance of the style parser to use.
      */
-    protected function createStyleParser()
+    private function createStyleParser()
     {
         if ( !isset( $this->styleParser ) )
         {
