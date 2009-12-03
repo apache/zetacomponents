@@ -49,10 +49,6 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
         $root->setAttribute( 'class', 'article' );
         $this->document->appendChild( $root );
 
-        $this->head = $this->document->createElement( 'dl' );
-        $this->head->setAttribute( 'class', 'head' );
-        $root->appendChild( $this->head );
-
         $body = $this->document->createElement( 'div' );
         $body->setAttribute( 'class', 'body' );
         $root->appendChild( $body );
@@ -104,6 +100,13 @@ class ezcDocumentRstXhtmlBodyVisitor extends ezcDocumentRstXhtmlVisitor
         foreach ( $node->title->nodes as $child )
         {
             $this->visitNode( $header, $child );
+        }
+
+        if ( $this->head === null )
+        {
+            $this->head = $this->document->createElement( 'dl' );
+            $this->head->setAttribute( 'class', 'head' );
+            $root->appendChild( $this->head );
         }
 
         foreach ( $node->nodes as $child )

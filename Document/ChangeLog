@@ -1,7 +1,9 @@
 1.3beta2 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed: #15905: Make rst->docbook visitor configuratble, just like rst->xhtml
+- Fixed #15905: Make rst->docbook visitor configuratble, just like rst->xhtml
+- Fixed #15904: 'ezcDocumentRstXhtmlBodyVisitor' renders field lists above
+  titles unlike docutils
 
 
 1.3beta1 - Monday 23 November 2009
