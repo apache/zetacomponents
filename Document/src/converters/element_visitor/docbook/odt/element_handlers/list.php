@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentDocbookToOdtParagraphHandler class.
+ * File containing the ezcDocumentDocbookToOdtListHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -12,7 +12,9 @@
 /**
  * Visit lists.
  *
- * Visit docbook lists and transform them into ODT lists.
+ * Visit docbook <orderedlist/> and <itemizedlist/> and transform them into ODT
+ * <text:list/>. Note that distinguishing between ordered and itemized lists 
+ * happens in the styles in ODT.
  *
  * @package Document
  * @version //autogen//

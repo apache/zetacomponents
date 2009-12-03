@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the recursing handler ignoring the current nodes markup
+ * File containing ezcDocumentDocbookToOdtIgnoreHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -11,6 +11,9 @@
 
 /**
  * Handler for elements, which are safe to be ignored.
+ *
+ * This ignore handler can either ignore only a single XML element level or can 
+ * be configured to ignore a complete XML sub-tree.
  *
  * @package Document
  * @version //autogen//

@@ -22,7 +22,7 @@
 interface ezcDocumentOdtStyler
 {
     /**
-     * Initialize the styler with the given $styleInfo.
+     * Initialize the styler with the given $odtDocument.
      *
      * This method *must* be called *before* {@link applyStyles()} is called 
      * at all. Otherwise an exception will be thrown. This method is called by 

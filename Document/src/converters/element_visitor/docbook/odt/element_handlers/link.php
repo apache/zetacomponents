@@ -12,7 +12,7 @@
 /**
  * Visit links.
  *
- * Visit docbook links and transform them into ODT <text:reference-ref/>.
+ * Visit docbook <link/> and transform them into ODT <text:reference-ref/>.
  *
  * @package Document
  * @version //autogen//

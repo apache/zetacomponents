@@ -12,7 +12,7 @@
 /**
  * Visit comments.
  *
- * Visit docbook comments and transform them into ODT comments.
+ * Visit docbook <comment/> and transform them into XML comments.
  *
  * @package Document
  * @version //autogen//

@@ -10,9 +10,9 @@
  */
 
 /**
- * Tablecell property generator.
+ * Table cell property generator.
  *
- * Creates and fills the table-cell-properties element.
+ * Creates and fills the <style:table-cell-properties/> element.
  *
  * @package Document
  * @access private

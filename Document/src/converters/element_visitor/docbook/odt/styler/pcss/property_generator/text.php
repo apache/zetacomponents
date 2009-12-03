@@ -12,7 +12,7 @@
 /**
  * Text property generator.
  *
- * Creates and fills the text-properties element.
+ * Creates and fills the <style:text-properties/> element.
  *
  * @package Document
  * @access private

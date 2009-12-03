@@ -10,7 +10,7 @@
  */
 
 /**
- * Class to generate styles for table-row elements.
+ * Class to generate styles for <table:table-row/> elements.
  *
  * @package Document
  * @access private

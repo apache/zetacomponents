@@ -10,10 +10,10 @@
  */
 
 /**
- * Visit paragraphs.
+ * Visit literallayout sections.
  *
- * Visit docbook literal layout paragraphs and transform them into ODT 
- * paragraphs.
+ * Visit docbook <literallayout/> paragraphs and transform them into ODT 
+ * <text:p/>.
  *
  * @package Document
  * @version //autogen//

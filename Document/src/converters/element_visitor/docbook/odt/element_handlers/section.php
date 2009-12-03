@@ -10,9 +10,10 @@
  */
 
 /**
- * Visit docbook sections
+ * Visit docbook sections.
  *
- * Visitor for DocBoo
+ * Visit docbook <section/> and transform them into ODT <text:section/>. 
+ * Handles <title/> nodes in addition.
  *
  * @package Document
  * @version //autogen//

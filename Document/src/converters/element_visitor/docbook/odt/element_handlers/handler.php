@@ -12,6 +12,10 @@
 /**
  * Base class for ODT visitor handlers.
  *
+ * ODT visitor handlers require a styler to be available, which is capable of
+ * infering style information from DocBook elements and to apply them to ODT 
+ * elements.
+ *
  * @package Document
  * @version //autogen//
  * @access private

@@ -12,7 +12,7 @@
 /**
  * Table row property generator.
  *
- * Creates and fills the table-row-properties element.
+ * Creates and fills the <style:table-row-properties/> element.
  *
  * @package Document
  * @access private

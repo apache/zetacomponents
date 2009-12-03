@@ -10,9 +10,9 @@
  */
 
 /**
- * Visit paragraphs.
+ * Visit footnotes.
  *
- * Visit docbook paragraphs and transform them into ODT paragraphs.
+ * Visit docbook <footnote/> and transform them into ODT <text:note/>.
  *
  * @package Document
  * @version //autogen//

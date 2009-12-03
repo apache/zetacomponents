@@ -12,7 +12,7 @@
 /**
  * Paragraph property generator.
  *
- * Creates and fills the paragraph-properties element.
+ * Creates and fills the <style:paragraph-properties/> element.
  *
  * @package Document
  * @access private

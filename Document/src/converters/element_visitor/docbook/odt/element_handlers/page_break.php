@@ -12,7 +12,12 @@
 /**
  * Visit page-breaks.
  *
- * Visit docbook page-breaks and transform them into ODT page-breaks.
+ * Visit docbook <beginpage/> and transform them into ODT <text:soft-page-break/>.
+ *
+ * Note that OpenOffice.org does not pay attention to these page-break 
+ * information, but expects page-breaks to be encoded in styles. Therefore, 
+ * additional page-break handling happens in {@link 
+ * ezcDocumentOdtPcssParagraphStylePreprocessor}.
  *
  * @package Document
  * @version //autogen//

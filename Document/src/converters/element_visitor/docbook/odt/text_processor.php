@@ -1,5 +1,24 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtTextProcessor class.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
 
+/**
+ * Processes text nodes with significant whitespaces.
+ *
+ * An instance of this class is used to process DOMText nodes with significant 
+ * whitespaces (such as literallayout).
+ *
+ * @package Document
+ * @access private
+ * @version //autogen//
+ */
 class ezcDocumentOdtTextProcessor
 {
     /**
@@ -89,6 +108,17 @@ class ezcDocumentOdtTextProcessor
         return $res;
     }
 
+    /**
+     * Generates whitespace elements.
+     *
+     * Retruns an array of DOMElement objects, representing $length number of 
+     * whitespaces of type $spaceType.
+     * 
+     * @param string $spaceType 
+     * @param int $length 
+     * @param DOMElement $root 
+     * @return array(DOMNode)
+     */
     protected function repeatSpace( $spaceType, $length, DOMElement $root )
     {
         $spaces = array();
@@ -151,7 +181,7 @@ class ezcDocumentOdtTextProcessor
     /**
      * Returns the ancestor DOMElement for $node.
      *
-     * Returns the next ancestor DOMElement vor $node.
+     * Returns the next ancestor DOMElement for $node.
      * 
      * @param DOMNode $node 
      * @return DOMElement

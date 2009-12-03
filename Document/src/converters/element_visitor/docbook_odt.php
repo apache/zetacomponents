@@ -114,9 +114,10 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
     }
 
     /**
-     * Convert documents between two formats
+     * Converts the given DocBook $source to an ODT document.
      *
-     * Convert documents of the given type to the requested type.
+     * This method receives a DocBook $source document and returns the 
+     * converters ODT document.
      *
      * @param ezcDocumentDocbook $source
      * @return ezcDocumentOdt
@@ -143,6 +144,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
      * Returns the image locator for the current conversion.
      * 
      * @return ezcDocumentOdtImageLocator
+     * @access private
      */
     public function getImageLocator()
     {
@@ -156,7 +158,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
      * @param DOMDocument $docBook 
      * @return DOMDocument
      */
-    protected function makeLocateable( DOMDocument $docBook )
+    private function makeLocateable( DOMDocument $docBook )
     {
         // Reload the XML document to a DOMDocument with a custom element
         // class. Just registering it on the existing document seems not to

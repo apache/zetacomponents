@@ -1,5 +1,23 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtPcssConverterTools class.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
 
+/**
+ * Tool class for ODT PCSS styles.
+ *
+ * Contains static helper functions which are used in multiple style converters.
+ *
+ * @package Document
+ * @access private
+ * @version //autogen//
+ */
 class ezcDocumentOdtPcssConverterTools
 {
     /**
@@ -23,7 +41,6 @@ class ezcDocumentOdtPcssConverterTools
                 round( $colorValue['blue'] * 255 )
             );
         }
-
     }
 }
 

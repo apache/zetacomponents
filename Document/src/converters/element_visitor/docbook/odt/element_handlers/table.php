@@ -12,7 +12,8 @@
 /**
  * Visit tables.
  *
- * Visit docbook tables and transform them into ODT tables.
+ * Visit docbook <table/> and child elements and transform them into ODT <table:table/> 
+ * and corresponding child elements.
  *
  * @package Document
  * @version //autogen//

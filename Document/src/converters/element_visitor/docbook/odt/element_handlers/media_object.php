@@ -12,9 +12,7 @@
 /**
  * Visit media objects.
  *
- * Visit docbook media objects and transform them into ODT image frames. For 
- * FODT, only PNG images may be inlined. It is checked, that no other objects 
- * are inlined here.
+ * Visit docbook <mediaobject/> and transform them into ODT image frames.
  *
  * @TODO: For later versions: Supporting non flat ODT, we can bundle images and 
  *        simply refer to them.

@@ -10,7 +10,7 @@
  */
 
 /**
- * Class to generate styles for paragraph elements (<h> and <p>).
+ * Class to generate styles for paragraph elements (<text:h/> and <text:p/>).
  *
  * @package Document
  * @access private

@@ -10,9 +10,9 @@
  */
 
 /**
- * Visit paragraphs.
+ * Visit inline elements.
  *
- * Visit docbook paragraphs and transform them into ODT paragraphs.
+ * Visit docbook inline elements and transform them into ODT <text:span/>.
  *
  * @package Document
  * @version //autogen//

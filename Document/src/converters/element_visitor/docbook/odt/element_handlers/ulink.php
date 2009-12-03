@@ -12,7 +12,7 @@
 /**
  * Visit ulinks.
  *
- * Visit docbook ulinks and transform them into ODT a elements.
+ * Visit docbook <ulink/> and transform them into ODT <text:a/>.
  *
  * @package Document
  * @version //autogen//

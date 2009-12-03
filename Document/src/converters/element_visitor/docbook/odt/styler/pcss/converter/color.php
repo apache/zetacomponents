@@ -19,7 +19,7 @@
 class ezcDocumentOdtPcssColorConverter implements ezcDocumentOdtPcssConverter
 {
     /**
-     * Converts the 'font-*' CSS styles.
+     * Converts color properties.
      *
      * This method receives a $targetProperty DOMElement and converts the given 
      * style with $styleName and $styleValue to attributes on this 

@@ -12,7 +12,7 @@
 /**
  * Table property generator.
  *
- * Creates and fills the table-properties element.
+ * Creates and fills the <style:table-properties/> element.
  *
  * @package Document
  * @access private

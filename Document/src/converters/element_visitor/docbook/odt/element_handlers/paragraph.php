@@ -12,7 +12,7 @@
 /**
  * Visit paragraphs.
  *
- * Visit docbook paragraphs and transform them into ODT paragraphs.
+ * Visit docbook <para/> and transform them into ODT <text:p/>.
  *
  * @package Document
  * @version //autogen//
