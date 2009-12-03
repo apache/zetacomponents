@@ -67,6 +67,7 @@ require 'converter_docbook_odt_test.php';
 
 require 'converter_options_docbook_ezxml_tests.php';
 require 'converter_options_ezxml_docbook_tests.php';
+require 'converter_options_odt_tests.php';
 require 'converter_options_rst_tests.php';
 require 'converter_options_tests.php';
 require 'converter_options_wiki_tests.php';
@@ -158,6 +159,7 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcConverterDocbookEzXmlOptionsTests::suite() );
         $this->addTest( ezcConverterEzXmlDocbookOptionsTests::suite() );
         $this->addTest( ezcConverterWikiOptionsTests::suite() );
+        $this->addTest( ezcConverterOdtOptionsTests::suite() );
     }
 }
 
