@@ -11,6 +11,8 @@
 /**
  * Class containing the basic options for the ezcDocumentRst
  *
+ * @property string $docbookVisitor
+ *           Classname of the docbook visitor to use.
  * @property string $xhtmlVisitor
  *           Classname of the XHTML visitor to use.
  * @property string $xhtmlVisitorOptions
@@ -32,6 +34,7 @@ class ezcDocumentRstOptions extends ezcDocumentOptions
      */
     public function __construct( array $options = array() )
     {
+        $this->properties['docbookVisitor']      = 'ezcDocumentRstDocbookVisitor';
         $this->properties['xhtmlVisitor']        = 'ezcDocumentRstXhtmlVisitor';
         $this->properties['xhtmlVisitorOptions'] = new ezcDocumentHtmlConverterOptions();
 
@@ -53,6 +56,7 @@ class ezcDocumentRstOptions extends ezcDocumentOptions
     {
         switch ( $name )
         {
+            case 'docbookVisitor':
             case 'xhtmlVisitor':
                 if ( !is_string( $value ) )
                 {

@@ -33,6 +33,9 @@ class ezcDocumentRstOptionsTests extends ezcDocumentOptionsTestCase
     {
         return array(
             array(
+                'docbookVisitor', 'ezcDocumentRstDocbookVisitor',
+            ),
+            array(
                 'xhtmlVisitor', 'ezcDocumentRstXhtmlVisitor',
             ),
             array(
@@ -44,6 +47,10 @@ class ezcDocumentRstOptionsTests extends ezcDocumentOptionsTestCase
     public static function provideValidData()
     {
         return array(
+            array(
+                'docbookVisitor',
+                array( 'Foo', 'StdClass', 'ezcDocumentRstDocbookVisitor' ),
+            ),
             array(
                 'xhtmlVisitor',
                 array( 'Foo', 'StdClass', 'ezcDocumentRstXhtmlVisitor' ),
@@ -58,6 +65,10 @@ class ezcDocumentRstOptionsTests extends ezcDocumentOptionsTestCase
     public static function provideInvalidData()
     {
         return array(
+            array(
+                'docbookVisitor',
+                array( 23, new StdClass() ),
+            ),
             array(
                 'xhtmlVisitor',
                 array( 23, new StdClass() ),
