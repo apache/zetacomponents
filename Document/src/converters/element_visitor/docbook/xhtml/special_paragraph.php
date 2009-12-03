@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the handler for special paragraphs
+ * File containing the ezcDocumentDocbookToHtmlSpecialParagraphHandler class.
  *
  * @package Document
  * @version //autogen//

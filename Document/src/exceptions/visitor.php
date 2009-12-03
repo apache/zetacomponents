@@ -1,6 +1,6 @@
 <?php
 /**
- * Document visitor exception
+ * File containing the ezcDocumentVisitException class.
  *
  * @package Document
  * @version //autogentag//

@@ -138,8 +138,8 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      * creating a new anonymous style in the ODT style section and applying the 
      * corresponding attributes to reference this style.
      * 
-     * @param DOMElement $odtElement 
-     * @param array $styles
+     * @param ezcDocumentLocateable $docBookElement
+     * @param DOMElement $odtElement
      * @throws ezcDocumentOdtStylerNotInitializedException
      * @access private
      */
@@ -151,18 +151,12 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
             $this->styleInferencer->inferenceFormattingRules( $docBookElement )
         );
 
-        $handled = false;
         foreach ( $this->styleGenerators as $generator )
         {
             if ( $generator->handles( $odtElement ) )
             {
                 $generator->createStyle( $this->styleInfo, $odtElement, $styles );
-                $handled = true;
             }
-        }
-        if ( !$handled )
-        {
-            // echo "DocBook element '{$docBookElement->localName}' not handled. No style generated for ODT element '{$odtElement->localName}'.\n";
         }
     }
 

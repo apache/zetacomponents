@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the media object handler
+ * File containing the ezcDocumentDocbookToRstMediaObjectHandler class.
  *
  * @package Document
  * @version //autogen//

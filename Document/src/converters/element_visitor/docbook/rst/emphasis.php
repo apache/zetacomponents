@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the emphasis handler
+ * File containing the ezcDocumentDocbookToRstEmphasisHandler class.
  *
  * @package Document
  * @version //autogen//

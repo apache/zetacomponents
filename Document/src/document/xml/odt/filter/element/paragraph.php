@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtParagraphFilter class.
+ * File containing the ezcDocumentOdtElementParagraphFilter class.
  *
  * @package Document
  * @version //autogen//

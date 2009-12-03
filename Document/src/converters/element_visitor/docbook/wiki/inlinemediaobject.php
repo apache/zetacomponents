@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the media object handler
+ * File containing the ezcDocumentDocbookToWikiInlineMediaObjectHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -20,7 +20,7 @@
 class ezcDocumentDocbookToWikiInlineMediaObjectHandler extends ezcDocumentDocbookToWikiMediaObjectHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

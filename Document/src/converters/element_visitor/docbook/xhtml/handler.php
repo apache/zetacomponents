@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the base handler
+ * File containing the abstrac ezcDocumentDocbookToHtmlBaseHandler base class.
  *
  * @package Document
  * @version //autogen//

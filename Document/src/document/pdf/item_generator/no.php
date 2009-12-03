@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentListItemGenerator class
+ * File containing the ezcDocumentNoListItemGenerator class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Numbered list item generator
+ * Numbered list item generator.
  *
  * Generates empty list items, ust for definition lists, where no list item is 
  * desired.
@@ -22,7 +22,7 @@
 class ezcDocumentNoListItemGenerator extends ezcDocumentListItemGenerator
 {
     /**
-     * Get list item
+     * Get list item.
      *
      * Get the n-th list item. The index of the list item is specified by the
      * number parameter.

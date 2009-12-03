@@ -14,11 +14,11 @@
  *
  * Visit docbook <mediaobject/> and transform them into ODT image frames.
  *
- * @TODO: For later versions: Supporting non flat ODT, we can bundle images and 
- *        simply refer to them.
  * @package Document
  * @version //autogen//
  * @access private
+ * @TODO For later versions: Supporting non flat ODT, we can bundle images and 
+ *       simply refer to them.
  */
 class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtBaseHandler
 {

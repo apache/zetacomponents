@@ -370,6 +370,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
      *
      * @param ezcDocumentLocateableDomElement $element
      * @param ezcDocumentPdfTokenizer $tokenizer
+     * @param bool $recursed
      * @return array
      */
     protected function tokenize( ezcDocumentLocateableDomElement $element, ezcDocumentPdfTokenizer $tokenizer, $recursed = false )
@@ -482,7 +483,7 @@ class ezcDocumentPdfTextBoxRenderer extends ezcDocumentPdfBlockRenderer
      *
      * @param array $tokens
      * @param ezcDocumentPdfHyphenator $hyphenator
-     * @param float $width
+     * @param float $available
      * @return array
      */
     protected function fitTokensInLines( array $tokens, ezcDocumentPdfHyphenator $hyphenator, $available )

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentXmlBase class
+ * File containing the ezcDocumentXmlOptions class.
  *
  * @package Document
  * @version //autogen//

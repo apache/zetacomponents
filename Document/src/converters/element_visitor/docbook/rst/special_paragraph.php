@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the handler for special paragraphs
+ * File containing the ezcDocumentDocbookToRstSpecialParagraphHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit special paragraphs
+ * Visit special paragraphs.
  *
  * Transform the paragraphs with special annotations like <note> and
  * <caution> to paragraphs inside the HTML document with a class

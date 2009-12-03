@@ -1,6 +1,6 @@
 <?php
 /**
- * Wiki tokenizer exception
+ * File containing the ezcDocumentWikiTokenizerException class.
  *
  * @package Document
  * @version //autogentag//

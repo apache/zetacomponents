@@ -17,6 +17,12 @@
  */
 class ezcDocumentInvalidDocbookException extends ezcDocumentException
 {
+    /**
+     * Creates a new exception.
+     * 
+     * @param DOMNode $affectedNode 
+     * @param string $message 
+     */
     public function __construct( DOMNode $affectedNode, $message )
     {
         parent::__construct(

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPcssStyleMeasureValue class
+ * File containing the ezcDocumentPcssStyleColorValue class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Style directive color value representation
+ * Style directive color value representation.
  *
  * @package Document
  * @access private
@@ -19,28 +19,28 @@
 class ezcDocumentPcssStyleColorValue extends ezcDocumentPcssStyleValue
 {
     /**
-     * Sub regular expression for short hexadecimal color notation
+     * Sub regular expression for short hexadecimal color notation.
      * 
      * @var string
      */
     protected $shortHexNotation = '(?:#?([0-9a-f])([0-9a-f])([0-9a-f])([0-9a-f])?)';
 
     /**
-     * Sub regular expression for long hexadecimal color notation
+     * Sub regular expression for long hexadecimal color notation.
      * 
      * @var string
      */
     protected $longHexNotation = '(?:#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})?)';
 
     /**
-     * Sub regular expression for rgb() color notation
+     * Sub regular expression for rgb() color notation.
      * 
      * @var string
      */
     protected $rgbSpec = '(?:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*)';
 
     /**
-     * Sub regular expression for rgba() color notation
+     * Sub regular expression for rgba() color notation.
      * 
      * @var string
      */
@@ -53,7 +53,6 @@ class ezcDocumentPcssStyleColorValue extends ezcDocumentPcssStyleValue
      * representation.
      * 
      * @param string $value 
-     * @return void
      */
     public function parse( $value )
     {
@@ -118,7 +117,7 @@ class ezcDocumentPcssStyleColorValue extends ezcDocumentPcssStyleValue
     }
 
     /**
-     * Get regular expression matching the value
+     * Get regular expression matching the value.
      *
      * Return a regular sub expression, which matches all possible values of
      * this value type. The regular expression should NOT contain any named
@@ -136,7 +135,7 @@ class ezcDocumentPcssStyleColorValue extends ezcDocumentPcssStyleValue
     }
 
     /**
-     * Convert value to string
+     * Convert value to string.
      *
      * @return string
      */

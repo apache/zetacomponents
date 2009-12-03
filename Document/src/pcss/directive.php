@@ -65,7 +65,9 @@ abstract class ezcDocumentPcssDirective extends ezcBaseStruct
      *
      * @param string $address
      * @param array $formats
-     * @return void
+     * @param string $file
+     * @param int $line
+     * @param int $position
      */
     public function __construct( $address, array $formats, $file = null, $line = null, $position = null )
     {

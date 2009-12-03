@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPcssStyleStringValue class
+ * File containing the abstract ezcDocumentPcssStyleValue base class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Style directive value representation
+ * Style directive value representation.
  *
  * @package Document
  * @access private

@@ -1,6 +1,6 @@
 <?php
 /**
- * Base exception for the Document package.
+ * File containing the ezcDocumentException class.
  *
  * @package Document
  * @version //autogentag//

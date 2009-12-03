@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtPcssDefaultConverter class.
+ * File containing the ezcDocumentOdtDefaultPcssConverter class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Default style converter which converts just to fo:$stylename.
+ * Default style converter which converts just to "fo:$stylename".
  *
  * @package Document
  * @access private

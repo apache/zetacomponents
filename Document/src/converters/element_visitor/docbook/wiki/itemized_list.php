@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the itemized list handler
+ * File containing the ezcDocumentDocbookToWikiItemizedListHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit itemized list / bullet lists
+ * Visit itemized list / bullet lists.
  *
  * Visit itemized lists (bullet list) and maintain the correct indentation for
  * list items.
@@ -20,14 +20,14 @@
 class ezcDocumentDocbookToWikiItemizedListHandler extends ezcDocumentDocbookToWikiBaseHandler
 {
     /**
-     * Current list indentation level
+     * Current list indentation level.
      *
      * @var int
      */
     protected $level = 0;
 
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

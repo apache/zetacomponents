@@ -19,10 +19,10 @@
  * @package Document
  * @version //autogen//
  * @access private
- * @TODO: Emphasis can also be indicated by other styles like red color or 
- *        similar. In addition, emphasis should be detected relatively to the 
- *        surrounding style. Some kind of points-threshold-based system would 
- *        be nice.
+ * @TODO Emphasis can also be indicated by other styles like red color or 
+ *       similar. In addition, emphasis should be detected relatively to the 
+ *       surrounding style. Some kind of points-threshold-based system would 
+ *       be nice.
  */
 class ezcDocumentOdtEmphasisStyleFilterRule implements ezcDocumentOdtStyleFilterRule
 {
@@ -45,7 +45,7 @@ class ezcDocumentOdtEmphasisStyleFilterRule implements ezcDocumentOdtStyleFilter
      * the element is set to be <emphasis/>.
      * 
      * @param DOMElement $odtElement 
-     * @param ezcDocumentOdtStyle $style 
+     * @param ezcDocumentOdtStyleInferencer $styleInferencer
      */
     public function filter( DOMElement $odtElement, ezcDocumentOdtStyleInferencer $styleInferencer )
     {

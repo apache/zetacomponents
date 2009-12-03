@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the blockquote handler
+ * File containing the ezcDocumentDocbookToRstBlockquoteHandler class.
  *
  * @package Document
  * @version //autogen//

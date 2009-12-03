@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the emphasis handler
+ * File containing the ezcDocumentEzXmlToDocbookEmphasisHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit emphasis
+ * Visit emphasis.
  *
  * Emphasis markup is used to emphasize text inside a paragraph and is
  * rendered, depending on the assigned role, as strong or em tags in HTML.
@@ -20,7 +20,7 @@
 class ezcDocumentEzXmlToDocbookEmphasisHandler extends ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

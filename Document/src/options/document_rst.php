@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentRst class
+ * File containing the ezcDocumentRstOptions class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentRst
+ * Class containing the basic options for the ezcDocumentRst.
  *
  * @property string $docbookVisitor
  *           Classname of the docbook visitor to use.

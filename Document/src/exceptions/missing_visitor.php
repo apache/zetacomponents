@@ -1,6 +1,6 @@
 <?php
 /**
- * Missing document visitor exception
+ * File containing the ezcDocumentMissingVisitorException class.
  *
  * @package Document
  * @version //autogentag//
@@ -20,7 +20,8 @@ class ezcDocumentMissingVisitorException extends ezcDocumentException
      * Construct exception from errnous string and current position
      *
      * @param string $class
-     * @return void
+     * @param int $line
+     * @param int $position
      */
     public function __construct( $class, $line = 0, $position = 0 )
     {

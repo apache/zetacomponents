@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the document header handler
+ * File containing the ezcDocumentDocbookToHtmlHeadHandler class.
  *
  * @package Document
  * @version //autogen//

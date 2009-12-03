@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the section handler
+ * File containing the ezcDocumentDocbookToRstSectionHandler class.
  *
  * @package Document
  * @version //autogen//

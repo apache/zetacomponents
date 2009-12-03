@@ -1,6 +1,7 @@
 <?php
 /**
- * File containing the definition list handler
+ * File containing the ezcDocumentDocbookToHtmlDefinitionListEntryHandler 
+ * class.
  *
  * @package Document
  * @version //autogen//

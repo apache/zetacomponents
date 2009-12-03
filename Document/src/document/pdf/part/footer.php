@@ -69,7 +69,7 @@ class ezcDocumentPdfFooterPdfPart extends ezcDocumentPdfPart
     /**
      * Create a new footer PDF part
      *
-     * @return void
+     * @param ezcDocumentPdfFooterOptions $options
      */
     public function __construct( ezcDocumentPdfFooterOptions $options = null )
     {

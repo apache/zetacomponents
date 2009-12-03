@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the section handler
+ * File containing the ezcDocumentDocbookToEzXmlSectionHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit docbook sections
+ * Visit docbook sections.
  *
  * Updates the docbook sections, which give us information about the depth
  * in the document, and may also be reference targets.

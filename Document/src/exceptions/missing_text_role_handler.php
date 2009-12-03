@@ -1,6 +1,6 @@
 <?php
 /**
- * RST missing text role handler exception
+ * File containing the ezcDocumentRstMissingTextRoleHandlerException class.
  *
  * @package Document
  * @version //autogentag//
@@ -21,7 +21,6 @@ class ezcDocumentRstMissingTextRoleHandlerException extends ezcDocumentException
      * Construct exception from text role name
      *
      * @param string $name
-     * @return void
      */
     public function __construct( $name )
     {

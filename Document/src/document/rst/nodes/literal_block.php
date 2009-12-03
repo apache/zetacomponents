@@ -1,8 +1,8 @@
 <?php
 /**
- * File containing the ezcDocumentRstLiteralBlockNode struct
+ * File containing the ezcDocumentRstLiteralBlockNode struct.
  *
- * @package DocumentBlock
+ * @package Document
  * @version //autogen//
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
@@ -10,20 +10,19 @@
  */
 
 /**
- * The literal block AST node
+ * The literal block AST node.
  *
- * @package DocumentBlock
+ * @package Document
  * @version //autogen//
  * @access private
  */
 class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstBlockNode
 {
     /**
-     * Construct RST document node
+     * Construct RST document node.
      *
      * @param ezcDocumentRstToken $token
      * @param array $nodes
-     * @return void
      */
     public function __construct( ezcDocumentRstToken $token, array $nodes = array() )
     {
@@ -34,7 +33,7 @@ class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstBlockNode
     }
 
     /**
-     * Return node content, if available somehow
+     * Return node content, if available somehow.
      *
      * @return string
      */
@@ -44,10 +43,10 @@ class ezcDocumentRstLiteralBlockNode extends ezcDocumentRstBlockNode
     }
 
     /**
-     * Set state after var_export
+     * Set state after var_export.
      *
      * @param array $properties
-     * @return void
+     * @return ezcDocumentRstLiteralBlockNode
      * @ignore
      */
     public static function __set_state( $properties )

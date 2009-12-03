@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the inline literal handler
+ * File containing the ezcDocumentDocbookToWikiLiteralHandler class.
  *
  * @package Document
  * @version //autogen//

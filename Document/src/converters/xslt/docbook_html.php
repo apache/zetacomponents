@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing theXSLT based docbook to XHtml converter
+ * File containing the ezcDocumentDocbookToHtmlXsltConverter class.
  *
  * @package Document
  * @version //autogen//
@@ -21,9 +21,9 @@
 class ezcDocumentDocbookToHtmlXsltConverter extends ezcDocumentXsltConverter
 {
     /**
-     * Construct new document
+     * Construct new document converter.
      *
-     * @param ezcDocumentDocbookToHtmlConverterOptions $options
+     * @param ezcDocumentDocbookToHtmlXsltConverterOptions $options
      */
     public function __construct( ezcDocumentDocbookToHtmlXsltConverterOptions $options = null )
     {

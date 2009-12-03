@@ -28,7 +28,7 @@ class ezcDocumentOdtImageLocator
     /**
      * Creates a new image locator for the given $document.
      * 
-     * @param ezcDocumentDocument $document 
+     * @param ezcDocument $document 
      */
     public function __construct( ezcDocument $document )
     {

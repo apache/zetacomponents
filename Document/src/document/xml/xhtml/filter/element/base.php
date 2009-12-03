@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentXhtmlBaseFilter class
+ * File containing the abstract ezcDocumentXhtmlElementBaseFilter base class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Filter for XHtml elements.
+ * Filter for XHTML elements.
  *
  * @package Document
  * @version //autogen//
@@ -22,7 +22,6 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      * Filter a single element
      *
      * @param DOMElement $element
-     * @return void
      */
     abstract public function filterElement( DOMElement $element );
 
@@ -212,8 +211,8 @@ abstract class ezcDocumentXhtmlElementBaseFilter
      * Is only there for debugging purposes
      * 
      * @param DOMElement $element 
+     * @param bool $newLine
      * @access private
-     * @return void
      */
     protected function showCurrentNode( DOMElement $element, $newLine = true )
     {

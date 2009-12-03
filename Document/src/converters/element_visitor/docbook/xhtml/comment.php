@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the comment handler
+ * File containing the ezcDocumentDocbookToHtmlCommentHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit docbook comment
+ * Visit docbook comment.
  *
  * Transform docbook comments into HTML ( / XML ) comments.
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the basic node name mapping handler
+ * File containing the ezcDocumentEzXmlToDocbookMappingHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Simple mapping handler
+ * Simple mapping handler.
  *
  * Special visitor for elements which just need trivial mapping of element
  * tag names. It ignores all attributes of the input element and just

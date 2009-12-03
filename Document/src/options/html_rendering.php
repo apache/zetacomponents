@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for all conversions to HTML
+ * File containing the ezcDocumentHtmlConverterOptions class.
  *
  * @package Document
  * @version //autogen//

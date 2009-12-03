@@ -1,6 +1,6 @@
 <?php
 /**
- * Wiki missing plugin handler exception
+ * Class containing the ezcDocumentWikiMissingPluginHandlerException class.
  *
  * @package Document
  * @version //autogentag//
@@ -21,7 +21,6 @@ class ezcDocumentWikiMissingPluginHandlerException extends ezcDocumentException
      * Construct exception from directive name
      *
      * @param string $name
-     * @return void
      */
     public function __construct( $name )
     {

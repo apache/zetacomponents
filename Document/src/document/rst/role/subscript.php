@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentRstDangerTextRole class
+ * File containing the ezcDocumentRstSubscriptTextRole class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visitor for RST subscript text roles
+ * Visitor for RST subscript text roles.
  *
  * @package Document
  * @version //autogen//
@@ -17,14 +17,13 @@
 class ezcDocumentRstSubscriptTextRole extends ezcDocumentRstTextRole implements ezcDocumentRstXhtmlTextRole
 {
     /**
-     * Transform text role to docbook
+     * Transform text role to docbook.
      *
      * Create a docbook XML structure at the text roles position in the
      * document.
      *
      * @param DOMDocument $document
      * @param DOMElement $root
-     * @return void
      */
     public function toDocbook( DOMDocument $document, DOMElement $root )
     {
@@ -35,13 +34,12 @@ class ezcDocumentRstSubscriptTextRole extends ezcDocumentRstTextRole implements 
     }
 
     /**
-     * Transform text role to HTML
+     * Transform text role to HTML.
      *
      * Create a XHTML structure at the text roles position in the document.
      *
      * @param DOMDocument $document
      * @param DOMElement $root
-     * @return void
      */
     public function toXhtml( DOMDocument $document, DOMElement $root )
     {

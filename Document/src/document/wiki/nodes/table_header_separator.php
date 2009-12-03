@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiSeparatorNode struct
+ * File containing the ezcDocumentWikiTableHeaderSeparatorNode struct.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Struct for Wiki document inline seperator syntax tree nodes
+ * Struct for Wiki document inline seperator syntax tree nodes.
  *
  * @package Document
  * @version //autogen//
@@ -17,10 +17,10 @@
 class ezcDocumentWikiTableHeaderSeparatorNode extends ezcDocumentWikiSeparatorNode
 {
     /**
-     * Set state after var_export
+     * Set state after var_export.
      *
      * @param array $properties
-     * @return void
+     * @return ezcDocumentWikiTableHeaderSeparatorNode
      * @ignore
      */
     public static function __set_state( $properties )

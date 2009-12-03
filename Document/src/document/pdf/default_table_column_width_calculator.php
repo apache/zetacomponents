@@ -35,10 +35,10 @@ class ezcDocumentPdfDefaultTableColumnWidthCalculator extends ezcDocumentPdfTabl
      * Should return an array with the column widths given as float numbers 
      * between 0 and 1, which all add together to 1.
      * 
-     * @param DomElement $table 
+     * @param DOMElement $table 
      * @return array
      */
-    public function estimateWidths( DomElement $table )
+    public function estimateWidths( DOMElement $table )
     {
         $xpath = new DOMXPath( $table->ownerDocument );
         $columns = array();

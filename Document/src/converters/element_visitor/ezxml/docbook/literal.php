@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the literal block handler
+ * File containing the ezcDocumentEzXmlToDocbookLiteralHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit eZXml literals
+ * Visit eZXml literals.
  *
  * All literal elements are considered literal blocks, and though are moved
  * outside of the paragraph.
@@ -20,7 +20,7 @@
 class ezcDocumentEzXmlToDocbookLiteralHandler extends ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

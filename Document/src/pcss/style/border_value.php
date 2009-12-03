@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPcssStyleMeasureValue class
+ * File containing the ezcDocumentPcssStyleBorderValue class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Style directive border value representation
+ * Style directive border value representation.
  *
  * @package Document
  * @access private
@@ -19,7 +19,7 @@
 class ezcDocumentPcssStyleBorderValue extends ezcDocumentPcssStyleValue
 {
     /**
-     * Default value
+     * Default value.
      * 
      * @var array
      */
@@ -35,12 +35,11 @@ class ezcDocumentPcssStyleBorderValue extends ezcDocumentPcssStyleValue
     );
 
     /**
-     * Construct value
+     * Construct value.
      *
      * Optionally pass a parsed representation of the value.
      * 
      * @param mixed $value 
-     * @return void
      */
     public function __construct( $value = null )
     {
@@ -48,7 +47,7 @@ class ezcDocumentPcssStyleBorderValue extends ezcDocumentPcssStyleValue
     }
 
     /**
-     * Parse value string representation
+     * Parse value string representation.
      *
      * Parse the string representation of the value into a usable
      * representation.
@@ -93,7 +92,7 @@ class ezcDocumentPcssStyleBorderValue extends ezcDocumentPcssStyleValue
     }
 
     /**
-     * Get regular expression matching the value
+     * Get regular expression matching the value.
      *
      * Return a regular sub expression, which matches all possible values of
      * this value type. The regular expression should NOT contain any named
@@ -115,7 +114,7 @@ class ezcDocumentPcssStyleBorderValue extends ezcDocumentPcssStyleValue
     }
 
     /**
-     * Convert value to string
+     * Convert value to string.
      *
      * @return string
      */

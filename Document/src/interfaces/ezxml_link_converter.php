@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract eZ XML link converter class
+ * File containing the abstract ezcDocumentEzXmlLinkConverter base class.
  *
  * @package Document
  * @version //autogen//

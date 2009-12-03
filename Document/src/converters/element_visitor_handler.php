@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the base class von visitor handler classes
+ * File containing the abstract ezcDocumentElementVisitorHandler base class.
  *
  * @package Document
  * @version //autogen//
@@ -18,14 +18,14 @@
 abstract class ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.
      *
-     * @param ezcDocumentDocbookElementVisitorConverter $converter
-     * @param DOMElement $node
-     * @param mixed $root
+     * @param ezcDocumentElementVisitorConverter $converter 
+     * @param DOMElement $node 
+     * @param mixed $root 
      * @return mixed
      */
     abstract public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root );

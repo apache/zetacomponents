@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfHyphenator class
+ * File containing the ezcDocumentPdfDefaultHyphenator class.
  *
  * @package Document
  * @version //autogen//

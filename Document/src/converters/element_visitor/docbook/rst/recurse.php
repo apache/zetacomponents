@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the non decorating recursing handler
+ * File containing the ezcDocumentDocbookToRstRecurseHandler class.
  *
  * @package Document
  * @version //autogen//

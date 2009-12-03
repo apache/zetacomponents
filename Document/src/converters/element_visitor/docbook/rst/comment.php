@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the comment handler
+ * File containing the ezcDocumentDocbookToRstCommentHandler class.
  *
  * @package Document
  * @version //autogen//

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the footnote handler
+ * File containing the ezcDocumentDocbookToHtmlFootnoteHandler class.
  *
  * @package Document
  * @version //autogen//

@@ -53,8 +53,9 @@ class ezcDocumentOdtTableRowStyleGenerator extends ezcDocumentOdtStyleGenerator
     /**
      * Creates the styles with $styleAttributes for the given $odtElement.
      * 
+     * @param ezcDocumentOdtStyleInformation $styleInfo 
      * @param DOMElement $odtElement 
-     * @param array(string=>ezcDocumentPcssStyleValue) $styleAttributes 
+     * @param array $styleAttributes 
      */
     public function createStyle( ezcDocumentOdtStyleInformation $styleInfo, DOMElement $odtElement, array $styleAttributes )
     {

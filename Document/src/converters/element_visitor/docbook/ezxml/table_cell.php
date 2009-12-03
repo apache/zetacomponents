@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the table cell handler
+ * File containing the ezcDocumentDocbookToEzXmlTableCellHandler class.
  *
  * @package Document
  * @version //autogen//

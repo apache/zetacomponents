@@ -329,6 +329,7 @@ class ezcDocumentPdfPage implements ezcDocumentLocateable
      * transaction, or revert everything since (including) this this
      * transaction.
      *
+     * @param mixed $transaction
      * @return mixed
      */
     public function startTransaction( $transaction )

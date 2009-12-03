@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the table handler
+ * File containing the ezcDocumentDocbookToRstTableHandler class.
  *
  * @package Document
  * @version //autogen//

@@ -1,6 +1,6 @@
 <?php
 /**
- * Document conversion exception
+ * File containing the ezcDocumentConversionException class.
  *
  * @package Document
  * @version //autogentag//
@@ -52,6 +52,7 @@ class ezcDocumentConversionException extends ezcDocumentException
      * @param string $file
      * @param int $line
      * @param int $position
+     * @param Exception $exception
      * @return void
      */
     public function __construct( $level, $message, $file = null, $line = null, $position = null, Exception $exception = null )

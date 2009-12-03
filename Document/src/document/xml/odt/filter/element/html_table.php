@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtHtmlTableFilter class
+ * File containing the ezcDocumentOdtElementHtmlTableFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -19,8 +19,8 @@
  * @package Document
  * @version //autogen//
  * @access private
- * @TODO: Migrate to this implementation as soon as all other Document modules 
- *        support XHTML tables, since they are more flexible.
+ * @TODO Migrate to this implementation as soon as all other Document modules 
+ *       support XHTML tables, since they are more flexible.
  */
 class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilter
 {

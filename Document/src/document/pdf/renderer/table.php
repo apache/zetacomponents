@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfTextBoxRenderer class
+ * File containing the ezcDocumentPdfTableRenderer class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Renders a table
+ * Renders a table.
  *
  * Tries to render a table into the available space, and aborts if
  * not possible.
@@ -26,14 +26,14 @@
 class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
 {
     /**
-     * Reference to the main renderer
+     * Reference to the main renderer.
      * 
      * @var ezcDocumentPdfMainRenderer
      */
     protected $mainRenderer;
 
     /**
-     * Width of current cell
+     * Width of current cell.
      * 
      * @var flaot
      */
@@ -48,7 +48,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     protected $covered = array();
 
     /**
-     * Box of the whole table
+     * Box of the whole table.
      * 
      * @var array
      */
@@ -63,14 +63,14 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     protected $cellBoxes = array();
 
     /**
-     * The last page the current cell rendered contents on
+     * The last page the current cell rendered contents on.
      * 
      * @var ezcDocumentPdfPage
      */
     protected $lastPageForCell;
 
     /**
-     * Additional borders to render
+     * Additional borders to render.
      *
      * A list of borders to render, detected on page wrapps. Delayed to not be 
      * reverted by reverted transactions in sub renderers.
@@ -80,12 +80,11 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     protected $additionalBorders = array();
 
     /**
-     * Construct renderer from driver to use
+     * Construct renderer from driver to use.
      *
      * @param ezcDocumentPdfDriver $driver 
      * @param ezcDocumentPcssStyleInferencer $styles 
      * @param ezcDocumentPdfOptions $options 
-     * @return void
      */
     public function __construct( ezcDocumentPdfDriver $driver, ezcDocumentPcssStyleInferencer $styles, ezcDocumentPdfOptions $options = null )
     {
@@ -96,7 +95,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     }
 
     /**
-     * Render a block level element
+     * Render a block level element.
      *
      * Renders a block level element by applzing margin and padding and
      * recursing to all nested elements.
@@ -134,7 +133,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     }
 
     /**
-     * Calculate text width
+     * Calculate text width.
      *
      * Calculate the available horizontal space for texts depending on the
      * page layout settings.
@@ -149,7 +148,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     }
 
     /**
-     * Get next rendering position
+     * Get next rendering position.
      *
      * If the current space has been exceeded this method calculates
      * a new rendering position, optionally creates a new page for
@@ -212,7 +211,7 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     }
 
     /**
-     * Render a single table cell
+     * Render a single table cell.
      * 
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
@@ -222,7 +221,6 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
      * @param ezcDocumentPdfBoundingBox $space 
      * @param float $start 
      * @param float $width 
-     * @return void
      */
     protected function renderCell( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $cell, array $styles, ezcDocumentPdfBoundingBox $space, $start, $width )
     {
@@ -284,13 +282,12 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     }
 
     /**
-     * Render top border
+     * Render top border.
      *
      * Render the top border of the given space
      * 
      * @param array $styles 
      * @param ezcDocumentPdfBoundingBox $space 
-     * @return void
      */
     protected function renderTopBorder( array $styles, ezcDocumentPdfBoundingBox $space )
     {
@@ -323,14 +320,13 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     }
 
     /**
-     * Set cell box covered
+     * Set cell box covered.
      *
      * Mark rendered space as convered on the page.
      *
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfBoundingBox $space 
      * @param array $styles 
-     * @return void
      */
     protected function setCellCovered( ezcDocumentPdfPage $page, ezcDocumentPdfBoundingBox $space, array $styles )
     {
@@ -360,14 +356,13 @@ class ezcDocumentPdfTableRenderer extends ezcDocumentPdfMainRenderer
     }
 
     /**
-     * Process to render the table into its boundings
+     * Process to render the table into its boundings.
      * 
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentLocateableDomElement $block 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
-     * @return void
      */
     protected function processTable( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {

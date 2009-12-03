@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPcssDirective class
+ * File containing the ezcDocumentPcssLayoutDirective class.
  *
  * @package Document
  * @version //autogen//
@@ -19,19 +19,17 @@
 class ezcDocumentPcssLayoutDirective extends ezcDocumentPcssDirective
 {
     /**
-     * Regular expression compiled from directive address
+     * Regular expression compiled from directive address.
      *
      * @var string
      */
     protected $regularExpression = null;
 
     /**
-     * Compile regular expression
+     * Compile regular expression.
      *
      * Compiles the address of this style directive into a PCRE regular
      * expression, which then can be matched against location IDs.
-     *
-     * @return void
      */
     protected function compileRegularExpression()
     {
@@ -95,7 +93,7 @@ class ezcDocumentPcssLayoutDirective extends ezcDocumentPcssDirective
     }
 
     /**
-     * Return a PCRE regular expression for directive address
+     * Return a PCRE regular expression for directive address.
      *
      * Return a PCRE regular expression representing the address of
      * the directive, intended to match location IDs representing
@@ -115,7 +113,7 @@ class ezcDocumentPcssLayoutDirective extends ezcDocumentPcssDirective
     }
 
     /**
-     * Recreate directive from var_export
+     * Recreate directive from var_export.
      *
      * @param array $properties
      * @return ezcDocumentPcssDirective

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the recursing handler ignoring the current node
+ * File containing the ezcDocumentDocbookToEzXmlIgnoreHandler class.
  *
  * @package Document
  * @version //autogen//

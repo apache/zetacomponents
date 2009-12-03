@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract element visitor based converter class
+ * File containing the abstract ezcDocumentElementVisitorConverter base class.
  *
  * @package Document
  * @version //autogen//

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the link handler
+ * File containing the ezcDocumentEzXmlToDocbookLinkHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit links
+ * Visit links.
  *
  * Transform links, internal or external, into the appropriate docbook markup.
  *
@@ -19,7 +19,7 @@
 class ezcDocumentEzXmlToDocbookLinkHandler extends ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

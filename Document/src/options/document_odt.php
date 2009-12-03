@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentOdt class
+ * File containing the ezcDocumentOdtOptions class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentOdt class
+ * Class containing the basic options for the ezcDocumentOdt class.
  *
  * @package Document
  * @version //autogen//

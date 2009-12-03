@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfParagraphRenderer class
+ * File containing the ezcDocumentPdfMediaObjectRenderer class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Media object renderer
+ * Media object renderer.
  *
  * Renders a media object, an image, at the current text rendering position. 
  * The image is automatically scaled down to the available dimensions.
@@ -30,12 +30,12 @@
 class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
 {
     /**
-     * Render a media object
+     * Render a media object.
      *
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
-     * @param ezcDocumentLocateableDomElement $text 
+     * @param ezcDocumentLocateableDomElement $media 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      */
@@ -129,7 +129,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
-     * Calculate width of media box
+     * Calculate width of media box.
      *
      * @param array $styles
      * @param ezcDocumentPdfPage $page
@@ -164,7 +164,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
-     * Calculate scale of image
+     * Calculate scale of image.
      *
      * Calculates the output size of the image, depending on the available
      * space and the image dimensions.

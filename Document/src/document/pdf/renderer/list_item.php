@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfTextBoxRenderer class
+ * File containing the ezcDocumentPdfListItemRenderer class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Renders a list item
+ * Renders a list item.
  *
  * Tries to render a list item into the available space, and aborts if
  * not possible.
@@ -22,21 +22,21 @@
 class ezcDocumentPdfListItemRenderer extends ezcDocumentPdfBlockRenderer
 {
     /**
-     * Item generator used for this list
+     * Item generator used for this list.
      * 
      * @var ezcDocumentListItemGenerator
      */
     protected $generator;
 
     /**
-     * Item number of current item in list
+     * Item number of current item in list.
      * 
      * @var int
      */
     protected $item;
 
     /**
-     * Construct from item number
+     * Construct from item number.
      * 
      * @param ezcDocumentPdfDriver $driver
      * @param ezcDocumentPcssStyleInferencer $styles

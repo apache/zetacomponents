@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the document header handler
+ * File containing the ezcDocumentEzXmlToDocbookHeaderHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit eZXml header
+ * Visit eZXml header.
  *
  * Visit the eZXml header, maintaining as much informatio as possible with
  * docbook, especially maintain anchor information.
@@ -20,7 +20,7 @@
 class ezcDocumentEzXmlToDocbookHeaderHandler extends ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

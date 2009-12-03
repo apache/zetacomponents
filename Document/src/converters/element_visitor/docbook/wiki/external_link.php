@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the external link handler
+ * File containing the ezcDocumentDocbookToWikiExternalLinkHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit external links
+ * Visit external links.
  *
  * Transform external docbook links (<ulink>) to common HTML links.
  *
@@ -19,7 +19,7 @@
 class ezcDocumentDocbookToWikiExternalLinkHandler extends ezcDocumentDocbookToWikiBaseHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

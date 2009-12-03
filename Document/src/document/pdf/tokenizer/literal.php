@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfDefaultTokenizer class
+ * File containing the ezcDocumentPdfLiteralTokenizer class.
  *
  * @package Document
  * @version //autogen//
@@ -17,7 +17,7 @@
 class ezcDocumentPdfLiteralTokenizer extends ezcDocumentPdfTokenizer
 {
     /**
-     * Split string into words
+     * Split string into words.
      *
      * This function takes a string and splits it into words. There are
      * different mechanisms which indicate possible splitting points in the
@@ -73,7 +73,7 @@ class ezcDocumentPdfLiteralTokenizer extends ezcDocumentPdfTokenizer
     }
 
     /**
-     * Convert tabs to spaces
+     * Convert tabs to spaces.
      *
      * Convert all tabs to spaces, using a 8 spaces for a tab.
      *

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPcssStyleMeasureBoxValue class
+ * File containing the ezcDocumentPcssStyleBorderBoxValue class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Style directive border box value representation
+ * Style directive border box value representation.
  *
  * @package Document
  * @access private
@@ -19,7 +19,7 @@
 class ezcDocumentPcssStyleBorderBoxValue extends ezcDocumentPcssStyleBoxValue
 {
     /**
-     * Get sub value handler
+     * Get sub value handler.
      * 
      * @return ezcDocumentPcssStyleValue
      */

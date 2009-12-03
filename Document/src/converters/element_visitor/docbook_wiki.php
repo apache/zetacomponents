@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the docbook to wiki converter
+ * File containing the ezcDocumentDocbookToWikiConverter class.
  *
  * @package Document
  * @version //autogen//
@@ -25,16 +25,16 @@ class ezcDocumentDocbookToWikiConverter extends ezcDocumentElementVisitorConvert
     public static $indentation = 0;
 
     /**
-     * Maximum number of characters per line
+     * Maximum number of characters per line.
      *
      * @var int
      */
     public static $wordWrap = 78;
 
     /**
-     * Construct converter
+     * Construct converter.
      *
-     * Construct converter from XSLT file, which is used for the actual
+     * Construct converter from XSLT file, which is used for the actual.
      *
      * @param ezcDocumentDocbookToWikiConverterOptions $options
      * @return void

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfTextBoxRenderer class
+ * File containing the ezcDocumentPdfListRenderer class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Renders a list
+ * Renders a list.
  *
  * Tries to render a list into the available space, and aborts if
  * not possible.
@@ -28,7 +28,7 @@
 class ezcDocumentPdfListRenderer extends ezcDocumentPdfBlockRenderer
 {
     /**
-     * Process to render block contents
+     * Process to render block contents.
      * 
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 

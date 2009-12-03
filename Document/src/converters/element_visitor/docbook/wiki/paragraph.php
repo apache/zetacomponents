@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the paragraph handler
+ * File containing the ezcDocumentDocbookToWikiParagraphHandler class.
  *
  * @package Document
  * @version //autogen//

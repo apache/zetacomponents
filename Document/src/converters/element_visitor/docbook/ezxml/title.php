@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the title handler
+ * File containing the ezcDocumentDocbookToEzXmlTitleHandler class.
  *
  * @package Document
  * @version //autogen//

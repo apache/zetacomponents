@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfParagraphRenderer class
+ * File containing the ezcDocumentPdfLiteralBlockRenderer class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Renders a literal block / code section
+ * Renders a literal block / code section.
  *
  * Renders a code section / literal block, which especially means, that
  * whitespaces are not omitted or reduced, but preserved in the output.
@@ -22,7 +22,7 @@
 class ezcDocumentPdfLiteralBlockRenderer extends ezcDocumentPdfWrappingTextBoxRenderer
 {
     /**
-     * Renders a literal block
+     * Renders a literal block.
      *
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the table row ahndler
+ * File containing the ezcDocumentEzXmlToDocbookTableRowHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit eZXml table row
+ * Visit eZXml table row.
  *
  * Visit tables, which are quite similar to HTML tables and transform to
  * classic Docbook tables.
@@ -20,7 +20,7 @@
 class ezcDocumentEzXmlToDocbookTableRowHandler extends ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

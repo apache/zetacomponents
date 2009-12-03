@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the anchor handler
+ * File containing the ezcDocumentDocbookToHtmlAnchorHandler class.
  *
  * @package Document
  * @version //autogen//

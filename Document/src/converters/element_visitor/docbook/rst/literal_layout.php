@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the literal layout handler
+ * File containing the ezcDocumentDocbookToRstLiteralLayoutHandler class.
  *
  * @package Document
  * @version //autogen//

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the literal layout handler
+ * File containing the ezcDocumentEzXmlToDocbookLineHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit eZXml line elements
+ * Visit eZXml line elements.
  *
  * Line elements are used to enforce breakes inside text.
  *
@@ -19,7 +19,7 @@
 class ezcDocumentEzXmlToDocbookLineHandler extends ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

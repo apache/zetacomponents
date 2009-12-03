@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the table handler
+ * File containing the ezcDocumentDocbookToWikiTableHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit tables
+ * Visit tables.
  *
  * The RST table rendering algorithm tries losely to fit a table in the
  * provided document dimensions. This may not always work for over long words,

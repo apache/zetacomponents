@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiLinkStartToken struct
+ * File containing the ezcDocumentWikiConfluenceLinkStartToken struct.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Struct for Wiki document link start marker tokens
+ * Struct for Wiki document link start marker tokens.
  *
  * @package Document
  * @version //autogen//
@@ -17,7 +17,7 @@
 class ezcDocumentWikiConfluenceLinkStartToken extends ezcDocumentWikiLinkStartToken
 {
     /**
-     * Get link parameter order
+     * Get link parameter order.
      *
      * Links may have any amount of parameters and the order may not be the
      * same for each amount. This method should return an ordered list of
@@ -44,10 +44,10 @@ class ezcDocumentWikiConfluenceLinkStartToken extends ezcDocumentWikiLinkStartTo
     }
 
     /**
-     * Set state after var_export
+     * Set state after var_export.
      *
      * @param array $properties
-     * @return void
+     * @return ezcDocumentWikiConfluenceLinkStartToken
      * @ignore
      */
     public static function __set_state( $properties )

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentListItemGenerator class
+ * File containing the ezcDocumentNumberedListItemGenerator class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Numbered list item generator
+ * Numbered list item generator.
  *
  * Generator for list items using common arabic numbers. Just returns the 
  * number of the given list item as a string.
@@ -22,7 +22,7 @@
 class ezcDocumentNumberedListItemGenerator extends ezcDocumentListItemGenerator
 {
     /**
-     * Get list item
+     * Get list item.
      *
      * Get the n-th list item. The index of the list item is specified by the
      * number parameter.

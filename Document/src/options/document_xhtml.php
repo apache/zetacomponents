@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentXhtml class
+ * File containing the ezcDocumentXhtmlOptions class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentXhtml class
+ * Class containing the basic options for the ezcDocumentXhtml class.
  *
  * @property bool $xmlHeader
  *           Add the typical XML header to document

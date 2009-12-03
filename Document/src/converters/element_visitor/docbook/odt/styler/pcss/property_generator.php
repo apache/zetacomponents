@@ -41,6 +41,9 @@ abstract class ezcDocumentOdtStylePropertyGenerator
      *
      * Must be overwritten by the actual implementation to fill the list of 
      * $styles to be applied to the property.
+     * 
+     * @param ezcDocumentOdtPcssConverterManager $styleConverters
+     * @param array $styleAttributes
      */
     public function __construct( ezcDocumentOdtPcssConverterManager $styleConverters, array $styleAttributes )
     {
@@ -66,6 +69,7 @@ abstract class ezcDocumentOdtStylePropertyGenerator
      * Applies corresponding style attributes to the given property.
      * 
      * @param DOMElement $property 
+     * @param array $styles
      */
     protected function applyStyleAttributes( DOMElement $property, array $styles )
     {

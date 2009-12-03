@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentDocbook class
+ * File containing the options class for the ezcDocumentPdfFooterOptions class.
  *
  * @package Document
  * @version //autogen//

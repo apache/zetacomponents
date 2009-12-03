@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the docbook to Html conversion
+ * File containing the ezcDocumentDocbookToHtmlXsltConverterOptions class.
  *
  * @package Document
  * @version //autogen//

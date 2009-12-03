@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtFrameFilter class
+ * File containing the ezcDocumentOdtElementFrameFilter class.
  *
  * @package Document
  * @version //autogen//

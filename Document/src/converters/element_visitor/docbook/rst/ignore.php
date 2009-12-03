@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the handler ignoring the current nodes markup
+ * File containing the ezcDocumentDocbookToRstIgnoreHandler class.
  *
  * @package Document
  * @version //autogen//

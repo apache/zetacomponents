@@ -38,7 +38,7 @@ class ezcDocumentOdtStyleFilter extends ezcDocumentOdtBaseFilter
     /**
      * Creates a new style filter.
      *
-     * @TODO: Make this configurable.
+     * @TODO Make configurable.
      */
     public function __construct()
     {
@@ -54,7 +54,7 @@ class ezcDocumentOdtStyleFilter extends ezcDocumentOdtBaseFilter
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.
      *
-     * @param DOMDocument $document
+     * @param DOMDocument $dom
      * @return DOMDocument
      */
     public function filter( DOMDocument $dom )

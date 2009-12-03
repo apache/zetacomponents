@@ -1,6 +1,6 @@
 <?php
 /**
- * Document validation interface
+ * File containing the ezcDocumentValidation interface.
  *
  * @package Document
  * @version //autogen//

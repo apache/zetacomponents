@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPcssDirective class
+ * File containing the ezcDocumentPcssDeclarationDirective class.
  *
  * @package Document
  * @version //autogen//

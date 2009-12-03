@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the anchor handler
+ * File containing the ezcDocumentEzXmlToDocbookAnchorHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit anchor elements
+ * Visit anchor elements.
  *
  * Anchor elements are manually added targets inside paragraphs.
  *
@@ -19,7 +19,7 @@
 class ezcDocumentEzXmlToDocbookAnchorHandler extends ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

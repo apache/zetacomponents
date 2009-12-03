@@ -402,6 +402,7 @@ class ezcDocumentPcssStyleInferencer
      * algorithm described in the class header.
      *
      * @param ezcDocumentLocateable $element
+     * @param int $types
      * @return array
      */
     public function inferenceFormattingRules( ezcDocumentLocateable $element, $types = -1 )

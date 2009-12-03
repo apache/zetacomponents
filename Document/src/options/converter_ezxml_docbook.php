@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the eZ Xml to docbook conversions
+ * File containing the ezcDocumentEzXmlToDocbookConverterOptions class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentEzp3Xml class
+ * Class containing the basic options for the ezcDocumentEzp3Xml class.
  *
  * @property ezcDocumentEzXmlLinkProvider $linkProvider
  *           Object fetching the URL for link and node or object IDs, used for

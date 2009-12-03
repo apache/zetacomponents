@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the itemized list handler
+ * File containing the ezcDocumentDocbookToRstItemizedListHandler class.
  *
  * @package Document
  * @version //autogen//

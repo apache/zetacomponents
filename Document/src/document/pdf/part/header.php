@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfHeaderPdfPart class
+ * File containing the ezcDocumentPdfHeaderPdfPart class.
  *
  * @package Document
  * @version //autogen//
@@ -40,9 +40,9 @@
 class ezcDocumentPdfHeaderPdfPart extends ezcDocumentPdfFooterPdfPart
 {
     /**
-     * Create a new footer PDF part
+     * Create a new footer PDF part.
      *
-     * @return void
+     * @param ezcDocumentPdfFooterOptions $options 
      */
     public function __construct( ezcDocumentPdfFooterOptions $options = null )
     {

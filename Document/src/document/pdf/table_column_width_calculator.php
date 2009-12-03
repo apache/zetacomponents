@@ -27,9 +27,9 @@ abstract class ezcDocumentPdfTableColumnWidthCalculator
      * Should return an array with the column widths given as float numbers 
      * between 0 and 1, which all add together to 1.
      * 
-     * @param DomElement $table 
+     * @param DOMElement $table 
      * @return array
      */
-    abstract public function estimateWidths( DomElement $table );
+    abstract public function estimateWidths( DOMElement $table );
 }
 ?>

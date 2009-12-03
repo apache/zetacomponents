@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentDocbook class
+ * File containing the options class for the ezcDocumentPdfOptions class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentDocbook class
+ * Class containing the basic options for the ezcDocumentDocbook class.
  *
  * @property ezcDocumentPdfHyphenator $hyphenator
  *           Hyphenator to use for word hyphenation

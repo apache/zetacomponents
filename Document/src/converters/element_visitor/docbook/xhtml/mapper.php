@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the general node mapping handler
+ * File containing the ezcDocumentDocbookToHtmlMappingHandler class.
  *
  * @package Document
  * @version //autogen//

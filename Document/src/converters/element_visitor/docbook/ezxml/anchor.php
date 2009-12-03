@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the anchor handler
+ * File containing the ezcDocumentDocbookToEzXmlAnchorHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit anchor elements
+ * Visit anchor elements.
  *
  * Anchor elements are manually added targets inside paragraphs, which are
  * transformed to HTML <a> element targets.

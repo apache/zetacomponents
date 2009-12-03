@@ -63,6 +63,11 @@ class ezcDocumentOdtStyleTablePropertyGenerator extends ezcDocumentOdtStylePrope
         return $prop;
     }
 
+    /**
+     * Set attributes which are not (yet?) extracted from PCSS.
+     * 
+     * @param DOMElement $prop 
+     */
     protected function setFixedAttributes( DOMElement $prop )
     {
         // Align table to margins specified

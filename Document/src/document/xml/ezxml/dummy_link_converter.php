@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing a dummy link converter
+ * File containing the ezcDocumentEzXmlDummyLinkConverter class.
  *
  * @package Document
  * @version //autogen//

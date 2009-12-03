@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the document head handler
+ * File containing the ezcDocumentDocbookToRstHeadHandler class.
  *
  * @package Document
  * @version //autogen//

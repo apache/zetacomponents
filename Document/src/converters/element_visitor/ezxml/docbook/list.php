@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the list handler
+ * File containing the ezcDocumentEzXmlToDocbookListHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit eZXml lists
+ * Visit eZXml lists.
  *
  * Lists are children of paragraphs in eZXml, but are part of the section nodes
  * in docbook. The containing paragraph needs to be split up and the list node
@@ -21,7 +21,7 @@
 class ezcDocumentEzXmlToDocbookListHandler extends ezcDocumentElementVisitorHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

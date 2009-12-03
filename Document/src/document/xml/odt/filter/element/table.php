@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtTableFilter class.
+ * File containing the ezcDocumentOdtElementTableFilter class.
  *
  * @package Document
  * @version //autogen//

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the XSLT converters
+ * File containing the ezcDocumentXsltConverterOptions class.
  *
  * @package Document
  * @version //autogen//

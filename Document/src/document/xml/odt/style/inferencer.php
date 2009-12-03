@@ -70,7 +70,7 @@ class ezcDocumentOdtStyleInferencer
     /**
      * Create a new style inferencer for the given document.
      * 
-     * @param ezcDocumentOdtStyleInformation $odtDocument 
+     * @param DOMDocument $odtDocument 
      */
     public function __construct( DOMDocument $odtDocument )
     {
@@ -103,15 +103,14 @@ class ezcDocumentOdtStyleInferencer
      *
      * $odtElement must be a <list /> element, otherwise null is returned since 
      * other elements do not have a list style attached.
-     *
+     * 
+     * @param DOMElement $odtElement 
+     * @return ezcDocumentOdtListStyle|null
      * @TODO Paragraphs may have a list style defined in their properties, 
      *       which is used by default for new lists created in the paragraph. 
      *       This is actually not significant for us, since lists do always 
      *       have a dedicated style attached. Anyway, we might want to include 
      *       it sometimes.
-     * 
-     * @param DOMElement $odtElement 
-     * @return ezcDocumentOdtListStyle|null
      */
     public function getListStyle( DOMElement $odtElement )
     {

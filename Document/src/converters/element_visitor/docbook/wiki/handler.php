@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the wiki base handler
+ * File containing the abstract ezcDocumentDocbookToWikiBaseHandler base class.
  *
  * @package Document
  * @version //autogen//

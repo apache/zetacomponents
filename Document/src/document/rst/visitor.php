@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentRstVisitor class
+ * File containing the abstract ezcDocumentRstVisitor base class.
  *
  * @package Document
  * @version //autogen//
@@ -294,7 +294,7 @@ abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
      * last item in the list. Returns the boolean status o the check.
      *
      * @param ezcDocumentRstNode $item
-     * @param ezcDocumentRstToken $lastItem
+     * @param ezcDocumentRstNode $lastItem
      * @return bool
      */
     protected function compareListType( ezcDocumentRstNode $item, ezcDocumentRstNode $lastItem )

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentWikiLineMarkupToken struct
+ * File containing the abstract ezcDocumentWikiBlockMarkupToken base class.
  *
  * @package Document
  * @version //autogen//

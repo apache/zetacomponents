@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentListItemGenerator class
+ * File containing the ezcDocumentAlphaListItemGenerator class.
  *
  * @package Document
  * @version //autogen//

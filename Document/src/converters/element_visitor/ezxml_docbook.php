@@ -1,7 +1,6 @@
 <?php
-
 /**
- * File containing the ezcDocumentXsltConverter class
+ * File containing the ezcDocumentEzXmlToDocbookConverter class.
  *
  * @package Document
  * @version //autogen//
@@ -25,7 +24,7 @@
 class ezcDocumentEzXmlToDocbookConverter extends ezcDocumentElementVisitorConverter
 {
     /**
-     * Deafult document namespace
+     * Deafult document namespace.
      *
      * If no namespace has been explicitely declared in the source document
      * assume this as the defalt namespace.

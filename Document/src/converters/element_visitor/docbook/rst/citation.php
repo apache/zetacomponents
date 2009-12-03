@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the citation handler
+ * File containing the ezcDocumentDocbookToRstCitationHandler class.
  *
  * @package Document
  * @version //autogen//

@@ -71,6 +71,7 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
     /**
      * Creates the styles with $styleAttributes for the given $odtElement.
      * 
+     * @param ezcDocumentOdtStyleInformation $styleInfo
      * @param DOMElement $odtElement 
      * @param array(string=>ezcDocumentPcssStyleValue) $styleAttributes 
      */
@@ -153,17 +154,17 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
     }
 
     /**
-     * Creates the <text:list-level-style-* /> elemnt for $styleAttributes.
+     * Creates the <text:list-level-style-* /> element for $styleAttributes.
      *
      * This method creates a list-level-style in $listStyle for the given list 
      * $level applying $styleAttributes to this list level.
      * 
-     * @param mixed $listStyle 
-     * @param mixed $level 
-     * @param mixed $styleAttributes 
-     * @return void
+     * @param ezcDocumentOdtStyleInformation $styleInfo 
+     * @param DOMElement $listStyle 
+     * @param int $level 
+     * @param array $styleAttributes 
      */
-    protected function createListLevelStyle( ezcDocumentOdtStyleInformation $styleInfo, $listStyle, $level, $styleAttributes )
+    protected function createListLevelStyle( ezcDocumentOdtStyleInformation $styleInfo, DOMElement $listStyle, $level, array $styleAttributes )
     {
         $styleAttributes['margin']->value['left'] = $this->calculateListMargin(
             $listStyle,
@@ -316,6 +317,7 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
      * </code>
      * 
      * @param DOMElement $list 
+     * @param int $depth
      * @return array
      */
     protected function getBaseList( DOMElement $list, $depth = 1 )

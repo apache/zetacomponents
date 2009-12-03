@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the variable list handler
+ * File containing the ezcDocumentDocbookToRstVariableListHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -20,7 +20,7 @@
 class ezcDocumentDocbookToRstVariableListHandler extends ezcDocumentDocbookToRstBaseHandler
 {
     /**
-     * Handle a node
+     * Handle a node.
      *
      * Handle / transform a given node, and return the result of the
      * conversion.

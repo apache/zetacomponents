@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfTextBoxRenderer class
+ * File containing the ezcDocumentPdfBlockRenderer class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * General block renderer
+ * General block renderer.
  *
  * Implements the methods to render the border for block level elements, like 
  * list items. Also applies margin and padding to the rendered item. For custom 
@@ -24,7 +24,7 @@
 class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
 {
     /**
-     * Render a block level element
+     * Render a block level element.
      *
      * Renders a block level element by applzing margin and padding and
      * recursing to all nested elements.
@@ -60,14 +60,13 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
     }
 
     /**
-     * Process to render block contents
+     * Process to render block contents.
      * 
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentLocateableDomElement $block 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
-     * @return void
      */
     protected function process( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {

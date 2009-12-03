@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtLinkFilter class.
+ * File containing the ezcDocumentOdtElementLinkFilter class.
  *
  * @package Document
  * @version //autogen//

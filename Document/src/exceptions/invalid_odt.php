@@ -10,13 +10,19 @@
 
 /**
  * Exception thrown if an expectation to an incoming DocBook document is not 
- * met.
+ * met during DocBook to ODT conversion.
  *
  * @package Document
  * @version //autogentag//
  */
 class ezcDocumentInvalidOdtException extends ezcDocumentException
 {
+    /**
+     * Creates a new exception.
+     * 
+     * @param DOMNode $affectedNode 
+     * @param string $message 
+     */
     public function __construct( DOMNode $affectedNode, $message )
     {
         parent::__construct(

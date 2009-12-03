@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentWiki class
+ * File containing ezcDocumentWikiOptions class.
  *
  * @package Document
  * @version //autogen//
@@ -9,13 +9,12 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentWiki
+ * Class containing the basic options for the ezcDocumentWiki.
  *
  * @property ezcDocumentWikiTokenizer $tokenizer
  *           Tokenizer used to tokenize the inpout string before passign it to
  *           the parser.
  *
- * @apichange
  * @package Document
  * @version //autogen//
  */

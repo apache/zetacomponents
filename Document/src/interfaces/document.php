@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcDocument class
+ * File containing the abstract ezcDocument base class.
  *
  * @package Document
  * @version //autogen//
@@ -139,7 +139,7 @@ abstract class ezcDocument implements ezcDocumentErrorReporting
      * The base path will be used as a base for relative file
      * inclusions in the document.
      * 
-     * @return void
+     * @param string $path
      */
     public function setPath( $path )
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the abstract ezcDocumentParser class
+ * File containing the ezcDocumentErrorReporting interface.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * A base class for document parsers
+ * Interface for error reporting.
  *
  * @package Document
  * @version //autogen//
@@ -17,7 +17,7 @@
 interface ezcDocumentErrorReporting
 {
     /**
-     * Trigger parser error
+     * Trigger parser error.
      *
      * Emit a parser error and handle it dependiing on the current error
      * reporting settings.
@@ -27,7 +27,6 @@ interface ezcDocumentErrorReporting
      * @param string $file
      * @param int $line
      * @param int $position
-     * @return void
      */
     public function triggerError( $level, $message, $file = null, $line = null, $position = null );
 

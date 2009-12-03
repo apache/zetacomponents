@@ -19,8 +19,8 @@
  * @package Document
  * @version //autogen//
  * @access private
- * @TODO: More information about the list can be extracted from the style, like 
- *        the start value and continuation of previous lists.
+ * @TODO More information about the list can be extracted from the style, like 
+ *       the start value and continuation of previous lists.
  */
 class ezcDocumentOdtListLevelStyleFilterRule implements ezcDocumentOdtStyleFilterRule
 {
@@ -43,7 +43,7 @@ class ezcDocumentOdtListLevelStyleFilterRule implements ezcDocumentOdtStyleFilte
      * converted properly to DocBook.
      * 
      * @param DOMElement $odtElement 
-     * @param ezcDocumentOdtStyle $style 
+     * @param ezcDocumentOdtStyleInferencer $styleInferencer
      */
     public function filter( DOMElement $odtElement, ezcDocumentOdtStyleInferencer $styleInferencer )
     {
@@ -80,9 +80,8 @@ class ezcDocumentOdtListLevelStyleFilterRule implements ezcDocumentOdtStyleFilte
     /**
      * Sets properties of itemized lists based on $listLevelProps.
      * 
-     * @param DOMElement $numList 
+     * @param DOMElement $itemList 
      * @param ezcDocumentOdtListLevelStyleBullet $listLevelProps 
-     * @return void
      */
     protected function setItemListProperties( DOMElement $itemList, ezcDocumentOdtListLevelStyleBullet $listLevelProps )
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfParagraphRenderer class
+ * File containing the ezcDocumentPdfWrappingTextBoxRenderer class.
  *
  * @package Document
  * @version //autogen//
@@ -32,16 +32,16 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
      * Returns a boolean indicator whether the rendering of the full text
      * in the available space succeeded or not.
      *
-     * @TODO: This method does not respect changes in the available text width,
-     * if a paragraph is wrapped to the next page. This would require token
-     * reordering, which is not implemented yet.
-     *
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 
      * @param ezcDocumentPdfTokenizer $tokenizer 
      * @param ezcDocumentLocateableDomElement $text 
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
+     *
+     * @TODO This method does not respect changes in the available text width,
+     *       if a paragraph is wrapped to the next page. This would require token
+     *       reordering, which is not implemented yet.
      */
     public function renderNode( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $text, ezcDocumentPdfMainRenderer $mainRenderer )
     {

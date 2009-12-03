@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the inline media object handler
+ * File containing the ezcDocumentDocbookToRstInlineMediaObjectHandler class.
  *
  * @package Document
  * @version //autogen//

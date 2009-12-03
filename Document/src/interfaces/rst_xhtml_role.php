@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the rst XHtml text role interface
+ * File containing the ezcDocumentRstXhtmlTextRole interface.
  *
  * @package Document
  * @version //autogen//

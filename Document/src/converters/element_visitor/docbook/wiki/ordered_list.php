@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ordered list handler
+ * File containing the ezcDocumentDocbookToWikiOrderedListHandler class.
  *
  * @package Document
  * @version //autogen//

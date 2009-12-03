@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the internal link handler
+ * File containing the ezcDocumentDocbookToEzXmlInternalLinkHandler class.
  *
  * @package Document
  * @version //autogen//

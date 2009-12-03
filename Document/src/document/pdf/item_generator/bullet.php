@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentListItemGenerator class
+ * File containing the ezcDocumentBulletListItemGenerator class.
  *
  * @package Document
  * @version //autogen//
@@ -10,14 +10,14 @@
  */
 
 /**
- * List item generator
+ * List item generator.
  *
  * Simple bullet list item generator, which returns the character passed to the 
  * constructor for each list item.
  *
  * @package Document
- * @access private
  * @version //autogen//
+ * @access private
  */
 class ezcDocumentBulletListItemGenerator extends ezcDocumentListItemGenerator
 {

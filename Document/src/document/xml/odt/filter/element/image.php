@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtImageFilter class.
+ * File containing the ezcDocumentOdtElementImageFilter class.
  *
  * @package Document
  * @version //autogen//

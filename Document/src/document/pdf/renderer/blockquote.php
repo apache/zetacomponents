@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentPdfTextBoxRenderer class
+ * File containing the ezcDocumentPdfBlockquoteRenderer class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Renders a blockquote
+ * Renders a blockquote.
  *
  * Renders a blockquote and its attributions. A blockquote is basically an 
  * indented common paragraph, with the styling given by the used CSS file.
@@ -25,7 +25,7 @@
 class ezcDocumentPdfBlockquoteRenderer extends ezcDocumentPdfBlockRenderer
 {
     /**
-     * Process to render block contents
+     * Process to render block contents.
      * 
      * @param ezcDocumentPdfPage $page 
      * @param ezcDocumentPdfHyphenator $hyphenator 

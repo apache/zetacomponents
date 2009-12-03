@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the handler base class
+ * File containing the abstract ezcDocumentDocbookToRstBaseHandler base class.
  *
  * @package Document
  * @version //autogen//

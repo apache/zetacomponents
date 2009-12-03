@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the paragraph handler
+ * File containing the ezcDocumentDocbookToEzXmlParagraphHandler class.
  *
  * @package Document
  * @version //autogen//

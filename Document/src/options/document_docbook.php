@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocumentDocbook class
+ * File containing the ezcDocumentDocbookOptions class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentDocbook class
+ * Class containing the basic options for the ezcDocumentDocbook class.
  *
  * @property bool $indentXml
  *           Indent XML on output

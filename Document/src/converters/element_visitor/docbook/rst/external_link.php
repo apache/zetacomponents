@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the external link handler
+ * File containing the ezcDocumentDocbookToRstExternalLinkHandler class.
  *
  * @package Document
  * @version //autogen//

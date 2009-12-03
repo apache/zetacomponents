@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the handler ignoring the current node
+ * File containing the ezcDocumentDocbookToWikiIgnoreHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Handler for elements, which are safe to ignore
+ * Handler for elements, which are safe to ignore.
  *
  * @package Document
  * @version //autogen//

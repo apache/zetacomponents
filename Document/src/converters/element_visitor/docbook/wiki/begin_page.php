@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the page break handler
+ * File containing the ezcDocumentDocbookToWikiBeginPageHandler class.
  *
  * @package Document
  * @version //autogen//

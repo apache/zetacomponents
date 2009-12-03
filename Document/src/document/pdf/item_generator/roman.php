@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentListItemGenerator class
+ * File containing the ezcDocumentRomanListItemGenerator class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Roman number list item generator
+ * Roman number list item generator.
  *
  * Generator for roman numbered list items. Basically converts the list item 
  * number into a roman number and returns that. Roman numbering is only 
@@ -24,6 +24,11 @@
  */
 class ezcDocumentRomanListItemGenerator extends ezcDocumentAlnumListItemGenerator
 {
+    /**
+     * Number map.
+     * 
+     * @var array(int=>string)
+     */
     protected $numbers = array(
         1000 => 'M',
         900  => 'CM',
@@ -41,7 +46,7 @@ class ezcDocumentRomanListItemGenerator extends ezcDocumentAlnumListItemGenerato
     );
 
     /**
-     * Get list item
+     * Get list item.
      *
      * Get the n-th list item. The index of the list item is specified by the
      * number parameter.

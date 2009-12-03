@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtStyle class
+ * File containing the ezcDocumentOdtListStyle class.
  *
  * @package Document
  * @version //autogen//

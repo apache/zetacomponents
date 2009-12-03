@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtFootnoteFilter class
+ * File containing the ezcDocumentOdtElementFootnoteFilter class.
  *
  * @package Document
  * @version //autogen//

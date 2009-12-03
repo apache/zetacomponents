@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the external link handler
+ * File containing ezcDocumentDocbookToEzXmlExternalLinkHandler class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Visit external links
+ * Visit external links.
  *
  * Transform external docbook links (<ulink>) to common HTML links.
  *

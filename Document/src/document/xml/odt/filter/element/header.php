@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtHeadlineFilter class
+ * File containing the ezcDocumentOdtElementHeaderFilter class.
  *
  * @package Document
  * @version //autogen//

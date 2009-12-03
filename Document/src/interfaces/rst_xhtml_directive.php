@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the rst XHtml directive interface
+ * File containing the ezcDocumentRstXhtmlDirective interface.
  *
  * @package Document
  * @version //autogen//

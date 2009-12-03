@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the docbook to eZ Xml converter
+ * File containing the ezcDocumentDocbookToEzXmlConverterOptions class.
  *
  * @package Document
  * @version //autogen//

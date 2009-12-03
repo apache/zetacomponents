@@ -1,6 +1,6 @@
 <?php
 /**
- * Document parser exception
+ * File containing the ezcDocumentParserException class.
  *
  * @package Document
  * @version //autogentag//

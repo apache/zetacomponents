@@ -1,6 +1,6 @@
 <?php
 /**
- * RST missing directive handler exception
+ * File containing the ezcDocumentRstMissingDirectiveHandlerException class.
  *
  * @package Document
  * @version //autogentag//

@@ -1,6 +1,6 @@
 <?php
 /**
- * RST tokenizer exception
+ * File containing the ezcDocumentRstTokenizerException class.
  *
  * @package Document
  * @version //autogentag//

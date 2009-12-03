@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the options class for the ezcDocument parser classes
+ * File containing the ezcDocumentParserOptions class.
  *
  * @package Document
  * @version //autogen//
@@ -9,7 +9,7 @@
  */
 
 /**
- * Class containing the basic options for the ezcDocumentParser
+ * Class containing the basic options for the ezcDocumentParser.
  *
  * @property int $errorReporting
  *           Error reporting level. All errors with a severity greater or equel
@@ -22,7 +22,7 @@
 class ezcDocumentParserOptions extends ezcBaseOptions
 {
     /**
-     * Container to hold the properties
+     * Container to hold the properties.
      *
      * @var array(string=>mixed)
      */

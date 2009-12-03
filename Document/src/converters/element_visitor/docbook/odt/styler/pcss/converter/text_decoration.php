@@ -12,12 +12,12 @@
 /**
  * Style converter for text-decoration style properties.
  *
- * @TODO: ODT supports much more fine-graned text-decoration properties than 
- *        PCSS currently supports. Should try to support more ODT features in 
- *        latter versions.
  * @package Document
  * @access private
  * @version //autogen//
+ * @TODO ODT supports much more fine-graned text-decoration properties than 
+ *       PCSS currently supports. Should try to support more ODT features in 
+ *       latter versions.
  */
 class ezcDocumentOdtPcssTextDecorationConverter implements ezcDocumentOdtPcssConverter
 {

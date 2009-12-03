@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtStyleInferencer class.
+ * File containing the ezcDocumentOdtStyleParser class.
  *
  * @package Document
  * @version //autogen//
@@ -62,9 +62,9 @@ class ezcDocumentOdtStyleParser
      *
      * Parses the given $odtStyle and returns a style of $family with $name.
      * 
+     * @param DOMElement $odtStyle 
      * @param string $family 
      * @param string $name 
-     * @param DOMElement $odtStyle 
      * @return ezcDocumentOdtStyle
      */
     public function parseStyle( DOMElement $odtStyle, $family, $name = null )

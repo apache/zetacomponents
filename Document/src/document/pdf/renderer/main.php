@@ -364,6 +364,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      *
      * @param ezcDocumentDocbook $document
      * @param ezcDocumentPdfHyphenator $hyphenator
+     * @param ezcDocumentPdfTokenizer $tokenizer
      * @return string
      */
     public function render( ezcDocumentDocbook $document, ezcDocumentPdfHyphenator $hyphenator = null, ezcDocumentPdfTokenizer $tokenizer = null )
@@ -540,6 +541,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * Process a single element with the registered renderers.
      * 
      * @param DOMElement $element 
+     * @param int $number
      * @return int
      */
     public function processNode( DOMElement $element, $number = 0 )
@@ -801,7 +803,7 @@ class ezcDocumentPdfMainRenderer extends ezcDocumentPdfRenderer implements ezcDo
      * Handle calls to title renderer
      *
      * @param ezcDocumentLocateableDomElement $element
-     * @return void
+     * @param int $position
      */
     private function renderTitle( ezcDocumentLocateableDomElement $element, $position )
     {
