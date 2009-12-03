@@ -1,11 +1,30 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtStyleInferencer class.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
 
+/**
+ * Parses ODT styles.
+ *
+ * An instance of this class is used parse style information from an DOMElement 
+ * of a ODT document.
+ *
+ * @package Document
+ * @version //autogen//
+ * @access private
+ */
 class ezcDocumentOdtStyleParser
 {
     /**
      * Maps list-leve style XML elements to classes.
      *
-     * @var array 
+     * @var array(string=>string)
      */
     protected static $listClassMap = array(
         'list-level-style-number' => 'ezcDocumentOdtListLevelStyleNumber',
@@ -15,7 +34,7 @@ class ezcDocumentOdtStyleParser
     /**
      * Maps XML attributes to object attributes.
      *
-     * @var array 
+     * @var array
      */
     protected static $listAttributeMap = array(
         'list-level-style-number' => array(
@@ -65,19 +84,19 @@ class ezcDocumentOdtStyleParser
     }
 
     /**
-     * Parses the given $odtStyle.
+     * Parses the given $odtListStyle.
      *
-     * Parses the given $odtStyle and returns a list style with $name.
+     * Parses the given $odtListStyle and returns a list style with $name.
      * 
-     * @param DOMElement $odtStyle 
-     * @param mixed $name 
+     * @param DOMElement $odtListStyle 
+     * @param string $name 
      * @return ezcDocumentOdtListStyle
      */
-    public function parseListStyle( DOMElement $odtStyle, $name )
+    public function parseListStyle( DOMElement $odtListStyle, $name )
     {
         $listStyle = new ezcDocumentOdtListStyle( $name );
 
-        foreach ( $odtStyle->childNodes as $child )
+        foreach ( $odtListStyle->childNodes as $child )
         {
             if ( $child->nodeType === XML_ELEMENT_NODE )
             {
@@ -90,10 +109,10 @@ class ezcDocumentOdtStyleParser
     }
 
     /**
-     * Parses a list level.
+     * Parses a list level style.
      *
      * Parses the given $listLevelElement and returns a corresponding 
-     * list-level object.
+     * list-level style object.
      * 
      * @param DOMElement $listLevelElement 
      * @return ezcDocumentOdtListLevelStyle

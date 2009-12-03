@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtParagraphFilter class
+ * File containing the ezcDocumentOdtParagraphFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -19,7 +19,7 @@
 class ezcDocumentOdtElementParagraphFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param DOMElement $element
      * @return void
@@ -38,6 +38,9 @@ class ezcDocumentOdtElementParagraphFilter extends ezcDocumentOdtElementBaseFilt
 
     /**
      * Returns if significant whitespaces occur in the paragraph.
+     *
+     * This method checks if the paragraph $element contains significant
+     * whitespaces in form of <text:s/> or <text:tab/> elements.
      * 
      * @param DOMElement $element 
      * @return bool
@@ -46,14 +49,13 @@ class ezcDocumentOdtElementParagraphFilter extends ezcDocumentOdtElementBaseFilt
     {
         $xpath = new DOMXpath( $element->ownerDocument );
         $xpath->registerNamespace( 'text', ezcDocumentOdt::NS_ODT_TEXT );
-        // @TODO: Really count tabs as significant whitespaces => literal?
         $whitespaces = $xpath->evaluate( './/text:s|.//text:tab', $element );
 
         return ( $whitespaces instanceof DOMNodeList && $whitespaces->length > 0 );
     }
 
     /**
-     * Check if filter handles the current element
+     * Check if filter handles the current element.
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtStyle class
+ * File containing the ezcDocumentOdtListLevelStyleBullet class.
  *
  * @package Document
  * @version //autogen//
@@ -10,10 +10,18 @@
  */
 
 /**
- * Base class for ODT styles.
+ * Bullet list-level style.
  *
- * @property-read string $name The style name.
- * @property ArrayObject $listLevels ArrayObject(ezcDocumentOdtListLevelStyle)
+ * @property-read int $level
+ *                The list level, starting with 1.
+ * @property ezcDocumentOdtStyle|null $textStyle
+ *           Text style for list bullet / number formatting.
+ * @property string $bulletChar
+ *           Character to use for bullets (only 1 char allowed).
+ * @property string $numPrefix
+ *           Prefix for list bullets.
+ * @property string $numSuffix
+ *           Suffix for list bullets.
  *
  * @package Document
  * @version //autogen//

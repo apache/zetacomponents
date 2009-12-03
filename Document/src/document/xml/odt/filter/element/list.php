@@ -10,7 +10,7 @@
  */
 
 /**
- * Filter for ODT <text:p> elements.
+ * Filter for ODT <text:list/> and <text:list-item/> elements.
  *
  * @package Document
  * @version //autogen//
@@ -31,7 +31,7 @@ class ezcDocumentOdtElementListFilter extends ezcDocumentOdtElementBaseFilter
     );
 
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param DOMElement $element
      * @return void
@@ -42,7 +42,7 @@ class ezcDocumentOdtElementListFilter extends ezcDocumentOdtElementBaseFilter
     }
 
     /**
-     * Check if filter handles the current element
+     * Check if filter handles the current element.
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.

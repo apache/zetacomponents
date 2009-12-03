@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtWhitespaceFilter class
+ * File containing the ezcDocumentOdtWhitespaceFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Filter for ODT <text:p> elements.
+ * Filter for ODT <text:s/>, <text:tab/> and <text:line-break/> elements.
  *
  * @package Document
  * @version //autogen//
@@ -19,7 +19,7 @@
 class ezcDocumentOdtElementWhitespaceFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param DOMElement $element
      * @return void
@@ -47,7 +47,7 @@ class ezcDocumentOdtElementWhitespaceFilter extends ezcDocumentOdtElementBaseFil
     }
 
     /**
-     * Check if filter handles the current element
+     * Check if filter handles the current element.
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.

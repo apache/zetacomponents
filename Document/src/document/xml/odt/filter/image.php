@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtImageFilter class
+ * File containing the ezcDocumentOdtImageFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -41,7 +41,7 @@ class ezcDocumentOdtImageFilter extends ezcDocumentOdtBaseFilter
     }
 
     /**
-     * Filter ODT document
+     * Filter ODT document.
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtTableFilter class
+ * File containing the ezcDocumentOdtTableFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -12,7 +12,10 @@
 /**
  * Filter for ODT <table:table> elements.
  *
- * This filter generates tables in DocBook.
+ * This filter generates tables in DocBook. Native DocBook tables are generated 
+ * by this class, which are the common basis inside the Document component. 
+ * This should be migrated to {@link ezcDocumentOdtHtmlTableFilter} when the 
+ * Document component switches to XHTML style tables in DocBook.
  *
  * @package Document
  * @version //autogen//
@@ -21,7 +24,7 @@
 class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
-     * Mapping for table elements. 
+     * Mapping for table elements.
      *
      * Maps ODT table tags to a method in this class to convert them.
      * 
@@ -37,7 +40,7 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
     );
 
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param ezcDocumentPropertyContainerDomElement $element
      * @return void
@@ -49,7 +52,7 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
     }
 
     /**
-     * Check if filter handles the current element
+     * Check if filter handles the current element.
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
@@ -92,6 +95,16 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
         $element->appendChild( $tGroup );
     }
 
+    /**
+     * Aggregates table rows into a <tbody/> element.
+     *
+     * This method aggregates all rows of a table into a single <tbody/> 
+     * element in the custom {@link ezcDocumentOdt::NS_EZC} namespace. This 
+     * element will later be converted into a DocBook <tbody/> element.
+     *
+     * @param ezcDocumentPropertyContainerDomElement $element 
+     * @return void
+     */
     protected function aggregateRows( ezcDocumentPropertyContainerDomElement $element )
     {
         // @TODO: Does ODT support multiple heads? Does DocBook support that?

@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtImageFilter class
+ * File containing the ezcDocumentOdtImageFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -19,7 +19,7 @@
 class ezcDocumentOdtElementImageFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param DOMElement $element
      * @return void
@@ -86,7 +86,7 @@ class ezcDocumentOdtElementImageFilter extends ezcDocumentOdtElementBaseFilter
     }
 
     /**
-     * Check if filter handles the current element
+     * Check if filter handles the current element.
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.

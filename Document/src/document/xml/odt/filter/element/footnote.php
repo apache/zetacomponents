@@ -10,7 +10,7 @@
  */
 
 /**
- * Filter for ODT <text:p> elements.
+ * Filter for ODT <text:note/> elements.
  *
  * @package Document
  * @version //autogen//
@@ -19,7 +19,7 @@
 class ezcDocumentOdtElementFootnoteFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param DOMElement $element
      * @return void
@@ -47,7 +47,7 @@ class ezcDocumentOdtElementFootnoteFilter extends ezcDocumentOdtElementBaseFilte
     }
 
     /**
-     * Check if filter handles the current element
+     * Check if filter handles the current element.
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.

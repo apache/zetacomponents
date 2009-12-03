@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtLinkFilter class
+ * File containing the ezcDocumentOdtLinkFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -10,7 +10,7 @@
  */
 
 /**
- * Filter for ODT <text:a> elements.
+ * Filter for ODT <text:a/> elements.
  *
  * @package Document
  * @version //autogen//
@@ -19,7 +19,7 @@
 class ezcDocumentOdtElementLinkFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param DOMElement $element
      * @return void
@@ -41,7 +41,7 @@ class ezcDocumentOdtElementLinkFilter extends ezcDocumentOdtElementBaseFilter
     }
 
     /**
-     * Check if filter handles the current element
+     * Check if filter handles the current element.
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.

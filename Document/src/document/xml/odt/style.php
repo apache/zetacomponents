@@ -10,7 +10,10 @@
  */
 
 /**
- * Base class for ODT styles.
+ * Class for ODT styles.
+ *
+ * Note that list styles are represented by the dedicated {@link 
+ * ezcDocumentOdtListStyle} class.
  *
  * @property-read string $name The style name.
  * @property-read constant $family The style family.

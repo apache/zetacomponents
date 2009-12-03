@@ -1,5 +1,27 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtListLevelStyleFilterRule class.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
 
+/**
+ * Style filter rule to distinguish list types.
+ *
+ * ODT does not distinguish between numbered and itemized lists on an XML 
+ * element level, but through styling information. This rule implements 
+ * detection of numbered lists.
+ *
+ * @package Document
+ * @version //autogen//
+ * @access private
+ * @TODO: More information about the list can be extracted from the style, like 
+ *        the start value and continuation of previous lists.
+ */
 class ezcDocumentOdtListLevelStyleFilterRule implements ezcDocumentOdtStyleFilterRule
 {
     /**
@@ -14,11 +36,11 @@ class ezcDocumentOdtListLevelStyleFilterRule implements ezcDocumentOdtStyleFilte
     }
 
     /**
-     * Filter the given $odtElement based on the given $style.
+     * Detects numbered lists from ODT style information.
      *
-     * This method will only be called when handles returned true for the given 
-     * $odtElement. The method may manipulate the $odtElement, especially its 
-     * attributes, based on the style information.
+     * This method detects the type of list in $odtElement by its list-level 
+     * style and sets the attributes for $odtElement accordingly to have it 
+     * converted properly to DocBook.
      * 
      * @param DOMElement $odtElement 
      * @param ezcDocumentOdtStyle $style 

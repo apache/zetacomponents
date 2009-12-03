@@ -1,5 +1,29 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtEmphasisStyleFilterRule class.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
 
+/**
+ * Style filter rule to detect <emphasis/> elements.
+ *
+ * This style filter rule checks <text:span/> elements in ODT for bold 
+ * font-weight. Such elements are considered to be translated to <emphasis/> 
+ * elements in DocBook.
+ *
+ * @package Document
+ * @version //autogen//
+ * @access private
+ * @TODO: Emphasis can also be indicated by other styles like red color or 
+ *        similar. In addition, emphasis should be detected relatively to the 
+ *        surrounding style. Some kind of points-threshold-based system would 
+ *        be nice.
+ */
 class ezcDocumentOdtEmphasisStyleFilterRule implements ezcDocumentOdtStyleFilterRule
 {
     /**
@@ -14,11 +38,11 @@ class ezcDocumentOdtEmphasisStyleFilterRule implements ezcDocumentOdtStyleFilter
     }
 
     /**
-     * Filter the given $odtElement based on the given $style.
+     * Detects emphasis elements by their style.
      *
-     * This method will only be called when handles returned true for the given 
-     * $odtElement. The method may manipulate the $odtElement, especially its 
-     * attributes, based on the style information.
+     * This method checks the style of the given $odtElement for bold 
+     * font-weight ("bold" or value >= 700). If this is detected, the type of 
+     * the element is set to be <emphasis/>.
      * 
      * @param DOMElement $odtElement 
      * @param ezcDocumentOdtStyle $style 

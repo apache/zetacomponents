@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtBaseFilter class
+ * File containing the abstract ezcDocumentOdtBaseFilter base class.
  *
  * @package Document
  * @version //autogen//

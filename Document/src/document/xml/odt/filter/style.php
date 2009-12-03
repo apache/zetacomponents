@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtStyleFilter class
+ * File containing the ezcDocumentOdtStyleFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -12,8 +12,8 @@
 /**
  * Filter mechanism based on ODT style information.
  *
- * This filter consists of filte rules, which inference certain semantics from 
- * ODT elements, based on the style of an element.
+ * This filter consists of filte rules, which inference semantics for ODT
+ * elements based on their attached style information.
  *
  * @package Document
  * @version //autogen//
@@ -37,6 +37,8 @@ class ezcDocumentOdtStyleFilter extends ezcDocumentOdtBaseFilter
 
     /**
      * Creates a new style filter.
+     *
+     * @TODO: Make this configurable.
      */
     public function __construct()
     {
@@ -47,7 +49,7 @@ class ezcDocumentOdtStyleFilter extends ezcDocumentOdtBaseFilter
     }
 
     /**
-     * Filter ODT document
+     * Filter ODT document.
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.

@@ -10,10 +10,11 @@
  */
 
 /**
- * Base class for ODT styles.
+ * Class for ODT list styles.
  *
  * @property-read string $name The style name.
- * @property ArrayObject $listLevels ArrayObject(ezcDocumentOdtListLevelStyle)
+ * @property ArrayObject(ezcDocumentOdtListLevelStyle) $listLevels
+ *           List-level styles.
  *
  * @package Document
  * @version //autogen//
@@ -32,14 +33,10 @@ class ezcDocumentOdtListStyle
     );
 
     /**
-     * Creates a new style.
+     * Creates a new list style.
      *
-     * Creates a style in the given style $family with the given $name. $family 
-     * must be one of the FAMILY_* constants. $name can be an arbitrary string. 
-     * Note that $name and $family properties can not be changed at a later 
-     * time.
+     * Creates a new list style with the given $name.
      * 
-     * @param const $family 
      * @param string $name 
      */
     public function __construct( $name )

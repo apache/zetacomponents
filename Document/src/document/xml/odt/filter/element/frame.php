@@ -10,7 +10,7 @@
  */
 
 /**
- * Filter for ODT <draw:frame> elements.
+ * Filter for ODT <draw:frame/> elements.
  *
  * @package Document
  * @version //autogen//
@@ -19,7 +19,7 @@
 class ezcDocumentOdtElementFrameFilter extends ezcDocumentOdtElementBaseFilter
 {
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param DOMElement $element
      * @return void

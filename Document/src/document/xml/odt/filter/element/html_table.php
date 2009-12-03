@@ -10,13 +10,17 @@
  */
 
 /**
- * Filter for ODT <table:table> elements.
+ * Filter for ODT <table:table/> and its child elements.
  *
- * This filter generates XHTML style tables in DocBook.
+ * This filter generates XHTML style tables in DocBook. This class is not yet 
+ * in use at all, since the internal DocBook representation of the Document 
+ * component does not cope with XHTML style tables, yet.
  *
  * @package Document
  * @version //autogen//
  * @access private
+ * @TODO: Migrate to this implementation as soon as all other Document modules 
+ *        support XHTML tables, since they are more flexible.
  */
 class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilter
 {
@@ -37,7 +41,7 @@ class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilt
     );
 
     /**
-     * Filter a single element
+     * Filter a single element.
      *
      * @param ezcDocumentPropertyContainerDomElement $element
      * @return void
@@ -49,7 +53,7 @@ class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilt
     }
 
     /**
-     * Check if filter handles the current element
+     * Check if filter handles the current element.
      *
      * Returns a boolean value, indicating weather this filter can handle
      * the current element.
@@ -87,6 +91,16 @@ class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilt
         $this->aggregateRows( $element );
     }
 
+    /**
+     * Aggregates table rows into a <tbody/> element.
+     *
+     * This method aggregates all rows of a table into a single <tbody/> 
+     * element in the custom {@link ezcDocumentOdt::NS_EZC} namespace. This 
+     * element will later be converted into a DocBook <tbody/> element.
+     *
+     * @param ezcDocumentPropertyContainerDomElement $element 
+     * @return void
+     */
     protected function aggregateRows( ezcDocumentPropertyContainerDomElement $element )
     {
         // @TODO: Does ODT support multiple heads? Does DocBook support that?

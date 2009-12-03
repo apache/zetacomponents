@@ -1,11 +1,45 @@
 <?php
+/**
+ * File containing the ezcDocumentOdtStyleExtractor class.
+ *
+ * @package Document
+ * @version //autogen//
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/new_bsd New BSD License
+ * @access private
+ */
 
+/**
+ * Extracts style information from an ODT document.
+ *
+ * An instance of this class is used to extract styles from an ODT 
+ * DOMDocument.
+ *
+ * @package Document
+ * @version //autogen//
+ * @access private
+ */
 class ezcDocumentOdtStyleExtractor
 {
+    /**
+     * The ODT document.
+     * 
+     * @var DOMDocument
+     */
     protected $odt;
 
+    /**
+     * XPath object on the ODT document.
+     * 
+     * @var DOMXPath
+     */
     protected $xpath;
 
+    /**
+     * Creates a new style extractor for the given $odt document.
+     * 
+     * @param DOMDocument $odt 
+     */
     public function __construct( DOMDocument $odt )
     {
         $this->odt = $odt;
@@ -16,7 +50,7 @@ class ezcDocumentOdtStyleExtractor
     }
 
     /**
-     * Extract the style identified by $family and $name. 
+     * Extract the style identified by $family and $name.
      *
      * Returns the DOMElement for the style identified by $family and $name. If 
      * $name is left out, the default style for $family will be extracted.
@@ -53,7 +87,7 @@ class ezcDocumentOdtStyleExtractor
      * @TODO: Make $name optional and allow extraction of default list styles.
      *
      * @param mixed $name 
-     * @return void
+     * @return DOMElement
      */
     public function extractListStyle( $name )
     {

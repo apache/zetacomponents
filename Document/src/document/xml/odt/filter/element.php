@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtElementFilter class
+ * File containing the ezcDocumentOdtElementFilter class.
  *
  * @package Document
  * @version //autogen//
@@ -50,7 +50,7 @@ class ezcDocumentOdtElementFilter extends ezcDocumentOdtBaseFilter
     }
 
     /**
-     * Filter ODT document
+     * Filter ODT document.
      *
      * Filter for the document, which may modify / restructure a document and
      * assign semantic information bits to the elements in the tree.
@@ -67,10 +67,9 @@ class ezcDocumentOdtElementFilter extends ezcDocumentOdtBaseFilter
     }
 
     /**
-     * Add additional element filter
+     * Add additional element filter.
      *
      * @param ezcDocumentOdtElementBaseFilter $filter
-     * @return void
      */
     public function addFilter( ezcDocumentOdtElementBaseFilter $filter )
     {
@@ -78,13 +77,13 @@ class ezcDocumentOdtElementFilter extends ezcDocumentOdtBaseFilter
     }
 
     /**
-     * Filter node
+     * Filter node.
      *
      * Depending on the element name, it parents and maybe element attributes
-     * semantic information is assigned to nodes.
+     * semantic information is assigned to nodes. This method also implements 
+     * handling of significant whitespaces.
      *
      * @param DOMElement $element
-     * @return void
      */
     protected function filterNode( DOMElement $element )
     {
