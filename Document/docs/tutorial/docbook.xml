@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <article xmlns="http://docbook.org/ns/docbook">
-  <section id="ez_components_-_document">
+  <section ID="ez_components_-_document">
     <sectioninfo/>
     <title>eZ Components - Document</title>
-    <section id="introduction">
+    <section ID="introduction">
       <sectioninfo/>
       <title>Introduction</title>
       <para>The document component offers transformations between different semantic markup languages, like:</para>
@@ -36,14 +36,14 @@
       <para>Where each format support conversions from and to docbook as a central intermediate format and may implement additional shortcuts for conversions from and to other formats. Not each format can express the same semantics, so there may be some information lost, which is <ulink url="confluence">documented in a dedicated document</ulink>.</para>
       <para>There are central handler classes for each markup language, which follow a common conversion interface ezcDocument and all implement the methods getAsDocbook() and createFromDocbook().</para>
     </section>
-    <section id="markup_languages">
+    <section ID="markup_languages">
       <sectioninfo/>
       <title>Markup languages</title>
       <para>The following markup languages are currently handled by the document component.</para>
-      <section id="restructured_text">
+      <section ID="restructured_text">
         <sectioninfo/>
         <title>ReStructured text</title>
-        <section id="error_handling">
+        <section ID="error_handling">
           <sectioninfo/>
           <title>Error handling</title>
           <para>By default each parsing or compiling error will be transformed into an exception, so that you are noticed about those errors. The error reporting settings can be modified like for all other document handlers:</para>
@@ -59,10 +59,10 @@ echo $docbook-&gt;save();
 </literallayout>
           <para>Where the setting in line 3 causes, that only warnings, errors and fatal errors are transformed to exceptions now, while the notices are only collected, but ignored. This setting affects both, the parsing of the source document and the compiling into the destination language.</para>
         </section>
-        <section id="directives">
+        <section ID="directives">
           <sectioninfo/>
           <title>Directives</title>
-          <section id="directive_example">
+          <section ID="directive_example">
             <sectioninfo/>
             <title>Directive example</title>
             <para>A full example for a custom directive, where we want to embed real world addresses into our RST document and maintain the semantics in the resulting docbook, could look like:</para>
@@ -124,7 +124,7 @@ echo $docbook-&gt;save();
             <para>The output will then look like:</para>
             <literallayout>&lt;?xml version="1.0"?&gt;
 &lt;article xmlns="http://docbook.org/ns/docbook"&gt;
-  &lt;section id="address_example"&gt;
+  &lt;section ID="address_example"&gt;
     &lt;sectioninfo/&gt;
     &lt;title&gt;Address example&lt;/title&gt;
     &lt;address&gt;
@@ -137,10 +137,10 @@ echo $docbook-&gt;save();
 </literallayout>
           </section>
         </section>
-        <section id="xhtml_rendering">
+        <section ID="xhtml_rendering">
           <sectioninfo/>
           <title>XHTML rendering</title>
-          <section id="modification_of_xhtml_rendering">
+          <section ID="modification_of_xhtml_rendering">
             <sectioninfo/>
             <title>Modification of XHTML rendering</title>
             <para>You can modify the generated output of the XHTML visitor by creating a custom visitor for the RST AST. The easiest way probably is to extend from one of the existing XHTML visitors and reusing it. For example you may want to fill the type attribute in bullet lists, like known from HTML, which isn't valid XHTML, though:</para>
