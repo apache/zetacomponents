@@ -18,6 +18,10 @@
  * @property ezcDocumentOdtStyler $styler
  *           Styler to use for generating ODTs. By default, an {@link 
  *           ezcDocumentOdtPcssStyler} is used.
+ * @property string $lengthMeasure
+ *           Default length measure unit to use for measures defined in DocBook 
+ *           without a unit. Valid values are: "cm", "mm", "in", "pt", "pc" and 
+ *           "px".
  *
  * @package Document
  * @version //autogen//
