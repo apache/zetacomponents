@@ -72,6 +72,8 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
             $created instanceof ezcDocumentOdt
         );
 
+        $this->adjustMetaDate( $created );
+
         // Store test file, to have something to compare on failure
         $tempDir  = $this->createTempDir( 'docbook_odt_custom_' ) . '/';
         $tempFile = $tempDir . basename( $to );
@@ -94,6 +96,23 @@ class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
 
         // Remove tempdir, when nothing failed.
         $this->removeTempDir();
+    }
+
+    private function adjustMetaDate( ezcDocumentOdt $odt )
+    {
+        $fakeDate = '2009-12-04T10:14:00+01:00';
+
+        $creationDate = $odt->getDomDocument()->getElementsByTagnameNS(
+            ezcDocumentOdt::NS_ODT_META,
+            'creation-date'
+        )->item( 0 );
+        $creationDate->nodeValue = $fakeDate;
+
+        $date = $odt->getDomDocument()->getElementsByTagnameNS(
+            ezcDocumentOdt::NS_DC,
+            'date'
+        )->item( 0 );
+        $date->nodeValue = $fakeDate;
     }
 
     /**

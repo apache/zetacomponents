@@ -34,6 +34,8 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
 
     const NS_XML = 'http://www.w3.org/XML/1998/namespace';
 
+    const NS_DC = 'http://purl.org/dc/elements/1.1/';
+
     /**
      * Array with filter objects for the input ODT document.
      *

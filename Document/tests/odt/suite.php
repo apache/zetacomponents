@@ -24,6 +24,7 @@ require_once 'text_processor_test.php';
 require_once 'list_level_style_test.php';
 require_once 'style_parser_test.php';
 require_once 'style_extractor_test.php';
+require_once 'meta_generator_test.php';
 
 /**
  * This file is not in use, yet, therefore not tested.
@@ -54,6 +55,7 @@ class ezcDocumentOdtSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcDocumentOdtListLevelStyleTest::suite() );
         $this->addTest( ezcDocumentOdtStyleParserTest::suite() );
         $this->addTest( ezcDocumentOdtStyleExtractorTest::suite() );
+        $this->addTest( ezcDocumentOdtMetaGeneratorTest::suite() );
     }
 }
 

@@ -47,6 +47,13 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
     private $imageLocator;
 
     /**
+     * Meta data generator. 
+     * 
+     * @var ezcDocumentOdtMetaGenerator
+     */
+    private $metaGenerator;
+
+    /**
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
@@ -63,6 +70,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
         );
 
         $this->textProcessor = new ezcDocumentOdtTextProcessor();
+        $this->metaGenerator = new ezcDocumentOdtMetaGenerator();
 
         $styler = $this->options->styler;
 
@@ -186,6 +194,8 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
         $odt->formatOutput = true;
         $odt->load( $this->options->template );
 
+        $this->generateMetaData( $odt );
+
         $rootElements = $odt->getElementsByTagNameNS(
             ezcDocumentOdt::NS_ODT_OFFICE,
             'text'
@@ -201,6 +211,38 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
         $root = $rootElements->item( 0 );
 
         return $root;
+    }
+
+    /**
+     * Generates standard ODT meta data into the given $odt.
+     *
+     * Extracts the <office:meta/> element from the given $odt or creates a new 
+     * one, if it does not exsist, and generates standard meta data into it.
+     * 
+     * @param DOMDocument $odt 
+     */
+    private function generateMetaData( DOMDocument $odt )
+    {
+        $metaSections = $odt->getElementsByTagnameNS(
+            ezcDocumentOdt::NS_ODT_OFFICE,
+            'meta'
+        );
+        
+        if ( $metaSections->length === 0 )
+        {
+            $metaSection = $odt->documentElement->appendChild(
+                $odt->createElementNS(
+                    ezcDocumentOdt::NS_ODT_OFFICE,
+                    'meta'
+                )
+            );
+        }
+        else
+        {
+            $metaSection = $metaSections->item( 0 );
+        }
+
+        $this->metaGenerator->generateMetaData( $metaSection );
     }
 
     /**

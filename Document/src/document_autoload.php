@@ -250,6 +250,7 @@ return array(
     'ezcDocumentOdtListLevelStyleNumber'                 => 'Document/document/xml/odt/list_level_style/number.php',
     'ezcDocumentOdtListStyle'                            => 'Document/document/xml/odt/list_style.php',
     'ezcDocumentOdtListStyleGenerator'                   => 'Document/converters/element_visitor/docbook/odt/styler/pcss/generator/list.php',
+    'ezcDocumentOdtMetaGenerator'                        => 'Document/converters/element_visitor/docbook/odt/meta_generator.php',
     'ezcDocumentOdtOptions'                              => 'Document/options/document_odt.php',
     'ezcDocumentOdtParagraphStyleGenerator'              => 'Document/converters/element_visitor/docbook/odt/styler/pcss/generator/paragraph.php',
     'ezcDocumentOdtPcssBorderConverter'                  => 'Document/converters/element_visitor/docbook/odt/styler/pcss/converter/border.php',
