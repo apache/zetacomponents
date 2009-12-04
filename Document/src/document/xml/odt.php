@@ -128,7 +128,7 @@ class ezcDocumentOdt extends ezcDocumentXmlBase /* implements ezcDocumentValidat
 
         $xpath = new DOMXPath( $document );
         $xpath->registerNamespace( 'office', self::NS_ODT_OFFICE );
-        // @TODO: Process meta data
+        // @todo: Process meta data
         $body = $xpath->query( '//office:body' )->item( 0 );
         $this->transformToDocbook( $body, $root );
 

@@ -72,11 +72,11 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
      */
     public function __construct()
     {
-        // @TODO: Make configurable
+        // @todo: Make configurable
         $this->styleConverters   = new ezcDocumentOdtPcssConverterManager();
         $this->styleInferencer   = new ezcDocumentPcssStyleInferencer();
 
-        // @TODO: Make configurable
+        // @todo: Make configurable
         $this->styleGenerators[] = new ezcDocumentOdtParagraphStyleGenerator(
             $this->styleConverters
         );
@@ -96,7 +96,7 @@ class ezcDocumentOdtPcssStyler implements ezcDocumentOdtStyler
             $this->styleConverters
         );
 
-        // @TODO: Make configurable
+        // @todo: Make configurable
         $this->stylePreProcessors[] = new ezcDocumentOdtPcssListStylePreprocessor();
         $this->stylePreProcessors[] = new ezcDocumentOdtPcssFontStylePreprocessor();
         $this->stylePreProcessors[] = new ezcDocumentOdtPcssParagraphStylePreprocessor();

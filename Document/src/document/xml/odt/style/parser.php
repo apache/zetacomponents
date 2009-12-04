@@ -160,10 +160,10 @@ class ezcDocumentOdtStyleParser
         $props = new ezcDocumentOdtFormattingProperties(
             $propElement->localName
         );
-        // @TODO: Parse sub-property elements
+        // @todo: Parse sub-property elements
         foreach ( $propElement->attributes as $attrNode )
         {
-            // @TODO: Parse property values
+            // @todo: Parse property values
             $props[$attrNode->localName] = $attrNode->value;
         }
         return $props;

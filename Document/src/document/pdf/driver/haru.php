@@ -160,7 +160,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         'CP1258'           => 'CP1258',
         'KOI8-R'           => 'KOI8-R',
         /*
-         * @TODO: Find out how about the respective equivalents in inconv
+         * @todo: Find out how about the respective equivalents in inconv
          * encoding notation.
         'GB-EUC-H'         => '',
         'GB-EUC-V'         => '',
@@ -272,7 +272,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     public function trySetFont( $name, $style )
     {
         // Just du no use new font, if it is unknown
-        // @TODO: Add some kind of weak error reporting here?
+        // @todo: Add some kind of weak error reporting here?
         if ( !isset( $this->fonts[$name] ) )
         {
             $name = $this->currentFont['name'];
@@ -398,7 +398,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
                 }
 
             default:
-                // @TODO: Error reporting.
+                // @todo: Error reporting.
         }
     }
 
@@ -418,7 +418,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             $this->initialize();
         }
 
-        // @TODO: This removes a lot of valid characters, obviously. Haru 
+        // @todo: This removes a lot of valid characters, obviously. Haru 
         // cannot handle any Unicode encode, so we need to transform our input 
         // string in some single-byte-encoding. We use ISO-8859-1 for now, 
         // since it is common. We can either make this configurable (not kiss), 
@@ -475,7 +475,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             $this->trySetFont( $this->currentFont['name'], $this->currentFont['style'] );
         }
 
-        // @TODO: This removes a lot of valid characters, obviously. Haru 
+        // @todo: This removes a lot of valid characters, obviously. Haru 
         // cannot handle any Unicode encode, so we need to transform our input 
         // string in some single-byte-encoding. We use ISO-8859-1 for now, 
         // since it is common. We can either make this configurable (not kiss), 

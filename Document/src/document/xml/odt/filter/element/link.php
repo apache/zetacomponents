@@ -32,7 +32,7 @@ class ezcDocumentOdtElementLinkFilter extends ezcDocumentOdtElementBaseFilter
         {
             $attrs = array();
         }
-        // @TODO: Can we convert more attributes here? Maybe <ulink type="…"/>?
+        // @todo: Can we convert more attributes here? Maybe <ulink type="…"/>?
         $attrs['url'] = $element->getAttributeNS(
             ezcDocumentOdt::NS_XLINK,
             'href'

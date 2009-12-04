@@ -86,7 +86,7 @@ class ezcDocumentOdtStyleExtractor
      *
      * @param string $name 
      * @return DOMElement
-     * @TODO Make $name optional and allow extraction of default list styles.
+     * @todo Make $name optional and allow extraction of default list styles.
      */
     public function extractListStyle( $name )
     {

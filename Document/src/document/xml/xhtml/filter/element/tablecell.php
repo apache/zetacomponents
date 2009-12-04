@@ -37,7 +37,7 @@ class ezcDocumentXhtmlTableCellElementFilter extends ezcDocumentXhtmlElementBase
             $element->setProperty( 'attributes', $attributes );
         }
 
-        // @TODO: Handle colspan, too - even it is quite complex to express in
+        // @todo: Handle colspan, too - even it is quite complex to express in
         // docbook.
     }
 

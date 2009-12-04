@@ -38,7 +38,7 @@ class ezcDocumentPdfBlockRenderer extends ezcDocumentPdfRenderer
      */
     public function renderNode( ezcDocumentPdfPage $page, ezcDocumentPdfHyphenator $hyphenator, ezcDocumentPdfTokenizer $tokenizer, ezcDocumentLocateableDomElement $block, ezcDocumentPdfMainRenderer $mainRenderer )
     {
-        // @TODO: Render border and background. This can be quite hard to
+        // @todo: Render border and background. This can be quite hard to
         // estimate, though.
         $styles         = $this->styles->inferenceFormattingRules( $block );
         $page->y       += $styles['padding']->value['top'] +

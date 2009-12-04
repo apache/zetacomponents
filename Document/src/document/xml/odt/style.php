@@ -94,7 +94,7 @@ class ezcDocumentOdtStyle
     /**
      * Ruby style.
      *
-     * @TODO: Do we need to support this? 
+     * @todo: Do we need to support this? 
      */
     const FAMILY_RUBY         = 'ruby';
 

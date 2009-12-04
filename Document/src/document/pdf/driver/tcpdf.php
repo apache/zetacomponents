@@ -228,7 +228,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         }
 
         // Just du no use new font, if it is unknown
-        // @TODO: Add some kind of weak error reporting here?
+        // @todo: Add some kind of weak error reporting here?
         if ( !isset( $this->fonts[$name] ) )
         {
             $name = $this->currentFont['name'];
@@ -323,7 +323,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
                 );
 
             default:
-                // @TODO: Error reporting.
+                // @todo: Error reporting.
         }
     }
 

@@ -36,7 +36,7 @@ class ezcDocumentPdfTextBlockRenderer extends ezcDocumentPdfTextBoxRenderer
         // Inference page styles
         $styles = $this->styles->inferenceFormattingRules( $text );
 
-        // @TODO: Apply: Margin, border, padding
+        // @todo: Apply: Margin, border, padding
 
         // Iterate over tokens and try to fit them in the current line, use
         // hyphenator to split words.

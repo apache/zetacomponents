@@ -19,7 +19,7 @@
  * @package Document
  * @version //autogen//
  * @access private
- * @TODO Migrate to this implementation as soon as all other Document modules 
+ * @todo Migrate to this implementation as soon as all other Document modules 
  *       support XHTML tables, since they are more flexible.
  */
 class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilter
@@ -103,7 +103,7 @@ class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilt
      */
     protected function aggregateRows( ezcDocumentPropertyContainerDomElement $element )
     {
-        // @TODO: Does ODT support multiple heads? Does DocBook support that?
+        // @todo: Does ODT support multiple heads? Does DocBook support that?
         $body = $element->ownerDocument->createElementNS( ezcDocumentOdt::NS_EZC, 'tbody' );
         $body->setProperty( 'type', 'tbody' );
 
@@ -124,7 +124,7 @@ class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilt
                 $element->removeChild( $child );
             }
             // Break is something else is found
-            // @TODO: What about multiple head rows?
+            // @todo: What about multiple head rows?
             else if ( $child->nodeType === XML_ELEMENT_NODE )
             {
                 break;
@@ -142,7 +142,7 @@ class ezcDocumentOdtElementHtmlTableFilter extends ezcDocumentOdtElementBaseFilt
      */
     protected function convertColumn( ezcDocumentPropertyContainerDomElement $element )
     {
-        // @TODO: Not supported by our DocBook sub-set. Should we?
+        // @todo: Not supported by our DocBook sub-set. Should we?
         // $element->setProperty( 'type', 'col' );
     }
 

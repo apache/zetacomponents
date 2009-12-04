@@ -72,7 +72,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'article'           => $ignore = new ezcDocumentDocbookToOdtIgnoreHandler( $styler ),
                 'book'              => $ignore,
                 'section'           => $section = new ezcDocumentDocbookToOdtSectionHandler( $styler ),
-                // @TODO: Need to find a way to handle the meta data.
+                // @todo: Need to find a way to handle the meta data.
                 'sectioninfo'       => $section,
                 'title'             => $section,
                 'para'              => $paragraph = new ezcDocumentDocbookToOdtParagraphHandler( $styler ),
@@ -104,7 +104,7 @@ class ezcDocumentDocbookToOdtConverter extends ezcDocumentElementVisitorConverte
                 'td'                => $table,
                 'row'               => $table,
                 'tgroup'            => $ignore,
-                // @TODO: Need to handle these in a way
+                // @todo: Need to handle these in a way
                 'blockquote'        => $ignore,
                 'attribution'       => $ignore,
                 'variablelist'      => $deepIgnore = new ezcDocumentDocbookToOdtIgnoreHandler( $styler, true ),

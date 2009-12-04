@@ -244,7 +244,7 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
                 break;
 
             default:
-                // @TODO: Error reporting.
+                // @todo: Error reporting.
         }
     }
 

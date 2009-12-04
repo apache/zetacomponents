@@ -228,7 +228,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
                 'table:table-cell'
             )
         );
-        // @TODO: Can we make this configurable somehow?
+        // @todo: Can we make this configurable somehow?
         $tableCell->setAttributeNS(
             ezcDocumentOdt::NS_ODT_OFFICE,
             'office:value-type',
@@ -237,7 +237,7 @@ class ezcDocumentDocbookToOdtTableHandler extends ezcDocumentDocbookToOdtBaseHan
 
         $this->styler->applyStyles( $node, $tableCell );
 
-        // @TODO: Colspan / rowspan
+        // @todo: Colspan / rowspan
 
         $converter->visitChildren( $node, $tableCell );
         return $root;

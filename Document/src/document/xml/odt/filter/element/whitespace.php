@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcDocumentOdtWhitespaceFilter class.
+ * File containing the ezcDocumentOdtElementWhitespaceFilter class.
  *
  * @package Document
  * @version //autogen//

@@ -38,7 +38,7 @@ class ezcDocumentOdtStyleFilter extends ezcDocumentOdtBaseFilter
     /**
      * Creates a new style filter.
      *
-     * @TODO Make configurable.
+     * @todo Make configurable.
      */
     public function __construct()
     {

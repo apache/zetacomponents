@@ -33,7 +33,7 @@ class ezcDocumentDocbookToOdtCommentHandler extends ezcDocumentDocbookToOdtBaseH
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
-        // @TODO: Currently an XML comment is generated. Are there other ways 
+        // @todo: Currently an XML comment is generated. Are there other ways 
         // of adding a comment to an ODT?
         $comment = $root->appendChild(
             $root->ownerDocument->createComment(

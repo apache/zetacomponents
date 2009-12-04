@@ -103,14 +103,14 @@ class ezcDocumentOdtPcssFontStylePreprocessor
                 : $fontFamily
             )
         );
-        // @TODO: Should be roman, swiss, modern, decorative, script or system. 
+        // @todo: Should be roman, swiss, modern, decorative, script or system. 
         // Can we determine this somehow?
         $fontDecl->setAttributeNS(
             ezcDocumentOdt::NS_ODT_STYLE,
             'style:font-family-generic',
             'system'
         );
-        // @TODO: Configurable?
+        // @todo: Configurable?
         $fontDecl->setAttributeNS(
             ezcDocumentOdt::NS_ODT_STYLE,
             'style:font-pitch',

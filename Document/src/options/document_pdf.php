@@ -41,7 +41,7 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
         $this->tokenizer      = new ezcDocumentPdfDefaultTokenizer();
         $this->tableColumnWidthCalculator = new ezcDocumentPdfDefaultTableColumnWidthCalculator();
 
-        // @TODO: There might be a better default:
+        // @todo: There might be a better default:
         $this->driver     = new ezcDocumentPdfHaruDriver();
 
         parent::__construct( $options );

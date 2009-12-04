@@ -107,7 +107,7 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
      */
     protected function aggregateRows( ezcDocumentPropertyContainerDomElement $element )
     {
-        // @TODO: Does ODT support multiple heads? Does DocBook support that?
+        // @todo: Does ODT support multiple heads? Does DocBook support that?
         $body = $element->ownerDocument->createElementNS( ezcDocumentOdt::NS_EZC, 'tbody' );
         $body->setProperty( 'type', 'tbody' );
 
@@ -128,7 +128,7 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
                 $element->removeChild( $child );
             }
             // Break is something else is found
-            // @TODO: What about multiple head rows?
+            // @todo: What about multiple head rows?
             else if ( $child->nodeType === XML_ELEMENT_NODE )
             {
                 break;
@@ -146,7 +146,7 @@ class ezcDocumentOdtElementTableFilter extends ezcDocumentOdtElementBaseFilter
      */
     protected function convertColumn( ezcDocumentPropertyContainerDomElement $element )
     {
-        // @TODO: Not supported by our DocBook sub-set. Should we?
+        // @todo: Not supported by our DocBook sub-set. Should we?
         // $element->setProperty( 'type', 'col' );
     }
 

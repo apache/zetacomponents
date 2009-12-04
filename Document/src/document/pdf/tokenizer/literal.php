@@ -49,7 +49,7 @@ class ezcDocumentPdfLiteralTokenizer extends ezcDocumentPdfTokenizer
         $tokens = array();
         foreach ( $lines as $nr => $line )
         {
-            // @TODO: Use a somehow configured tab-width instead of the default;
+            // @todo: Use a somehow configured tab-width instead of the default;
             $line  = $this->convertTabs( $line );
             $words = preg_split( '(( +))', $line, -1, PREG_SPLIT_DELIM_CAPTURE );
 

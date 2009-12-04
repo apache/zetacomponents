@@ -94,7 +94,7 @@ class ezcDocumentPcssParser extends ezcDocumentParser
      * http://www.w3.org/TR/REC-xml/#NT-NameStartChar
      */
     const XML_NAME_STARTCHAR = '(?:[:A-Za-z_])';
-        // @TODO: Integrate: |[#xC0-#xD6]|[#xD8-#xF6]|[#xF8-#x2FF]|[#x370-#x37D]|[#x37F-#x1FFF]|[#x200C-#x200D]|[#x2070-#x218F]|[#x2C00-#x2FEF]|[#x3001-#xD7FF]|[#xF900-#xFDCF]|[#xFDF0-#xFFFD]|[#x10000-#xEFFFF])';
+        // @todo: Integrate: |[#xC0-#xD6]|[#xD8-#xF6]|[#xF8-#x2FF]|[#x370-#x37D]|[#x37F-#x1FFF]|[#x200C-#x200D]|[#x2070-#x218F]|[#x2C00-#x2FEF]|[#x3001-#xD7FF]|[#xF900-#xFDCF]|[#xFDF0-#xFFFD]|[#x10000-#xEFFFF])';
 
     /**
      * Regular expression for characters a XML name may contain, as defined at:
@@ -106,7 +106,7 @@ class ezcDocumentPcssParser extends ezcDocumentParser
      * Since now no docbook markup element contains a dot.
      */
     const XML_NAME_CHAR      = '(?:[-0-9])';
-        // @TODO: Integrate: |#xB7|[#x0300-#x036F]|[#x203F-#x2040])';
+        // @todo: Integrate: |#xB7|[#x0300-#x036F]|[#x203F-#x2040])';
 
     /**
      * Whitespace token

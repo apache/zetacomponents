@@ -195,7 +195,7 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
         );
 
         // Set by OOO no matter if bullet or number list
-        // @TODO: Make styleable
+        // @todo: Make styleable
         $listLevelStyle->setAttributeNS(
             ezcDocumentOdt::NS_ODT_STYLE,
             'style:num-suffix',

@@ -17,7 +17,7 @@
  * @package Document
  * @version //autogen//
  * @access private
- * @TODO For later versions: Supporting non flat ODT, we can bundle images and 
+ * @todo For later versions: Supporting non flat ODT, we can bundle images and 
  *       simply refer to them.
  */
 class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtBaseHandler
@@ -151,7 +151,7 @@ class ezcDocumentDocbookToOdtMediaObjectHandler extends ezcDocumentDocbookToOdtB
         {
             return $length;
         }
-        // @TODO: Validate that number without measure is given
+        // @todo: Validate that number without measure is given
         return $length . $converter->options->lengthMeasure;
     }
 

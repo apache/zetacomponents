@@ -19,7 +19,7 @@
  * @package Document
  * @version //autogen//
  * @access private
- * @TODO Emphasis can also be indicated by other styles like red color or 
+ * @todo Emphasis can also be indicated by other styles like red color or 
  *       similar. In addition, emphasis should be detected relatively to the 
  *       surrounding style. Some kind of points-threshold-based system would 
  *       be nice.

@@ -19,7 +19,7 @@
  * @package Document
  * @version //autogen//
  * @access private
- * @TODO More information about the list can be extracted from the style, like 
+ * @todo More information about the list can be extracted from the style, like 
  *       the start value and continuation of previous lists.
  */
 class ezcDocumentOdtListLevelStyleFilterRule implements ezcDocumentOdtStyleFilterRule

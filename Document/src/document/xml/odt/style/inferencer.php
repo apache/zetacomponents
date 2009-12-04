@@ -93,7 +93,7 @@ class ezcDocumentOdtStyleInferencer
         $name   = $this->getStyleName( $odtElement );
 
         $styleDom = $this->styleExtractor->extractStyle( $family, $name );
-        // @TODO: Inference parent / default styles
+        // @todo: Inference parent / default styles
 
         return $this->styleParser->parseStyle( $styleDom, $family, $name );
     }
@@ -106,7 +106,7 @@ class ezcDocumentOdtStyleInferencer
      * 
      * @param DOMElement $odtElement 
      * @return ezcDocumentOdtListStyle|null
-     * @TODO Paragraphs may have a list style defined in their properties, 
+     * @todo Paragraphs may have a list style defined in their properties, 
      *       which is used by default for new lists created in the paragraph. 
      *       This is actually not significant for us, since lists do always 
      *       have a dedicated style attached. Anyway, we might want to include 

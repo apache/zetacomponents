@@ -57,7 +57,7 @@ class ezcDocumentDocbookToOdtSectionHandler extends ezcDocumentDocbookToOdtBaseH
                 $this->handleTitle( $converter, $node, $root );
                 break;
             case 'sectioninfo':
-                // @TODO
+                // @todo
                 break;
         }
 

@@ -34,7 +34,7 @@ class ezcDocumentRstIncludeDirective extends ezcDocumentRstDirective implements 
             $file = $this->path . $file;
         }
 
-        // @TODO: docutils performs automatic checks, that no system files
+        // @todo: docutils performs automatic checks, that no system files
         // (like /etc/passwd) are included - do we want to do similar stuff
         // here?
 

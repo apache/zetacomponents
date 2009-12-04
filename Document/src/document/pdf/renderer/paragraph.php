@@ -39,7 +39,7 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
      * @param ezcDocumentPdfMainRenderer $mainRenderer 
      * @return bool
      *
-     * @TODO This method does not respect changes in the available text width,
+     * @todo This method does not respect changes in the available text width,
      *       if a paragraph is wrapped to the next page. This would require token
      *       reordering, which is not implemented yet.
      */

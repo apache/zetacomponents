@@ -187,7 +187,7 @@ class ezcDocumentPdfMediaObjectRenderer extends ezcDocumentPdfRenderer
             $imageSize[0]  = $width->get();
         }
 
-        // @TODO: Apply styles for image scaling.
+        // @todo: Apply styles for image scaling.
 
         // Check if image would fit on a new page using its default size.
         if ( $page->innerHeight > $imageSize[1] )
