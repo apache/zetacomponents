@@ -16,8 +16,9 @@ languages, like:
 - `Docbook`__
 - `eZ Publish XML markup`__
 - Wiki markup languages, like: Creole__, Dokuwiki__ and Confluence__
+- `Open Document Text`__ as used by `OpenOffice.org`__ and other office suites
 
-Likw shown in figure 1, each format supports conversions from and to docbook
+Like shown in figure 1, each format supports conversions from and to docbook
 as a central intermediate format and may implement additional shortcuts for
 conversions from and to other formats. Not each format can express the same
 semantics, so there may be some information lost, which is `documented in a
@@ -44,6 +45,8 @@ __ http://ez.no/doc/ez_publish/technical_manual/4_0/reference/xml_tags
 __ http://www.wikicreole.org/
 __ http://www.dokuwiki.org/dokuwiki
 __ http://confluence.atlassian.com/renderer/notationhelp.action?section=all
+__ http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=office
+__ http://www.openoffice.org/
 
 Markup languages
 ================
@@ -827,6 +830,102 @@ like this::
 
 The hyphenator will then be used by all text renderers during the rendering
 process.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Open Document Text
+------------------
+
+The Open Document Text (ODT) format is natively provided by the
+`OpenOffice.org`__ office application suite and supported by other common word
+processing tools. The Document component supports importing, exporting and
+styling of ODT files.
+
+.. note:: By now only im- and export of flat ODT (.fodt) files is possible.
+          These can be processed by OpenOffice.org natively. To store FODT,
+          simply choose the file type from the save dialog.
+
+
+Reading ODT
+^^^^^^^^^^^
+
+The ODT document class reads FODT files and converts them into the internal
+Docbook representation of the Document component:
+
+.. include:: tutorial/05_00_read_fodt.php
+   :literal:
+
+You can generate any of the supported document formats from the Docbook
+representation.
+
+FODT files may contain embedded media files, i.e. usually images, which will be
+extracted during the import process. You can specify the directory where these images will
+be stored through the ```imageDir``` option::
+
+    <?php
+    $odt->options->imageDir = '/path/to/your/images';
+    ?>
+
+The default is your systems temporary directory.
+
+Since Open Document only contains few semantical information compared to
+Docbook, the import mechanism performs heuristic detection of information like
+emphasized text.  This mechanism is quite rudimentary by now and will be made
+available as a public API as it matured.
+
+Writing ODT
+^^^^^^^^^^^^^
+
+FODT files can be written similar to any of the other formats supported by the
+Document component:
+
+.. include:: tutorial/05_01_write_fodt.php
+   :literal:
+
+Styling ODT
+^^^^^^^^^^^
+
+FODT output can be styled using a CSS like language similar to `Styling the
+PDF`_. Using simplified CSS you assign style rules to Docbook XML elements,
+which are generated into automatic styles in the resulting Open Document. The
+default styling rules (`default.css`__) are the same as for PDF.
+
+__ http://svn.ez.no/svn/ezcomponents/trunk/Document/src/document/pdf/style/default.css
+
+Applying custom styles can be done as follows:
+
+.. include:: tutorial/05_02_write_fodt_styled.php
+   :literal:
+
+A detailed description of the available `style options` is available `here`__.
+
+__ Document_styles.html
+__ Document_styles.html
 
 
 ..
