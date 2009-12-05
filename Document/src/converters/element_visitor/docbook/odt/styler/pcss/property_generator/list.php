@@ -96,7 +96,7 @@ class ezcDocumentOdtStyleListPropertyGenerator extends ezcDocumentOdtStyleProper
         $alignementProp->setAttributeNS(
             ezcDocumentOdt::NS_ODT_FO,
             'fo:text-indent',
-            sprintf( '%smm', - $styles['padding']->value['left'] )
+            sprintf( '%smm', $styles['text-indent']->value )
         );
         $alignementProp->setAttributeNS(
             ezcDocumentOdt::NS_ODT_FO,

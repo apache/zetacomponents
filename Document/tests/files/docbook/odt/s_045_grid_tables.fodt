@@ -545,7 +545,7 @@
     <text:list-style style:name="l1">
       <text:list-level-style-bullet text:level="1" text:style-name="list-level-style-bullet1" style:num-suffix="." text:bullet-char="⚫">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="15mm" fo:text-indent="-5mm" fo:margin-left="15mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="15mm" fo:text-indent="-15mm" fo:margin-left="15mm"/>
         </style:list-level-properties>
       </text:list-level-style-bullet>
     </text:list-style>

@@ -98,7 +98,7 @@
     <text:list-style style:name="l1">
       <text:list-level-style-number text:level="1" text:style-name="list-level-style-number1" style:num-suffix="." style:num-format="1">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="25mm" fo:text-indent="-10mm" fo:margin-left="25mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="25mm" fo:text-indent="-25mm" fo:margin-left="25mm"/>
         </style:list-level-properties>
       </text:list-level-style-number>
     </text:list-style>
@@ -106,11 +106,9 @@
       <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p1">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p2">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p3">
@@ -120,17 +118,17 @@
     <text:list-style style:name="l2">
       <text:list-level-style-number text:level="1" text:style-name="list-level-style-number2" style:num-suffix="." style:num-format="i">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="35mm" fo:text-indent="-10mm" fo:margin-left="35mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="35mm" fo:text-indent="-35mm" fo:margin-left="35mm"/>
         </style:list-level-properties>
       </text:list-level-style-number>
       <text:list-level-style-number text:level="2" text:style-name="list-level-style-number3" style:num-suffix="." style:num-format="a">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="60mm" fo:text-indent="-10mm" fo:margin-left="60mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="60mm" fo:text-indent="-25mm" fo:margin-left="60mm"/>
         </style:list-level-properties>
       </text:list-level-style-number>
       <text:list-level-style-number text:level="3" text:style-name="list-level-style-number4" style:num-suffix="." style:num-format="a">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="85mm" fo:text-indent="-10mm" fo:margin-left="85mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="85mm" fo:text-indent="-25mm" fo:margin-left="85mm"/>
         </style:list-level-properties>
       </text:list-level-style-number>
     </text:list-style>
@@ -138,33 +136,27 @@
       <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p4">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="text" style:name="list-level-style-number3">
       <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p5">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p6">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="text" style:name="list-level-style-number4">
       <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p7">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p8">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p9">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="10mm" style:font-size-asian="10mm" style:font-size-complex="10mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p10">

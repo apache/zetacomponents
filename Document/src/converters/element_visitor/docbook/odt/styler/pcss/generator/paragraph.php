@@ -95,10 +95,17 @@ class ezcDocumentOdtParagraphStyleGenerator extends ezcDocumentOdtStyleGenerator
             $styleName
         );
 
-        $this->paragraphPropertyGenerator->createProperty(
-            $style,
-            $styleAttributes
-        );
+        // Setting the margins in a list contained paragraph results in 
+        // overwriting the list margin. Therefore we skip paragraph property 
+        // generation completely here.
+        // @TODO: Does this have any strange effects? Find a nicer solution?
+        if ( $odtElement->parentNode->localName !== 'list-item' )
+        {
+            $this->paragraphPropertyGenerator->createProperty(
+                $style,
+                $styleAttributes
+            );
+        }
         $this->textPropertyGenerator->createProperty(
             $style,
             $styleAttributes

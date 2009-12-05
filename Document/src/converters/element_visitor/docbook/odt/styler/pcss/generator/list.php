@@ -166,11 +166,10 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
      */
     protected function createListLevelStyle( ezcDocumentOdtStyleInformation $styleInfo, DOMElement $listStyle, $level, array $styleAttributes )
     {
-        $styleAttributes['margin']->value['left'] = $this->calculateListMargin(
+        $styleAttributes = $this->calculateListLevelMeasures(
             $listStyle,
             $level,
-            $styleAttributes['margin']->value['left'],
-            $styleAttributes['padding']->value['left']
+            $styleAttributes
         );
 
         $listLevelStyle = $listStyle->appendChild(
@@ -226,19 +225,19 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
     }
 
     /**
-     * Calculates the absolue left margin for the current list level.
+     * Calculates the list margin and indent.
      *
-     * This methdod extracts the previous list levels margin from $listStyle as 
-     * the base for the margin on $level. This margin + the given $margin +
-     * $padding are returned as the absolute margin for $level.
+     * Margin and indent are handled in a strange way in ODF. This method 
+     * calculates the margin for a list level, based on the previous level margin 
+     * and the current margin and padding. In addition, the text-indent is set 
+     * to fit the previous list-level. The new $styleAttributes are returned.
      * 
      * @param DOMElement $listStyle 
      * @param int $level 
-     * @param int $margin 
-     * @param int $padding 
-     * @return int
+     * @param array $styleAttributes
+     * @return array(string=>float)
      */
-    protected function calculateListMargin( DOMElement $listStyle, $level, $margin, $padding )
+    protected function calculateListLevelMeasures( DOMElement $listStyle, $level, $styleAttributes )
     {
         $previousMargin = 0;
 
@@ -265,7 +264,14 @@ class ezcDocumentOdtListStyleGenerator extends ezcDocumentOdtStyleGenerator
             }
         }
 
-        return $previousMargin + $margin + $padding;
+        $styleAttributes['margin']->value['left'] = $previousMargin
+            + ( $margin = $styleAttributes['margin']->value['left'] )
+            + ( $padding = $styleAttributes['padding']->value['left'] );
+        $styleAttributes['text-indent'] = new ezcDocumentPcssStyleMeasureValue(
+            - ( $margin + $padding )
+        );
+
+        return $styleAttributes;
     }
 
     /**

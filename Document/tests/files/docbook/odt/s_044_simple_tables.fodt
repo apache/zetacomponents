@@ -476,7 +476,7 @@
     <text:list-style style:name="l1">
       <text:list-level-style-bullet text:level="1" text:style-name="list-level-style-bullet1" style:num-suffix="." text:bullet-char="⚫">
         <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
-          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="15mm" fo:text-indent="-5mm" fo:margin-left="15mm"/>
+          <style:list-level-label-alignment text:label-followed-by="listtab" text:list-tab-stop-position="15mm" fo:text-indent="-15mm" fo:margin-left="15mm"/>
         </style:list-level-properties>
       </text:list-level-style-bullet>
     </text:list-style>
@@ -484,11 +484,9 @@
       <style:text-properties fo:font-size="4.2333333376513mm" style:font-size-asian="4.2333333376513mm" style:font-size-complex="4.2333333376513mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal" fo:color="#2e3436"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p41">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
     </style:style>
     <style:style style:family="paragraph" style:name="p42">
-      <style:paragraph-properties fo:text-align="left" fo:widows="3" fo:orphans="3" fo:margin-top="0mm" fo:margin-right="0mm" fo:margin-bottom="4mm" fo:margin-left="0mm" fo:border-top="0mm none #ffffff" fo:border-right="0mm none #ffffff" fo:border-bottom="0mm none #ffffff" fo:border-left="0mm none #ffffff"/>
       <style:text-properties fo:font-size="8mm" style:font-size-asian="8mm" style:font-size-complex="8mm" style:font-name="sans-serif" style:font-name-asian="sans-serif" style:font-name-complex="sans-serif" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold" fo:color="#ff0000"/>
     </style:style>
   </office:automatic-styles>

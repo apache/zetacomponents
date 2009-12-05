@@ -19,7 +19,7 @@ require_once 'odt/test_classes/styler.php';
  */
 class ezcDocumentConverterDocbookToOdtTests extends ezcTestCase
 {
-    const WRITE_RESULTS = false;
+    const WRITE_RESULTS = true;
 
     protected static $testDocuments = null;
 
