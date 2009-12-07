@@ -520,7 +520,7 @@ abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
                 // elements.
                 foreach ( $stack as $refNode )
                 {
-                    $this->namedExternalReferences[$this->tokenListToString( $refNode->name )] = $reference;
+                    $this->namedExternalReferences[$this->calculateId( $this->tokenListToString( $refNode->name ) )] = $reference;
                 }
             }
         }

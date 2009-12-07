@@ -7,6 +7,8 @@
 - Fixed #15912: Titles with UTF-8 chracters throw a notice.
 - Fixed #15914: Reference names with quotes in it think their name is id_.
 - Fixed #15913: References with a : or | do not work properly.
+- Fixed #15915: Forward-dispatching of empty named reference fails, if name
+  contains spaces.
 
 1.3beta1 - Monday 23 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
