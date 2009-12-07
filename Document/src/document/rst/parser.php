@@ -2056,6 +2056,18 @@ class ezcDocumentRstParser extends ezcDocumentParser
      */
     protected function readUntil( array &$tokens, array $until )
     {
+        $quoted = false;
+        if ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+             ( $tokens[0]->content === '`' ) )
+        {
+            array_shift( $tokens );
+            $until = array( array(
+                'type'    => ezcDocumentRstToken::SPECIAL_CHARS,
+                'content' => '`',
+            ) );
+            $quoted = true;
+        }
+
         $foundTokens = array();
         $found = false;
         do {
@@ -2079,6 +2091,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             $foundTokens[] = array_shift( $tokens );
         } while ( $found === false );
+
+        if ( $quoted )
+        {
+            array_shift( $tokens );
+        }
 
         return $foundTokens;
     }
