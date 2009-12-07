@@ -1,4 +1,4 @@
-1.4.3 - [RELEASEDATE]
+1.4.3 - Monday 07 December 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15612: DbSchema does not obey Max Ident Length of 30 constraint
