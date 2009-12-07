@@ -1,4 +1,4 @@
-1.3beta2 - [RELEASEDATE]
+1.3rc1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed #15905: Make rst->docbook visitor configuratble, just like rst->xhtml
@@ -9,6 +9,7 @@
 - Fixed #15913: References with a : or | do not work properly.
 - Fixed #15915: Forward-dispatching of empty named reference fails, if name
   contains spaces.
+
 
 1.3beta1 - Monday 23 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
