@@ -4,6 +4,7 @@
 - Fixed #15905: Make rst->docbook visitor configuratble, just like rst->xhtml
 - Fixed #15904: 'ezcDocumentRstXhtmlBodyVisitor' renders field lists above
   titles unlike docutils
+- Fixed #15912: Titles with UTF-8 chracters throw a notice.
 
 
 1.3beta1 - Monday 23 November 2009

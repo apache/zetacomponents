@@ -609,7 +609,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 return false;
             }
 
-            $indentation = strlen( $whitespace->content );
+            $indentation = iconv_strlen( $whitespace->content, 'UTF-8' );
         }
         elseif ( isset( $tokens[0] ) &&
                  ( $tokens[0]->position > 1 ) )
@@ -804,7 +804,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 case ezcDocumentRstToken::TEXT_LINE:
                     // A special character group is always escaped by a
                     // preceeding backslash
-                    if ( strlen( $tokens[0]->content ) > 1 )
+                    if ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) > 1 )
                     {
                         // Long special character group, so that we need to
                         // split it up.
@@ -860,10 +860,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( ( ( $tokens[1]->type === ezcDocumentRstToken::NEWLINE ) ||
                ( ( $tokens[1]->type === ezcDocumentRstToken::WHITESPACE ) &&
                  ( $tokens[2]->type === ezcDocumentRstToken::NEWLINE ) ) ||
-               ( strlen( $tokens[1]->content ) > strlen( $token->content ) ) ||
+               ( iconv_strlen( $tokens[1]->content, 'UTF-8' ) > iconv_strlen( $token->content, 'UTF-8' ) ) ||
                ( ( $tokens[1]->type === ezcDocumentRstToken::WHITESPACE ) &&
                  ( isset( $tokens[2] ) ) &&
-                 ( ( strlen( $tokens[1]->content ) + strlen( $tokens[2]->content ) ) > strlen( $token->content ) ) ) ) &&
+                 ( ( iconv_strlen( $tokens[1]->content, 'UTF-8' ) + iconv_strlen( $tokens[2]->content, 'UTF-8' ) ) > iconv_strlen( $token->content, 'UTF-8' ) ) ) ) &&
              isset( $this->documentStack[0] ) &&
              !in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
@@ -890,7 +890,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
     {
         if ( ( $token->position !== 1 ) ||
              ( $token->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
-             ( strlen( $token->content ) < 4 ) ||
+             ( iconv_strlen( $token->content, 'UTF-8' ) < 4 ) ||
              ( !isset( $tokens[0] ) ) ||
              ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE ) ||
              ( !isset( $tokens[1] ) ) ||
@@ -944,7 +944,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // indentation.
         while ( ( ( $this->indentation === 0 ) ||
                   ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
-                    ( strlen( $tokens[0]->content ) === $this->indentation ) ) &&
+                    ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) === $this->indentation ) ) &&
                     ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                     ( $tokens[1]->content === '|' ) &&
                     ( ( $tokens[2]->type === ezcDocumentRstToken::WHITESPACE ) ||
@@ -1009,7 +1009,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 // /DEBUG */
 
             } while ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
-                      ( strlen( $tokens[0]->content ) >= ( $this->indentation + 2 ) ) &&
+                      ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) >= ( $this->indentation + 2 ) ) &&
                       ( array_shift( $tokens ) ) );
             $lines[] = $line;
         }
@@ -1747,8 +1747,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "   => Indentation updated to {$this->indentation}.\n";
         // /DEBUG */
-        $this->indentation = $text->position + strlen( $text->content ) +
-            strlen( $whitespace->content ) + strlen( $char->content ) - 1;
+        $this->indentation = $text->position + iconv_strlen( $text->content, 'UTF-8' ) +
+            iconv_strlen( $whitespace->content, 'UTF-8' ) + iconv_strlen( $char->content, 'UTF-8' ) - 1;
         $node = new ezcDocumentRstEnumeratedListNode( $text );
         $node->text        = $content . $text->content . $char->content . $whitespace->content;
         $node->indentation = $this->indentation;
@@ -1801,7 +1801,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $whitespace = array_shift( $tokens );
 
         // Update indentation level
-        $this->indentation = $token->position + strlen( $whitespace->content );
+        $this->indentation = $token->position + iconv_strlen( $whitespace->content, 'UTF-8' );
         /* DEBUG
         echo "   => Indentation updated to {$this->indentation}.\n";
         // /DEBUG */
@@ -1966,7 +1966,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         $collected = array();
-        $minIndentation = strlen( $baseIndetation->content );
+        $minIndentation = iconv_strlen( $baseIndetation->content, 'UTF-8' );
         while ( // Empty lines are inlcuded.
                 ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
                 // All other lines must start with the determined base
@@ -1974,7 +1974,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 ( ( $tokens[0]->type === $baseIndetation->type ) &&
                   ( ( strpos( $tokens[0]->content, $baseIndetation->content ) === 0 ) ||
                     ( ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE ) &&
-                      ( strlen( $tokens[0]->content ) > $this->indentation ) ) ) ) )
+                      ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) > $this->indentation ) ) ) ) )
         {
             $literalToken = array_shift( $tokens );
             if ( $literalToken->type === ezcDocumentRstToken::NEWLINE )
@@ -1991,7 +1991,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             if ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE )
             {
                 // Remove whitespaces used for indentation in literal blocks
-                $minIndentation = min( strlen( $literalToken->content ), $minIndentation );
+                $minIndentation = min( iconv_strlen( $literalToken->content, 'UTF-8' ), $minIndentation );
                 /* DEBUG
                 echo "  -> Minimum indentation: $minIndentation.\n";
                 // /DEBUG */
@@ -2118,7 +2118,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Now check for the actual indentation and aggregate everything which
         // stays indented like this.
         if ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
-             ( strlen( $tokens[0]->content ) > $this->indentation ) )
+             ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) > $this->indentation ) )
         {
             /* DEBUG
             echo "  -> Whitespace indentation.\n";
@@ -2135,10 +2135,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return $collected;
         }
 
-        $minIndentation = strlen( $indentation->content );
+        $minIndentation = iconv_strlen( $indentation->content, 'UTF-8' );
         while ( ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
                 ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
-                  ( strlen( $tokens[0]->content ) > $this->indentation ) ) )
+                  ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) > $this->indentation ) ) )
         {
             if ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE )
             {
@@ -2152,7 +2152,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             // Update minimum indentation
             $whitespace = array_shift( $tokens );
-            $minIndentation = min( strlen( $whitespace->content ), $minIndentation );
+            $minIndentation = min( iconv_strlen( $whitespace->content, 'UTF-8' ), $minIndentation );
 
             // Read all further nodes until the next newline, and check for
             // indentation again then.
@@ -2661,7 +2661,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Once we got the first line after the literal block start marker, we
         // check for the quoting style
         if ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
-             ( strlen( $tokens[0]->content ) > $this->indentation ) )
+             ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) > $this->indentation ) )
         {
             // In case of a whitespace indentation token, this is used
             // completely as indentation marker.
@@ -2700,7 +2700,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 ( ( $tokens[0]->type === $baseIndetation->type ) &&
                   ( ( strpos( $tokens[0]->content, $baseIndetation->content ) === 0 ) ||
                     ( ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE ) &&
-                      ( strlen( $tokens[0]->content ) > $this->indentation ) ) ) ) )
+                      ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) > $this->indentation ) ) ) ) )
         {
             $literalToken = array_shift( $tokens );
             if ( $literalToken->type === ezcDocumentRstToken::NEWLINE )
@@ -3006,7 +3006,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                    ( ( $specToken->content[0] === '=' ) ||
                      ( $specToken->content[0] === '-' ) ) ) ||
                  ( ( $specToken->type === ezcDocumentRstToken::WHITESPACE ) &&
-                   ( strlen( $specToken->content ) >= 1 ) ) )
+                   ( iconv_strlen( $specToken->content, 'UTF-8' ) >= 1 ) ) )
             {
                 $tableSpec[] = array( $specToken->type, strlen( $specToken->content ) );
                 /* DEBUG
@@ -3753,7 +3753,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             if ( ( $titleTextLength > 0 ) ||
                  ( $textNode->token->type !== ezcDocumentRstToken::WHITESPACE ) )
             {
-                $titleTextLength += strlen( $textNode->token->content );
+                $titleTextLength += iconv_strlen( $textNode->token->content, 'UTF-8' );
             }
         }
 
@@ -3778,7 +3778,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         --$titleTextLength;
 
         // Check if the lengths of the top line and the text matches.
-        if ( ( $titleLength = strlen( $node->token->content ) ) < $titleTextLength )
+        if ( ( $titleLength = iconv_strlen( $node->token->content, 'UTF-8' ) ) < $titleTextLength )
         {
             $this->triggerError(
                 E_NOTICE,
@@ -3797,7 +3797,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             // Ensure title over and underline lengths matches, for docutils
             // this is a severe error.
-            if ( strlen( $node->token->content ) !== strlen( $doubleTitle->token->content ) )
+            if ( iconv_strlen( $node->token->content, 'UTF-8' ) !== iconv_strlen( $doubleTitle->token->content, 'UTF-8' ) )
             {
                 $this->triggerError(
                     E_WARNING,
