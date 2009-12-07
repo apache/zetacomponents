@@ -1388,17 +1388,6 @@ class ezcDocumentRstParser extends ezcDocumentParser
         echo "   -> Interpreted text markup found, role: $role\n";
         // /DEBUG */
 
-        if ( $this->isInlineStartToken( $token, $tokens ) )
-        {
-            // Create a markup open tag
-            /* DEBUG
-            echo "   => Create opening inline interpreted text tag.\n";
-            // /DEBUG */
-            $node = new ezcDocumentRstMarkupInterpretedTextNode( $token, true );
-            $node->role = $role;
-            return $node;
-        }
-
         if ( $this->isInlineEndToken( $token, $tokens ) )
         {
             // Create a markup close tag
@@ -1407,6 +1396,17 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // /DEBUG */
             $node = new ezcDocumentRstMarkupInterpretedTextNode( $token, false );
             $node->role = $this->shiftInterpretedTextRole( $token, $tokens );
+            return $node;
+        }
+
+        if ( $this->isInlineStartToken( $token, $tokens ) )
+        {
+            // Create a markup open tag
+            /* DEBUG
+            echo "   => Create opening inline interpreted text tag.\n";
+            // /DEBUG */
+            $node = new ezcDocumentRstMarkupInterpretedTextNode( $token, true );
+            $node->role = $role;
             return $node;
         }
 
