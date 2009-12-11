@@ -114,7 +114,7 @@ class ezcDocumentOdtStyleInferencer
      */
     public function getListStyle( DOMElement $odtElement )
     {
-        $name = $this->getStyleName( $odtElement );
+        $name = $this->getListStyleName( $odtElement );
 
         $styleDom = $this->styleExtractor->extractListStyle( $name );
 
@@ -166,6 +166,35 @@ class ezcDocumentOdtStyleInferencer
             );
         }
         return $styleName;
+    }
+
+    /**
+     * Returns the list style name of the given $odtElement.
+     *
+     * Recursively searches for the style name of the given list element. The 
+     * style name is only present at the top most list (for nested lists).
+     * 
+     * @param DOMElement $odtElement 
+     * @return string
+     */
+    protected function getListStyleName( DOMElement $odtElement )
+    {
+        if ( $odtElement->namespaceURI === ezcDocumentOdt::NS_ODT_TEXT
+             && $odtElement->localName === 'list'
+             && $odtElement->hasAttributeNS( ezcDocumentOdt::NS_ODT_TEXT, 'style-name' )
+           )
+        {
+            return $odtElement->getAttributeNS(
+                ezcDocumentOdt::NS_ODT_TEXT,
+                'style-name'
+            );
+        }
+
+        if ( $odtElement->parentNode === null )
+        {
+            throw new RuntimeException( 'No list style name found.' );
+        }
+        return $this->getListStyleName( $odtElement->parentNode );
     }
 }
 
