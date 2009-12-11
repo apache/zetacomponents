@@ -35,19 +35,22 @@ class ezcReflectionTypeFactoryImpl implements ezcReflectionTypeFactory {
      * @return ezcReflectionType
      * @todo ArrayAccess stuff, how to handle? has to be implemented
      */
-    public function getType($typeName) {
-        $typeName = trim($typeName);
+    public function getType( $typeName )
+    {
+        $typeName = trim( $typeName );
         // For void null is returned
-        if ($typeName == null or strlen($typeName) < 1 or strtolower($typeName) == 'void') {
+        if ( empty( $typeName ) ) {
             return null;
         }
         // First check whether it is a primitive type
-        if ($this->mapper->isPrimitive($typeName)) {
-            return new ezcReflectionPrimitiveType($this->mapper->getType($typeName));
+        elseif ( $this->mapper->isPrimitive( $typeName ) )
+        {
+            return new ezcReflectionPrimitiveType( $typeName );
         }
         // then check whether it is an array type
-        elseif ($this->mapper->isArray($typeName)) {
-            return new ezcReflectionArrayType($typeName);
+        elseif ( $this->mapper->isArray( $typeName ) )
+        {
+            return new ezcReflectionArrayType( $typeName );
         }
         // then check whether it is a mixed type
         elseif ( $this->mapper->isMixed( $typeName ) )
@@ -56,7 +59,7 @@ class ezcReflectionTypeFactoryImpl implements ezcReflectionTypeFactory {
         }
         // otherwhise it has to be a user class
 		else {
-            return new ezcReflectionClassType($typeName);
+            return new ezcReflectionClassType( trim( $typeName ) );
         }
     }
 }
