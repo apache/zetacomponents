@@ -1,7 +1,7 @@
 1.3 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue with style inferencing of nested lists on ODT import.
+- Fixed #15943: ODT list style extraction does not work for nested lists.
 
 
 1.3rc1 - Monday 07 December 2009
