@@ -831,33 +831,6 @@ like this::
 The hyphenator will then be used by all text renderers during the rendering
 process.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Open Document Text
 ------------------
 
