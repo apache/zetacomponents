@@ -1,0 +1,235 @@
+eZ component: Reflection, Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Reflection API of PHP
+(http://www.php.net/manual/en/language.oop5.reflection.php) itself is
+implemented as an extension written in C for maximum performance and conceptual
+reasons. The Reflection component is based on this PHP extension and several
+elements are derived from the given base classes.
+
+Design description
+------------------
+
+The Reflection component is shown in the class diagram. For
+all classes of the Reflection API new subclasses are introduced which provide
+additional functionality and methods to access annotations and data types.
+
+ezcReflectionClass
+	ezcReflectionClass inherits from ReflectionClass and redefines all methods
+	which return a PHP reflection object to return objects from the Reflection
+	component. In addition to that methods for annotation handling are
+	introduced e.g. getTags getAnnotations, isTagged hasAnnotation. The generic
+	getDocComment method is superseded by getShortDescription and
+	getLongDescription. These methods return only the relevant parts of interest
+	from a PHPDoc comment.
+
+	class ezcReflectionClass extends ReflectionClass {
+	    public void __construct(string $name)
+	    public ezcReflectionMethod getMethod(string $name)
+	    public ezcReflectionMethod getConstructor()
+	    public ezcReflectionMethod[] getMethods()
+	    public ezcReflectionClassType getParentClass()
+	    public ezcReflectionProperty getProperty(string $name)
+	    public ezcReflectionProperty[] getProperties()
+	    public boolean isWebService()
+	    public string getShortDescription()
+	    public string getLongDescription()
+	    public boolean isTagged(string $with)
+	    public ezcReflectionDocTag[] getTags(string $name)
+	    public ezcReflectionExtension getExtension()
+	}
+
+The enhancements to the Reflection API in the classes ezcReflectionFunction,
+ezcReflectionMethod, ezcReflectionParameter, ezcReflectionProperty and
+ezcReflectionExtension are analogue to those made in ezcReflectionClass and have
+a similar behavior.
+
+	class ezcReflectionExtension extends ReflectionExtension {
+	    public void __construct(string $name)
+	    public ezcReflectionFunction[] getFunctions()
+	    public ezcReflectionClass[] getClasses()
+	}
+	
+	class ezcReflectionFunction extends ReflectionFunction {
+	    public void __construct(string $name)
+	    public ezcReflectionParameter[] getParameters()
+	    public ezcReflectionType getReturnType()
+	    public string getReturnDescription()
+	    public boolean isWebmethod()
+	    public string getShortDescription()
+	    public string getLongDescription()
+	    public boolean isTagged(string $with)
+	    public ezcReflectionDocTag[] getTags(string $name)
+	}
+	
+	class ezcReflectionMethod extends ReflectionMethod {
+	    public void __construct(mixed class, string name)
+	    public ezcReflectionParameter[] getParameters()
+	    public ezcReflectionType getReturnType()
+	    public string getReturnDescription()
+	    public boolean isWebmethod()
+	    public string getShortDescription()
+	    public string getLongDescription()
+	    public boolean isTagged(string $with)
+	    public ezcReflectionDocTag[] getTags(string $name)
+	    public boolean isMagic()
+	    public ezcReflectionClassType getDeclaringClass()
+	}
+	
+	class ezcReflectionParameter extends ReflectionParameter {
+	    public void __construct(mixed mixed, mixed parameter)
+	    public ezcReflectionType getType()
+	    public ezcReflectionClassType getClass()
+	    public ezcReflectionFunction getDeclaringFunction()
+	    public ezcReflectionClassType getDeclaringClass()
+	}
+	
+	class ezcReflectionProperty extends ReflectionProperty {
+	    public void __construct(mixed class, string name)
+	    public ezcReflectionType getType()
+	    public ezcReflectionClassType getDeclaringClass()
+	}
+
+
+ezcReflection
+	A static class called ezcReflection is defined which acts as a central
+	entry point and factory for reflection.
+	It holds a factory for reflection type objects and a factory for
+	documentation parser objects.
+	
+	getTypeByName will return the appropriate type object for a given data type
+	name e.g., specified in an annotation.
+	For extensibility it is possible to set a different factory for type objects
+	and implement custom type objects with new features.
+	
+	Currently the ezcReflectionPhpDocParser is used to parse the documentation
+	to gather type information. If another documentation style then PHPDoc is used
+	a new parser can be set with setDocParser. The parser object has to support
+	the clone operation, because each new type object got its own parser object.
+
+ezcReflectionTypeFactory
+	A type factory has to implement the interface ezcReflectionTypeFactory and
+	can be used to extend the provided type system with additional features.
+
+ezcReflectionTypeFactoryImpl
+	If no type factory is provided the default implementation
+	ezcReflectionTypeFactoryImpl is chosen which performs proper data type
+	mapping for type names provided as strings.
+
+	class ezcReflection {
+	    public static ezcReflectionDocParser getDocParserInstance()
+	    public static setDocParser(ezcReflectionDocParser $docParser)
+	    public void setReflectionTypeFactory(ezcReflectionTypeFactory $factory)
+	    public static ezcReflectionType getTypeByName(string $typeName)
+   	}
+
+ezcReflectionTypeMapper
+	ezcReflectionTypeMapper is a helper class used by the default type factory,
+	the primitive type class and some of the annotation classes. It provides
+	mappings from various type names which may occur in documentation to
+	standardized type names or XML Schema data types.
+
+ezcReflectionType
+	The type interface acts as a central interface for the type system. It is
+	equipped with several methods to reflect characteristics of a data type. For
+	convenience and usability also methods for an XML Schema mapping are
+	incorporated at this point.
+
+	interface ezcReflectionType {
+	    function ezcReflectionType getArrayType();
+	    function ezcReflectionType getMapIndexType();
+	    function ezcReflectionType getMapValueType();
+	    function boolean isArray();
+	    function boolean isClass();
+	    function boolean isPrimitive();
+	    function boolean isMap();
+	    function string toString();
+	    function boolean isStandardType();
+	    function string getXmlName();
+	    function DOMElement getXmlSchema(DOMDocument $dom);
+	}
+
+ezcReflectionAbstractType
+	The abstract type is one implementation of the type interface and serves as
+	an abstract base class for ezcReflectionPrimitiveType and
+	ezcReflectionArrayType.
+
+ezcReflectionPrimitiveType
+	The primitive type is a specialization of ezcReflectionAbstractType and
+	represents the primitive types boolean, integer, float, string and resource.
+
+ezcReflectionArrayType
+	The array type is the second class to extend ezcReflectionAbstractType and
+	it distinguishes between simple arrays and maps.
+
+ezcReflectionClassType
+	This implementation of the type interface represents a class as a type. For
+	this purpose it is a specialization of ezcReflectionClass to inherit all its
+	capabilities, i.e. unlike ezcReflectionPrimitiveType and
+	ezcReflectionArrayType the ezcReflectionClassType is tightly integrated with
+	the Reflection API.
+
+	class ezcReflectionClassType extends ezcReflectionClass implements ezcReflectionType {
+	    public ezcReflectionType getArrayType()
+	    public ezcReflectionType getMapIndexType()
+	    public ezcReflectionType getMapValueType()
+	    public boolean isArray()
+	    public boolean isClass()
+	    public boolean isPrimitive()
+	    public boolean isMap()
+	    public string toString()
+	    public boolean isStandardType()
+	    public string getXmlName(boolean $usePrefix)
+	    public DOMElement getXmlSchema(DOMDocument dom, namespaceXSD)
+	    public void __construct(string $name)
+	}
+
+ezcReflectionDocParser
+	Is an generic documentation parser interface to be able to parse what ever
+	documentation style is used. 
+
+ezcReflectionPhpDocParser
+	This class parses PHPDoc comments and provides retrieved data in the form
+	of annotation objects.
+
+ezcReflectionAnnotationFactory
+	This factory creates an ezcReflectionAnnotation object for a given
+	annotation.
+
+ezcReflectionAnnotation
+	This is a generic class to represent an annotation and it also serves as a
+	base class for several specialized annotation classes, e.g.
+	ezcReflectionAnnotationParam, ezcReflectionAnnotationReturn and
+	ezcReflectionAnnotationVar.
+
+ezcReflectionAnnotationWebService
+    This annotation declares a class as to be published as a SOAP or ReST Web Service
+
+ezcReflectionAnnotationWebMethod
+    This annotation declares a method as to be published as a WSDL Operation of a SOAP Web Service
+
+ezcReflectionAnnotationRestMethod
+    This annotation declares a method as to be published as a ReSTful Web Service;
+    The first parameter specifies the HTTP verb and the second one is a regular
+    expression for retrieving the method's arguments from a request URI.
+
+ezcReflectionAnnotationRestIn
+    This annotation specifies the deserializer class for a ReSTful Web Service.
+
+ezcReflectionAnnotationRestOut
+    This annotation specifies serializer class for a ReSTful Web Service.
+
+Guidelines
+----------
+
+Algorithms
+----------
+
+Data structures
+---------------
+
+Diagrams
+========
+
+class_diagram.png - Class diagram of the Reflection component and its type system
+php-reflection-api.png - Class diagram of the PHP5 Reflection API

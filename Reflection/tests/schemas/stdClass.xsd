@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<xsd:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="stdClass">
+  <xsd:sequence/>
+</xsd:complexType>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<xsd:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ArrayOfstring">
+  <xsd:sequence>
+    <xsd:element minOccurs="0" maxOccurs="unbounded" nillable="true" name="string" type="xsd:string"/>
+  </xsd:sequence>
+</xsd:complexType>

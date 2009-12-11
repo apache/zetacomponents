@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<xsd:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SomeClass">
+  <xsd:complexContent mixed="false">
+    <xsd:extension base="tns:BaseClass">
+      <xsd:sequence>
+        <xsd:element minOccurs="0" maxOccurs="1" nillable="true" name="fields" type="tns:ArrayOfint"/>
+        <xsd:element minOccurs="0" maxOccurs="1" nillable="true" name="publicProperty" type="tns:SomeClass"/>
+      </xsd:sequence>
+    </xsd:extension>
+  </xsd:complexContent>
+</xsd:complexType>

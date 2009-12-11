@@ -1,0 +1,54 @@
+Roadmap
+=======
+
+- Issues for 1.0
+    - See todo annotations in the source code, e.g., using 'grep -inor todo.* --exclude-dir=.svn .'
+    - Dependency Injection (Falko)
+        - Write tests for wrapper methods
+        - Write documentation of the methods introduced for the dependency injection mechanism
+        - Add a comment about their purpose to the wrapper methods:
+            This method makes it easier to extend this class and improves the documentation of the ezcReflection component.
+            enables Dependency Injection (only in case of static methods)
+    - Documentation about available annotations (?)
+        (see https://instantsvc.svn.sourceforge.net/svnroot/instantsvc/branches/transition/doc/style-guide.html)
+    - Tutorial (?)
+    - Complete the adoption of the eZ Components coding standard
+
+- Optional Features for 1.0
+    - Have ezcReflectionParameter::__construct() search for the parameter type annotation in the DocBlock of the
+    - Parse comments on demand to save CPU time and memory, when creating large amounts of reflection objects
+    - Introduce a ezcReflectionReflector interface
+    - Add support for mixed type
+    - Add support for pipe notation in type definitions, i.e. @param datatype1|datatype2 $paramname description
+    - support for annotation grouping especially for properties (has to be supported by PHP, maybe a feature for StaticReflection)
+    - obtain type information for internal functions from PHP's source code
+    - Maybe create instances of ezcReflectionClassType through type factory
+    - Integration of Toby's annotation parser? (Toby?)
+    - Add ezcReflectionParameter::getDescription() and ezcReflectionProperty::::getDescription()
+    - Add ezcReflectionType::isString(), ezcReflectionType::isBoolean(), ezcReflectionType::isInteger(), ezcReflectionType::isFloat(), ezcReflectionType::isVoid()(), ezcReflectionType::isMixed()
+    - Throw an ezcReflectionNewerPhpVersionRequiredException in methods that require a PHP version greater than 5.2.0
+    - Implement support for resource and callback
+
+
+Depending Projects
+==================
+
+- ezcWsdl based on ezcReflection
+    - Can PHPT tests from the SOAP extension be reused?
+
+- StaticReflection (an implementation of PHP's Reflection API using static source code analysis)
+    - Parser which generates objects implementing ReflectionAPI
+        - Reuse phuml parser?
+            - open issues?
+        - Reuse function/method body parser from phpDepend or phpCallGraph?
+    - API Design for additional features StaticReflection
+        - Call and Dependency Analysis (e.g. getCallers, getCallees, getAccessedProperties, getAccessedSqlTables)
+        - Code Generation (e.g. save)
+        - Code Editing (e.g. addProperty, addMethod, addParameter, setCode, setName, copy, delete)
+        - Refactoring (e.g. setParentClass, emancipate, moveToParent)
+        - XMI Export (could perhaps go into ezcReflection)
+    - StaticReflection objects should be able to be created through
+        - Source code (static analysis of the files)
+        - (ezc)Reflection objects
+        - Manually calling API methods
+        - XMI import

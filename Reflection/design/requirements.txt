@@ -1,0 +1,154 @@
+eZ component: Reflection, Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+Since Web Services have been invented to enable interoperable communication
+between various platforms they have to be typed statically. Hence type
+information will be required when developing tools for automated generation of
+Web Services. In modern programming languages a typical way to obtain structural
+information is to leverage the runtime environment of the language and access
+language elements through a high level reflection API.
+
+As of PHP5 a Reflection API has been included in the standard PHP distribution.
+It provides an API to obtain information about classes and all their methods and
+properties, without the need to parse any source code. Simple functions, runtime
+objects and PHP extensions can be inspected, as well. But the gathering of
+information is not the only feature of the Reflection API. It is also possible
+to modify properties of objects, invoke arbitrary methods or functions and
+instantiate objects.
+
+The Reflection API conforms to a meta model of an object-oriented programming
+language. That way it is possible to reflect nearly all aspects of a given class
+or object.
+
+However PHP's Reflection API does not provide any type information due to PHP
+being a dynamically typed language. That means only at runtime types of concrete
+variables or objects can be determined. But it is not possible to obtain this
+information statically from a class or function declaration without having an
+instance of it. This is indeed not a problem for implementing SOAP since it only
+deals with concrete instances at runtime. But e.g. when describing service
+interfaces the knowledge of structural details is essentially required.
+
+When looking at professional PHP applications it stands out that they only use
+the dynamic typing features where it is really useful e.g. to deal with various
+inputs or produce different outputs. However large parts of the code will work
+with strict types and even enforce them e.g. by throwing an exception when
+receiving input of a wrong data type. This behavior is also documented in the
+source code documentation stored in comments of those language elements. Thus it
+appears that in many cases type information already exists statically in the
+source code.
+
+With version 5.1 of PHP the capabilities of the Reflection API have been
+enhanced and now it is possible to extract all comments associated with a
+language construct with API methods. So it is a logical next step to leverage
+the information given in the source code documentation directly at runtime.
+
+phpDocumentor (http://phpdoc.org), the standard documentation tool for PHP,
+provides a common way to document source code by using a formal syntax which can
+be processed by a computer. Unfortunately just the syntax for data type
+descriptions is somewhat underspecified since it was only meant to be
+understandable by human beings. In order to parse these data type descriptions
+the syntax has to be specified more precisely as defined in section
+Format.
+
+Given a technology to access documentation tags at runtime it would be a perfect
+foundation to build an annotation mechanism for PHP since it would be also
+feasible to introduce and work with new tags. Interestingly there have been
+comparable developments in other programming languages e.g. in Java with XDoclet
+(http://xdoclet.sourceforge.net/).
+
+
+Description
+-----------
+The main objective of the Reflection component is to enhance PHP by type
+information and annotations. It uses source code documentation to determine data
+types and other pieces of information provided via annotations. Those
+annotations can be used to realize systems which depend on strong type
+information or additional details about the source code itself.
+
+
+Current implementation
+----------------------
+The current implementation is highly evolved and well tested. The component is
+already used by several tools and can be considered stable.
+
+
+
+Requirements
+============
+The Reflection component should have the same features, power and performance as
+the original Reflection API but enhanced by the ability to obtain annotations
+for classes, methods, properties or functions. This new feature should also be
+used to implement a type system which enables PHP applications to retrieve data
+types of parameters, return values and properties.
+
+The type system should distinguish three main categories of types. Primitive
+types are the built-in types boolean, integer, float, string and resource. Array
+types are all kinds of arrays and class types are used to represent user defined
+or internal classes. This differentiation is made in consideration of the
+language behavior and the capabilities of WSDL for defining types in a language
+independent way. Since arrays are treated in a special way they are additionally
+classified as simple arrays or maps (dictionaries). An array is represented as a
+map if it is an associative array i.e. is used like key value pairs.
+
+Usage scenarios of the Reflection component are for example WSDL generation for
+Web Services or Aspect-Oriented Programming (AOP). Processable additions to the
+source code in general enable a wide range of new applications.
+
+Design goals
+============
+The Reflection API of PHP should be extended as much as possible through class
+inheritance.
+
+Special considerations
+======================
+In order to maintain the dynamic nature of the language it is explicitly not
+required to enforce any constraints at runtime. The PHP language runtime should
+not be modified at all. As a consequence the component expects a correct source
+code documentation and it is possible that runtime behavior does not correspond
+to the behavior expected due to improper documentation.
+
+Format
+======
+The Reflection component should reuse the syntax of phpDocumentor
+(http://phpdoc.org) and also some of its annotation tags. To retrieve the data
+types of properties, parameters and return values the annotations @var, @param
+and @return should be analyzed. They have the following syntax:
+
+	/**
+	 * @var datatype description
+	 */
+	
+	/**
+	 * @param datatype $paramname description
+	 * @return datatype description
+	 */
+
+datatype can be the name of a class or any of the built-in PHP data types:
+
+	- boolean
+	- integer
+	- double
+	- string
+	- resource
+
+Additionally it is possible to specify arrays of those data types. For this
+purpose two extended notations should be supported. Simple arrays which use keys
+of the type integer and where all values are instances of the same data type can
+be described by naming the value type followed by square brackets, e.g.
+integer[] or also string[][] in case of multidimensional arrays. Associative
+arrays can be notated as array(datatype1=>datatype2). But this should only be
+used if the key type differs from integer or if it is of major importance and
+should therefore be emphasized for human readers of the documentation. If a
+multiple types are possible for a language element they should be listed
+separated by a |. 
+
+An open issue which needs further discussion is the handling of aggregate types
+mixed and number.
+
+
+Diagrams
+========
+
+php_reflection_api.png - Class diagram of PHP's Reflection API
