@@ -49,7 +49,7 @@ class ezcDocumentOdtElementParagraphFilter extends ezcDocumentOdtElementBaseFilt
     {
         $xpath = new DOMXpath( $element->ownerDocument );
         $xpath->registerNamespace( 'text', ezcDocumentOdt::NS_ODT_TEXT );
-        $whitespaces = $xpath->evaluate( './/text:s|.//text:tab', $element );
+        $whitespaces = $xpath->evaluate( './/text:s|.//text:tab|.//text:line-break', $element );
 
         return ( $whitespaces instanceof DOMNodeList && $whitespaces->length > 0 );
     }
