@@ -32,8 +32,7 @@ class ezcReflectionPrimitiveType extends ezcReflectionAbstractType {
      */
     function isStandardType()
     {
-        if ( $this->getTypeName() != ezcReflectionTypeMapper::CANONICAL_NAME_NULL )
-        {
+        if ( $this->typeName != 'void' ) {
             return true;
         }
         return false;
