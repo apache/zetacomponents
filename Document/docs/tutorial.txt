@@ -607,7 +607,7 @@ Since there are numerous different PDF renderers in the PHP world and the
 available ones might depend on the current environment, the document component
 supports different PDF driver, as wrapper around different existent libraries.
 
-For now two implementation exist for pecl/har and TCPDF, but it is fairly easy
+For now two implementation exist for pecl/haru and TCPDF, but it is fairly easy
 to write another one, for another PDF class.
 
 Haru
