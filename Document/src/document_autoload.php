@@ -14,6 +14,7 @@ return array(
     'ezcDocumentConversionException'                     => 'Document/exceptions/conversion.php',
     'ezcDocumentErroneousXmlException'                   => 'Document/exceptions/erroneous_xml.php',
     'ezcDocumentInvalidDocbookException'                 => 'Document/exceptions/invalid_docbook.php',
+    'ezcDocumentInvalidFontException'                    => 'Document/exceptions/unknown_font.php',
     'ezcDocumentInvalidOdtException'                     => 'Document/exceptions/invalid_odt.php',
     'ezcDocumentMissingVisitorException'                 => 'Document/exceptions/missing_visitor.php',
     'ezcDocumentOdtFormattingPropertiesExistException'   => 'Document/exceptions/odt/formatting_properties_exist.php',

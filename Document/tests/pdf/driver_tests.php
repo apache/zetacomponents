@@ -434,14 +434,17 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
     {
         $driver = $this->getDriver();
 
-        $driver->createPage( 250, 100 );
-        $driver->setTextFormatting( 'font-family', 'my_font' );
-        $driver->setTextFormatting( 'font-size', '10' );
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
 
-        $driver->drawWord( 0, 10, 'The quick brown fox jumps over the lazy dog' );
-
-        $pdf = $driver->save();
-        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+        try {
+            $driver->createPage( 250, 100 );
+            $driver->setTextFormatting( 'font-family', 'my_font' );
+            $this->fail( 'Expected ezcDocumentInvalidFontException.' );
+        } catch ( ezcDocumentInvalidFontException $e )
+        { /* Expected */ }
     }
 
     public function testRenderPlainTTFFont()
