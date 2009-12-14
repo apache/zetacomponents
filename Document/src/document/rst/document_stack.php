@@ -96,7 +96,10 @@ class ezcDocumentRstStack implements ArrayAccess, Countable
      */
     public function prepend( array $data )
     {
-        $this->data = array_merge( $this->data, array_reverse( $data ) );
+        foreach ( array_reverse( $data ) as $element )
+        {
+            $this->data[] = $element;
+        }
         $this->count += count( $data );
     }
 
@@ -105,9 +108,10 @@ class ezcDocumentRstStack implements ArrayAccess, Countable
      * 
      * @return array
      */
-    public function asArray()
+    public function asArray( $limit = null )
     {
-        return array_reverse( $this->data );
+        $data = $limit === null ? $this->data : array_slice( $this->data, -$limit );
+        return array_reverse( $data );
     }
 
     /**
