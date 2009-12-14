@@ -144,6 +144,11 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
                 );
             }
 
+            if ( !count( $content['lines'] ) )
+            {
+                continue;
+            }
+
             // Render background & border
             $space         = $content['space'];
             $lastLine      = end( $content['lines'] );
