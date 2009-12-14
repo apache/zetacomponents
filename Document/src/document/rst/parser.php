@@ -1612,10 +1612,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      */
     protected function isEnumeratedList( ezcDocumentRstStack $tokens, $token = null )
     {
-        $tokens = $tokens->asArray();
-        if ( $token !== null )
+        $tokens = $tokens->asArray( 5 );
+        if ( $token === null )
         {
-            array_unshift( $tokens, $token );
+            $token = array_shift( $tokens );
         }
 
         // This pattern matches upper and lowercase roman numbers up 4999,
@@ -1630,18 +1630,18 @@ class ezcDocumentRstParser extends ezcDocumentParser
         );
 
         // Create enumerated list from list items surrounded by parantheses
-        if ( ( $tokens[0]->content === '(' ) &&
+        if ( ( $token->content === '(' ) &&
              isset( $tokens[1] ) &&
-             ( ( ( $tokens[1]->type === ezcDocumentRstToken::TEXT_LINE ) &&
-                 ( preg_match( $enumeratedListPattern, $tokens[1]->content, $match ) ) ) ||
-               ( ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-                 ( $tokens[1]->content === '#' ) ) ) &&
+             ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+             ( $tokens[1]->content === ')' ) &&
              isset( $tokens[2] ) &&
-             ( $tokens[2]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-             ( $tokens[2]->content === ')' ) &&
-             isset( $tokens[3] ) &&
-             ( ( $tokens[3]->type === ezcDocumentRstToken::WHITESPACE ) ||
-               ( $tokens[3]->type === ezcDocumentRstToken::NEWLINE ) ) )
+             ( ( $tokens[2]->type === ezcDocumentRstToken::WHITESPACE ) ||
+               ( $tokens[2]->type === ezcDocumentRstToken::NEWLINE ) ) &&
+             isset( $tokens[0] ) &&
+             ( ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) &&
+                 ( preg_match( $enumeratedListPattern, $tokens[0]->content, $match ) ) ) ||
+               ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                 ( $tokens[0]->content === '#' ) ) ) )
         {
             /* DEBUG
             echo "   -> Found full framed enumeration list item.\n";
@@ -1659,17 +1659,17 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Create enumerated list from list items followed by a parantheses or
         // a dot
-        if ( ( ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) &&
-                 ( preg_match( $enumeratedListPattern, $tokens[0]->content, $match ) ) ) ||
-               ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-                 ( $tokens[0]->content === '#' ) ) ) &&
+        if ( isset( $tokens[0] ) &&
+             ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+             ( ( $tokens[0]->content === ')' ) ||
+               ( $tokens[0]->content === '.' ) ) &&
              isset( $tokens[1] ) &&
-             ( $tokens[1]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
-             ( ( $tokens[1]->content === ')' ) ||
-               ( $tokens[1]->content === '.' ) ) &&
-             isset( $tokens[2] ) &&
-             ( ( $tokens[2]->type === ezcDocumentRstToken::WHITESPACE ) ||
-               ( $tokens[2]->type === ezcDocumentRstToken::NEWLINE ) ) )
+             ( ( $tokens[1]->type === ezcDocumentRstToken::WHITESPACE ) ||
+               ( $tokens[1]->type === ezcDocumentRstToken::NEWLINE ) ) &&
+             ( ( ( $token->type === ezcDocumentRstToken::TEXT_LINE ) &&
+                 ( preg_match( $enumeratedListPattern, $token->content, $match ) ) ) ||
+               ( ( $token->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
+                 ( $token->content === '#' ) ) ) )
         {
             /* DEBUG
             echo "   -> Found half framed enumeration list item.\n";
