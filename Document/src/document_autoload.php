@@ -372,6 +372,7 @@ return array(
     'ezcDocumentRstParser'                               => 'Document/document/rst/parser.php',
     'ezcDocumentRstReferenceNode'                        => 'Document/document/rst/nodes/reference.php',
     'ezcDocumentRstSectionNode'                          => 'Document/document/rst/nodes/section.php',
+    'ezcDocumentRstStack'                                => 'Document/document/rst/document_stack.php',
     'ezcDocumentRstStrongTextRole'                       => 'Document/document/rst/role/strong.php',
     'ezcDocumentRstSubscriptTextRole'                    => 'Document/document/rst/role/subscript.php',
     'ezcDocumentRstSubstitutionNode'                     => 'Document/document/rst/nodes/substitution.php',

@@ -23,6 +23,7 @@ require 'document_xml_base_test.php';
 
 require 'document_docbook_test.php';
 
+require 'document_rst_stack_tests.php';
 require 'document_rst_tokenizer_tests.php';
 require 'document_rst_parser_tests.php';
 require 'document_rst_visitor_docbook_tests.php';

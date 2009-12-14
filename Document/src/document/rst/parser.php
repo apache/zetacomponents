@@ -318,9 +318,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * ezcDocumentRstNode, which may again contain any amount such objects.
      * This way an abstract syntax tree is constructed.
      *
-     * @var array
+     * @var ezcDocumentRstStack
      */
-    protected $documentStack = array();
+    protected $documentStack = null;
 
     /**
      * Array with title levels used by the document author in their order.
@@ -366,7 +366,18 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 (?(1)>)
             (?# Ignore common punctuation after the URL)
         [.,?!]?(?:\s|$)
-    )xm';
+    )Sxm';
+
+    /**
+     * Construct new document
+     *
+     * @param ezcDocumentParserOptions $options
+     */
+    public function __construct( ezcDocumentParserOptions $options = null )
+    {
+        parent::__construct( $options );
+        $this->documentStack = new ezcDocumentRstStack();
+    }
 
     /**
      * Shift- / reduce-parser for RST token stack
@@ -376,11 +387,12 @@ class ezcDocumentRstParser extends ezcDocumentParser
      */
     public function parse( array $tokens )
     {
+        $tokens = new ezcDocumentRstStack( $tokens );
         /* DEBUG
         echo "\n\nStart parser\n============\n\n";
         // /DEBUG */
 
-        while ( ( $token = array_shift( $tokens ) ) !== null )
+        while ( ( $token = $tokens->shift() ) !== null )
         {
             /* DEBUG
             echo "[T] Token: " . ezcDocumentRstToken::getTokenName( $token->type ) . " ({$token->type}) at {$token->line}:{$token->position}.\n";
@@ -428,14 +440,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                         echo "  [R] Add '" . ezcDocumentRstNode::getTokenName( $node->type ) . "' to stack (" . ( count( $this->documentStack ) + 1 ) . " elements).\n";
                         // /DEBUG */
 
-                        array_unshift( $this->documentStack, $node );
-
-                        // Show current document stack for debugging
-                        if ( $node->token !== null )
-                        {
-                            $doc = new ezcDocumentRstSectionNode( $node->token );
-                            $doc->nodes = $this->documentStack;
-                        }
+                        $this->documentStack->unshift( $node );
 
                         break;
                     }
@@ -455,9 +460,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Check if we successfully reduced the document stack
         if ( ( count( $this->documentStack ) !== 1 ) ||
-             ( !( $document = reset( $this->documentStack ) ) instanceof ezcDocumentRstDocumentNode ) )
+             ( !( $document = $this->documentStack->rewind() ) instanceof ezcDocumentRstDocumentNode ) )
         {
-            $node = isset( $document ) ? $document : reset( $this->documentStack );
+            $node = isset( $document ) ? $document : $this->documentStack->rewind();
             $this->triggerError(
                 E_PARSE,
                 'Expected end of file, got: ' . ezcDocumentRstNode::getTokenName( $node->type ) . ".",
@@ -466,7 +471,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         /* DEBUG
-        echo "\nResulting document:\n\n", $document->dump(), "\nTest result: ";
+        // echo "\nResulting document:\n\n", $document->dump(), "\nTest result: ";
         // /DEBUG */
         return $document;
     }
@@ -567,7 +572,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      *
      * @return void
      */
-    protected function dumpDocumentStack()
+    protected function dumpStack()
     {
         foreach ( $this->documentStack as $nr => $node )
         {
@@ -579,10 +584,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Update the current indentation after each newline.
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return bool
      */
-    protected function updateIndentation( ezcDocumentRstToken $token, array &$tokens )
+    protected function updateIndentation( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         // Indentation Whitespaces right after a title line are irrelevant and
         // should just be skipped as text, so ignore this rule for them:
@@ -597,7 +602,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         {
             // Remove the whitespace from the stack, as it is only for
             // indentation and should not be converted to text.
-            $whitespace = array_shift( $tokens );
+            $whitespace = $tokens->shift();
 
             if ( isset( $tokens[0] ) &&
                  ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) )
@@ -687,7 +692,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // Put indetation token back into the token stack.
             if ( $whitespace !== false )
             {
-                array_unshift( $tokens, $whitespace );
+                $tokens->unshift( $whitespace );
             }
             return $this->shiftDefinitionList( $token, $tokens );
         }
@@ -745,10 +750,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Create new document node
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstDocumentNode
      */
-    protected function shiftDocument( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftDocument( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         // If there are any tokens left after the end of the file, something
         // went seriously wrong in the tokenizer.
@@ -761,7 +766,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             );
         }
 
-        array_push( $this->documentStack, new ezcDocumentRstDocumentNode() );
+        $this->documentStack->push( new ezcDocumentRstDocumentNode() );
         return new ezcDocumentRstDocumentNode();
     }
 
@@ -772,10 +777,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#escaping-mechanism
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTitleNode
      */
-    protected function shiftBackslash( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftBackslash( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( isset( $tokens[0] ) )
         {
@@ -785,7 +790,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 case ezcDocumentRstToken::WHITESPACE:
                     // Escaped whitespace characters are just removed, just
                     // like the backslash itself.
-                    array_shift( $tokens );
+                    $tokens->shift();
                     /* DEBUG
                     echo "  -> Remove escaped whitespace.\n";
                     // /DEBUG */
@@ -822,7 +827,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                         /* DEBUG
                         echo "  -> Add new split token.\n";
                         // /DEBUG */
-                        array_unshift( $tokens, $newToken );
+                        $tokens->unshift( $newToken );
                         return true;
                     }
                     else
@@ -843,10 +848,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Create new title node from titles with a top and bottom line
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTitleNode
      */
-    protected function shiftTitle( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftTitle( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->position !== 1 ) ||
              ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE ) )
@@ -883,10 +888,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#transitions
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTitleNode
      */
-    protected function shiftTransition( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftTransition( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->position !== 1 ) ||
              ( $token->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
@@ -912,10 +917,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#line-blocks
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTitleNode
      */
-    protected function shiftLineBlock( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftLineBlock( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->position !== ( $this->indentation + 1 ) ) ||
              ( $token->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
@@ -930,10 +935,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // Put everything back into the token list, as this makes it easier for
         // us to read
         $lines = array();
-        array_unshift( $tokens, $token );
+        $tokens->unshift( $token );
         if ( $this->indentation > 0 )
         {
-            array_unshift( $tokens, new ezcDocumentRstToken(
+            $tokens->unshift( new ezcDocumentRstToken(
                 ezcDocumentRstToken::WHITESPACE,
                 str_repeat( ' ', $this->indentation ),
                 $token->line, 1
@@ -962,13 +967,13 @@ class ezcDocumentRstParser extends ezcDocumentParser
             {
                 // Skip the indentation token, which length has already been
                 // checked.
-                array_shift( $tokens );
+                $tokens->shift();
             }
 
             // Shift the line block marker
-            $line = array( array_shift( $tokens ) );
+            $line = array( $tokens->shift() );
 
-            $whitespace = array_shift( $tokens );
+            $whitespace = $tokens->shift();
             if ( $whitespace->type === ezcDocumentRstToken::NEWLINE )
             {
                 // Properly handle empty line in line blocks.
@@ -998,7 +1003,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 echo "    -> Read tokens: ";
                 // /DEBUG */
                 do {
-                    $line[] = $token = array_shift( $tokens );
+                    $line[] = $token = $tokens->shift();
                     /* DEBUG
                     echo ".";
                     // /DEBUG */
@@ -1010,7 +1015,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             } while ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
                       ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) >= ( $this->indentation + 2 ) ) &&
-                      ( array_shift( $tokens ) ) );
+                      ( $tokens->shift() ) );
             $lines[] = $line;
         }
 
@@ -1036,10 +1041,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Just keep text as text nodes
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTitleNode
      */
-    protected function shiftText( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftText( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         return new ezcDocumentRstTextLineNode(
             $token
@@ -1050,10 +1055,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Shift a paragraph node on two newlines
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTitleNode
      */
-    protected function shiftParagraph( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftParagraph( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( !isset( $tokens[0] ) ||
                ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE ) ) &&
@@ -1075,7 +1080,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                   ( $tokens[1]->type === ezcDocumentRstToken::WHITESPACE ) &&
                   ( $tokens[2]->type === ezcDocumentRstToken::NEWLINE ) ) )
         {
-            array_shift( $tokens );
+            $tokens->shift();
         }
 
         return new ezcDocumentRstParagraphNode(
@@ -1090,10 +1095,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return boolean
      */
-    protected function isInlineStartToken( ezcDocumentRstToken $token, array &$tokens )
+    protected function isInlineStartToken( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         return ( // Rule 1
              ( ( !isset( $this->documentStack[0] ) ) ||
@@ -1121,10 +1126,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return boolean
      */
-    protected function isInlineEndToken( ezcDocumentRstToken $token, array &$tokens )
+    protected function isInlineEndToken( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         return ( // Rule 3
              ( isset( $this->documentStack[0] ) ) &&
@@ -1151,10 +1156,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-literals
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftInlineLiteral( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftInlineLiteral( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( $token->content !== '``' )
         {
@@ -1174,7 +1179,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             echo "   -> Inline literal tokens: ";
             // /DEBUG */
             $nodes = array();
-            while ( ( $literalToken = array_shift( $tokens ) ) &&
+            while ( ( $literalToken = $tokens->shift() ) &&
                     ( ( $literalToken->content !== '``' ) ||
                       // The common inline markup end check does not apply
                       // here, as whitespace is not required preceed the
@@ -1211,7 +1216,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 $nodes = array_reverse( $nodes );
                 foreach ( $nodes as $node )
                 {
-                    array_unshift( $tokens, $node->token );
+                    $tokens->unshift( $node->token );
                 }
 
                 return false;
@@ -1229,10 +1234,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftInlineMarkup( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftInlineMarkup( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         switch ( $token->content )
         {
@@ -1288,10 +1293,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * role.
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return mixed
      */
-    protected function shiftInterpretedTextRole( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftInterpretedTextRole( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         /* DEBUG
         echo "   -> Scan for a role\n";
@@ -1315,12 +1320,12 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( $token->content === '`' )
         {
             $behind = true;
-            $token  = $aggregated[] = array_shift( $tokens );
+            $token  = $aggregated[] = $tokens->shift();
         }
 
         $role = '';
         do {
-            $roleNameToken = $aggregated[] = array_shift( $tokens );
+            $roleNameToken = $aggregated[] = $tokens->shift();
             $role .= $roleNameToken->content;
         } while ( isset( $tokens[0] ) &&
                   ( ( $tokens[0]->type === ezcDocumentRstToken::TEXT_LINE ) ||
@@ -1342,10 +1347,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             /* DEBUG
             echo "   -> Not a role - reverting.\n";
             // /DEBUG */
-            $tokens = array_merge(
-                $aggregated,
-                $tokens
-            );
+            $tokens->prepend( $aggregated );
             return false;
         }
 
@@ -1354,7 +1356,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // /DEBUG */
 
         // Remove last colon from token list
-        array_shift( $tokens );
+        $tokens->shift();
         return $role;
     }
 
@@ -1365,10 +1367,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#interpreted-text
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftInterpretedTextMarkup( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftInterpretedTextMarkup( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         $role = false;
         if ( ( $token->content !== '`' ) &&
@@ -1381,7 +1383,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // to the actual interpreted text markup start token
         if ( $role !== false )
         {
-            $token = array_shift( $tokens );
+            $token = $tokens->shift();
         }
 
         /* DEBUG
@@ -1424,10 +1426,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftAnonymousHyperlinks( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftAnonymousHyperlinks( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->content !== '__' ) ||
              ( $token->position === 1 ) )
@@ -1487,10 +1489,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftReference( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftReference( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( $token->content !== '_' )
         {
@@ -1528,10 +1530,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-markup
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftExternalReference( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftExternalReference( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( $token->content !== '_' )
         {
@@ -1559,10 +1561,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Blockquote annotations
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftBlockquoteAnnotation( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftBlockquoteAnnotation( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->content !== '--' ) &&
              ( $token->content !== '---' ) &&
@@ -1604,14 +1606,21 @@ class ezcDocumentRstParser extends ezcDocumentParser
      *
      * Returns true, if the tokens may be an enumerated list, and false otherwise.
      *
-     * @param array $tokens
-     * @return bool
+     * @param ezcDocumentRstStack $tokens 
+     * @param mixed $token 
+     * @return void
      */
-    protected function isEnumeratedList( array $tokens )
+    protected function isEnumeratedList( ezcDocumentRstStack $tokens, $token = null )
     {
+        $tokens = $tokens->asArray();
+        if ( $token !== null )
+        {
+            array_unshift( $tokens, $token );
+        }
+
         // This pattern matches upper and lowercase roman numbers up 4999,
         // normal integers to any limit and alphabetic chracters.
-        $enumeratedListPattern = '(^(?:(m{0,4}d?c{0,3}l?x{0,3}v{0,3}i{0,3}v?x?l?c?d?m?)|(M{0,4}D?C{0,3}L?X{0,3}V{0,3}I{0,3}V?X?L?C?D?M?)|([1-9]+[0-9]*)|([a-z])|([A-Z]))$)';
+        $enumeratedListPattern = '(^(?:(m{0,4}d?c{0,3}l?x{0,3}v{0,3}i{0,3}v?x?l?c?d?m?)|(M{0,4}D?C{0,3}L?X{0,3}V{0,3}I{0,3}V?X?L?C?D?M?)|([1-9]+[0-9]*)|([a-z])|([A-Z]))$)S';
         $matchOrderType = array(
             1 => ezcDocumentRstEnumeratedListNode::LOWER_ROMAN,
             2 => ezcDocumentRstEnumeratedListNode::UPPER_ROMAN,
@@ -1689,10 +1698,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-lists
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftEnumeratedList( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftEnumeratedList( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         // The bullet list should always start at the very beginning of a line
         // / paragraph, so that the char postion should match the current
@@ -1705,10 +1714,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return false;
         }
 
-        if ( !( $listType = $this->isEnumeratedList( array_merge(
-                array( $token ),
-                $tokens
-             ) ) ) )
+        if ( !( $listType = $this->isEnumeratedList( $tokens, $token ) ) )
         {
             return false;
         }
@@ -1722,7 +1728,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $indentationIncrease = 1;
         if ( $token->content === '(' )
         {
-            $token = array_shift( $tokens );
+            $token = $tokens->shift();
             $content .= $token->content;
             $indentationIncrease = 2;
         }
@@ -1739,10 +1745,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         $text = $token;
-        $char = array_shift( $tokens );
+        $char = $tokens->shift();
 
         // Only shift next token, if it is a whitespace - preserve newlines
-        $whitespace = ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ? array_shift( $tokens ) : $tokens[0];
+        $whitespace = ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) ? $tokens->shift() : $tokens[0];
 
         /* DEBUG
         echo "   => Indentation updated to {$this->indentation}.\n";
@@ -1763,10 +1769,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-lists
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftBulletList( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftBulletList( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         // Check if the special character group matches the known bullet list
         // starting characters.
@@ -1798,7 +1804,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // /DEBUG */
             return false;
         }
-        $whitespace = array_shift( $tokens );
+        $whitespace = $tokens->shift();
 
         // Update indentation level
         $this->indentation = $token->position + iconv_strlen( $whitespace->content, 'UTF-8' );
@@ -1816,10 +1822,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Just keep text as text nodes
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTextLineNode
      */
-    protected function shiftWhitespaceAsText( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftWhitespaceAsText( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         return new ezcDocumentRstTextLineNode(
             $token
@@ -1831,10 +1837,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * texts.
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTextLineNode
      */
-    protected function shiftAsWhitespace( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftAsWhitespace( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( isset( $this->documentStack[0] ) &&
              ( in_array( $this->documentStack[0]->type, $this->textNodes ) ) )
@@ -1853,10 +1859,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Just keep text as text nodes
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstTextLineNode
      */
-    protected function shiftSpecialCharsAsText( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftSpecialCharsAsText( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         return new ezcDocumentRstTextLineNode(
             $token
@@ -1871,10 +1877,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#literal-blocks
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftLiteralBlock( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftLiteralBlock( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->content !== '::' ) ||
              ( !isset( $tokens[0] ) ) ||
@@ -1895,7 +1901,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
              ( in_array( $this->documentStack[0]->type, $this->textNodes ) ) &&
              ( $this->documentStack[0]->token->type !== ezcDocumentRstToken::WHITESPACE ) )
         {
-            array_unshift( $tokens,
+            $tokens->unshift(
                 new ezcDocumentRstToken(
                     ezcDocumentRstToken::SPECIAL_CHARS, '::', $token->line, $this->indentation
                 )
@@ -1919,7 +1925,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( isset( $this->documentStack[0] ) &&
              in_array( $this->documentStack[0]->type, $this->textNodes ) )
         {
-            array_unshift( $tokens, $token );
+            $tokens->unshift( $token );
             /* DEBUG
             echo "  => Create a paragraph for the preceeding text stuff first.\n";
             // /DEBUG */
@@ -1932,7 +1938,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             /* DEBUG
             echo "  -> Skip newline.\n";
             // /DEBUG */
-            array_shift( $tokens );
+            $tokens->shift();
         }
 
         // Once we got the first line after the literal block start marker, we
@@ -1976,7 +1982,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     ( ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE ) &&
                       ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) > $this->indentation ) ) ) ) )
         {
-            $literalToken = array_shift( $tokens );
+            $literalToken = $tokens->shift();
             if ( $literalToken->type === ezcDocumentRstToken::NEWLINE )
             {
                 // Nothing to do for empty lines, but they are included in the
@@ -2008,7 +2014,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 /* DEBUG
                 echo ".";
                 // /DEBUG */
-                $collected[] = new ezcDocumentRstLiteralNode( $item = array_shift( $tokens ) );
+                $collected[] = new ezcDocumentRstLiteralNode( $item = $tokens->shift() );
             }
             while ( $item->type !== ezcDocumentRstToken::NEWLINE );
             /* DEBUG
@@ -2020,7 +2026,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // /DEBUG */
 
         // Readd the last newline to the token stack
-        array_unshift( $tokens, $item );
+        $tokens->unshift( $item );
 
         // When literal block is indented by whitespace, remove the minimum
         // indentation. from each line.
@@ -2050,17 +2056,17 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Reads all tokens and removes them from the token stack, which do not
      * match of the given tokens. Escaping is maintained.
      *
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @param array $until
      * @return array
      */
-    protected function readUntil( array &$tokens, array $until )
+    protected function readUntil( ezcDocumentRstStack $tokens, array $until )
     {
         $quoted = false;
         if ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
              ( $tokens[0]->content === '`' ) )
         {
-            array_shift( $tokens );
+            $tokens->shift();
             $until = array( array(
                 'type'    => ezcDocumentRstToken::SPECIAL_CHARS,
                 'content' => '`',
@@ -2073,7 +2079,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         do {
             if ( $tokens[0]->type === ezcDocumentRstToken::BACKSLASH )
             {
-                $backslash = array_shift( $tokens );
+                $backslash = $tokens->shift();
                 $this->shiftBackslash( $backslash, $tokens );
             }
 
@@ -2089,12 +2095,12 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 }
             }
 
-            $foundTokens[] = array_shift( $tokens );
+            $foundTokens[] = $tokens->shift();
         } while ( $found === false );
 
         if ( $quoted )
         {
-            array_shift( $tokens );
+            $tokens->shift();
         }
 
         return $foundTokens;
@@ -2109,11 +2115,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Returns an array with the collected tokens, until the indentation
      * changes.
      *
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @param bool $strict
      * @return array
      */
-    protected function readMutlipleIndentedLines( array &$tokens, $strict = false )
+    protected function readMutlipleIndentedLines( ezcDocumentRstStack $tokens, $strict = false )
     {
         /* DEBUG
         echo "  -> Read follow up text.\n";
@@ -2125,7 +2131,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // ignore the indentation here, and read everything in the first
             // line.
             do {
-                $collected[] = $token = array_shift( $tokens );
+                $collected[] = $token = $tokens->shift();
             } while ( $token->type !== ezcDocumentRstToken::NEWLINE );
         }
         /* DEBUG
@@ -2159,7 +2165,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         {
             if ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE )
             {
-                $collected[] = $token = array_shift( $tokens );
+                $collected[] = $token = $tokens->shift();
                 // Just skip empty lines
                 /* DEBUG
                 echo "  -> Skip empty line.\n";
@@ -2168,7 +2174,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             }
 
             // Update minimum indentation
-            $whitespace = array_shift( $tokens );
+            $whitespace = $tokens->shift();
             $minIndentation = min( iconv_strlen( $whitespace->content, 'UTF-8' ), $minIndentation );
 
             // Read all further nodes until the next newline, and check for
@@ -2180,7 +2186,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 /* DEBUG
                 echo ".";
                 // /DEBUG */
-                $collected[] = $token = array_shift( $tokens );
+                $collected[] = $token = $tokens->shift();
             } while ( $token->type !== ezcDocumentRstToken::NEWLINE );
             /* DEBUG
             echo "\n";
@@ -2188,7 +2194,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         // Add last to to stack again, is useful for common reduction handling.
-        array_unshift( $tokens, $token );
+        $tokens->unshift( $token );
 
         // Remove minimum found indentation from indentation tokens.
         foreach ( $collected as $token )
@@ -2214,10 +2220,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * the content aggregation to the common comment aggregation.
      *
      * @param ezcDocumentRstDirectiveNode $directive
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstDirectiveNode
      */
-    protected function shiftDirective( ezcDocumentRstDirectiveNode $directive, array &$tokens )
+    protected function shiftDirective( ezcDocumentRstDirectiveNode $directive, ezcDocumentRstStack $tokens )
     {
         // All nodes until the first newline are the so called parameters of
         // the directive.
@@ -2225,7 +2231,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $directiveTokens = array();
         while ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE )
         {
-            $token             = array_shift( $tokens );
+            $token             = $tokens->shift();
             $parameters       .= $token->content;
             $directiveTokens[] = $token;
         }
@@ -2234,7 +2240,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // /DEBUG */
         $directive->parameters = $parameters;
         $directive->tokens     = $directiveTokens;
-        array_shift( $tokens );
+        $tokens->shift();
 
         // If there are two newlines, there are no options.
         if ( $tokens[0]->type == ezcDocumentRstToken::NEWLINE )
@@ -2247,28 +2253,28 @@ class ezcDocumentRstParser extends ezcDocumentParser
         while ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
                 ( $tokens[1]->content === ':' ) )
         {
-            array_shift( $tokens );
-            array_shift( $tokens );
+            $tokens->shift();
+            $tokens->shift();
 
             // Extract option name
             $name = '';
             while ( $tokens[0]->content !== ':' )
             {
-                $token = array_shift( $tokens );
+                $token = $tokens->shift();
                 $name .= $token->content;
             }
-            array_shift( $tokens );
+            $tokens->shift();
 
             // Extract option value
             $value = '';
             while ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE )
             {
-                $token = array_shift( $tokens );
+                $token = $tokens->shift();
                 $value .= $token->content;
             }
 
             // Assign option on directive
-            array_shift( $tokens );
+            $tokens->shift();
             $directive->options[$name] = $value;
             /* DEBUG
             echo "  -> Set directive option: $name => $value\n";
@@ -2335,10 +2341,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#comments
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftComment( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftComment( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->content !== '..' ) ||
              ( $token->position > ( $this->indentation + 1 ) ) ||
@@ -2355,7 +2361,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         // Ignore the following whitespace
-        array_shift( $tokens );
+        $tokens->shift();
 
         // The next tokens determine which type of structure we found, while
         // everything which is not handled by a special case falls back to a
@@ -2378,7 +2384,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                             ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                               ( in_array( $tokens[0]->content[0], array( '-', '_', '.' ) ) ) ) )
                     {
-                        $identifierTokens[] = $iToken = array_shift( $tokens );
+                        $identifierTokens[] = $iToken = $tokens->shift();
                         $identifier .= $iToken->content;
                     }
 
@@ -2390,7 +2396,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                         /* DEBUG
                         echo "  -> Found directive.\n";
                         // /DEBUG */
-                        array_shift( $tokens );
+                        $tokens->shift();
                         $node = new ezcDocumentRstDirectiveNode( $token, strtolower( trim( $identifier ) ) );
                         // The shiftDirective method aggregates options and
                         // parameters of the directive and the contents will be
@@ -2426,7 +2432,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     // text between the pipes and the reenters this parsing
                     // process.
                     $name = array_merge(
-                        array( array_shift( $tokens ) ),
+                        array( $tokens->shift() ),
                         $this->readUntil( $tokens, array(
                             array(
                                 'type' => ezcDocumentRstToken::NEWLINE,
@@ -2443,7 +2449,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     if ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                          ( $tokens[0]->content === '|' ) )
                     {
-                        $name[] = array_shift( $tokens );
+                        $name[] = $tokens->shift();
                         /* DEBUG
                         echo "  -> Substitution target successfully found.\n";
                         // /DEBUG */
@@ -2454,7 +2460,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                         // Skip following whitespace
                         if ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE )
                         {
-                            array_shift( $tokens );
+                            $tokens->shift();
                         }
                     }
                     else
@@ -2485,7 +2491,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     // text between the pipes and the reenters this parsing
                     // process.
                     $name = array_merge(
-                        array( array_shift( $tokens ) ),
+                        array( $tokens->shift() ),
                         $this->readUntil( $tokens, array(
                             array(
                                 'type' => ezcDocumentRstToken::NEWLINE,
@@ -2502,7 +2508,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     if ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                          ( $tokens[0]->content === ']' ) )
                     {
-                        $name[] = array_shift( $tokens );
+                        $name[] = $tokens->shift();
                         /* DEBUG
                         echo "  -> Footnote target successfully found.\n";
                         // /DEBUG */
@@ -2544,7 +2550,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     // We found a named reference target. It is identified by a
                     // starting underscrore, followed by the reference name,
                     // and the reference target.
-                    array_shift( $tokens );
+                    $tokens->shift();
                     $name = $this->readUntil( $tokens, array(
                         array(
                             'type' => ezcDocumentRstToken::NEWLINE,
@@ -2560,8 +2566,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     if ( ( $tokens[0]->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                          ( $tokens[0]->content === ':' ) )
                     {
-                        array_shift( $tokens );
-                        array_shift( $tokens );
+                        $tokens->shift();
+                        $tokens->shift();
                         /* DEBUG
                         echo "  -> Named reference target successfully found.\n";
                         // /DEBUG */
@@ -2608,9 +2614,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     // We found a anonymous reference target. It is identified
                     // by two starting underscrores, directly followed by a
                     // colon.
-                    array_shift( $tokens );
-                    array_shift( $tokens );
-                    array_shift( $tokens );
+                    $tokens->shift();
+                    $tokens->shift();
+                    $tokens->shift();
 
                     $node = new ezcDocumentRstAnonymousReferenceNode( $token );
                     // With the name we find the associated contents, which
@@ -2672,7 +2678,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             /* DEBUG
             echo "  -> Skip newline.\n";
             // /DEBUG */
-            $skippedLine = array_shift( $tokens );
+            $skippedLine = $tokens->shift();
         }
 
         // Once we got the first line after the literal block start marker, we
@@ -2695,7 +2701,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // Readd the last newline to the token stack
             if ( $skippedLine !== null )
             {
-                array_unshift( $tokens, $skippedLine );
+                $tokens->unshift( $skippedLine );
             }
 
             // Handle special cases like the replace directive
@@ -2719,7 +2725,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     ( ( $baseIndetation->type === ezcDocumentRstToken::WHITESPACE ) &&
                       ( iconv_strlen( $tokens[0]->content, 'UTF-8' ) > $this->indentation ) ) ) ) )
         {
-            $literalToken = array_shift( $tokens );
+            $literalToken = $tokens->shift();
             if ( $literalToken->type === ezcDocumentRstToken::NEWLINE )
             {
                 // Nothing to do for empty lines, but they are included in the
@@ -2747,7 +2753,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 /* DEBUG
                 echo ".";
                 // /DEBUG */
-                $collected[]       = new ezcDocumentRstLiteralNode( $item = array_shift( $tokens ) );
+                $collected[]       = new ezcDocumentRstLiteralNode( $item = $tokens->shift() );
                 $directiveTokens[] = $item;
             }
             while ( $item->type !== ezcDocumentRstToken::NEWLINE );
@@ -2760,7 +2766,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // /DEBUG */
 
         // Readd the last newline to the token stack
-        array_unshift( $tokens, $item );
+        $tokens->unshift( $item );
 
         // Nothing more could be collected, either because the indentation has
         // been reduced, or the markers are missing. Add the aggregated
@@ -2797,10 +2803,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#anonymous-hyperlinks
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftAnonymousReference( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftAnonymousReference( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->content !== '__' ) ||
              ( $token->position !== 1 ) ||
@@ -2813,7 +2819,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         // Shift whitespace
-        array_shift( $tokens );
+        $tokens->shift();
 
         $node = new ezcDocumentRstAnonymousReferenceNode( $token );
         // With the name we find the associated contents, which
@@ -2837,10 +2843,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#field-lists
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftFieldList( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftFieldList( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->content !== ':' ) ||
              ( $token->position > 1 ) ||
@@ -2878,14 +2884,14 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         // Ignore the closing ':'.
-        array_shift( $tokens );
+        $tokens->shift();
 
         // Skip all empty lines before text starts
         while ( ( $tokens[0]->type === ezcDocumentRstToken::NEWLINE ) ||
                 ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
                   ( $tokens[1]->type === ezcDocumentRstToken::NEWLINE ) ) )
         {
-            array_shift( $tokens );
+            $tokens->shift();
         }
 
         // Read all text, following the field list name
@@ -2912,7 +2918,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Returns an array with cells, ordered by their rows and columns.
      *
      * @param array $cellStarts
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return array
      */
     protected function readSimpleCells( $cellStarts, &$tokens )
@@ -2932,7 +2938,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                   ( !isset( $tokens[1] ) ) ||
                   ( ( $tokens[1]->type !== ezcDocumentRstToken::WHITESPACE ) &&
                     ( $tokens[1]->type !== ezcDocumentRstToken::NEWLINE ) ) ) &&
-                ( $token = array_shift( $tokens ) ) )
+                ( $token = $tokens->shift() ) )
         {
             // Increase row number, if the we get non-whitespace content in the
             // first cell
@@ -2986,7 +2992,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
                 $newToken->content = substr( $newToken->content, $split + 1 );
                 $newToken->position = $newToken->position + $split + 1;
-                array_unshift( $tokens, $newToken );
+                $tokens->unshift( $newToken );
             }
 
             // Append contents to column
@@ -3005,7 +3011,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Read the column specification headers of a simple table and return the
      * sizes of the specified columns in an array.
      *
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return array
      */
     protected function readSimpleTableSpecification( &$tokens )
@@ -3018,7 +3024,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         while ( isset( $tokens[0] ) &&
                 ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE ) )
         {
-            $specToken = array_shift( $tokens );
+            $specToken = $tokens->shift();
             if ( ( ( $specToken->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                    ( ( $specToken->content[0] === '=' ) ||
                      ( $specToken->content[0] === '-' ) ) ) ||
@@ -3039,7 +3045,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 );
             }
         }
-        array_shift( $tokens );
+        $tokens->shift();
         /* DEBUG
         echo "\n";
         // /DEBUG */
@@ -3055,10 +3061,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#simple-tables
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftSimpleTable( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftSimpleTable( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->position > 1 ) ||
              ( $token->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
@@ -3078,7 +3084,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         echo "  -> Found simple table.\n";
         // /DEBUG */
         // Detect the cell sizes inside of the simple table.
-        array_unshift( $tokens, $token );
+        $tokens->unshift( $token );
         $tableSpec = $this->readSimpleTableSpecification( $tokens );
 
         // Refactor specification to work with it more easily.
@@ -3238,7 +3244,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * Read the column specification headers of a grid table and return the
      * sizes of the specified columns in an array.
      *
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return array
      */
     protected function readGridTableSpecification( &$tokens )
@@ -3290,10 +3296,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#grid-tables
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftGridTable( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftGridTable( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         if ( ( $token->position > 1 ) ||
              ( $token->type !== ezcDocumentRstToken::SPECIAL_CHARS ) ||
@@ -3315,7 +3321,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // /DEBUG */
         // Detect the cell sizes inside of the grid table.
         $rowOffset = $token->line;
-        array_unshift( $tokens, $token );
+        $tokens->unshift( $token );
         $tableSpec = $this->readGridTableSpecification( $tokens );
 
         // Read all table tokens and extract the complete cell specification of
@@ -3324,7 +3330,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         $titleRow    = 0;
         $cells       = array();
         $row         = 0;
-        while ( ( $tableTokens[] = $token = array_shift( $tokens ) ) &&
+        while ( ( $tableTokens[] = $token = $tokens->shift() ) &&
                 // Read until we find two newlines, which indicate the end of
                 // the table
                 ( ( $token->type !== ezcDocumentRstToken::NEWLINE ) ||
@@ -3701,10 +3707,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
      * http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#definition-lists
      *
      * @param ezcDocumentRstToken $token
-     * @param array $tokens
+     * @param ezcDocumentRstStack $tokens
      * @return ezcDocumentRstMarkupEmphasisNode
      */
-    protected function shiftDefinitionList( ezcDocumentRstToken $token, array &$tokens )
+    protected function shiftDefinitionList( ezcDocumentRstToken $token, ezcDocumentRstStack $tokens )
     {
         // Fetch definition list back from document stack, where the text nodes
         // are stacked in reverse order.
@@ -3713,7 +3719,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         echo "  -> Fetch name from document stack: ";
         // /DEBUG */
         do {
-            $node = array_shift( $this->documentStack );
+            $node = $this->documentStack->shift();
             $name[] = $node->token;
             /* DEBUG
             echo '.';
@@ -3728,7 +3734,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // With the name we find the associated contents, which
         // may span multiple lines, so that this is done by a
         // seperate method.
-        array_unshift( $tokens, $token );
+        $tokens->unshift( $token );
         /* DEBUG
         echo "  -> Read definition list contents\n";
         // /DEBUG */
@@ -3762,7 +3768,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         while ( ( isset( $this->documentStack[0] ) ) &&
                 in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
-            $nodes[] = $textNode = array_shift( $this->documentStack );
+            $nodes[] = $textNode = $this->documentStack->shift();
             /* DEBUG
             echo "  -> Add ", ezcDocumentRstNode::getTokenName( $textNode->type ), " to title.\n";
             // /DEBUG */
@@ -3809,7 +3815,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( isset( $this->documentStack[0] ) &&
              ( $this->documentStack[0]->type === ezcDocumentRstNode::TITLE ) )
         {
-            $doubleTitle = array_shift( $this->documentStack );
+            $doubleTitle = $this->documentStack->shift();
             $titleType = $doubleTitle->token->content[0] . $titleType;
 
             // Ensure title over and underline lengths matches, for docutils
@@ -3858,7 +3864,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Include all paragraphs, tables, lists and sections with a higher
         // nesting depth
-        while ( $child = array_shift( $this->documentStack ) )
+        while ( $child = $this->documentStack->shift() )
         {
             /* DEBUG
             echo "  -> Try node: " . ezcDocumentRstNode::getTokenName( $child->type ) . ".\n";
@@ -3883,11 +3889,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
                         $child->nodes,
                         $collected
                     );
-                    array_unshift( $this->documentStack, $child );
+                    $this->documentStack->unshift( $child );
 
                     /* DEBUG
                     echo "   -> Leave on stack.\n";
-                    $this->dumpDocumentStack();
+                    $this->dumpStack();
                     // /DEBUG */
                     return $node;
                 }
@@ -3946,10 +3952,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "   -> Put everything back on stack.\n";
         // /DEBUG */
-        $this->documentStack = array_merge(
-            array_reverse( $collected ),
-            $this->documentStack
-        );
+        $this->documentStack->prepend( array_reverse( $collected ) );
         return $node;
     }
 
@@ -3965,7 +3968,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
              ( $this->documentStack[0]->type === ezcDocumentRstNode::ANNOTATION ) )
         {
             // The last paragraph was preceded by an annotation marker
-            $annotation = array_shift( $this->documentStack );
+            $annotation = $this->documentStack->shift();
             $annotation->nodes = $node;
             return $annotation;
         }
@@ -4019,7 +4022,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
              ( $this->documentStack[0]->indentation <= $node->indentation ) )
         {
             // Just append paragraph and exit
-            $quote = array_shift( $this->documentStack );
+            $quote = $this->documentStack->shift();
             $quote->nodes[] = $node;
             return $quote;
         }
@@ -4061,7 +4064,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         // Include all paragraphs, lists and blockquotes
-        while ( $child = array_shift( $this->documentStack ) )
+        while ( $child = $this->documentStack->shift() )
         {
             if ( ( !$child instanceof ezcDocumentRstBlockNode ) ||
                  ( $child->indentation < $node->indentation ) )
@@ -4071,11 +4074,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 /* DEBUG
                 echo "   -> No reduction target found, reached ", ezcDocumentRstNode::getTokenName( $child->type ), ".\n";
                 // /DEBUG */
-                $this->documentStack = array_merge(
+                $this->documentStack->prepend( array_merge(
                     $childs,
-                    array( $child ),
-                    $this->documentStack
-                );
+                    array( $child )
+                ) );
                 return $node;
             }
 
@@ -4092,10 +4094,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     array_reverse( $childs ),
                     array( $node )
                 );
-                $this->documentStack = array_merge(
-                    array( $child ),
-                    $this->documentStack
-                );
+                $this->documentStack->prepend( array( $child ) );
                 return null;
             }
 
@@ -4126,11 +4125,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
         }
 
         // Clean up and return node
-        $this->documentStack = array_merge(
+        $this->documentStack->prepend( array_merge(
             array( $node ),
-            $childs,
-            $this->documentStack
-        );
+            $childs
+        ) );
         /* DEBUG
         echo "   => Done (" . count( $this->documentStack ) . " elements on stack).\n";
         // /DEBUG */
@@ -4158,7 +4156,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // /DEBUG */
 
         // Include all paragraphs, lists and blockquotes
-        while ( $child = array_shift( $this->documentStack ) )
+        while ( $child = $this->documentStack->shift() )
         {
             if ( ( !$child instanceof ezcDocumentRstBlockNode ) ||
                  ( $child->indentation < $nodeIndentation ) )
@@ -4168,7 +4166,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 /* DEBUG
                 echo "   -> No reduction target found, reached ", ezcDocumentRstNode::getTokenName( $child->type ), ".\n";
                 // /DEBUG */
-                array_unshift( $this->documentStack, $child );
+                $this->documentStack->unshift( $child );
                 break;
             }
 
@@ -4187,11 +4185,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
                     $childs
                 );
 
-                $this->documentStack = array_merge(
-                    array( $child ),
-                    $this->documentStack
-                );
-
+                $this->documentStack->prepend( array( $child ) );
                 return $node;
             }
 
@@ -4225,10 +4219,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "   => Done.\n";
         // /DEBUG */
-        $this->documentStack = array_merge(
-            $childs,
-            $this->documentStack
-        );
+        $this->documentStack->prepend( $childs );
         return $node;
     }
 
@@ -4251,7 +4242,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
             // Convert single markup nodes back to text
-            $text = array_shift( $this->documentStack );
+            $text = $this->documentStack->shift();
             if ( in_array( $text->type, array(
                     ezcDocumentRstNode::MARKUP_EMPHASIS,
                     ezcDocumentRstNode::MARKUP_STRONG,
@@ -4367,7 +4358,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         while ( isset( $this->documentStack[0] ) &&
             in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
-            $child = array_shift( $this->documentStack );
+            $child = $this->documentStack->shift();
             if ( ( $child->type == $node->type ) &&
                  ( $child->openTag === true ) )
             {
@@ -4397,10 +4388,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "   => Use as Text.\n";
         // /DEBUG */
-        $this->documentStack = array_merge(
-            array_reverse( $childs ),
-            $this->documentStack
-        );
+        $this->documentStack->prepend( array_reverse( $childs ) );
 
         return new ezcDocumentRstTextLineNode( $node->token );
     }
@@ -4426,7 +4414,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         while ( isset( $this->documentStack[0] ) &&
                 in_array( $this->documentStack[0]->type, $this->textNodes, true ) )
         {
-            $child = array_shift( $this->documentStack );
+            $child = $this->documentStack->shift();
             if ( ( $child->type == $node->type ) &&
                  ( $child->openTag === true ) )
             {
@@ -4463,10 +4451,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "   => Use as Text.\n";
         // /DEBUG */
-        $this->documentStack = array_merge(
-            array_reverse( $childs ),
-            $this->documentStack
-        );
+        $this->documentStack->prepend( array_reverse( $childs ) );
 
         return new ezcDocumentRstTextLineNode( $node->token );
     }
@@ -4498,7 +4483,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         {
             // We found something, create target node and aggregate
             // corresponding nodes.
-            $targetTextNode = array_shift( $this->documentStack );
+            $targetTextNode = $this->documentStack->shift();
             $target = new ezcDocumentRstTargetNode( $targetTextNode->token );
             $target->nodes = array( $node );
             /* DEBUG
@@ -4526,7 +4511,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
     protected function reduceReference( ezcDocumentRstNode $node )
     {
         // Pop closing brace
-        $closing = array_shift( $this->documentStack );
+        $closing = $this->documentStack->shift();
 
         // Find all childs.
         //
@@ -4536,7 +4521,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         while ( isset( $this->documentStack[0] ) &&
                 ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) )
         {
-            $child = array_shift( $this->documentStack );
+            $child = $this->documentStack->shift();
             if ( ( $child->token->type === ezcDocumentRstToken::SPECIAL_CHARS ) &&
                  ( $child->token->content === '[' ) )
             {
@@ -4567,11 +4552,10 @@ class ezcDocumentRstParser extends ezcDocumentParser
         /* DEBUG
         echo "   => Use as Text.\n";
         // /DEBUG */
-        $this->documentStack = array_merge(
+        $this->documentStack->prepend( array_merge(
             array( $closing ),
-            $childs,
-            $this->documentStack
-        );
+            $childs
+        ) );
 
         return new ezcDocumentRstTextLineNode( $node->token );
     }
@@ -4613,7 +4597,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             echo "   - Scan literal for embedded URI.\n";
             // /DEBUG */
             $textNode = false;
-            $text = array_shift( $this->documentStack );
+            $text = $this->documentStack->shift();
             foreach ( $text->nodes as $child )
             {
                 if ( $child->type !== ezcDocumentRstNode::TEXT_LINE )
@@ -4655,7 +4639,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // /DEBUG */
             $text = array();
             do {
-                $text[] = array_shift( $this->documentStack );
+                $text[] = $this->documentStack->shift();
             } while ( isset( $this->documentStack[0] ) &&
                       ( $this->documentStack[0]->type === ezcDocumentRstNode::TEXT_LINE ) &&
                       ( ( $this->documentStack[0]->token->type === ezcDocumentRstToken::TEXT_LINE ) ||
