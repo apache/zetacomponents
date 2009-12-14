@@ -52,7 +52,9 @@ class ezcDocumentDocbookToRstBlockquoteHandler extends ezcDocumentDocbookToRstBa
         // Append attribution nodes, if any
         foreach ( $attributions as $attribution )
         {
+            $converter->setSkipPostDecoration( true );
             $attributionLine = '-- ' . trim( $converter->visitChildren( $attribution, '' ) );
+            $converter->setSkipPostDecoration( false );
             $root .= ezcDocumentDocbookToRstConverter::wordWrap( $attributionLine ) . "\n\n";
         }
 

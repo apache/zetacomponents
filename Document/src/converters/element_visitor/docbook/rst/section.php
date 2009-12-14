@@ -54,7 +54,9 @@ class ezcDocumentDocbookToRstSectionHandler extends ezcDocumentDocbookToRstBaseH
         if ( $node->tagName === 'title' )
         {
             // Get actual title string by recursing into the title node
+            $converter->setSkipPostDecoration( true );
             $title = trim( $converter->visitChildren( $node, '' ) );
+            $converter->setSkipPostDecoration( false );
 
             // Get RST title decoration characters
             if ( !isset( $converter->options->headerTypes[$this->level] ) )

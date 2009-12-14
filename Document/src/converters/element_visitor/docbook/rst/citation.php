@@ -34,7 +34,9 @@ class ezcDocumentDocbookToRstCitationHandler extends ezcDocumentDocbookToRstBase
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
+        $converter->setSkipPostDecoration( true );
         $citationContent = trim( $converter->visitChildren( $node, '' ) );
+        $converter->setSkipPostDecoration( false );
         $number = $converter->appendCitation( $citationContent );
 
         // Add autonumbered citation reference

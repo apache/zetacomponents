@@ -3,6 +3,7 @@
 
 - Fixed #15943: ODT list style extraction does not work for nested lists.
 - Fixed #15944: ODT literal layout paragraphs not detected correctly.
+- Fixed #15945: RST generator issue with link/footnote combination
 
 
 1.3rc1 - Monday 07 December 2009

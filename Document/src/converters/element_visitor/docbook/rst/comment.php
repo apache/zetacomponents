@@ -31,7 +31,9 @@ class ezcDocumentDocbookToRstCommentHandler extends ezcDocumentDocbookToRstBaseH
      */
     public function handle( ezcDocumentElementVisitorConverter $converter, DOMElement $node, $root )
     {
+        $converter->setSkipPostDecoration( true );
         $comment = $converter->visitChildren( $node, '' );
+        $converter->setSkipPostDecoration( false );
         $root .= '.. ' . trim( ezcDocumentDocbookToRstConverter::wordWrap( $comment, 3 ) ) . "\n\n";
 
         return $root;

@@ -66,6 +66,15 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
     public static $wordWrap = 78;
 
     /**
+     * Flag indicating whether to skip the paragraph post processing decoration 
+     * with links and foornotes. Should be disabled during visiting 
+     * sub-elements like footnotes.
+     * 
+     * @var bool
+     */
+    protected $skipPostDecoration = false;
+
+    /**
      * Construct converter
      *
      * Construct converter from XSLT file, which is used for the actual
@@ -284,6 +293,21 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
     }
 
     /**
+     *Set skip post processing
+     *
+     * Flag indicating whether to skip the paragraph post processing decoration 
+     * with links and foornotes. Should be disabled during visiting 
+     * sub-elements like footnotes.
+     * 
+     * @param bool $flag
+     * @return void
+     */
+    public function setSkipPostDecoration( $flag )
+    {
+        $this->skipPostDecoration = (bool) $flag;
+    }
+
+    /**
      * Append all remaining links at the bottom of the last element.
      *
      * @param string $root
@@ -293,7 +317,8 @@ class ezcDocumentDocbookToRstConverter extends ezcDocumentElementVisitorConverte
     {
         // Only finish paragraph, if there is no current indentation, otherwise
         // this might break a single list into multiple lists
-        if ( self::$indentation > 0 )
+        if ( $this->skipPostDecoration ||
+             ( self::$indentation > 0 ) )
         {
             return $root;
         }
