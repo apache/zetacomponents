@@ -78,7 +78,7 @@ class ezcTestConstraintSimilarImage extends PHPUnit_Framework_Constraint
              !is_file( $other ) ||
              !is_readable( $other ) )
         {
-            throw new PHPUnit_Framework_ExpectationFailedException( 'Could not find file ' . $other );
+            throw new ezcBaseFileNotFoundException( $other );
         }
 
         $descriptors = array( 
