@@ -61,14 +61,14 @@ class ezcDocumentRstTokenizer
                 '(\\A[' . self::WHITESPACE_CHARS . ']*(?P<value>\\r\\n|\\r|\\n))S',
             ezcDocumentRstToken::WHITESPACE =>
                 '(\\A(?P<value>[' . self::WHITESPACE_CHARS . ']+))S',
-            ezcDocumentRstToken::EOF =>
-                '(\\A(?P<value>))S',
 
             // Sequences of special characters
             ezcDocumentRstToken::SPECIAL_CHARS =>
                 '(\\A(?P<value>([' . self::SPECIAL_CHARS . ']|\\xe2\\x80\\xa2|\\xe2\\x80\\xa3|\\xe2\\x81\\x83)\\2*))S',
             ezcDocumentRstToken::BACKSLASH =>
                 '(\\A(?P<value>\\\\))S',
+            ezcDocumentRstToken::EOF =>
+                '(\\A(?P<value>))S',
 
             // This should be last match
             ezcDocumentRstToken::TEXT_LINE =>
