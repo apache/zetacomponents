@@ -84,13 +84,13 @@ class myAddressDirective extends ezcDocumentRstDirective
 
         if ( !empty( $this-&gt;node-&gt;parameters ) )
         {
-            $name = $document-&gt;createElement( 'personname', htmlentities( $this-&gt;node-&gt;parameters ) );
+            $name = $document-&gt;createElement( 'personname', htmlspecialchars( $this-&gt;node-&gt;parameters ) );
             $address-&gt;appendChild( $name );
         }
 
         if ( isset( $this-&gt;node-&gt;options['street'] ) )
         {
-            $street = $document-&gt;createElement( 'street', htmlentities( $this-&gt;node-&gt;options['street'] ) );
+            $street = $document-&gt;createElement( 'street', htmlspecialchars( $this-&gt;node-&gt;options['street'] ) );
             $address-&gt;appendChild( $street );
         }
     }
