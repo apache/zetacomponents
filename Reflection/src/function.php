@@ -112,7 +112,7 @@ class ezcReflectionFunction extends ReflectionFunction
             $type = null;
             foreach ($params as $annotation) {
                 if (
-                    $annotation instanceof ezcReflectionAnnotationparam
+                    $annotation instanceof ezcReflectionAnnotationParam
                     and $annotation->getParamName() == $param->getName()
                 ) {
                     $type = $annotation->getType();
