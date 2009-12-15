@@ -22,13 +22,13 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
     public function tearDown() {
         unset( $this->factory );
     }
-    
+
     /**
      * Test with primitive types
      */
     public function testGetTypePrimitive() {
         $ezcReflectionPrimitiveTypes = array('integer', 'int', 'INT', 'float', 'double',
-                                'string', 'bool', 'boolean'/* FIXME ,'void'*/);
+                                'string', 'bool', 'boolean', 'void', 'object');
         foreach ($ezcReflectionPrimitiveTypes as $prim) {
         	$type = $this->factory->getType($prim);
         	self::assertType('ezcReflectionType', $type);
@@ -52,12 +52,33 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
     }
 
     public function getArrayTypeNames() {
-        return array(
-           array( 'array(integer => string)', 'integer', 'string' ),
-           array( 'array(string => ReflectionClass)', 'string', 'ReflectionClass' ),
-           array( 'array(ReflectionClass => float)', 'ReflectionClass', 'float' )
-           // TODO Test array( 'array(ReflectionClass, float)', 'ReflectionClass', 'float' )
+        $typeNames = array(
+           array( 'array', 'mixed', 'mixed', 'array(mixed=>mixed)'),
+           array( 'string[]', 'integer', 'string' ),
+           array( 'array(integer=>string)', 'integer', 'string' ),
+           array( 'array(string=>ReflectionClass)', 'string', 'ReflectionClass' ),
+           array( 'array(ReflectionClass=>float)', 'ReflectionClass', 'float' ),
+           array( 'array(integer=>string[])', 'integer', 'string[]' ),
+           array( 'array(integer=>array(integer=>string))', 'integer', 'array(integer=>string)' ),
+           array( 'array(float=>array(integer[]=>boolean))', 'float', 'array(integer[]=>boolean)' ),
+           array( 'array(float=>array(integer[]=>boolean))', 'float', 'array(integer[]=>boolean)' ),
+           array( 'array(double=>array(int[]=>bool))', 'float', 'array(integer[]=>boolean)', 'array(float=>array(integer[]=>boolean))' ),
+           // TODO  Support maps as keys of map
+           //array( 'array(array(integer[]=>boolean)=>float)', 'array(integer[]=>boolean)', 'float' ),
         );
+        $result = $typeNames;
+        
+        // generate type names with white space at the beginning and end
+        foreach ( $typeNames as $typeName ) {
+            $typeNameWithWhiteSpace = $typeName;
+            $typeNameWithWhiteSpace[0] = ' ' .$typeName[0] . "\t";
+            if ( !isset( $typeName[3] ) )
+            {
+                $typeNameWithWhiteSpace[3] = $typeName[0];
+            }
+            $result[] = $typeNameWithWhiteSpace;
+        }
+        return $result;
     }
     
     /**
@@ -65,15 +86,20 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
      * 
      * @dataProvider getArrayTypeNames
      */
-    public function testGetTypeArray($arrayTypeName, $indexTypeName, $valueTypeName) {
+    public function testGetTypeArray( $arrayTypeName, $indexTypeName, $valueTypeName, $canonicalName = null )
+    {
+        if ($canonicalName == null)
+        {
+            $canonicalName = $arrayTypeName;
+        }
         $type = $this->factory->getType($arrayTypeName);
         self::assertType('ezcReflectionType', $type);
         self::assertType('ezcReflectionArrayType', $type);
-        self::assertType('ezcReflectionType', $type->getMapIndexType());
-        self::assertType('ezcReflectionType', $type->getMapValueType());
-        self::assertEquals($arrayTypeName, $type->getTypeName());
-        self::assertEquals($indexTypeName, $type->getMapIndexType()->getTypeName());
-        self::assertEquals($valueTypeName, $type->getMapValueType()->getTypeName());
+        self::assertType('ezcReflectionType', $type->getKeyType());
+        self::assertType('ezcReflectionType', $type->getValueType());
+        self::assertEquals($canonicalName, $type->getTypeName());
+        self::assertEquals($indexTypeName, $type->getKeyType()->getTypeName());
+        self::assertEquals($valueTypeName, $type->getValueType()->getTypeName());
     }
 
     public static function suite()
