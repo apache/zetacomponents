@@ -113,8 +113,8 @@ class ezcReflectionDocCommentParserTest extends ezcTestCase
         $annotations = $parser->getParamAnnotations();
         self::assertEquals(2, count($annotations));
         self::assertEquals('DocuFlaw', $annotations[0]->getParamName());
-        self::assertEquals('void', $annotations[0]->getType());
-        self::assertEquals( array( 'void', 'DocuFlaw' ), $annotations[0]->getParams() );
+        self::assertEquals('NULL', $annotations[0]->getType());
+        self::assertEquals( array( 'NULL', 'DocuFlaw' ), $annotations[0]->getParams() );
         // testAddDescriptionLine
         $originalDescription = $annotations[0]->getDescription();
         $additionalDescriptionLine
