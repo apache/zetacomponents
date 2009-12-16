@@ -78,10 +78,12 @@
      */
     public function __call( $method, $arguments )
     {
-        if ( $this->reflectionSource instanceof parent )
+        $callback = array( $this->reflectionSource, $method );  
+        if ( $this->reflectionSource instanceof parent
+             and is_callable( $callback ) )
         {
             // query external reflection object
-            return call_user_func_array( array( $this->reflectionSource, $method ), $arguments );
+            return call_user_func_array( $callback, $arguments );
         }
         else
         {
