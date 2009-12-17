@@ -101,10 +101,10 @@ class ezcReflectionDocCommentParserTest extends ezcTestCase
         $annotations = $parser->getParamAnnotations();
         self::assertEquals(3, count($annotations));
         self::assertEquals('test', $annotations[0]->getParamName());
-        self::assertEquals('string', $annotations[0]->getType());
+        self::assertEquals('string', $annotations[0]->getTypeName());
 
         self::assertEquals('test3', $annotations[2]->getParamName());
-        self::assertEquals('NonExistingType', $annotations[2]->getType());
+        self::assertEquals('NonExistingType', $annotations[2]->getTypeName());
         
         
         $parser = ezcReflectionApi::getDocCommentParserInstance();
@@ -113,7 +113,7 @@ class ezcReflectionDocCommentParserTest extends ezcTestCase
         $annotations = $parser->getParamAnnotations();
         self::assertEquals(2, count($annotations));
         self::assertEquals('DocuFlaw', $annotations[0]->getParamName());
-        self::assertEquals('NULL', $annotations[0]->getType());
+        self::assertEquals('NULL', $annotations[0]->getTypeName());
         self::assertEquals( array( 'NULL', 'DocuFlaw' ), $annotations[0]->getParams() );
         // testAddDescriptionLine
         $originalDescription = $annotations[0]->getDescription();
@@ -127,7 +127,7 @@ class ezcReflectionDocCommentParserTest extends ezcTestCase
         
 
         self::assertNull($annotations[1]->getParamName());
-        self::assertEquals('boolean', $annotations[1]->getType());
+        self::assertEquals('boolean', $annotations[1]->getTypeName());
         self::assertEquals( array( 'boolean' ), $annotations[1]->getParams() );
         
     }
@@ -143,7 +143,7 @@ EOF;
 		$annotations = $parser->getVarAnnotations();
 		self::assertEquals(1, count($annotations));
 		self::assertType('ezcReflectionAnnotationVar', $annotations[0]);
-		self::assertEquals('string', $annotations[0]->getType());
+		self::assertEquals('string', $annotations[0]->getTypeName());
 		self::assertEquals('', $annotations[0]->getDescription());
         
         $comment = <<<EOF
@@ -158,8 +158,8 @@ EOF;
 		self::assertEquals(1, count($annotations));
 		self::assertType('ezcReflectionAnnotationVar', $annotations[0]);
         self::assertEquals("An array of\nboolean values.", $annotations[0]->getDescription());
-        self::assertEquals('bool[]', $annotations[0]->getType());
-        $type = ezcReflectionApi::getReflectionTypeFactory()->getType($annotations[0]->getType());
+        self::assertEquals('bool[]', $annotations[0]->getTypeName());
+        $type = ezcReflectionApi::getReflectionTypeFactory()->getType($annotations[0]->getTypeName());
 		self::assertType('ezcReflectionArrayType', $type);
         self::assertTrue($type->isArray());
         $arrayType = $type->getArrayType();
@@ -175,7 +175,7 @@ EOF;
         $annotations = $parser->getReturnAnnotations();
 
         self::assertEquals("Hello\nWorld!", $annotations[0]->getDescription());
-        self::assertEquals('string', $annotations[0]->getType());
+        self::assertEquals('string', $annotations[0]->getTypeName());
     }
 
     public function testHasAnnotation() {

@@ -24,7 +24,7 @@ class ezcReflectionAnnotationParam extends ezcReflectionAnnotation {
         $this->annotationName = $line[0];
 
         if (isset($line[1])) {
-            $this->params[0] = ezcReflectionTypeMapper::getInstance()->getType($line[1]);
+            $this->params[0] = ezcReflectionTypeMapper::getInstance()->getTypeName($line[1]);
         }
         if (isset($line[2]) and strlen($line[2])>0) {
             if ($line[2]{0} == '$') {
@@ -52,7 +52,7 @@ class ezcReflectionAnnotationParam extends ezcReflectionAnnotation {
     /**
     * @return string
     */
-    public function getType() {
+    public function getTypeName() {
         return $this->params[0];
     }
 }

@@ -117,7 +117,7 @@ class ezcReflectionFunction extends ReflectionFunction
                     $annotation instanceof ezcReflectionAnnotationParam
                     and $annotation->getParamName() == $param->getName()
                 ) {
-                    $type = $annotation->getType();
+                    $type = $annotation->getTypeName();
                     break;
                 }
             }
@@ -148,7 +148,7 @@ class ezcReflectionFunction extends ReflectionFunction
     function getReturnType() {
         $re = $this->docParser->getReturnAnnotations();
         if (count($re) == 1 and isset($re[0]) and $re[0] instanceof ezcReflectionAnnotationReturn) {
-            return ezcReflectionApi::getTypeByName($re[0]->getType());
+            return ezcReflectionApi::getTypeByName($re[0]->getTypeName());
         }
         return null;
     }

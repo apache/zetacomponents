@@ -161,7 +161,7 @@ class ezcReflectionTypeMapper
      * @param string $typeName
      * @return string
      */
-    public function getType( $typeName ) {
+    public function getTypeName( $typeName ) {
         $typeName = trim( $typeName );
         if ( isset( $this->mappingTable[ strtolower( $typeName ) ] ) )
         {
@@ -186,7 +186,7 @@ class ezcReflectionTypeMapper
         }
         else {
             // try to obtain the standard name for the type
-            $typeName = $this->getType($typeName);
+            $typeName = $this->getTypeName($typeName);
             if (isset($this->xmlMappingTable[$typeName])) {
                 return $this->xmlMappingTable[$typeName];
             }
@@ -225,7 +225,7 @@ class ezcReflectionTypeMapper
      */
     public function isArray( $typeName )
     {
-        $typeName = $this->getType( $typeName );
+        $typeName = $this->getTypeName( $typeName );
         if ( strlen( $typeName ) > 0 )
         {
             // last two chars are [], thus it should be something like string[]
@@ -258,7 +258,7 @@ class ezcReflectionTypeMapper
      */
     public function isMixed( $typeName )
     {
-        $typeName = $this->getType( $typeName ); 
+        $typeName = $this->getTypeName( $typeName ); 
         if (
             $typeName == self::CANONICAL_NAME_MIXED
             or $typeName == self::CANONICAL_NAME_NUMBER

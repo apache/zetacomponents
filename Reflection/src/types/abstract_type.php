@@ -30,7 +30,7 @@ abstract class ezcReflectionAbstractType implements ezcReflectionType
      */
     public function __construct( $typeName )
     {
-        $this->typeName = ezcReflectionTypeMapper::getInstance()->getType( $typeName );
+        $this->typeName = ezcReflectionTypeMapper::getInstance()->getTypeName( $typeName );
     }
 
     /**

@@ -114,7 +114,7 @@ class ezcReflectionProperty extends ReflectionProperty
         $vars = $this->docParser->getVarAnnotations();
         if ( isset( $vars[0] ) )
         {
-            return ezcReflectionApi::getTypeByName( $vars[0]->getType() );
+            return ezcReflectionApi::getTypeByName( $vars[0]->getTypeName() );
         }
         else
         {
