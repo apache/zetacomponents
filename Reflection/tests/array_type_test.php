@@ -59,9 +59,9 @@ class ezcReflectionArrayTypeTest extends ezcTestCase
     {
     }
 
-    public function testIsStandardType()
+    public function testIsScalarType()
     {
-        $this->assertFalse( $this->type->isStandardType() );
+        $this->assertFalse( $this->type->isScalarType() );
     }
 
     public function testGetXmlNameWithPrefix()

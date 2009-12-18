@@ -57,9 +57,9 @@ class ezcReflectionClassTypeTest extends ezcReflectionClassTest
         $this->assertEquals( 'SomeClass', $this->class->getTypeName() );
     }
 
-    public function testIsStandardType()
+    public function testIsScalarType()
     {
-        $this->assertFalse( $this->class->isStandardType() );
+        $this->assertFalse( $this->class->isScalarType() );
     }
 
     public function testGetXmlNameWithPrefix()

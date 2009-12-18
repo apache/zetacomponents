@@ -65,9 +65,14 @@ interface ezcReflectionType {
     public function getTypeName();
 
     /**
+     * Returns whether this type is one of integer, float, string, or boolean.
+     * 
+     * Types array, object, resource, NULL, mixed, number, and callback are not
+     * scalar.
+     * 
      * @return boolean
      */
-    public function isStandardType();
+    public function isScalarType();
 
     /**
      * Returns the name to be used in a xml schema for this type

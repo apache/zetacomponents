@@ -104,9 +104,14 @@ abstract class ezcReflectionAbstractType implements ezcReflectionType
     }
 
     /**
+     * Returns whether this type is one of integer, float, string, or boolean.
+     * 
+     * Types array, object, resource, NULL, mixed, number, and callback are not
+     * scalar.
+     * 
      * @return boolean
      */
-    function isStandardType()
+    function isScalarType()
     {
         return false;
     }

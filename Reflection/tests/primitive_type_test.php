@@ -25,16 +25,16 @@ class ezcReflectionPrimitiveTypeTest extends ezcTestCase
         $this->assertTrue( $this->type->isPrimitive() );
     }
 
-    public function testIsStandardType()
+    public function testIsScalarType()
     {
-        $this->assertTrue( $this->type->isStandardType() );
+        $this->assertTrue( $this->type->isScalarType() );
     }
 
-    public function testIsStandardType2()
+    public function testIsScalarType2()
     {
         $this->type = new ezcReflectionPrimitiveType( 'void' );
 
-        $this->assertFalse( $this->type->isStandardType() );
+        $this->assertFalse( $this->type->isScalarType() );
     }
 
     public function testGetXmlNameWithPrefix()

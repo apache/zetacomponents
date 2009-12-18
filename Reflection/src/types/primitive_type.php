@@ -28,11 +28,24 @@ class ezcReflectionPrimitiveType extends ezcReflectionAbstractType {
     }
 
     /**
+     * Returns whether this type is one of integer, float, string, or boolean.
+     * 
+     * Types array, object, resource, NULL, mixed, number, and callback are not
+     * scalar.
+     * 
      * @return boolean
      */
-    function isStandardType()
+    function isScalarType()
     {
-        if ( $this->getTypeName() != ezcReflectionTypeMapper::CANONICAL_NAME_NULL )
+        if ( in_array(
+            $this->getTypeName(),
+            array(
+                ezcReflectionTypeMapper::CANONICAL_NAME_BOOLEAN,
+                ezcReflectionTypeMapper::CANONICAL_NAME_INTEGER,
+                ezcReflectionTypeMapper::CANONICAL_NAME_FLOAT,
+                ezcReflectionTypeMapper::CANONICAL_NAME_STRING
+            )
+        ))
         {
             return true;
         }

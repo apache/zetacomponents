@@ -20,7 +20,7 @@ class ezcReflectionAbstractTypeTest extends ezcTestCase
         $this->mock = $this->getMock(
             'ezcReflectionAbstractType',
             array(
-            	'isStandardType', 'getXmlName', 'getXmlSchema', 'getTypeName'
+            	'isScalarType', 'getXmlName', 'getXmlSchema', 'getTypeName'
             ),
             array( 'string' )
         );

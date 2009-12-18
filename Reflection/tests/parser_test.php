@@ -165,7 +165,7 @@ EOF;
         $arrayType = $type->getArrayType();
 		self::assertType('ezcReflectionPrimitiveType', $arrayType);
         self::assertTrue($arrayType->isPrimitive());
-        self::assertTrue($arrayType->isStandardType());
+        self::assertTrue($arrayType->isScalarType());
         self::assertEquals('boolean', $arrayType->getTypeName());
     }
 
