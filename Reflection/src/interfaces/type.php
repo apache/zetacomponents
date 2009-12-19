@@ -16,26 +16,6 @@
  * @author Stefan Marr <mail@stefan-marr.de>
  */
 interface ezcReflectionType {
-    /**
-     * Return type of elements in an array type or null if is not an array
-     *
-     * @return ezcReflectionType
-     */
-    public function getArrayType();
-
-    /**
-     * Returns type of key used in a map
-     *
-     * @return ezcReflectionType
-     */
-    public function getMapIndexType();
-
-    /**
-     * Returns type of values used in a map
-     *
-     * @return ezcReflectionType
-     */
-    public function getMapValueType();
 
     /**
      * @return boolean

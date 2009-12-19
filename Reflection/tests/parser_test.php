@@ -162,7 +162,7 @@ EOF;
         $type = ezcReflectionApi::getReflectionTypeFactory()->getType($annotations[0]->getTypeName());
 		self::assertType('ezcReflectionArrayType', $type);
         self::assertTrue($type->isArray());
-        $arrayType = $type->getArrayType();
+        $arrayType = $type->getValueType();
 		self::assertType('ezcReflectionPrimitiveType', $arrayType);
         self::assertTrue($arrayType->isPrimitive());
         self::assertTrue($arrayType->isScalarType());

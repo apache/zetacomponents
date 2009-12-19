@@ -19,36 +19,6 @@
 class ezcReflectionClassType extends ezcReflectionClass implements ezcReflectionType {
 
     /**
-     * Returns type of array items or null
-     *
-     * @return ezcReflectionType
-     */
-    public function getArrayType()
-    {
-        return null;
-    }
-
-    /**
-     * Returns key type of map items or null
-     *
-     * @return ezcReflectionType
-     */
-    public function getMapIndexType()
-    {
-        return null;
-    }
-
-    /**
-     * Returns value type of map items or null
-     *
-     * @return ezcReflectionType
-     */
-    public function getMapValueType()
-    {
-        return null;
-    }
-
-    /**
      * @return boolean
      */
     public function isArray() {

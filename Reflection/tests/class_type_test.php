@@ -17,21 +17,6 @@ class ezcReflectionClassTypeTest extends ezcReflectionClassTest
         $this->classReflectionFunction = new ezcReflectionClassType( 'ReflectionFunction' );
     }
 
-    public function testGetArrayType()
-    {
-        $this->assertNull( $this->class->getArrayType() );
-    }
-
-    public function testGetMapIndexType()
-    {
-        $this->assertNull( $this->class->getMapIndexType() );
-    }
-
-    public function testGetMapValueType()
-    {
-        $this->assertNull( $this->class->getMapValueType() );
-    }
-
     public function testIsArray()
     {
         $this->assertFalse( $this->class->isArray() );

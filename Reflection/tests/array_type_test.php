@@ -20,19 +20,14 @@ class ezcReflectionArrayTypeTest extends ezcTestCase
         $this->type = new ezcReflectionArrayType( 'string[]' );
     }
 
-    public function testGetArrayType()
+    public function testGetGetKeyType()
     {
-        $this->assertEquals( new ezcReflectionPrimitiveType( 'string' ), $this->type->getArrayType() );
+        $this->assertEquals( new ezcReflectionPrimitiveType( 'integer' ), $this->type->getKeyType() );
     }
 
-    public function testGetMapIndexType()
+    public function testGetValueType()
     {
-        $this->assertNull( $this->type->getMapIndexType() );
-    }
-
-    public function testGetMapValueType()
-    {
-        $this->assertNull( $this->type->getMapValueType() );
+        $this->assertEquals( new ezcReflectionPrimitiveType( 'string' ), $this->type->getValueType() );
     }
 
     public function testIsArray()

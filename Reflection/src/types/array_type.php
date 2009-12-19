@@ -80,36 +80,6 @@ class ezcReflectionArrayType extends ezcReflectionAbstractType {
     }
     
     /**
-     * Returns type of array items or null
-     *
-     * @return ezcReflectionType
-     */
-    public function getArrayType()
-    {
-        return $this->isList() ? $this->getValueType() : null;
-    }
-
-    /**
-     * Returns key type of map items or null
-     *
-     * @return ezcReflectionType
-     */
-    public function getMapIndexType()
-    {
-        return $this->isList() ? null : $this->getKeyType();
-    }
-
-    /**
-     * Returns value type of map items or null
-     *
-     * @return ezcReflectionType
-     */
-    public function getMapValueType()
-    {
-        return $this->isList() ? null : $this->getValueType();
-    }
-
-    /**
      * @return boolean
      */
     public function isArray()

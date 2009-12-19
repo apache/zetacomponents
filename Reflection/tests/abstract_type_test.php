@@ -26,21 +26,6 @@ class ezcReflectionAbstractTypeTest extends ezcTestCase
         );
     }
 
-    public function testGetArrayType()
-    {
-        $this->assertNull( $this->mock->getArrayType() );
-    }
-
-    public function testGetMapIndexType()
-    {
-        $this->assertNull( $this->mock->getMapIndexType() );
-    }
-
-    public function testGetMapValueType()
-    {
-        $this->assertNull( $this->mock->getMapValueType() );
-    }
-
     public function testIsArray()
     {
         $this->assertFalse( $this->mock->isArray() );
