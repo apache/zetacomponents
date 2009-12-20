@@ -22,9 +22,9 @@ class ezcReflectionClassTypeTest extends ezcReflectionClassTest
         $this->assertFalse( $this->class->isArray() );
     }
 
-    public function testIsClass()
+    public function testIsObject()
     {
-        $this->assertTrue( $this->class->isClass() );
+        $this->assertTrue( $this->class->isObject() );
     }
 
     public function testIsPrimitive()

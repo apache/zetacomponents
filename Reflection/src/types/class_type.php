@@ -28,7 +28,7 @@ class ezcReflectionClassType extends ezcReflectionClass implements ezcReflection
     /**
      * @return boolean
      */
-    public function isClass()
+    public function isObject()
     {
         return true;
     }

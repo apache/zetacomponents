@@ -52,7 +52,7 @@ abstract class ezcReflectionAbstractType implements ezcReflectionType
     /**
      * @return boolean
      */
-    public function isClass()
+    public function isObject()
     {
         return false;
     }

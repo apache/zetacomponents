@@ -25,7 +25,7 @@ interface ezcReflectionType {
     /**
      * @return boolean
      */
-    public function isClass();
+    public function isObject();
 
     /**
      * @return boolean

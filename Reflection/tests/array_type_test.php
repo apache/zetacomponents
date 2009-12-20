@@ -35,9 +35,9 @@ class ezcReflectionArrayTypeTest extends ezcTestCase
         $this->assertTrue( $this->type->isArray() );
     }
 
-    public function testIsClass()
+    public function testIsObject()
     {
-        $this->assertFalse( $this->type->isClass() );
+        $this->assertFalse( $this->type->isObject() );
     }
 
     public function testIsPrimitive()

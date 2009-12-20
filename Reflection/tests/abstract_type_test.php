@@ -31,9 +31,9 @@ class ezcReflectionAbstractTypeTest extends ezcTestCase
         $this->assertFalse( $this->mock->isArray() );
     }
 
-    public function testIsClass()
+    public function testIsObject()
     {
-        $this->assertFalse( $this->mock->isClass() );
+        $this->assertFalse( $this->mock->isObject() );
     }
 
     public function testIsPrimitive()
