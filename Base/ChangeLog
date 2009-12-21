@@ -1,4 +1,4 @@
-1.8 - [RELEASEDATE]
+1.8 - Monday 21 December 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #15896: Autoload not working for all lowercase class names.
