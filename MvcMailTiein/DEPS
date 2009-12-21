@@ -1,2 +1,2 @@
 MvcTools: 1.0
-Mail: 1.6
+Mail: 1.7
