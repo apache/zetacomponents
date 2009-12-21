@@ -82,9 +82,9 @@ class ezcReflectionExtension extends ReflectionExtension {
     }
 
     /**
-     * Returns an array containing ezcReflectionClassType objects for all
+     * Returns an array containing ezcReflectionClass objects for all
      * classes of this extension
-     * @return ezcReflectionClassType[]
+     * @return ezcReflectionClass[]
      */
     public function getClasses() {
         if ( $this->reflectionSource ) {
@@ -95,7 +95,7 @@ class ezcReflectionExtension extends ReflectionExtension {
 
         $result = array();
         foreach ($classes as $class) {
-            $result[] = new ezcReflectionClassType($class);
+            $result[] = new ezcReflectionClass($class);
         }
         return $result;
     }

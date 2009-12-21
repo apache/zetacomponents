@@ -8,13 +8,41 @@
  * @subpackage Tests
  */
 
-class ezcReflectionClassTypeTest extends ezcReflectionClassTest
+class ezcReflectionObjectTypeTest extends ezcTestCase
 {
-    public function setUpFixtures()
+
+    /**#@+
+     * @var ezcReflectionObjectType
+     * @deprecated
+     */
+    protected $class;
+    protected $classTestWebservice;
+    protected $classReflectionFunction;
+    /**#@-*/
+
+    public function setUp()
     {
-        $this->class                   = new ezcReflectionClassType( 'SomeClass' );
-        $this->classTestWebservice     = new ezcReflectionClassType( 'TestWebservice' );
-        $this->classReflectionFunction = new ezcReflectionClassType( 'ReflectionFunction' );
+        $this->class                   = new ezcReflectionObjectType( 'SomeClass' );
+        $this->classTestWebservice     = new ezcReflectionObjectType( 'TestWebservice' );
+        $this->classReflectionFunction = new ezcReflectionObjectType( 'ReflectionFunction' );
+        $this->stdClass = new ezcReflectionObjectType( 'stdClass' );
+        $this->object = new ezcReflectionObjectType( 'object' );
+    }
+    
+    public function testGetTypeName() {
+    	$this->assertEquals( 'SomeClass', $this->class->getTypeName() );
+    	$this->assertEquals( 'TestWebservice', $this->classTestWebservice->getTypeName() );
+      	$this->assertEquals( 'ReflectionFunction', $this->classReflectionFunction->getTypeName() );
+    	$this->assertEquals( 'stdClass', $this->stdClass->getTypeName() );
+    	$this->assertEquals( 'object', $this->object->getTypeName() );
+    }
+
+    public function testGetClass() {
+    	$this->assertEquals( 'SomeClass', $this->class->getClass()->getName() );
+    	$this->assertEquals( 'TestWebservice', $this->classTestWebservice->getClass()->getName() );
+      	$this->assertEquals( 'ReflectionFunction', $this->classReflectionFunction->getClass()->getName() );
+    	$this->assertEquals( 'stdClass', $this->stdClass->getClass()->getName() );
+    	$this->assertEquals( 'stdClass', $this->object->getClass()->getName() );
     }
 
     public function testIsArray()
@@ -29,7 +57,7 @@ class ezcReflectionClassTypeTest extends ezcReflectionClassTest
 
     public function testIsPrimitive()
     {
-        $this->assertFalse( $this->class->isPrimitive() );
+        $this->assertTrue( $this->class->isPrimitive() );
     }
 
     public function testIsMap()
@@ -71,21 +99,19 @@ class ezcReflectionClassTypeTest extends ezcReflectionClassTest
 
     public function testGetXmlSchema2()
     {
-        $this->class = new ezcReflectionClassType( 'stdClass' );
-
         $expected = new DOMDocument;
         $expected->preserveWhiteSpace = false;
         $expected->load( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'schemas' . DIRECTORY_SEPARATOR . 'stdClass.xsd' );
 
         $actual = new DOMDocument;
-        $actual->appendChild( $this->class->getXmlSchema( $actual ) );
+        $actual->appendChild( $this->stdClass->getXmlSchema( $actual ) );
 
         $this->assertEquals( $expected, $actual );
     }
 
     public static function suite()
     {
-         return new PHPUnit_Framework_TestSuite( 'ezcReflectionClassTypeTest' );
+         return new PHPUnit_Framework_TestSuite( 'ezcReflectionObjectTypeTest' );
     }
 }
 ?>

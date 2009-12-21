@@ -59,7 +59,7 @@ class ezcReflectionTypeFactoryImpl implements ezcReflectionTypeFactory {
         }
         // otherwhise it has to be a user class
 		else {
-            return new ezcReflectionClassType( trim( $typeName ) );
+            return new ezcReflectionObjectType( trim( $typeName ) );
         }
     }
 }

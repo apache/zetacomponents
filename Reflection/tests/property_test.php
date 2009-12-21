@@ -63,8 +63,8 @@ class ezcReflectionPropertyTest extends ezcTestCase
 
     public function testGetDeclaringClass() {
         $class = $this->refProp->getDeclaringClass();
-        self::assertType('ezcReflectionClassType', $class);
-        self::assertEquals('SomeClass', $class->getTypeName());
+        self::assertType('ezcReflectionClass', $class);
+        self::assertEquals('SomeClass', $class->getName());
     }
 
     public function testHasAnnotation() {

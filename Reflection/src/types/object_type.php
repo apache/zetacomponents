@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcReflectionClassType class.
+ * File containing the ezcReflectionObjectType class.
  *
  * @package Reflection
  * @version //autogen//
@@ -16,13 +16,31 @@
  * @author Stefan Marr <mail@stefan-marr.de>
  * @author Falko Menge <mail@falko-menge.de>
  */
-class ezcReflectionClassType extends ezcReflectionClass implements ezcReflectionType {
+class ezcReflectionObjectType extends ezcReflectionPrimitiveType implements ezcReflectionType {
 
     /**
-     * @return boolean
+     * @var ReflectionClass
      */
-    public function isArray() {
-        return false;
+    private $class;
+    
+    /**
+     * Constructs a new ezcReflectionObjectType object.
+     *
+     * @param string|ReflectionClass $class
+     *        Name or ReflectionClass object of the class to be
+     *        reflected
+     */
+    public function __construct( $class )
+    {
+        if ( $class instanceof ReflectionClass )
+        {
+            $this->setClass( $class );
+            parent::__construct( $this->getClass()->getName() );
+        }
+        else
+        {
+            parent::__construct( $class );
+        }
     }
 
     /**
@@ -34,42 +52,32 @@ class ezcReflectionClassType extends ezcReflectionClass implements ezcReflection
     }
 
     /**
-     * @return boolean
-     */
-    public function isPrimitive()
-    {
-        return false;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isMap()
-    {
-        return false;
-    }
-
-    /**
-     * @return string
-     */
-    function getTypeName()
-    {
-        return $this->getName();
-    }
-
-    /**
-     * Returns whether this type is one of integer, float, string, or boolean.
      * 
-     * Types array, object, resource, NULL, mixed, number, and callback are not
-     * scalar.
-     * 
-     * @return boolean
+     * @param ReflectionClass $class
+     * @return void
      */
-    function isScalarType()
-    {
-        return false;
+    function setClass( ReflectionClass $class ) {
+    	$this->class = $class;
     }
-
+    
+    /**
+     * @return ezcReflectionClass
+     * @throws ReflectionException if the specified class doesn't exist
+     */
+    public function getClass()
+    {
+        if ( empty( $this->class ) )
+        {
+            $typeName = $this->getTypeName();
+            if ( $typeName == ezcReflectionTypeMapper::CANONICAL_NAME_OBJECT )
+            {
+                $typeName = 'stdClass';
+            }
+            $this->setClass( new ezcReflectionClass( $typeName ) );
+        }
+        return $this->class;
+    }
+    
     /**
      * Returns XML Schema name of the complexType for the class
      *
@@ -85,7 +93,7 @@ class ezcReflectionClassType extends ezcReflectionClass implements ezcReflection
         } else {
             $prefix = '';
         }
-        return $prefix . $this->getName();
+        return $prefix . $this->getClass()->getName();
     }
 
     /**
@@ -99,9 +107,10 @@ class ezcReflectionClassType extends ezcReflectionClass implements ezcReflection
         $schema->setAttribute('name', $this->getXmlName(false));
 
 
-        $parent = $this->getParentClass();
+        $parent = $this->getClass()->getParentClass();
         //if we have a parent class, we will include this infos in the xsd
         if ($parent != null) {
+            $parent = new self( $parent );
             $complex = $dom->createElementNS($namespaceXMLSchema, 'xsd:complexContent');
             $complex->setAttribute('mixed', 'false');
             $ext = $dom->createElementNS($namespaceXMLSchema, 'xsd:extension');
@@ -116,7 +125,7 @@ class ezcReflectionClassType extends ezcReflectionClass implements ezcReflection
 
         $seq = $dom->createElementNS($namespaceXMLSchema, 'xsd:sequence');
         $root->appendChild($seq);
-        $props = $this->getProperties();
+        $props = $this->getClass()->getProperties();
         foreach ($props as $property) {
             $type = $property->getType();
             if ($type != null and !$type->isMap()) {

@@ -125,18 +125,18 @@ class ezcReflectionProperty extends ReflectionProperty
     /**
      * Returns the declaring class.
      *
-     * @return ezcReflectionClassType
+     * @return ezcReflectionClass
      */
     public function getDeclaringClass()
     {
 		if ( $this->reflectionSource instanceof ReflectionProperty )
         {
-            return new ezcReflectionClassType( $this->reflectionSource->getDeclaringClass() );
+            return new ezcReflectionClass( $this->reflectionSource->getDeclaringClass() );
         }
         else
         {
             $class = parent::getDeclaringClass();
-            return new ezcReflectionClassType( $class->getName() );
+            return new ezcReflectionClass( $class->getName() );
         }
     }
 

@@ -316,7 +316,7 @@ class ezcReflectionMethod extends ReflectionMethod
      * Returns the class of the reflected method, which is not necesarily the
      * declaring class.
      *
-     * @return ezcReflectionClassType Class of the reflected method
+     * @return ezcReflectionClass Class of the reflected method
      */
     function getCurrentClass() {
         return $this->currentClass;
@@ -325,7 +325,7 @@ class ezcReflectionMethod extends ReflectionMethod
     /**
      * Returns the class the method was declared in
      *
-     * @return ezcReflectionClassType Class declaring the method
+     * @return ezcReflectionClass Class declaring the method
      */
     function getDeclaringClass() {
         if ( $this->reflectionSource ) {
@@ -334,7 +334,7 @@ class ezcReflectionMethod extends ReflectionMethod
             $class = parent::getDeclaringClass();
         }
 		if (!empty($class)) {
-		    return new ezcReflectionClassType($class->getName());
+		    return new ezcReflectionClass( $class->getName() );
 		}
 		else {
 		    return null;
@@ -742,8 +742,8 @@ class ezcReflectionMethod extends ReflectionMethod
      *
      * This is mostly a wrapper method, which calls the corresponding method of
      * the parent class. The only difference is that it returns an instance
-     * ezcReflectionClassType instead of a ReflectionClass instance
-     * @return ezcReflectionClassType Prototype
+     * ezcReflectionClass instead of a ReflectionClass instance
+     * @return ezcReflectionClass Prototype
      * @throws ReflectionException if the method has not prototype
      */
     public function getPrototype() {
@@ -752,7 +752,7 @@ class ezcReflectionMethod extends ReflectionMethod
         } else {
             $prototype = parent::getPrototype();
         }
-	    return new ezcReflectionClassType( $prototype->getName() );
+	    return new ezcReflectionClass( $prototype->getName() );
     }
 
     /**

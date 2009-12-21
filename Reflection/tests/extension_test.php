@@ -48,7 +48,7 @@ class ezcReflectionExtensionTest extends ezcTestCase
         $classes = $this->extRef->getClasses();
 
         foreach ($classes as $class) {
-            self::assertType('ezcReflectionClassType', $class);
+            self::assertType('ezcReflectionClass', $class);
         }
     }
 

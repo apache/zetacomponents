@@ -168,7 +168,7 @@ class ezcReflectionClass extends ReflectionClass
         $ifaces = $this->forwardCallToReflectionSource( __FUNCTION__ );
     	$result = array();
     	foreach ($ifaces as $i) {
-    		$result[] = new ezcReflectionClassType($i); //TODO: Shouldn't this be eczReflectionClass
+    		$result[] = new ezcReflectionClass( $i );
     	}
     	return $result;
     }
@@ -176,13 +176,13 @@ class ezcReflectionClass extends ReflectionClass
     /**
      * Returns the class' parent class, or, if none exists, FALSE
      *
-     * @return ezcReflectionClassType|boolean
+     * @return ezcReflectionClass|boolean
      */
     public function getParentClass()
     {
         $parentClass = $this->forwardCallToReflectionSource( __FUNCTION__ );
         if ( is_object( $parentClass ) ) {
-            return new ezcReflectionClassType( $parentClass );
+            return new ezcReflectionClass( $parentClass );
         }
         else {
             return false;

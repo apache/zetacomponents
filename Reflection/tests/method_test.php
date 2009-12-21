@@ -324,7 +324,7 @@ class ezcReflectionMethodTest extends ezcReflectionFunctionTest
      */
     public function testGetDeclaringClass( $method, $expectedDeclaringClassName ) {
         $declaringClass = $this->$method->getDeclaringClass();
-        self::assertType( 'ezcReflectionClassType', $declaringClass );
+        self::assertType( 'ezcReflectionClass', $declaringClass );
         self::assertEquals( $expectedDeclaringClassName, $declaringClass->getName() );
     }
 

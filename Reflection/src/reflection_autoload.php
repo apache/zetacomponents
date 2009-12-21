@@ -18,7 +18,7 @@ return array(
     'ezcReflectionTypeFactory'     => 'Reflection/interfaces/type_factory.php',
     'ezcReflectionApi'             => 'Reflection/reflection.php',
     'ezcReflectionArrayType'       => 'Reflection/types/array_type.php',
-    'ezcReflectionClassType'       => 'Reflection/types/class_type.php',
+    'ezcReflectionObjectType'       => 'Reflection/types/object_type.php',
     'ezcReflectionAnnotationFactory'   => 'Reflection/annotation_factory.php',
     'ezcReflectionAnnotationParam'     => 'Reflection/annotations/param.php',
     'ezcReflectionAnnotationReturn'    => 'Reflection/annotations/return.php',

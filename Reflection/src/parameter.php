@@ -134,7 +134,7 @@
             $typeHint = null;
         }
         if ( $typeHint instanceOf ReflectionClass ) {
-            return new ezcReflectionClassType( $typeHint );
+            return new ezcReflectionObjectType( $typeHint ); // TODO create this through type factory
         } else {
             return $this->type;
         }
@@ -268,7 +268,7 @@
     public function getClass() {
         $class = $this->forwardCallToReflectionSource( __FUNCTION__ );
         if ( $class instanceOf ReflectionClass ) {
-            return new ezcReflectionClassType( $class );
+            return new ezcReflectionClass( $class );
         } else {
             return $class;
         }
@@ -297,7 +297,7 @@
 
     /**
      * Returns in which class this parameter is defined (not the type hint of the parameter)
-     * @return ezcReflectionClassType
+     * @return ezcReflectionClass
      */
     function getDeclaringClass() {
         if ($this->parameter != null) {
@@ -308,7 +308,7 @@
         }
 
 		if (!empty($class)) {
-		    return new ezcReflectionClassType($class->getName());
+		    return new ezcReflectionClass($class->getName());
 		}
 		else {
 		    return null;
