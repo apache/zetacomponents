@@ -42,7 +42,7 @@ class ezcReflectionArrayTypeTest extends ezcTestCase
 
     public function testIsPrimitive()
     {
-        $this->assertFalse( $this->type->isPrimitive() );
+        $this->assertTrue( $this->type->isPrimitive() );
     }
 
     public function testIsMap()

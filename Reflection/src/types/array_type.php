@@ -17,7 +17,7 @@
  * @author Falko Menge <mail@falko-menge.de>
  * @todo add support for ArrayAccess stuff from http://www.php.net/~helly/php/ext/spl/
  */
-class ezcReflectionArrayType extends ezcReflectionAbstractType {
+class ezcReflectionArrayType extends ezcReflectionPrimitiveType {
 
     /**#@+
      * @var ezcReflectionType
