@@ -65,7 +65,7 @@
         else {
             parent::__construct( $functionOrMethod, $parameterPositionNameOrSource );
         }
-        $this->type = ezcReflectionApi::getTypeByName($type);
+        $this->type = ezcReflectionApi::getTypeByName( $type );
     }
 
     /**
@@ -134,7 +134,7 @@
             $typeHint = null;
         }
         if ( $typeHint instanceOf ReflectionClass ) {
-            return new ezcReflectionObjectType( $typeHint ); // TODO create this through type factory
+            return ezcReflectionApi::getTypeByName( $typeHint );
         } else {
             return $this->type;
         }

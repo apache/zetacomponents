@@ -14,15 +14,17 @@
  * @package Reflection
  * @version //autogen//
  * @author Stefan Marr <mail@stefan-marr.de>
+ * @author Falko Menge <mail@falko-menge.de>
  */
 interface ezcReflectionTypeFactory {
 
     /**
      * Creates a type object for given typeName
-     * @param string $typeName
+     * @param string|ReflectionClass $typeName
      * @return ezcReflectionType
      */
-    function getType($typeName);
+    function getType( $typeName );
+
 }
 
 ?>

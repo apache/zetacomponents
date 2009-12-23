@@ -197,19 +197,46 @@ class ezcReflectionTypeMapper
     }
 
     /**
-     * Tests whether the given type is a primitive type.
+     * Tests whether the given type is a scalar type.
      * 
-     * Types annotated as boolean, float, integer, string, void, or object are
-     * considered to be primitive.
+     * The types integer, float, string, and boolean are considered to be
+     * scalar.
      * 
-     * @param string $typeName
-     * @return boolean
+     * The types array, object, resource, NULL, mixed, number, and callback are
+     * not scalar.
+     * 
+     * @param String $typeName
+     * @return Boolean
      */
-    public function isPrimitive($typeName) {
+    public function isScalarType( $typeName )
+    {
+        $typeName = $this->getTypeName( $typeName ); 
         if (
-            !$this->isMixed( $typeName )
-            and !$this->isArray( $typeName )
-            and isset( $this->mappingTable[ strtolower( $typeName ) ] )
+            $typeName == self::CANONICAL_NAME_BOOLEAN
+            or $typeName == self::CANONICAL_NAME_INTEGER
+            or $typeName == self::CANONICAL_NAME_FLOAT
+            or $typeName == self::CANONICAL_NAME_STRING
+        )
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Tests whether the given type is a special type.
+     * 
+     * Only the types NULL and resource are considered to be special types.
+     * 
+     * @param String $typeName
+     * @return Boolean
+     */
+    public function isSpecialType( $typeName )
+    {
+        $typeName = $this->getTypeName( $typeName ); 
+        if (
+            $typeName == self::CANONICAL_NAME_NULL
+            or $typeName == self::CANONICAL_NAME_RESOURCE
         )
         {
             return true;

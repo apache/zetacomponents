@@ -16,7 +16,7 @@
  * @author Stefan Marr <mail@stefan-marr.de>
  * @author Falko Menge <mail@falko-menge.de>
  */
-class ezcReflectionObjectType extends ezcReflectionPrimitiveType implements ezcReflectionType {
+class ezcReflectionObjectType extends ezcReflectionPrimitiveType {
 
     /**
      * @var ReflectionClass

@@ -31,35 +31,38 @@ class ezcReflectionTypeFactoryImpl implements ezcReflectionTypeFactory {
 
     /**
      * Creates a type object for given type name
-     * @param string $typeName
+     * @param string|ReflectionClass $typeName
      * @return ezcReflectionType
      * @todo ArrayAccess stuff, how to handle? has to be implemented
      */
     public function getType( $typeName )
     {
+        if ( $typeName instanceof ReflectionClass )
+        {
+            return new ezcReflectionObjectType( $typeName );
+        }
         $typeName = trim( $typeName );
-        // For void null is returned
         if ( empty( $typeName ) ) {
             return null;
         }
-        // First check whether it is a primitive type
-        elseif ( $this->mapper->isPrimitive( $typeName ) )
+        elseif (
+            $this->mapper->isScalarType( $typeName )
+            or $this->mapper->isSpecialType( $typeName )
+        )
         {
             return new ezcReflectionPrimitiveType( $typeName );
         }
-        // then check whether it is an array type
         elseif ( $this->mapper->isArray( $typeName ) )
         {
             return new ezcReflectionArrayType( $typeName );
         }
-        // then check whether it is a mixed type
         elseif ( $this->mapper->isMixed( $typeName ) )
         {
             return new ezcReflectionMixedType( $typeName );
         }
-        // otherwhise it has to be a user class
-		else {
-            return new ezcReflectionObjectType( trim( $typeName ) );
+        else {
+		    // otherwhise it has to be a class name
+		    return new ezcReflectionObjectType( $typeName );
         }
     }
 }

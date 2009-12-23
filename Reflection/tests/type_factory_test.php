@@ -46,12 +46,29 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
         	$type = $this->factory->getType($class);
         	self::assertType('ezcReflectionType', $type);
             self::assertType('ezcReflectionObjectType', $type);
-            self::assertType( 'ezcReflectionClass', $type->getClass() );
+            self::assertType( 'ReflectionClass', $type->getClass() );
         }
 
 		$type = $this->factory->getType('NoneExistingClass');
+		self::assertType( 'ReflectionClass', $type->getClass() );
+    }
+    
+    public function testGetTypeReturnsNullOnEmptyArgument()
+    {
+    	self::assertNull( $this->factory->getType( null ) );
     }
 
+    public function testGetTypeReturnsObjectOnReflectionClass()
+    {
+        $class = new ReflectionClass( 'stdClass' );
+    	$type = $this->factory->getType( $class );
+    	self::assertType('ezcReflectionType', $type);
+    	self::assertType('ezcReflectionObjectType', $type);
+    	$actualClass = $type->getClass();
+    	self::assertType( 'ReflectionClass', $actualClass );
+    	self::assertSame( $class, $actualClass );
+    }
+    
     public function getArrayTypeNames() {
         $typeNames = array(
            array( 'array', 'mixed', 'mixed', 'array(mixed=>mixed)'),

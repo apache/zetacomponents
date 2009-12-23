@@ -21,17 +21,17 @@ class ezcReflectionTypeMapperTest extends ezcTestCase
         $this->fixture = ezcReflectionTypeMapper::getInstance();
     }
     
-    public function testIsPrimitive() {
+    public function testIsScalarType() {
         $ezcReflectionPrimitiveTypes = array('integer', 'int', 'INT', 'float', 'double',
                                 'string', 'bool', 'boolean');
         foreach ($ezcReflectionPrimitiveTypes as $type) {
-        	self::assertTrue(ezcReflectionTypeMapper::getInstance()->isPrimitive($type));
+        	self::assertTrue(ezcReflectionTypeMapper::getInstance()->isScalarType($type));
         }
 
         $noneezcReflectionPrimitiveTypes = array('ReflectionClass', 'array', 'int[]',
                                     'string[]', 'NonExistingClassFooBar');
         foreach ($noneezcReflectionPrimitiveTypes as $type) {
-        	self::assertFalse(ezcReflectionTypeMapper::getInstance()->isPrimitive($type));
+        	self::assertFalse(ezcReflectionTypeMapper::getInstance()->isScalarType($type));
         }
     }
 
@@ -82,14 +82,14 @@ class ezcReflectionTypeMapperTest extends ezcTestCase
     public function getTypeNames()
     {
         return array(
-            array( 'integer', 'primitive' ),
-            array( 'int', 'primitive' ),
-            array( 'INT', 'primitive' ),
-            array( 'float', 'primitive' ),
-            array( 'double', 'primitive' ),
-            array( 'string', 'primitive' ),
-            array( 'bool', 'primitive' ),
-            array( 'boolean', 'primitive' ),
+            array( 'integer', 'scalar' ),
+            array( 'int', 'scalar' ),
+            array( 'INT', 'scalar' ),
+            array( 'float', 'scalar' ),
+            array( 'double', 'scalar' ),
+            array( 'string', 'scalar' ),
+            array( 'bool', 'scalar' ),
+            array( 'boolean', 'scalar' ),
             array( 'ReflectionClass', 'class' ),
             array( 'NonExistingClassFooBar', 'class' ),
             array( 'array', 'array' ),
@@ -118,23 +118,23 @@ class ezcReflectionTypeMapperTest extends ezcTestCase
     {
         switch ( $category )
         {
-            case 'primitive':
-                self::assertTrue( $this->fixture->isPrimitive( $typeName ) );
+            case 'scalar':
+                self::assertTrue( $this->fixture->isScalarType( $typeName ) );
                 self::assertFalse( $this->fixture->isArray( $typeName ) );
                 self::assertFalse( $this->fixture->isMixed( $typeName ) );
                 break;
             case 'class':
-                self::assertfalse( $this->fixture->isPrimitive( $typeName ) );
+                self::assertfalse( $this->fixture->isScalarType( $typeName ) );
                 self::assertFalse( $this->fixture->isArray( $typeName ) );
                 self::assertFalse( $this->fixture->isMixed( $typeName ) );
                 break;
             case 'array':
-                self::assertFalse( $this->fixture->isPrimitive( $typeName ) );
+                self::assertFalse( $this->fixture->isScalarType( $typeName ) );
                 self::assertTrue( $this->fixture->isArray( $typeName ) );
                 self::assertFalse( $this->fixture->isMixed( $typeName ) );
                 break;
             case 'mixed':
-                self::assertFalse( $this->fixture->isPrimitive( $typeName ) );
+                self::assertFalse( $this->fixture->isScalarType( $typeName ) );
                 self::assertFalse( $this->fixture->isArray( $typeName ) );
                 self::assertTrue( $this->fixture->isMixed( $typeName ) );
                 break;
