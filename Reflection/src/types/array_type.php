@@ -98,6 +98,11 @@ class ezcReflectionArrayType extends ezcReflectionPrimitiveType {
         return !$this->isList();
     }
 
+    /**
+     * Internal method for parsing array type names.
+     * 
+     * @return void
+     */
     protected function _parseTypeName()
     {
         //*
@@ -157,7 +162,7 @@ class ezcReflectionArrayType extends ezcReflectionPrimitiveType {
                    = ezcReflectionApi::getTypeByName($typeName);
             }
         }
-        //TODO: add support for array(integer => mixed)
+        // TO BE DONE: add support for array(integer => mixed)
         if (preg_match(self::TYPE_NAME_REGEXP, $this->typeName, $matches)) {
             $type1 = null;
             $type2 = null;

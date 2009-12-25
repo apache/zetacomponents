@@ -26,7 +26,7 @@ class ezcReflectionCallToUndefinedMethodException extends ezcBaseException
      */
     function __construct( $class, $method )
     {
-        // TODO maybe get stacktrace and report file and line of the invocation
+        // TODO One could obtain a stacktrace and report file and line of the invocation
         parent::__construct( "Call to undefined method '{$class}::{$method}'." );
     }
 }

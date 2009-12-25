@@ -20,9 +20,10 @@ interface ezcReflectionDocCommentParser {
 
     /**
      * Initialize parsing of the given documentation fragment.
-     * Results can be retrieved after completion by the provided getters.
+     * Results can be retrieved after completion by the getters provided.
      *
      * @param string $docComment
+     * @return void
      */
     public function parse($docComment);
 

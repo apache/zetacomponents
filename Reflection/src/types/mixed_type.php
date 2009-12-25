@@ -43,7 +43,7 @@ class ezcReflectionMixedType extends ezcReflectionAbstractType {
             {
                 $this->type = array(
                     ezcReflectionApi::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_STRING ),
-                    ezcReflectionApi::getTypeByName( 'mixed[]' ), // TODO Change this to 'array(integer=>object|string'
+                    ezcReflectionApi::getTypeByName( 'mixed[]' ), // TODO Change this to 'array(integer=>object|string)'
                     ezcReflectionApi::getTypeByName( 'Closure' ),
                 );
             }

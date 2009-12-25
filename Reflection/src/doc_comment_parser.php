@@ -74,10 +74,23 @@ class ezcReflectionDocCommentParserImpl implements ezcReflectionDocCommentParser
      */
     protected $annotations;
 
+    /**
+     * Constructs an instance of ezcReflectionDocCommentParserImpl
+     * 
+     * @return ezcReflectionDocCommentParserImpl
+     */
     public function __construct() {
         $this->annotations = array();
     }
 
+    /**
+     * Initialize parsing of the given documentation fragment.
+     * Results can be retrieved after completion by the getters provided.
+     *
+     * @param string $docComment
+     * @return void
+     * @see interfaces/ezcReflectionDocCommentParser#parse($docComment)
+     */
     public function parse($docComment) {
     	$this->docComment = $docComment;
 

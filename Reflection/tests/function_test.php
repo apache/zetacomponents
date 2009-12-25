@@ -333,7 +333,7 @@ weird coding standards should also be supported: */", $this->fctM2->getDocCommen
             array( 'getNumberOfRequiredParameters', array() ),
             array( 'getExtension', array() ),
             array( 'getExtensionName', array() ),
-            // FIXME: array( 'isDeprecated', array() ),
+            array( 'isDeprecated', array() ),
         );
         if ( version_compare( PHP_VERSION, '5.3.0' ) === 1 ) {
             $wrapperMethods530 = array(

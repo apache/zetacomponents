@@ -81,7 +81,7 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
            array( 'array(float=>array(integer[]=>boolean))', 'float', 'array(integer[]=>boolean)' ),
            array( 'array(float=>array(integer[]=>boolean))', 'float', 'array(integer[]=>boolean)' ),
            array( 'array(double=>array(int[]=>bool))', 'float', 'array(integer[]=>boolean)', 'array(float=>array(integer[]=>boolean))' ),
-           // TODO  Support maps as keys of map
+           // TODO  Support maps as keys of map in ezcReflectionArrayType
            //array( 'array(array(integer[]=>boolean)=>float)', 'array(integer[]=>boolean)', 'float' ),
         );
         $result = $typeNames;
