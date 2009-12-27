@@ -206,6 +206,14 @@ class ezcReflectionClassTest extends ezcTestCase
     	self::assertEquals( 'ConstantValue', $this->actual['SomeClass']->getConstant( 'CLASS_CONSTANT' ) );
     	self::assertEquals( '', $this->actual['SomeClass']->getConstant( 'NON_EXISTING_CLASS_CONSTANT' ) );
     }
+    
+    public function testSetStaticPropertyValue() {
+        $oldValue = $this->expected['SomeClass']->getStaticPropertyValue( 'staticProperty' );
+        $newValue = 'aNewValue';
+    	$this->actual['SomeClass']->setStaticPropertyValue( 'staticProperty', $newValue );
+    	self::assertEquals( $newValue, $this->expected['SomeClass']->getStaticPropertyValue( 'staticProperty' ) );
+    	$this->expected['SomeClass']->setStaticPropertyValue( 'staticProperty', $oldValue );
+    }
 
     public function testExport() {
         self::assertEquals( ReflectionClass::export('TestWebservice', true), ezcReflectionClass::export('TestWebservice', true) );
@@ -233,7 +241,6 @@ class ezcReflectionClassTest extends ezcTestCase
             array( 'isInstantiable', array() ),
             array( 'isIterateable', array() ),
             array( 'isInterface', array() ),
-            // FIXME: array( 'isDeprecated', array() ),
         );
         if ( version_compare( PHP_VERSION, '5.3.0' ) === 1 ) {
             $wrapperMethods530 = array(
@@ -250,31 +257,139 @@ class ezcReflectionClassTest extends ezcTestCase
     /**
      * @dataProvider getWrapperMethods
      */
-    public function testWrapperMethods( $method, $arguments ) {
-        foreach ( array_keys( $this->expected ) as $fixtureName ) {
-            //try {
-                $actual = call_user_func_array(
-                    array( $this->actual[ $fixtureName ], $method ), $arguments
-                );
-                $expected = call_user_func_array(
-                    array( $this->expected[ $fixtureName ], $method ), $arguments
-                );
-                if ( $expected instanceOf Reflector ) {
-                    self::assertEquals( (string) $expected, (string) $actual );
-                } else {
-                    self::assertEquals( $expected, $actual );
-                }
-            /*
-            } catch ( ReflectionException $e ) {
-                if ( !(
-                    $this->$php_fixtureName instanceOf ReflectionMethod
-                    and
-                    $e->getMessage() == 'Method ' . $this->$php_fixtureName->getDeclaringClass()->getName() . '::' . $this->$php_fixtureName->getName() . ' does not have a prototype'
-                ) ) {
-                    self::fail( 'Unexpected ReflectionException: ' . $e->getMessage() );
-                }
+    public function testWrapperMethods( $method, $arguments )
+    {
+        foreach ( array_keys( $this->expected ) as $fixtureName )
+        {
+            $actual = call_user_func_array(
+                array( $this->actual[ $fixtureName ], $method ), $arguments
+            );
+            $expected = call_user_func_array(
+                array( $this->expected[ $fixtureName ], $method ), $arguments
+            );
+            if ( $expected instanceOf Reflector )
+            {
+                self::assertEquals( (string) $expected, (string) $actual );
             }
-            */
+            else
+            {
+                self::assertEquals( $expected, $actual );
+            }
+        }
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getWrapperMethodsWithParameters()
+    {
+        return array(
+            array(
+                'SomeClass',
+                'getStaticPropertyValue',
+                array( 'staticProperty' )
+            ),
+            array(
+                'SomeClass',
+                'hasConstant',
+                array( 'CLASS_CONSTANT' )
+            ),
+            array(
+                'SomeClass',
+                'hasConstant',
+                array( 'NONEXISTING_CONSTANT' )
+            ),
+            array(
+                'SomeClass',
+                'hasProperty',
+                array( 'staticProperty' )
+            ),
+            array(
+                'SomeClass',
+                'hasProperty',
+                array( 'nonexistingProperty' )
+            ),
+            array(
+                'SomeClass',
+                'hasMethod',
+                array( 'helloWorld' )
+            ),
+            array(
+                'SomeClass',
+                'hasMethod',
+                array( 'nonexistingMethod' )
+            ),
+            array(
+                'ReflectionFunction',
+                'isSubclassOf',
+                array( 'ReflectionFunctionAbstract' )
+            ),
+            array(
+                'ReflectionFunction',
+                'isSubclassOf',
+                array( 'ReflectionMethod' )
+            ),
+            array(
+                'ReflectionFunction',
+                'implementsInterface',
+                array( 'Reflector' )
+            ),
+            array(
+                'ReflectionFunction',
+                'implementsInterface',
+                array( 'ezcReflectionType' )
+            ),
+            array(
+                'TestWebservice',
+                'isInstance',
+                array( new TestWebservice )
+            ),
+            array(
+                'ReflectionFunction',
+                'newInstance',
+                array( 'get_declared_interfaces' )
+            ),
+            array(
+                'ReflectionFunction',
+                'newInstanceArgs',
+                array( array( 'get_declared_interfaces' ) )
+            ),
+            array(
+                'SomeClass',
+                'newInstanceArgs',
+                array( array() )
+            ),
+            array(
+                'SomeClass',
+                'setStaticPropertyValue',
+                array( 'staticProperty', 'newValue' )
+            ),
+            array(
+                'SomeClass',
+                'getStaticPropertyValue',
+                array( 'staticProperty' )
+            ),
+        );
+    }
+    
+    /**
+     * @dataProvider getWrapperMethodsWithParameters
+     */
+    public function testWrapperMethodsWithParameters( $fixtureName, $method, $arguments )
+    {
+        $actual = call_user_func_array(
+            array( $this->actual[ $fixtureName ], $method ), $arguments
+        );
+        $expected = call_user_func_array(
+            array( $this->expected[ $fixtureName ], $method ), $arguments
+        );
+        if ( $expected instanceOf Reflector )
+        {
+            self::assertEquals( (string) $expected, (string) $actual );
+        }
+        else
+        {
+            self::assertEquals( $expected, $actual );
         }
     }
 

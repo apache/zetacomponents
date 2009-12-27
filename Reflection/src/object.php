@@ -165,7 +165,7 @@ class ezcReflectionObject extends ReflectionObject
         $ifaces = $this->forwardCallToReflectionSource( __FUNCTION__ );
     	$result = array();
     	foreach ($ifaces as $i) {
-    		$result[] = new ezcReflectionClass($i);
+    		$result[] = new ezcReflectionClass( $i );
     	}
     	return $result;
     }
@@ -195,12 +195,7 @@ class ezcReflectionObject extends ReflectionObject
      */
     public function getProperty($name) {
         $prop = $this->forwardCallToReflectionSource( __FUNCTION__, array( $name ) );
-		if (is_object($prop) && !($prop instanceof ezcReflectionProperty)) {
-			return new ezcReflectionProperty($prop, $name);
-        } else {
-			// TODO: may be we should throw an exception here
-            return $prop;
-        }
+        return new ezcReflectionProperty($prop, $name);
     }
 
     /**
@@ -653,8 +648,8 @@ class ezcReflectionObject extends ReflectionObject
      * @since PHP 5.1.3
      */
     public function newInstanceArgs( array $arguments = null ) {
-        return $this->forwardCallToReflectionSource( __FUNCTION__, $arguments );
-    }
+          return $this->forwardCallToReflectionSource( __FUNCTION__, array( $arguments ) );
+  }
 
     /**
      * Sets the value of a static property
