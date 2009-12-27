@@ -33,13 +33,13 @@ class ezcReflectionParametersFromFunctionTest extends ezcReflectionParameterTest
 
         // method with parameter that has type hint
 //        $expMethod
-//            = new ReflectionMethod( 'ezcReflectionApi', 'setReflectionTypeFactory' );
-//        $this->expected['ezcReflectionApi::setReflectionTypeFactory']
+//            = new ReflectionMethod( 'ezcReflection', 'setReflectionTypeFactory' );
+//        $this->expected['ezcReflection::setReflectionTypeFactory']
 //            = $expMethod->getParameters();
-        $this->actualMethod_ezcReflectionApi_setReflectionTypeFactory
-            = new ezcReflectionMethod( 'ezcReflectionApi', 'setReflectionTypeFactory' );
-        $this->actualParamsOf_ezcReflectionApi_setReflectionTypeFactory
-            = $this->actualMethod_ezcReflectionApi_setReflectionTypeFactory->getParameters();
+        $this->actualMethod_ezcReflection_setReflectionTypeFactory
+            = new ezcReflectionMethod( 'ezcReflection', 'setReflectionTypeFactory' );
+        $this->actualParamsOf_ezcReflection_setReflectionTypeFactory
+            = $this->actualMethod_ezcReflection_setReflectionTypeFactory->getParameters();
 
         // function with parameter that has type hint only
 //        $expFunction = new ReflectionFunction( 'functionWithTypeHint' );
@@ -52,11 +52,11 @@ class ezcReflectionParametersFromFunctionTest extends ezcReflectionParameterTest
         unset(
             $this->expectedFunctionM1,
             $this->expectedMethod_TestMethods_m3,
-            $this->expectedMethod_ezcReflectionApi_setReflectionTypeFactory,
+            $this->expectedMethod_ezcReflection_setReflectionTypeFactory,
             $this->expectedFunction_functionWithTypeHint,
             $this->actualFunctionM1,
             $this->actualMethod_TestMethods_m3,
-            $this->actualMethod_ezcReflectionApi_setReflectionTypeFactory,
+            $this->actualMethod_ezcReflection_setReflectionTypeFactory,
             $this->actualFunction_functionWithTypeHint
         );
     }

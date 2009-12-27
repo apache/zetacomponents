@@ -115,9 +115,9 @@ class ezcReflectionArrayType extends ezcReflectionPrimitiveType {
                 $this->isList = true;
                 $this->isMap  = false;
                 $this->keyType
-                    = ezcReflectionApi::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_INTEGER );
+                    = ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_INTEGER );
                 $this->valueType
-                   = ezcReflectionApi::getTypeByName( $matches[1] );
+                   = ezcReflection::getTypeByName( $matches[1] );
             }
             
             // may be the author just wrote 'array'
@@ -126,9 +126,9 @@ class ezcReflectionArrayType extends ezcReflectionPrimitiveType {
                 $this->isList = false;
                 $this->isMap  = true;
                 $this->keyType
-                    = ezcReflectionApi::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_MIXED );
+                    = ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_MIXED );
                 $this->valueType
-                    = ezcReflectionApi::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_MIXED );
+                    = ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_MIXED );
             }
 
         	// test for array map types array(int=>float)
@@ -137,9 +137,9 @@ class ezcReflectionArrayType extends ezcReflectionPrimitiveType {
                 $this->isList = false;
                 $this->isMap  = true;
                 $this->keyType
-                    = ezcReflectionApi::getTypeByName( $matches[1] );
+                    = ezcReflection::getTypeByName( $matches[1] );
                 $this->valueType
-                    = ezcReflectionApi::getTypeByName( $matches[2] );
+                    = ezcReflection::getTypeByName( $matches[2] );
             }
         }
         /*/
@@ -153,13 +153,13 @@ class ezcReflectionArrayType extends ezcReflectionPrimitiveType {
                 if ($posm < $pos) {
                     $typeName = substr($this->typeName, 0, $pos);
                     $this->arrayType
-                       = ezcReflectionApi::getTypeByName($typeName);
+                       = ezcReflection::getTypeByName($typeName);
                 }
             }
             else {
                 $typeName = substr($this->typeName, 0, $pos);
                 $this->arrayType
-                   = ezcReflectionApi::getTypeByName($typeName);
+                   = ezcReflection::getTypeByName($typeName);
             }
         }
         // TO BE DONE: add support for array(integer => mixed)
@@ -167,10 +167,10 @@ class ezcReflectionArrayType extends ezcReflectionPrimitiveType {
             $type1 = null;
             $type2 = null;
             if (isset($matches[3])) {
-                $type1 = ezcReflectionApi::getTypeByName($matches[3]);
+                $type1 = ezcReflection::getTypeByName($matches[3]);
             }
             if (isset($matches[5])) {
-                $type2 = ezcReflectionApi::getTypeByName($matches[5]);
+                $type2 = ezcReflection::getTypeByName($matches[5]);
             }
 
             if ($type1 == null and $type2 != null) {

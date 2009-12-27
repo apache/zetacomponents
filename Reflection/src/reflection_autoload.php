@@ -16,7 +16,7 @@ return array(
     'ezcReflectionDocCommentParser'       => 'Reflection/interfaces/doc_comment_parser.php',
     'ezcReflectionAnnotation'          => 'Reflection/annotations/annotation.php',
     'ezcReflectionTypeFactory'     => 'Reflection/interfaces/type_factory.php',
-    'ezcReflectionApi'             => 'Reflection/reflection.php',
+    'ezcReflection'             => 'Reflection/reflection.php',
     'ezcReflectionArrayType'       => 'Reflection/types/array_type.php',
     'ezcReflectionObjectType'       => 'Reflection/types/object_type.php',
     'ezcReflectionAnnotationFactory'   => 'Reflection/annotation_factory.php',

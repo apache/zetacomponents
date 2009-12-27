@@ -51,7 +51,7 @@ class ezcReflectionProperty extends ReflectionProperty
         }
         $this->reflectionSource = $class;
 
-        $this->docParser = ezcReflectionApi::getDocCommentParserInstance();
+        $this->docParser = ezcReflection::getDocCommentParser();
         $this->docParser->parse( $this->getDocComment() );
     }
 
@@ -114,7 +114,7 @@ class ezcReflectionProperty extends ReflectionProperty
         $vars = $this->docParser->getVarAnnotations();
         if ( isset( $vars[0] ) )
         {
-            return ezcReflectionApi::getTypeByName( $vars[0]->getTypeName() );
+            return ezcReflection::getTypeByName( $vars[0]->getTypeName() );
         }
         else
         {

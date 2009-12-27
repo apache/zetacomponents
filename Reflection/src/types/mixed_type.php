@@ -35,16 +35,16 @@ class ezcReflectionMixedType extends ezcReflectionAbstractType {
             if ( $typeName == ezcReflectionTypeMapper::CANONICAL_NAME_NUMBER )
             {
                 $this->type = array(
-                    ezcReflectionApi::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_INTEGER ),
-                    ezcReflectionApi::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_FLOAT ),
+                    ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_INTEGER ),
+                    ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_FLOAT ),
                 );
             }
             elseif ( $typeName == ezcReflectionTypeMapper::CANONICAL_NAME_CALLBACK )
             {
                 $this->type = array(
-                    ezcReflectionApi::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_STRING ),
-                    ezcReflectionApi::getTypeByName( 'mixed[]' ), // TODO Change this to 'array(integer=>object|string)'
-                    ezcReflectionApi::getTypeByName( 'Closure' ),
+                    ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_STRING ),
+                    ezcReflection::getTypeByName( 'mixed[]' ), // TODO Change this to 'array(integer=>object|string)'
+                    ezcReflection::getTypeByName( 'Closure' ),
                 );
             }
             else

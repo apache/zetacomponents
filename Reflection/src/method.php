@@ -85,7 +85,7 @@ class ezcReflectionMethod extends ReflectionMethod
             $this->currentClass = new ReflectionClass( (string) $classOrSource );
         }
 
-		$this->docParser = ezcReflectionApi::getDocCommentParserInstance();
+		$this->docParser = ezcReflection::getDocCommentParser();
         $this->docParser->parse($this->getDocComment());
     }
 
@@ -192,7 +192,7 @@ class ezcReflectionMethod extends ReflectionMethod
     function getReturnType() {
         $re = $this->docParser->getReturnAnnotations();
         if (count($re) == 1 and isset($re[0]) and $re[0] instanceof ezcReflectionAnnotationReturn) {
-            return ezcReflectionApi::getTypeByName($re[0]->getTypeName());
+            return ezcReflection::getTypeByName($re[0]->getTypeName());
         }
         return null;
     }

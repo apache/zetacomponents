@@ -44,7 +44,7 @@ class ezcReflectionObject extends ReflectionObject
         }
         $this->reflectionSource = $argument;
         // TODO: Parse comment on demand to save CPU time and memory
-        $this->docParser = ezcReflectionApi::getDocCommentParserInstance();
+        $this->docParser = ezcReflection::getDocCommentParser();
         $this->docParser->parse( $this->getDocComment() );
     }
 

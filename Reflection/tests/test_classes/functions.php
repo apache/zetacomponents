@@ -5,7 +5,7 @@
  * @webmethod
  * @author
  * @param string $test
- * @param ezcReflectionApi $test2
+ * @param ezcReflection $test2
  * @param ReflectionClass $test3
  * @return string Hello World
  */

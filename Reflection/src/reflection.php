@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezcReflectionApi class.
+ * File containing the ezcReflection class.
  *
  * @package Reflection
  * @version //autogen//
@@ -8,7 +8,6 @@
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
-// TODO: rename ezcReflectionApi to ezcReflection
 /**
  * Holds type factory for generating type objects by given name
  *
@@ -17,7 +16,7 @@
  * @author Stefan Marr <mail@stefan-marr.de>
  * @author Falko Menge <mail@falko-menge.de>
  */
-class ezcReflectionApi {
+class ezcReflection {
 
 	/**
 	 * @var ezcReflectionTypeFactory
@@ -37,14 +36,13 @@ class ezcReflectionApi {
     private function __construct() {}
     // @codeCoverageIgnoreEnd
 
-    // TODO: rename getDocCommentParserInstance() to getDocCommentParser()
     /**
      * Returns a copy of the current documentation parser used by all
      * ezcReflection classes
      *
      * @return ezcReflectionDocCommentParser
      */
-    public static function getDocCommentParserInstance()
+    public static function getDocCommentParser()
     {
     	if ( !( self::$docParser instanceof ezcReflectionDocCommentParser ) ) {
     		self::$docParser = new ezcReflectionDocCommentParserImpl();

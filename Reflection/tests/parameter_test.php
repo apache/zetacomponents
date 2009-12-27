@@ -29,7 +29,7 @@ class ezcReflectionParameterTest extends ezcTestCase
      */
     protected $actualParamsOfM1;
     protected $actualParamsOf_TestMethods_m3;
-    protected $actualParamsOf_ezcReflectionApi_setReflectionTypeFactory;
+    protected $actualParamsOf_ezcReflection_setReflectionTypeFactory;
     protected $actualParamsOf_functionWithTypeHint;
     /**#@-*/
 
@@ -46,7 +46,7 @@ class ezcReflectionParameterTest extends ezcTestCase
         $this->setUpFixtures();
         $this->actual['m1'] = $this->actualParamsOfM1;
         $this->actual['TestMethods::m3'] = $this->actualParamsOf_TestMethods_m3;
-        $this->actual['ezcReflectionApi::setReflectionTypeFactory'] = $this->actualParamsOf_ezcReflectionApi_setReflectionTypeFactory;
+        $this->actual['ezcReflection::setReflectionTypeFactory'] = $this->actualParamsOf_ezcReflection_setReflectionTypeFactory;
         $this->actual['functionWithTypeHint'] = $this->actualParamsOf_functionWithTypeHint;
     }
 
@@ -55,7 +55,7 @@ class ezcReflectionParameterTest extends ezcTestCase
         $this->actual['mmm'][0] = new ezcReflectionParameter( 'mmm', 0 );
 
         // function with three parameters that have type annotations but no type hints
-        $paramTypes = array( 'string', 'ezcReflectionApi', 'ReflectionClass' );
+        $paramTypes = array( 'string', 'ezcReflection', 'ReflectionClass' );
         for ( $i = 0; $i <= 2; ++$i ) {
             $this->actualParamsOfM1[$i]
                 = new ezcReflectionParameter( 'm1', $i, $paramTypes[$i] );
@@ -66,8 +66,8 @@ class ezcReflectionParameterTest extends ezcTestCase
             = new ezcReflectionParameter( array( 'TestMethods', 'm3' ), 0 );
 
         // method with parameter that has type hint
-        $this->actualParamsOf_ezcReflectionApi_setReflectionTypeFactory[]
-            = new ezcReflectionParameter( array( 'ezcReflectionApi', 'setReflectionTypeFactory' ), 0, 'ezcReflectionTypeFactory' );
+        $this->actualParamsOf_ezcReflection_setReflectionTypeFactory[]
+            = new ezcReflectionParameter( array( 'ezcReflection', 'setReflectionTypeFactory' ), 0, 'ezcReflectionTypeFactory' );
 
         // function with parameter that has type hint only
         $this->actualParamsOf_functionWithTypeHint[]
@@ -81,7 +81,7 @@ class ezcReflectionParameterTest extends ezcTestCase
         $expected['mmm'][0] = new ReflectionParameter( 'mmm', 0 );
 
         // function with three parameters that have type annotations but no type hints
-        $paramTypes = array( 'string', 'ezcReflectionApi', 'ReflectionClass' );
+        $paramTypes = array( 'string', 'ezcReflection', 'ReflectionClass' );
         for ( $i = 0; $i <= 2; ++$i ) {
             $expected['m1'][$i]
                 = new ReflectionParameter( 'm1', $i );
@@ -92,8 +92,8 @@ class ezcReflectionParameterTest extends ezcTestCase
             = new ReflectionParameter( array( 'TestMethods', 'm3' ), 0 );
 
         // method with parameter that has type hint
-        $expected['ezcReflectionApi::setReflectionTypeFactory'][]
-            = new ReflectionParameter( array( 'ezcReflectionApi', 'setReflectionTypeFactory' ), 0 );
+        $expected['ezcReflection::setReflectionTypeFactory'][]
+            = new ReflectionParameter( array( 'ezcReflection', 'setReflectionTypeFactory' ), 0 );
 
         // function with parameter that has type hint only
         $expected['functionWithTypeHint'][]
@@ -108,7 +108,7 @@ class ezcReflectionParameterTest extends ezcTestCase
         unset(
             $this->actualParamsOfM1,
             $this->actualParamsOf_TestMethods_m3,
-            $this->actualParamsOf_ezcReflectionApi_setReflectionTypeFactory,
+            $this->actualParamsOf_ezcReflection_setReflectionTypeFactory,
             $this->actualParamsOf_functionWithTypeHint
         );
     }
@@ -120,14 +120,14 @@ class ezcReflectionParameterTest extends ezcTestCase
 
         $type = $this->actualParamsOfM1[1]->getType();
         self::assertType('ezcReflectionType', $type);
-        self::assertEquals('ezcReflectionApi', $type->getTypeName());
+        self::assertEquals('ezcReflection', $type->getTypeName());
 
         $type = $this->actualParamsOfM1[2]->getType();
         self::assertType('ezcReflectionType', $type);
         self::assertEquals('ReflectionClass', $type->getTypeName());
 
         // this method has both a type hint and a type annotation
-        $type = $this->actualParamsOf_ezcReflectionApi_setReflectionTypeFactory[0]->getType();
+        $type = $this->actualParamsOf_ezcReflection_setReflectionTypeFactory[0]->getType();
         self::assertType('ezcReflectionType', $type);
         self::assertEquals('ezcReflectionTypeFactory', $type->getTypeName());
 
@@ -145,7 +145,7 @@ class ezcReflectionParameterTest extends ezcTestCase
         self::assertNull( $this->actualParamsOfM1[2]->getClass() );
         self::assertNull( $this->actualParamsOf_TestMethods_m3[0]->getClass() );
         self::assertEquals( 'ezcReflectionTypeFactory',
-            $this->actualParamsOf_ezcReflectionApi_setReflectionTypeFactory[0]->getClass()->getName() );
+            $this->actualParamsOf_ezcReflection_setReflectionTypeFactory[0]->getClass()->getName() );
     }
 
     public function testGetDeclaringFunction() {
@@ -160,9 +160,9 @@ class ezcReflectionParameterTest extends ezcTestCase
         self::assertEquals('TestMethods', $decFunc->getDeclaringClass()->getName());
         self::assertEquals('m3', $decFunc->getName());
         
-        $decFunc = $this->actual['ezcReflectionApi::setReflectionTypeFactory'][0]->getDeclaringFunction();
+        $decFunc = $this->actual['ezcReflection::setReflectionTypeFactory'][0]->getDeclaringFunction();
         self::assertType('ezcReflectionMethod', $decFunc);
-        self::assertEquals('ezcReflectionApi', $decFunc->getDeclaringClass()->getName());
+        self::assertEquals('ezcReflection', $decFunc->getDeclaringClass()->getName());
         self::assertEquals('setReflectionTypeFactory', $decFunc->getName());
 
         $decFunc = $this->actual['functionWithTypeHint'][0]->getDeclaringFunction();

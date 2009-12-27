@@ -65,7 +65,7 @@
         else {
             parent::__construct( $functionOrMethod, $parameterPositionNameOrSource );
         }
-        $this->type = ezcReflectionApi::getTypeByName( $type );
+        $this->type = ezcReflection::getTypeByName( $type );
     }
 
     /**
@@ -134,7 +134,7 @@
             $typeHint = null;
         }
         if ( $typeHint instanceOf ReflectionClass ) {
-            return ezcReflectionApi::getTypeByName( $typeHint );
+            return ezcReflection::getTypeByName( $typeHint );
         } else {
             return $this->type;
         }

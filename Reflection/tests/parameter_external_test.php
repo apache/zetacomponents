@@ -21,7 +21,7 @@ class ezcReflectionParameterExternalTest extends ezcReflectionParameterTest
         // function with three parameters that have type annotations but no type hints
 //        $this->expectedFunctionM1 = new ReflectionFunction( 'm1' );
 //        $this->expected['m1'] = $this->expectedFunctionM1->getParameters();
-        $paramTypes = array( 'string', 'ezcReflectionApi', 'ReflectionClass' );
+        $paramTypes = array( 'string', 'ezcReflection', 'ReflectionClass' );
         foreach ( $this->expected['m1'] as $key => $param ) {
             $this->actualParamsOfM1[] =
                 new ezcReflectionParameter( null, $param, $paramTypes[$key] );
@@ -35,12 +35,12 @@ class ezcReflectionParameterExternalTest extends ezcReflectionParameterTest
         }
 
         // method with parameter that has type hint
-//        $this->expectedMethod_ezcReflectionApi_setReflectionTypeFactory
-//            = new ReflectionMethod( 'ezcReflectionApi', 'setReflectionTypeFactory' );
-//        $this->expected['ezcReflectionApi::setReflectionTypeFactory']
-//            = $this->expectedMethod_ezcReflectionApi_setReflectionTypeFactory->getParameters();
-        foreach ( $this->expected['ezcReflectionApi::setReflectionTypeFactory'] as $param ) {
-            $this->actualParamsOf_ezcReflectionApi_setReflectionTypeFactory[] = new ezcReflectionParameter( null, $param, 'ezcReflectionTypeFactory' );
+//        $this->expectedMethod_ezcReflection_setReflectionTypeFactory
+//            = new ReflectionMethod( 'ezcReflection', 'setReflectionTypeFactory' );
+//        $this->expected['ezcReflection::setReflectionTypeFactory']
+//            = $this->expectedMethod_ezcReflection_setReflectionTypeFactory->getParameters();
+        foreach ( $this->expected['ezcReflection::setReflectionTypeFactory'] as $param ) {
+            $this->actualParamsOf_ezcReflection_setReflectionTypeFactory[] = new ezcReflectionParameter( null, $param, 'ezcReflectionTypeFactory' );
         }
 
         // function with parameter that has type hint only
@@ -51,7 +51,7 @@ class ezcReflectionParameterExternalTest extends ezcReflectionParameterTest
 //        unset(
 //            $this->expectedFunctionM1,
 //            $this->expectedMethod_TestMethods_m3,
-//            $this->expectedMethod_ezcReflectionApi_setReflectionTypeFactory,
+//            $this->expectedMethod_ezcReflection_setReflectionTypeFactory,
 //            $this->expectedFunction_functionWithTypeHint
 //        );
     }

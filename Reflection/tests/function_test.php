@@ -243,12 +243,12 @@ weird coding standards should also be supported: */", $this->fctM2->getDocCommen
         self::assertEquals(
             $this->php_fctM1->invoke(
                 'test',
-                'ezcReflectionApi',
+                'ezcReflection',
                 new ReflectionClass( 'ReflectionClass' )
             ),
             $this->fctM1->invoke(
                 'test',
-                'ezcReflectionApi',
+                'ezcReflection',
                 new ReflectionClass( 'ReflectionClass' )
             )
         );
@@ -263,14 +263,14 @@ weird coding standards should also be supported: */", $this->fctM2->getDocCommen
             $this->php_fctM1->invokeArgs(
                 array(
                     'test',
-                    'ezcReflectionApi',
+                    'ezcReflection',
                     new ReflectionClass( 'ReflectionClass' )
                 )
             ),
             $this->fctM1->invokeArgs(
                 array(
                     'test',
-                    'ezcReflectionApi',
+                    'ezcReflection',
                     new ReflectionClass( 'ReflectionClass' )
                 )
             )
