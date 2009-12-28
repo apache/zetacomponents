@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-class ezcReflectionArrayTypeTest extends ezcTestCase
+class ezcReflectionArrayTypeTest extends ezcReflectionPrimitiveTypeTest
 {
     /**
      * @var ezcReflectionArrayType
@@ -33,16 +33,6 @@ class ezcReflectionArrayTypeTest extends ezcTestCase
     public function testIsArray()
     {
         $this->assertTrue( $this->type->isArray() );
-    }
-
-    public function testIsObject()
-    {
-        $this->assertFalse( $this->type->isObject() );
-    }
-
-    public function testIsPrimitive()
-    {
-        $this->assertTrue( $this->type->isPrimitive() );
     }
 
     public function testIsMap()

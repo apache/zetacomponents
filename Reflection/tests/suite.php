@@ -32,9 +32,9 @@ require_once 'annotation_factory_test.php';
 require_once 'type_factory_test.php';
 require_once 'type_mapper_test.php';
 require_once 'abstract_type_test.php';
+require_once 'primitive_type_test.php';
 require_once 'array_type_test.php';
 require_once 'object_type_test.php';
-require_once 'primitive_type_test.php';
 
 require_once 'test_classes/functions.php';
 require_once 'test_classes/methods.php';

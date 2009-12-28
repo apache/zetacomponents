@@ -8,7 +8,7 @@
  * @subpackage Tests
  */
 
-class ezcReflectionPrimitiveTypeTest extends ezcTestCase
+class ezcReflectionPrimitiveTypeTest extends ezcReflectionAbstractTypeTest
 {
     /**
      * @var ezcReflectionPrimitiveType

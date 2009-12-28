@@ -13,11 +13,11 @@ class ezcReflectionAbstractTypeTest extends ezcTestCase
     /**
      * @var ezcReflectionAbstractType
      */
-    protected $mock;
+    protected $type;
 
     public function setUp()
     {
-        $this->mock = $this->getMock(
+        $this->type = $this->getMock(
             'ezcReflectionAbstractType',
             array(
             	'isScalarType', 'getXmlName', 'getXmlSchema', 'getTypeName'
@@ -28,22 +28,22 @@ class ezcReflectionAbstractTypeTest extends ezcTestCase
 
     public function testIsArray()
     {
-        $this->assertFalse( $this->mock->isArray() );
+        $this->assertFalse( $this->type->isArray() );
     }
 
     public function testIsObject()
     {
-        $this->assertFalse( $this->mock->isObject() );
+        $this->assertFalse( $this->type->isObject() );
     }
 
     public function testIsPrimitive()
     {
-        $this->assertFalse( $this->mock->isPrimitive() );
+        $this->assertFalse( $this->type->isPrimitive() );
     }
 
     public function testIsMap()
     {
-        $this->assertFalse( $this->mock->isMap() );
+        $this->assertFalse( $this->type->isMap() );
     }
 
     public static function suite()

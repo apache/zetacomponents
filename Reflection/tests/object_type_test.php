@@ -18,6 +18,7 @@ class ezcReflectionObjectTypeTest extends ezcTestCase
     protected $class;
     protected $classTestWebservice;
     protected $classReflectionFunction;
+    protected $type;
     /**#@-*/
 
     public function setUp()
@@ -27,6 +28,7 @@ class ezcReflectionObjectTypeTest extends ezcTestCase
         $this->classReflectionFunction = new ezcReflectionObjectType( 'ReflectionFunction' );
         $this->stdClass = new ezcReflectionObjectType( 'stdClass' );
         $this->object = new ezcReflectionObjectType( 'object' );
+        $this->type                   = new ezcReflectionObjectType( 'SomeClass' );
     }
     
     public function testGetTypeName() {
