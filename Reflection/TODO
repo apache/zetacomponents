@@ -2,10 +2,8 @@ Roadmap
 =======
 
 - Issues for 1.0
-    - Merge overloading improvements from ezcReflectionClass into the other classes
-    - See todo annotations in the source code, e.g., using 'grep -inor todo.* --exclude-dir=.svn .'
     - Dependency Injection (Falko)
-        - Write tests for wrapper methods
+        - Write tests for wrapper methods 
         - Write documentation of the methods introduced for the dependency injection mechanism
         - Add a comment about their purpose to the wrapper methods:
             This method makes it easier to extend this class and improves the documentation of the ezcReflection component.
@@ -16,26 +14,21 @@ Roadmap
     - Complete the adoption of the eZ Components coding standard
 
 - Optional Features for 1.0
-    - Have ezcReflectionParameter::__construct() search for the parameter type annotation in the DocBlock of the
+    - Add methods isBoolean(), isCallback(), isFloat(), isInteger(), isNull(), isNumber(), isResource(), isString(), isCompoundType(), isSpecialType(), isPseudoType() to ezcReflectionType
+    - Have ezcReflectionParameter::__construct() search for the parameter type annotation in the DocBlock of the function or method
     - Parse comments on demand to save CPU time and memory, when creating large amounts of reflection objects
     - Introduce a ezcReflectionReflector interface
     - Add support for pipe notation in type definitions, i.e. @param datatype1|datatype2 $paramname description
     - support for annotation grouping especially for properties (has to be supported by PHP, maybe a feature for StaticReflection)
     - obtain type information for internal functions from PHP's source code
-    - Maybe create instances of ezcReflectionClassType through type factory
     - Integration of Toby's annotation parser? (Toby?)
     - Add ezcReflectionParameter::getDescription() and ezcReflectionProperty::::getDescription()
     - Add ezcReflectionType::isString(), ezcReflectionType::isBoolean(), ezcReflectionType::isInteger(), ezcReflectionType::isFloat(), ezcReflectionType::isVoid()(), ezcReflectionType::isMixed()
     - Throw an ezcReflectionNewerPhpVersionRequiredException in methods that require a PHP version greater than 5.2.0
-    - Implement support for resource and callback
-    - Rename getType into getTypeName where it just returns a string, but not a type object
     - Make XML name prefixes configurable
     - Support maps as keys of maps
+    - See todo annotations in the source code, e.g., using 'grep -inor todo.* --exclude-dir=.svn .'
     - Support white space in map type names, e.g., array(integer => array(integer => string))
-    - Remove isStandardType()
-    - Add methods isBoolean(), isCallback(), isFloat(), isInteger(), isNull(), isNumber(), isObject(), isResource(), isScalar(), isString(),  to  ezcReflectionType
-    - Have everything except pseudo types, i.e., MixedType, extend primitive type and adapt isPrimitiveType() accordingly
-    - Rename ClassType into ObjectType, introduce a method getClass(), and use TypeMapper::getType() in the constructor
     - Support @throws
 
 Depending Projects
