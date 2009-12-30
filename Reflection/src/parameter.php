@@ -124,14 +124,16 @@
      *
      * A valid type hint for the parameter will be preferred over a type
      * annotation.
+     *
      * @return ezcReflectionType
+     * @throws ReflectionException
+     *         if a parameter uses 'self' or 'parent' as type hint, but function
+     *         is not a class member, if a parameter uses 'parent' as type hint,
+     *         although class does not have a parent, or if the class does not
+     *         exist
      */
     public function getType() {
-        try {
-            $typeHint = $this->getClass();
-        } catch ( ReflectionException $e ) {
-            $typeHint = null;
-        }
+        $typeHint = $this->getClass();
         if ( $typeHint instanceOf ReflectionClass ) {
             return ezcReflection::getTypeByName( $typeHint );
         } else {
@@ -256,7 +258,8 @@
      * freedom to decide on whether they want to trust the type annotations,
      * i.e., by calling {@link getType()}, or only PHP's type hinting, which is
      * the sole data source for this method.
-     * @return ezcReflectionClass
+     *
+     * @return ezcReflectionClass|NULL
      *         Class identified by type hinting or NULL if there is no hint
      * @throws ReflectionException
      *         if a parameter uses 'self' or 'parent' as type hint, but function
