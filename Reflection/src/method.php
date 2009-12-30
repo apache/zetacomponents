@@ -127,13 +127,16 @@ class ezcReflectionMethod extends ReflectionMethod
         if ( $this->reflectionSource instanceof parent ) {
             return call_user_func_array( array( $this->reflectionSource, $method ), $arguments );
         } else {
-            //return call_user_func_array( array( parent, $method ), $arguments );
+            //*
+            return call_user_func_array( array( $this, 'parent::' . $method ), $arguments );
+            /*/
             $argumentStrings = array();
             foreach ( array_keys( $arguments ) as $key ) {
                 $argumentStrings[] = '$arguments[' . var_export( $key, true ) . ']';
             }
             $cmd = 'return parent::$method( ' . implode( ', ', $argumentStrings ) . ' );';
             return eval( $cmd );
+            //*/
         }
     }
 
