@@ -101,7 +101,7 @@ abstract class ezcReflectionAbstractType implements ezcReflectionType
         } else {
             $prefix = '';
         }
-        return $prefix . ezcReflectionTypeMapper::getInstance()->getXmlType($this->typeName);
+        return $prefix . ezcReflectionTypeMapper::getInstance()->getXmlType( $this->getTypeName() );
     }
 
     /**
@@ -110,6 +110,16 @@ abstract class ezcReflectionAbstractType implements ezcReflectionType
      */
     function getXmlSchema(DOMDocument $dom) {
         return null;
+    }
+
+    /**
+     * Returns a string representation.
+     *
+     * @return String Type name
+     */
+    public function __toString()
+    {
+        return $this->getTypeName();
     }
 
 }

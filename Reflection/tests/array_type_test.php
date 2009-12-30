@@ -20,6 +20,11 @@ class ezcReflectionArrayTypeTest extends ezcReflectionPrimitiveTypeTest
         $this->type = new ezcReflectionArrayType( 'string[]' );
     }
 
+    public function testGetTypeName()
+    {
+        self::assertEquals( 'string[]', $this->type->getTypeName() );
+    }
+
     public function testGetGetKeyType()
     {
         $this->assertEquals( new ezcReflectionPrimitiveType( 'integer' ), $this->type->getKeyType() );
@@ -40,10 +45,6 @@ class ezcReflectionArrayTypeTest extends ezcReflectionPrimitiveTypeTest
         $this->assertFalse( $this->type->isMap() );
     }
 
-    public function testToString()
-    {
-    }
-
     public function testIsScalarType()
     {
         $this->assertFalse( $this->type->isScalarType() );
@@ -51,7 +52,7 @@ class ezcReflectionArrayTypeTest extends ezcReflectionPrimitiveTypeTest
 
     public function testGetXmlNameWithPrefix()
     {
-        $this->assertEquals( 'tns:ArrayOfstring', $this->type->getXmlName( true ) );
+        $this->assertEquals( 'tns:ArrayOfstring', $this->type->getXmlName( ) );
     }
 
     public function testGetXmlNameWithoutPrefix()

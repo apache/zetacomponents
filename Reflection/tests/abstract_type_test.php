@@ -19,11 +19,19 @@ class ezcReflectionAbstractTypeTest extends ezcTestCase
     {
         $this->type = $this->getMock(
             'ezcReflectionAbstractType',
-            array(
-            	'isScalarType', 'getXmlName', 'getXmlSchema', 'getTypeName'
-            ),
+            null,
             array( 'string' )
         );
+    }
+
+    public function testGetTypeName()
+    {
+        self::assertEquals( 'string', $this->type->getTypeName() );
+    }
+
+    public function testToString()
+    {
+        self::assertEquals( $this->type->getTypeName(), (string) $this->type );
     }
 
     public function testIsArray()
@@ -44,6 +52,26 @@ class ezcReflectionAbstractTypeTest extends ezcTestCase
     public function testIsMap()
     {
         $this->assertFalse( $this->type->isMap() );
+    }
+
+    public function testIsScalarType()
+    {
+        $this->assertFalse( $this->type->isScalarType() );
+    }
+
+    public function testGetXmlNameWithPrefix()
+    {
+        $this->assertEquals( 'xsd:string', $this->type->getXmlName() );
+    }
+
+    public function testGetXmlNameWithoutPrefix()
+    {
+        $this->assertEquals( 'string', $this->type->getXmlName( false ) );
+    }
+
+    public function testGetXmlSchema()
+    {
+        $this->assertNull( $this->type->getXmlSchema( new DOMDocument() ) );
     }
 
     public static function suite()

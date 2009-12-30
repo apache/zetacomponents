@@ -55,7 +55,8 @@ interface ezcReflectionType {
     public function isScalarType();
 
     /**
-     * Returns the name to be used in a xml schema for this type
+     * Returns the name to be used in a xml schema for this type.
+     *
      * @return string
      */
     public function getXmlName();
@@ -65,5 +66,13 @@ interface ezcReflectionType {
      * @return DOMElement
      */
     public function getXmlSchema(DOMDocument $dom);
+
+        /**
+     * Returns a string representation.
+     *
+     * @return String Type name
+     */
+    public function __toString();
+
 }
 ?>
