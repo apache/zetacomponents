@@ -35,6 +35,7 @@ require_once 'abstract_type_test.php';
 require_once 'primitive_type_test.php';
 require_once 'array_type_test.php';
 require_once 'object_type_test.php';
+require_once 'mixed_type_test.php';
 
 require_once 'test_classes/functions.php';
 require_once 'test_classes/methods.php';
@@ -62,33 +63,41 @@ class ezcReflectionSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName('Reflection');
 
+        $this->addTest( ezcReflectionAnnotationFactoryTest::suite() );
+        $this->addTest( ezcReflectionDocCommentParserTest::suite() );
+
+        $this->addTest( ezcReflectionTypeMapperTest::suite() );
+        $this->addTest( ezcReflectionAbstractTypeTest::suite() );
+        $this->addTest( ezcReflectionPrimitiveTypeTest::suite() );
+        $this->addTest( ezcReflectionArrayTypeTest::suite() );
+        $this->addTest( ezcReflectionObjectTypeTest::suite() );
+        $this->addTest( ezcReflectionMixedTypeTest::suite() );
+        $this->addTest( ezcReflectionTypeFactoryTest::suite() );
+
         $this->addTest( ezcReflectionClassTest::suite() );
         $this->addTest( ezcReflectionClassExternalTest::suite() );
         $this->addTest( ezcReflectionClassInstanceTest::suite() );
         $this->addTest( ezcReflectionObjectTest::suite() );
+
         $this->addTest( ezcReflectionExtensionTest::suite() );
         $this->addTest( ezcReflectionExtensionExternalTest::suite() );
+
         $this->addTest( ezcReflectionFunctionTest::suite() );
         $this->addTest( ezcReflectionFunctionExternalTest::suite() );
         $this->addTest( ezcReflectionMethodTest::suite() );
         $this->addTest( ezcReflectionMethodExternalTest::suite() );
         $this->addTest( ezcReflectionMethodFromClassTest::suite() );
         $this->addTest( ezcReflectionMethodsFromClassTest::suite() );
+
         $this->addTest( ezcReflectionParameterTest::suite() );
         $this->addTest( ezcReflectionParameterByNameTest::suite() );
         $this->addTest( ezcReflectionParametersFromFunctionTest::suite() );
         $this->addTest( ezcReflectionParameterExternalTest::suite() );
+
         $this->addTest( ezcReflectionPropertyTest::suite() );
         $this->addTest( ezcReflectionPropertyFromClassTest::suite() );
         $this->addTest( ezcReflectionPropertiesFromClassTest::suite() );
-        $this->addTest( ezcReflectionDocCommentParserTest::suite() );
-        $this->addTest( ezcReflectionAnnotationFactoryTest::suite() );
-        $this->addTest( ezcReflectionTypeFactoryTest::suite() );
-        $this->addTest( ezcReflectionTypeMapperTest::suite() );
-        $this->addTest( ezcReflectionAbstractTypeTest::suite() );
-        $this->addTest( ezcReflectionArrayTypeTest::suite() );
-        $this->addTest( ezcReflectionObjectTypeTest::suite() );
-        $this->addTest( ezcReflectionPrimitiveTypeTest::suite() );
+
         $this->addTest( ezcReflectionTest::suite() );
     }
 
