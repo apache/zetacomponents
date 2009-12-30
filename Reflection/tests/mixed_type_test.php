@@ -68,6 +68,16 @@ class ezcReflectionMixedTypeTest extends ezcReflectionAbstractTypeTest
         $this->assertEquals( 'callback', $this->callback->getTypeName() );
     }
 
+    public function testGetXmlNameWithPrefix()
+    {
+        $this->assertEquals( 'xsd:any', $this->type->getXmlName() );
+    }
+
+    public function testGetXmlNameWithoutPrefix()
+    {
+        $this->assertEquals( 'any', $this->type->getXmlName( false ) );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( __CLASS__ );
