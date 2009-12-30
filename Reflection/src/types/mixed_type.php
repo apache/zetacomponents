@@ -34,14 +34,14 @@ class ezcReflectionMixedType extends ezcReflectionAbstractType {
             $typeName = parent::getTypeName();
             if ( $typeName == ezcReflectionTypeMapper::CANONICAL_NAME_NUMBER )
             {
-                $this->type = array(
+                $this->types = array(
                     ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_INTEGER ),
                     ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_FLOAT ),
                 );
             }
             elseif ( $typeName == ezcReflectionTypeMapper::CANONICAL_NAME_CALLBACK )
             {
-                $this->type = array(
+                $this->types = array(
                     ezcReflection::getTypeByName( ezcReflectionTypeMapper::CANONICAL_NAME_STRING ),
                     ezcReflection::getTypeByName( 'mixed[]' ), // TODO Change this to 'array(integer=>object|string)'
                     ezcReflection::getTypeByName( 'Closure' ),
@@ -49,7 +49,7 @@ class ezcReflectionMixedType extends ezcReflectionAbstractType {
             }
             else
             {
-                $this->type = array();
+                $this->types = array();
             }
         }
         return $this->types;
