@@ -9,6 +9,10 @@
 
 require_once 'class_test.php';
 require_once 'class_external_test.php';
+if ( file_exists( dirname( __FILE__ ) . '/staticReflection/source/Autoloader.php' ) )
+{
+    require_once 'class_static_test.php';
+}
 require_once 'class_instance_test.php';
 require_once 'object_test.php';
 require_once 'reflection_test.php';
@@ -78,6 +82,10 @@ class ezcReflectionSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcReflectionClassExternalTest::suite() );
         $this->addTest( ezcReflectionClassInstanceTest::suite() );
         $this->addTest( ezcReflectionObjectTest::suite() );
+        if ( file_exists( dirname( __FILE__ ) . '/staticReflection/source/Autoloader.php' ) )
+        {
+            $this->addTest( ezcReflectionClassStaticTest::suite() );
+        }
 
         $this->addTest( ezcReflectionExtensionTest::suite() );
         $this->addTest( ezcReflectionExtensionExternalTest::suite() );
