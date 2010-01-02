@@ -747,7 +747,7 @@ class ezcReflectionMethod extends ReflectionMethod
      * the parent class. The only difference is that it returns an instance
      * ezcReflectionClass instead of a ReflectionClass instance
      * @return ezcReflectionClass Prototype
-     * @throws ReflectionException if the method has not prototype
+     * @throws ReflectionException if the method has no prototype
      */
     public function getPrototype() {
         if ( $this->reflectionSource instanceof parent ) {

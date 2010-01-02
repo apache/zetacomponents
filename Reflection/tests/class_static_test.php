@@ -8,11 +8,6 @@
  * @subpackage Tests
  */
 
-
-require_once 'staticReflection/source/Autoloader.php';
-spl_autoload_register('__autoload');
-spl_autoload_register(array(new org\pdepend\reflection\Autoloader, 'autoload'));
-
 /**
  * This is an optional test case for the integration of the staticReflection.
  *
@@ -24,26 +19,26 @@ class ezcReflectionClassStaticTest extends ezcReflectionClassTest
 
     public function setUpFixtures()
     {
-        $session = new org\pdepend\reflection\ReflectionSession();
+        $session = new pdepend\reflection\ReflectionSession();
         $array = array(
             'SomeClass' => dirname( __FILE__ ) . '/test_classes/SomeClass.php',
             'IInterface' => dirname( __FILE__ ) . '/test_classes/interface.php',
             'BaseClass' => dirname( __FILE__ ) . '/test_classes/BaseClass.php',
             'TestWebservice' => dirname( __FILE__ ) . '/test_classes/webservice.php',
         );
-        $resolver = new org\pdepend\reflection\resolvers\AutoloadArrayResolver( $array );
+        $resolver = new pdepend\reflection\resolvers\AutoloadArrayResolver( $array );
         $session->addClassFactory(
-            new org\pdepend\reflection\factories\StaticReflectionClassFactory(
-                new org\pdepend\reflection\ReflectionClassProxyContext( $session ), $resolver
+            new pdepend\reflection\factories\StaticReflectionClassFactory(
+                new pdepend\reflection\ReflectionClassProxyContext( $session ), $resolver
             )
         );
         $session->addClassFactory(
-            new org\pdepend\reflection\factories\InternalReflectionClassFactory()
+            new pdepend\reflection\factories\InternalReflectionClassFactory()
         );
 
-        //$session = org\pdepend\reflection\ReflectionSession::createInternalSession();
+        //$session = pdepend\reflection\ReflectionSession::createInternalSession();
         //$this->reflectionSession = $session;
-        //org\pdepend\reflection\ReflectionSessionInstance::set( $session );
+        //pdepend\reflection\ReflectionSessionInstance::set( $session );
         /*
         $query = $session->createDirectoryQuery();
         $query->find( dirname( __FILE__ ) . '/test_classes' );

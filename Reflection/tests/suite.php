@@ -9,10 +9,6 @@
 
 require_once 'class_test.php';
 require_once 'class_external_test.php';
-if ( file_exists( dirname( __FILE__ ) . '/staticReflection/source/Autoloader.php' ) )
-{
-    require_once 'class_static_test.php';
-}
 require_once 'class_instance_test.php';
 require_once 'object_test.php';
 require_once 'reflection_test.php';
@@ -40,6 +36,15 @@ require_once 'primitive_type_test.php';
 require_once 'array_type_test.php';
 require_once 'object_type_test.php';
 require_once 'mixed_type_test.php';
+if ( file_exists( dirname( __FILE__ ) . '/staticReflection/source/pdepend/reflection/Autoloader.php' ) )
+{
+    require_once 'staticReflection/source/pdepend/reflection/Autoloader.php';
+    spl_autoload_register('__autoload');
+    spl_autoload_register(array(new pdepend\reflection\Autoloader, 'autoload'));
+
+    require_once 'class_static_test.php';
+    require_once 'method_static_test.php';
+}
 
 require_once 'test_classes/functions.php';
 require_once 'test_classes/methods.php';
@@ -82,13 +87,6 @@ class ezcReflectionSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcReflectionClassExternalTest::suite() );
         $this->addTest( ezcReflectionClassInstanceTest::suite() );
         $this->addTest( ezcReflectionObjectTest::suite() );
-        if ( file_exists( dirname( __FILE__ ) . '/staticReflection/source/Autoloader.php' ) )
-        {
-            $this->addTest( ezcReflectionClassStaticTest::suite() );
-        }
-
-        $this->addTest( ezcReflectionExtensionTest::suite() );
-        $this->addTest( ezcReflectionExtensionExternalTest::suite() );
 
         $this->addTest( ezcReflectionFunctionTest::suite() );
         $this->addTest( ezcReflectionFunctionExternalTest::suite() );
@@ -105,6 +103,15 @@ class ezcReflectionSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcReflectionPropertyTest::suite() );
         $this->addTest( ezcReflectionPropertyFromClassTest::suite() );
         $this->addTest( ezcReflectionPropertiesFromClassTest::suite() );
+
+        if ( file_exists( dirname( __FILE__ ) . '/staticReflection/source/pdepend/reflection/Autoloader.php' ) )
+        {
+            $this->addTest( ezcReflectionClassStaticTest::suite() );
+            $this->addTest( ezcReflectionMethodStaticTest::suite() );
+        }
+
+        $this->addTest( ezcReflectionExtensionTest::suite() );
+        $this->addTest( ezcReflectionExtensionExternalTest::suite() );
 
         $this->addTest( ezcReflectionTest::suite() );
     }
