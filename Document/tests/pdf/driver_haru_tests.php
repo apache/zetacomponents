@@ -33,6 +33,7 @@ class ezcDocumentPdfDriverHaruTests extends ezcDocumentPdfDriverTests
         'testEstimateMonospaceWordWidth'                  => 36,
         'testFontStyleFallback'                           => 38.8,
         'testUtf8FontWidth'                               => 29.6,
+        'testCustomFontWidthEstimation'                   => 59.1,
     );
 
     public static function suite()

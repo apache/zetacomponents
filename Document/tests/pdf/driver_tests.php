@@ -33,6 +33,7 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         'testEstimateMonospaceWordWidth'                  => null,
         'testFontStyleFallback'                           => null,
         'testUtf8FontWidth'                               => null,
+        'testCustomFontWidthEstimation'                   => null,
     );
 
     /**
@@ -141,6 +142,37 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $this->assertEquals(
             $this->expectedWidths[__FUNCTION__],
             $driver->calculateWordWidth( 'ℋℇℒℒΩ' ),
+            'Wrong word width estimation', .1
+        );
+    }
+
+    public function testCustomFontWidthEstimation()
+    {
+        $driver = $this->getDriver();
+
+        try {
+            $driver->registerFont(
+                'my_font',
+                ezcDocumentPdfDriver::FONT_PLAIN,
+                array(
+                    dirname( __FILE__ ) . '/../files/fonts/fdb_font.fdb',
+                    dirname( __FILE__ ) . '/../files/fonts/ps_font.pfb',
+                    dirname( __FILE__ ) . '/../files/fonts/font.ttf',
+                )
+            );
+        } catch ( ezcBaseFunctionalityNotSupportedException $e )
+        {
+            $this->markTestSkipped( 'Fonts are not supported.' );
+        }
+
+        $driver->createPage( 210, 297 );
+        $driver->setTextFormatting( 'font-family', 'my_font' );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->setTextFormatting( 'font-weight', 'bold' );
+
+        $this->assertEquals(
+            $this->expectedWidths[__FUNCTION__],
+            $driver->calculateWordWidth( 'Hello world.' ),
             'Wrong word width estimation', .1
         );
     }

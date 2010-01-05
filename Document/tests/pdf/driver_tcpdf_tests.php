@@ -54,6 +54,7 @@ class ezcDocumentPdfDriverTcpdfTests extends ezcDocumentPdfDriverTests
         'testEstimateMonospaceWordWidth'                  => 36,
         'testFontStyleFallback'                           => 16.3,
         'testUtf8FontWidth'                               => 11.8,
+        'testCustomFontWidthEstimation'                   => null,
     );
 
     public static function suite()

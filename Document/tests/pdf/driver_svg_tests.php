@@ -40,6 +40,7 @@ class ezcDocumentPdfDriverSvgTests extends ezcDocumentPdfDriverTests
         'testEstimateMonospaceWordWidth'                  => 25.8,
         'testFontStyleFallback'                           => 21.6,
         'testUtf8FontWidth'                               => 21.6,
+        'testCustomFontWidthEstimation'                   => 51.6,
     );
 
     public static function suite()

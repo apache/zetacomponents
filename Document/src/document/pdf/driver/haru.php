@@ -743,6 +743,7 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
             {
                 case 'ttf':
                     $this->fonts[$name][$type] = $this->document->loadTTF( $path, true );
+                    $this->dummyDoc->loadTTF( $path, true );
                     return;
             }
         }
