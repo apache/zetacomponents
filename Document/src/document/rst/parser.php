@@ -2264,15 +2264,20 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // After that there may be options, which are indented and start with a
         // colon.
-        while ( ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
-                ( $tokens[1]->content === ':' ) )
+        while ( isset( $tokens[0] ) &&
+                ( $tokens[0]->type === ezcDocumentRstToken::WHITESPACE ) &&
+                isset( $tokens[1] ) &&
+                ( $tokens[1]->content === ':' ) &&
+                isset( $tokens[3] ) &&
+                ( $tokens[3]->content === ':' ) )
         {
             $tokens->shift();
             $tokens->shift();
 
             // Extract option name
             $name = '';
-            while ( $tokens[0]->content !== ':' )
+            while ( isset( $tokens[0] ) &&
+                    $tokens[0]->content !== ':' )
             {
                 $token = $tokens->shift();
                 $name .= $token->content;
@@ -2281,7 +2286,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             // Extract option value
             $value = '';
-            while ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE )
+            while ( isset( $tokens[0] ) &&
+                    ( $tokens[0]->type !== ezcDocumentRstToken::NEWLINE ) )
             {
                 $token = $tokens->shift();
                 $value .= $token->content;
@@ -2673,8 +2679,9 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         // Check if this is a short directive - in this case we skip the
         // following aggregation and return the directive directly.
-        if ( ( $node instanceof ezcDocumentRstDirectiveNode ) &&
-             ( in_array( $node->identifier, $this->shortDirectives, true ) ) )
+        if ( ( ( $node instanceof ezcDocumentRstDirectiveNode ) &&
+               ( in_array( $node->identifier, $this->shortDirectives, true ) ) ) ||
+             ( !count( $tokens ) ) )
         {
             // Handle special cases like the replace directive
             if ( $substitution !== null )
@@ -2899,7 +2906,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             // Check that the read read stopped at the field list name end
             // marker, otherwise this is just some random text, at least no
             // valid field list.
-            $tokens = array_merge( $tokens, $name );
+            $tokens->prepend( $name );
             return false;
         }
 
