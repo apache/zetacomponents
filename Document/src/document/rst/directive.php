@@ -85,6 +85,30 @@ abstract class ezcDocumentRstDirective
      * @return void
      */
     abstract public function toDocbook( DOMDocument $document, DOMElement $root );
+
+    /**
+     * Parse directive token list with RST parser
+     *
+     * This method is intended to parse the token list, provided for the RST 
+     * contents using the standard RST parser. It will be visited afterwards by 
+     * the provided RST-visitor implementation.
+     *
+     * The method returns the created document as a DOMDocument. You normally 
+     * need to use DOMDocument::importNode to embed the conatined nodes in your 
+     * target document.
+     * 
+     * @param array $tokens 
+     * @param ezcDocumentRstVisitor $visitor 
+     * @return DOMDocument
+     */
+    protected function parseTokens( array $tokens, ezcDocumentRstVisitor $visitor )
+    {
+        $parser = new ezcDocumentRstParser();
+        $ast = $parser->parse( $tokens );
+
+        $doc = $visitor->visit( $ast, $this->path );
+        return $doc;
+    }
 }
 
 ?>

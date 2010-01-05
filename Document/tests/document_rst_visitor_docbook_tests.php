@@ -10,6 +10,7 @@
  */
 
 require_once 'helper/rst_dummy_directives.php';
+require_once 'helper/rst_paragraph_directive.php';
 
 /**
  * Test suite for class.
@@ -65,6 +66,7 @@ class ezcDocumentRstDocbookVisitorTests extends ezcTestCase
         $document->registerDirective( 'book', 'ezcDocumentTestDummyDirective' );
         $document->registerDirective( 'function', 'ezcDocumentTestDummyDirective' );
         $document->registerDirective( 'replace', 'ezcDocumentTestDummyDirective' );
+        $document->registerDirective( 'paragraph', 'ezcDocumentTestParagraphDirective' );
         $document->registerRole( 'my_role', 'ezcDocumentTestDummyRole' );
 
         $document->loadFile( $from );

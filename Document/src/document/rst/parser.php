@@ -477,6 +477,69 @@ class ezcDocumentRstParser extends ezcDocumentParser
     }
 
     /**
+     * Re-align tokens
+     *
+     * Realign tokens, so that the line start positions start at 0 again, even 
+     * they were indeted before.
+     * 
+     * @param array $tokens 
+     * @return array
+     */
+    protected function realignTokens( $tokens )
+    {
+        $firstToken = reset( $tokens );
+        $offset = $firstToken->position +
+            ( $firstToken->type === ezcDocumentRstToken::WHITESPACE ? 0 : -1 );
+        $fixedTokens = array();
+        foreach ( $tokens as $nr => $token )
+        {
+            if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
+                 isset( $tokens[$nr + 1] ) &&
+                 ( $tokens[$nr + 1]->type === ezcDocumentRstToken::WHITESPACE ) )
+            {
+                // Skip multiple whitespace tokens in a row.
+                continue;
+            }
+
+            if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
+                 ( $token->position <= $offset ) )
+            {
+                if ( strlen( $token->content ) <= 1 )
+                {
+                    // Just skip token, completely out of tokens bounds
+                    continue;
+                }
+                else
+                {
+                    // Shorten starting whitespace token
+                    $token = clone $token;
+                    $token->position = 0;
+                    $token->content = substr( $token->content, 1 );
+                    $fixedTokens[] = $token;
+                }
+            }
+            else
+            {
+                $token = clone $token;
+                $token->position -= $offset;
+                $fixedTokens[] = $token;
+            }
+        }
+
+        // If required add a second newline, if the provided token array does
+        // not contain any newlines at the end.
+        if ( $token->type !== ezcDocumentRstToken::NEWLINE )
+        {
+            $fixedTokens[] = new ezcDocumentRstToken( ezcDocumentRstToken::NEWLINE, "\n", null, null );
+        }
+
+        $fixedTokens[] = new ezcDocumentRstToken( ezcDocumentRstToken::NEWLINE, "\n", null, null );
+        $fixedTokens[] = new ezcDocumentRstToken( ezcDocumentRstToken::EOF, null, null, null );
+
+        return $fixedTokens;
+    }
+
+    /**
      * Reenter parser with a list of tokens
      *
      * Returns a parsed document created from the given tokens. With optional,
@@ -499,61 +562,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
         // /DEBUG */
 
         // Fix indentation for all cell tokens, as they were a single document.
-        if ( $reindent )
-        {
-            $firstToken = reset( $tokens );
-            $offset = $firstToken->position +
-                ( $firstToken->type === ezcDocumentRstToken::WHITESPACE ? 0 : -1 );
-            $fixedTokens = array();
-            foreach ( $tokens as $nr => $token )
-            {
-                if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
-                     isset( $tokens[$nr + 1] ) &&
-                     ( $tokens[$nr + 1]->type === ezcDocumentRstToken::WHITESPACE ) )
-                {
-                    // Skip multiple whitespace tokens in a row.
-                    continue;
-                }
-
-                if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
-                     ( $token->position <= $offset ) )
-                {
-                    if ( strlen( $token->content ) <= 1 )
-                    {
-                        // Just skip token, completely out of tokens bounds
-                        continue;
-                    }
-                    else
-                    {
-                        // Shorten starting whitespace token
-                        $token = clone $token;
-                        $token->position = 0;
-                        $token->content = substr( $token->content, 1 );
-                        $fixedTokens[] = $token;
-                    }
-                }
-                else
-                {
-                    $token = clone $token;
-                    $token->position -= $offset;
-                    $fixedTokens[] = $token;
-                }
-            }
-
-            // If required add a second newline, if the provided token array does
-            // not contain any newlines at the end.
-            if ( $token->type !== ezcDocumentRstToken::NEWLINE )
-            {
-                $fixedTokens[] = new ezcDocumentRstToken( ezcDocumentRstToken::NEWLINE, "\n", null, null );
-            }
-        }
-        else
-        {
-            $fixedTokens = $tokens;
-        }
-
-        $fixedTokens[] = new ezcDocumentRstToken( ezcDocumentRstToken::NEWLINE, "\n", null, null );
-        $fixedTokens[] = new ezcDocumentRstToken( ezcDocumentRstToken::EOF, null, null, null );
+        $fixedTokens = $reindent ? $this->realignTokens( $tokens ) : $tokens;
 
         /* DEBUG
         file_put_contents( "tokens-reentered-$c-fixed.php", "<?php\n\n return " . var_export( $fixedTokens, true ) . ";\n\n" );
@@ -1616,6 +1625,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
         if ( $token === null )
         {
             $token = array_shift( $tokens );
+        }
+
+        if ( $token === null )
+        {
+            return false;
         }
 
         // This pattern matches upper and lowercase roman numbers up 4999,
@@ -2733,7 +2747,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 /* DEBUG
                 echo "  -> Collected plain newline.\n";
                 // /DEBUG */
-                $collected[] = new ezcDocumentRstLiteralNode( $literalToken );
+                $collected[]       = new ezcDocumentRstLiteralNode( $literalToken );
+                $directiveTokens[] = $literalToken;
                 continue;
             }
 
@@ -2784,6 +2799,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 $node->tokens,
                 $directiveTokens
             );
+
+            if ( $node->identifier !== 'replace' )
+            {
+                $node->tokens = $this->realignTokens( $node->tokens );
+            }
         }
 
         // Handle special cases like the replace directive
