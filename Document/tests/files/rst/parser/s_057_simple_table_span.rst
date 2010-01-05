@@ -297,7 +297,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 7,
-                           'position' => 8,
+                           'position' => 46,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -326,7 +326,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 7,
-                             'position' => 8,
+                             'position' => 46,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -507,7 +507,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 9,
-                           'position' => 2,
+                           'position' => 40,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -536,7 +536,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 9,
-                             'position' => 2,
+                             'position' => 40,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -699,7 +699,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 10,
-                           'position' => 2,
+                           'position' => 40,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -728,7 +728,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 10,
-                             'position' => 2,
+                             'position' => 40,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,

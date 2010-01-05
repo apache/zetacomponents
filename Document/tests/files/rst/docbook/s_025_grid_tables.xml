@@ -147,22 +147,18 @@
               <para>row 2        </para>
             </entry>
             <entry>
-              <para>             +---+               </para>
+              <para>+---+               </para>
             </entry>
           </row>
           <row>
             <entry>
               <para>row 3        </para>
             </entry>
+            <entry/>
             <entry>
-              <para>         </para>
+              <para>+===+  </para>
             </entry>
-            <entry>
-              <para>   +===+  </para>
-            </entry>
-            <entry>
-              <para>          </para>
-            </entry>
+            <entry/>
           </row>
         </tbody>
       </tgroup>
@@ -241,15 +237,9 @@
             <entry>
               <para>row 3        </para>
             </entry>
-            <entry>
-              <para>         </para>
-            </entry>
-            <entry>
-              <para>          </para>
-            </entry>
-            <entry>
-              <para>          </para>
-            </entry>
+            <entry/>
+            <entry/>
+            <entry/>
           </row>
         </tbody>
       </tgroup>
@@ -276,22 +266,16 @@
               <para>row 2        </para>
             </entry>
             <entry>
-              <para> Use the command <literal>ls | more</literal>.  </para>
+              <para>Use the command <literal>ls | more</literal>.  </para>
             </entry>
           </row>
           <row>
             <entry>
               <para>row 3        </para>
             </entry>
-            <entry>
-              <para>         </para>
-            </entry>
-            <entry>
-              <para>          </para>
-            </entry>
-            <entry>
-              <para>          </para>
-            </entry>
+            <entry/>
+            <entry/>
+            <entry/>
           </row>
         </tbody>
       </tgroup>
@@ -325,15 +309,9 @@
             <entry>
               <para>row 3        </para>
             </entry>
-            <entry>
-              <para>         </para>
-            </entry>
-            <entry>
-              <para>          </para>
-            </entry>
-            <entry>
-              <para>          </para>
-            </entry>
+            <entry/>
+            <entry/>
+            <entry/>
           </row>
         </tbody>
       </tgroup>

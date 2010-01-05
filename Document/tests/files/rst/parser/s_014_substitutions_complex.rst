@@ -3000,7 +3000,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
               ),
                'token' => 
               ezcDocumentRstToken::__set_state(array(
-                 'type' => 5,
+                 'type' => 1,
                  'content' => 'the Java ',
                  'line' => 60,
                  'position' => 1,

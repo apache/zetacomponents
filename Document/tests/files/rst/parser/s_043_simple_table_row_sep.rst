@@ -163,7 +163,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 5,
-                           'position' => 4,
+                           'position' => 10,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -192,7 +192,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 5,
-                             'position' => 4,
+                             'position' => 10,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -315,7 +315,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 7,
-                           'position' => 6,
+                           'position' => 12,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -344,7 +344,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 7,
-                             'position' => 6,
+                             'position' => 12,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -449,7 +449,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 9,
-                           'position' => 6,
+                           'position' => 12,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -478,7 +478,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 9,
-                             'position' => 6,
+                             'position' => 12,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -620,7 +620,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 13,
-                           'position' => 6,
+                           'position' => 12,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -649,7 +649,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 13,
-                             'position' => 6,
+                             'position' => 12,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -754,7 +754,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 15,
-                           'position' => 6,
+                           'position' => 12,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -783,7 +783,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 15,
-                             'position' => 6,
+                             'position' => 12,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,

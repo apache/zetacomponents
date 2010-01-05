@@ -105,7 +105,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 5,
-                           'position' => 101,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -134,7 +134,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 5,
-                             'position' => 101,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -163,7 +163,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 5,
-                           'position' => 72,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -192,7 +192,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 5,
-                             'position' => 72,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -240,7 +240,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 7,
-                           'position' => 72,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -269,7 +269,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 7,
-                             'position' => 72,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -298,7 +298,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 7,
-                           'position' => 49,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -327,7 +327,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 7,
-                             'position' => 49,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -356,7 +356,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 7,
-                           'position' => 23,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -385,7 +385,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 7,
-                             'position' => 23,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -452,7 +452,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 9,
-                           'position' => 101,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -481,7 +481,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 9,
-                             'position' => 101,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -510,7 +510,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 9,
-                           'position' => 72,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -594,7 +594,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 9,
-                             'position' => 72,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -623,7 +623,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 13,
-                           'position' => 49,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -652,7 +652,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 13,
-                             'position' => 49,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,
@@ -681,7 +681,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 9,
-                           'position' => 23,
+                           'position' => 103,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -765,7 +765,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 9,
-                             'position' => 23,
+                             'position' => 103,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,

@@ -3,6 +3,7 @@
 
 - Fixed #15987: Font size estimation in Haru driver broken.
 - Implemented: Directive contents reparsing helper method.
+- Fixed #15973: Issues with re-parsing parts of directives.
 
 
 1.3 - Monday 21 December 2009

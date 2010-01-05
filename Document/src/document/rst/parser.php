@@ -487,10 +487,24 @@ class ezcDocumentRstParser extends ezcDocumentParser
      */
     protected function realignTokens( $tokens )
     {
-        $firstToken = reset( $tokens );
-        $offset = $firstToken->position +
-            ( $firstToken->type === ezcDocumentRstToken::WHITESPACE ? 0 : -1 );
+        /* DEBUG
+        static $c = 0;
+        file_put_contents( "tokens-reentered-$c.php", "<?php\n\n return " . var_export( $tokens, true ) . ";\n\n" );
+        // /DEBUG */
+
+        $firstToken  = reset( $tokens );
+        if ( ( $firstToken->type === ezcDocumentRstToken::WHITESPACE ) &&
+             ( $firstToken->position === 1 ) )
+        {
+            $offset = strlen( $firstToken->content );
+        }
+        else
+        {
+            $offset = $firstToken->position - ( $firstToken->type === ezcDocumentRstToken::WHITESPACE ? 0 : 1 );
+        }
+
         $fixedTokens = array();
+        $lineOffset  = $offset;
         foreach ( $tokens as $nr => $token )
         {
             if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
@@ -501,10 +515,27 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 continue;
             }
 
-            if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
-                 ( $token->position <= $offset ) )
+            if ( $token->type === ezcDocumentRstToken::NEWLINE )
             {
-                if ( strlen( $token->content ) <= 1 )
+                $lineOffset = false;
+            }
+            elseif ( $lineOffset === false )
+            {
+                if ( ( $firstToken->type === ezcDocumentRstToken::WHITESPACE ) &&
+                     ( $firstToken->position === 1 ) )
+                {
+                    $lineOffset = min( $offset, strlen( $firstToken->content ) );
+                }
+                else
+                {
+                    $lineOffset = min( $offset, $token->position - ( $token->type === ezcDocumentRstToken::WHITESPACE ? 0 : 1 ) );
+                }
+            }
+
+            if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
+                 ( $token->position <= $lineOffset ) )
+            {
+                if ( strlen( $token->content ) < $lineOffset )
                 {
                     // Just skip token, completely out of tokens bounds
                     continue;
@@ -513,15 +544,15 @@ class ezcDocumentRstParser extends ezcDocumentParser
                 {
                     // Shorten starting whitespace token
                     $token = clone $token;
-                    $token->position = 0;
-                    $token->content = substr( $token->content, 1 );
+                    $token->position = 1;
+                    $token->content = substr( $token->content, $lineOffset );
                     $fixedTokens[] = $token;
                 }
             }
             else
             {
                 $token = clone $token;
-                $token->position -= $offset;
+                $token->position = max( 1, $token->position - $lineOffset );
                 $fixedTokens[] = $token;
             }
         }
@@ -535,6 +566,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
         $fixedTokens[] = new ezcDocumentRstToken( ezcDocumentRstToken::NEWLINE, "\n", null, null );
         $fixedTokens[] = new ezcDocumentRstToken( ezcDocumentRstToken::EOF, null, null, null );
+
+        /* DEBUG
+        file_put_contents( "tokens-reentered-$c-fixed.php", "<?php\n\n return " . var_export( $fixedTokens, true ) . ";\n\n" );
+        ++$c;
+        // /DEBUG */
 
         return $fixedTokens;
     }
@@ -556,18 +592,8 @@ class ezcDocumentRstParser extends ezcDocumentParser
             return array();
         }
 
-        /* DEBUG
-        static $c = 0;
-        file_put_contents( "tokens-reentered-$c.php", "<?php\n\n return " . var_export( $tokens, true ) . ";\n\n" );
-        // /DEBUG */
-
         // Fix indentation for all cell tokens, as they were a single document.
         $fixedTokens = $reindent ? $this->realignTokens( $tokens ) : $tokens;
-
-        /* DEBUG
-        file_put_contents( "tokens-reentered-$c-fixed.php", "<?php\n\n return " . var_export( $fixedTokens, true ) . ";\n\n" );
-        ++$c;
-        // /DEBUG */
 
         $parser = new ezcDocumentRstParser();
         return $parser->parse( $fixedTokens );
@@ -2761,10 +2787,11 @@ class ezcDocumentRstParser extends ezcDocumentParser
 
             // Remove whitespaces used for indentation in literal blocks
             /* DEBUG
-            echo "  -> Remove whitespace indentation.\n";
+            echo "  -> Handle whitespace indentation.\n";
             // /DEBUG */
+            $directiveTokens[]     = clone $literalToken;
             $literalToken->content = substr( $literalToken->content, strlen( $baseIndetation->content ) );
-            $collected[] = new ezcDocumentRstLiteralNode( $literalToken );
+            $collected[]           = new ezcDocumentRstLiteralNode( $literalToken );
 
             // Just collect everything until we reach a newline, the the check
             // starts again.

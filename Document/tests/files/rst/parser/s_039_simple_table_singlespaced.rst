@@ -201,7 +201,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                         ezcDocumentRstParagraphNode::__set_state(array(
                            'indentation' => 0,
                            'line' => 7,
-                           'position' => 6,
+                           'position' => 12,
                            'type' => 3,
                            'nodes' => 
                           array (
@@ -230,7 +230,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                              'content' => '
 ',
                              'line' => 7,
-                             'position' => 6,
+                             'position' => 12,
                              'escaped' => false,
                           )),
                            'identifier' => NULL,

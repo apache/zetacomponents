@@ -8,10 +8,10 @@
         <thead>
           <row>
             <entry>
-              <para> A   </para>
+              <para>A   </para>
             </entry>
             <entry>
-              <para> B    </para>
+              <para>B    </para>
             </entry>
             <entry>
               <para>A and B</para>
@@ -71,7 +71,7 @@
         <thead>
           <row>
             <entry>
-              <para>  Inputs     </para>
+              <para>Inputs     </para>
             </entry>
             <entry>
               <para>Output</para>
@@ -79,10 +79,10 @@
           </row>
           <row>
             <entry>
-              <para> A   </para>
+              <para>A   </para>
             </entry>
             <entry>
-              <para> B    </para>
+              <para>B    </para>
             </entry>
             <entry>
               <para>A or B</para>
