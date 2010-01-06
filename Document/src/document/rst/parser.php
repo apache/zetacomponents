@@ -535,7 +535,7 @@ class ezcDocumentRstParser extends ezcDocumentParser
             if ( ( $token->type === ezcDocumentRstToken::WHITESPACE ) &&
                  ( $token->position <= $lineOffset ) )
             {
-                if ( strlen( $token->content ) < $lineOffset )
+                if ( strlen( $token->content ) <= $lineOffset )
                 {
                     // Just skip token, completely out of tokens bounds
                     continue;

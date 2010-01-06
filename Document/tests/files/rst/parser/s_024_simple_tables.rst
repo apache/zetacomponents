@@ -119,7 +119,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
-                                 'type' => 1,
+                                 'type' => 5,
                                  'content' => 'A   ',
                                  'line' => 5,
                                  'position' => 1,
@@ -1134,7 +1134,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
-                                 'type' => 1,
+                                 'type' => 5,
                                  'content' => 'Inputs     ',
                                  'line' => 14,
                                  'position' => 1,
@@ -1268,7 +1268,7 @@ return ezcDocumentRstDocumentNode::__set_state(array(
                               ),
                                'token' => 
                               ezcDocumentRstToken::__set_state(array(
-                                 'type' => 1,
+                                 'type' => 5,
                                  'content' => 'A   ',
                                  'line' => 16,
                                  'position' => 1,
