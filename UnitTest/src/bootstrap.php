@@ -4,7 +4,7 @@
  *
  * @package UnitTest
  * @version //autogentag//
- * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 2005-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 require_once 'PHPUnit/Util/Filter.php';
@@ -28,10 +28,8 @@ function __autoload( $className )
     if ( strpos( $className, '_' ) !== false )
     {
         $file = str_replace( '_', '/', $className ) . '.php';
-        $val = require_once( $file );
-        if ( $val == 0 )
-            return true;
-        return false;
+        @$val = require_once( $file );
+        return $val === true;
     }
     ezcBase::autoload( $className );
 }
