@@ -44,6 +44,7 @@ if ( file_exists( dirname( __FILE__ ) . '/staticReflection/source/pdepend/reflec
 
     require_once 'class_static_test.php';
     require_once 'method_static_test.php';
+    require_once 'parameter_static_test.php';
 }
 
 require_once 'test_classes/functions.php';
@@ -108,6 +109,7 @@ class ezcReflectionSuite extends PHPUnit_Framework_TestSuite
         {
             $this->addTest( ezcReflectionClassStaticTest::suite() );
             $this->addTest( ezcReflectionMethodStaticTest::suite() );
+            $this->addTest( ezcReflectionParameterStaticTest::suite() );
         }
 
         $this->addTest( ezcReflectionExtensionTest::suite() );
