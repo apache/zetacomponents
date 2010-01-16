@@ -29,14 +29,14 @@ abstract class ezcDocumentPdfTestCase extends ezcTestCase
      */
     protected $extension = 'pdf';
 
-    public function setUp()
+    protected function setUp()
     {
         static $i = 0;
         $this->tempDir = $this->createTempDir( __CLASS__ . sprintf( '_%03d_', ++$i ) ) . '/';
         $this->basePath = dirname( __FILE__ ) . '/../files/pdf/';
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         if ( !$this->hasFailed() )
         {

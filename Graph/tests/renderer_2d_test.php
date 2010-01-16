@@ -62,6 +62,9 @@ class ezcGraphRenderer2dTest extends ezcGraphTestCase
 
     protected function tearDown()
     {
+        $this->driver = null;
+        $this->renderer = null;
+
         if ( !$this->hasFailed() )
         {
             $this->removeTempDir();

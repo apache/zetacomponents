@@ -28,7 +28,7 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
         return new PHPUnit_Framework_TestSuite( __CLASS__ );
     }
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -45,6 +45,13 @@ class ezcDocumentPdfTransactionalDriverWrapperTests extends ezcDocumentPdfTestCa
                 'save',
             ) )
         );
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->mock = null;
+        $this->driver = null;
     }
 
     public function testNoIssuedWriteCallsToBackend()

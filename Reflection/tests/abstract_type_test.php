@@ -15,13 +15,18 @@ class ezcReflectionAbstractTypeTest extends ezcTestCase
      */
     protected $type;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->type = $this->getMock(
             'ezcReflectionAbstractType',
             null,
             array( 'string' )
         );
+    }
+
+    protected function tearDown()
+    {
+        $this->type = null;
     }
 
     public function testGetTypeName()
