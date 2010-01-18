@@ -27,6 +27,7 @@
  */
 class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
 {
+
     /**
      * Flattens a processed response object to headers and body.
      *
@@ -50,6 +51,36 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
         // locking
         $output->headers['DAV'] = '1, 2';
 
+        if ( $info instanceof ezcWebdavXmlDisplayInformation )
+        {
+            // Only mangle output if XML is to be sent (which does not include 
+            // GET of XML files, but only response XML).
+            $this->mangleXml( $output );
+        }
+
+
+        return $output;
+    }
+
+    /**
+     * Performs MS specific XML mangling on output.
+     *
+     * MS user agents show strange behaviour regarding XML processing. The 
+     * following quirks are resolved by this method, to make such user agents 
+     * accept the generated XML:
+     *
+     * - Add special namespace declarations and special shortcuts for the DAV: 
+     *   namespace
+     * - Rename shortcuts for some elements into these special ones
+     * - Add special XML attributes not defined in the RFC but expected by user 
+     *   agents
+     * - Remove all non-significant whitespaces
+     * - Add a newline at the end of the body
+     * 
+     * @param ezcWebdavOutputResult $output 
+     */
+    private function mangleXml( ezcWebdavOutputResult $output )
+    {
         // Add date namespace to response elements for MS clients
         // 
         // Mimic Apache mod_dav behaviour for DAV: namespace
@@ -90,8 +121,6 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
 
         // MS IE7 requires a newline after the XML.
         $output->body .= "\n";
-
-        return $output;
     }
 
     /**
