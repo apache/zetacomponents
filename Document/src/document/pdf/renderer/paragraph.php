@@ -89,7 +89,7 @@ class ezcDocumentPdfWrappingTextBoxRenderer extends ezcDocumentPdfTextBoxRendere
                     $difference = $styles['widows']->value - $current;
                     $pages[$pageNr - 1]['lines'] = array_slice( $pages[$pageNr - 1]['lines'], 0, -$difference, true );
                     $pages[$pageNr]['lines'] = array();
-                    $line                   -= $difference + 1;
+                    $line                    = $lineCount - $styles['widows']->value - 1;
                     $current                 = 0;
                     continue;
                 }
