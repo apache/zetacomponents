@@ -48,7 +48,7 @@ class ezcConsoleStandardInputValidator implements ezcConsoleInputValidator
                 throw new ezcConsoleOptionMandatoryViolationException( $option );
             }
 
-            $this->validateDependencies( $option);
+            $this->validateDependencies( $option );
             $this->validateExclusions( $option );
 
             if ( $option->arguments === false && $option->value !== false && $hasArguments )
