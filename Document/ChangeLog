@@ -5,6 +5,7 @@
 - Implemented: Directive contents reparsing helper method.
 - Fixed #15973: Issues with re-parsing parts of directives.
 - Implemented #15218: Add support for PDF compression
+- Implemented #15219: Add support for PDF encryption & permissions
 
 
 1.3 - Monday 21 December 2009

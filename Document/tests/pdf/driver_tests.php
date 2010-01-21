@@ -676,13 +676,85 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
             $this->markTestSkipped( 'Not supported by the SVG driver.' );
         }
 
+        $options = new ezcDocumentPdfOptions();
+        $options->compress = true;
+        $driver->setOptions( $options );
+
         $driver->createPage( 100, 100 );
         $driver->setTextFormatting( 'font-size', '10' );
         $driver->drawWord( 0, 10, 'Document compression test.' );
-        $driver->setCompression( true );
 
         $pdf = $driver->save();
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
+
+    public function testGeneratePdfWithOwnerPassword()
+    {
+        $driver = $this->getDriver();
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
+        $options = new ezcDocumentPdfOptions();
+        $options->ownerPassword = 'foobar23';
+        $driver->setOptions( $options );
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document compression test.' );
+
+        $pdf = $driver->save();
+        // We cannot make any proper asserstions here, since the PDF contents 
+        // change with each regeneration because of the encryption
+        $this->assertFalse( empty( $pdf ) );
+    }
+
+    public function testGenerateEncryptedPdf()
+    {
+        $driver = $this->getDriver();
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
+        $options = new ezcDocumentPdfOptions();
+        $options->ownerPassword = 'foobar23';
+        $options->userPassword  = 'foobar';
+        $driver->setOptions( $options );
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document compression test.' );
+
+        $pdf = $driver->save();
+        // We cannot make any proper asserstions here, since the PDF contents 
+        // change with each regeneration because of the encryption
+        $this->assertFalse( empty( $pdf ) );
+    }
+
+    public function testGenerateEncryptedProtectedPdf()
+    {
+        $driver = $this->getDriver();
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
+        $options = new ezcDocumentPdfOptions();
+        $options->permissions = 0;
+        $options->ownerPassword = 'foobar23';
+        $options->userPassword  = 'foobar';
+        $driver->setOptions( $options );
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document compression test.' );
+
+        $pdf = $driver->save();
+        // We cannot make any proper asserstions here, since the PDF contents 
+        // change with each regeneration because of the encryption
+        $this->assertFalse( empty( $pdf ) );
     }
 }
 

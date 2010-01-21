@@ -126,6 +126,18 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
     protected $currentpage;
 
     /**
+     * Mapping of native permission flags, to Haru permission flags
+     * 
+     * @var array
+     */
+    protected $permissionMapping = array(
+        ezcDocumentPdfOptions::EDIT      => 'annot-forms',
+        ezcDocumentPdfOptions::PRINTABLE => 'print',
+        ezcDocumentPdfOptions::COPY      => 'copy',
+        ezcDocumentPdfOptions::MODIFY    => 'modify',
+    );
+
+    /**
      * Name and style of default font / currently used font
      *
      * @var array
@@ -145,6 +157,8 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
      */
     public function __construct()
     {
+        parent::__construct();
+
         // Do nothing in here, we can only instantiate the document on first
         // page creation, because we do not know about the page format
         // beforehand.
@@ -178,13 +192,37 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         $this->document->setCreator( 'eZ Components - Document //autogen//' );
         $this->document->setPrintHeader( false );
         $this->document->setPrintFooter( false );
-        $this->document->setCompression( $this->compress );
+        $this->document->setCompression( $this->options->compress );
+
+        if ( $this->options->ownerPassword !== null ) 
+        {
+            $this->setPermissions( $this->options );
+        }
 
         $this->document->setFont(
             $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],
             '', // Style
             $this->currentFont['size']
         );
+    }
+
+    /**
+     * Set permissions for PDF document
+     * 
+     * @param int $permissions 
+     * @return void
+     */
+    protected function setPermissions( ezcDocumentPdfOptions $options )
+    {
+        $flag = array();
+        foreach ( $this->permissionMapping as $own => $tcpdf )
+        {
+            if ( $options->permissions & $own )
+            {
+                $flag[] = $tcpdf;
+            }
+        }
+        $this->document->setProtection( $flag, $this->options->userPassword, $this->options->ownerPassword );
     }
 
     /**

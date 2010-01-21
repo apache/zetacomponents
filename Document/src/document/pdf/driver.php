@@ -40,11 +40,23 @@ abstract class ezcDocumentPdfDriver
     const FONT_OBLIQUE   = 2;
 
     /**
-     * Flag indicating, whether the generated PDF should be compressed
+     * PDF options
      * 
-     * @var bool
+     * @var ezcDocumentPdfOptions
      */
-    protected $compress = false;
+    protected $options;
+
+    /**
+     * Construct driver
+     *
+     * Creates a new PDF driver.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->options = new ezcDocumentPdfOptions();
+    }
 
     /**
      * Set compression
@@ -54,9 +66,9 @@ abstract class ezcDocumentPdfDriver
      * @param bool $compress 
      * @return void
      */
-    public function setCompression( $compress )
+    public function setOptions( ezcDocumentPdfOptions $options )
     {
-        $this->compress = (bool) $compress;
+        $this->options = $options;
     }
 
     /**

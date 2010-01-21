@@ -88,7 +88,8 @@ class ezcDocumentPdf extends ezcDocument
             new ezcDocumentPdfOptions() :
             $options );
 
-        $this->styles   = new ezcDocumentPcssStyleInferencer();
+        $this->styles          = new ezcDocumentPcssStyleInferencer();
+        $this->options->driver = new ezcDocumentPdfHaruDriver();
     }
 
     /**
@@ -180,7 +181,7 @@ class ezcDocumentPdf extends ezcDocument
 
         $this->path = $document->getPath();
 
-        $this->options->driver->setCompression( $this->options->compress );
+        $this->options->driver->setOptions( $this->options );
         $renderer = new ezcDocumentPdfMainRenderer(
             $this->options->driver,
             $this->styles,

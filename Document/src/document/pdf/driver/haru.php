@@ -201,6 +201,18 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
     );
 
     /**
+     * Mapping of native permission flags, to Haru permission flags
+     * 
+     * @var array
+     */
+    protected $permissionMapping = array(
+        ezcDocumentPdfOptions::EDIT      => HaruDoc::ENABLE_EDIT,
+        ezcDocumentPdfOptions::PRINTABLE => HaruDoc::ENABLE_PRINT,
+        ezcDocumentPdfOptions::COPY      => HaruDoc::ENABLE_COPY,
+        ezcDocumentPdfOptions::MODIFY    => HaruDoc::ENABLE_EDIT_ALL,
+    );
+
+    /**
      * Construct driver
      *
      * Creates a new document instance maintaining all document context.
@@ -209,6 +221,8 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->document = null;
         $this->pages    = array();
         $this->dummyDoc = null;
@@ -226,13 +240,38 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         $this->document->setInfoAttr( HaruDoc::INFO_CREATOR, 'eZ Components - Document //autogen//' );
         $this->pages = array();
 
-        if ( $this->compress )
+        if ( $this->options->compress )
         {
             $this->document->setCompressionMode( HaruDoc::COMP_ALL );
         }
 
+        if ( $this->options->ownerPassword !== null )
+        {
+            $this->document->setPassword( $this->options->ownerPassword, $this->options->userPassword );
+            $this->setPermissions( $this->options->permissions );
+        }
+
         $this->dummyDoc = new HaruDoc();
         $this->dummyDoc->addPage();
+    }
+
+    /**
+     * Set permissions for PDF document
+     * 
+     * @param int $permissions 
+     * @return void
+     */
+    protected function setPermissions( $permissions )
+    {
+        $flag = HaruDoc::ENABLE_READ;
+        foreach ( $this->permissionMapping as $own => $haru )
+        {
+            if ( $permissions & $own )
+            {
+                $flag |= $haru;
+            }
+        }
+        $this->document->setPermission( $flag );
     }
 
     /**

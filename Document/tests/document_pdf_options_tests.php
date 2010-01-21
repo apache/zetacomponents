@@ -45,10 +45,19 @@ class ezcDocumentPdfOptionsTests extends ezcDocumentOptionsTestCase
                 'tableColumnWidthCalculator', new ezcDocumentPdfDefaultTableColumnWidthCalculator(),
             ),
             array(
-                'driver', new ezcDocumentPdfHaruDriver(),
+                'driver', null,
             ),
             array(
                 'compress', false,
+            ),
+            array(
+                'ownerPassword', null,
+            ),
+            array(
+                'userPassword', null,
+            ),
+            array(
+                'permissions', -1,
             ),
         );
     }
@@ -80,6 +89,18 @@ class ezcDocumentPdfOptionsTests extends ezcDocumentOptionsTestCase
                 'compress',
                 array( true, false ),
             ),
+            array(
+                'ownerPassword',
+                array( 'foo', null ),
+            ),
+            array(
+                'userPassword',
+                array( null ),
+            ),
+            array(
+                'permissions',
+                array( 0, -1, ezcDocumentPdfOptions::EDIT | ezcDocumentPdfOptions::PRINTABLE ),
+            ),
         );
     }
 
@@ -109,6 +130,18 @@ class ezcDocumentPdfOptionsTests extends ezcDocumentOptionsTestCase
             array(
                 'compress',
                 array( 1, null, 23.4, 'foo', new StdClass() ),
+            ),
+            array(
+                'ownerPassword',
+                array( 1, 23.4, new StdClass() ),
+            ),
+            array(
+                'userPassword',
+                array( 'foo', 1, 23.4, new StdClass() ),
+            ),
+            array(
+                'permissions',
+                array( null, 23.4, 'foo', new StdClass() ),
             ),
         );
     }

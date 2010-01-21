@@ -132,6 +132,8 @@ class ezcDocumentPdfSvgDriver extends ezcDocumentPdfDriver
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->document = new DOMDocument( '1.0' );
         $this->document->formatOutput = true;
 
