@@ -667,6 +667,23 @@ abstract class ezcDocumentPdfDriverTests extends ezcDocumentPdfTestCase
         $pdf = $driver->save();
         $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
     }
+
+    public function testGenerateCompressedPdf()
+    {
+        $driver = $this->getDriver();
+        if ( $driver instanceof ezcDocumentPdfSvgDriver )
+        {
+            $this->markTestSkipped( 'Not supported by the SVG driver.' );
+        }
+
+        $driver->createPage( 100, 100 );
+        $driver->setTextFormatting( 'font-size', '10' );
+        $driver->drawWord( 0, 10, 'Document compression test.' );
+        $driver->setCompression( true );
+
+        $pdf = $driver->save();
+        $this->assertPdfDocumentsSimilar( $pdf, get_class( $driver ) . '_' . __FUNCTION__ );
+    }
 }
 
 ?>

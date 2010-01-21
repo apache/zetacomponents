@@ -178,6 +178,7 @@ class ezcDocumentPdfTcpdfDriver extends ezcDocumentPdfDriver
         $this->document->setCreator( 'eZ Components - Document //autogen//' );
         $this->document->setPrintHeader( false );
         $this->document->setPrintFooter( false );
+        $this->document->setCompression( $this->compress );
 
         $this->document->setFont(
             $this->fonts[$this->currentFont['name']][self::FONT_PLAIN],

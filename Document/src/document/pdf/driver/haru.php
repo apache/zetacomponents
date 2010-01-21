@@ -226,6 +226,11 @@ class ezcDocumentPdfHaruDriver extends ezcDocumentPdfDriver
         $this->document->setInfoAttr( HaruDoc::INFO_CREATOR, 'eZ Components - Document //autogen//' );
         $this->pages = array();
 
+        if ( $this->compress )
+        {
+            $this->document->setCompressionMode( HaruDoc::COMP_ALL );
+        }
+
         $this->dummyDoc = new HaruDoc();
         $this->dummyDoc->addPage();
     }

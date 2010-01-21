@@ -47,6 +47,9 @@ class ezcDocumentPdfOptionsTests extends ezcDocumentOptionsTestCase
             array(
                 'driver', new ezcDocumentPdfHaruDriver(),
             ),
+            array(
+                'compress', false,
+            ),
         );
     }
 
@@ -73,6 +76,10 @@ class ezcDocumentPdfOptionsTests extends ezcDocumentOptionsTestCase
                 'driver',
                 array( new ezcDocumentPdfHaruDriver() ),
             ),
+            array(
+                'compress',
+                array( true, false ),
+            ),
         );
     }
 
@@ -98,6 +105,10 @@ class ezcDocumentPdfOptionsTests extends ezcDocumentOptionsTestCase
             array(
                 'driver',
                 array( 'foo', new StdClass() ),
+            ),
+            array(
+                'compress',
+                array( 1, null, 23.4, 'foo', new StdClass() ),
             ),
         );
     }

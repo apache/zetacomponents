@@ -20,6 +20,8 @@
  * @property ezcDocumentPdfTableColumnWidthCalculator $tableColumnWidthCalculator
  *           Class responsible to obtain sensible column width values from a 
  *           table specification by introspecting its contents.
+ * @property bool $compress
+ *           Indicates whether to compress the generated PDF.
  *
  * @package Document
  * @version //autogen//
@@ -37,9 +39,10 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
      */
     public function __construct( array $options = array() )
     {
-        $this->hyphenator     = new ezcDocumentPdfDefaultHyphenator();
-        $this->tokenizer      = new ezcDocumentPdfDefaultTokenizer();
+        $this->hyphenator                 = new ezcDocumentPdfDefaultHyphenator();
+        $this->tokenizer                  = new ezcDocumentPdfDefaultTokenizer();
         $this->tableColumnWidthCalculator = new ezcDocumentPdfDefaultTableColumnWidthCalculator();
+        $this->compress                   = false;
 
         // @todo: There might be a better default:
         $this->driver     = new ezcDocumentPdfHaruDriver();
@@ -93,6 +96,15 @@ class ezcDocumentPdfOptions extends ezcDocumentOptions
                 if ( !$value instanceof ezcDocumentPdfTableColumnWidthCalculator )
                 {
                     throw new ezcBaseValueException( $name, $value, 'instanceof ezcDocumentPdfTableColumnWidthCalculator' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'compress':
+                if ( !is_bool( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'bool' );
                 }
 
                 $this->properties[$name] = $value;

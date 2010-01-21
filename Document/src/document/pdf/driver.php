@@ -40,6 +40,26 @@ abstract class ezcDocumentPdfDriver
     const FONT_OBLIQUE   = 2;
 
     /**
+     * Flag indicating, whether the generated PDF should be compressed
+     * 
+     * @var bool
+     */
+    protected $compress = false;
+
+    /**
+     * Set compression
+     *
+     * Set whether the generated PDF should be compressed or not.
+     * 
+     * @param bool $compress 
+     * @return void
+     */
+    public function setCompression( $compress )
+    {
+        $this->compress = (bool) $compress;
+    }
+
+    /**
      * Create a new page
      *
      * Create a new page in the PDF document with the given width and height.

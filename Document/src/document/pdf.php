@@ -180,6 +180,7 @@ class ezcDocumentPdf extends ezcDocument
 
         $this->path = $document->getPath();
 
+        $this->options->driver->setCompression( $this->options->compress );
         $renderer = new ezcDocumentPdfMainRenderer(
             $this->options->driver,
             $this->styles,
