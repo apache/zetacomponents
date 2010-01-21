@@ -95,8 +95,7 @@ class ezcConsoleStandardInputValidator implements ezcConsoleInputValidator
         {
             throw new ezcConsoleOptionDependencyViolationException(
                 $srcOpt,
-                $dep->option,
-                implode( ', ', $dep->values )
+                $dep->option
             );
         }
 

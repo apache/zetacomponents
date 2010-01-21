@@ -30,7 +30,7 @@ class ezcConsoleOptionDependencyViolationException extends ezcConsoleOptionExcep
         $message  = "The option '{$dependingOption->long}' depends on the option '{$dependantOption->long}' ";
         if ( $valueRange !== null )
         {
-            $message .= " to have a value in '{$valueRange}' ";
+            $message .= "to have a value in '{$valueRange}' ";
         }
         $message .= "but this one was not submitted.";
         parent::__construct( $message );

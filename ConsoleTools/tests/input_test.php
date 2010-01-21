@@ -1702,7 +1702,11 @@ class ezcConsoleInputTest extends ezcTestCase
             'moretext',
             '-c'            // This one depends on -t, -o, -b and -y
         );
-        $this->commonProcessTestFailure( $args, 'ezcConsoleOptionDependencyViolationException' );
+        $this->commonProcessTestFailure(
+            $args,
+            'ezcConsoleOptionDependencyViolationException',
+            "The option 'console' depends on the option 'original' but this one was not submitted."
+        );
     }
 
     public function testProcessFailureDependencieValues()
@@ -1719,7 +1723,11 @@ class ezcConsoleInputTest extends ezcTestCase
             '-x',
         );
 
-        $this->commonProcessTestFailure( $args, 'ezcConsoleOptionDependencyViolationException' );
+        $this->commonProcessTestFailure(
+            $args,
+            'ezcConsoleOptionDependencyViolationException',
+            "The option 'execute' depends on the option 'yank' to have a value in 'foo, bar' but this one was not submitted."
+        );
     }
     
     public function testProcessFailureExclusions()
@@ -2854,7 +2862,7 @@ class ezcConsoleInputTest extends ezcTestCase
         $this->assertTrue( count( array_diff( $res, $values ) ) == 0, 'Parameters processed incorrectly.' );
     }
     
-    private function commonProcessTestFailure( $args, $exceptionClass )
+    private function commonProcessTestFailure( $args, $exceptionClass, $message = null )
     {
         try 
         {
@@ -2867,6 +2875,15 @@ class ezcConsoleInputTest extends ezcTestCase
                 get_class( $e ),
                 'Wrong exception thrown for invalid parameter submission. Expected class <'.$exceptionClass.'>, received <'.get_class( $e ).'>'
             );
+
+            if ( $message !== null )
+            {
+                $this->assertEquals(
+                    $message,
+                    $e->getMessage(),
+                    'Exception message incorrect.'
+                );
+            }
             return;
         }
         $this->fail( 'Exception not thrown for invalid parameter submition.' );
