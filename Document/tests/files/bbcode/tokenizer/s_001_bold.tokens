@@ -1,0 +1,58 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => NULL,
+     'content' => 'b',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'Hello',
+     'line' => 1,
+     'position' => 2,
+  )),
+  3 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'b',
+     'line' => 1,
+     'position' => 7,
+  )),
+  4 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 8,
+  )),
+  5 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  6 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  7 => 
+  ezcDocumentBBCodeEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 2,
+     'position' => 1,
+  )),
+);
+

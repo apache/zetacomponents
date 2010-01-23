@@ -1,0 +1,104 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => NULL,
+     'content' => 'img',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'http://www.google.com/intl/en_ALL/images/logo.gif',
+     'line' => 1,
+     'position' => 4,
+  )),
+  3 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'img',
+     'line' => 1,
+     'position' => 53,
+  )),
+  4 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 56,
+  )),
+  5 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  6 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => 'http://www.google.com/',
+     'content' => 'url',
+     'line' => 3,
+     'position' => 1,
+  )),
+  7 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => NULL,
+     'content' => 'img',
+     'line' => 3,
+     'position' => 4,
+  )),
+  8 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'http://www.google.com/intl/en_ALL/images/logo.gif',
+     'line' => 3,
+     'position' => 7,
+  )),
+  9 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'img',
+     'line' => 3,
+     'position' => 56,
+  )),
+  10 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'url',
+     'line' => 3,
+     'position' => 59,
+  )),
+  11 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 3,
+     'position' => 62,
+  )),
+  12 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 4,
+     'position' => 1,
+  )),
+  13 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 4,
+     'position' => 1,
+  )),
+  14 => 
+  ezcDocumentBBCodeEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 4,
+     'position' => 1,
+  )),
+);
+

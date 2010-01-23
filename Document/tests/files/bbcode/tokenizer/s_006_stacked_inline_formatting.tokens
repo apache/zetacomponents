@@ -1,0 +1,124 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'Can I combine formatting tags?',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 31,
+  )),
+  3 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  4 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'Yes, of course you can, for example to get someones attention you may write:',
+     'line' => 3,
+     'position' => 1,
+  )),
+  5 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 3,
+     'position' => 77,
+  )),
+  6 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 4,
+     'position' => 1,
+  )),
+  7 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => '200',
+     'content' => 'size',
+     'line' => 5,
+     'position' => 1,
+  )),
+  8 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => 'red',
+     'content' => 'color',
+     'line' => 5,
+     'position' => 5,
+  )),
+  9 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => NULL,
+     'content' => 'b',
+     'line' => 5,
+     'position' => 10,
+  )),
+  10 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'LOOK AT ME!',
+     'line' => 5,
+     'position' => 11,
+  )),
+  11 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'b',
+     'line' => 5,
+     'position' => 22,
+  )),
+  12 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'color',
+     'line' => 5,
+     'position' => 23,
+  )),
+  13 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'size',
+     'line' => 5,
+     'position' => 28,
+  )),
+  14 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 5,
+     'position' => 32,
+  )),
+  15 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 6,
+     'position' => 1,
+  )),
+  16 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 6,
+     'position' => 1,
+  )),
+  17 => 
+  ezcDocumentBBCodeEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 6,
+     'position' => 1,
+  )),
+);
+

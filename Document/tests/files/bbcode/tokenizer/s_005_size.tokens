@@ -1,0 +1,151 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => '30',
+     'content' => 'size',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'SMALL',
+     'line' => 1,
+     'position' => 5,
+  )),
+  3 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'size',
+     'line' => 1,
+     'position' => 10,
+  )),
+  4 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 14,
+  )),
+  5 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  6 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'will generally be SMALL',
+     'line' => 3,
+     'position' => 1,
+  )),
+  7 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 3,
+     'position' => 24,
+  )),
+  8 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 4,
+     'position' => 1,
+  )),
+  9 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'whereas:',
+     'line' => 5,
+     'position' => 1,
+  )),
+  10 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 5,
+     'position' => 9,
+  )),
+  11 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 6,
+     'position' => 1,
+  )),
+  12 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => '200',
+     'content' => 'size',
+     'line' => 7,
+     'position' => 1,
+  )),
+  13 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'HUGE!',
+     'line' => 7,
+     'position' => 5,
+  )),
+  14 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'size',
+     'line' => 7,
+     'position' => 10,
+  )),
+  15 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 7,
+     'position' => 14,
+  )),
+  16 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 8,
+     'position' => 1,
+  )),
+  17 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'will be HUGE!',
+     'line' => 9,
+     'position' => 1,
+  )),
+  18 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 9,
+     'position' => 14,
+  )),
+  19 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 10,
+     'position' => 1,
+  )),
+  20 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 10,
+     'position' => 1,
+  )),
+  21 => 
+  ezcDocumentBBCodeEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 10,
+     'position' => 1,
+  )),
+);
+

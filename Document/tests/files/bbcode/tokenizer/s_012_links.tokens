@@ -1,0 +1,124 @@
+<?php
+
+return array (
+  0 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 0,
+     'position' => 1,
+  )),
+  1 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => 'http://www.phpbb.com/',
+     'content' => 'url',
+     'line' => 1,
+     'position' => 1,
+  )),
+  2 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'Visit phpBB!',
+     'line' => 1,
+     'position' => 4,
+  )),
+  3 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'url',
+     'line' => 1,
+     'position' => 16,
+  )),
+  4 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 1,
+     'position' => 19,
+  )),
+  5 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 2,
+     'position' => 1,
+  )),
+  6 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => NULL,
+     'content' => 'url',
+     'line' => 3,
+     'position' => 1,
+  )),
+  7 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'http://www.phpbb.com/',
+     'line' => 3,
+     'position' => 4,
+  )),
+  8 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'url',
+     'line' => 3,
+     'position' => 25,
+  )),
+  9 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 3,
+     'position' => 28,
+  )),
+  10 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 4,
+     'position' => 1,
+  )),
+  11 => 
+  ezcDocumentBBCodeTagOpenToken::__set_state(array(
+     'parameters' => NULL,
+     'content' => 'email',
+     'line' => 5,
+     'position' => 1,
+  )),
+  12 => 
+  ezcDocumentBBCodeTextLineToken::__set_state(array(
+     'content' => 'no.one@domain.adr',
+     'line' => 5,
+     'position' => 6,
+  )),
+  13 => 
+  ezcDocumentBBCodeTagCloseToken::__set_state(array(
+     'content' => 'email',
+     'line' => 5,
+     'position' => 23,
+  )),
+  14 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 5,
+     'position' => 28,
+  )),
+  15 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 6,
+     'position' => 1,
+  )),
+  16 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 6,
+     'position' => 1,
+  )),
+  17 => 
+  ezcDocumentBBCodeEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 6,
+     'position' => 1,
+  )),
+);
+

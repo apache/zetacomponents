@@ -55,6 +55,8 @@ require 'pcss/value_parser_tests.php';
 
 require_once 'list_bullet_guesser_test.php';
 
+require 'bbcode/suite.php';
+
 require 'pdf/suite.php';
 
 require 'odt/suite.php';
