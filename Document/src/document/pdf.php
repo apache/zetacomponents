@@ -89,7 +89,11 @@ class ezcDocumentPdf extends ezcDocument
             $options );
 
         $this->styles          = new ezcDocumentPcssStyleInferencer();
-        $this->options->driver = new ezcDocumentPdfHaruDriver();
+
+        if ( $this->options->driver === null )
+        {
+            $this->options->driver = new ezcDocumentPdfHaruDriver();
+        }
     }
 
     /**
