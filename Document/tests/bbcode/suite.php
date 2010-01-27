@@ -15,6 +15,7 @@
 * Required test suites.
 */
 require 'tokenizer_tests.php';
+require 'parser_tests.php';
 
 class ezcDocumentBBCodeSuite extends PHPUnit_Framework_TestSuite
 {
@@ -29,6 +30,7 @@ class ezcDocumentBBCodeSuite extends PHPUnit_Framework_TestSuite
         $this->setName( "Document BBCode tests" );
 
         $this->addTest( ezcDocumentBBCodeTokenizerTests::suite() );
+        $this->addTest( ezcDocumentBBCodeParserTests::suite() );
     }
 }
 

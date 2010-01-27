@@ -186,10 +186,9 @@ class ezcDocumentBBCodeTokenizer
      */
     public function tokenizeString( $string )
     {
-        $line     = 0;
+        $line     = 1;
         $position = 1;
         $tokens   = array();
-        $string   = "\n" . $string;
 
         // Normalize newlines
         $string = preg_replace( '([\x20\\t]*(?:\\r\\n|\\r|\\n))', "\n", $string );

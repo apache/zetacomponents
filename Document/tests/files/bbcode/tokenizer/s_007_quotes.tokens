@@ -2,57 +2,57 @@
 
 return array (
   0 => 
-  ezcDocumentBBCodeNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 0,
-     'position' => 1,
-  )),
-  1 => 
   ezcDocumentBBCodeTextLineToken::__set_state(array(
      'content' => 'For example to quote a piece of text Mr. Blobby wrote you would enter:',
      'line' => 1,
      'position' => 1,
   )),
-  2 => 
+  1 => 
   ezcDocumentBBCodeNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 1,
      'position' => 71,
   )),
-  3 => 
+  2 => 
   ezcDocumentBBCodeNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 2,
      'position' => 1,
   )),
-  4 => 
+  3 => 
   ezcDocumentBBCodeTagOpenToken::__set_state(array(
      'parameters' => '"Mr. Blobby"',
      'content' => 'quote',
      'line' => 3,
      'position' => 1,
   )),
-  5 => 
+  4 => 
   ezcDocumentBBCodeTextLineToken::__set_state(array(
      'content' => 'The text Mr. Blobby wrote would go here',
      'line' => 3,
      'position' => 6,
   )),
-  6 => 
+  5 => 
   ezcDocumentBBCodeTagCloseToken::__set_state(array(
      'content' => 'quote',
      'line' => 3,
      'position' => 45,
   )),
-  7 => 
+  6 => 
   ezcDocumentBBCodeNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 3,
      'position' => 50,
+  )),
+  7 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 4,
+     'position' => 1,
   )),
   8 => 
   ezcDocumentBBCodeNewLineToken::__set_state(array(
@@ -62,13 +62,6 @@ return array (
      'position' => 1,
   )),
   9 => 
-  ezcDocumentBBCodeNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 4,
-     'position' => 1,
-  )),
-  10 => 
   ezcDocumentBBCodeEndOfFileToken::__set_state(array(
      'content' => NULL,
      'line' => 4,

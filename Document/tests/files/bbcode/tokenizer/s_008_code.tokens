@@ -2,50 +2,50 @@
 
 return array (
   0 => 
-  ezcDocumentBBCodeNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 0,
-     'position' => 1,
-  )),
-  1 => 
   ezcDocumentBBCodeLiteralBlockToken::__set_state(array(
      'content' => 'echo "This is some code";',
      'line' => 1,
      'position' => 1,
   )),
-  2 => 
+  1 => 
   ezcDocumentBBCodeNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 1,
      'position' => 26,
   )),
-  3 => 
+  2 => 
   ezcDocumentBBCodeNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 2,
      'position' => 1,
   )),
-  4 => 
+  3 => 
   ezcDocumentBBCodeLiteralBlockToken::__set_state(array(
      'content' => 'echo "This is some [b]code[/b]";',
      'line' => 3,
      'position' => 1,
   )),
-  5 => 
+  4 => 
   ezcDocumentBBCodeNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 3,
      'position' => 33,
   )),
-  6 => 
+  5 => 
   ezcDocumentBBCodeNewLineToken::__set_state(array(
      'content' => '
 ',
      'line' => 4,
+     'position' => 1,
+  )),
+  6 => 
+  ezcDocumentBBCodeNewLineToken::__set_state(array(
+     'content' => '
+',
+     'line' => 5,
      'position' => 1,
   )),
   7 => 
@@ -56,13 +56,6 @@ return array (
      'position' => 1,
   )),
   8 => 
-  ezcDocumentBBCodeNewLineToken::__set_state(array(
-     'content' => '
-',
-     'line' => 5,
-     'position' => 1,
-  )),
-  9 => 
   ezcDocumentBBCodeEndOfFileToken::__set_state(array(
      'content' => NULL,
      'line' => 5,

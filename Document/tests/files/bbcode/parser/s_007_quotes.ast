@@ -1,0 +1,89 @@
+<?php
+
+return ezcDocumentBBCodeDocumentNode::__set_state(array(
+   'line' => 4,
+   'position' => 1,
+   'nodes' => 
+  array (
+    0 => 
+    ezcDocumentBBCodeParagraphNode::__set_state(array(
+       'line' => 1,
+       'position' => 71,
+       'nodes' => 
+      array (
+        0 => 
+        ezcDocumentBBCodeTextNode::__set_state(array(
+           'line' => 1,
+           'position' => 1,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentBBCodeTextLineToken::__set_state(array(
+             'content' => 'For example to quote a piece of text Mr. Blobby wrote you would enter:',
+             'line' => 1,
+             'position' => 1,
+          )),
+        )),
+      ),
+       'token' => 
+      ezcDocumentBBCodeNewLineToken::__set_state(array(
+         'content' => '
+',
+         'line' => 1,
+         'position' => 71,
+      )),
+    )),
+    1 => 
+    ezcDocumentBBCodeParagraphNode::__set_state(array(
+       'line' => 3,
+       'position' => 50,
+       'nodes' => 
+      array (
+        0 => 
+        ezcDocumentBBCodeTagNode::__set_state(array(
+           'line' => 3,
+           'position' => 1,
+           'nodes' => 
+          array (
+            0 => 
+            ezcDocumentBBCodeTextNode::__set_state(array(
+               'line' => 3,
+               'position' => 6,
+               'nodes' => 
+              array (
+              ),
+               'token' => 
+              ezcDocumentBBCodeTextLineToken::__set_state(array(
+                 'content' => 'The text Mr. Blobby wrote would go here',
+                 'line' => 3,
+                 'position' => 6,
+              )),
+            )),
+          ),
+           'token' => 
+          ezcDocumentBBCodeTagOpenToken::__set_state(array(
+             'parameters' => '"Mr. Blobby"',
+             'content' => 'quote',
+             'line' => 3,
+             'position' => 1,
+          )),
+        )),
+      ),
+       'token' => 
+      ezcDocumentBBCodeNewLineToken::__set_state(array(
+         'content' => '
+',
+         'line' => 3,
+         'position' => 50,
+      )),
+    )),
+  ),
+   'token' => 
+  ezcDocumentBBCodeEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 4,
+     'position' => 1,
+  )),
+));
+

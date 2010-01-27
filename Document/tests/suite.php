@@ -141,6 +141,8 @@ class ezcDocumentSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentOdtSuite::suite() );
 
+        $this->addTest( ezcDocumentBBCodeSuite::suite() );
+
         $this->addTest( ezcDocumentConverterDocbookToHtmlTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToHtmlXsltTests::suite() );
         $this->addTest( ezcDocumentConverterDocbookToRstTests::suite() );

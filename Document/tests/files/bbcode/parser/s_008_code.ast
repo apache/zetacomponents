@@ -1,0 +1,74 @@
+<?php
+
+return ezcDocumentBBCodeDocumentNode::__set_state(array(
+   'line' => 5,
+   'position' => 1,
+   'nodes' => 
+  array (
+    0 => 
+    ezcDocumentBBCodeParagraphNode::__set_state(array(
+       'line' => 1,
+       'position' => 26,
+       'nodes' => 
+      array (
+        0 => 
+        ezcDocumentBBCodeLiteralBlockNode::__set_state(array(
+           'line' => 1,
+           'position' => 1,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentBBCodeLiteralBlockToken::__set_state(array(
+             'content' => 'echo "This is some code";',
+             'line' => 1,
+             'position' => 1,
+          )),
+        )),
+      ),
+       'token' => 
+      ezcDocumentBBCodeNewLineToken::__set_state(array(
+         'content' => '
+',
+         'line' => 1,
+         'position' => 26,
+      )),
+    )),
+    1 => 
+    ezcDocumentBBCodeParagraphNode::__set_state(array(
+       'line' => 3,
+       'position' => 33,
+       'nodes' => 
+      array (
+        0 => 
+        ezcDocumentBBCodeLiteralBlockNode::__set_state(array(
+           'line' => 3,
+           'position' => 1,
+           'nodes' => 
+          array (
+          ),
+           'token' => 
+          ezcDocumentBBCodeLiteralBlockToken::__set_state(array(
+             'content' => 'echo "This is some [b]code[/b]";',
+             'line' => 3,
+             'position' => 1,
+          )),
+        )),
+      ),
+       'token' => 
+      ezcDocumentBBCodeNewLineToken::__set_state(array(
+         'content' => '
+',
+         'line' => 3,
+         'position' => 33,
+      )),
+    )),
+  ),
+   'token' => 
+  ezcDocumentBBCodeEndOfFileToken::__set_state(array(
+     'content' => NULL,
+     'line' => 5,
+     'position' => 1,
+  )),
+));
+
