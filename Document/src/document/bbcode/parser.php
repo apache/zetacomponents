@@ -494,7 +494,9 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
         $nodes = array();
         while ( isset( $this->documentStack[0] ) &&
                 ( !$this->documentStack[0] instanceof ezcDocumentBBCodeListItemNode ) &&
-                ( !$this->documentStack[0] instanceof ezcDocumentBBCodeListNode ) )
+                ( ( !$this->documentStack[0] instanceof ezcDocumentBBCodeListNode ) ||
+                  ( ( $this->documentStack[0] instanceof ezcDocumentBBCodeListNode ) &&
+                    ( count( $this->documentStack[0]->nodes ) ) ) ) )
         {
             $nodes[] = $child = array_shift( $this->documentStack );
 
