@@ -16,6 +16,7 @@
 */
 require 'tokenizer_tests.php';
 require 'parser_tests.php';
+require 'docbook_visitor_tests.php';
 
 class ezcDocumentBBCodeSuite extends PHPUnit_Framework_TestSuite
 {
@@ -31,6 +32,7 @@ class ezcDocumentBBCodeSuite extends PHPUnit_Framework_TestSuite
 
         $this->addTest( ezcDocumentBBCodeTokenizerTests::suite() );
         $this->addTest( ezcDocumentBBCodeParserTests::suite() );
+        $this->addTest( ezcDocumentBBCodeDocbookVisitorTests::suite() );
     }
 }
 

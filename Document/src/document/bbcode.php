@@ -132,7 +132,7 @@ class ezcDocumentBBCode extends ezcDocument implements ezcDocumentValidation
      */
     public function getAsDocbook()
     {
-        $tokenizer = $this->options->tokenizer;
+        $tokenizer = new ezcDocumentBBCodeTokenizer();
         $parser    = new ezcDocumentBBCodeParser();
         $parser->options->errorReporting = $this->options->errorReporting;
 
@@ -217,7 +217,7 @@ class ezcDocumentBBCode extends ezcDocument implements ezcDocumentValidation
      */
     public function validateString( $string )
     {
-        $tokenizer = $this->options->tokenizer;
+        $tokenizer = new ezcDocumentBBCodeTokenizer();
         $parser    = new ezcDocumentBBCodeParser();
         // Only halt on parse errors, and collect all other errors.
         $parser->options->errorReporting = E_PARSE;
