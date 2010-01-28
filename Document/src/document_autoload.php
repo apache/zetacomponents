@@ -113,6 +113,7 @@ return array(
     'ezcDocumentBBCodeDocbookVisitor'                    => 'Document/document/bbcode/visitor/docbook.php',
     'ezcDocumentBBCodeDocumentNode'                      => 'Document/document/bbcode/nodes/document.php',
     'ezcDocumentBBCodeEndOfFileToken'                    => 'Document/document/bbcode/token/end_of_file.php',
+    'ezcDocumentBBCodeInlineLiteralNode'                 => 'Document/document/bbcode/nodes/inline_literal.php',
     'ezcDocumentBBCodeLineBreakToken'                    => 'Document/document/bbcode/token/line_break.php',
     'ezcDocumentBBCodeListItemToken'                     => 'Document/document/bbcode/token/list_item.php',
     'ezcDocumentBBCodeLiteralBlockNode'                  => 'Document/document/bbcode/nodes/literal_block.php',

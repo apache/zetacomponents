@@ -51,6 +51,8 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
             => 'shiftOpeningToken',
         'ezcDocumentBBCodeTagCloseToken'
             => 'shiftClosingToken',
+        'ezcDocumentBBCodeWhitespaceToken'
+            => 'shiftTextToken',
         'ezcDocumentBBCodeTextLineToken'
             => 'shiftTextToken',
         'ezcDocumentBBCodeLiteralBlockToken'
@@ -293,11 +295,30 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
      */
     protected function shiftLiteralBlockToken( ezcDocumentBBCodeToken $token, array &$tokens )
     {
-        // @TODO Differentiate between inline literal and literal block.
-        /* DEBUG
-        echo " - Shift literal block node.\n";
-        // /DEBUG */
-        return new ezcDocumentBBCodeLiteralBlockNode( $token );
+        if ( isset( $this->documentStack[0] ) &&
+             ( $this->documentStack[0] instanceof ezcDocumentBBCodeParagraphNode ) &&
+             isset( $tokens[0] ) &&
+             ( $tokens[0] instanceof ezcDocumentBBCodeNewLineToken ) )
+        {
+            // Remove following new line tokens.
+            do {
+                array_shift( $tokens );
+            } while ( isset( $tokens[0] ) &&
+                      ( ( $tokens[0] instanceof ezcDocumentBBCodeNewlineToken ) ||
+                        ( $tokens[0] instanceof ezcDocumentBBCodeWhitespaceToken ) ) );
+
+            /* DEBUG
+            echo " - Shift literal block node.\n";
+            // /DEBUG */
+            return new ezcDocumentBBCodeLiteralBlockNode( $token );
+        }
+        else
+        {
+            /* DEBUG
+            echo " - Shift inline literal node.\n";
+            // /DEBUG */
+            return new ezcDocumentBBCodeInlineLiteralNode( $token );
+        }
     }
 
     /**
@@ -422,7 +443,8 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
     {
         $nodes = array();
         while ( isset( $this->documentStack[0] ) &&
-                ( !$this->documentStack[0] instanceof ezcDocumentBBCodeParagraphNode ) )
+                ( !$this->documentStack[0] instanceof ezcDocumentBBCodeParagraphNode ) &&
+                ( !$this->documentStack[0] instanceof ezcDocumentBBCodeLiteralBlockNode ) )
         {
             $nodes[] = $child = array_shift( $this->documentStack );
 
@@ -467,7 +489,8 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
     {
         $nodes = array();
         while ( isset( $this->documentStack[0] ) &&
-                ( $this->documentStack[0] instanceof ezcDocumentBBCodeParagraphNode ) )
+                ( ( $this->documentStack[0] instanceof ezcDocumentBBCodeParagraphNode ) ||
+                  ( $this->documentStack[0] instanceof ezcDocumentBBCodeLiteralBlockNode ) ) )
         {
             $nodes[] = array_shift( $this->documentStack );
         }
