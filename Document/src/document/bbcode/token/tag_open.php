@@ -21,7 +21,7 @@ class ezcDocumentBBCodeTagOpenToken extends ezcDocumentBBCodeToken
      * 
      * @var string
      */
-    protected $parameters;
+    public $parameters;
 
     /**
      * Construct BBCode token

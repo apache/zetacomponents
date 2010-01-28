@@ -51,6 +51,8 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
             => 'shiftOpeningToken',
         'ezcDocumentBBCodeTagCloseToken'
             => 'shiftClosingToken',
+        'ezcDocumentBBCodeListItemToken'
+            => 'shiftListItemToken',
         'ezcDocumentBBCodeWhitespaceToken'
             => 'shiftTextToken',
         'ezcDocumentBBCodeTextLineToken'
@@ -89,6 +91,12 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
         ),
         'ezcDocumentBBCodeDocumentNode' => array(
             'reduceDocument',
+        ),
+        'ezcDocumentBBCodeListItemNode' => array(
+            'reduceListItem',
+        ),
+        'ezcDocumentBBCodeListEndNode' => array(
+            'reduceList',
         ),
     );
 
@@ -228,6 +236,24 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
     }
 
     /**
+     * Shift list item token
+     *
+     * List item tokens indicate a new list item. Just put them on the stack, 
+     * they will be aggregated later.
+     *
+     * @param ezcDocumentBBCodeToken $token
+     * @param array $tokens
+     * @return mixed
+     */
+    protected function shiftListItemToken( ezcDocumentBBCodeToken $token, array &$tokens )
+    {
+        /* DEBUG
+        echo " - Shift list item.\n";
+        // /DEBUG */
+        return new ezcDocumentBBCodeListItemNode( $token );
+    }
+
+    /**
      * Shift tag opening token
      *
      * Opening tags mean that the following contents will be aggregated, once a 
@@ -239,10 +265,28 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
      */
     protected function shiftOpeningToken( ezcDocumentBBCodeToken $token, array &$tokens )
     {
-        /* DEBUG
-        echo " - Shift opening token {$token->content}.\n";
-        // /DEBUG */
-        return new ezcDocumentBBCodeTagNode( $token );
+        if ( $token->content !== 'list' )
+        {
+            /* DEBUG
+            echo " - Shift opening token {$token->content}.\n";
+            // /DEBUG */
+            return new ezcDocumentBBCodeTagNode( $token );
+        }
+
+        switch ( true )
+        {
+            case $token->parameters === null:
+                /* DEBUG
+                echo " - Shift bullet list.\n";
+                // /DEBUG */
+                return new ezcDocumentBBCodeBulletListNode( $token );
+
+            default:
+                /* DEBUG
+                echo " - Shift enumerated list.\n";
+                // /DEBUG */
+                return new ezcDocumentBBCodeEnumeratedListNode( $token );
+        }
     }
 
     /**
@@ -258,6 +302,14 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
      */
     protected function shiftClosingToken( ezcDocumentBBCodeToken $token, array &$tokens )
     {
+        if ( $token->content === 'list' )
+        {
+            /* DEBUG
+            echo " - Shift list end node.\n";
+            // /DEBUG */
+            return new ezcDocumentBBCodeListEndNode( $token );
+        }
+
         /* DEBUG
         echo " - Shift closing token {$token->content}.\n";
         // /DEBUG */
@@ -430,6 +482,89 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
     }
 
     /**
+     * Reduce list items.
+     *
+     * Aggregates list items and puts them into a found list.
+     *
+     * @param ezcDocumentBBCodeParagraphNode $node
+     * @return mixed
+     */
+    protected function reduceListItem( ezcDocumentBBCodeNode $node )
+    {
+        $nodes = array();
+        while ( isset( $this->documentStack[0] ) &&
+                ( !$this->documentStack[0] instanceof ezcDocumentBBCodeListItemNode ) &&
+                ( !$this->documentStack[0] instanceof ezcDocumentBBCodeListNode ) )
+        {
+            $nodes[] = $child = array_shift( $this->documentStack );
+
+            if ( ( $child instanceof ezcDocumentBBCodeTagNode ) &&
+                 ( !count( $child->nodes ) ) )
+            {
+                return $this->triggerError( E_PARSE,
+                    "Opening tag, without matching closing tag found: '" . $child->token->content . "'.",
+                    $child->token->line, $child->token->position
+                );
+            }
+
+            if ( $child instanceof ezcDocumentBBCodeClosingTagNode )
+            {
+                return $this->triggerError( E_PARSE,
+                    "Closing tag, without matching opening tag found: '" . $child->token->content . "'.",
+                    $child->token->line, $child->token->position
+                );
+            }
+        }
+
+        if ( !isset( $this->documentStack[0] ) )
+        {
+            return $this->triggerError( E_PARSE,
+                "Missing list item node.",
+                $child->token->line, $child->token->position
+            );
+        }
+
+        if ( $this->documentStack[0] instanceof ezcDocumentBBCodeListItemNode )
+        {
+            $this->documentStack[0]->nodes = array_reverse( $nodes );
+        }
+
+        return $node;
+    }
+
+    /**
+     * Reduce list.
+     *
+     * Aggregates list items and puts them into a found list.
+     *
+     * @param ezcDocumentBBCodeParagraphNode $node
+     * @return mixed
+     */
+    protected function reduceList( ezcDocumentBBCodeNode $node )
+    {
+        $this->reduceListItem( $node );
+
+        $nodes = array();
+        while ( isset( $this->documentStack[0] ) &&
+                ( $this->documentStack[0] instanceof ezcDocumentBBCodeListItemNode ) )
+        {
+            $nodes[] = array_shift( $this->documentStack );
+        }
+
+        if ( !isset( $this->documentStack[0] ) ||
+             ( !$this->documentStack[0] instanceof ezcDocumentBBCodeListNode ) )
+        {
+            return $this->triggerError( E_PARSE,
+                "Missing list start node.",
+                $child->token->line, $child->token->position
+            );
+        }
+
+        $this->documentStack[0]->nodes = array_reverse( $nodes );
+        return null;
+    }
+
+    /**
      * Reduce paragraph.
      *
      * Paragraphs are reduce with all inline tokens, which have been added to
@@ -444,6 +579,7 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
         $nodes = array();
         while ( isset( $this->documentStack[0] ) &&
                 ( !$this->documentStack[0] instanceof ezcDocumentBBCodeParagraphNode ) &&
+                ( !$this->documentStack[0] instanceof ezcDocumentBBCodeListNode ) &&
                 ( !$this->documentStack[0] instanceof ezcDocumentBBCodeLiteralBlockNode ) )
         {
             $nodes[] = $child = array_shift( $this->documentStack );
@@ -490,6 +626,7 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
         $nodes = array();
         while ( isset( $this->documentStack[0] ) &&
                 ( ( $this->documentStack[0] instanceof ezcDocumentBBCodeParagraphNode ) ||
+                  ( $this->documentStack[0] instanceof ezcDocumentBBCodeListNode ) ||
                   ( $this->documentStack[0] instanceof ezcDocumentBBCodeLiteralBlockNode ) ) )
         {
             $nodes[] = array_shift( $this->documentStack );
