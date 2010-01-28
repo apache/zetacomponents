@@ -409,7 +409,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     public function escapeUrl( $url )
     {
         return preg_replace_callback(
-            '([^a-z0-9._:/#&?@-]+)',
+            '([^a-z0-9._:/#&?@=-]+)',
             array( 'ezcDocumentRstXhtmlVisitor', 'urlEscapeArray' ),
             $url
         );
@@ -465,16 +465,16 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
     {
         if ( $node->target !== false )
         {
-            $linkUrl = htmlspecialchars( $this->escapeUrl( $node->target ) );
+            $linkUrl = $this->escapeUrl( $node->target );
         }
         elseif ( ( $target = $this->getNamedExternalReference( $this->nodeToString( $node ) ) ) !== false )
         {
-            $linkUrl = htmlspecialchars( $this->escapeUrl( $target ) );
+            $linkUrl = $this->escapeUrl( $target );
         }
         else
         {
             $target = $this->hasReferenceTarget( $this->nodeToString( $node ), $node );
-            $linkUrl = '#' . htmlspecialchars( $this->escapeUrl( $target ) );
+            $linkUrl = '#' . $this->escapeUrl( $target );
         }
 
         $link = $this->document->createElement( 'a' );
@@ -538,7 +538,7 @@ class ezcDocumentRstXhtmlVisitor extends ezcDocumentRstVisitor
         $target = $node->target !== false ? $node->target : $this->getAnonymousReferenceTarget();
 
         $link = $this->document->createElement( 'a' );
-        $link->setAttribute( 'href', htmlspecialchars( $this->escapeUrl( $target ) ) );
+        $link->setAttribute( 'href', $this->escapeUrl( $target ) );
         $root->appendChild( $link );
 
         foreach ( $node->nodes as $child )
