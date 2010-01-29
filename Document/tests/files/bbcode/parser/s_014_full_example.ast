@@ -76,25 +76,40 @@ return ezcDocumentBBCodeDocumentNode::__set_state(array(
            'nodes' => 
           array (
             0 => 
-            ezcDocumentBBCodeTextNode::__set_state(array(
-               'line' => 6,
-               'position' => 1,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentBBCodeTextLineToken::__set_state(array(
-                 'content' => 'Go to the shops',
-                 'line' => 6,
-                 'position' => 1,
-              )),
-            )),
-            1 => 
-            ezcDocumentBBCodeTextNode::__set_state(array(
+            ezcDocumentBBCodeParagraphNode::__set_state(array(
                'line' => 6,
                'position' => 16,
                'nodes' => 
               array (
+                0 => 
+                ezcDocumentBBCodeTextNode::__set_state(array(
+                   'line' => 6,
+                   'position' => 1,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentBBCodeTextLineToken::__set_state(array(
+                     'content' => 'Go to the shops',
+                     'line' => 6,
+                     'position' => 1,
+                  )),
+                )),
+                1 => 
+                ezcDocumentBBCodeTextNode::__set_state(array(
+                   'line' => 6,
+                   'position' => 16,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentBBCodeNewLineToken::__set_state(array(
+                     'content' => '
+',
+                     'line' => 6,
+                     'position' => 16,
+                  )),
+                )),
               ),
                'token' => 
               ezcDocumentBBCodeNewLineToken::__set_state(array(
@@ -119,21 +134,6 @@ return ezcDocumentBBCodeDocumentNode::__set_state(array(
            'nodes' => 
           array (
             0 => 
-            ezcDocumentBBCodeTextNode::__set_state(array(
-               'line' => 7,
-               'position' => 1,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentBBCodeNewLineToken::__set_state(array(
-                 'content' => '
-',
-                 'line' => 7,
-                 'position' => 1,
-              )),
-            )),
-            1 => 
             ezcDocumentBBCodeBulletListNode::__set_state(array(
                'line' => 8,
                'position' => 5,
@@ -146,39 +146,40 @@ return ezcDocumentBBCodeDocumentNode::__set_state(array(
                    'nodes' => 
                   array (
                     0 => 
-                    ezcDocumentBBCodeTextNode::__set_state(array(
-                       'line' => 9,
-                       'position' => 5,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentBBCodeWhitespaceToken::__set_state(array(
-                         'content' => ' ',
-                         'line' => 9,
-                         'position' => 5,
-                      )),
-                    )),
-                    1 => 
-                    ezcDocumentBBCodeTextNode::__set_state(array(
-                       'line' => 9,
-                       'position' => 6,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentBBCodeTextLineToken::__set_state(array(
-                         'content' => 'This is second level list item',
-                         'line' => 9,
-                         'position' => 6,
-                      )),
-                    )),
-                    2 => 
-                    ezcDocumentBBCodeTextNode::__set_state(array(
+                    ezcDocumentBBCodeParagraphNode::__set_state(array(
                        'line' => 9,
                        'position' => 36,
                        'nodes' => 
                       array (
+                        0 => 
+                        ezcDocumentBBCodeTextNode::__set_state(array(
+                           'line' => 9,
+                           'position' => 6,
+                           'nodes' => 
+                          array (
+                          ),
+                           'token' => 
+                          ezcDocumentBBCodeTextLineToken::__set_state(array(
+                             'content' => 'This is second level list item',
+                             'line' => 9,
+                             'position' => 6,
+                          )),
+                        )),
+                        1 => 
+                        ezcDocumentBBCodeTextNode::__set_state(array(
+                           'line' => 9,
+                           'position' => 36,
+                           'nodes' => 
+                          array (
+                          ),
+                           'token' => 
+                          ezcDocumentBBCodeNewLineToken::__set_state(array(
+                             'content' => '
+',
+                             'line' => 9,
+                             'position' => 36,
+                          )),
+                        )),
                       ),
                        'token' => 
                       ezcDocumentBBCodeNewLineToken::__set_state(array(
@@ -203,39 +204,40 @@ return ezcDocumentBBCodeDocumentNode::__set_state(array(
                    'nodes' => 
                   array (
                     0 => 
-                    ezcDocumentBBCodeTextNode::__set_state(array(
-                       'line' => 10,
-                       'position' => 5,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentBBCodeWhitespaceToken::__set_state(array(
-                         'content' => ' ',
-                         'line' => 10,
-                         'position' => 5,
-                      )),
-                    )),
-                    1 => 
-                    ezcDocumentBBCodeTextNode::__set_state(array(
-                       'line' => 10,
-                       'position' => 6,
-                       'nodes' => 
-                      array (
-                      ),
-                       'token' => 
-                      ezcDocumentBBCodeTextLineToken::__set_state(array(
-                         'content' => 'This is another one',
-                         'line' => 10,
-                         'position' => 6,
-                      )),
-                    )),
-                    2 => 
-                    ezcDocumentBBCodeTextNode::__set_state(array(
+                    ezcDocumentBBCodeParagraphNode::__set_state(array(
                        'line' => 10,
                        'position' => 25,
                        'nodes' => 
                       array (
+                        0 => 
+                        ezcDocumentBBCodeTextNode::__set_state(array(
+                           'line' => 10,
+                           'position' => 6,
+                           'nodes' => 
+                          array (
+                          ),
+                           'token' => 
+                          ezcDocumentBBCodeTextLineToken::__set_state(array(
+                             'content' => 'This is another one',
+                             'line' => 10,
+                             'position' => 6,
+                          )),
+                        )),
+                        1 => 
+                        ezcDocumentBBCodeTextNode::__set_state(array(
+                           'line' => 10,
+                           'position' => 25,
+                           'nodes' => 
+                          array (
+                          ),
+                           'token' => 
+                          ezcDocumentBBCodeNewLineToken::__set_state(array(
+                             'content' => '
+',
+                             'line' => 10,
+                             'position' => 25,
+                          )),
+                        )),
                       ),
                        'token' => 
                       ezcDocumentBBCodeNewLineToken::__set_state(array(
@@ -262,21 +264,6 @@ return ezcDocumentBBCodeDocumentNode::__set_state(array(
                  'position' => 5,
               )),
             )),
-            2 => 
-            ezcDocumentBBCodeTextNode::__set_state(array(
-               'line' => 11,
-               'position' => 9,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentBBCodeNewLineToken::__set_state(array(
-                 'content' => '
-',
-                 'line' => 11,
-                 'position' => 9,
-              )),
-            )),
           ),
            'token' => 
           ezcDocumentBBCodeListItemToken::__set_state(array(
@@ -292,111 +279,126 @@ return ezcDocumentBBCodeDocumentNode::__set_state(array(
            'nodes' => 
           array (
             0 => 
-            ezcDocumentBBCodeTextNode::__set_state(array(
+            ezcDocumentBBCodeParagraphNode::__set_state(array(
                'line' => 12,
-               'position' => 1,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentBBCodeTextLineToken::__set_state(array(
-                 'content' => 'Swear at ',
-                 'line' => 12,
-                 'position' => 1,
-              )),
-            )),
-            1 => 
-            ezcDocumentBBCodeTagNode::__set_state(array(
-               'line' => 12,
-               'position' => 10,
+               'position' => 38,
                'nodes' => 
               array (
                 0 => 
                 ezcDocumentBBCodeTextNode::__set_state(array(
                    'line' => 12,
-                   'position' => 11,
+                   'position' => 1,
                    'nodes' => 
                   array (
                   ),
                    'token' => 
                   ezcDocumentBBCodeTextLineToken::__set_state(array(
-                     'content' => 'computer ',
+                     'content' => 'Swear at ',
                      'line' => 12,
-                     'position' => 11,
+                     'position' => 1,
                   )),
                 )),
                 1 => 
                 ezcDocumentBBCodeTagNode::__set_state(array(
                    'line' => 12,
-                   'position' => 20,
+                   'position' => 10,
                    'nodes' => 
                   array (
                     0 => 
                     ezcDocumentBBCodeTextNode::__set_state(array(
                        'line' => 12,
-                       'position' => 21,
+                       'position' => 11,
                        'nodes' => 
                       array (
                       ),
                        'token' => 
                       ezcDocumentBBCodeTextLineToken::__set_state(array(
-                         'content' => 'when',
+                         'content' => 'computer ',
                          'line' => 12,
-                         'position' => 21,
+                         'position' => 11,
+                      )),
+                    )),
+                    1 => 
+                    ezcDocumentBBCodeTagNode::__set_state(array(
+                       'line' => 12,
+                       'position' => 20,
+                       'nodes' => 
+                      array (
+                        0 => 
+                        ezcDocumentBBCodeTextNode::__set_state(array(
+                           'line' => 12,
+                           'position' => 21,
+                           'nodes' => 
+                          array (
+                          ),
+                           'token' => 
+                          ezcDocumentBBCodeTextLineToken::__set_state(array(
+                             'content' => 'when',
+                             'line' => 12,
+                             'position' => 21,
+                          )),
+                        )),
+                      ),
+                       'token' => 
+                      ezcDocumentBBCodeTagOpenToken::__set_state(array(
+                         'parameters' => NULL,
+                         'content' => 'i',
+                         'line' => 12,
+                         'position' => 20,
                       )),
                     )),
                   ),
                    'token' => 
                   ezcDocumentBBCodeTagOpenToken::__set_state(array(
                      'parameters' => NULL,
-                     'content' => 'i',
+                     'content' => 'b',
                      'line' => 12,
-                     'position' => 20,
+                     'position' => 10,
                   )),
                 )),
-              ),
-               'token' => 
-              ezcDocumentBBCodeTagOpenToken::__set_state(array(
-                 'parameters' => NULL,
-                 'content' => 'b',
-                 'line' => 12,
-                 'position' => 10,
-              )),
-            )),
-            2 => 
-            ezcDocumentBBCodeTextNode::__set_state(array(
-               'line' => 12,
-               'position' => 27,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentBBCodeWhitespaceToken::__set_state(array(
-                 'content' => ' ',
-                 'line' => 12,
-                 'position' => 27,
-              )),
-            )),
-            3 => 
-            ezcDocumentBBCodeTextNode::__set_state(array(
-               'line' => 12,
-               'position' => 28,
-               'nodes' => 
-              array (
-              ),
-               'token' => 
-              ezcDocumentBBCodeTextLineToken::__set_state(array(
-                 'content' => 'it crashes',
-                 'line' => 12,
-                 'position' => 28,
-              )),
-            )),
-            4 => 
-            ezcDocumentBBCodeTextNode::__set_state(array(
-               'line' => 12,
-               'position' => 38,
-               'nodes' => 
-              array (
+                2 => 
+                ezcDocumentBBCodeTextNode::__set_state(array(
+                   'line' => 12,
+                   'position' => 27,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentBBCodeWhitespaceToken::__set_state(array(
+                     'content' => ' ',
+                     'line' => 12,
+                     'position' => 27,
+                  )),
+                )),
+                3 => 
+                ezcDocumentBBCodeTextNode::__set_state(array(
+                   'line' => 12,
+                   'position' => 28,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentBBCodeTextLineToken::__set_state(array(
+                     'content' => 'it crashes',
+                     'line' => 12,
+                     'position' => 28,
+                  )),
+                )),
+                4 => 
+                ezcDocumentBBCodeTextNode::__set_state(array(
+                   'line' => 12,
+                   'position' => 38,
+                   'nodes' => 
+                  array (
+                  ),
+                   'token' => 
+                  ezcDocumentBBCodeNewLineToken::__set_state(array(
+                     'content' => '
+',
+                     'line' => 12,
+                     'position' => 38,
+                  )),
+                )),
               ),
                'token' => 
               ezcDocumentBBCodeNewLineToken::__set_state(array(

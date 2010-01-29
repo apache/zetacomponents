@@ -54,7 +54,7 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
         'ezcDocumentBBCodeListItemToken'
             => 'shiftListItemToken',
         'ezcDocumentBBCodeWhitespaceToken'
-            => 'shiftTextToken',
+            => 'shiftWhitespaceToken',
         'ezcDocumentBBCodeTextLineToken'
             => 'shiftTextToken',
         'ezcDocumentBBCodeLiteralBlockToken'
@@ -317,11 +317,34 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
     }
 
     /**
-     * Shift title token.
+     * Shift whitespace token.
      *
-     * Some bbcode markup languages use a second title token at the end of the
-     * line instead of just a line break. In the case we are already inside a
-     * line token, just shift an invisible line break.
+     * Shift whitespace tokens. Whitespaces are only considered significant, if 
+     * the prior token was not a block level element.
+     *
+     * @param ezcDocumentBBCodeToken $token
+     * @param array $tokens
+     * @return mixed
+     */
+    protected function shiftWhitespaceToken( ezcDocumentBBCodeToken $token, array &$tokens )
+    {
+        if ( isset( $this->documentStack[0] ) &&
+             ( !$this->documentStack[0] instanceof ezcDocumentBBCodeBlockLevelNode ) )
+        {
+            /* DEBUG
+            echo " - Shift whitespace text node.\n";
+            // /DEBUG */
+            return new ezcDocumentBBCodeTextNode( $token );
+        }
+
+        /* DEBUG
+        echo " - Ignore whitespace node.\n";
+        // /DEBUG */
+        return null;
+    }
+
+    /**
+     * Shift text token.
      *
      * @param ezcDocumentBBCodeToken $token
      * @param array $tokens
@@ -404,13 +427,19 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
             // /DEBUG */
             return new ezcDocumentBBCodeParagraphNode( $token );
         }
-        else
+        elseif ( isset( $this->documentStack[0] ) &&
+                 ( !$this->documentStack[0] instanceof ezcDocumentBBCodeBlockLevelNode ) )
         {
             /* DEBUG
             echo " - Shift newline as whitespace node.\n";
             // /DEBUG */
             return new ezcDocumentBBCodeTextNode( $token );
         }
+
+        /* DEBUG
+        echo " - Ignore whitespace node.\n";
+        // /DEBUG */
+        return null;
     }
 
     /**
@@ -526,9 +555,37 @@ class ezcDocumentBBCodeParser extends ezcDocumentParser
             );
         }
 
+        // Wrap non-block-level nodes into paragraphs
+        $wrapped = array();
+        $temp    = array();
+        foreach ( $nodes as $child )
+        {
+            if ( !$child instanceof ezcDocumentBBCodeBlockLevelNode )
+            {
+                $temp[] = $child;
+            }
+            elseif ( count( $temp ) )
+            {
+                $wrapped[]   = $para = new ezcDocumentBBCodeParagraphNode( $temp[0]->token );
+                $para->nodes = array_reverse( $temp );
+                $temp        = array();
+                $wrapped[]   = $child;
+            }
+            else
+            {
+                $wrapped[] = $child;
+            }
+        }
+
+        if ( count( $temp ) )
+        {
+            $wrapped[]   = $para = new ezcDocumentBBCodeParagraphNode( $temp[0]->token );
+            $para->nodes = array_reverse( $temp );
+        }
+
         if ( $this->documentStack[0] instanceof ezcDocumentBBCodeListItemNode )
         {
-            $this->documentStack[0]->nodes = array_reverse( $nodes );
+            $this->documentStack[0]->nodes = array_reverse( $wrapped );
         }
 
         return $node;

@@ -72,6 +72,7 @@
                 <element name="acronym"           type="doc:inline" />
                 <element name="anchor"            type="doc:inline" />
                 <element name="author"            type="doc:inline" />
+                <element name="blockquote"        type="doc:blockquote" />
                 <element name="citation"          type="doc:inline" />
                 <element name="citetitle"         type="doc:inline" />
                 <element name="email"             type="doc:inline" />

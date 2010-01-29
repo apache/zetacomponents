@@ -28,9 +28,15 @@ class ezcDocumentBBCodeOptions extends ezcDocumentOptions
     public function __construct( array $options = array() )
     {
         $this->properties['tags'] = new ArrayObject();
-        $this->properties['tags']['b'] = new ezcDocumentBBCodeEmphasisPlugin();
-        $this->properties['tags']['i'] = new ezcDocumentBBCodeEmphasisPlugin();
-        $this->properties['tags']['u'] = new ezcDocumentBBCodeEmphasisPlugin();
+        $this->properties['tags']['b']     = new ezcDocumentBBCodeEmphasisPlugin();
+        $this->properties['tags']['i']     = new ezcDocumentBBCodeEmphasisPlugin();
+        $this->properties['tags']['u']     = new ezcDocumentBBCodeEmphasisPlugin();
+        $this->properties['tags']['size']  = new ezcDocumentBBCodeNoMarkupPlugin();
+        $this->properties['tags']['color'] = new ezcDocumentBBCodeNoMarkupPlugin();
+        $this->properties['tags']['quote'] = new ezcDocumentBBCodeQuotePlugin();
+        $this->properties['tags']['url']   = new ezcDocumentBBCodeUrlPlugin();
+        $this->properties['tags']['email'] = new ezcDocumentBBCodeEmailPlugin();
+        $this->properties['tags']['img']   = new ezcDocumentBBCodeImagePlugin();
 
         parent::__construct( $options );
     }

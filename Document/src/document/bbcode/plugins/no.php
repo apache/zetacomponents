@@ -9,12 +9,12 @@
  */
 
 /**
- * Visitor for bbcode plugins
+ * Visitor for bbcode emphasis tags
  *
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentBBCodePlugin
+class ezcDocumentBBCodeNoMarkupPlugin extends ezcDocumentBBCodePlugin
 {
     /**
      * Convert a BBCode tag into Docbook
@@ -28,31 +28,12 @@ abstract class ezcDocumentBBCodePlugin
      * @param ezcDocumentBBCodeNode $node 
      * @return void
      */
-    abstract public function toDocbook( ezcDocumentBBCodeVisitor $visitor, DOMElement $root, ezcDocumentBBCodeNode $node );
-
-    /**
-     * Recursively extract text from node
-     * 
-     * @param ezcDocumentBBCodeNode $node 
-     * @return void
-     */
-    protected function getText( ezcDocumentBBCodeNode $node )
+    public function toDocbook( ezcDocumentBBCodeVisitor $visitor, DOMElement $root, ezcDocumentBBCodeNode $node )
     {
-        $text = '';
-
         foreach ( $node->nodes as $child )
         {
-            if ( $child instanceof ezcDocumentBBCodeTextNode )
-            {
-                $text .= $child->token->content;
-            }
-            elseif ( is_array( $child->nodes ) )
-            {
-                $text .= $this->getText( $child );
-            }
+            $visitor->visitNode( $root, $child );
         }
-
-        return $text;
     }
 }
 

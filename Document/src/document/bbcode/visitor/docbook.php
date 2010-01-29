@@ -23,9 +23,13 @@ class ezcDocumentBBCodeDocbookVisitor extends ezcDocumentBBCodeVisitor
      * @var array
      */
     protected $visitMapping = array(
-        'ezcDocumentBBCodeParagraphNode' => 'visitParagraph',
-        'ezcDocumentBBCodeTextNode'      => 'visitText',
-        'ezcDocumentBBCodeTagNode'       => 'visitTag',
+        'ezcDocumentBBCodeParagraphNode'      => 'visitParagraph',
+        'ezcDocumentBBCodeTextNode'           => 'visitText',
+        'ezcDocumentBBCodeTagNode'            => 'visitTag',
+        'ezcDocumentBBCodeInlineLiteralNode'  => 'visitInlineLiteral',
+        'ezcDocumentBBCodeLiteralBlockNode'   => 'visitLiteralBlock',
+        'ezcDocumentBBCodeBulletListNode'     => 'visitBulletList',
+        'ezcDocumentBBCodeEnumeratedListNode' => 'visitEnumeratedList',
     );
 
     /**
@@ -128,6 +132,99 @@ class ezcDocumentBBCodeDocbookVisitor extends ezcDocumentBBCodeVisitor
         {
             $this->bbcode->options->tags[$node->token->content]->toDocbook( $this, $root, $node );
         }
+    }
+
+    /**
+     * Visit inlien literal markup
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentBBCodeNode $node
+     * @return void
+     */
+    protected function visitInlineLiteral( DOMNode $root, ezcDocumentBBCodeNode $node )
+    {
+        $literal = $this->document->createElement( 'literal', htmlspecialchars( $node->token->content ) );
+        $root->appendChild( $literal );
+    }
+
+    /**
+     * Visit literal block markup
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentBBCodeNode $node
+     * @return void
+     */
+    protected function visitLiteralBlock( DOMNode $root, ezcDocumentBBCodeNode $node )
+    {
+        $literal = $this->document->createElement( 'literallayout', htmlspecialchars( $node->token->content ) );
+        $root->appendChild( $literal );
+    }
+
+    /**
+     * Visit list items in a list
+     * 
+     * @param DOMNode $list 
+     * @param ezcDocumentBBCodeListNode $node 
+     * @return void
+     */
+    protected function visitListItems( DOMNode $list, ezcDocumentBBCodeListNode $node )
+    {
+        foreach ( $node->nodes as $child )
+        {
+            if ( !$child instanceof ezcDocumentBBCodeListItemNode )
+            {
+                continue;
+            }
+
+            $item = $this->document->createElement( 'listitem' );
+            $list->appendChild( $item );
+
+            foreach ( $child->nodes as $grandChild )
+            {
+                $this->visitNode( $item, $grandChild );
+            }
+        }
+    }
+
+    /**
+     * Visit bullet list
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentBBCodeNode $node
+     * @return void
+     */
+    protected function visitBulletList( DOMNode $root, ezcDocumentBBCodeNode $node )
+    {
+        $list = $this->document->createElement( 'itemizedlist' );
+        $root->appendChild( $list );
+
+        $this->visitListItems( $list, $node );
+    }
+
+    /**
+     * Visit enumerated list
+     *
+     * @param DOMNode $root
+     * @param ezcDocumentBBCodeNode $node
+     * @return void
+     */
+    protected function visitEnumeratedList( DOMNode $root, ezcDocumentBBCodeNode $node )
+    {
+        $list = $this->document->createElement( 'orderedlist' );
+        $root->appendChild( $list );
+
+        switch ( $node->token->parameters )
+        {
+            case 'a':
+                $list->setAttribute( 'numeration', 'loweralpha' );
+                break;
+
+            case '1':
+                $list->setAttribute( 'numeration', 'arabic' );
+                break;
+        }
+
+        $this->visitListItems( $list, $node );
     }
 }
 

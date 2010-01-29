@@ -14,7 +14,7 @@
  * @package Document
  * @version //autogen//
  */
-class ezcDocumentBBCodeParagraphNode extends ezcDocumentBBCodeNode
+class ezcDocumentBBCodeParagraphNode extends ezcDocumentBBCodeBlockLevelNode
 {
     /**
      * Set state after var_export

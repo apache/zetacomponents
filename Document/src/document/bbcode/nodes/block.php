@@ -9,12 +9,12 @@
  */
 
 /**
- * Struct for BBCode document list abstract syntax tree nodes
+ * Struct for BBCode document block level abstract syntax tree nodes
  *
  * @package Document
  * @version //autogen//
  */
-abstract class ezcDocumentBBCodeListNode extends ezcDocumentBBCodeBlockLevelNode
+abstract class ezcDocumentBBCodeBlockLevelNode extends ezcDocumentBBCodeNode
 {
 }
 
