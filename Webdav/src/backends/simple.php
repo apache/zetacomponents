@@ -616,7 +616,7 @@ abstract class ezcWebdavSimpleBackend extends ezcWebdavBackend implements ezcWeb
                 foreach ( $unauthorizedPaths as $unauthorizedPath )
                 {
                     // Check if a parent path was already determined as unauthorized
-                    if ( substr( $node->path, $unauthorizedPath ) === 0 )
+                    if ( substr_compare( $node->path, $unauthorizedPath, 0, strlen( $unauthorizedPath ) ) === 0 )
                     {
                         // Skip this node completely, since we already have a
                         // parent node with 403
