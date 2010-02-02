@@ -205,6 +205,10 @@ Mandatory test recipe
 
     You should possibly also /secure_collection/ but with a hint that access is
     forbidden for you.
+    
+    IE 6 and 7 do not display the files, but only the collection. They
+    are generally not capable of handling files in the document root. IE 8 on
+    Windows 7 handles this properly.
 
 - Enter directory /collection/.
 - List directory.
