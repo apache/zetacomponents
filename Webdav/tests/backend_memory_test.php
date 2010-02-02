@@ -2523,9 +2523,14 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'bar' ) );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'blubb' ) );
+
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $response,
             'Expected response does not match real response.',
@@ -2675,9 +2680,14 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'bar' ) );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'blubb' ) );
+
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $response,
             'Expected response does not match real response.',
@@ -2697,9 +2707,13 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'blubb' ) );
+
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $response,
             'Expected response does not match real response.',
@@ -2767,9 +2781,14 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'bar' ) );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'blubb' ) );
+
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $response,
             'Expected property adding PROPPATCH response does not match real response.',
@@ -2892,9 +2911,14 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'bar' ) );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'blubb' ) );
+
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $response,
             'Expected property adding PROPPATCH response does not match real response.',
@@ -2917,9 +2941,15 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'blubb' ) );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'foo' ) );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'bar' ) );
+
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $response,
             'Expected property removing PROPPATCH response does not match real response.',
@@ -2992,9 +3022,14 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'bar' ) );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'blubb' ) );
+
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $response,
             'Expected property adding PROPPATCH response does not match real response.',
@@ -3079,9 +3114,14 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         $request->validateHeaders();
         $response = $backend->proppatch( $request );
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'bar' ) );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'blubb' ) );
+
         $this->assertEquals(
             new ezcWebdavPropPatchResponse(
-                new ezcWebdavResource( '/foo' )
+                new ezcWebdavResource( '/foo' ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $response,
             'Expected property adding PROPPATCH response does not match real response.',

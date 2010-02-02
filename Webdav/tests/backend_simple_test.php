@@ -760,11 +760,16 @@ class ezcWebdavSimpleBackendTest extends ezcTestCase
         $req->setHeader( 'If-Match', array( 'abc23', $etag, 'foobar' ) );
         $req->validateHeaders();
 
+        $resProps = new ezcWebdavBasicPropertyStorage();
+        $resProps->attach( new ezcWebdavGetContentTypeProperty() );
+        $resProps->attach( new ezcWebdavDeadProperty( 'foo:', 'bar' ) );
+
         $res = $backend->propPatch( $req );
 
         $this->assertEquals(
             new ezcWebdavPropPatchResponse( 
-                new ezcWebdavResource( $testPath )
+                new ezcWebdavResource( $testPath ),
+                new ezcWebdavPropStatResponse( $resProps )
             ),
             $res,
             'Expected response does not match real response.',

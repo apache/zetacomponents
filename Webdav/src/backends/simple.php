@@ -872,8 +872,18 @@ abstract class ezcWebdavSimpleBackend extends ezcWebdavBackend implements ezcWeb
             return $res;
         }
 
+        $successProps = new ezcWebdavBasicPropertyStorage();
+        foreach(  $request->updates as $updatedProperty )
+        {
+            $successProp = clone $updatedProperty;
+            $successProp->clear();
+            $successProps->attach( $successProp );
+        }
+
+        // RFC update requires multi-status even if everything worked properly
         return new ezcWebdavPropPatchResponse(
-            $node
+            $node,
+            new ezcWebdavPropStatResponse( $successProps )
         );
     }
 

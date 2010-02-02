@@ -26,12 +26,23 @@ xmlns:Z="http://www.w3.com/standards/z39.50/">
         ',
     ),
     array(
-        'status' => 'HTTP/1.1 200 OK',
+        'status' => 'HTTP/1.1 207 Multi-Status',
         'headers' => array(
             'Server'         => 'eZComponents/dev/ezcWebdavTransportTestMock',
-            'Content-Length' => '0',
+            'Content-Type'   => 'text/xml; charset="utf-8"',
         ),
-        'body' => '',
+        'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:response xmlns:D="DAV:">
+  <D:href>http://webdav/b/b2</D:href>
+  <D:propstat xmlns:ezc00000="http://www.w3.com/standards/z39.50/">
+    <D:prop>
+      <ezc00000:authors xmlns:ezc00000="http://www.w3.com/standards/z39.50/"/>
+      <ezc00000:Copyright-Owner xmlns:ezc00000="http://www.w3.com/standards/z39.50/"/>
+    </D:prop>
+    <D:status>HTTP/1.1 200 OK</D:status>
+  </D:propstat>
+</D:response>
+',
     ),
 );
 
