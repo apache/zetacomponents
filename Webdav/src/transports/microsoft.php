@@ -58,7 +58,6 @@ class ezcWebdavMicrosoftCompatibleTransport extends ezcWebdavTransport
             $this->mangleXml( $output );
         }
 
-
         return $output;
     }
 
