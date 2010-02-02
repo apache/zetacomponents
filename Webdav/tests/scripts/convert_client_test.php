@@ -21,9 +21,9 @@ if ( !is_dir( $inDir ) || !is_readable( $inDir ) )
 $fileMap = array(
     '_request_body.xml'     => array( 'request', 'body' ),
     '_request_server.php'   => array( 'request', 'server' ),
-    '_response_status.txt'  => array( 'response', 'status' ),
-    '_response_headers.php' => array( 'response', 'headers' ),
     '_response_body.xml'    => array( 'response', 'body' ),
+    '_response_headers.php' => array( 'response', 'headers' ),
+    '_response_status.txt'  => array( 'response', 'status' ),
 );
 
 $data = array();
