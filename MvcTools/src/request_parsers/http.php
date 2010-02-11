@@ -25,7 +25,7 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
      */
     public function createRequest()
     {
-        $this->request = new ezcMvcRequest();
+        $this->request = $this->createRequestObject();
         $this->processStandardHeaders();
         $this->processAcceptHeaders();
         $this->processUserAgentHeaders();
@@ -36,6 +36,16 @@ class ezcMvcHttpRequestParser extends ezcMvcRequestParser
         $this->request->raw = &$_SERVER;
 
         return $this->request;
+    }
+
+    /**
+     * Creates and returns an ezcMvcRequest object.
+     *
+     * @return ezcMvcRequest
+     */
+    protected function createRequestObject()
+    {
+        return new ezcMvcRequest();
     }
 
     /**
