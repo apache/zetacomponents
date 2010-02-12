@@ -108,7 +108,7 @@ class ezcSearchSessionZendLuceneTest extends ezcTestCase
 
     public function testIndexDocument2()
     {
-        $content = file_get_contents( '/home/derick/dev/ezcomponents-web/files/parsed_rst/coding_standards.xml' );
+        $content = file_get_contents( dirname( __FILE__ ) . '/testfiles/coding_standards.xml' );
         $a = new Article( null, 'Test Article', 'This is an article to test', $content, time() );
 
         $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
