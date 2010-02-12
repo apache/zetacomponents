@@ -405,7 +405,8 @@ class ezcTemplateTranslationExtractor
      */
     function unifyFilepath( $pathname, $templatePath )
     {
-        return str_replace( '\\', '/', substr( $pathname, strlen( $templatePath ) + 1 ) );
+        $file = str_replace( '\\', '/', substr( $pathname, strlen( $templatePath ) ) );
+        return $file[0] === '/' ? substr( $file, 1 ) : $file;
     }
 
     /**

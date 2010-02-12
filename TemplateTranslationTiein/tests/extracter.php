@@ -93,6 +93,50 @@ class ezcTemplateTranslationExtracterTest extends ezcTestCase
         );
     }
 
+    function testUnifyFileName()
+    {
+        ob_start();
+        $extractor = new ezcTemplateTranslationExtractor();
+        ob_end_clean();
+        $this->assertSame(
+            'foo.txt',
+            $extractor->unifyFilepath( '/path/to/foo.txt', '/path/to' )
+        );
+    }
+
+    function testUnifyFileNameTrailingSlash()
+    {
+        ob_start();
+        $extractor = new ezcTemplateTranslationExtractor();
+        ob_end_clean();
+        $this->assertSame(
+            'foo.txt',
+            $extractor->unifyFilepath( '/path/to/foo.txt', '/path/to/' )
+        );
+    }
+
+    function testUnifyFileNameSubDir()
+    {
+        ob_start();
+        $extractor = new ezcTemplateTranslationExtractor();
+        ob_end_clean();
+        $this->assertSame(
+            'bar/foo.txt',
+            $extractor->unifyFilepath( '/path/to/bar/foo.txt', '/path/to/' )
+        );
+    }
+
+    function testUnifyFileNameWin()
+    {
+        ob_start();
+        $extractor = new ezcTemplateTranslationExtractor();
+        ob_end_clean();
+        $this->assertSame(
+            'foo.txt',
+            $extractor->unifyFilepath( '\\path\\to\\foo.txt', '\\path\\to' )
+        );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( 'ezcTemplateTranslationExtracterTest' );
