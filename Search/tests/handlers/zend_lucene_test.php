@@ -542,6 +542,21 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         self::assertEquals( 1, $r->resultCount );
     }
 
+    public function testCreateFindWithNumbers()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time(), array( "test123" ) );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time(), array( "test456" ) );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'author', 'test123' ) );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
+    }
+
     public static function datatypes()
     {
         return array(
