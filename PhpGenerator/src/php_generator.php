@@ -407,7 +407,7 @@ class ezcPhpGenerator
      * Example:
      * <code>
      * $array = array( 1, 2, 3 );
-     * $php->addValueAssignment( 'ProducedArray', $array );
+     * $php->appendValueAssignment( 'ProducedArray', $array );
      * </code>
      *
      * Produces the PHP code:
