@@ -6,4 +6,5 @@
     <field inResult="false" type="html">body</field>
     <field type="date">published</field>
     <field type="string" multi="true">author</field>
+    <field type="int">number</field>
 </document>

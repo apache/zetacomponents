@@ -557,6 +557,36 @@ class ezcSearchHandlerZendLuceneTest extends ezcTestCase
         self::assertEquals( 1, $r->resultCount );
     }
 
+    public function testCreateFindIntField()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time(), array( "Me" ), 1 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time(), array( "Me" ), 2 );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'number', 1 ) );
+        $r = $session->find( $q );
+        self::assertEquals( 1, $r->resultCount );
+    }
+
+    public function testCreateFindNothingIntField()
+    {
+        $session = new ezcSearchSession( $this->backend, new ezcSearchXmlManager( $this->testFilesDir ) );
+
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time(), array( "Me" ), 1 );
+        $session->index( $a );
+        $a = new Article( null, 'Test Article Eén', 'This is the first article to test', 'the body of the article', time(), array( "Me" ), 2 );
+        $session->index( $a );
+
+        $q = $session->createFindQuery( 'Article' );
+        $q->where( $q->eq( 'number', 3 ) );
+        $r = $session->find( $q );
+        self::assertEquals( 0, $r->resultCount );
+    }
+
     public static function datatypes()
     {
         return array(

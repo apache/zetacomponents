@@ -7,6 +7,7 @@ class Article
     private $body;
     private $published;
     private $author;
+    private $number;
 
     private $omitElement;
 
@@ -16,7 +17,7 @@ class Article
     }
 
 
-    function __construct( $id = null, $title = null, $summary = null, $body = null, $published = null, $author = null )
+    function __construct( $id = null, $title = null, $summary = null, $body = null, $published = null, $author = null, $number = null )
     {
         $this->id = $id;
         $this->title = $title;
@@ -24,6 +25,7 @@ class Article
         $this->body = $body;
         $this->published = $published;
         $this->author = $author;
+        $this->number = $number;
     }
 
     function getState()
@@ -35,6 +37,7 @@ class Article
             'body' => $this->body,
             'published' => $this->published,
             'author' => $this->author,
+            'number' => $this->number,
         );
         if ( $this->omitElement )
         {
