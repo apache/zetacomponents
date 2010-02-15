@@ -1643,6 +1643,54 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         );
     }
 
+    public function testMakeCollectionWithSpaces()
+    {
+        $backend = new ezcWebdavMemoryBackend( true );
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/bar/collection%20with%20spaces' );
+        $request->validateHeaders();
+        $response = $backend->makeCollection( $request );
+
+        $this->assertEquals(
+            new ezcWebdavMakeCollectionResponse(
+                '/bar/collection%20with%20spaces'
+            ),
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+
+        $content = $this->readAttribute( $backend, 'content' );
+        $this->assertEquals(
+            array(
+                '/' => array(
+                    '/foo',
+                    '/bar',
+                ),
+                '/foo' => 'bar',
+                '/bar' => array(
+                    '/bar/blubb',
+                    '/bar/collection%20with%20spaces',
+                ),
+                '/bar/blubb' => 'Somme blubb blubbs.',
+                '/bar/collection%20with%20spaces' => array(),
+            ),
+            $content
+        );
+
+        $this->assertEquals(
+            'collection with spaces',
+            $backend->getAllProperties( '/bar/collection%20with%20spaces' )->get( 'displayname', 'DAV:' )->displayName
+        );
+    }
+
     public function testPutOnExistingCollection()
     {
         if ( version_compare( PHP_VERSION, '5.2.6', '<' ) )

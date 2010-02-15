@@ -647,7 +647,7 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend implements ezcWebdavLo
 
             case 'displayname':
                 $property = new ezcWebdavDisplayNameProperty();
-                $property->displayName = basename( $path );
+                $property->displayName = urldecode( basename( $path ) );
                 return $property;
 
             case 'getcontenttype':

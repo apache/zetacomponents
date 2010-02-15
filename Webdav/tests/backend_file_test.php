@@ -1283,6 +1283,43 @@ class ezcWebdavFileBackendTest extends ezcTestCase
         );
     }
 
+    public function testMakeCollectionWithSpaces()
+    {
+        $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );
+
+        $this->assertFalse(
+            is_dir( $this->tempDir . 'backend/collection/new_collection' ),
+            'Collection to create exists.'
+        );
+
+        $request = new ezcWebdavMakeCollectionRequest( '/collection/collection%20with%20spaces' );
+        $request->validateHeaders();
+        $response = $backend->makeCollection( $request );
+
+        $this->assertEquals(
+            $response,
+            new ezcWebdavMakeCollectionResponse(
+                '/collection/collection%20with%20spaces'
+            ),
+            'Expected response does not match real response.'
+        );
+
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection/collection%20with%20spaces' ),
+            'Expected created collection.'
+        );
+
+        $this->assertTrue(
+            is_dir( $this->tempDir . 'backend/collection/collection%20with%20spaces/.ezc' ),
+            'Expected property storage in directory.'
+        );
+
+        $this->assertEquals(
+            'collection with spaces',
+            $backend->getAllProperties( '/collection/collection%20with%20spaces' )->get( 'displayname', 'DAV:' )->displayName
+        );
+    }
+
     public function testPutOnExistingCollection()
     {
         $backend = new ezcWebdavFileBackend( $this->tempDir . 'backend/' );

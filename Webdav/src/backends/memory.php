@@ -233,7 +233,7 @@ class ezcWebdavMemoryBackend extends ezcWebdavSimpleBackend implements ezcWebdav
 
             // Define default display name
             $propertyStorage->attach(
-                new ezcWebdavDisplayNameProperty( basename( $name ) )
+                new ezcWebdavDisplayNameProperty( basename( urldecode( $name ) ) )
             );
 
             // Define default language
