@@ -285,6 +285,31 @@ class ezcWebdavMemoryBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     }
 
     /**
+     * Clones the given $fromStorage for $toPath.
+     *
+     * Initializes a new property storage for $toPath with new live properties 
+     * and clones all non exsitent properties from $fromStorage to it.
+     * 
+     * @param string $toPath 
+     * @param bool $isCollection 
+     * @param ezcWebdavBasicPropertyStorage $fromStorage 
+     * @return void
+     */
+    private function cloneProperties( $toPath, $isCollection, ezcWebdavBasicPropertyStorage $fromStorage )
+    {
+        $toStorage = $this->initializeProperties( $toPath, $isCollection, true );
+        
+        foreach ( $fromStorage as $prop )
+        {
+            if ( !$toStorage->contains( $prop->name, $prop->namespace ) )
+            {
+                $toStorage->attach( clone $prop );
+            }
+        }
+        $this->props[$toPath] = $toStorage;
+    }
+
+    /**
      * Overwrites ETag generation from simple backend.
      *
      * Generates an ETag based on $path and the content of $path (if available
@@ -559,10 +584,11 @@ class ezcWebdavMemoryBackend extends ezcWebdavSimpleBackend implements ezcWebdav
             }
 
             // Copy properties
-            $this->props[$toPath] = clone $this->props[$fromPath];
-
-            // Update modification date
-            // $this->props[$toPath]['getlastmodified'] = time();
+            $this->cloneProperties(
+                $toPath,
+                is_array( $this->content[$toPath] ),
+                $this->props[$fromPath]
+            );
 
             // Add to parent node
             $this->content[dirname( $toPath )][] = $toPath;
@@ -632,10 +658,11 @@ class ezcWebdavMemoryBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 $this->content[$newResourceName] = $this->content[$resource];
 
                 // Copy properties
-                $this->props[$newResourceName] = $this->props[$resource];
-
-                // Update modification date
-                // $this->props[$newResourceName]['getlastmodified'] = time();
+                $this->cloneProperties(
+                    $newResourceName,
+                    false,
+                    $this->props[$resource]
+                );
 
                 // Add to parent node
                 $this->content[dirname( $newResourceName )][] = $newResourceName;

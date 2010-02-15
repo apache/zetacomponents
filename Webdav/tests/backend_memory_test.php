@@ -673,6 +673,41 @@ class ezcWebdavMemoryBackendTest extends ezcTestCase
         );
     }
 
+    public function testResourceCopyUpdateLiveProps()
+    {
+        $backend = new ezcWebdavMemoryBackend( true );
+        $backend->addContents( array(
+            'foo' => 'bar',
+            'bar' => array(
+                'blubb' => 'Somme blubb blubbs.',
+            )
+        ) );
+
+        $this->assertEquals(
+            'foo',
+            $backend->getAllProperties( '/foo' )->get( 'displayname', 'DAV:' )->displayName
+        );
+
+        $request = new ezcWebdavCopyRequest( '/foo', '/dest' );
+        $request->validateHeaders();
+        $response = $backend->copy( $request );
+
+        $this->assertEquals(
+            new ezcWebdavCopyResponse(
+                false
+            ),
+            $response,
+            'Expected response does not match real response.',
+            0,
+            20
+        );
+
+        $this->assertEquals(
+            'dest',
+            $backend->getAllProperties( '/dest' )->get( 'displayname', 'DAV:' )->displayName
+        );
+    }
+
     public function testResourceCopyError()
     {
         $backend = new ezcWebdavMemoryBackend( false );
