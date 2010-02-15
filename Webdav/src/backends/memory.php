@@ -297,7 +297,7 @@ class ezcWebdavMemoryBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     private function cloneProperties( $toPath, $isCollection, ezcWebdavBasicPropertyStorage $fromStorage )
     {
-        $toStorage = $this->initializeProperties( $toPath, $isCollection, true );
+        $toStorage = $this->initializeProperties( $toPath, $isCollection );
         
         foreach ( $fromStorage as $prop )
         {
@@ -660,7 +660,7 @@ class ezcWebdavMemoryBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 // Copy properties
                 $this->cloneProperties(
                     $newResourceName,
-                    false,
+                    is_array( $this->content[$resource] ),
                     $this->props[$resource]
                 );
 
