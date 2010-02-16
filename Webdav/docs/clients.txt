@@ -35,16 +35,24 @@ to work correctly with the Webdav component.
 Nautilus
 --------
 
+Downloading of folders
+======================
+
+Nautilus does not support downloading of folders recursively. While it handles
+recursive upload fine, it attempts to download a collection using a simple GET
+request and fails, since it retrieves an empty file. This issue occurs in every
+version at least until Nautilus 2.28.1 (gvfs/1.4.1).
+
 Copying of folders
 ==================
 
-It is not possible to copy folders on a WebDAV server using Nautilus based on
-gvfs/0.2.5 (maybe earlier and later versions). Nautilus performs a GET and PUT
-request on the server to achieve a copy, instead of using the COPY method. GET
-on a collection results in an empty document to be downloaded and uploaded
-again.
+It is not possible to copy folders on a WebDAV server using Nautilus due to the
+previously named issue. Instead of using the WebDAV COPY statement, Nautilus
+tries to download the collection using GET and PUT it up again.
 
-http://bugzilla.gnome.org/show_bug.cgi?id=551339
+A `bug for this issue`__ exists in the Gnome bug tracker.
+
+__ http://bugzilla.gnome.org/show_bug.cgi?id=551339
 
 ---------
 Konqueror
