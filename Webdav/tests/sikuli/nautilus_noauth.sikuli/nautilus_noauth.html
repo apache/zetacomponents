@@ -1,0 +1,349 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>nautilus_noauth.sikuli</h2> <a href="nautilus_noauth.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt"># coding=utf-8
+</span>setThrowException(True)
+
+<span class="kw">class</span> Nautilus:
+
+   REMOTE = <span class="dig">0</span>
+   LOCAL = <span class="dig">1</span>
+
+   _tab = None
+
+   _dirs = {}
+
+   <span class="kw">def</span> __init__(self):
+      self._dirs = {self.LOCAL: [], self.REMOTE: []}
+      self._startNautilus()
+      self._initWebdav()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._initLocal()
+
+   <span class="kw">def</span> _startNautilus(self):
+      openApp(<span class="str">"/usr/bin/nautilus"</span>)
+      <span class="skw">wait</span>(Pattern(<img src="1265282313623.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> _initWebdav(self):
+      <span class="skw">click</span>(<img src="1265202229746.png" />)
+      <span class="skw">wait</span>(<img src="1265202325039.png" />)
+      <span class="skw">click</span>(<img src="1265202325039.png" />)
+      <span class="skw">click</span>(<img src="1265202559414.png" />)
+      <span class="skw">click</span>(<img src="1265278752490.png" />)
+      <span class="skw">type</span>(<img src="1265278810480.png" />, <span class="str">"webdav"</span>)
+      <span class="skw">click</span>(<img src="1265279597052.png" />)
+      self._tab = self.REMOTE
+      self._dirs[self.REMOTE].append(<span class="str">"/"</span>)
+
+   <span class="kw">def</span> _initLocal(self):
+      <span class="skw">type</span>(<span class="str">"t"</span>, KEY_CTRL)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._tab = self.LOCAL
+      <span class="skw">click</span>(<img src="1265313336023.png" />)
+      self._dirs[self.LOCAL].append(<span class="str">"/"</span>)
+      self.openLocal(<img src="1265314310481.png" />, <span class="str">"down"</span>)
+
+   <span class="kw">def</span> switchRemote(self):
+      <span class="kw">if</span> (self._tab == self.LOCAL):
+         <span class="skw">type</span>(Key.PAGE_UP, KEY_CTRL)
+         self._tab = self.REMOTE
+         <span class="skw">sleep</span>(<span class="dig">0.4</span>)
+
+   <span class="kw">def</span> switchLocal(self):
+      <span class="kw">if</span> (self._tab == self.REMOTE):
+         <span class="skw">type</span>(Key.PAGE_DOWN, KEY_CTRL)
+         self._tab = self.LOCAL
+         <span class="skw">sleep</span>(<span class="dig">0.4</span>)
+
+   <span class="kw">def</span> openLocal(self, dirImg, dirName):
+      self.switchLocal()
+      self._open(dirImg, dirName)
+
+   <span class="kw">def</span> _open(self, dirImg, dirName):
+      <span class="skw">doubleClick</span>(dirImg)
+      self._dirs[self._tab].append(dirName)
+
+   <span class="kw">def</span> openRemote(self, dirImg, dirName):
+      self.switchRemote()
+      self._open(dirImg, dirName)
+
+   <span class="kw">def</span> upRemote(self, dirName=None):
+      self.switchRemote()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self.goUp(dirName)
+
+   <span class="kw">def</span> upLocal(self, dirName=None):
+      self.switchLocal()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self.goUp(dirName)
+
+   <span class="kw">def</span> goUp(self, dirName):
+      <span class="kw">if</span> dirName == None:
+         <span class="skw">click</span>(Pattern(<img src="1266259183958.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+         self._dirs[self._tab].pop()
+         <span class="kw">return</span>
+      <span class="kw">while</span> self._dirs[self._tab][-<span class="dig">1</span>] != dirName:
+         <span class="skw">click</span>(Pattern(<img src="1266259183958.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+         self._dirs[self._tab].pop()
+
+   <span class="kw">def</span> copy(self):
+      <span class="skw">type</span>(<span class="str">"c"</span>, KEY_CTRL)
+
+   <span class="kw">def</span> paste(self):
+      <span class="skw">type</span>(<span class="str">"v"</span>, KEY_CTRL)
+
+   <span class="kw">def</span> rename(self, fileImg, newName, newFileImg):
+      <span class="skw">click</span>(fileImg)
+      <span class="skw">sleep</span>(<span class="dig">0.2</span>)
+      <span class="skw">type</span>(Key.F2)
+      <span class="skw">sleep</span>(<span class="dig">0.5</span>)
+      <span class="skw">type</span>(<span class="str">"a"</span>, KEY_CTRL)
+      <span class="skw">sleep</span>(<span class="dig">0.2</span>)
+      paste(newName)
+      <span class="skw">sleep</span>(<span class="dig">0.1</span>)
+      <span class="skw">type</span>(Key.ENTER)
+      <span class="skw">wait</span>(newFileImg)
+
+<span class="kw">class</span> NautilusWebdavTest:
+
+   _nautilus = None
+
+   <span class="kw">def</span> __init__(self, nautilus):
+      self._nautilus = nautilus
+
+   <span class="kw">def</span> run(self):
+      self.testInitial()
+      self.testListCollection()
+      self.testDownloadSingle()
+      self.testListSubdir()
+      self.testDownloadMultiple()
+      self.testCreateNewdir()
+      self.testListNewdir()
+      self.testUploadSingle()
+      self.testCreateNewsubdir()
+      self.testListNewsubdir()
+      self.testUploadSingleOverwrite()
+      self.testDeleteNewdir()
+      self.testUploadNew()
+      self.testDownloadUploaded()
+      self.testRenameFiles()
+      self.testCopyFilesRemote()
+      self.testRenameCollection()
+
+   <span class="kw">def</span> testInitial(self):
+      self._nautilus.switchRemote()
+      <span class="skw">find</span>(Pattern(<img src="1265793342336.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testListCollection(self):
+      self._nautilus.openRemote(<img src="1265279909203.png" />, <span class="str">"collection"</span>)
+      <span class="skw">find</span>(Pattern(<img src="1265793562509.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testDownloadSingle(self):
+      self._nautilus.switchRemote()
+      <span class="skw">click</span>(Pattern(<img src="1265314613379.png" />).similar(<span class="dig">0.95</span>).firstN(<span class="dig">1</span>))
+      self._nautilus.copy()
+      self._nautilus.switchLocal()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._nautilus.paste()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">find</span>(Pattern(<img src="1265315503320.png" />).similar(<span class="dig">0.68</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testListSubdir(self):
+      self._nautilus.openRemote(<img src="1265315881723.png" />, <span class="str">"subdir"</span>)
+      <span class="skw">find</span>(<img src="1265315899109.png" />)
+
+   <span class="kw">def</span> testDownloadMultiple(self):
+      self._nautilus.switchRemote()
+      <span class="skw">click</span>(Pattern(<img src="1265795508414.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">type</span>(Key.DOWN, KEY_SHIFT)
+      self._nautilus.copy()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._nautilus.switchLocal()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._nautilus.paste()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">find</span>(Pattern(<img src="1265822372031.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testCreateNewdir(self):
+      self._nautilus.switchRemote()
+      <span class="skw">type</span>(<span class="str">"n"</span>, KEY_CTRL | KEY_SHIFT)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">type</span>(<span class="str">"newdir"</span>)
+      <span class="skw">type</span>(<span class="str">"\n"</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266256110323.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testListNewdir(self):
+      self._nautilus.openRemote(<img src="1266256707500.png" />, <span class="str">"newdir"</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266256773322.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testUploadSingle(self):
+      self._nautilus.switchLocal()
+      <span class="skw">click</span>(Pattern(<img src="1266256870724.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      self._nautilus.copy()
+      self._nautilus.switchRemote()
+      self._nautilus.paste()
+      <span class="skw">find</span>(Pattern(<img src="1266256969255.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testCreateNewsubdir(self):
+      self._nautilus.switchRemote()
+      <span class="skw">type</span>(<span class="str">"n"</span>, KEY_CTRL | KEY_SHIFT)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">type</span>(<span class="str">"newsubdir"</span>)
+      <span class="skw">type</span>(<span class="str">"\n"</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266257989662.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testListNewsubdir(self):
+      self._nautilus.openRemote(<img src="1266256707500.png" />, <span class="str">"newdir"</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266258293601.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testUploadSingleOverwrite(self):
+      self._nautilus.switchLocal()
+      <span class="skw">click</span>(Pattern(<img src="1266257097775.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      self._nautilus.copy()
+      self._nautilus.switchRemote()
+      self._nautilus.paste()
+      <span class="skw">find</span>(Pattern(<img src="1266258371198.png" />).similar(<span class="dig">0.78</span>).firstN(<span class="dig">1</span>))
+      self._nautilus.switchLocal()
+      <span class="skw">click</span>(Pattern(<img src="1266257097775.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      self._nautilus.copy()
+      self._nautilus.switchRemote()
+      self._nautilus.paste()
+      <span class="skw">wait</span>(Pattern(<img src="1266258781306.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      dialog = <span class="skw">find</span>(Pattern(<img src="1266258781306.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">click</span>(dialog.inside().<span class="skw">find</span>(Pattern(<img src="1266257459272.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>)))
+      <span class="skw">find</span>(Pattern(<img src="1266258834123.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testDeleteNewdir(self):
+      self._nautilus.upRemote(<span class="str">"collection"</span>)
+      <span class="skw">click</span>(Pattern(<img src="1266259247619.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">type</span>(Key.DELETE)
+      <span class="skw">wait</span>(Pattern(<img src="1266259486059.png" />).similar(<span class="dig">0.55</span>).firstN(<span class="dig">1</span>))
+      dialog = <span class="skw">find</span>(Pattern(<img src="1266259486059.png" />).similar(<span class="dig">0.55</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">click</span>(dialog.inside().<span class="skw">find</span>(Pattern(<img src="1266259533961.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>)))
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266259597530.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testUploadNew(self):
+      self._nautilus.upLocal(<span class="str">"/"</span>)
+      self._nautilus.openLocal(Pattern(<img src="1266259890975.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>), <span class="str">"up"</span>)
+      <span class="skw">type</span>(<span class="str">"a"</span>, KEY_CTRL)
+      <span class="skw">sleep</span>(<span class="dig">0.5</span>)
+      self._nautilus.copy()
+      self._nautilus.switchRemote()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._nautilus.paste()
+      <span class="skw">find</span>(Pattern(<img src="1266263725826.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">find</span>(Pattern(<img src="1266263798494.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">find</span>(Pattern(<img src="1266264073912.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testDownloadUploaded(self):
+      self._nautilus.switchRemote()
+      <span class="cmt"># downloading dirs is broken in Nautilus
+</span>      <span class="skw">click</span>(Pattern(<img src="1266269427884.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">type</span>(Key.DOWN, KEY_SHIFT)
+      <span class="skw">type</span>(Key.DOWN, KEY_SHIFT)
+      <span class="skw">type</span>(Key.DOWN, KEY_SHIFT)
+      self._nautilus.copy()
+      self._nautilus.upLocal(<span class="str">"/"</span>)
+      self._nautilus.openLocal(<img src="1265314310481.png" />, <span class="str">"down"</span>)
+      self._nautilus.paste()
+
+   <span class="kw">def</span> testRenameFiles(self):
+      self._nautilus.switchRemote()
+      self._nautilus.rename(<img src="1266270237742.png" />, <span class="str">u"put_test_renamed.xml"</span>, Pattern(<img src="1266270332525.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+      self._nautilus.rename(<img src="1266270356862.png" />, <span class="str">u"put_test_utf8_\u00f6\u00e4\u00fc\u00df.txt"</span>, Pattern(<img src="1266274332854.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      self._nautilus.rename(Pattern(<img src="1266270558156.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>), <span class="str">u"put_non_utf8_test.txt"</span>, Pattern(<img src="1266270602424.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testCopyFilesRemote(self):
+      self._nautilus.switchRemote()
+      <span class="skw">click</span>(Pattern(<img src="1266274684143.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      <span class="cmt"># invert selection
+</span>      <span class="skw">type</span>(<span class="str">"i"</span>, KEY_CTRL | KEY_SHIFT)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._nautilus.copy()
+      self._nautilus.openRemote(Pattern(<img src="1266274684143.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">"collection"</span>)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._nautilus.paste()
+      <span class="skw">wait</span>(Pattern(<img src="1266311546228.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">find</span>(Pattern(<img src="1266311574320.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">find</span>(Pattern(<img src="1266311712385.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testRenameCollection(self):
+      self._nautilus.upRemote()
+      self._nautilus.rename(Pattern(<img src="1266310197088.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>), <span class="str">"renamed_collection"</span>, Pattern(<img src="1266310220931.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>))
+
+nautilus = Nautilus()
+test = NautilusWebdavTest(nautilus)
+test.run()
+</pre>
+</body>
+</html>
