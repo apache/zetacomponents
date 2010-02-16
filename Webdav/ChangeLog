@@ -2,6 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #16194: Files displayed URL encoded in WebDAV clients.
+- Fixed issue #16201: Introduced new Nautilus compatible transport class to
+  fix client specific issues.
 
 1.1.3 - Monday 09 November 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

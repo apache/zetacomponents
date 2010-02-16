@@ -135,6 +135,7 @@ return array(
     'ezcWebdavMoveResponse'                             => 'Webdav/responses/move.php',
     'ezcWebdavMultistatusResponse'                      => 'Webdav/responses/multistatus.php',
     'ezcWebdavNamespaceRegistry'                        => 'Webdav/namespace_registry.php',
+    'ezcWebdavNautilusCompatibleTransport'              => 'Webdav/transports/nautilus.php',
     'ezcWebdavNautilusPropertyHandler'                  => 'Webdav/transports/property_handlers/nautilus.php',
     'ezcWebdavOptionsRequest'                           => 'Webdav/requests/options.php',
     'ezcWebdavOptionsResponse'                          => 'Webdav/responses/options.php',
