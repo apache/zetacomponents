@@ -586,7 +586,9 @@ abstract class ezcArchive implements Iterator
                         throw new ezcArchiveValueException( $type );
                 }
 
-                if ( $type == ezcArchiveEntry::IS_SYMBOLIC_LINK && posix_geteuid() == 0 )
+                if ( $type == ezcArchiveEntry::IS_SYMBOLIC_LINK &&
+                     ezcBaseFeatures::hasFunction( 'posix_geteuid' ) &&
+                     posix_geteuid() == 0 )
                 {
                     $user = $entry->getUserId();
                     $group = $entry->getGroupId();
@@ -609,7 +611,8 @@ abstract class ezcArchive implements Iterator
                         $this->options->extractCallback->{$type == ezcArchiveEntry::IS_DIRECTORY ? 'createDirectoryCallback' : 'createFileCallback'}( $fileName, $perms, $user, $group );
                     }
 
-                    if ( posix_geteuid() === 0 )
+                    if ( ezcBaseFeatures::hasFunction( 'posix_geteuid' ) &&
+                         posix_geteuid() === 0 )
                     {
                         @chgrp( $fileName, $group );
                         @chown( $fileName, $user );
