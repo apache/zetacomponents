@@ -132,13 +132,15 @@ class ezcTreeNode implements ezcTreeVisitable
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
 
             case 'data':
+                if ( !$this->properties['dataFetched'] )
+                {
+                    $this->tree->store->fetchDataForNode( $this );
+                    $this->properties['dataFetched'] = true;
+                }
+
                 $this->properties[$name] = $value;
                 $this->properties['dataStored'] = false;
-                if ( $this->properties['dataFetched'] )
-                {
-                    $this->tree->store->storeDataForNode( $this );
-                }
-                $this->properties['dataFetched'] = true;
+                $this->tree->store->storeDataForNode( $this );
                 return;
 
             case 'dataFetched':
@@ -176,6 +178,22 @@ class ezcTreeNode implements ezcTreeVisitable
             default:
                 return false;
         }
+    }
+
+    /**
+     * Inject data.
+     *
+     * Used to set the data from a data loader. Should not be used for 
+     * interfacing with the tree node, since the node will not be flagged as 
+     * modified by this method.
+     * 
+     * @access private
+     * @param string $data 
+     * @return void
+     */
+    public function injectData( $data )
+    {
+        $this->properties['data'] = $data;
     }
 
     /**

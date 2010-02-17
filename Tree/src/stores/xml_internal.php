@@ -79,7 +79,8 @@ class ezcTreeXmlInternalDataStore implements ezcTreeXmlDataStore
         {
             throw new ezcTreeDataStoreMissingDataException( $node->id );
         }
-        $node->data = $dataElem->firstChild->data;
+
+        $node->injectData( $dataElem->firstChild->data );
         $node->dataFetched = true;
     }
 

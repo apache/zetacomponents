@@ -288,6 +288,19 @@ class ezcTreeXmlTest extends ezcTreeTest
         self::assertSame( "Non-Metals renamed", $nonMetals->data );
     }
 
+    public function testStoreUpdatedData3()
+    {
+        $tree = $this->setUpTestTree();
+
+        $node = $tree->fetchNodeById( 1 );
+        $node->data = "Node 1 renamed";
+
+        self::assertXmlFileEqualsXmlFile(
+            dirname( __FILE__ ) . '/files/init-renamed-node.xml', 
+            $this->tempDir . '/test.xml'
+        );
+    }
+
     public function testReloadAutoGenId()
     {
         $tree = ezcTreeXml::create(
