@@ -17,7 +17,7 @@ class Article
     }
 
 
-    function __construct( $id = null, $title = null, $summary = null, $body = null, $published = null, $author = null, $number = null )
+    function __construct( $id = null, $title = null, $summary = null, $body = null, $published = null, $author = null, $number = 0 )
     {
         $this->id = $id;
         $this->title = $title;
