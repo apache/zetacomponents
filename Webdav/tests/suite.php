@@ -86,11 +86,11 @@ require_once 'client_ie6_auth_test.php';
 require_once 'client_ie6_test.php';
 require_once 'client_ie7_auth_test.php';
 require_once 'client_ie7_test.php';
-require_once 'client_konqueror3_test.php';
 require_once 'client_konqueror4_test.php';
 require_once 'client_litmus_lock_test.php';
 require_once 'client_litmus_test.php';
 require_once 'client_nautilus_test.php';
+require_once 'client_nautilus_auth_test.php';
 require_once 'client_rfc_lock_test.php';
 require_once 'client_rfc_test.php';
 
@@ -180,8 +180,7 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavCadaverClientTest::suite() );
         $this->addTest( ezcWebdavCadaverLockClientTest::suite() );
         $this->addTest( ezcWebdavNautilusClientTest::suite() );
-        $this->addTest( ezcWebdavNautilusNewClientTest::suite() );
-        $this->addTest( ezcWebdavKonqueror3ClientTest::suite() );
+        $this->addTest( ezcWebdavNautilusAuthClientTest::suite() );
         $this->addTest( ezcWebdavKonqueror4ClientTest::suite() );
         $this->addTest( ezcWebdavIe6ClientTest::suite() );
         $this->addTest( ezcWebdavIe6AuthClientTest::suite() );
