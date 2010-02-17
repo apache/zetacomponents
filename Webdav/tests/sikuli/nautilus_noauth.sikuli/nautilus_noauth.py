@@ -261,9 +261,10 @@ class NautilusWebdavTest:
       self._nautilus.openRemote(Pattern("1266274684143.png").similar(0.80).firstN(1), "collection")
       sleep(1)
       self._nautilus.paste()
-      wait(Pattern("1266311546228.png").similar(0.70).firstN(1))
-      find(Pattern("1266311574320.png").similar(0.70).firstN(1))
-      find(Pattern("1266311712385.png").similar(0.70).firstN(1))
+      sleep(1)
+      wait(Pattern("1266311546228.png").similar(0.60).firstN(1))
+      find(Pattern("1266311574320.png").similar(0.60).firstN(1))
+      find(Pattern("1266311712385.png").similar(0.60).firstN(1))
 
    def testRenameCollection(self):
       self._nautilus.upRemote()

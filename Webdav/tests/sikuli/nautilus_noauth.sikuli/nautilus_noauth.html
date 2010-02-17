@@ -333,9 +333,10 @@
       self._nautilus.openRemote(Pattern(<img src="1266274684143.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">"collection"</span>)
       <span class="skw">sleep</span>(<span class="dig">1</span>)
       self._nautilus.paste()
-      <span class="skw">wait</span>(Pattern(<img src="1266311546228.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
-      <span class="skw">find</span>(Pattern(<img src="1266311574320.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
-      <span class="skw">find</span>(Pattern(<img src="1266311712385.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">wait</span>(Pattern(<img src="1266311546228.png" />).similar(<span class="dig">0.60</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">find</span>(Pattern(<img src="1266311574320.png" />).similar(<span class="dig">0.60</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">find</span>(Pattern(<img src="1266311712385.png" />).similar(<span class="dig">0.60</span>).firstN(<span class="dig">1</span>))
 
    <span class="kw">def</span> testRenameCollection(self):
       self._nautilus.upRemote()

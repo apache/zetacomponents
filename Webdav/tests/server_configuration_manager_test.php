@@ -43,7 +43,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -74,7 +74,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
         );
         $fourthCfg = new ezcWebdavServerConfiguration(
             '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-            'ezcWebdavTransport',
+            'ezcWebdavNautilusCompatibleTransport',
             'ezcWebdavXmlTool',
             'ezcWebdavNautilusPropertyHandler'
         );
@@ -162,7 +162,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -196,7 +196,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -226,7 +226,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -256,7 +256,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -286,7 +286,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -471,7 +471,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -501,7 +501,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -531,7 +531,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -561,7 +561,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -591,7 +591,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -621,7 +621,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -651,7 +651,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -752,7 +752,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -782,7 +782,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -812,7 +812,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -843,7 +843,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -996,7 +996,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -1025,7 +1025,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -1054,7 +1054,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -1172,7 +1172,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
                 ),
                 1 => new ezcWebdavServerConfiguration(
                     '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                    'ezcWebdavTransport',
+                    'ezcWebdavNautilusCompatibleTransport',
                     'ezcWebdavXmlTool',
                     'ezcWebdavNautilusPropertyHandler'
                 ),
@@ -1238,7 +1238,7 @@ class ezcWebdavServerConfigurationManagerTest extends ezcTestCase
             ),
             1 => new ezcWebdavServerConfiguration(
                 '(gnome-vfs/[0-9.]+ neon/[0-9.]*|gvfs/[0-9.]+)i',
-                'ezcWebdavTransport',
+                'ezcWebdavNautilusCompatibleTransport',
                 'ezcWebdavXmlTool',
                 'ezcWebdavNautilusPropertyHandler'
             ),
