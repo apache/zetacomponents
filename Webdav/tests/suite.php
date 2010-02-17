@@ -90,7 +90,6 @@ require_once 'client_konqueror3_test.php';
 require_once 'client_konqueror4_test.php';
 require_once 'client_litmus_lock_test.php';
 require_once 'client_litmus_test.php';
-require_once 'client_nautilus_new_test.php';
 require_once 'client_nautilus_test.php';
 require_once 'client_rfc_lock_test.php';
 require_once 'client_rfc_test.php';
