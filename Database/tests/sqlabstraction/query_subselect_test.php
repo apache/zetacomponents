@@ -251,6 +251,22 @@ class ezcQuerySubSelectTest extends ezcTestCase
         );
     }
 
+    public function testSubselectWithAlias()
+    {
+        $db = ezcDbInstance::get();
+
+        $q = $db->createSelectQuery();
+        $q->setAliases( array( 'ID' => 'id' ) );
+        $q = $q->select( 'ID', 'name' )->from( 'main' );
+
+        $q2 = $q->subSelect();
+            $q2->select( 'main_id' )->from( 'sub' );
+            $q2->limit(20,0);
+
+        $q->innerJoin( $q->alias( $q2, 'sub_items' ), 'sub_items.main_id', 'main.id' );   
+
+        $this->assertEquals( "SELECT id, name FROM main INNER JOIN ( SELECT main_id FROM sub LIMIT 20 OFFSET 0 ) AS sub_items ON sub_items.main_id = main.id", $q->getQuery() );
+    }
 
     public static function suite()
     {

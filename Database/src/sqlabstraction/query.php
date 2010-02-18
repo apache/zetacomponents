@@ -229,7 +229,8 @@ abstract class ezcQuery
         if ( count( $aliasParts ) == 1 )
         {
             if ( $this->aliases !== null &&
-                array_key_exists( $alias, $this->aliases ) )
+                 is_string( $alias ) &&
+                 array_key_exists( $alias, $this->aliases ) )
             {
                 $alias = $this->aliases[$alias];
             }
