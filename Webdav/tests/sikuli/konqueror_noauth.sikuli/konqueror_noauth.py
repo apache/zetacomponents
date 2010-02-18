@@ -19,6 +19,7 @@ class Konqueror:
       sleep(2)
 
    def _startKonqueror(self):
+      # this script starts "konqueror &"
       openApp("/home/dotxp/bin/start_konqueror.sh")
       sleep(1)
       wait(Pattern("1266401481278.png").similar(0.80).firstN(1))
