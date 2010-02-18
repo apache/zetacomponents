@@ -47,6 +47,8 @@ class ezcDatabaseHandlerBaseTest extends ezcTestCase
 
     protected function tearDown()
     {
+        if ( $this->db === null ) return;
+
         $this->tearDownTables();
     }
 

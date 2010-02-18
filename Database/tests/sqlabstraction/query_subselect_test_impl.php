@@ -63,6 +63,8 @@ class ezcQuerySubSelectTestImpl extends ezcTestCase
 
     protected function tearDown()
     {
+        if ( $this->db === null ) return;
+
         $this->db->exec( 'DROP TABLE query_test' );
         $this->db->exec( 'DROP TABLE query_test2' );
     }

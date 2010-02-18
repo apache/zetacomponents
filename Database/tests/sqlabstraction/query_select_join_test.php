@@ -77,6 +77,8 @@ class ezcQuerySelectJoinTestImpl extends ezcTestCase
 
     protected function tearDown()
     {
+        if ( $this->db === null ) return;
+
         $this->db->exec( 'DROP TABLE employees' );
         $this->db->exec( 'DROP TABLE orders' );
         $this->db->exec( 'DROP TABLE in_use' );

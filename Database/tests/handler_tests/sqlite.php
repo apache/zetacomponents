@@ -29,6 +29,8 @@ class ezcDatabaseHandlerSqliteTest extends ezcDatabaseHandlerBaseTest
 
     protected function tearDown()
     {
+        if ( $this->db === null ) return;
+
         $this->db->exec(
 <<<EOT
     DELETE FROM sqlite_sequence;
