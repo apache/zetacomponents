@@ -76,7 +76,7 @@ class ezcDatabaseSchemaSqliteDiffTest extends ezcDatabaseSchemaGenericDiffTest
             0 => "DROP INDEX 'join'",
             1 => "DROP INDEX 'bugdb_change_pri'",
             2 => "ALTER TABLE 'bugdb_change' DROP COLUMN 'from'",
-            3 => "ALTER TABLE 'bugdb_change' ADD 'group' integer",
+            3 => "ALTER TABLE 'bugdb_change' ADD 'group' integer NOT NULL DEFAULT 0",
             4 => "CREATE UNIQUE INDEX 'bugdb_change_pri' ON 'bugdb_change' ( 'group' )",
             5 => "CREATE UNIQUE INDEX 'from' ON 'bugdb_change' ( 'table' )",
             6 => "CREATE TABLE 'order' (\n\t'right' integer\n)",

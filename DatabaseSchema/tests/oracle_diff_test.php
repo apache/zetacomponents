@@ -64,7 +64,7 @@ class ezcDatabaseSchemaOracleDiffTest extends ezcDatabaseSchemaGenericDiffTest
             0 => 'DROP INDEX "join"',
             1 => 'ALTER TABLE "bugdb_change" DROP CONSTRAINT "bugdb_change_pkey"',
             2 => 'ALTER TABLE "bugdb_change" DROP COLUMN "from"',
-            3 => 'ALTER TABLE "bugdb_change" ADD "group" number',
+            3 => 'ALTER TABLE "bugdb_change" ADD "group" number DEFAULT 0 NOT NULL',
             4 => 'ALTER TABLE "bugdb_change" ADD CONSTRAINT "bugdb_change_pkey" PRIMARY KEY ( "group" )',
             5 => 'CREATE UNIQUE INDEX "from" ON "bugdb_change" ( "table" )',
             6 => "CREATE TABLE \"order\" (\n\t\"right\" number\n)",

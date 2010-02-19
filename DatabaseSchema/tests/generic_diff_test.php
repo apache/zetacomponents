@@ -145,7 +145,7 @@ class ezcDatabaseSchemaGenericDiffTest extends ezcTestCase
             ),
             'bugdb_change' => new ezcDbSchemaTable(
                 array (
-                    'group' => new ezcDbSchemaField( 'integer' ),
+                    'group' => new ezcDbSchemaField( 'integer', false, true, 0 ),
                     'table' => new ezcDbSchemaField( 'integer' ),
                 ),
                 array (
