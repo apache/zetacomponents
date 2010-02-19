@@ -49,7 +49,7 @@ class ezcDbSchemaIndex extends ezcBaseStruct
         ksort( $indexFields );
         $this->indexFields = $indexFields;
         $this->primary = (bool) $primary;
-        $this->unique = (bool) $unique;
+        $this->unique = (bool) ( $this->primary ? true : $unique );
     }
 
     static public function __set_state( array $array )

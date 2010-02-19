@@ -66,6 +66,43 @@ class ezcDatabaseSchemaComparatorTest extends ezcTestCase
         self::assertEquals( new ezcDbSchemaDiff(), ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 ) );
     }
 
+    public function testComparePrimaryUniqueAndNonUniqueMakesNoDifference()
+    {
+        $schema1 = new ezcDbSchema( array(
+            'bugdb' => new ezcDbSchemaTable(
+                array (
+                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
+                ),
+                array (
+                    'primary' => new ezcDbSchemaIndex(
+                        array(
+                            'integerfield1' => new ezcDbSchemaIndexField()
+                        ),
+                        true, true
+                    )
+                )
+            ),
+        ) );
+        $schema2 = new ezcDbSchema( array(
+            'bugdb' => new ezcDbSchemaTable(
+                array (
+                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
+                ),
+                array (
+                    'primary' => new ezcDbSchemaIndex(
+                        array(
+                            'integerfield1' => new ezcDbSchemaIndexField(),
+                        ),
+                        true, false
+                    )
+                )
+            ),
+        ) );
+
+        $diff = ezcDbSchemaComparator::compareSchemas( $schema1, $schema2 );
+        $this->assertEquals(0, count($diff->changedTables));
+    }
+
     public function testCompareMissingTable()
     {
         $schema1 = new ezcDbSchema( array(

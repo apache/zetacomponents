@@ -1,6 +1,7 @@
 1.4.4 - [REALESEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed #15895: Setting an Index Primary should enforce Unique
 - Fixed: Handling of not null in SQLite
 
 
