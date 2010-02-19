@@ -63,15 +63,26 @@ class ezcPersistentCodeManager extends ezcPersistentDefinitionManager
     public function fetchDefinition( $class )
     {
         $definition = null;
-        $path = $this->dir . strtolower( $class ) . '.php';
+
+        if ( $class[0] === '\\' )
+        {
+            $class = substr( $class, 1 );
+        }
+
+        $path = $this->dir
+            . strtr( strtolower( $class ), '\\', DIRECTORY_SEPARATOR )
+            . '.php';
+
         if ( file_exists( $path ) )
         {
             $definition = require $path;
         }
         if ( !( $definition instanceof ezcPersistentObjectDefinition ) )
         {
-            throw new ezcPersistentDefinitionNotFoundException( $class,
-                                                                "Searched for '" . realpath( dirname( $path ) ) . "/" . basename( $path ) . "'." );
+            throw new ezcPersistentDefinitionNotFoundException(
+                $class,
+                "Searched for '" . realpath( dirname( $path ) ) . "/" . basename( $path ) . "'."
+            );
         }
         if ( $definition->idProperty === null )
         {

@@ -60,6 +60,46 @@ class ezcPersistentCodeManagerTest extends ezcTestCase
         $this->fail( "Fetching a definition from a non existent path did not fail.." );
     }
 
+    public function testNoNamespace()
+    {
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . '/../data/namespaces/' );
+        
+        $def = $manager->fetchDefinition( 'NoNamespace' );
+
+        $this->assertEquals( 'NoNamespace', $def->class );
+        $this->assertEquals( 'no_namespace', $def->table );
+    }
+
+    public function testRootNamespace()
+    {
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . '/../data/namespaces/' );
+        
+        $def = $manager->fetchDefinition( '\\RootNamespace' );
+
+        $this->assertEquals( '\\RootNamespace', $def->class );
+        $this->assertEquals( 'root_namespace', $def->table );
+    }
+
+    public function testSingleNamespace()
+    {
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . '/../data/namespaces/' );
+        
+        $def = $manager->fetchDefinition( '\\foo\\InFooNamespace' );
+
+        $this->assertEquals( '\\foo\\InFooNamespace', $def->class );
+        $this->assertEquals( 'in_foo_namespace', $def->table );
+    }
+
+    public function testMultipleNamespace()
+    {
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . '/../data/namespaces/' );
+        
+        $def = $manager->fetchDefinition( '\\foo\\Bar\\InBarNamespace' );
+
+        $this->assertEquals( '\\foo\\Bar\\InBarNamespace', $def->class );
+        $this->assertEquals( 'in_bar_namespace', $def->table );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcPersistentCodeManagerTest' );
