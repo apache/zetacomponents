@@ -81,10 +81,10 @@ class ezcDatabaseSchemaValidatorTest extends ezcTestCase
         ) );
 
         $expected = array(
-            "Field 'bugdb:booleanfield2' uses the unsupported type 'bool'.",
-            "Field 'bugdb:decimalfield2' uses the unsupported type 'numeric'.",
-            "Field 'bugdb:floatfield2' uses the unsupported type 'double'.",
             "Field 'bugdb:integerfield2' uses the unsupported type 'int'.",
+            "Field 'bugdb:booleanfield2' uses the unsupported type 'bool'.",
+            "Field 'bugdb:floatfield2' uses the unsupported type 'double'.",
+            "Field 'bugdb:decimalfield2' uses the unsupported type 'numeric'.",
             "Field 'bugdb:textfield2' uses the unsupported type 'char'.",
             "Field 'bugdb:textfield3' uses the unsupported type 'varchar'."
         );

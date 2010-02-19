@@ -1,6 +1,8 @@
 1.4.4 - [REALESEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed #16035: DatabaseSchema component automatically sorts table fields
+  alphabetically
 - Fixed #15894: ezcDbSchemaIndex sorts fields by name, but field order is
   important in indexes!
 - Fixed #15892: XML Storage for Schema casts Integer defaults to string and

@@ -5,22 +5,10 @@ $def = new ezcPersistentObjectDefinition();
 $def->table = 'liveuser_translations';
 $def->class = 'liveuser_translations';
 
-$def->properties['description']               = new ezcPersistentObjectProperty();
-$def->properties['description']->columnName   = 'description';
-$def->properties['description']->propertyName = 'description';
-$def->properties['description']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-
-$def->properties['language_id']               = new ezcPersistentObjectProperty();
-$def->properties['language_id']->columnName   = 'language_id';
-$def->properties['language_id']->propertyName = 'language_id';
-$def->properties['language_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-
-$def->properties['name']               = new ezcPersistentObjectProperty();
-$def->properties['name']->columnName   = 'name';
-$def->properties['name']->propertyName = 'name';
-$def->properties['name']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+$def->idProperty               = new ezcPersistentObjectIdProperty();
+$def->idProperty->columnName   = 'translation_id';
+$def->idProperty->propertyName = 'translation_id';
+$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );
 
 
 $def->properties['section_id']               = new ezcPersistentObjectProperty();
@@ -35,10 +23,22 @@ $def->properties['section_type']->propertyName = 'section_type';
 $def->properties['section_type']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
 
-$def->idProperty               = new ezcPersistentObjectIdProperty();
-$def->idProperty->columnName   = 'translation_id';
-$def->idProperty->propertyName = 'translation_id';
-$def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator' );
+$def->properties['language_id']               = new ezcPersistentObjectProperty();
+$def->properties['language_id']->columnName   = 'language_id';
+$def->properties['language_id']->propertyName = 'language_id';
+$def->properties['language_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
+
+$def->properties['name']               = new ezcPersistentObjectProperty();
+$def->properties['name']->columnName   = 'name';
+$def->properties['name']->propertyName = 'name';
+$def->properties['name']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
+
+$def->properties['description']               = new ezcPersistentObjectProperty();
+$def->properties['description']->columnName   = 'description';
+$def->properties['description']->propertyName = 'description';
+$def->properties['description']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
 return $def;
 

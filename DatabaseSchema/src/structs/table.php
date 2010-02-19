@@ -41,8 +41,6 @@ class ezcDbSchemaTable extends ezcBaseStruct
      */
     function __construct( $fields, $indexes = array() )
     {
-        ksort( $fields );
-        ksort( $indexes );
         $this->fields = $fields;
         $this->indexes = $indexes;
     }
