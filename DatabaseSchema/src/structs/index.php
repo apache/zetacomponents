@@ -46,7 +46,6 @@ class ezcDbSchemaIndex extends ezcBaseStruct
      */
     function __construct( $indexFields, $primary = false, $unique = true )
     {
-        ksort( $indexFields );
         $this->indexFields = $indexFields;
         $this->primary = (bool) $primary;
         $this->unique = (bool) ( $this->primary ? true : $unique );

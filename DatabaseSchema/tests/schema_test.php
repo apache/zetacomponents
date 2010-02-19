@@ -43,6 +43,31 @@ class ezcDatabaseSchemaTest extends ezcTestCase
         self::assertEquals( 3, count( $this->xmlSchema->getSchema() ) );
     }
 
+    public function testCreateIndexSql()
+    {
+        $schema = new ezcDbSchema( array(
+            'bugdb' => new ezcDbSchemaTable(
+                array(
+                    'integerfield1' => new ezcDbSchemaField( 'integer' ),
+                    'integerfield2' => new ezcDbSchemaField( 'integer' ),
+                ),
+                array(
+                    'primary' => new ezcDbSchemaIndex( array(
+                        'integerfield2' => new ezcDbSchemaIndexField(),
+                        'integerfield1' => new ezcDbSchemaIndexField()
+                    ),
+                    true
+                ) )
+            ),
+        ) );
+
+        $writer = new ezcDbSchemaMysqlWriter();
+        $ddl = $writer->convertToDDL( $schema );
+
+        $createIndexDdl = array_pop( $ddl );
+        $this->assertEquals( 'ALTER TABLE `bugdb` ADD PRIMARY KEY ( `integerfield2`, `integerfield1` )', $createIndexDdl );
+    }
+
     public function testSchemaRemoveTable()
     {
         // remove the table table2
