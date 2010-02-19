@@ -101,6 +101,12 @@ class ezcDatabaseSchemaFieldTest extends ezcTestCase
         self::assertEquals( $schemaField->unsigned, true );
     }
 
+    public function testSetIntegerDefaultAsStringNumberIsCasted()
+    {
+        $field = new ezcDbSchemaField( 'integer', 10, false, "5", false, false );
+        $this->assertSame( 5, $field->default );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( 'ezcDatabaseSchemaFieldTest' );

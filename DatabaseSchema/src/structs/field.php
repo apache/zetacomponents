@@ -79,6 +79,11 @@ class ezcDbSchemaField extends ezcBaseStruct
         {
             $this->default = 0;
         }
+
+        if ( $type == 'integer' && is_numeric( $this->default ) )
+        {
+            $this->default = (int) $this->default;
+        }
     }
 
     static public function __set_state( array $array )
