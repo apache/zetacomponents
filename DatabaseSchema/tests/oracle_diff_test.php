@@ -49,7 +49,7 @@ class ezcDatabaseSchemaOracleDiffTest extends ezcDatabaseSchemaGenericDiffTest
             1 => 'ALTER TABLE "bugdb_change" DROP CONSTRAINT "bugdb_change_pkey"',
             2 => 'ALTER TABLE "bugdb_change" DROP COLUMN "integerfield1"',
             3 => 'ALTER TABLE "bugdb_change" MODIFY "integerfield3" varchar2(64)',
-            4 => 'ALTER TABLE "bugdb_change" ADD "integerfield2" number NOT NULL',
+            4 => 'ALTER TABLE "bugdb_change" ADD "integerfield2" number DEFAULT 0 NOT NULL',
             5 => 'ALTER TABLE "bugdb_change" ADD CONSTRAINT "bugdb_change_pkey" PRIMARY KEY ( "integerfield2" )',
             6 => 'CREATE UNIQUE INDEX "secondary" ON "bugdb_change" ( "integerfield3" )',
             7 => "CREATE TABLE \"bugdb_added\" (\n\t\"integerfield1\" number\n)",
