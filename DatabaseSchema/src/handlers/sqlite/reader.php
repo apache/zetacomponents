@@ -75,7 +75,8 @@ class ezcDbSchemaSqliteReader extends ezcDbSchemaCommonSqlReader implements ezcD
             $fieldType = self::convertToGenericType( $row[2], $fieldLength, $fieldPrecision );
 
             $fieldNotNull = false;
-            if ( $row[3] == '99' )
+            if ( ( $row[3] == '99' ) ||
+                 ( $row[3] == '1' ) )
             {
                 $fieldNotNull = true;
             }
