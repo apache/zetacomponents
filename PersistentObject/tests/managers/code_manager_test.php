@@ -16,32 +16,28 @@
  */
 class ezcPersistentCodeManagerTest extends ezcTestCase
 {
-    private $manager = null;
-
-    protected function setUp()
-    {
-        $this->manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
-    }
-
     public function testFetchValid()
     {
-        $def = $this->manager->fetchDefinition( "SimpleDefinition" );
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $def = $manager->fetchDefinition( "SimpleDefinition" );
         $this->assertEquals( true, $def instanceof ezcPersistentObjectDefinition );
     }
 
     public function testFetchValidTwice()
     {
-        $def = $this->manager->fetchDefinition( "SimpleDefinition" );
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
+        $def = $manager->fetchDefinition( "SimpleDefinition" );
         $this->assertEquals( true, $def instanceof ezcPersistentObjectDefinition );
-        $def2 = $this->manager->fetchDefinition( "SimpleDefinition" );
+        $def2 = $manager->fetchDefinition( "SimpleDefinition" );
         $this->assertEquals( true, $def2 instanceof ezcPersistentObjectDefinition );
     }
 
     public function testInvalidClass()
     {
+        $manager = new ezcPersistentCodeManager( dirname( __FILE__ ) . "/data/" );
         try
         {
-            $this->manager->fetchDefinition( "NoSuchClass" );
+            $manager->fetchDefinition( "NoSuchClass" );
         }
         catch ( Exception $e )
         {
