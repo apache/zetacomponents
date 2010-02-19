@@ -265,12 +265,12 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
         $tableLiveuserTranslations = $tables['liveuser_translations'];
         $expected = new ezcDbSchemaTable(
             array(
-                'description' => new ezcDbSchemaField( 'text', 255, false ),
-                'language_id' => new ezcDbSchemaField( 'text', 2, false ),
-                'name' => new ezcDbSchemaField( 'text', 50, false ),
+                'translation_id' => new ezcDbSchemaField( 'integer', null, true, null, true ),
                 'section_id' => new ezcDbSchemaField( 'integer', null, true, 0 ),
                 'section_type' => new ezcDbSchemaField( 'integer', null, false, 0 ),
-                'translation_id' => new ezcDbSchemaField( 'integer', null, true, null, true ),
+                'language_id' => new ezcDbSchemaField( 'text', 2, false ),
+                'name' => new ezcDbSchemaField( 'text', 50, false ),
+                'description' => new ezcDbSchemaField( 'text', 255, false ),
             ),
             array(
                 'primary' => new ezcDbSchemaIndex(
@@ -281,15 +281,14 @@ class ezcDatabaseSchemaGenericTest extends ezcTestCase
                 ),
                 'section_id' => new ezcDbSchemaIndex(
                     array(
-                        'language_id' => new ezcDbSchemaIndexField(),
                         'section_id' => new ezcDbSchemaIndexField(),
                         'section_type' => new ezcDbSchemaIndexField(),
+                        'language_id' => new ezcDbSchemaIndexField(),
                     ),
                     false, true
                 )
             )
         );
-        $serializedLiveuserTranslations = 'O:16:"ezcDbSchemaTable":2:{s:6:"fields";a:6:{s:11:"description";O:16:"ezcDbSchemaField":6:{s:4:"type";s:4:"text";s:6:"length";i:255;s:7:"notNull";b:1;s:7:"default";N;s:13:"autoIncrement";b:0;s:8:"unsigned";b:0;}s:11:"language_id";O:16:"ezcDbSchemaField":6:{s:4:"type";s:4:"text";s:6:"length";i:2;s:7:"notNull";b:1;s:7:"default";N;s:13:"autoIncrement";b:0;s:8:"unsigned";b:0;}s:4:"name";O:16:"ezcDbSchemaField":6:{s:4:"type";s:4:"text";s:6:"length";i:50;s:7:"notNull";b:1;s:7:"default";N;s:13:"autoIncrement";b:0;s:8:"unsigned";b:0;}s:10:"section_id";O:16:"ezcDbSchemaField":6:{s:4:"type";s:7:"integer";s:6:"length";i:0;s:7:"notNull";b:1;s:7:"default";N;s:13:"autoIncrement";b:0;s:8:"unsigned";b:0;}s:12:"section_type";O:16:"ezcDbSchemaField":6:{s:4:"type";s:7:"integer";s:6:"length";i:0;s:7:"notNull";b:1;s:7:"default";N;s:13:"autoIncrement";b:0;s:8:"unsigned";b:0;}s:14:"translation_id";O:16:"ezcDbSchemaField":6:{s:4:"type";s:7:"integer";s:6:"length";i:0;s:7:"notNull";b:1;s:7:"default";N;s:13:"autoIncrement";b:1;s:8:"unsigned";b:0;}}s:7:"indexes";a:2:{s:7:"primary";O:16:"ezcDbSchemaIndex":3:{s:11:"indexFields";a:1:{s:14:"translation_id";O:21:"ezcDbSchemaIndexField":1:{s:7:"sorting";N;}}s:7:"primary";b:1;s:6:"unique";b:1;}s:10:"section_id";O:16:"ezcDbSchemaIndex":3:{s:11:"indexFields";a:3:{s:11:"language_id";O:21:"ezcDbSchemaIndexField":1:{s:7:"sorting";N;}s:10:"section_id";O:21:"ezcDbSchemaIndexField":1:{s:7:"sorting";N;}s:12:"section_type";O:21:"ezcDbSchemaIndexField":1:{s:7:"sorting";N;}}s:7:"primary";b:0;s:6:"unique";b:1;}}}';
         self::assertEquals( $expected, $tableLiveuserTranslations );
     }
 

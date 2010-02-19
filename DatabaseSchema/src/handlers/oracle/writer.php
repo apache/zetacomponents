@@ -17,13 +17,6 @@
 class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcDbSchemaDbWriter, ezcDbSchemaDiffDbWriter
 {
     /**
-     * Constant for the maximum identifier length.
-     *
-     * @var int
-     */
-    const IDENTIFIER_MAX_LENGTH = 30;
-
-    /**
      * Contains a type map from DbSchema types to Oracle native types.
      *
      * @var array
@@ -113,7 +106,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     public function applyDiffToDb( ezcDbHandler $db, ezcDbSchemaDiff $dbSchemaDiff )
     {
         $db->beginTransaction();
-        foreach ( $this->convertDiffToDDL( $dbSchemaDiff ) as $query )
+        foreach ( $this->convertDiffToDDL( $dbSchemaDiff, $db ) as $query )
         {
             if ( $this->isQueryAllowed( $db, $query ) )
             {
@@ -172,8 +165,8 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         $fieldPos = $result['field_pos'];
 
         // emulation of autoincrement through adding sequence, trigger and constraint
-        $oldName = $this->generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
-        $oldNameTrigger = $this->generateSuffixCompositeIdentName( $tableName, $fieldPos, "trg" );
+        $oldName = ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
+        $oldNameTrigger = ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $tableName, $fieldPos, "trg" );
         $sequence = $db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$oldName}'" )->fetchAll();
         if ( count( $sequence) > 0  )
         {
@@ -184,8 +177,8 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         // --END--
 
         // New sequence names, using field names
-        $newName = $this->generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
-        $newNameTrigger = $this->generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
+        $newName = ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
+        $newNameTrigger = ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $tableName, $fieldPos, "seq" );
         // Emulation of autoincrement through adding sequence, trigger and constraint
         $sequences = $db->query( "SELECT sequence_name FROM user_sequences WHERE sequence_name = '{$newName}'" )->fetchAll();
         if ( count( $sequences ) > 0  )
@@ -200,7 +193,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
                                   "select \"{$newName}\".nextval into :new.\"{$autoIncrementFieldName}\" from dual; ".
                                   "end;" );
 
-        $constraintName = $this->generateSuffixedIdentName( array( $tableName ), "pkey" );
+        $constraintName = ezcDbSchemaOracleHelper::generateSuffixedIdentName( array( $tableName ), "pkey" );
         $constraint = $db->query( "SELECT constraint_name FROM user_cons_columns WHERE constraint_name = '{$constraintName}'" )->fetchAll();
         if ( count( $constraint) > 0  )
         {
@@ -214,10 +207,11 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
      * Returns the differences definition in $dbSchema as database specific SQL DDL queries.
      *
      * @param ezcDbSchemaDiff $dbSchemaDiff
+     * @param ezcDbHandler    $db
      *
      * @return array(string)
      */
-    public function convertDiffToDDL( ezcDbSchemaDiff $dbSchemaDiff )
+    public function convertDiffToDDL( ezcDbSchemaDiff $dbSchemaDiff, ezcDbHandler $db = null )
     {
         $this->diffSchema = $dbSchemaDiff;
 
@@ -225,8 +219,56 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         $this->queries = array();
         $this->context = array();
 
+        // Find sequences which require explicit drop statesments, see bug 
+        // #16222
+        if ( $db !== null )
+        {
+            $this->generateAdditionalDropSequenceStatements( $dbSchemaDiff, $db );
+        }
+
         $this->generateDiffSchemaAsSql();
         return $this->queries;
+    }
+
+    /**
+     * Generate additional drop sequence statements
+     *
+     * Some sequences might not be dropped automatically, this method generates 
+     * additional DROP SEQUENCE queries for those.
+     *
+     * Since Oracle only allows sequence identifiers up to 30 characters 
+     * sequences for long table / column names may be shortened. In this case 
+     * the sequence name does not started with the table name any more, thus 
+     * does not get dropped together with the table automatically.
+     *
+     * This method requires a DB connection to check which sequences have been 
+     * defined in the database, because the information about fields is not 
+     * available otherwise.
+     * 
+     * @param ezcDbSchemaDiff $dbSchemaDiff 
+     * @param ezcDbHandler $db 
+     * @return void
+     */
+    protected function generateAdditionalDropSequenceStatements( ezcDbSchemaDiff $dbSchemaDiff, ezcDbHandler $db )
+    {
+        $reader = new ezcDbSchemaOracleReader();
+        $schema = $reader->loadFromDb( $db )->getSchema();
+        foreach ( $dbSchemaDiff->removedTables as $table => $true )
+        {
+            foreach ( $schema[$table]->fields as $name => $field )
+            {
+                if ( $field->autoIncrement !== true )
+                {
+                    continue;
+                }
+
+                $seqName = ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $table, $name, "seq" );
+                if ( strpos( $seqName, $table ) !== 0 )
+                {
+                    $this->queries[] = "DROP SEQUENCE \"$seqName\"";
+                }
+            }
+        }
     }
 
     /**
@@ -304,9 +346,9 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
 
             if ( $fieldDefinition->autoIncrement && !$this->context['skip_primary'] )
             {
-                $sequenceName = $this->generateSuffixCompositeIdentName( $tableName, $fieldName, "seq" );
-                $triggerName = $this->generateSuffixCompositeIdentName( $tableName, $fieldName, "trg" );
-                $constraintName = $this->generateSuffixedIdentName( array( $tableName ), "pkey" );
+                $sequenceName = ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $tableName, $fieldName, "seq" );
+                $triggerName = ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $tableName, $fieldName, "trg" );
+                $constraintName = ezcDbSchemaOracleHelper::generateSuffixedIdentName( array( $tableName ), "pkey" );
                 $autoincrementSQL[] = "CREATE SEQUENCE \"{$sequenceName}\" start with 1 increment by 1 nomaxvalue";
                 $autoincrementSQL[] = "CREATE OR REPLACE TRIGGER \"{$triggerName}\" ".
                                           "before insert on \"{$tableName}\" for each row ".
@@ -334,45 +376,6 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
         {
             $fieldsSQL[] = $this->generateAddIndexSql( $tableName, $indexName, $indexDefinition );
         }
-    }
-
-    /**
-     * Generate composite identifier name for sequence or triggers and looking for oracle 30 chars ident restriction.
-     * 
-     * @param string $tableName
-     * @param string $fieldName
-     * @param string $suffix
-     * @return string
-     */
-    protected function generateSuffixCompositeIdentName( $tableName, $fieldName, $suffix )
-    {
-        return $this->generateSuffixedIdentName( array( $tableName, $fieldName ), $suffix );
-    }
-
-    /**
-     * Generate single identifier name for constraints for example obeying oracle 30 chars ident restriction.
-     * 
-     * @param array $identNames
-     * @param string $suffix
-     * @return string
-     */
-    protected function generateSuffixedIdentName( array $identNames, $suffix )
-    {
-        $ident = implode( "_", $identNames ) . "_" . $suffix;
-        $i = 0;
-        $last = -1;
-
-        while ( strlen( $ident ) > self::IDENTIFIER_MAX_LENGTH )
-        {
-            if ( strlen( $identNames[$i] ) > 1 || $last == $i )
-            {
-                $identNames[$i] = substr( $identNames[$i], 0, strlen( $identNames[$i] ) - 1 );
-                $last = $i;
-            }
-            $i = ( $i + 1 ) % count( $identNames );
-            $ident = implode( "_", $identNames ) . "_" . $suffix;
-        }
-        return $ident;
     }
 
     /**
@@ -546,7 +549,7 @@ class ezcDbSchemaOracleWriter extends ezcDbSchemaCommonSqlWriter implements ezcD
     {
         if ( $indexName == 'primary' ) // handling primary indexes
         {
-            $constraintName = $this->generateSuffixedIdentName( array( $tableName ), "pkey");
+            $constraintName = ezcDbSchemaOracleHelper::generateSuffixedIdentName( array( $tableName ), "pkey");
             $this->queries[] = "ALTER TABLE \"$tableName\" DROP CONSTRAINT \"{$constraintName}\"";
         }
         else

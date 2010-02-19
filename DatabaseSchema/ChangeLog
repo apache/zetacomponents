@@ -1,6 +1,10 @@
 1.4.4 - [REALESEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+- Fixed #16222: Oracle sequences are expected to be dropped for tables, which
+  fails for shortened sequence names
+- Fixed #16220: Autoincrement fields are not detected for Oracle for long
+  field / table names.
 - Fixed #16035: DatabaseSchema component automatically sorts table fields
   alphabetically
 - Fixed #15894: ezcDbSchemaIndex sorts fields by name, but field order is

@@ -132,7 +132,13 @@ class ezcDbSchemaOracleReader extends ezcDbSchemaCommonSqlReader implements ezcD
 
             $fieldAutoIncrement = false;           
             // new sequence naming included
-            if ( in_array( $tableName.'_'.$row['field_pos'].'_seq', $sequences ) || in_array( $tableName.'_'.$row['field'].'_seq', $sequences ) )
+            if ( in_array( 
+                    ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $tableName, $row['field_pos'], 'seq' ),
+                    $sequences
+                 ) || in_array(
+                    ezcDbSchemaOracleHelper::generateSuffixCompositeIdentName( $tableName, $row['field'], 'seq' ),
+                    $sequences
+                 ) )
             {
                 $fieldAutoIncrement = true;
             }
