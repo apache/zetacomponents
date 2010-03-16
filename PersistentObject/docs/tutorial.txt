@@ -167,6 +167,10 @@ To make the definition work with the ezcPersistentCodeManager, it must be put in
 a separate PHP file and given the name of the class in lowercase letters. In
 our example, the filename should be person.php.
 
+For classes in namespaces (PHP 5.3 and newer), sub-directories are used for the
+namespaces. That means, the persistence definition for a class
+``\My\Namespace\Person`` must reside in the file ``my/namespace/person.php``.
+
 The session object
 ------------------
 

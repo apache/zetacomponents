@@ -13,8 +13,11 @@
  *
  * Each definition must be in a separate file in the directory specified to the
  * constructor. The filename must be the same as the lowercase name of the
- * persistent object class with .php appended. Each file should return the
- * definition of one persistent object class.
+ * persistent object class with .php appended. For namespaces (PHP 5.3 and 
+ * newer), sub-directories are used. For example the definition for class 
+ * MyClass must reside in the top level directory as myclass.php and the 
+ * definition for My\Namespace\Class must reside in my/namespace/class.php. 
+ * Each such file must return the definition of one persistent object class.
  *
  * Example exampleclass.php:
  * <code>
