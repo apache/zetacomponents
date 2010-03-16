@@ -3,6 +3,8 @@
 
 - Fixed issue #15976: ImageMagick based scalePercent filter now allows values
   > 100 for the width value, too.
+- Fixed issue #15011: ImageMagick handler does now correctly use the binary
+  set through handler options.
 
 1.3.7 - Monday 22 June 2009
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

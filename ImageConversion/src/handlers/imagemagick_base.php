@@ -398,7 +398,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         }
         else if ( file_exists( $settings->options['binary'] ) )
         {
-            $this->binary = $this->settings['binary'];
+            $this->binary = $settings->options['binary'];
         }
 
         if ( $this->binary === null )

@@ -41,6 +41,18 @@ class ezcImageConversionHandlerShellTest extends ezcImageConversionHandlerTest
         parent::setUp();
     }
 
+    public function testInitFromSetBinary()
+    {
+        $settings = ezcImageImagemagickHandler::defaultSettings();
+        $settings->options['binary'] = ezcBaseFeatures::getImageConvertExecutable();
+
+        $handler = new ezcImageImagemagickHandler( $settings );
+
+        $filePath = $this->testFiles["jpeg"];
+
+        $ref = $handler->load( $filePath );
+        $handler->close( $ref );
+    }
 
     public function testLoadSuccess()
     {
