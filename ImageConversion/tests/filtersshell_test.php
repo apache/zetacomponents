@@ -358,14 +358,13 @@ class ezcImageConversionFiltersShellTest extends ezcImageConversionTestCase
 
     public function testScalePercent_2()
     {
-        $this->handler->scaleExact( 200, 200 );
+        $this->handler->scalePercent( 200, 200 );
         $this->handler->save( $this->getActiveReference(), $this->getTempPath() );
         $this->handler->close( $this->getActiveReference() );
         $this->assertImageSimilar(
             $this->getReferencePath(),
             $this->getTempPath(),
-            "Image not rendered as expected.",
-            300
+            "Image not rendered as expected."
         );
     }
 

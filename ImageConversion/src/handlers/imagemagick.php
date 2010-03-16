@@ -181,7 +181,7 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
         {
             throw new ezcBaseValueException( 'height', $height, 'int > 0' );
         }
-        if ( !is_int( $width ) || $width < 1 || $width > 100 )
+        if ( !is_int( $width ) || $width < 1 )
         {
             throw new ezcBaseValueException( 'width', $width, 'int > 0' );
         }
