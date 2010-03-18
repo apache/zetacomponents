@@ -315,7 +315,8 @@ abstract class ezcDocumentRstVisitor implements ezcDocumentErrorReporting
         // valid successor of the prior value.
         if ( $item instanceof ezcDocumentRstEnumeratedListNode )
         {
-            return ( $item->listType === $lastItem->listType );
+            return ( $lastItem instanceof ezcDocumentRstEnumeratedListNode ) &&
+                ( $item->listType === $lastItem->listType );
         }
 
         return true;
