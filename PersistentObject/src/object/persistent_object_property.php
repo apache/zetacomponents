@@ -52,11 +52,12 @@ class ezcPersistentObjectProperty
      * @var array
      */
     private $properties = array(
-        'columnName'   => null,
-        'propertyName' => null,
-        'propertyType' => self::PHP_TYPE_STRING,
-        'converter'    => null,
-        'databaseType' => PDO::PARAM_STR,
+        'columnName'       => null,
+        'resultColumnName' => null,
+        'propertyName'     => null,
+        'propertyType'     => self::PHP_TYPE_STRING,
+        'converter'        => null,
+        'databaseType'     => PDO::PARAM_STR,
     );
 
     /**
@@ -163,6 +164,16 @@ class ezcPersistentObjectProperty
         switch ( $propertyName )
         {
             case 'columnName':
+                if ( is_string( $propertyValue ) === false && is_null( $propertyValue ) === false )
+                {
+                    throw new ezcBaseValueException(
+                        $propertyName,
+                        $propertyValue,
+                        'string or null'
+                    );
+                }
+                $this->properties['resultColumnName'] = ( $propertyValue !== null ) ? strtolower( $propertyValue ) : null;
+                break;
             case 'propertyName':
                 if ( is_string( $propertyValue ) === false && is_null( $propertyValue ) === false )
                 {

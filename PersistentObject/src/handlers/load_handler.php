@@ -262,7 +262,7 @@ class ezcPersistentLoadHandler extends ezcPersistentSessionHandler
             $object->setState(
                 ezcPersistentStateTransformer::rowToStateArray( $row, $def )
             );
-            $result[$row[$def->idProperty->columnName]] = $object;
+            $result[$row[$def->idProperty->resultColumnName]] = $object;
         }
         return $result;
     }

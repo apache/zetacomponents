@@ -44,11 +44,11 @@ abstract class ezcPersistentDefinitionManager
     {
         foreach ( $def->properties as $field )
         {
-            $def->columns[$field->columnName] = $field;
+            $def->columns[$field->resultColumnName] = $field;
         }
         if ( isset( $def->idProperty ) && $def->idProperty->columnName !== null )
         {
-            $def->columns[$def->idProperty->columnName] = $def->idProperty;
+            $def->columns[$def->idProperty->resultColumnName] = $def->idProperty;
         }
         return $def;
     }

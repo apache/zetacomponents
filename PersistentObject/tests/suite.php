@@ -21,6 +21,7 @@ require_once 'persistent_session/load_test.php';
 require_once 'persistent_session/misc_test.php';
 require_once 'persistent_session/save_test.php';
 require_once 'persistent_session/instance_test.php';
+require_once 'persistent_session/casesensitive_test.php';
 
 require_once 'persistent_session_identity_decorator/options_test.php';
 require_once 'persistent_session_identity_decorator/misc_test.php';
@@ -88,6 +89,7 @@ class ezcPersistentObjectSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcPersistentSessionLoadTest::suite() );
         $this->addTest( ezcPersistentSessionMiscTest::suite() );
         $this->addTest( ezcPersistentSessionSaveTest::suite() );
+        $this->addTest( ezcPersistentSessionCasesensitiveTest::suite() );
 
         $this->addTest( ezcPersistentSessionIdentityDecoratorOptionsTest::suite() );
         $this->addTest( ezcPersistentSessionIdentityDecoratorMiscTest::suite() );

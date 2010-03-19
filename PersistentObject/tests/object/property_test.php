@@ -34,11 +34,12 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         $property = new ezcPersistentObjectProperty();
         $this->assertAttributeEquals(
             array(
-                'columnName'   => null,
-                'propertyName' => null,
-                'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_STRING,
-                'converter'    => null,
-                'databaseType' => PDO::PARAM_STR,
+                'columnName'       => null,
+                'resultColumnName' => null,
+                'propertyName'     => null,
+                'propertyType'     => ezcPersistentObjectProperty::PHP_TYPE_STRING,
+                'converter'        => null,
+                'databaseType'     => PDO::PARAM_STR,
             ),
             'properties',
             $property
@@ -54,11 +55,12 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         );
         $this->assertAttributeEquals(
             array(
-                'columnName'   => 'column',
-                'propertyName' => 'property',
-                'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_INT,
-                'converter'    => new ezcPersistentPropertyDateTimeConverter(),
-                'databaseType' => PDO::PARAM_LOB,
+                'columnName'       => 'column',
+                'resultColumnName' => 'column',
+                'propertyName'     => 'property',
+                'propertyType'     => ezcPersistentObjectProperty::PHP_TYPE_INT,
+                'converter'        => new ezcPersistentPropertyDateTimeConverter(),
+                'databaseType'     => PDO::PARAM_LOB,
             ),
             'properties',
             $property
@@ -215,6 +217,16 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         $this->assertNull(
             $property->converter
         );
+
+        $property->columnName = 'CamelCase';
+        $this->assertEquals(
+            'CamelCase',
+            $property->columnName
+        );
+        $this->assertEquals(
+            'camelcase',
+            $property->resultColumnName
+        );
     }
     
     public function testSetAccessFailure()
@@ -269,6 +281,10 @@ class ezcPersistentObjectPropertyTest extends ezcTestCase
         $this->assertTrue(
             isset( $property->databaseType ),
             'Property $databaseType seems not to be set.'
+        );
+        $this->assertTrue(
+            isset( $property->resultColumnName ),
+            'Property $resultColumnName seems not to be set.'
         );
     }
 

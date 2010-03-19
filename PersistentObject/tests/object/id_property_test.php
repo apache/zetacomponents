@@ -34,12 +34,13 @@ class ezcPersistentObjectIdPropertyTest extends ezcTestCase
         $property = new ezcPersistentObjectIdProperty();
         $this->assertAttributeEquals(
             array(
-                'columnName'   => null,
-                'propertyName' => null,
-                'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_INT,
-                'generator'    => null,
-                'visibility'   => null,
-                'databaseType' => PDO::PARAM_STR,
+                'columnName'       => null,
+                'resultColumnName' => null,
+                'propertyName'     => null,
+                'propertyType'     => ezcPersistentObjectProperty::PHP_TYPE_INT,
+                'generator'        => null,
+                'visibility'       => null,
+                'databaseType'     => PDO::PARAM_STR,
             ),
             'properties',
             $property
@@ -58,10 +59,11 @@ class ezcPersistentObjectIdPropertyTest extends ezcTestCase
         );
         $this->assertAttributeEquals(
             array(
-                'columnName'   => 'column',
-                'propertyName' => 'property',
-                'propertyType' => ezcPersistentObjectProperty::PHP_TYPE_INT,
-                'generator'    => new ezcPersistentGeneratorDefinition(
+                'columnName'       => 'column',
+                'resultColumnName' => 'column',
+                'propertyName'     => 'property',
+                'propertyType'     => ezcPersistentObjectProperty::PHP_TYPE_INT,
+                'generator'        => new ezcPersistentGeneratorDefinition(
                     new ezcPersistentNativeGenerator()
                 ),
                 'visibility'   => ezcPersistentObjectProperty::VISIBILITY_PROTECTED,
@@ -169,6 +171,10 @@ class ezcPersistentObjectIdPropertyTest extends ezcTestCase
             $property->columnName
         );
         $this->assertEquals(
+            'column',
+            $property->resultColumnName
+        );
+        $this->assertEquals(
             'property',
             $property->propertyName
         );
@@ -232,6 +238,10 @@ class ezcPersistentObjectIdPropertyTest extends ezcTestCase
             $property->columnName
         );
         $this->assertEquals(
+            'column',
+            $property->resultColumnName
+        );
+        $this->assertEquals(
             'property',
             $property->propertyName
         );
@@ -252,6 +262,16 @@ class ezcPersistentObjectIdPropertyTest extends ezcTestCase
         $this->assertEquals(
             PDO::PARAM_LOB,
             $property->databaseType
+        );
+
+        $property->columnName = 'CamelCase';
+        $this->assertEquals(
+            'CamelCase',
+            $property->columnName
+        );
+        $this->assertEquals(
+            'camelcase',
+            $property->resultColumnName
         );
     }
     
@@ -315,7 +335,11 @@ class ezcPersistentObjectIdPropertyTest extends ezcTestCase
         );
         $this->assertTrue(
             isset( $property->databaseType ),
-            'Property $generator seems not to be set.'
+            'Property $databaseType seems not to be set.'
+        );
+        $this->assertTrue(
+            isset( $property->resultColumnName ),
+            'Property $resultColumnName seems not to be set.'
         );
     }
 
