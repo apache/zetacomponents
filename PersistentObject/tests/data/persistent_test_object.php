@@ -67,18 +67,10 @@ class PersistentTestObject
      *
      * If autoIncrement is set to false a schema with the id field not set to autoincrement is used.
      */
-    public static function setupTable( $autoIncrement = true )
+    public static function setupTable()
     {
         $db = ezcDbInstance::get();
-        // Load schema
-        if ( $autoIncrement == true )
-        {
-            $schema = ezcDbSchema::createFromFile( 'array', dirname( __FILE__ ) . '/persistent_test_object.dba' );
-        }
-        else
-        {
-            $schema = ezcDbSchema::createFromFile( 'array', dirname( __FILE__ ) . '/persistent_test_object_no_auto_increment.dba' );
-        }
+        $schema = ezcDbSchema::createFromFile( 'array', dirname( __FILE__ ) . '/persistent_test_object.dba' );
         $schema->writeToDb( $db );
     }
 
