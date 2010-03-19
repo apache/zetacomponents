@@ -513,8 +513,11 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
     public function search( $queryWord, $defaultField, $searchFieldList = array(), $returnFieldList = array(), $highlightFieldList = array(), $facetFieldList = array(), $limit = null, $offset = 0, $order = array() )
     {
         $result = $this->sendRawGetCommand( 'select', $this->buildQuery( $queryWord, $defaultField, $searchFieldList, $returnFieldList, $highlightFieldList, $facetFieldList, $limit, $offset, $order ) );
-        $result = json_decode( $result );
-        return $result;
+        if ( ( $data = json_decode( $result ) ) === null )
+        {
+            throw new ezcSearchInvalidResultException( $result );
+        }
+        return $data;
     }
 
     /**

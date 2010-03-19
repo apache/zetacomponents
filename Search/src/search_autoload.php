@@ -19,6 +19,7 @@ return array(
     'ezcSearchFieldNotDefinedException'          => 'Search/exceptions/field_not_defined.php',
     'ezcSearchIdNotFoundException'               => 'Search/exceptions/id_not_found.php',
     'ezcSearchIncompleteStateException'          => 'Search/exceptions/incomplete_state.php',
+    'ezcSearchInvalidResultException'            => 'Search/exceptions/invalid_result.php',
     'ezcSearchNetworkException'                  => 'Search/exceptions/network.php',
     'ezcSearchQueryVariableParameterException'   => 'Search/exceptions/query_variable_parameter.php',
     'ezcSearchTransactionException'              => 'Search/exceptions/transaction.php',
