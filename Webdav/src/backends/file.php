@@ -137,6 +137,16 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend implements ezcWebdavLo
 
         $lockFileName = $this->root . '/' . $this->options->lockFileName;
 
+        if ( is_file( $lockFileName ) && !is_writable( $lockFileName )
+             || !is_file( $lockFileName ) && !is_writable(dirname( $lockFileName ) ) )
+        {
+            throw new ezcBaseFilePermissionException(
+                $lockFileName,
+                ezcBaseFileException::WRITE,
+                'Cannot be used as lock file.'
+            );
+        }
+
         // fopen in mode 'x' will only open the file, if it does not exist yet.
         // Even this is is expected it will throw a warning, if the file
         // exists, which we need to silence using the @

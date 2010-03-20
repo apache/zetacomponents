@@ -2342,6 +2342,59 @@ class ezcWebdavFileBackendTest extends ezcTestCase
         );
     }
 
+    // Issue #16034: Endless Loop when Lock File is not writeable in 
+    // ezcWebdavFileBackend
+    public function testLockDirNotWritable()
+    {
+        $backendDir = $this->tempDir . 'backend/';
+        $backend = new ezcWebdavFileBackend( $backendDir );
+
+        chmod( $backendDir, 0 );
+        clearstatcache();
+
+        try
+        {
+            $backend->lock( 1000, 200000 );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals(
+                "The file '" . $backendDir . ".ezc_lock' can not be opened for writing. (Cannot be used as lock file.)",
+                $e->getMessage()
+            );
+        }
+
+        chmod( $backendDir, 0755 );
+    }
+
+    // Issue #16034: Endless Loop when Lock File is not writeable in 
+    // ezcWebdavFileBackend
+    public function testLockFileNotWritable()
+    {
+        $backendDir = $this->tempDir . 'backend/';
+        $backend = new ezcWebdavFileBackend( $backendDir );
+
+        $lockFile = "{$backendDir}.ezc_lock";
+
+        touch( $lockFile );
+        chmod( $lockFile, 0 );
+        clearstatcache();
+
+        try
+        {
+            $backend->lock( 1000, 200000 );
+        }
+        catch ( ezcBaseFilePermissionException $e )
+        {
+            $this->assertEquals(
+                "The file '" . $backendDir . ".ezc_lock' can not be opened for writing. (Cannot be used as lock file.)",
+                $e->getMessage()
+            );
+        }
+
+        chmod( $lockFile, 0755 );
+    }
+
     public function testExternalAndInternalLock()
     {
         $backendDir = $this->tempDir . 'backend/';
