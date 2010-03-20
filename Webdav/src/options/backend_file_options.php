@@ -15,10 +15,14 @@
  * changed.
  *
  * @property bool $noLock
- *           Time to wait between tests, if a lock can be acquired in
+ *           If locking should be used internally in the back end, to ensure 
+ *           operations are atomic.
  * @property int $waitForLock
- *           Time to wait between tests, if a lock can be acquired, in
+ *           Time to wait between check if a lock can be acquired, in
  *           microseconds.
+ * @property float $lockTimeout
+ *           Timeout in seconds after which a lock is considered dead and 
+ *           therefore removed.
  * @property string $lockFileName
  *           Name used for the lock file.
  * @property string $propertyStoragePath
@@ -52,6 +56,7 @@ class ezcWebdavFileBackendOptions extends ezcBaseOptions
     {
         $this->properties['noLock']                 = false;
         $this->properties['waitForLock']            = 200000;
+        $this->properties['lockTimeout']            = 2;
         $this->properties['lockFileName']           = '.ezc_lock';
         $this->properties['propertyStoragePath']    = '.ezc';
         $this->properties['directoryMode']          = 0755;
@@ -105,6 +110,15 @@ class ezcWebdavFileBackendOptions extends ezcBaseOptions
                 if ( !is_int( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'integer' );
+                }
+
+                $this->properties[$name] = $value;
+                break;
+
+            case 'lockTimeout':
+                if ( !is_numeric( $value ) || $value < 0 )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'float > 0' );
                 }
 
                 $this->properties[$name] = $value;

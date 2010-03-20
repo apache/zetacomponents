@@ -285,7 +285,7 @@ class ezcWebdavFileBackend extends ezcWebdavSimpleBackend implements ezcWebdavLo
         
         try
         {
-            $this->lock( $this->options->waitForLock, 2000000 );
+            $this->lock( $this->options->waitForLock, $this->options->lockTimeout );
         }
         catch ( ezcWebdavLockTimeoutException $e )
         {

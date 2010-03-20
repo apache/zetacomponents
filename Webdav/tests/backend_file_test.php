@@ -2313,7 +2313,7 @@ class ezcWebdavFileBackendTest extends ezcTestCase
         $backendDir = $this->tempDir . 'backend/';
         $backend = new ezcWebdavFileBackend( $backendDir );
 
-        $backend->lock( 1000, 200000 );
+        $backend->lock( 1000, 2 );
 
         $this->assertFileExists(
             $backendDir . $backend->options->lockFileName,
@@ -2354,7 +2354,7 @@ class ezcWebdavFileBackendTest extends ezcTestCase
 
         try
         {
-            $backend->lock( 1000, 200000 );
+            $backend->lock( 1000, 2 );
         }
         catch ( ezcBaseFilePermissionException $e )
         {
@@ -2382,7 +2382,7 @@ class ezcWebdavFileBackendTest extends ezcTestCase
 
         try
         {
-            $backend->lock( 1000, 200000 );
+            $backend->lock( 1000, 2 );
         }
         catch ( ezcBaseFilePermissionException $e )
         {
@@ -2395,12 +2395,40 @@ class ezcWebdavFileBackendTest extends ezcTestCase
         chmod( $lockFile, 0755 );
     }
 
+    // Issue #15922: File backend lock function expects lock timeout argument 
+    // as seconds, milliseconds passed
+    public function testLockTimeout()
+    {
+        $backendDir = $this->tempDir . 'backend/';
+        $backend = new ezcWebdavFileBackend( $backendDir );
+
+        $lockFile = "{$backendDir}.ezc_lock";
+        touch( $lockFile );
+
+        $startTime = microtime( true );
+        $backend->lock( 10000, 0.3 );
+        $endTime = microtime( true );
+
+        $elapsedTime = $endTime - $startTime;
+
+        $this->assertGreaterThan(
+            0.3,
+            $elapsedTime
+        );
+
+        $this->assertLessThan(
+            0.4,
+            $elapsedTime
+        );
+        
+    }
+
     public function testExternalAndInternalLock()
     {
         $backendDir = $this->tempDir . 'backend/';
         $backend = new ezcWebdavFileBackend( $backendDir );
 
-        $backend->lock( 1000, 200000 );
+        $backend->lock( 1000, 2 );
 
         $this->assertFileExists(
             $backendDir . $backend->options->lockFileName,
@@ -2438,7 +2466,7 @@ class ezcWebdavFileBackendTest extends ezcTestCase
         $backendDir = $this->tempDir . 'backend/';
         $backend = new ezcWebdavFileBackend( $backendDir );
 
-        $backend->lock( 1000, 200000 );
+        $backend->lock( 1000, 2 );
 
         $this->assertFileExists(
             $backendDir . $backend->options->lockFileName,
@@ -2452,7 +2480,7 @@ class ezcWebdavFileBackendTest extends ezcTestCase
             'Lock level not incremented.'
         );
 
-        $backend->lock( 1000, 200000 );
+        $backend->lock( 1000, 2 );
 
         $this->assertFileExists(
             $backendDir . $backend->options->lockFileName,
