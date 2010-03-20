@@ -81,6 +81,7 @@ require_once 'lock_administrator_test.php';
 
 require_once 'client_bitkinex_test.php';
 require_once 'client_cadaver_test.php';
+require_once 'client_cadaver_auth_test.php';
 require_once 'client_cadaver_lock_test.php';
 require_once 'client_ie6_auth_test.php';
 require_once 'client_ie6_test.php';
@@ -90,6 +91,7 @@ require_once 'client_konqueror_test.php';
 require_once 'client_konqueror_auth_test.php';
 require_once 'client_litmus_lock_test.php';
 require_once 'client_litmus_test.php';
+require_once 'client_litmus_auth_test.php';
 require_once 'client_nautilus_test.php';
 require_once 'client_nautilus_auth_test.php';
 require_once 'client_rfc_lock_test.php';
@@ -177,8 +179,10 @@ class ezcWebdavSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcWebdavRfcClientTest::suite() );
         $this->addTest( ezcWebdavRfcLockClientTest::suite() );
         $this->addTest( ezcWebdavLitmusClientTest::suite() );
+        $this->addTest( ezcWebdavLitmusAuthClientTest::suite() );
         $this->addTest( ezcWebdavLitmusLockClientTest::suite() );
         $this->addTest( ezcWebdavCadaverClientTest::suite() );
+        $this->addTest( ezcWebdavCadaverAuthClientTest::suite() );
         $this->addTest( ezcWebdavCadaverLockClientTest::suite() );
         $this->addTest( ezcWebdavNautilusClientTest::suite() );
         $this->addTest( ezcWebdavNautilusAuthClientTest::suite() );

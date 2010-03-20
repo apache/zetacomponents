@@ -43,7 +43,7 @@ return array (
         'WWW-Authenticate' => 
         array (
           'basic' => 'Basic realm="eZ Components WebDAV"',
-          'digest' => 'Digest realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", algorithm="MD5"',
+          'digest' => 'Digest realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", algorithm="MD5"',
         ),
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Type' => 'text/plain; charset="utf-8"',
@@ -81,10 +81,10 @@ return array (
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE, Keep-Alive',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/", response="72647a5023de69d15696fa2a0cb401ed", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/", response="7b61b920ca0334912a0c81061e9b77e0", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 1 (begin)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/", response="72647a5023de69d15696fa2a0cb401ed", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/", response="7b61b920ca0334912a0c81061e9b77e0", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -128,10 +128,10 @@ return array (
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/", response="0ce2d32bfa2b4c5103c5b1943526747c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/", response="3568b454c6909faa8a9ca9aa73d47f05", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 1 (begin)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/", response="0ce2d32bfa2b4c5103c5b1943526747c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/", response="3568b454c6909faa8a9ca9aa73d47f05", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -175,10 +175,10 @@ return array (
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/", response="3ba56e1d79650748b72c9aa9ca5d068e", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/", response="4b4ede5afb44e5895bb5154baa403e0d", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 2 (options)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/", response="3ba56e1d79650748b72c9aa9ca5d068e", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/", response="4b4ede5afb44e5895bb5154baa403e0d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -187,8 +187,8 @@ return array (
       'body' => '',
       'headers' => 
       array (
-        'DAV' => '1, 2',
-        'Allow' => 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT, LOCK, UNLOCK',
+        'DAV' => '1',
+        'Allow' => 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
@@ -230,10 +230,10 @@ testing.
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '41',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res", response="ef0f9dbb2668ba977bafa7f857a898cf", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res", response="b08cc58355b887f4e85b70a14045dbac", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 3 (put_get)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/res',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res", response="ef0f9dbb2668ba977bafa7f857a898cf", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res", response="b08cc58355b887f4e85b70a14045dbac", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -278,10 +278,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res", response="ff4b51ef94ed38e728d363c3252e0d32", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res", response="00f7ceb9da82ec19966066b79d8fc466", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 3 (put_get)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/res',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res", response="ff4b51ef94ed38e728d363c3252e0d32", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res", response="00f7ceb9da82ec19966066b79d8fc466", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -336,10 +336,10 @@ testing.
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '41',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res-%e2%82%ac", response="87a207c12fb30abc45443b358bd1187c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res-%e2%82%ac", response="35840bbfa8a98c56b5b76d6532975b8d", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 4 (put_get_utf8_segment)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/res-€',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res-%e2%82%ac", response="87a207c12fb30abc45443b358bd1187c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res-%e2%82%ac", response="35840bbfa8a98c56b5b76d6532975b8d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -384,10 +384,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res-%e2%82%ac", response="32e2c76997f136622a0117c013f3d72d", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res-%e2%82%ac", response="5749ab286132f3b554c737e3e87d8452", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 4 (put_get_utf8_segment)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/res-€',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res-%e2%82%ac", response="32e2c76997f136622a0117c013f3d72d", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res-%e2%82%ac", response="5749ab286132f3b554c737e3e87d8452", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -436,10 +436,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/409me/noparent.txt/", response="e988d3864c6ae10ecf5b9ba4a393474d", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/409me/noparent.txt/", response="3a083da1d809741402a3f43113de58cd", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 5 (put_no_parent)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/409me/noparent.txt/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/409me/noparent.txt/", response="e988d3864c6ae10ecf5b9ba4a393474d", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/409me/noparent.txt/", response="3a083da1d809741402a3f43113de58cd", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -483,10 +483,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res-%e2%82%ac/", response="3c7a2761a33a55678e7781c03c34f2d5", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res-%e2%82%ac/", response="7346e62d900e163d0148b20fda40982c", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 6 (mkcol_over_plain)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/res-€/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res-%e2%82%ac/", response="3c7a2761a33a55678e7781c03c34f2d5", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res-%e2%82%ac/", response="7346e62d900e163d0148b20fda40982c", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -530,10 +530,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res-%e2%82%ac", response="b7cbe93922bee67b34f3f6377710e5bc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res-%e2%82%ac", response="e579805f9ffd7c8d80eebbb635988fde", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 7 (delete)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/res-€',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/res-%e2%82%ac", response="b7cbe93922bee67b34f3f6377710e5bc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/res-%e2%82%ac", response="e579805f9ffd7c8d80eebbb635988fde", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -577,10 +577,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/404me", response="c9b57450d28d4dec46cb96b659a94cb1", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/404me", response="76a04ddcd8b6e71f50f77f95d5c07da1", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 8 (delete_null)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/404me',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/404me", response="c9b57450d28d4dec46cb96b659a94cb1", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/404me", response="76a04ddcd8b6e71f50f77f95d5c07da1", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -624,10 +624,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/frag/", response="ebf9ad65fe026e4d475bd69aa3031cef", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/frag/", response="609ddaf13d56a1bf4e884abf19cbc763", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 9 (delete_fragment)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/frag/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/frag/", response="ebf9ad65fe026e4d475bd69aa3031cef", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/frag/", response="609ddaf13d56a1bf4e884abf19cbc763", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -671,10 +671,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/frag/#ment", response="9ee6c883ea14e0ab8deb16a9e6103292", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/frag/#ment", response="2ab96002d45bc200d0636e9d868f76e2", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 9 (delete_fragment)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/frag/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/frag/#ment", response="9ee6c883ea14e0ab8deb16a9e6103292", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/frag/#ment", response="2ab96002d45bc200d0636e9d868f76e2", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -718,10 +718,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/frag/", response="c39539a7660cbf17af4489a2d2db78e1", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/frag/", response="ca357788ffbfeede96cdfac437e6bbbb", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 9 (delete_fragment)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/frag/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/frag/", response="c39539a7660cbf17af4489a2d2db78e1", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/frag/", response="ca357788ffbfeede96cdfac437e6bbbb", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -765,10 +765,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/coll/", response="8ddb1805693af2b7954a10cfa333f77b", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/coll/", response="b7a1a5dcd4f1545ad2912aeef4f8831e", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 10 (mkcol)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/coll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/coll/", response="8ddb1805693af2b7954a10cfa333f77b", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/coll/", response="b7a1a5dcd4f1545ad2912aeef4f8831e", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -812,10 +812,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/coll/", response="8ddb1805693af2b7954a10cfa333f77b", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/coll/", response="b7a1a5dcd4f1545ad2912aeef4f8831e", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 11 (mkcol_again)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/coll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/coll/", response="8ddb1805693af2b7954a10cfa333f77b", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/coll/", response="b7a1a5dcd4f1545ad2912aeef4f8831e", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -859,10 +859,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/coll/", response="fea5f2229003f3dbb3249fc2f4f863de", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/coll/", response="0b5ff553f553dbae884a0f0084bd29a5", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 12 (delete_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/coll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/coll/", response="fea5f2229003f3dbb3249fc2f4f863de", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/coll/", response="0b5ff553f553dbae884a0f0084bd29a5", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -906,10 +906,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/409me/noparent/", response="22f5b8fed8c8e39c6608c86b8a9bad89", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/409me/noparent/", response="d44557db667bf7494c959ec5ec69abb8", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 13 (mkcol_no_parent)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/409me/noparent/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/409me/noparent/", response="22f5b8fed8c8e39c6608c86b8a9bad89", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/409me/noparent/", response="d44557db667bf7494c959ec5ec69abb8", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -956,10 +956,10 @@ testing.
         'HTTP_TE' => 'trailers',
         'CONTENT_TYPE' => 'xzy-foo/bar-512',
         'HTTP_CONTENT_LENGTH' => '8',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/mkcolbody", response="484371bf2186720be9af27c672d8f34c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/mkcolbody", response="134217fca1be31506736c5de23cad497", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'basic: 14 (mkcol_with_body)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mkcolbody',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="79a113da34220ff95510e02e398a9415", uri="/secure_collection/litmus/mkcolbody", response="484371bf2186720be9af27c672d8f34c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e75584433ad434d46068d639c52091c", uri="/secure_collection/litmus/mkcolbody", response="134217fca1be31506736c5de23cad497", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1016,7 +1016,7 @@ testing.
         'WWW-Authenticate' => 
         array (
           'basic' => 'Basic realm="eZ Components WebDAV"',
-          'digest' => 'Digest realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", algorithm="MD5"',
+          'digest' => 'Digest realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", algorithm="MD5"',
         ),
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Type' => 'text/plain; charset="utf-8"',
@@ -1054,10 +1054,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE, Keep-Alive',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/", response="cf2300482c9a575169b684195593b488", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/", response="369a66771265e65c5bb4ad6c5ffba49b", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 1 (begin)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/", response="cf2300482c9a575169b684195593b488", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/", response="369a66771265e65c5bb4ad6c5ffba49b", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1101,10 +1101,10 @@ testing.
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/", response="1f6455bb9693ba9b668e8c68880ec96c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/", response="7d355141c16906dbf64427bbec7cbde8", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 1 (begin)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/", response="1f6455bb9693ba9b668e8c68880ec96c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/", response="7d355141c16906dbf64427bbec7cbde8", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1158,10 +1158,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="9f51217b4019645847d14b37b5b01f11", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="2564c124f907ee3194403b994a7a77d2", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 2 (copy_init)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copysrc',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="9f51217b4019645847d14b37b5b01f11", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="2564c124f907ee3194403b994a7a77d2", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1206,10 +1206,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copycoll/", response="c2c9f80b45ed25936670d4c85a4039bb", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copycoll/", response="762ebb698a1d4507a938647c06b4b7be", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 2 (copy_init)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copycoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copycoll/", response="c2c9f80b45ed25936670d4c85a4039bb", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copycoll/", response="762ebb698a1d4507a938647c06b4b7be", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1256,10 +1256,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/copydest',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 3 (copy_simple)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copysrc',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1306,10 +1306,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/copydest',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 4 (copy_overwrite)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copysrc',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1356,10 +1356,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/copydest',
         'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 4 (copy_overwrite)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copysrc',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1406,10 +1406,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/copycoll/',
         'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 4 (copy_overwrite)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copysrc',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1456,10 +1456,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/nonesuch/foo',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 5 (copy_nodestcoll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copysrc',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="e76991bc142f2955bc9b8b1a0aebe69b", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="370bcfc73cd09f6e32ed1b0656a0e2d9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1503,10 +1503,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="056ac936fde9f8404bd8e603ef1056da", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="88a0bd11fc86a23ede50644afb9956e1", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 6 (copy_cleanup)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copysrc',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copysrc", response="056ac936fde9f8404bd8e603ef1056da", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copysrc", response="88a0bd11fc86a23ede50644afb9956e1", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1550,10 +1550,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copydest", response="4a76ec1902b84e811b0f93ab84d4c625", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copydest", response="89c33f533444648bb072d24168d6e63e", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 6 (copy_cleanup)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copydest',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copydest", response="4a76ec1902b84e811b0f93ab84d4c625", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copydest", response="89c33f533444648bb072d24168d6e63e", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1597,10 +1597,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copycoll", response="e3bbfa58916b2756bee2de2f95bd7166", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copycoll", response="49f6f0abe238e5909167e94dd440461b", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 6 (copy_cleanup)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copycoll',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copycoll", response="e3bbfa58916b2756bee2de2f95bd7166", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copycoll", response="49f6f0abe238e5909167e94dd440461b", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1644,10 +1644,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copycoll/", response="0d42d20cba9cd04b13a2797b6ac45acc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copycoll/", response="a51f28bf1c8936c198afbdb30c5a4bc0", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 6 (copy_cleanup)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/copycoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/copycoll/", response="0d42d20cba9cd04b13a2797b6ac45acc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/copycoll/", response="a51f28bf1c8936c198afbdb30c5a4bc0", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1691,10 +1691,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="6edd4ee03a06d70b8e7e332cc62704cd", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="c193ae66f27cb5c3264a4aea07f52765", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="6edd4ee03a06d70b8e7e332cc62704cd", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="c193ae66f27cb5c3264a4aea07f52765", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1748,10 +1748,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.0", response="9976716a5e46ad8e8f17db2ccc9a45ea", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.0", response="bb8a9d64308f16e956cfb407d35e1407", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.0',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.0", response="9976716a5e46ad8e8f17db2ccc9a45ea", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.0", response="bb8a9d64308f16e956cfb407d35e1407", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1806,10 +1806,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.1", response="50b66d1a694b0cee270578ee56515dd2", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.1", response="5d16b2138966ba27f36efa1261b20cfa", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.1',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.1", response="50b66d1a694b0cee270578ee56515dd2", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.1", response="5d16b2138966ba27f36efa1261b20cfa", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1864,10 +1864,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.2", response="459c0a3a1874ef073daf3a3a34499bb7", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.2", response="0fd6f5134eacce359ca385d4b52fdd5f", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.2", response="459c0a3a1874ef073daf3a3a34499bb7", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.2", response="0fd6f5134eacce359ca385d4b52fdd5f", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1922,10 +1922,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.3", response="30a669729b040633ea19ef2d43ac655c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.3", response="7224267b02f7b711c76c3a17849ab335", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.3',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.3", response="30a669729b040633ea19ef2d43ac655c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.3", response="7224267b02f7b711c76c3a17849ab335", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1980,10 +1980,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.4", response="2b2b046b13624b36e9c229f45425b4cd", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.4", response="4b03fc2d3337dd4b94239e1ea5cae491", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.4',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.4", response="2b2b046b13624b36e9c229f45425b4cd", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.4", response="4b03fc2d3337dd4b94239e1ea5cae491", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2038,10 +2038,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.5", response="ca49503eb93a16ce2d8c91ac75f0dd8a", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.5", response="9739fb9f02431ef4e7beced55b220cad", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.5',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.5", response="ca49503eb93a16ce2d8c91ac75f0dd8a", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.5", response="9739fb9f02431ef4e7beced55b220cad", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2096,10 +2096,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.6", response="e3ca737a9340295f39f0aab2e96b7953", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.6", response="b05dfe392a38b052c0e788c2714525ce", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.6',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.6", response="e3ca737a9340295f39f0aab2e96b7953", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.6", response="b05dfe392a38b052c0e788c2714525ce", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2154,10 +2154,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.7", response="7b8915f391c0cbd0701d8cae4a81ccaf", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.7", response="01703725e33c23b75e244c0fc3bd5c8a", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.7',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.7", response="7b8915f391c0cbd0701d8cae4a81ccaf", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.7", response="01703725e33c23b75e244c0fc3bd5c8a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2212,10 +2212,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.8", response="2a1ccec41188e01460d26a3ca8e947a1", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.8", response="2bc8327531f37287330ce02b34e743f7", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.8',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.8", response="2a1ccec41188e01460d26a3ca8e947a1", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.8", response="2bc8327531f37287330ce02b34e743f7", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2270,10 +2270,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.9", response="e7ab44c70c1b1e4e7fdbf03a36b8c049", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.9", response="c34558a8bbe10dfa6aeca914c0ff8a5c", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo.9',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo.9", response="e7ab44c70c1b1e4e7fdbf03a36b8c049", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo.9", response="c34558a8bbe10dfa6aeca914c0ff8a5c", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2318,10 +2318,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/subcoll/", response="a41b4471b25506abe3718a2c9fbf8847", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/subcoll/", response="13c67ab63a7269c8545c348a3fc9f2f8", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/subcoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/subcoll/", response="a41b4471b25506abe3718a2c9fbf8847", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/subcoll/", response="13c67ab63a7269c8545c348a3fc9f2f8", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2365,10 +2365,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="a1896f329013135a04e921a2f22df499", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="d8844e278f606d076e9e2c7e6552938b", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="a1896f329013135a04e921a2f22df499", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="d8844e278f606d076e9e2c7e6552938b", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2412,10 +2412,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest2/", response="98b998a795a485887129e8f2a7827189", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest2/", response="27e6c812b869118c3b69ddc4ef6531be", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest2/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest2/", response="98b998a795a485887129e8f2a7827189", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest2/", response="27e6c812b869118c3b69ddc4ef6531be", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2462,10 +2462,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/ccdest/',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="3c5adf6ecdea9bbfbc3abbb79f9171f2", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="779e57a1190cb4ab030a52c7b37ede58", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="3c5adf6ecdea9bbfbc3abbb79f9171f2", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="779e57a1190cb4ab030a52c7b37ede58", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2512,10 +2512,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/ccdest2/',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="3c5adf6ecdea9bbfbc3abbb79f9171f2", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="779e57a1190cb4ab030a52c7b37ede58", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="3c5adf6ecdea9bbfbc3abbb79f9171f2", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="779e57a1190cb4ab030a52c7b37ede58", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2562,10 +2562,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/ccdest2/',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="5754472d7ffa121058905ec760becdcc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="ec1f22418c26b383da56fda32f58c3a8", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="5754472d7ffa121058905ec760becdcc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="ec1f22418c26b383da56fda32f58c3a8", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2612,10 +2612,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/ccdest/',
         'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest2/", response="a7df3a54300e6d6b142df13f6301dac9", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest2/", response="3fe0b78261df7d9fae4451f0e0efa6cb", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest2/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest2/", response="a7df3a54300e6d6b142df13f6301dac9", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest2/", response="3fe0b78261df7d9fae4451f0e0efa6cb", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2659,10 +2659,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="1189c88a89d47e67abdb0980f119f92a", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="e16379002cd80cf7401f2ad7f5de8946", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="1189c88a89d47e67abdb0980f119f92a", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="e16379002cd80cf7401f2ad7f5de8946", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2706,10 +2706,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.0", response="e1f42b9f6c7917691c0e499e4cf2c4f1", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.0", response="2387478e4af310d8966fce128e162a1e", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.0',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.0", response="e1f42b9f6c7917691c0e499e4cf2c4f1", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.0", response="2387478e4af310d8966fce128e162a1e", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2753,10 +2753,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.1", response="caeb6da25b1464d083ad1a4a1d7fdf78", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.1", response="887834c3a9157eef6a9dd47f630ecb6c", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.1',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.1", response="caeb6da25b1464d083ad1a4a1d7fdf78", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.1", response="887834c3a9157eef6a9dd47f630ecb6c", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2800,10 +2800,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.2", response="1e740e0c1c0de2c341534bb014c8afb1", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.2", response="aa94d4875b5ecdef225fdfdd1700b0c9", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.2", response="1e740e0c1c0de2c341534bb014c8afb1", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.2", response="aa94d4875b5ecdef225fdfdd1700b0c9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2847,10 +2847,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.3", response="f65e2f1e2e167e08588631997112813c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.3", response="909f7ce7431a22585180b41805f47c33", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.3',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.3", response="f65e2f1e2e167e08588631997112813c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.3", response="909f7ce7431a22585180b41805f47c33", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2894,10 +2894,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.4", response="67e490208afe6d5808a79342823cb412", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.4", response="751ed0263777063cc6a65bd9c4d289b5", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.4',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.4", response="67e490208afe6d5808a79342823cb412", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.4", response="751ed0263777063cc6a65bd9c4d289b5", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2941,10 +2941,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.5", response="90019fde39bfe04ae3a46a4c20acb6eb", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.5", response="e0fd2ca1edf9b422e415ea7ffdcdc088", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.5',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.5", response="90019fde39bfe04ae3a46a4c20acb6eb", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.5", response="e0fd2ca1edf9b422e415ea7ffdcdc088", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2988,10 +2988,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.6", response="db3a7f9a74164f1c5eee52d17883f4bb", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.6", response="c2ef1c74bb82a903bba9c13b635b7e5f", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.6',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.6", response="db3a7f9a74164f1c5eee52d17883f4bb", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.6", response="c2ef1c74bb82a903bba9c13b635b7e5f", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3035,10 +3035,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.7", response="72b7edc6be43141be74c29317a8d74ea", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.7", response="24064a8ac68ad7e23e572bf2d347c9f3", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.7',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.7", response="72b7edc6be43141be74c29317a8d74ea", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.7", response="24064a8ac68ad7e23e572bf2d347c9f3", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3082,10 +3082,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.8", response="4a35e53f97bcee9f23381c147435fc42", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.8", response="2806d8189e34db72d61600a347955333", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.8',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.8", response="4a35e53f97bcee9f23381c147435fc42", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.8", response="2806d8189e34db72d61600a347955333", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3129,10 +3129,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.9", response="a02d50e7368e61e3fd8d86cf37e34a82", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.9", response="3b756012e3b52e866b4890541eefd184", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/foo.9',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/foo.9", response="a02d50e7368e61e3fd8d86cf37e34a82", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/foo.9", response="3b756012e3b52e866b4890541eefd184", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3176,10 +3176,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/subcoll/", response="ee5d17e29b21b2e9388da31936279768", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/subcoll/", response="25d3e537361bf177b447100cff61e336", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/subcoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/subcoll/", response="ee5d17e29b21b2e9388da31936279768", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/subcoll/", response="25d3e537361bf177b447100cff61e336", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3223,10 +3223,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest2/", response="98b998a795a485887129e8f2a7827189", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest2/", response="27e6c812b869118c3b69ddc4ef6531be", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest2/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest2/", response="98b998a795a485887129e8f2a7827189", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest2/", response="27e6c812b869118c3b69ddc4ef6531be", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3270,10 +3270,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="a1896f329013135a04e921a2f22df499", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="d8844e278f606d076e9e2c7e6552938b", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 7 (copy_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="a1896f329013135a04e921a2f22df499", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="d8844e278f606d076e9e2c7e6552938b", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3317,10 +3317,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="6edd4ee03a06d70b8e7e332cc62704cd", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="c193ae66f27cb5c3264a4aea07f52765", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 8 (copy_shallow)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="6edd4ee03a06d70b8e7e332cc62704cd", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="c193ae66f27cb5c3264a4aea07f52765", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3374,10 +3374,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo", response="1c3c093f61cad7e5d1233a22a9c739a2", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo", response="7268727eec8f3fa7c8d6ca17a3f53e73", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 8 (copy_shallow)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/foo',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/foo", response="1c3c093f61cad7e5d1233a22a9c739a2", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/foo", response="7268727eec8f3fa7c8d6ca17a3f53e73", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3422,10 +3422,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="a1896f329013135a04e921a2f22df499", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="d8844e278f606d076e9e2c7e6552938b", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 8 (copy_shallow)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="a1896f329013135a04e921a2f22df499", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="d8844e278f606d076e9e2c7e6552938b", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3472,10 +3472,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/ccdest/',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="3c5adf6ecdea9bbfbc3abbb79f9171f2", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="779e57a1190cb4ab030a52c7b37ede58", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 8 (copy_shallow)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="3c5adf6ecdea9bbfbc3abbb79f9171f2", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="779e57a1190cb4ab030a52c7b37ede58", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3519,10 +3519,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="1189c88a89d47e67abdb0980f119f92a", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="e16379002cd80cf7401f2ad7f5de8946", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 8 (copy_shallow)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccsrc/", response="1189c88a89d47e67abdb0980f119f92a", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccsrc/", response="e16379002cd80cf7401f2ad7f5de8946", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3566,10 +3566,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/foo", response="d54dfef965a280a877549671ba3141bd", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/foo", response="f985ceb367a321ec4bc01183ef32f78e", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 8 (copy_shallow)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/foo',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/foo", response="d54dfef965a280a877549671ba3141bd", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/foo", response="f985ceb367a321ec4bc01183ef32f78e", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3613,10 +3613,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="a1896f329013135a04e921a2f22df499", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="d8844e278f606d076e9e2c7e6552938b", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 8 (copy_shallow)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/ccdest/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/ccdest/", response="a1896f329013135a04e921a2f22df499", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/ccdest/", response="d8844e278f606d076e9e2c7e6552938b", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3670,10 +3670,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move", response="f0f2199ece89c67159edb351a485ae14", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move", response="ba1a8c959209911598d3e99d9c0b6dd0", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 9 (move)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/move',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move", response="f0f2199ece89c67159edb351a485ae14", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move", response="ba1a8c959209911598d3e99d9c0b6dd0", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3728,10 +3728,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move2", response="670049986781774929b0e4637e019621", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move2", response="480755381a4823da9c3f0742f642be59", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 9 (move)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/move2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move2", response="670049986781774929b0e4637e019621", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move2", response="480755381a4823da9c3f0742f642be59", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3776,10 +3776,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/movecoll/", response="3950a4464671aa4277de7e034ad08e1e", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/movecoll/", response="2c415509048a92d366e82f9f00804320", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 9 (move)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/movecoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/movecoll/", response="3950a4464671aa4277de7e034ad08e1e", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/movecoll/", response="2c415509048a92d366e82f9f00804320", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3825,10 +3825,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/movedest',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move", response="53427dfc2e5ae21a634d4f7067ac2f0c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move", response="f420a3cfa570867ee38a1ee96878624d", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 9 (move)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/move',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move", response="53427dfc2e5ae21a634d4f7067ac2f0c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move", response="f420a3cfa570867ee38a1ee96878624d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3874,10 +3874,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/movedest',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move2", response="049ea097d68463dafeac0ef9bd5c42f6", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move2", response="4c0a392487db9ee7ec42aa96d03477a1", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 9 (move)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/move2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move2", response="049ea097d68463dafeac0ef9bd5c42f6", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move2", response="4c0a392487db9ee7ec42aa96d03477a1", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3923,10 +3923,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/movedest',
         'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move2", response="049ea097d68463dafeac0ef9bd5c42f6", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move2", response="4c0a392487db9ee7ec42aa96d03477a1", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 9 (move)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/move2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/move2", response="049ea097d68463dafeac0ef9bd5c42f6", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/move2", response="4c0a392487db9ee7ec42aa96d03477a1", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3972,10 +3972,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/movecoll/',
         'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/movedest", response="09fedd71ea55c640825ff27b1f2558a7", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/movedest", response="d74a2f6f38965671635053044f459326", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 9 (move)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/movedest',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/movedest", response="09fedd71ea55c640825ff27b1f2558a7", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/movedest", response="d74a2f6f38965671635053044f459326", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4019,10 +4019,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/movecoll", response="8b0025c38d7a53a053f1485a26d13809", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/movecoll", response="13d83dc0678ea0d59d6e6f87e24d04e3", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 9 (move)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/movecoll',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/movecoll", response="8b0025c38d7a53a053f1485a26d13809", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/movecoll", response="13d83dc0678ea0d59d6e6f87e24d04e3", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4066,10 +4066,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/", response="0b8e7538b3b592ebbc8d6725592a3e8d", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/", response="39933be15d54295cd87378bbf0709fe7", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/", response="0b8e7538b3b592ebbc8d6725592a3e8d", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/", response="39933be15d54295cd87378bbf0709fe7", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4123,10 +4123,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.0", response="ce617c06b705e3eac3a2605742bc8c50", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.0", response="6b0e376369879d4e3b736f1390eb041e", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.0',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.0", response="ce617c06b705e3eac3a2605742bc8c50", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.0", response="6b0e376369879d4e3b736f1390eb041e", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4181,10 +4181,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.1", response="30e0390bbdb882bfa8944f7d4aa94072", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.1", response="e5d50142aea46ad7abb4e650202994dd", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.1',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.1", response="30e0390bbdb882bfa8944f7d4aa94072", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.1", response="e5d50142aea46ad7abb4e650202994dd", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4239,10 +4239,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.2", response="a81b26155ccd22f4cb03a376bc6a7889", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.2", response="4359a6bb79015c00953f11ca44152f2d", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.2", response="a81b26155ccd22f4cb03a376bc6a7889", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.2", response="4359a6bb79015c00953f11ca44152f2d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4297,10 +4297,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.3", response="10e6a575644701cb9c8a46a9537c66a2", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.3", response="503a373994469e1ffc06cb4d9c82768b", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.3',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.3", response="10e6a575644701cb9c8a46a9537c66a2", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.3", response="503a373994469e1ffc06cb4d9c82768b", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4355,10 +4355,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.4", response="071fe8584b70a3e6224fb20e44859551", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.4", response="f9988ee5518694ef7c93086f55f23983", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.4',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.4", response="071fe8584b70a3e6224fb20e44859551", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.4", response="f9988ee5518694ef7c93086f55f23983", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4413,10 +4413,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.5", response="6a5efcd14e6dba3412bde2af6d3301f2", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.5", response="93d556fe3aa43c7815697deae83cb17f", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.5',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.5", response="6a5efcd14e6dba3412bde2af6d3301f2", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.5", response="93d556fe3aa43c7815697deae83cb17f", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4471,10 +4471,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.6", response="f06537204f61f0b0bdcf02d11650ad2f", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.6", response="39f3e9316080e27b24269d611faab4e8", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.6',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.6", response="f06537204f61f0b0bdcf02d11650ad2f", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.6", response="39f3e9316080e27b24269d611faab4e8", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4529,10 +4529,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.7", response="018cc8baac5e9f667ea7876275b78e42", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.7", response="74345a9f87e5f720d3c2134bdfeb840d", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.7',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.7", response="018cc8baac5e9f667ea7876275b78e42", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.7", response="74345a9f87e5f720d3c2134bdfeb840d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4587,10 +4587,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.8", response="273ada140974abc53977ac706eebdbd2", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.8", response="0777bdcc7ef59d8803f9ef8784000f67", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.8',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.8", response="273ada140974abc53977ac706eebdbd2", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.8", response="0777bdcc7ef59d8803f9ef8784000f67", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4645,10 +4645,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.9", response="5bd7a5289a16f0c62f78a9397222dd5d", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.9", response="0679debffde7dc2e3a93449ea61cdef0", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/foo.9',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/foo.9", response="5bd7a5289a16f0c62f78a9397222dd5d", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/foo.9", response="0679debffde7dc2e3a93449ea61cdef0", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4703,10 +4703,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvnoncoll", response="1cc9a666b4ddbdb53ee864cab4dd7635", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvnoncoll", response="62e54cb9c9f655dd892e6c588abdc3cc", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvnoncoll',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvnoncoll", response="1cc9a666b4ddbdb53ee864cab4dd7635", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvnoncoll", response="62e54cb9c9f655dd892e6c588abdc3cc", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4751,10 +4751,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/subcoll/", response="69b249938ec4f48470cf0b9dff260e17", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/subcoll/", response="88c71fcf1bfe13d600a663b297253104", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/subcoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/subcoll/", response="69b249938ec4f48470cf0b9dff260e17", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/subcoll/", response="88c71fcf1bfe13d600a663b297253104", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4801,10 +4801,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/mvdest2/',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/", response="a75f661368ef7e3fcef834b32f09d151", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/", response="42cb1a9f76ba797d14db3bd50ee6959d", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/", response="a75f661368ef7e3fcef834b32f09d151", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/", response="42cb1a9f76ba797d14db3bd50ee6959d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4850,10 +4850,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/mvdest/',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/", response="5a733fcda8abed16ef04f6df6759a71f", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/", response="3617f485c14b011c2bc8fa234300fdb0", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvsrc/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvsrc/", response="5a733fcda8abed16ef04f6df6759a71f", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvsrc/", response="3617f485c14b011c2bc8fa234300fdb0", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4899,10 +4899,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/mvdest2/',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/", response="8d42e4d51d09ce7225ea3f206e847cc4", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/", response="8780d3496ed32b31bda79eba683dbeb2", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/", response="8d42e4d51d09ce7225ea3f206e847cc4", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/", response="8780d3496ed32b31bda79eba683dbeb2", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4948,10 +4948,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/mvdest/',
         'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest2/", response="f4f2b4fe62b84abf47f24f866afed076", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest2/", response="a9a94f3d773cb8bc13c906da25a59457", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest2/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest2/", response="f4f2b4fe62b84abf47f24f866afed076", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest2/", response="a9a94f3d773cb8bc13c906da25a59457", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4998,10 +4998,10 @@ foo
         'HTTP_DEPTH' => 'infinity',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/mvdest2/',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/", response="37a62ed07f5e9eb504c94e025d24b92a", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/", response="9ecee7b1b72b80e7948728d56790d4b3", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/", response="37a62ed07f5e9eb504c94e025d24b92a", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/", response="9ecee7b1b72b80e7948728d56790d4b3", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5045,10 +5045,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.0", response="5f6e59c9037b569bc74e3808e51550b1", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.0", response="f8783b6ade728f64d8c2aef7e87c6ae4", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.0',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.0", response="5f6e59c9037b569bc74e3808e51550b1", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.0", response="f8783b6ade728f64d8c2aef7e87c6ae4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5092,10 +5092,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.1", response="197fb19bfb370032451d1538d2e0922c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.1", response="21ebdfb13a494bc677a7c7d8c4d1bd55", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.1',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.1", response="197fb19bfb370032451d1538d2e0922c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.1", response="21ebdfb13a494bc677a7c7d8c4d1bd55", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5139,10 +5139,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.2", response="db1728eeac9e326ddd5ed94007fdeb4d", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.2", response="1248f9bc9a9ebaf652e994d7dc2ecde9", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.2", response="db1728eeac9e326ddd5ed94007fdeb4d", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.2", response="1248f9bc9a9ebaf652e994d7dc2ecde9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5186,10 +5186,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.3", response="def0a6e1ad7c215e39c3184c6a00bcf6", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.3", response="3d61cb1af72b2d22fb918bc5c74cc7bc", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.3',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.3", response="def0a6e1ad7c215e39c3184c6a00bcf6", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.3", response="3d61cb1af72b2d22fb918bc5c74cc7bc", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5233,10 +5233,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.4", response="b9922ecc80af499b9dea7441131343b6", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.4", response="91c7f8d43cccee1165d7952aef0e5fb0", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.4',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.4", response="b9922ecc80af499b9dea7441131343b6", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.4", response="91c7f8d43cccee1165d7952aef0e5fb0", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5280,10 +5280,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.5", response="04795f1539fc5aa5eaf5af3ac08ba235", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.5", response="419c4153aacf9493a8e94de1385104e5", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.5',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.5", response="04795f1539fc5aa5eaf5af3ac08ba235", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.5", response="419c4153aacf9493a8e94de1385104e5", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5327,10 +5327,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.6", response="cd02ae0f4232864f4c0e7d73b5267448", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.6", response="50c1cd839d407caae4245eec05990a3c", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.6',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.6", response="cd02ae0f4232864f4c0e7d73b5267448", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.6", response="50c1cd839d407caae4245eec05990a3c", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5374,10 +5374,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.7", response="f4f5339f9708f9f190d15fc7dad2849e", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.7", response="152710cdd927defd425ab12564279fa4", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.7',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.7", response="f4f5339f9708f9f190d15fc7dad2849e", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.7", response="152710cdd927defd425ab12564279fa4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5421,10 +5421,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.8", response="fe466706912d7fcf11cdba809b7f82fb", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.8", response="188bf2e20f840aaeb6473183b1a9f149", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.8',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.8", response="fe466706912d7fcf11cdba809b7f82fb", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.8", response="188bf2e20f840aaeb6473183b1a9f149", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5468,10 +5468,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.9", response="a164c457c479feac286ab612d6d2e192", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.9", response="fe49c90362109b0ad61f5e1bf9f5eb29", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/foo.9',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/foo.9", response="a164c457c479feac286ab612d6d2e192", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/foo.9", response="fe49c90362109b0ad61f5e1bf9f5eb29", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5515,10 +5515,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/subcoll/", response="7043ade59f305b50de5b14e999c491fc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/subcoll/", response="bdc74ee995027852a1fb249e56b963b9", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/subcoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/subcoll/", response="7043ade59f305b50de5b14e999c491fc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/subcoll/", response="bdc74ee995027852a1fb249e56b963b9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5564,10 +5564,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/mvnoncoll',
         'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest2/", response="f4f2b4fe62b84abf47f24f866afed076", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest2/", response="a9a94f3d773cb8bc13c906da25a59457", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 10 (move_coll)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest2/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest2/", response="f4f2b4fe62b84abf47f24f866afed076", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest2/", response="a9a94f3d773cb8bc13c906da25a59457", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5611,10 +5611,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/", response="2c936c3326e02baba233e89b5bd086a1", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/", response="29ebbb71586bc9702aa9a0a7b2090eb3", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 11 (move_cleanup)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest/", response="2c936c3326e02baba233e89b5bd086a1", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest/", response="29ebbb71586bc9702aa9a0a7b2090eb3", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5658,10 +5658,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest2/", response="e06c936be64ef701f17a723e19141316", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest2/", response="fc22611e47f85eb849518b812dbf9c94", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 11 (move_cleanup)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvdest2/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvdest2/", response="e06c936be64ef701f17a723e19141316", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvdest2/", response="fc22611e47f85eb849518b812dbf9c94", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5705,10 +5705,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvnoncoll", response="1fed37f2ac8ae8f86016d008f8147a88", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvnoncoll", response="65ffa980a9762dc966ae0e10314ce97a", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'copymove: 11 (move_cleanup)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/mvnoncoll',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="0dca0963da34f6d2648eb5b68f535c40", uri="/secure_collection/litmus/mvnoncoll", response="1fed37f2ac8ae8f86016d008f8147a88", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="386aed4d06b48dd6a7df272362343210", uri="/secure_collection/litmus/mvnoncoll", response="65ffa980a9762dc966ae0e10314ce97a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5765,7 +5765,7 @@ foo
         'WWW-Authenticate' => 
         array (
           'basic' => 'Basic realm="eZ Components WebDAV"',
-          'digest' => 'Digest realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", algorithm="MD5"',
+          'digest' => 'Digest realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", algorithm="MD5"',
         ),
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Type' => 'text/plain; charset="utf-8"',
@@ -5803,10 +5803,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE, Keep-Alive',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="3a02ce9f6bf5eeedf751765bf1af3b5c", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="c0c8d16a8fb2e222bafa7ee7f03ac7a5", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 1 (begin)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="3a02ce9f6bf5eeedf751765bf1af3b5c", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="c0c8d16a8fb2e222bafa7ee7f03ac7a5", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5850,10 +5850,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="75bd36ccc1245d30e4d62a5dd78ff4c4", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="b9e045e87ace20aef44c8549a6257b57", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 1 (begin)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="75bd36ccc1245d30e4d62a5dd78ff4c4", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="b9e045e87ace20aef44c8549a6257b57", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5900,10 +5900,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '5',
         'HTTP_DEPTH' => '0',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="7b9af09372c96b820b82baaf33ff1794", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="4c30fbc1f16b30277e2db117edcd3761", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 2 (propfind_invalid)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="7b9af09372c96b820b82baaf33ff1794", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="4c30fbc1f16b30277e2db117edcd3761", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5951,10 +5951,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '80',
         'HTTP_DEPTH' => '0',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="7b9af09372c96b820b82baaf33ff1794", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="4c30fbc1f16b30277e2db117edcd3761", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 3 (propfind_invalid2)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="7b9af09372c96b820b82baaf33ff1794", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="4c30fbc1f16b30277e2db117edcd3761", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6023,10 +6023,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '304',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="7b9af09372c96b820b82baaf33ff1794", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="4c30fbc1f16b30277e2db117edcd3761", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 4 (propfind_d0)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/", response="7b9af09372c96b820b82baaf33ff1794", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/", response="4c30fbc1f16b30277e2db117edcd3761", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6094,10 +6094,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="619ae425270729e1f3988e7f13300f75", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="e42ae6b5e93f0dd287064f0c556e1c35", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 5 (propinit)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="619ae425270729e1f3988e7f13300f75", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="e42ae6b5e93f0dd287064f0c556e1c35", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6151,10 +6151,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="f03d046df407d25ae9c8daba33500903", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="1bc879a9c8a392c6dfe1e0fab7be3570", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 5 (propinit)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="f03d046df407d25ae9c8daba33500903", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="1bc879a9c8a392c6dfe1e0fab7be3570", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6214,10 +6214,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '1033',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="aef4b6ca90427840b731ee6deaf47e07", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="6ec26d899bad321923dbb29f8dcf3e1d", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 6 (propset)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="aef4b6ca90427840b731ee6deaf47e07", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="6ec26d899bad321923dbb29f8dcf3e1d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6297,10 +6297,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '578',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="1ee8474c9f620b980cb98f4953104ff3", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="b90243fe6b8bc59cae0678e94a763c56", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 7 (propget)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="1ee8474c9f620b980cb98f4953104ff3", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="b90243fe6b8bc59cae0678e94a763c56", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6367,10 +6367,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '92',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="1ee8474c9f620b980cb98f4953104ff3", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="b90243fe6b8bc59cae0678e94a763c56", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 8 (propextended)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="1ee8474c9f620b980cb98f4953104ff3", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="b90243fe6b8bc59cae0678e94a763c56", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6415,10 +6415,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="5b54d60428d9079145b6ea0f15c8ed25", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="ca8d125119b984bd4647a022736f6ab6", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 9 (propmove)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="5b54d60428d9079145b6ea0f15c8ed25", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="ca8d125119b984bd4647a022736f6ab6", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6464,10 +6464,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/prop2',
         'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="4b4223264ffdcd12713b273fabf60e82", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="ea4c5e1fe31cce6d1806ee985b5e9511", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 9 (propmove)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="4b4223264ffdcd12713b273fabf60e82", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="ea4c5e1fe31cce6d1806ee985b5e9511", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6528,10 +6528,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '578',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 10 (propget)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6611,10 +6611,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '1033',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 11 (propdeletes)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6694,10 +6694,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '578',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 12 (propget)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6782,10 +6782,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '1048',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 13 (propreplace)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6865,10 +6865,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '578',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 14 (propget)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6940,10 +6940,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '186',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 17 (prophighunicode)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7005,10 +7005,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '144',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 18 (propget)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7066,10 +7066,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '343',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 19 (propremoveset)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7131,10 +7131,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '141',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 20 (propget)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7192,10 +7192,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '255',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 21 (propsetremove)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7257,10 +7257,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '141',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 22 (propget)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7318,10 +7318,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '203',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 23 (propvalnspace)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="d6e5897fa2538223c313eae7991637bc", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="402db9c43d9496af4104867defa81d88", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7377,10 +7377,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '138',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 24 (propwformed)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop2',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop2", response="fb6c534b015d2fd50db23d3027f0c810", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop2", response="8fc521b7d007f97a9d27fd5aba0bc8ac", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7438,10 +7438,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="619ae425270729e1f3988e7f13300f75", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="e42ae6b5e93f0dd287064f0c556e1c35", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 25 (propinit)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="619ae425270729e1f3988e7f13300f75", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="e42ae6b5e93f0dd287064f0c556e1c35", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7495,10 +7495,10 @@ foo
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="f03d046df407d25ae9c8daba33500903", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="1bc879a9c8a392c6dfe1e0fab7be3570", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 25 (propinit)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="f03d046df407d25ae9c8daba33500903", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="1bc879a9c8a392c6dfe1e0fab7be3570", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7558,10 +7558,10 @@ foo
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '1070',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="aef4b6ca90427840b731ee6deaf47e07", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="6ec26d899bad321923dbb29f8dcf3e1d", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 26 (propmanyns)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="aef4b6ca90427840b731ee6deaf47e07", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="6ec26d899bad321923dbb29f8dcf3e1d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7641,10 +7641,10 @@ foo
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '535',
         'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="1ee8474c9f620b980cb98f4953104ff3", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="b90243fe6b8bc59cae0678e94a763c56", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 27 (propget)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="1ee8474c9f620b980cb98f4953104ff3", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="b90243fe6b8bc59cae0678e94a763c56", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7709,10 +7709,10 @@ foo
         'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="619ae425270729e1f3988e7f13300f75", algorithm="MD5"',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="e42ae6b5e93f0dd287064f0c556e1c35", algorithm="MD5"',
         'HTTP_X_LITMUS' => 'props: 28 (propcleanup)',
         'PHP_SELF' => '/index.php/secure_collection/litmus/prop',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1e3072bf71b90ad37a56ebbe7f5806ce", uri="/secure_collection/litmus/prop", response="619ae425270729e1f3988e7f13300f75", algorithm="MD5"',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="1430b72daca073a51c9867b8d2a252d6", uri="/secure_collection/litmus/prop", response="e42ae6b5e93f0dd287064f0c556e1c35", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7725,4250 +7725,6 @@ foo
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  149 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE, Keep-Alive',
-        'HTTP_TE' => 'trailers',
-        'HTTP_X_LITMUS' => 'locks: 1 (begin)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Authorization failed.',
-      'headers' => 
-      array (
-        'WWW-Authenticate' => 
-        array (
-          'basic' => 'Basic realm="eZ Components WebDAV"',
-          'digest' => 'Digest realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", algorithm="MD5"',
-        ),
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/plain; charset="utf-8"',
-        'Content-Length' => '21',
-      ),
-      'status' => 'HTTP/1.1 401 Unauthorized',
-    ),
-  ),
-  150 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE, Keep-Alive',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/", response="04da4d485ab262f3574336776c8244d5", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 1 (begin)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/", response="04da4d485ab262f3574336776c8244d5", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  151 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MKCOL',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/", response="1445cfcafab6d5081422458e0bda7495", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 1 (begin)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/", response="1445cfcafab6d5081422458e0bda7495", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  152 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'OPTIONS',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/", response="e98b7a7c774cf303ccdf082b0ef15426", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 2 (options)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/", response="e98b7a7c774cf303ccdf082b0ef15426", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'DAV' => '1, 2',
-        'Allow' => 'GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT, LOCK, UNLOCK',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  153 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 5 (put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  154 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/notlocked',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/notlocked',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/notlocked',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/notlocked',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/notlocked", response="ca642c2f2ecf8baee05bd902136d61e9", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 5 (put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/notlocked',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/notlocked", response="ca642c2f2ecf8baee05bd902136d61e9", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '6bf84aac44485ddfc27ee8acae94637b',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  155 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><exclusive/></lockscope>
-<locktype><write/></locktype><owner>litmus test suite</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '174',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '174',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => '0',
-        'HTTP_TIMEOUT' => 'Second-3600',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="8ae901167e3d05b4abd908aec61a636e", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 6 (lock_excl)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="8ae901167e3d05b4abd908aec61a636e", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:prop xmlns:D="DAV:">
-  <D:lockdiscovery>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:exclusive/>
-      </D:lockscope>
-      <D:depth>0</D:depth>
-      <D:owner>litmus test suite</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a</D:href>
-      </D:locktoken>
-      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:40+01:00</ezclock:lastaccess>
-    </D:activelock>
-  </D:lockdiscovery>
-</D:prop>
-',
-      'headers' => 
-      array (
-        'Lock-Token' => 'opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/xml; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  156 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:"><prop>
-<lockdiscovery xmlns="DAV:"/>
-</prop></propfind>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '118',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPFIND',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_CONTENT_LENGTH' => '118',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="d4cc4f90fdb73aaf855215fe7937b44b", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 7 (discover)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="d4cc4f90fdb73aaf855215fe7937b44b", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-    <D:href>http://webdav/secure_collection/litmus/lockme</D:href>
-    <D:propstat xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:prop>
-        <D:lockdiscovery xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-          <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-            <D:locktype>
-              <D:write/>
-            </D:locktype>
-            <D:lockscope>
-              <D:exclusive/>
-            </D:lockscope>
-            <D:depth>0</D:depth>
-            <D:owner>litmus test suite</D:owner>
-            <D:timeout>Second-900</D:timeout>
-            <D:locktoken>
-              <D:href>opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a</D:href>
-            </D:locktoken>
-            <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:40+01:00</ezclock:lastaccess>
-          </D:activelock>
-        </D:lockdiscovery>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
-      'headers' => 
-      array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-      ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
-    ),
-  ),
-  157 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_IF' => '(<opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a>)',
-        'HTTP_TIMEOUT' => 'Second-900',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="8ae901167e3d05b4abd908aec61a636e", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 8 (refresh)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="8ae901167e3d05b4abd908aec61a636e", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:prop xmlns:D="DAV:">
-  <D:lockdiscovery>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:exclusive/>
-      </D:lockscope>
-      <D:depth>0</D:depth>
-      <D:owner>litmus test suite</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a</D:href>
-      </D:locktoken>
-      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:40+01:00</ezclock:lastaccess>
-    </D:activelock>
-  </D:lockdiscovery>
-</D:prop>
-',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/xml; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  158 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE, Keep-Alive',
-        'HTTP_TE' => 'trailers',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 9 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Authorization failed.',
-      'headers' => 
-      array (
-        'WWW-Authenticate' => 
-        array (
-          'basic' => 'Basic realm="eZ Components WebDAV"',
-          'digest' => 'Digest realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", algorithm="MD5"',
-        ),
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/plain; charset="utf-8"',
-        'Content-Length' => '21',
-      ),
-      'status' => 'HTTP/1.1 401 Unauthorized',
-    ),
-  ),
-  159 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE, Keep-Alive',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="df0ebe7b7a5e7e39010ad54c206761d1", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 9 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="df0ebe7b7a5e7e39010ad54c206761d1", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  160 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MOVE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/whocares',
-        'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d340391599fc772f5c52e8f1dccbb0c1", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 9 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d340391599fc772f5c52e8f1dccbb0c1", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  161 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/notlocked',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/notlocked',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/notlocked',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/notlocked',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/lockme',
-        'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 9 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/notlocked',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  162 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8" ?>
-<D:propertyupdate xmlns:D="DAV:"><D:set><D:prop><random xmlns="http://webdav.org/neon/litmus/">foobar</random></D:prop></D:set>
-</D:propertyupdate>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '188',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPPATCH',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '188',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d1b090582e522c9ecb292f85def3a557", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 9 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d1b090582e522c9ecb292f85def3a557", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  163 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="e82d8723756f2064f4aba03737e0c4be", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 9 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="e82d8723756f2064f4aba03737e0c4be", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  164 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:foobar>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 10 (notowner_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Authorization failed.',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/plain; charset="utf-8"',
-        'Content-Length' => '21',
-      ),
-      'status' => 'HTTP/1.1 403 Forbidden',
-    ),
-  ),
-  165 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><exclusive/></lockscope>
-<locktype><write/></locktype><owner>notowner lock</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '170',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '170',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => '0',
-        'HTTP_TIMEOUT' => 'Second-900',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 10 (notowner_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  166 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 11 (owner_modify)',
-        'HTTP_IF' => '<http://webdav/secure_collection/litmus/lockme> (<opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a>)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  167 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="df0ebe7b7a5e7e39010ad54c206761d1", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 12 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="df0ebe7b7a5e7e39010ad54c206761d1", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  168 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MOVE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/whocares',
-        'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d340391599fc772f5c52e8f1dccbb0c1", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 12 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d340391599fc772f5c52e8f1dccbb0c1", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  169 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/notlocked',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/notlocked',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/notlocked',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/notlocked',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/lockme',
-        'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 12 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/notlocked',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  170 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8" ?>
-<D:propertyupdate xmlns:D="DAV:"><D:set><D:prop><random xmlns="http://webdav.org/neon/litmus/">foobar</random></D:prop></D:set>
-</D:propertyupdate>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '188',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPPATCH',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '188',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d1b090582e522c9ecb292f85def3a557", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 12 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d1b090582e522c9ecb292f85def3a557", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  171 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="e82d8723756f2064f4aba03737e0c4be", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 12 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="e82d8723756f2064f4aba03737e0c4be", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  172 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:foobar>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 13 (notowner_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Authorization failed.',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/plain; charset="utf-8"',
-        'Content-Length' => '21',
-      ),
-      'status' => 'HTTP/1.1 403 Forbidden',
-    ),
-  ),
-  173 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><exclusive/></lockscope>
-<locktype><write/></locktype><owner>notowner lock</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '170',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '170',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => '0',
-        'HTTP_TIMEOUT' => 'Second-900',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 13 (notowner_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  174 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme-copydest',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme-copydest',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme-copydest',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme-copydest',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme-copydest", response="0fefd746297cd0a9dcd9ae469cf2d865", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 14 (copy)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme-copydest',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme-copydest", response="0fefd746297cd0a9dcd9ae469cf2d865", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 404 Not Found',
-    ),
-  ),
-  175 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/lockme-copydest',
-        'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="21e0279f03b162c27cd92ec003d1a21d", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 14 (copy)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="21e0279f03b162c27cd92ec003d1a21d", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  176 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:"><prop>
-<lockdiscovery xmlns="DAV:"/>
-</prop></propfind>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '118',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme-copydest',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme-copydest',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme-copydest',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme-copydest',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPFIND',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_CONTENT_LENGTH' => '118',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme-copydest", response="47b50ef87e8f33d78e1896ba6cee3233", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 14 (copy)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme-copydest',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme-copydest", response="47b50ef87e8f33d78e1896ba6cee3233", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response>
-    <D:href>http://webdav/secure_collection/litmus/lockme-copydest</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:lockdiscovery/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
-      'headers' => 
-      array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-      ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
-    ),
-  ),
-  177 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme-copydest',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme-copydest',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme-copydest',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme-copydest',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme-copydest", response="0fefd746297cd0a9dcd9ae469cf2d865", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 14 (copy)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme-copydest',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme-copydest", response="0fefd746297cd0a9dcd9ae469cf2d865", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  178 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'HEAD',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="c94f47449913a99fa05f074dd9fc357b", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 15 (cond_put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="c94f47449913a99fa05f074dd9fc357b", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'application/octet-stream; charset="utf-8"',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  179 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_IF' => '(<opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a> [97d24b068864526eda737927f9910618])',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 15 (cond_put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  180 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'HEAD',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="c94f47449913a99fa05f074dd9fc357b", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 16 (fail_cond_put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="c94f47449913a99fa05f074dd9fc357b", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'application/octet-stream; charset="utf-8"',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  181 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_IF' => '(<DAV:no-lock> [97d24b068864526eda737927f9910618])',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 16 (fail_cond_put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 412 Precondition Failed',
-    ),
-  ),
-  182 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_IF' => '(<opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a>) (Not <DAV:no-lock>)',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 17 (cond_put_with_not)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  183 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_IF' => '(<opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90ax>) (Not <DAV:no-lock>)',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 18 (cond_put_corrupt_token)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  184 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'HEAD',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="c94f47449913a99fa05f074dd9fc357b", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 19 (complex_cond_put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="c94f47449913a99fa05f074dd9fc357b", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'application/octet-stream; charset="utf-8"',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  185 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_IF' => '(<opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a> [97d24b068864526eda737927f9910618]) (Not <DAV:no-lock> [97d24b068864526eda737927f9910618])',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 19 (complex_cond_put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  186 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'HEAD',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="c94f47449913a99fa05f074dd9fc357b", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 20 (fail_complex_cond_put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="c94f47449913a99fa05f074dd9fc357b", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'application/octet-stream; charset="utf-8"',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  187 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_IF' => '(<opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a> [97d24b068864526eda737927f9910718]) (Not <DAV:no-lock> [97d24b068864526eda737927f9910718])',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 20 (fail_complex_cond_put)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 412 Precondition Failed',
-    ),
-  ),
-  188 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:df10bd64-5784-6275-303e-fc68a28da90a>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="653dca464ce7968fe6acf1c6a0bdf7a8", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 21 (unlock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="653dca464ce7968fe6acf1c6a0bdf7a8", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  189 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_IF' => '(<DAV:no-lock>)',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 22 (fail_cond_put_unlocked)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 412 Precondition Failed',
-    ),
-  ),
-  190 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><shared/></lockscope>
-<locktype><write/></locktype><owner>litmus test suite</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '171',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '171',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => '0',
-        'HTTP_TIMEOUT' => 'Second-3600',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="8ae901167e3d05b4abd908aec61a636e", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 23 (lock_shared)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="8ae901167e3d05b4abd908aec61a636e", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:prop xmlns:D="DAV:">
-  <D:lockdiscovery>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:shared/>
-      </D:lockscope>
-      <D:depth>0</D:depth>
-      <D:owner>litmus test suite</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:ab2680b0-c65d-f6de-4084-c68cc631d766</D:href>
-      </D:locktoken>
-      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:42+01:00</ezclock:lastaccess>
-    </D:activelock>
-  </D:lockdiscovery>
-</D:prop>
-',
-      'headers' => 
-      array (
-        'Lock-Token' => 'opaquelocktoken:ab2680b0-c65d-f6de-4084-c68cc631d766',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/xml; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  191 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="df0ebe7b7a5e7e39010ad54c206761d1", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 24 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="df0ebe7b7a5e7e39010ad54c206761d1", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  192 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MOVE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/whocares',
-        'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d340391599fc772f5c52e8f1dccbb0c1", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 24 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d340391599fc772f5c52e8f1dccbb0c1", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  193 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/notlocked',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/notlocked',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/notlocked',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/notlocked',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/lockme',
-        'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 24 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/notlocked',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  194 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8" ?>
-<D:propertyupdate xmlns:D="DAV:"><D:set><D:prop><random xmlns="http://webdav.org/neon/litmus/">foobar</random></D:prop></D:set>
-</D:propertyupdate>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '188',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPPATCH',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '188',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d1b090582e522c9ecb292f85def3a557", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 24 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d1b090582e522c9ecb292f85def3a557", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  195 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="e82d8723756f2064f4aba03737e0c4be", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 24 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="e82d8723756f2064f4aba03737e0c4be", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  196 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:foobar>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 25 (notowner_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Authorization failed.',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/plain; charset="utf-8"',
-        'Content-Length' => '21',
-      ),
-      'status' => 'HTTP/1.1 403 Forbidden',
-    ),
-  ),
-  197 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><exclusive/></lockscope>
-<locktype><write/></locktype><owner>notowner lock</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '170',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '170',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => '0',
-        'HTTP_TIMEOUT' => 'Second-900',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 25 (notowner_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  198 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 26 (owner_modify)',
-        'HTTP_IF' => '<http://webdav/secure_collection/litmus/lockme> (<opaquelocktoken:ab2680b0-c65d-f6de-4084-c68cc631d766>)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="925056ba9423e063ee1840c43e86eb9c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => '97d24b068864526eda737927f9910618',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  199 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><shared/></lockscope>
-<locktype><write/></locktype><owner>litmus: notowner_sharedlock</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '181',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '181',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => '0',
-        'HTTP_TIMEOUT' => 'Second-900',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 27 (double_sharedlock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:prop xmlns:D="DAV:">
-  <D:lockdiscovery>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:shared/>
-      </D:lockscope>
-      <D:depth>0</D:depth>
-      <D:owner>litmus test suite</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:ab2680b0-c65d-f6de-4084-c68cc631d766</D:href>
-      </D:locktoken>
-      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:42+01:00</ezclock:lastaccess>
-    </D:activelock>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:shared/>
-      </D:lockscope>
-      <D:depth>0</D:depth>
-      <D:owner>litmus: notowner_sharedlock</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:12fb6c8b-3043-0fd4-92c3-bb8abf930487</D:href>
-      </D:locktoken>
-      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:42+01:00</ezclock:lastaccess>
-    </D:activelock>
-  </D:lockdiscovery>
-</D:prop>
-',
-      'headers' => 
-      array (
-        'Lock-Token' => 'opaquelocktoken:12fb6c8b-3043-0fd4-92c3-bb8abf930487',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/xml; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  200 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:12fb6c8b-3043-0fd4-92c3-bb8abf930487>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 27 (double_sharedlock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  201 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="df0ebe7b7a5e7e39010ad54c206761d1", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 28 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="df0ebe7b7a5e7e39010ad54c206761d1", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  202 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MOVE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/whocares',
-        'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d340391599fc772f5c52e8f1dccbb0c1", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 28 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d340391599fc772f5c52e8f1dccbb0c1", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  203 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/notlocked',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/notlocked',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/notlocked',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/notlocked',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/lockme',
-        'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 28 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/notlocked',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  204 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8" ?>
-<D:propertyupdate xmlns:D="DAV:"><D:set><D:prop><random xmlns="http://webdav.org/neon/litmus/">foobar</random></D:prop></D:set>
-</D:propertyupdate>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '188',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPPATCH',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '188',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d1b090582e522c9ecb292f85def3a557", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 28 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="d1b090582e522c9ecb292f85def3a557", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  205 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="e82d8723756f2064f4aba03737e0c4be", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 28 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="e82d8723756f2064f4aba03737e0c4be", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  206 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:foobar>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 29 (notowner_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="adaf2c1b094cec4a08b48487cbe70ec3", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Authorization failed.',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/plain; charset="utf-8"',
-        'Content-Length' => '21',
-      ),
-      'status' => 'HTTP/1.1 403 Forbidden',
-    ),
-  ),
-  207 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><exclusive/></lockscope>
-<locktype><write/></locktype><owner>notowner lock</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '170',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '170',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => '0',
-        'HTTP_TIMEOUT' => 'Second-900',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 29 (notowner_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockme", response="aaaaab198c5c3aa0a73f58266b3f77a9", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  208 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockme',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockme',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockme',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockme',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:ab2680b0-c65d-f6de-4084-c68cc631d766>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="653dca464ce7968fe6acf1c6a0bdf7a8", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 30 (unlock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockme',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockme", response="653dca464ce7968fe6acf1c6a0bdf7a8", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  209 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MKCOL',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/", response="56d0730baca7220a4ff7750b00407892", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 31 (prep_collection)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/", response="56d0730baca7220a4ff7750b00407892", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  210 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><exclusive/></lockscope>
-<locktype><write/></locktype><owner>litmus test suite</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '174',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '174',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => 'infinity',
-        'HTTP_TIMEOUT' => 'Second-3600',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/", response="5115d6f09dc3308a13fc7de1fed03747", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 32 (lock_collection)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/", response="5115d6f09dc3308a13fc7de1fed03747", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:prop xmlns:D="DAV:">
-  <D:lockdiscovery>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:exclusive/>
-      </D:lockscope>
-      <D:depth>Infinity</D:depth>
-      <D:owner>litmus test suite</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950</D:href>
-      </D:locktoken>
-      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:42+01:00</ezclock:lastaccess>
-    </D:activelock>
-  </D:lockdiscovery>
-</D:prop>
-',
-      'headers' => 
-      array (
-        'Lock-Token' => 'opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/xml; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  211 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/lockme.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="5c48f65710e5e17ccc56f276140cffa6", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 32 (lock_collection)',
-        'HTTP_IF' => '<http://webdav/secure_collection/litmus/lockcoll/> (<opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950>)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="5c48f65710e5e17ccc56f276140cffa6", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => 'c09a883cd9e3f31bb1ddc9a0e2ffa3f6',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  212 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/lockme.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="5c48f65710e5e17ccc56f276140cffa6", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 33 (owner_modify)',
-        'HTTP_IF' => '<http://webdav/secure_collection/litmus/lockcoll/> (<opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950>)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="5c48f65710e5e17ccc56f276140cffa6", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'ETag' => 'c09a883cd9e3f31bb1ddc9a0e2ffa3f6',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  213 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/lockme.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="e48232880ad63885dcc65e10454b5db6", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 34 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="e48232880ad63885dcc65e10454b5db6", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  214 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/lockme.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MOVE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/whocares',
-        'HTTP_OVERWRITE' => 'F',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="07ea341a2482c5a6c9396b080ac5f372", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 34 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="07ea341a2482c5a6c9396b080ac5f372", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  215 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/notlocked',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/notlocked',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/notlocked',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/notlocked',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_DESTINATION' => 'http://webdav/secure_collection/litmus/lockcoll/lockme.txt',
-        'HTTP_OVERWRITE' => 'T',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 34 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/notlocked',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/notlocked", response="b5fb248d5105f952362404478c73a142", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  216 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8" ?>
-<D:propertyupdate xmlns:D="DAV:"><D:set><D:prop><random xmlns="http://webdav.org/neon/litmus/">foobar</random></D:prop></D:set>
-</D:propertyupdate>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '188',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/lockme.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPPATCH',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '188',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="5449f1fe1883f83d15ab755cf2942e07", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 34 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="5449f1fe1883f83d15ab755cf2942e07", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  217 => 
-  array (
-    'request' => 
-    array (
-      'body' => 'This
-is
-a
-test
-file
-called
-foo
-
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '32',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/lockme.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '32',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="37b09ae5dc99c9bb38f262b6dd347ab9", algorithm="MD5"',
-        'HTTP_X_LITMUS_SECOND' => 'locks: 34 (notowner_modify)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c9c2a7b8300af698fe899f14857407be", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="37b09ae5dc99c9bb38f262b6dd347ab9", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 423 Locked',
-    ),
-  ),
-  218 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_IF' => '(<opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950>)',
-        'HTTP_TIMEOUT' => 'Second-900',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/", response="5115d6f09dc3308a13fc7de1fed03747", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 35 (refresh)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/", response="5115d6f09dc3308a13fc7de1fed03747", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:prop xmlns:D="DAV:">
-  <D:lockdiscovery>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:exclusive/>
-      </D:lockscope>
-      <D:depth>Infinity</D:depth>
-      <D:owner>litmus test suite</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950</D:href>
-      </D:locktoken>
-      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:43+01:00</ezclock:lastaccess>
-    </D:activelock>
-  </D:lockdiscovery>
-</D:prop>
-',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/xml; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  219 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/lockme.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/lockme.txt',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_IF' => '(<opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950>)',
-        'HTTP_TIMEOUT' => 'Second-900',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="c57100759dfa6fcf10ccd1c65c0e293c", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 36 (indirect_refresh)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/lockme.txt',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/lockme.txt", response="c57100759dfa6fcf10ccd1c65c0e293c", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:prop xmlns:D="DAV:">
-  <D:lockdiscovery>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:exclusive/>
-      </D:lockscope>
-      <D:depth>Infinity</D:depth>
-      <D:owner>litmus test suite</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950</D:href>
-      </D:locktoken>
-      <ezclock:baseuri xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">/secure_collection/litmus/lockcoll</ezclock:baseuri>
-    </D:activelock>
-  </D:lockdiscovery>
-</D:prop>
-',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/xml; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  220 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/lockcoll/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/lockcoll/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/lockcoll/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/lockcoll/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:631a3a8c-cacf-d971-471c-1beaea765950>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/", response="5910e45f6f147767ca951e8a52cc6a9a", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 37 (unlock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/lockcoll/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/lockcoll/", response="5910e45f6f147767ca951e8a52cc6a9a", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  221 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<lockinfo xmlns=\'DAV:\'>
- <lockscope><exclusive/></lockscope>
-<locktype><write/></locktype><owner>litmus test suite</owner>
-</lockinfo>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '174',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/unmapped_url',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/unmapped_url',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/unmapped_url',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/unmapped_url',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'LOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '174',
-        'CONTENT_TYPE' => 'application/xml',
-        'HTTP_DEPTH' => '0',
-        'HTTP_TIMEOUT' => 'Second-3600',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/unmapped_url", response="0f5715c6d3939bfc43d92c820d4da2fd", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 38 (unmapped_lock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/unmapped_url',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/unmapped_url", response="0f5715c6d3939bfc43d92c820d4da2fd", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:prop xmlns:D="DAV:">
-  <D:lockdiscovery>
-    <D:activelock xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">
-      <D:locktype>
-        <D:write/>
-      </D:locktype>
-      <D:lockscope>
-        <D:exclusive/>
-      </D:lockscope>
-      <D:depth>0</D:depth>
-      <D:owner>litmus test suite</D:owner>
-      <D:timeout>Second-900</D:timeout>
-      <D:locktoken>
-        <D:href>opaquelocktoken:a6a9816b-cffc-97ad-d496-9a23a5cb474e</D:href>
-      </D:locktoken>
-      <ezclock:lastaccess xmlns:ezclock="http://ezcomponents.org/s/Webdav#lock">2010-03-20T11:22:43+01:00</ezclock:lastaccess>
-    </D:activelock>
-  </D:lockdiscovery>
-</D:prop>
-',
-      'headers' => 
-      array (
-        'Lock-Token' => 'opaquelocktoken:a6a9816b-cffc-97ad-d496-9a23a5cb474e',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/xml; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  222 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/unmapped_url',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/unmapped_url',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/unmapped_url',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/unmapped_url',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'UNLOCK',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_LOCK_TOKEN' => '<opaquelocktoken:a6a9816b-cffc-97ad-d496-9a23a5cb474e>',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/unmapped_url", response="3dd3a5745c1d6e3d5623ebefd173ddee", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'locks: 39 (unlock)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/unmapped_url',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="c3883c5e94d6531fdc67c9bbc3c6190c", uri="/secure_collection/litmus/unmapped_url", response="3dd3a5745c1d6e3d5623ebefd173ddee", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  223 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE, Keep-Alive',
-        'HTTP_TE' => 'trailers',
-        'HTTP_X_LITMUS' => 'http: 1 (begin)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Authorization failed.',
-      'headers' => 
-      array (
-        'WWW-Authenticate' => 
-        array (
-          'basic' => 'Basic realm="eZ Components WebDAV"',
-          'digest' => 'Digest realm="eZ Components WebDAV", nonce="054f113e44d011b4bda4138e8615583b", algorithm="MD5"',
-        ),
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/plain; charset="utf-8"',
-        'Content-Length' => '21',
-      ),
-      'status' => 'HTTP/1.1 401 Unauthorized',
-    ),
-  ),
-  224 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'DELETE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE, Keep-Alive',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="054f113e44d011b4bda4138e8615583b", uri="/secure_collection/litmus/", response="cf0a04d5b11c9d7ee5a9b82cb516a4a0", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'http: 1 (begin)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="054f113e44d011b4bda4138e8615583b", uri="/secure_collection/litmus/", response="cf0a04d5b11c9d7ee5a9b82cb516a4a0", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 204 No Content',
-    ),
-  ),
-  225 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/secure_collection/litmus/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/litmus/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/secure_collection/litmus/',
-        'REDIRECT_URI' => '/index.php/secure_collection/litmus/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MKCOL',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'litmus/0.12.1 neon/0.28.4',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="054f113e44d011b4bda4138e8615583b", uri="/secure_collection/litmus/", response="0941aae51e8ddb2f674da680f9e01d07", algorithm="MD5"',
-        'HTTP_X_LITMUS' => 'http: 1 (begin)',
-        'PHP_SELF' => '/index.php/secure_collection/litmus/',
-        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="054f113e44d011b4bda4138e8615583b", uri="/secure_collection/litmus/", response="0941aae51e8ddb2f674da680f9e01d07", algorithm="MD5"',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
 );
