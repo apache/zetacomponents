@@ -17,7 +17,7 @@
  * @property bool $noLock
  *           Time to wait between tests, if a lock can be acquired in
  * @property int $waitForLock
- *           Time to wait between tests, if a lock can be acquired in
+ *           Time to wait between tests, if a lock can be acquired, in
  *           microseconds.
  * @property string $lockFileName
  *           Name used for the lock file.
