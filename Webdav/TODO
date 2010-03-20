@@ -1,6 +1,9 @@
 TODO
 ====
 
+- All IE versions currently have issues with special chars. These need to be
+  fixed and the client tests need to be re-generated.
+
 1.2
 ---
 
