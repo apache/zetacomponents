@@ -307,12 +307,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/',
+        'PATH_INFO' => '/secure_collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/',
-        'REDIRECT_URI' => '/index.php/collection/',
+        'REQUEST_URI' => '/secure_collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -324,43 +324,25 @@ return array (
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/',
+        'PHP_SELF' => '/index.php/secure_collection/',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
+      'body' => 'Authorization failed.',
       'headers' => 
       array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
+        'WWW-Authenticate' => 
+        array (
+          'basic' => 'Basic realm="eZ Components WebDAV"',
+          'digest' => 'Digest realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", algorithm="MD5"',
+        ),
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Type' => 'text/plain; charset="utf-8"',
+        'Content-Length' => '21',
       ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
+      'status' => 'HTTP/1.1 401 Unauthorized',
     ),
   ),
   6 => 
@@ -388,12 +370,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/',
+        'PATH_INFO' => '/secure_collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/',
-        'REDIRECT_URI' => '/index.php/collection/',
+        'REQUEST_URI' => '/secure_collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -402,10 +384,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/", response="907db86655d7d2698c791cdf8161edd6", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/", response="907db86655d7d2698c791cdf8161edd6", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -414,47 +398,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/file.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir</D:href>
+    <D:href>http://webdav/secure_collection/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -488,51 +432,6 @@ return array (
   array (
     'request' => 
     array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/file.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/file.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/file.txt',
-        'REDIRECT_URI' => '/index.php/collection/file.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'GET',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/file.txt',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Some text content.',
-      'headers' => 
-      array (
-        'ETag' => '60c0afeb8f68b1765e13694b5e7c8c3d',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/plain; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  8 => 
-  array (
-    'request' => 
-    array (
       'body' => '<?xml version="1.0" encoding="utf-8"?>
 <propfind xmlns="DAV:"><prop>
 <getcontentlength xmlns="DAV:"/>
@@ -554,12 +453,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -568,10 +467,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
+        'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/", response="907db86655d7d2698c791cdf8161edd6", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/", response="907db86655d7d2698c791cdf8161edd6", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -580,7 +481,47 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/file.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -608,6 +549,53 @@ return array (
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
       ),
       'status' => 'HTTP/1.1 207 Multi-Status',
+    ),
+  ),
+  8 => 
+  array (
+    'request' => 
+    array (
+      'body' => '',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/file.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/file.txt',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/file.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/file.txt',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'GET',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/file.txt", response="c4dc20a736c638a3f41db715d28bf00a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/file.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/file.txt", response="c4dc20a736c638a3f41db715d28bf00a", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => 'Some text content.',
+      'headers' => 
+      array (
+        'ETag' => '915f244ec53702ea179db0509d787bde',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Type' => 'text/plain; charset="utf-8"',
+      ),
+      'status' => 'HTTP/1.1 200 OK',
     ),
   ),
   9 => 
@@ -635,12 +623,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -649,10 +637,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -661,7 +651,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -669,44 +659,6 @@ return array (
         <D:resourcetype>
           <D:collection/>
         </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.html</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>39</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18</D:getcontentlength>
-        <D:resourcetype/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -730,50 +682,6 @@ return array (
     ),
   ),
   10 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MKCOL',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  11 => 
   array (
     'request' => 
     array (
@@ -798,12 +706,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -815,7 +723,9 @@ return array (
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -824,7 +734,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -845,7 +755,7 @@ return array (
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.html</D:href>
+    <D:href>http://webdav/secure_collection/subdir/file.html</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -864,33 +774,12 @@ return array (
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.xml</D:href>
+    <D:href>http://webdav/secure_collection/subdir/file.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>18</D:getcontentlength>
         <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -911,6 +800,52 @@ return array (
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
       ),
       'status' => 'HTTP/1.1 207 Multi-Status',
+    ),
+  ),
+  11 => 
+  array (
+    'request' => 
+    array (
+      'body' => '',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'MKCOL',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="5ddf5507f3b2fb8598b095fa3f433ff9", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="5ddf5507f3b2fb8598b095fa3f433ff9", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '',
+      'headers' => 
+      array (
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
+      ),
+      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
   12 => 
@@ -938,12 +873,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -952,10 +887,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
+        'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -964,7 +901,66 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/file.html</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>39</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/file.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/newdir</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1019,12 +1015,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -1033,10 +1029,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1045,7 +1043,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/newdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1079,6 +1077,89 @@ return array (
   array (
     'request' => 
     array (
+      'body' => '<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getcontentlength xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'CONTENT_LENGTH' => '288',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'PROPFIND',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DEPTH' => '1',
+        'HTTP_CONTENT_LENGTH' => '288',
+        'CONTENT_TYPE' => 'application/xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/newdir/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
+      'headers' => 
+      array (
+        'Content-Type' => 'text/xml; charset="utf-8"',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+      ),
+      'status' => 'HTTP/1.1 207 Multi-Status',
+    ),
+  ),
+  15 => 
+  array (
+    'request' => 
+    array (
       'body' => 'Some text content.',
       'server' => 
       array (
@@ -1091,12 +1172,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '18',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/file.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/file.txt',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/file.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/file.txt',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/file.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/file.txt',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/file.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/file.txt',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PUT',
         'REDIRECT_STATUS' => '200',
@@ -1106,7 +1187,9 @@ return array (
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '18',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/file.txt',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/file.txt", response="98976695631f5349080625564695e50a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/file.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/file.txt", response="98976695631f5349080625564695e50a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1115,14 +1198,14 @@ return array (
       'body' => '',
       'headers' => 
       array (
-        'ETag' => 'd7d5492acf7f2f11647278924f7586ba',
+        'ETag' => 'c0405933cd57c9b53258fe1be86b3e4f',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
     ),
   ),
-  15 => 
+  16 => 
   array (
     'request' => 
     array (
@@ -1147,12 +1230,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -1164,7 +1247,9 @@ return array (
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1173,7 +1258,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/newdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1194,7 +1279,7 @@ return array (
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/file.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/newdir/file.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1222,7 +1307,7 @@ return array (
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  16 => 
+  17 => 
   array (
     'request' => 
     array (
@@ -1237,12 +1322,12 @@ return array (
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/newsubdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/newsubdir/',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/newsubdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/newsubdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/newsubdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/newsubdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/newsubdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'MKCOL',
         'REDIRECT_STATUS' => '200',
@@ -1251,7 +1336,9 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/newsubdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="c71208fe7df8411b3518254d34735454", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="c71208fe7df8411b3518254d34735454", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1264,127 +1351,6 @@ return array (
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  17 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:"><prop>
-<getcontentlength xmlns="DAV:"/>
-<getlastmodified xmlns="DAV:"/>
-<executable xmlns="http://apache.org/dav/props/"/>
-<resourcetype xmlns="DAV:"/>
-<checked-in xmlns="DAV:"/>
-<checked-out xmlns="DAV:"/>
-</prop></propfind>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '288',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPFIND',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
-        'HTTP_CONTENT_LENGTH' => '288',
-        'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/file.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/newsubdir</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
-      'headers' => 
-      array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-      ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
   18 => 
@@ -1412,12 +1378,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/newsubdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/newsubdir/',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/newsubdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/newsubdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -1426,10 +1392,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
+        'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/newsubdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1438,7 +1406,47 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/newsubdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/newdir/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/newdir/file.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/newdir/newsubdir</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1493,12 +1501,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/newsubdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/newsubdir/',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/newsubdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/newsubdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/newsubdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/newsubdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/newsubdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -1507,10 +1515,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/newsubdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="95b05ad4075ae74d2db98d18e3d0afb2", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="95b05ad4075ae74d2db98d18e3d0afb2", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1519,7 +1529,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/newsubdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/newdir/newsubdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1553,7 +1563,16 @@ return array (
   array (
     'request' => 
     array (
-      'body' => 'Some text content.',
+      'body' => '<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getcontentlength xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+',
       'server' => 
       array (
         'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
@@ -1563,43 +1582,119 @@ return array (
         'SERVER_ADDR' => '::ffff:127.0.1.1',
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '18',
+        'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/newsubdir/file.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/newsubdir/file.txt',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/newsubdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/newsubdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/newsubdir/file.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/newsubdir/file.txt',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/newsubdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
         'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PUT',
+        'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
         'SERVER_PROTOCOL' => 'HTTP/1.1',
         'HTTP_HOST' => 'webdav',
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_CONTENT_LENGTH' => '18',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/newsubdir/file.txt',
+        'HTTP_DEPTH' => '1',
+        'HTTP_CONTENT_LENGTH' => '288',
+        'CONTENT_TYPE' => 'application/xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="95b05ad4075ae74d2db98d18e3d0afb2", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="95b05ad4075ae74d2db98d18e3d0afb2", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '',
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/newdir/newsubdir/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
       'headers' => 
       array (
-        'ETag' => '3c9be7330d80dfd9acee27eb9017f47c',
+        'Content-Type' => 'text/xml; charset="utf-8"',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 201 Created',
+      'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
   21 => 
   array (
     'request' => 
     array (
+      'body' => 'Some text content.',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'CONTENT_LENGTH' => '18',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/newsubdir/file.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/newsubdir/file.txt',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/newsubdir/file.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/newsubdir/file.txt',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'PUT',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_CONTENT_LENGTH' => '18',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/file.txt", response="8d2fc72d1cd2ed7ae4d2ef8918554ae8", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/newsubdir/file.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/file.txt", response="8d2fc72d1cd2ed7ae4d2ef8918554ae8", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '',
+      'headers' => 
+      array (
+        'ETag' => 'bde09112b72b6fed63ff4e3917ebd56a',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
+      ),
+      'status' => 'HTTP/1.1 201 Created',
+    ),
+  ),
+  22 => 
+  array (
+    'request' => 
+    array (
       'body' => '<?xml version="1.0" encoding="utf-8"?>
 <propfind xmlns="DAV:"><prop>
 <getcontentlength xmlns="DAV:"/>
@@ -1621,12 +1716,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/newsubdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/newsubdir/',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/newsubdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/newsubdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/newsubdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/newsubdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/newsubdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -1638,7 +1733,9 @@ return array (
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/newsubdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="95b05ad4075ae74d2db98d18e3d0afb2", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="95b05ad4075ae74d2db98d18e3d0afb2", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1647,7 +1744,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/newsubdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/newdir/newsubdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1668,7 +1765,7 @@ return array (
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/newsubdir/file.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/newdir/newsubdir/file.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1696,7 +1793,7 @@ return array (
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  22 => 
+  23 => 
   array (
     'request' => 
     array (
@@ -1712,12 +1809,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '18',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/newsubdir/file.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/newsubdir/file.txt',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/newsubdir/file.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/newsubdir/file.txt',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/newsubdir/file.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/newsubdir/file.txt',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/newsubdir/file.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/newsubdir/file.txt',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PUT',
         'REDIRECT_STATUS' => '200',
@@ -1727,7 +1824,9 @@ return array (
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '18',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/newsubdir/file.txt',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/file.txt", response="8d2fc72d1cd2ed7ae4d2ef8918554ae8", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/newsubdir/file.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/file.txt", response="8d2fc72d1cd2ed7ae4d2ef8918554ae8", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1736,111 +1835,11 @@ return array (
       'body' => '',
       'headers' => 
       array (
-        'ETag' => '3c9be7330d80dfd9acee27eb9017f47c',
+        'ETag' => 'bde09112b72b6fed63ff4e3917ebd56a',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  23 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:"><prop>
-<getcontentlength xmlns="DAV:"/>
-<getlastmodified xmlns="DAV:"/>
-<executable xmlns="http://apache.org/dav/props/"/>
-<resourcetype xmlns="DAV:"/>
-<checked-in xmlns="DAV:"/>
-<checked-out xmlns="DAV:"/>
-</prop></propfind>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '288',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/newsubdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/newsubdir/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/newsubdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/newsubdir/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPFIND',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
-        'HTTP_CONTENT_LENGTH' => '288',
-        'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/newsubdir/',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/newsubdir/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/newsubdir/file.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
-      'headers' => 
-      array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-      ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
   24 => 
@@ -1868,12 +1867,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/newsubdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/newsubdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/newsubdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -1882,10 +1881,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
+        'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="95b05ad4075ae74d2db98d18e3d0afb2", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/newsubdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/newsubdir/", response="95b05ad4075ae74d2db98d18e3d0afb2", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1894,7 +1895,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/newdir/newsubdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -1902,6 +1903,25 @@ return array (
         <D:resourcetype>
           <D:collection/>
         </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/newdir/newsubdir/file.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -1949,12 +1969,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -1963,10 +1983,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -1975,66 +1997,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.html</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>39</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -2089,12 +2052,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -2103,10 +2066,12 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
+        'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2115,7 +2080,66 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/newdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/file.html</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>39</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/file.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/newdir</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -2149,6 +2173,89 @@ return array (
   array (
     'request' => 
     array (
+      'body' => '<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getcontentlength xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'CONTENT_LENGTH' => '288',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'PROPFIND',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DEPTH' => '0',
+        'HTTP_CONTENT_LENGTH' => '288',
+        'CONTENT_TYPE' => 'application/xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="3f69196a84c5aa6b5eb643cb2bbaaaea", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/newdir/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
+      'headers' => 
+      array (
+        'Content-Type' => 'text/xml; charset="utf-8"',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+      ),
+      'status' => 'HTTP/1.1 207 Multi-Status',
+    ),
+  ),
+  28 => 
+  array (
+    'request' => 
+    array (
       'body' => '',
       'server' => 
       array (
@@ -2160,12 +2267,12 @@ return array (
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/newdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/newdir/',
+        'PATH_INFO' => '/secure_collection/subdir/newdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/newdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/newdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/newdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/newdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/newdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'DELETE',
         'REDIRECT_STATUS' => '200',
@@ -2174,7 +2281,9 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/newdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="23a13084a490b2ae344e174f88eb75c5", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/newdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/newdir/", response="23a13084a490b2ae344e174f88eb75c5", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2189,7 +2298,7 @@ return array (
       'status' => 'HTTP/1.1 204 No Content',
     ),
   ),
-  28 => 
+  29 => 
   array (
     'request' => 
     array (
@@ -2214,12 +2323,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -2231,7 +2340,9 @@ return array (
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2240,7 +2351,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -2261,7 +2372,7 @@ return array (
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.html</D:href>
+    <D:href>http://webdav/secure_collection/subdir/file.html</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -2280,7 +2391,7 @@ return array (
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.xml</D:href>
+    <D:href>http://webdav/secure_collection/subdir/file.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -2306,51 +2417,6 @@ return array (
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
       ),
       'status' => 'HTTP/1.1 207 Multi-Status',
-    ),
-  ),
-  29 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/file.html',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/file.html',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/file.html',
-        'REDIRECT_URI' => '/index.php/collection/subdir/file.html',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'GET',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/file.html',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<html><body><h1>Test</h1></body></html>',
-      'headers' => 
-      array (
-        'ETag' => '3b191a38c8e5d686506677906f3a4cfd',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'text/html; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
     ),
   ),
   30 => 
@@ -2368,12 +2434,12 @@ return array (
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/file.xml',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/file.xml',
+        'PATH_INFO' => '/secure_collection/subdir/file.html',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/file.html',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/file.xml',
-        'REDIRECT_URI' => '/index.php/collection/subdir/file.xml',
+        'REQUEST_URI' => '/secure_collection/subdir/file.html',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/file.html',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'GET',
         'REDIRECT_STATUS' => '200',
@@ -2382,7 +2448,56 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/file.xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.html", response="8e8b805e765772770eec69c0d8d21e2a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/file.html',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.html", response="8e8b805e765772770eec69c0d8d21e2a", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '<html><body><h1>Test</h1></body></html>',
+      'headers' => 
+      array (
+        'ETag' => '63e609ad6597ac5f4a6c399729a4abe0',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Type' => 'text/html; charset="utf-8"',
+      ),
+      'status' => 'HTTP/1.1 200 OK',
+    ),
+  ),
+  31 => 
+  array (
+    'request' => 
+    array (
+      'body' => '',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/file.xml',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/file.xml',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/file.xml',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/file.xml',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'GET',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.xml", response="f40e940393cf24cef449592947bac02d", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/file.xml',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.xml", response="f40e940393cf24cef449592947bac02d", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2392,14 +2507,14 @@ return array (
 <content/>',
       'headers' => 
       array (
-        'ETag' => '8cc4e8038561985cf9e68ee3e36f8882',
+        'ETag' => 'b23a873ef8c0f8e3b33339bed653b763',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Type' => 'text/xml; charset="utf-8"',
       ),
       'status' => 'HTTP/1.1 200 OK',
     ),
   ),
-  31 => 
+  32 => 
   array (
     'request' => 
     array (
@@ -2424,12 +2539,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/file.html',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/file.html',
+        'PATH_INFO' => '/secure_collection/subdir/file.html',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/file.html',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/file.html',
-        'REDIRECT_URI' => '/index.php/collection/subdir/file.html',
+        'REQUEST_URI' => '/secure_collection/subdir/file.html',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/file.html',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -2441,7 +2556,9 @@ return array (
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/file.html',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.html", response="cd5bd9567b8fc8d3869c9e2ab8483c93", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/file.html',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.html", response="cd5bd9567b8fc8d3869c9e2ab8483c93", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2450,7 +2567,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.html</D:href>
+    <D:href>http://webdav/secure_collection/subdir/file.html</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -2478,7 +2595,7 @@ return array (
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  32 => 
+  33 => 
   array (
     'request' => 
     array (
@@ -2493,12 +2610,12 @@ return array (
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/file.html',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/file.html',
+        'PATH_INFO' => '/secure_collection/subdir/file.html',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/file.html',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/file.html',
-        'REDIRECT_URI' => '/index.php/collection/subdir/file.html',
+        'REQUEST_URI' => '/secure_collection/subdir/file.html',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/file.html',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'DELETE',
         'REDIRECT_STATUS' => '200',
@@ -2507,7 +2624,9 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/file.html',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.html", response="858275bb0af9540d8c48a160a3730fc7", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/file.html',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.html", response="858275bb0af9540d8c48a160a3730fc7", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2522,7 +2641,7 @@ return array (
       'status' => 'HTTP/1.1 204 No Content',
     ),
   ),
-  33 => 
+  34 => 
   array (
     'request' => 
     array (
@@ -2547,12 +2666,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/file.xml',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/file.xml',
+        'PATH_INFO' => '/secure_collection/subdir/file.xml',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/file.xml',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/file.xml',
-        'REDIRECT_URI' => '/index.php/collection/subdir/file.xml',
+        'REQUEST_URI' => '/secure_collection/subdir/file.xml',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/file.xml',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -2564,7 +2683,9 @@ return array (
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/file.xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.xml", response="8a1f679dc51ef6d92db9270813daccba", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/file.xml',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.xml", response="8a1f679dc51ef6d92db9270813daccba", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2573,7 +2694,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/file.xml</D:href>
+    <D:href>http://webdav/secure_collection/subdir/file.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -2601,7 +2722,7 @@ return array (
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  34 => 
+  35 => 
   array (
     'request' => 
     array (
@@ -2616,12 +2737,12 @@ return array (
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/file.xml',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/file.xml',
+        'PATH_INFO' => '/secure_collection/subdir/file.xml',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/file.xml',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/file.xml',
-        'REDIRECT_URI' => '/index.php/collection/subdir/file.xml',
+        'REQUEST_URI' => '/secure_collection/subdir/file.xml',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/file.xml',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'DELETE',
         'REDIRECT_STATUS' => '200',
@@ -2630,7 +2751,9 @@ return array (
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/file.xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.xml", response="a4185e35ccb1c1024dfadbc0658b3462", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/file.xml',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/file.xml", response="a4185e35ccb1c1024dfadbc0658b3462", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2645,7 +2768,7 @@ return array (
       'status' => 'HTTP/1.1 204 No Content',
     ),
   ),
-  35 => 
+  36 => 
   array (
     'request' => 
     array (
@@ -2670,12 +2793,12 @@ return array (
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -2687,7 +2810,9 @@ return array (
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -2696,7 +2821,7 @@ return array (
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -2726,7 +2851,7 @@ return array (
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  36 => 
+  37 => 
   array (
     'request' => 
     array (
@@ -3272,12 +3397,12 @@ vim: et syn=rst tw=79 -->
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '18803',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test.html',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test.html',
+        'PATH_INFO' => '/secure_collection/subdir/put_test.html',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test.html',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test.html',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test.html',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test.html',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test.html',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PUT',
         'REDIRECT_STATUS' => '200',
@@ -3287,7 +3412,9 @@ vim: et syn=rst tw=79 -->
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '18803',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test.html',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test.html", response="468f628f86fc8dbf42f1bab2b935e486", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test.html',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test.html", response="468f628f86fc8dbf42f1bab2b935e486", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3296,14 +3423,14 @@ vim: et syn=rst tw=79 -->
       'body' => '',
       'headers' => 
       array (
-        'ETag' => '42fa6b3c46b3066e7ce125d5c114877b',
+        'ETag' => '866d436fdb9577521a1d1acd440e1026',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
     ),
   ),
-  37 => 
+  38 => 
   array (
     'request' => 
     array (
@@ -3338,12 +3465,12 @@ Mathematical characters
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '739',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_utf8_content.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_utf8_content.txt',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_utf8_content.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_utf8_content.txt',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_utf8_content.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_utf8_content.txt',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_utf8_content.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_utf8_content.txt',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PUT',
         'REDIRECT_STATUS' => '200',
@@ -3353,7 +3480,9 @@ Mathematical characters
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '739',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_utf8_content.txt',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_content.txt", response="a3a8dfa1e7bc835ec8ea9ba663a876a9", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_utf8_content.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_content.txt", response="a3a8dfa1e7bc835ec8ea9ba663a876a9", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3362,14 +3491,14 @@ Mathematical characters
       'body' => '',
       'headers' => 
       array (
-        'ETag' => '03f21d9964e17d45d71164e30d8bbab5',
+        'ETag' => '94ad488564aca44123a62c6f22c090dd',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
     ),
   ),
-  38 => 
+  39 => 
   array (
     'request' => 
     array (
@@ -3386,12 +3515,12 @@ Mathematical characters
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '21',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PUT',
         'REDIRECT_STATUS' => '200',
@@ -3401,7 +3530,9 @@ Mathematical characters
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '21',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt", response="b1e4dfdf75801dfb2515bf6fa22531ae", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt", response="b1e4dfdf75801dfb2515bf6fa22531ae", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3410,14 +3541,14 @@ Mathematical characters
       'body' => '',
       'headers' => 
       array (
-        'ETag' => '8a622d88986a7ba0a317f76574057185',
+        'ETag' => '655a81988486514fa14b109f0f4e5073',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
     ),
   ),
-  39 => 
+  40 => 
   array (
     'request' => 
     array (
@@ -3442,12 +3573,12 @@ Mathematical characters
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -3459,7 +3590,9 @@ Mathematical characters
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3468,7 +3601,7 @@ Mathematical characters
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -3489,7 +3622,7 @@ Mathematical characters
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test.html</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test.html</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -3508,7 +3641,7 @@ Mathematical characters
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_utf8_content.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test_utf8_content.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -3527,7 +3660,7 @@ Mathematical characters
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -3555,7 +3688,7 @@ Mathematical characters
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  40 => 
+  41 => 
   array (
     'request' => 
     array (
@@ -3570,12 +3703,12 @@ Mathematical characters
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'MKCOL',
         'REDIRECT_STATUS' => '200',
@@ -3584,7 +3717,9 @@ Mathematical characters
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="5041375a5d441d62def061c483b89f90", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="5041375a5d441d62def061c483b89f90", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3597,87 +3732,6 @@ Mathematical characters
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  41 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:"><prop>
-<getcontentlength xmlns="DAV:"/>
-<getlastmodified xmlns="DAV:"/>
-<executable xmlns="http://apache.org/dav/props/"/>
-<resourcetype xmlns="DAV:"/>
-<checked-in xmlns="DAV:"/>
-<checked-out xmlns="DAV:"/>
-</prop></propfind>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '288',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPFIND',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_CONTENT_LENGTH' => '288',
-        'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
-      'headers' => 
-      array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-      ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
   42 => 
@@ -3705,12 +3759,12 @@ Mathematical characters
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -3719,10 +3773,12 @@ Mathematical characters
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3731,7 +3787,7 @@ Mathematical characters
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -3762,6 +3818,89 @@ Mathematical characters
     ),
   ),
   43 => 
+  array (
+    'request' => 
+    array (
+      'body' => '<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getcontentlength xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'CONTENT_LENGTH' => '288',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'PROPFIND',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DEPTH' => '1',
+        'HTTP_CONTENT_LENGTH' => '288',
+        'CONTENT_TYPE' => 'application/xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
+      'headers' => 
+      array (
+        'Content-Type' => 'text/xml; charset="utf-8"',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+      ),
+      'status' => 'HTTP/1.1 207 Multi-Status',
+    ),
+  ),
+  44 => 
   array (
     'request' => 
     array (
@@ -3896,12 +4035,12 @@ vim: et syn=rst tw=79</comment></section></document>',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '14013',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/put_test.xml',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/put_test.xml',
+        'PATH_INFO' => '/secure_collection/subdir/collection/put_test.xml',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/put_test.xml',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/put_test.xml',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/put_test.xml',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/put_test.xml',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/put_test.xml',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PUT',
         'REDIRECT_STATUS' => '200',
@@ -3911,7 +4050,9 @@ vim: et syn=rst tw=79</comment></section></document>',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '14013',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/put_test.xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/put_test.xml", response="54314e4a015cfee884f0971c0e16b907", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/put_test.xml',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/put_test.xml", response="54314e4a015cfee884f0971c0e16b907", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -3920,14 +4061,14 @@ vim: et syn=rst tw=79</comment></section></document>',
       'body' => '',
       'headers' => 
       array (
-        'ETag' => '91f0d1c75dbbaf2736b997fbf1dfc2fb',
+        'ETag' => '5ad59a93c1eb407447585fc830b848a7',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
     ),
   ),
-  44 => 
+  45 => 
   array (
     'request' => 
     array (
@@ -3984,12 +4125,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '10644',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/put_test.zip',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/put_test.zip',
+        'PATH_INFO' => '/secure_collection/subdir/collection/put_test.zip',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/put_test.zip',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/put_test.zip',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/put_test.zip',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/put_test.zip',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/put_test.zip',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PUT',
         'REDIRECT_STATUS' => '200',
@@ -3999,7 +4140,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_CONTENT_LENGTH' => '10644',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/put_test.zip',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/put_test.zip", response="f4238d90bf38670dc692670026f9e12f", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/put_test.zip',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/put_test.zip", response="f4238d90bf38670dc692670026f9e12f", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4008,130 +4151,11 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '',
       'headers' => 
       array (
-        'ETag' => 'a7396b05849c2e5818d9af2c90beb699',
+        'ETag' => 'ef383241769f0df9a982a37b53504cf2',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  45 => 
-  array (
-    'request' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:"><prop>
-<getcontentlength xmlns="DAV:"/>
-<getlastmodified xmlns="DAV:"/>
-<executable xmlns="http://apache.org/dav/props/"/>
-<resourcetype xmlns="DAV:"/>
-<checked-in xmlns="DAV:"/>
-<checked-out xmlns="DAV:"/>
-</prop></propfind>
-',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '288',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPFIND',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
-        'HTTP_CONTENT_LENGTH' => '288',
-        'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test.zip</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
-      'headers' => 
-      array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-      ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
   46 => 
@@ -4159,12 +4183,133 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'PROPFIND',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DEPTH' => '1',
+        'HTTP_CONTENT_LENGTH' => '288',
+        'CONTENT_TYPE' => 'application/xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test.zip</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
+      'headers' => 
+      array (
+        'Content-Type' => 'text/xml; charset="utf-8"',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+      ),
+      'status' => 'HTTP/1.1 207 Multi-Status',
+    ),
+  ),
+  47 => 
+  array (
+    'request' => 
+    array (
+      'body' => '<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getcontentlength xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'CONTENT_LENGTH' => '288',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -4176,7 +4321,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4185,7 +4332,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -4215,7 +4362,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  47 => 
+  48 => 
   array (
     'request' => 
     array (
@@ -4230,12 +4377,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test.html',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test.html',
+        'PATH_INFO' => '/secure_collection/subdir/put_test.html',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test.html',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test.html',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test.html',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test.html',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test.html',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'GET',
         'REDIRECT_STATUS' => '200',
@@ -4244,7 +4391,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test.html',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test.html", response="86bcd51f1cf482bbbc983a30793f335c", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test.html',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test.html", response="86bcd51f1cf482bbbc983a30793f335c", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4783,14 +4932,14 @@ vim: et syn=rst tw=79 -->
 ',
       'headers' => 
       array (
-        'ETag' => '42fa6b3c46b3066e7ce125d5c114877b',
+        'ETag' => '866d436fdb9577521a1d1acd440e1026',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Type' => 'application/octet-stream; charset="utf-8"',
       ),
       'status' => 'HTTP/1.1 200 OK',
     ),
   ),
-  48 => 
+  49 => 
   array (
     'request' => 
     array (
@@ -4805,12 +4954,12 @@ vim: et syn=rst tw=79 -->
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_utf8_content.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_utf8_content.txt',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_utf8_content.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_utf8_content.txt',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_utf8_content.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_utf8_content.txt',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_utf8_content.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_utf8_content.txt',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'GET',
         'REDIRECT_STATUS' => '200',
@@ -4819,7 +4968,9 @@ vim: et syn=rst tw=79 -->
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_utf8_content.txt',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_content.txt", response="da23d4245e8b0eb8b473c6197ca39868", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_utf8_content.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_content.txt", response="da23d4245e8b0eb8b473c6197ca39868", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -4847,53 +4998,7 @@ Mathematical characters
 ',
       'headers' => 
       array (
-        'ETag' => '03f21d9964e17d45d71164e30d8bbab5',
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Type' => 'application/octet-stream; charset="utf-8"',
-      ),
-      'status' => 'HTTP/1.1 200 OK',
-    ),
-  ),
-  49 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'GET',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => 'Some test content...
-',
-      'headers' => 
-      array (
-        'ETag' => '8a622d88986a7ba0a317f76574057185',
+        'ETag' => '94ad488564aca44123a62c6f22c090dd',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Type' => 'application/octet-stream; charset="utf-8"',
       ),
@@ -4915,12 +5020,12 @@ Mathematical characters
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/put_test.xml',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/put_test.xml',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/put_test.xml',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/put_test.xml',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'GET',
         'REDIRECT_STATUS' => '200',
@@ -4929,7 +5034,57 @@ Mathematical characters
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/put_test.xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt", response="af991bf39339f914c3a5e7ec9a341a23", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt", response="af991bf39339f914c3a5e7ec9a341a23", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => 'Some test content...
+',
+      'headers' => 
+      array (
+        'ETag' => '655a81988486514fa14b109f0f4e5073',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Type' => 'application/octet-stream; charset="utf-8"',
+      ),
+      'status' => 'HTTP/1.1 200 OK',
+    ),
+  ),
+  51 => 
+  array (
+    'request' => 
+    array (
+      'body' => '',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/collection/put_test.xml',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/put_test.xml',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/put_test.xml',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/put_test.xml',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'GET',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/put_test.xml", response="bee153feb29a7242d655c25f26dc114e", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/put_test.xml',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/put_test.xml", response="bee153feb29a7242d655c25f26dc114e", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5057,14 +5212,14 @@ End:
 vim: et syn=rst tw=79</comment></section></document>',
       'headers' => 
       array (
-        'ETag' => '91f0d1c75dbbaf2736b997fbf1dfc2fb',
+        'ETag' => '5ad59a93c1eb407447585fc830b848a7',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Type' => 'application/octet-stream; charset="utf-8"',
       ),
       'status' => 'HTTP/1.1 200 OK',
     ),
   ),
-  51 => 
+  52 => 
   array (
     'request' => 
     array (
@@ -5079,12 +5234,12 @@ vim: et syn=rst tw=79</comment></section></document>',
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/put_test.zip',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/put_test.zip',
+        'PATH_INFO' => '/secure_collection/subdir/collection/put_test.zip',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/put_test.zip',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/put_test.zip',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/put_test.zip',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/put_test.zip',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/put_test.zip',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'GET',
         'REDIRECT_STATUS' => '200',
@@ -5093,7 +5248,9 @@ vim: et syn=rst tw=79</comment></section></document>',
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/put_test.zip',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/put_test.zip", response="5485f72b3e3878c0bfa25d0cfa5a234f", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/put_test.zip',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/put_test.zip", response="5485f72b3e3878c0bfa25d0cfa5a234f", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5143,14 +5300,14 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
 ¶’' . "\0" . '' . "\0" . 'sI' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '¤' . "\0" . '' . "\0" . 'put_test.htmlUT' . "\0" . 'ìàGUx' . "\0" . '' . "\0" . 'PK' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . 'ï(' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '',
       'headers' => 
       array (
-        'ETag' => 'a7396b05849c2e5818d9af2c90beb699',
+        'ETag' => 'ef383241769f0df9a982a37b53504cf2',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Type' => 'application/octet-stream; charset="utf-8"',
       ),
       'status' => 'HTTP/1.1 200 OK',
     ),
   ),
-  52 => 
+  53 => 
   array (
     'request' => 
     array (
@@ -5175,12 +5332,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_renamed.xml/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_renamed.xml/',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_renamed.xml/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_renamed.xml/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_renamed.xml/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_renamed.xml/',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_renamed.xml/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_renamed.xml/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -5192,7 +5349,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_renamed.xml/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_renamed.xml/", response="869d101292152afe329fdf0fc81469a1", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_renamed.xml/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_renamed.xml/", response="869d101292152afe329fdf0fc81469a1", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5205,68 +5364,13 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'Content-Length' => 0,
       ),
       'status' => 'HTTP/1.1 404 Not Found',
-    ),
-  ),
-  53 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test.html',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test.html',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test.html',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test.html',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MOVE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/collection/subdir/put_test_renamed.xml',
-        'HTTP_OVERWRITE' => 'T',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test.html',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
   54 => 
   array (
     'request' => 
     array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:"><prop>
-<getcontentlength xmlns="DAV:"/>
-<getlastmodified xmlns="DAV:"/>
-<executable xmlns="http://apache.org/dav/props/"/>
-<resourcetype xmlns="DAV:"/>
-<checked-in xmlns="DAV:"/>
-<checked-out xmlns="DAV:"/>
-</prop></propfind>
-',
+      'body' => '',
       'server' => 
       array (
         'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
@@ -5276,26 +5380,26 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'SERVER_ADDR' => '::ffff:127.0.1.1',
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt/',
+        'PATH_INFO' => '/secure_collection/subdir/put_test.html',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test.html',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt/',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test.html',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test.html',
         'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPFIND',
+        'REQUEST_METHOD' => 'MOVE',
         'REDIRECT_STATUS' => '200',
         'SERVER_PROTOCOL' => 'HTTP/1.1',
         'HTTP_HOST' => 'webdav',
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_CONTENT_LENGTH' => '288',
-        'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt/',
+        'HTTP_DESTINATION' => 'http://webdav/secure_collection/subdir/put_test_renamed.xml',
+        'HTTP_OVERWRITE' => 'T',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test.html", response="600ec1c595ab133287ebef17c75f9cb1", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test.html',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test.html", response="600ec1c595ab133287ebef17c75f9cb1", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5307,59 +5411,13 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
         'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 404 Not Found',
+      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
   55 => 
   array (
     'request' => 
     array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_utf8_content.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_utf8_content.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_utf8_content.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_utf8_content.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MOVE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt',
-        'HTTP_OVERWRITE' => 'T',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_utf8_content.txt',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  56 => 
-  array (
-    'request' => 
-    array (
       'body' => '<?xml version="1.0" encoding="utf-8"?>
 <propfind xmlns="DAV:"><prop>
 <getcontentlength xmlns="DAV:"/>
@@ -5381,12 +5439,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_non_utf8_test.txt/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_non_utf8_test.txt/',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_non_utf8_test.txt/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_non_utf8_test.txt/',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -5398,7 +5456,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/put_non_utf8_test.txt/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt/", response="397f7bb3f49f6f2beaedbc597babfca5", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt/", response="397f7bb3f49f6f2beaedbc597babfca5", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5413,7 +5473,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'status' => 'HTTP/1.1 404 Not Found',
     ),
   ),
-  57 => 
+  56 => 
   array (
     'request' => 
     array (
@@ -5428,12 +5488,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_utf8_content.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_utf8_content.txt',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_utf8_content.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_utf8_content.txt',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'MOVE',
         'REDIRECT_STATUS' => '200',
@@ -5442,9 +5502,11 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/collection/subdir/put_non_utf8_test.txt',
+        'HTTP_DESTINATION' => 'http://webdav/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt',
         'HTTP_OVERWRITE' => 'T',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_content.txt", response="6c4fdb145783fe536ddfc8b24eebf4dd", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_utf8_content.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_content.txt", response="6c4fdb145783fe536ddfc8b24eebf4dd", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5459,7 +5521,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'status' => 'HTTP/1.1 201 Created',
     ),
   ),
-  58 => 
+  57 => 
   array (
     'request' => 
     array (
@@ -5484,12 +5546,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/put_non_utf8_test.txt/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_non_utf8_test.txt/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/put_non_utf8_test.txt/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_non_utf8_test.txt/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -5498,124 +5560,72 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_non_utf8_test.txt/", response="a8b778ec14ae2e03ab875723b3969ea0", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_non_utf8_test.txt/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_non_utf8_test.txt/", response="a8b778ec14ae2e03ab875723b3969ea0", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_renamed.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18803</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>739</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_non_utf8_test.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>21</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
+      'body' => '',
       'headers' => 
       array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
+      'status' => 'HTTP/1.1 404 Not Found',
+    ),
+  ),
+  58 => 
+  array (
+    'request' => 
+    array (
+      'body' => '',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'MOVE',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DESTINATION' => 'http://webdav/secure_collection/subdir/put_non_utf8_test.txt',
+        'HTTP_OVERWRITE' => 'T',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt", response="ffb84ad314b66449321f9245697a6411", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_utf8_filename_Ï‚Ò£Î±âŠâˆ­â‹‰â‚¬â‚±â€±âŒ.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_utf8_filename_%cf%82%d2%a3%ce%b1%e2%8a%81%e2%88%ad%e2%8b%89%e2%82%ac%e2%82%b1%e2%80%b1%e2%81%8c.txt", response="ffb84ad314b66449321f9245697a6411", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '',
+      'headers' => 
+      array (
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
+      ),
+      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
   59 => 
@@ -5643,12 +5653,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -5657,10 +5667,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
+        'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5669,7 +5681,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -5677,6 +5689,84 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         <D:resourcetype>
           <D:collection/>
         </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/put_test_renamed.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18803</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>739</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/put_non_utf8_test.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>21</D:getcontentlength>
+        <D:resourcetype/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -5703,7 +5793,16 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
   array (
     'request' => 
     array (
-      'body' => '',
+      'body' => '<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getcontentlength xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+',
       'server' => 
       array (
         'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
@@ -5713,53 +5812,71 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'SERVER_ADDR' => '::ffff:127.0.1.1',
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_renamed.xml',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_renamed.xml',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_renamed.xml',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_renamed.xml',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
         'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
+        'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
         'SERVER_PROTOCOL' => 'HTTP/1.1',
         'HTTP_HOST' => 'webdav',
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => 'infinity',
-        'HTTP_DESTINATION' => 'http://webdav/collection/subdir/collection/put_test_renamed.xml',
-        'HTTP_OVERWRITE' => 'T',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_renamed.xml',
+        'HTTP_DEPTH' => '0',
+        'HTTP_CONTENT_LENGTH' => '288',
+        'CONTENT_TYPE' => 'application/xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '',
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
       'headers' => 
       array (
+        'Content-Type' => 'text/xml; charset="utf-8"',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 201 Created',
+      'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
   61 => 
   array (
     'request' => 
     array (
-      'body' => '<?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:"><prop>
-<getcontentlength xmlns="DAV:"/>
-<getlastmodified xmlns="DAV:"/>
-<executable xmlns="http://apache.org/dav/props/"/>
-<resourcetype xmlns="DAV:"/>
-<checked-in xmlns="DAV:"/>
-<checked-out xmlns="DAV:"/>
-</prop></propfind>
-',
+      'body' => '',
       'server' => 
       array (
         'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
@@ -5769,115 +5886,45 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'SERVER_ADDR' => '::ffff:127.0.1.1',
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_renamed.xml',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_renamed.xml',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_renamed.xml',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_renamed.xml',
         'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'PROPFIND',
+        'REQUEST_METHOD' => 'COPY',
         'REDIRECT_STATUS' => '200',
         'SERVER_PROTOCOL' => 'HTTP/1.1',
         'HTTP_HOST' => 'webdav',
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
-        'HTTP_CONTENT_LENGTH' => '288',
-        'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
+        'HTTP_DEPTH' => 'infinity',
+        'HTTP_DESTINATION' => 'http://webdav/secure_collection/subdir/collection/put_test_renamed.xml',
+        'HTTP_OVERWRITE' => 'T',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_renamed.xml", response="e7ad32d15d6eb99000f18cf87d7e1383", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_renamed.xml',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_renamed.xml", response="e7ad32d15d6eb99000f18cf87d7e1383", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
+      'body' => '',
       'headers' => 
       array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
+      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
   62 => 
   array (
     'request' => 
     array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => 'infinity',
-        'HTTP_DESTINATION' => 'http://webdav/collection/subdir/collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt',
-        'HTTP_OVERWRITE' => 'T',
-        'PHP_SELF' => '/index.php/collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  63 => 
-  array (
-    'request' => 
-    array (
       'body' => '<?xml version="1.0" encoding="utf-8"?>
 <propfind xmlns="DAV:"><prop>
 <getcontentlength xmlns="DAV:"/>
@@ -5899,12 +5946,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -5916,7 +5963,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -5925,7 +5974,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -5955,7 +6004,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  64 => 
+  63 => 
   array (
     'request' => 
     array (
@@ -5970,12 +6019,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/put_non_utf8_test.txt',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/put_non_utf8_test.txt',
+        'PATH_INFO' => '/secure_collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/put_non_utf8_test.txt',
-        'REDIRECT_URI' => '/index.php/collection/subdir/put_non_utf8_test.txt',
+        'REQUEST_URI' => '/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'COPY',
         'REDIRECT_STATUS' => '200',
@@ -5985,9 +6034,11 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
         'HTTP_DEPTH' => 'infinity',
-        'HTTP_DESTINATION' => 'http://webdav/collection/subdir/collection/put_non_utf8_test.txt',
+        'HTTP_DESTINATION' => 'http://webdav/secure_collection/subdir/collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt',
         'HTTP_OVERWRITE' => 'T',
-        'PHP_SELF' => '/index.php/collection/subdir/put_non_utf8_test.txt',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt", response="71b7f954eda948bfbde4b755dfdd74ee", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_test_Ã¶Ã¤Ã¼ÃŸ.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt", response="71b7f954eda948bfbde4b755dfdd74ee", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6002,7 +6053,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'status' => 'HTTP/1.1 201 Created',
     ),
   ),
-  65 => 
+  64 => 
   array (
     'request' => 
     array (
@@ -6027,12 +6078,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -6041,10 +6092,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6053,7 +6106,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -6061,101 +6114,6 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         <D:resourcetype>
           <D:collection/>
         </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test.zip</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>0</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test_renamed.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18803</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>739</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_non_utf8_test.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>21</D:getcontentlength>
-        <D:resourcetype/>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -6176,6 +6134,55 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
       ),
       'status' => 'HTTP/1.1 207 Multi-Status',
+    ),
+  ),
+  65 => 
+  array (
+    'request' => 
+    array (
+      'body' => '',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/put_non_utf8_test.txt',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/put_non_utf8_test.txt',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/put_non_utf8_test.txt',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/put_non_utf8_test.txt',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'COPY',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DEPTH' => 'infinity',
+        'HTTP_DESTINATION' => 'http://webdav/secure_collection/subdir/collection/put_non_utf8_test.txt',
+        'HTTP_OVERWRITE' => 'T',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_non_utf8_test.txt", response="f1f11a347537f3f153b705e681cb8d97", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/put_non_utf8_test.txt',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/put_non_utf8_test.txt", response="f1f11a347537f3f153b705e681cb8d97", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '',
+      'headers' => 
+      array (
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
+      ),
+      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
   66 => 
@@ -6203,12 +6210,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/renamed_collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/renamed_collection/',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/renamed_collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/renamed_collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -6217,71 +6224,146 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
+        'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/renamed_collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '',
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test.zip</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>0</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test_renamed.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18803</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>739</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection/put_non_utf8_test.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>21</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
       'headers' => 
       array (
+        'Content-Type' => 'text/xml; charset="utf-8"',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 404 Not Found',
+      'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
   67 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'MOVE',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DESTINATION' => 'http://webdav/collection/subdir/renamed_collection',
-        'HTTP_OVERWRITE' => 'T',
-        'PHP_SELF' => '/index.php/collection/subdir/collection',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  68 => 
   array (
     'request' => 
     array (
@@ -6306,12 +6388,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/renamed_collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/renamed_collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/renamed_collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/renamed_collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -6320,124 +6402,72 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="696bda59824424e08d7dc1d513d6e541", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/renamed_collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="696bda59824424e08d7dc1d513d6e541", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_renamed.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18803</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>739</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_non_utf8_test.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>21</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
+      'body' => '',
       'headers' => 
       array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
+      'status' => 'HTTP/1.1 404 Not Found',
+    ),
+  ),
+  68 => 
+  array (
+    'request' => 
+    array (
+      'body' => '',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/collection',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'MOVE',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DESTINATION' => 'http://webdav/secure_collection/subdir/renamed_collection',
+        'HTTP_OVERWRITE' => 'T',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection", response="9256da0b649b25ef39a4fe61ae09a517", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection", response="9256da0b649b25ef39a4fe61ae09a517", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '',
+      'headers' => 
+      array (
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
+      ),
+      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
   69 => 
@@ -6465,12 +6495,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/renamed_collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/renamed_collection/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/renamed_collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/renamed_collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -6482,7 +6512,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/renamed_collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6491,7 +6523,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -6512,45 +6544,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_test.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>14013</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_test.zip</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>10644</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_test_renamed.xml</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test_renamed.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -6569,7 +6563,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -6588,12 +6582,33 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_non_utf8_test.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_non_utf8_test.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>21</D:getcontentlength>
         <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -6641,12 +6656,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
+        'PATH_INFO' => '/secure_collection/subdir/renamed_collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/renamed_collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/renamed_collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/renamed_collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -6655,72 +6670,146 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '0',
+        'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="696bda59824424e08d7dc1d513d6e541", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/renamed_collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="696bda59824424e08d7dc1d513d6e541", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '',
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_test.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>14013</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_test.zip</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>10644</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_test_renamed.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18803</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>739</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_non_utf8_test.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>21</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
       'headers' => 
       array (
+        'Content-Type' => 'text/xml; charset="utf-8"',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 404 Not Found',
+      'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
   71 => 
-  array (
-    'request' => 
-    array (
-      'body' => '',
-      'server' => 
-      array (
-        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
-        'SERVER_NAME' => 'webdav',
-        'GATEWAY_INTERFACE' => 'CGI/1.1',
-        'SERVER_PORT' => '80',
-        'SERVER_ADDR' => '::ffff:127.0.1.1',
-        'REMOTE_PORT' => '33458',
-        'REMOTE_ADDR' => '::ffff:127.0.1.1',
-        'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/renamed_collection',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/renamed_collection',
-        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
-        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/renamed_collection',
-        'REDIRECT_URI' => '/index.php/collection/subdir/renamed_collection',
-        'QUERY_STRING' => '',
-        'REQUEST_METHOD' => 'COPY',
-        'REDIRECT_STATUS' => '200',
-        'SERVER_PROTOCOL' => 'HTTP/1.1',
-        'HTTP_HOST' => 'webdav',
-        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
-        'HTTP_CONNECTION' => 'TE',
-        'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => 'infinity',
-        'HTTP_DESTINATION' => 'http://webdav/collection/subdir/collection',
-        'HTTP_OVERWRITE' => 'T',
-        'PHP_SELF' => '/index.php/collection/subdir/renamed_collection',
-        'REQUEST_TIME' => 1220431173,
-      ),
-    ),
-    'response' => 
-    array (
-      'body' => '',
-      'headers' => 
-      array (
-        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
-        'Content-Length' => 0,
-      ),
-      'status' => 'HTTP/1.1 201 Created',
-    ),
-  ),
-  72 => 
   array (
     'request' => 
     array (
@@ -6745,12 +6834,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -6759,145 +6848,73 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'HTTP_DEPTH' => '1',
+        'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
     'response' => 
     array (
-      'body' => '<?xml version="1.0" encoding="UTF-8"?>
-<D:multistatus xmlns:D="DAV:">
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_renamed.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>18803</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>739</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_non_utf8_test.txt</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>21</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>4096</D:getcontentlength>
-        <D:resourcetype>
-          <D:collection/>
-        </D:resourcetype>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-</D:multistatus>
-',
+      'body' => '',
       'headers' => 
       array (
-        'Content-Type' => 'text/xml; charset="utf-8"',
         'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
       ),
-      'status' => 'HTTP/1.1 207 Multi-Status',
+      'status' => 'HTTP/1.1 404 Not Found',
+    ),
+  ),
+  72 => 
+  array (
+    'request' => 
+    array (
+      'body' => '',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/renamed_collection',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/renamed_collection',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/renamed_collection',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/renamed_collection',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'COPY',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DEPTH' => 'infinity',
+        'HTTP_DESTINATION' => 'http://webdav/secure_collection/subdir/collection',
+        'HTTP_OVERWRITE' => 'T',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection", response="7efbd0a8b4de108f60a233d6bc515a64", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/renamed_collection',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection", response="7efbd0a8b4de108f60a233d6bc515a64", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '',
+      'headers' => 
+      array (
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+        'Content-Length' => 0,
+      ),
+      'status' => 'HTTP/1.1 201 Created',
     ),
   ),
   73 => 
@@ -6925,12 +6942,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/collection/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -6942,7 +6959,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -6951,7 +6970,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -6972,45 +6991,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test.xml</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>14013</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test.zip</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
-        <D:getcontentlength>10644</D:getcontentlength>
-        <D:resourcetype/>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-    <D:propstat xmlns:default="http://apache.org/dav/props/">
-      <D:prop>
-        <D:checked-in/>
-        <D:checked-out/>
-        <default:executable xmlns="http://apache.org/dav/props/"/>
-      </D:prop>
-      <D:status>HTTP/1.1 404 Not Found</D:status>
-    </D:propstat>
-  </D:response>
-  <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test_renamed.xml</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test_renamed.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7029,7 +7010,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7048,12 +7029,54 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection/put_non_utf8_test.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_non_utf8_test.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
         <D:getcontentlength>21</D:getcontentlength>
         <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/collection</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
@@ -7101,12 +7124,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/renamed_collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/renamed_collection/',
+        'PATH_INFO' => '/secure_collection/subdir/collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/renamed_collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/renamed_collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -7118,7 +7141,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/renamed_collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/collection/", response="0928eb343b97ba103422278d6edd2d5a", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7127,7 +7152,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7148,7 +7173,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_test.xml</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7167,7 +7192,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_test.zip</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test.zip</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7186,7 +7211,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_test_renamed.xml</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test_renamed.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7205,7 +7230,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7224,7 +7249,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/put_non_utf8_test.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection/put_non_utf8_test.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7277,12 +7302,190 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/renamed_collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/renamed_collection/',
+        'PATH_INFO' => '/secure_collection/subdir/renamed_collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/renamed_collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/renamed_collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/renamed_collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/renamed_collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/renamed_collection/',
+        'QUERY_STRING' => '',
+        'REQUEST_METHOD' => 'PROPFIND',
+        'REDIRECT_STATUS' => '200',
+        'SERVER_PROTOCOL' => 'HTTP/1.1',
+        'HTTP_HOST' => 'webdav',
+        'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
+        'HTTP_CONNECTION' => 'TE',
+        'HTTP_TE' => 'trailers',
+        'HTTP_DEPTH' => '1',
+        'HTTP_CONTENT_LENGTH' => '288',
+        'CONTENT_TYPE' => 'application/xml',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="696bda59824424e08d7dc1d513d6e541", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/renamed_collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="696bda59824424e08d7dc1d513d6e541", algorithm="MD5"',
+        'REQUEST_TIME' => 1220431173,
+      ),
+    ),
+    'response' => 
+    array (
+      'body' => '<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>4096</D:getcontentlength>
+        <D:resourcetype>
+          <D:collection/>
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_test.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>14013</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_test.zip</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>10644</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_test_renamed.xml</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>18803</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>739</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response xmlns:default="http://apache.org/dav/props/">
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/put_non_utf8_test.txt</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
+        <D:getcontentlength>21</D:getcontentlength>
+        <D:resourcetype/>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat xmlns:default="http://apache.org/dav/props/">
+      <D:prop>
+        <D:checked-in/>
+        <D:checked-out/>
+        <default:executable xmlns="http://apache.org/dav/props/"/>
+      </D:prop>
+      <D:status>HTTP/1.1 404 Not Found</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+',
+      'headers' => 
+      array (
+        'Content-Type' => 'text/xml; charset="utf-8"',
+        'Server' => 'lighttpd/1.4.22/eZComponents/dev/ezcWebdavTransportMock',
+      ),
+      'status' => 'HTTP/1.1 207 Multi-Status',
+    ),
+  ),
+  76 => 
+  array (
+    'request' => 
+    array (
+      'body' => '<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getcontentlength xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+',
+      'server' => 
+      array (
+        'SERVER_SOFTWARE' => 'lighttpd/1.4.22',
+        'SERVER_NAME' => 'webdav',
+        'GATEWAY_INTERFACE' => 'CGI/1.1',
+        'SERVER_PORT' => '80',
+        'SERVER_ADDR' => '::ffff:127.0.1.1',
+        'REMOTE_PORT' => '33458',
+        'REMOTE_ADDR' => '::ffff:127.0.1.1',
+        'CONTENT_LENGTH' => '288',
+        'SCRIPT_NAME' => '/index.php',
+        'PATH_INFO' => '/secure_collection/subdir/renamed_collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/renamed_collection/',
+        'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
+        'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
+        'REQUEST_URI' => '/secure_collection/subdir/renamed_collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/renamed_collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -7294,7 +7497,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '0',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/renamed_collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="696bda59824424e08d7dc1d513d6e541", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/renamed_collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="696bda59824424e08d7dc1d513d6e541", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7303,7 +7508,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/renamed_collection/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/renamed_collection/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7333,7 +7538,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'status' => 'HTTP/1.1 207 Multi-Status',
     ),
   ),
-  76 => 
+  77 => 
   array (
     'request' => 
     array (
@@ -7348,12 +7553,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_PORT' => '33458',
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/renamed_collection/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/renamed_collection/',
+        'PATH_INFO' => '/secure_collection/subdir/renamed_collection/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/renamed_collection/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/renamed_collection/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/renamed_collection/',
+        'REQUEST_URI' => '/secure_collection/subdir/renamed_collection/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/renamed_collection/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'DELETE',
         'REDIRECT_STATUS' => '200',
@@ -7362,7 +7567,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_USER_AGENT' => 'cadaver/0.23.2 neon/0.28.6',
         'HTTP_CONNECTION' => 'TE',
         'HTTP_TE' => 'trailers',
-        'PHP_SELF' => '/index.php/collection/subdir/renamed_collection/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="3c8c3f077932650c8159ab1d3407fe84", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/renamed_collection/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/renamed_collection/", response="3c8c3f077932650c8159ab1d3407fe84", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7377,7 +7584,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'status' => 'HTTP/1.1 204 No Content',
     ),
   ),
-  77 => 
+  78 => 
   array (
     'request' => 
     array (
@@ -7402,12 +7609,12 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'REMOTE_ADDR' => '::ffff:127.0.1.1',
         'CONTENT_LENGTH' => '288',
         'SCRIPT_NAME' => '/index.php',
-        'PATH_INFO' => '/collection/subdir/',
-        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/collection/subdir/',
+        'PATH_INFO' => '/secure_collection/subdir/',
+        'PATH_TRANSLATED' => '/home/dotxp/web/webdav/htdocs/secure_collection/subdir/',
         'SCRIPT_FILENAME' => '/home/dotxp/web/webdav/htdocs/index.php',
         'DOCUMENT_ROOT' => '/home/dotxp/web/webdav/htdocs/',
-        'REQUEST_URI' => '/collection/subdir/',
-        'REDIRECT_URI' => '/index.php/collection/subdir/',
+        'REQUEST_URI' => '/secure_collection/subdir/',
+        'REDIRECT_URI' => '/index.php/secure_collection/subdir/',
         'QUERY_STRING' => '',
         'REQUEST_METHOD' => 'PROPFIND',
         'REDIRECT_STATUS' => '200',
@@ -7419,7 +7626,9 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
         'HTTP_DEPTH' => '1',
         'HTTP_CONTENT_LENGTH' => '288',
         'CONTENT_TYPE' => 'application/xml',
-        'PHP_SELF' => '/index.php/collection/subdir/',
+        'HTTP_AUTHORIZATION' => 'Digest username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
+        'PHP_SELF' => '/index.php/secure_collection/subdir/',
+        'PHP_AUTH_DIGEST' => 'username="some", realm="eZ Components WebDAV", nonce="32ff013db9c2c66f0b83633165e73947", uri="/secure_collection/subdir/", response="34fb71372a82e6bf0042a91e6b1e1eb4", algorithm="MD5"',
         'REQUEST_TIME' => 1220431173,
       ),
     ),
@@ -7428,7 +7637,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
       'body' => '<?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/</D:href>
+    <D:href>http://webdav/secure_collection/subdir/</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7449,7 +7658,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_renamed.xml</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test_renamed.xml</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7468,7 +7677,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_test_%c3%b6%c3%a4%c3%bc%c3%9f.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7487,7 +7696,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/put_non_utf8_test.txt</D:href>
+    <D:href>http://webdav/secure_collection/subdir/put_non_utf8_test.txt</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
@@ -7506,7 +7715,7 @@ x¹#Ï' . "\0" . '™ô{J9qhËÃ›¨å[¡ó„BK q¡’ˆ&û—L.~,ÇŠ}à¶±;Q£sl÷ÅM¼†N—†¶,v=ZÃ
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://webdav/collection/subdir/collection</D:href>
+    <D:href>http://webdav/secure_collection/subdir/collection</D:href>
     <D:propstat>
       <D:prop>
         <D:getlastmodified>Mon, 15 Aug 2005 15:13:00 +0000</D:getlastmodified>
