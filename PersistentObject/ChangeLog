@@ -1,11 +1,11 @@
 1.7.1 - [RELEASEDATE]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Fixed issue #16135: ezcPersistentCodeManager now supports PHP 5.3
-  namespaces.
 - Fixed issue #15657: Column names are now converted to lower case to extract
   from database results, since this is the setting defined by the Database
   component.
+- Fixed issue #16135: ezcPersistentCodeManager now supports PHP 5.3
+  namespaces.
 
 
 1.7 - Monday 21 December 2009

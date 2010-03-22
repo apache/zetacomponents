@@ -2,8 +2,8 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Fixed issue #16127: Searching with numeric values.
-- Fixed issue #16350: Wrong spelled HTTP method.
 - Fixed issue #16195: Errors when searching with Solr.
+- Fixed issue #16350: Wrong spelled HTTP method.
 
 
 1.0.8 - Monday 23 November 2009
