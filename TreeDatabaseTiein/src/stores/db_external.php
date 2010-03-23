@@ -162,7 +162,7 @@ class ezcTreeDbExternalTableDataStore implements ezcTreeDbDataStore, ezcTreeXmlD
         {
             throw new ezcTreeDataStoreMissingDataException( $node->id );
         }
-        $node->data = $this->filterDataFromResult( $result );
+        $node->injectData( $this->filterDataFromResult( $result ) );
         $node->dataFetched = true;
     }
 
@@ -198,7 +198,7 @@ class ezcTreeDbExternalTableDataStore implements ezcTreeDbDataStore, ezcTreeXmlD
 
         foreach ( $s as $result )
         {
-            $nodeList[$result[$this->idField]]->data = $this->filterDataFromResult( $result );
+            $nodeList[$result[$this->idField]]->injectData( $this->filterDataFromResult( $result ) );
             $nodeList[$result[$this->idField]]->dataFetched = true;
         }
     }
