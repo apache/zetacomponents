@@ -1,0 +1,369 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>konqueror_auth.sikuli</h2> <a href="konqueror_auth.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt"># coding=utf-8
+</span>setThrowException(True)
+
+<span class="kw">class</span> Konqueror:
+
+   REMOTE = <span class="dig">0</span>
+   LOCAL = <span class="dig">1</span>
+
+   _tab = None
+
+   _dirs = {}
+
+   <span class="kw">def</span> __init__(self):
+      self._dirs = {self.LOCAL: [], self.REMOTE: []}
+      self._startKonqueror()
+      self._initWebdav()
+      <span class="skw">sleep</span>(<span class="dig">2</span>)
+      self._initLocal()
+      <span class="skw">sleep</span>(<span class="dig">2</span>)
+
+   <span class="kw">def</span> _startKonqueror(self):
+      openApp(<span class="str">"/home/dotxp/bin/start_konqueror.sh"</span>)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">wait</span>(Pattern(<img src="1266401481278.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> _initWebdav(self):
+      <span class="skw">type</span>(<span class="str">"l"</span>, KEY_CTRL)
+      paste(<span class="str">"webdav://some@webdav/secure_collection"</span>)
+      <span class="skw">type</span>(Key.ENTER)
+      setThrowException(False)
+      authDialog = <span class="skw">wait</span>(Pattern(<img src="1266480684797.png" />).similar(<span class="dig">0.49</span>).firstN(<span class="dig">1</span>))
+      <span class="kw">if</span> len(authDialog) != <span class="dig">0</span>:
+
+         paste(Pattern(<img src="1266480738564.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>), <span class="str">"thing"</span>)
+         <span class="skw">click</span>(Pattern(<img src="1266480773892.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      setThrowException(True)
+      self._tab = self.REMOTE
+      self._dirs[self.REMOTE].append(<span class="str">"/"</span>)
+      self._dirs[self.REMOTE].append(<span class="str">"secure_collection"</span>)
+
+   <span class="kw">def</span> _initLocal(self):
+      <span class="skw">type</span>(<span class="str">"t"</span>, KEY_CTRL)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._tab = self.LOCAL
+      <span class="skw">type</span>(<span class="str">"l"</span>, KEY_CTRL)
+      paste(<span class="str">"/home/dotxp/Desktop/Temp/put_test/down"</span>)
+      <span class="skw">type</span>(Key.ENTER)
+      self._dirs[self.LOCAL].append(<span class="str">"/"</span>)
+      self._dirs[self.LOCAL].append(<span class="str">"down"</span>)
+
+   <span class="kw">def</span> switchRemote(self):
+      <span class="kw">if</span> (self._tab == self.LOCAL):
+         <span class="skw">type</span>(<span class="str">","</span>, KEY_CTRL)
+         self._tab = self.REMOTE
+         <span class="skw">sleep</span>(<span class="dig">0.4</span>)
+
+   <span class="kw">def</span> switchLocal(self):
+      <span class="kw">if</span> (self._tab == self.REMOTE):
+         <span class="skw">type</span>(<span class="str">","</span>, KEY_CTRL)
+         self._tab = self.LOCAL
+         <span class="skw">sleep</span>(<span class="dig">0.4</span>)
+
+   <span class="kw">def</span> openLocal(self, dirImg, dirName):
+      self.switchLocal()
+      self._open(dirImg, dirName)
+
+   <span class="kw">def</span> _open(self, dirImg, dirName):
+      <span class="skw">doubleClick</span>(dirImg)
+      self._dirs[self._tab].append(dirName)
+
+   <span class="kw">def</span> openRemote(self, dirImg, dirName):
+      self.switchRemote()
+      self._open(dirImg, dirName)
+
+   <span class="kw">def</span> upRemote(self, dirName=None):
+      self.switchRemote()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self.goUp(dirName)
+
+   <span class="kw">def</span> upLocal(self, dirName=None):
+      self.switchLocal()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self.goUp(dirName)
+
+   <span class="kw">def</span> goUp(self, dirName):
+      <span class="kw">if</span> dirName == None:
+         <span class="skw">click</span>(Pattern(<img src="1266259183958.png" />).similar(<span class="dig">0.60</span>).firstN(<span class="dig">1</span>))
+         self._dirs[self._tab].pop()
+         <span class="kw">return</span>
+      <span class="kw">while</span> self._dirs[self._tab][-<span class="dig">1</span>] != dirName:
+         <span class="skw">click</span>(Pattern(<img src="1266259183958.png" />).similar(<span class="dig">0.60</span>).firstN(<span class="dig">1</span>))
+         self._dirs[self._tab].pop()
+
+   <span class="kw">def</span> copy(self):
+      <span class="skw">type</span>(<span class="str">"c"</span>, KEY_CTRL)
+
+   <span class="kw">def</span> paste(self):
+      <span class="skw">type</span>(<span class="str">"v"</span>, KEY_CTRL)
+
+   <span class="kw">def</span> rename(self, fileImg, newName, newFileImg):
+      <span class="skw">click</span>(fileImg)
+      <span class="skw">sleep</span>(<span class="dig">0.2</span>)
+      <span class="skw">type</span>(Key.F2)
+      <span class="skw">wait</span>(Pattern(<img src="1266428301207.png" />).similar(<span class="dig">0.50</span>).firstN(<span class="dig">1</span>))
+
+      <span class="skw">type</span>(<span class="str">"a"</span>, KEY_CTRL)
+      <span class="skw">sleep</span>(<span class="dig">0.2</span>)
+      paste(newName)
+      <span class="skw">sleep</span>(<span class="dig">0.1</span>)
+      <span class="skw">type</span>(Key.ENTER)
+      <span class="skw">wait</span>(newFileImg)
+
+   <span class="kw">def</span> createDir(self, dirName, dirImg):
+      <span class="skw">type</span>(Key.F10)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      createDirDiag = <span class="skw">wait</span>(Pattern(<img src="1266482003881.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="kw">if</span> len(createDirDiag) == <span class="dig">0</span>:
+         <span class="kw">raise</span> SystemExit(<span class="str">"Could not find new dir dialog"</span>)
+      paste(dirName)
+      <span class="skw">type</span>(Key.ENTER)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">find</span>(dirImg)
+
+
+<span class="kw">class</span> KonquerorWebdavTest:
+
+   _client = None
+
+   <span class="kw">def</span> __init__(self, client):
+      self._client = client
+
+   <span class="kw">def</span> run(self):
+      self.testInitial()
+      self.testDownloadSingle()
+      self.testListSubdir()
+      self.testDownloadMultiple()
+      self.testCreateNewdir()
+      self.testListNewdir()
+      self.testUploadSingle()
+      self.testCreateNewsubdir()
+      self.testListNewsubdir()
+      self.testUploadSingleOverwrite()
+      self.testDeleteNewdir()
+      self.testUploadNew()
+      self.testDownloadUploaded()
+      self.testRenameFiles()
+      self.testCopyFilesRemote()
+      self.testRenameCollection()
+      self.testCopyCollectionSame()
+      <span class="kw">pass</span>
+
+   <span class="kw">def</span> testInitial(self):
+      self._client.switchRemote()
+      <span class="skw">find</span>(Pattern(<img src="1266403396957.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testDownloadSingle(self):
+      self._client.switchRemote()
+      <span class="skw">click</span>(Pattern(<img src="1266403844742.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      self._client.copy()
+      self._client.switchLocal()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._client.paste()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266403586626.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testListSubdir(self):
+      self._client.openRemote(Pattern(<img src="1266403618714.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">"subdir"</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266481615348.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testDownloadMultiple(self):
+      self._client.switchRemote()
+      <span class="skw">click</span>(Pattern(<img src="1266403938988.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">type</span>(Key.RIGHT, KEY_SHIFT)
+      self._client.copy()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._client.switchLocal()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._client.paste()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266403982273.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testCreateNewdir(self):
+      self._client.switchRemote()
+      self._client.createDir(<span class="str">"newdir"</span>, Pattern(<img src="1266404324764.png" />).similar(<span class="dig">0.79</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testListNewdir(self):
+      self._client.openRemote(Pattern(<img src="1266404324764.png" />).similar(<span class="dig">0.79</span>).firstN(<span class="dig">1</span>), <span class="str">"newdir"</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266482133584.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testUploadSingle(self):
+      self._client.switchLocal()
+      <span class="skw">click</span>(Pattern(<img src="1266405005919.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      self._client.copy()
+      self._client.switchRemote()
+      self._client.paste()
+      <span class="skw">find</span>(Pattern(<img src="1266404478750.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testCreateNewsubdir(self):
+      self._client.switchRemote()
+      self._client.createDir(<span class="str">"newsubdir"</span>, Pattern(<img src="1266404642076.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testListNewsubdir(self):
+      self._client.openRemote(Pattern(<img src="1266424853166.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">"newsubdir"</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266424893903.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testUploadSingleOverwrite(self):
+      self._client.switchLocal()
+      <span class="skw">click</span>(Pattern(<img src="1266405005919.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      self._client.copy()
+      self._client.switchRemote()
+      self._client.paste()
+      <span class="skw">find</span>(Pattern(<img src="1266404478750.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      self._client.switchLocal()
+      <span class="skw">click</span>(Pattern(<img src="1266405005919.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      self._client.copy()
+      self._client.switchRemote()
+      self._client.paste()
+      <span class="skw">wait</span>(Pattern(<img src="1266482275505.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">click</span>(Pattern(<img src="1266425303012.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">find</span>(Pattern(<img src="1266404478750.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testDeleteNewdir(self):
+      self._client.upRemote(<span class="str">"secure_collection"</span>)
+      <span class="skw">click</span>(Pattern(<img src="1266425401724.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">type</span>(Key.DELETE)
+      <span class="skw">wait</span>(Pattern(<img src="1266482431168.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">click</span>(Pattern(<img src="1266425459006.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">find</span>(Pattern(<img src="1266425612217.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testUploadNew(self):
+      self._client.upLocal(<span class="str">"/"</span>)
+      self._client.openLocal(Pattern(<img src="1266425647634.png" />).similar(<span class="dig">0.90</span>).firstN(<span class="dig">1</span>), <span class="str">"up"</span>)
+      <span class="skw">type</span>(<span class="str">"a"</span>, KEY_CTRL)
+      <span class="skw">sleep</span>(<span class="dig">0.5</span>)
+      self._client.copy()
+      self._client.switchRemote()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._client.paste()
+      <span class="skw">sleep</span>(<span class="dig">2</span>)
+      <span class="skw">find</span>(Pattern(<img src="1266482576752.png" />).similar(<span class="dig">0.50</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testDownloadUploaded(self):
+      self._client.switchRemote()
+      <span class="skw">sleep</span>(<span class="dig">0.5</span>)
+      <span class="cmt"># delete first, to copy everything else
+</span>      <span class="skw">click</span>(Pattern(<img src="1266483138148.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">type</span>(Key.DELETE)
+      <span class="skw">sleep</span>(<span class="dig">0.5</span>)
+      <span class="skw">type</span>(Key.ENTER)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">type</span>(<span class="str">"a"</span>, KEY_CTRL)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._client.copy()
+      self._client.upLocal(<span class="str">"/"</span>)
+      self._client.openLocal(Pattern(<img src="1266425995532.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">"down"</span>)
+      self._client.paste()
+      <span class="skw">find</span>(Pattern(<img src="1266426251752.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testRenameFiles(self):
+      self._client.switchRemote()
+      self._client.rename(Pattern(<img src="1266426292140.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">u"put_test_renamed.xml"</span>, Pattern(<img src="1266426519794.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">sleep</span>(<span class="dig">0.5</span>)
+      self._client.rename(Pattern(<img src="1266426596595.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">u"put_test_utf8_\u00f6\u00e4\u00fc\u00df.txt"</span>, Pattern(<img src="1266426643952.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">sleep</span>(<span class="dig">0.5</span>)
+      self._client.rename(Pattern(<img src="1266429314226.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>), <span class="str">u"put_non_utf8_test.txt"</span>, Pattern(<img src="1266426731983.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testCopyFilesRemote(self):
+      self._client.switchRemote()
+      <span class="skw">click</span>(Pattern(<img src="1266427115069.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">type</span>(Key.RIGHT, KEY_SHIFT)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      <span class="skw">type</span>(Key.RIGHT, KEY_SHIFT)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._client.copy()
+      self._client.openRemote(Pattern(<img src="1266427167957.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">"collection"</span>)
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._client.paste()
+      <span class="skw">wait</span>(Pattern(<img src="1266429510001.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testRenameCollection(self):
+      self._client.upRemote()
+      self._client.rename(Pattern(<img src="1266427306959.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>), <span class="str">"renamed_collection"</span>, Pattern(<img src="1266427339100.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+
+   <span class="kw">def</span> testCopyCollectionSame(self):
+      <span class="skw">click</span>(Pattern(<img src="1266427428035.png" />).similar(<span class="dig">0.80</span>).firstN(<span class="dig">1</span>))
+      self._client.copy()
+      <span class="skw">sleep</span>(<span class="dig">1</span>)
+      self._client.paste()
+      <span class="skw">wait</span>(Pattern(<img src="1266483309047.png" />).similar(<span class="dig">0.70</span>).firstN(<span class="dig">1</span>))
+      <span class="skw">type</span>(Key.ENTER)
+
+konqueror = Konqueror()
+test = KonquerorWebdavTest(konqueror)
+test.run()
+</pre>
+</body>
+</html>
