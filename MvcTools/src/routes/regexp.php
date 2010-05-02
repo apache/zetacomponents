@@ -18,7 +18,7 @@
  * @version //autogentag//
  * @mainclass
  */
-class ezcMvcRegexpRoute implements ezcMvcRoute
+class ezcMvcRegexpRoute implements ezcMvcRoute, ezcMvcReversibleRoute
 {
     /**
      * This property contains the regular expression.
@@ -157,6 +157,97 @@ class ezcMvcRegexpRoute implements ezcMvcRoute
         $newPattern .= substr( $pattern, 1 + ( $pattern[1] == '^' ) );
 
         $this->pattern = $newPattern;
+    }
+
+    /**
+     * Generates an URL back out of a route, including possible arguments
+     *
+     * @param array $arguments
+     */
+    public function generateUrl( array $arguments = null )
+    {
+        $url = $this->pattern;
+        // strip delimiters
+        $url = substr( $url, 1 );
+        $url = substr( $url, 0, -1 );
+
+        // strip ^
+        if ( substr( $url, 0, 1 ) == '^' )
+        {
+            $url = substr( $url, 1 );
+        }
+
+        // strip $
+        if ( substr( $url, -1 ) == '$' )
+        {
+            $url = substr( $url, 0, -1 );
+        }
+
+        // merge default values
+        if ( is_null( $arguments ) )
+        {
+            $arguments = array(  );
+        }
+        $arguments = array_merge( $this->defaultValues, $arguments );
+
+        $openPart = $openPartName = false;
+        $partName = $partOffset = $partLength = false;
+        $openParenthesis = 0;
+        
+        for( $i = 0; isset( $url[$i] ); $i ++)
+        {
+            if ( $url[$i] == '(' )
+            {
+                $openParenthesis++;
+            }
+            elseif ( $url[$i] == ')' )
+            {
+                $openParenthesis--;
+            }
+        
+            if ( substr( $url, $i, 4 ) == '(?P<' )
+            {
+                $openPart = $openPartName = true;
+                $partOffset = $i;
+                $partLength = 4;
+                $i += 4;
+            }
+        
+            if ( $openPart )
+            {
+                $partLength++;
+        
+                if ( $url[$i] == ')' && $openParenthesis == 0 )
+                {
+                    $url = str_replace(
+                        substr( $url, $partOffset, $partLength ),
+                        $arguments[$partName],
+                        $url
+                    );
+        
+                    $i = $partOffset + strlen( $arguments[$partName] );
+
+                    $partName = '';
+                    $openPart = false;
+                    $partOffset = false;
+                    $partLength = 0;
+                }
+            }
+            
+            if ( $openPartName ) 
+            {
+                if ( $url[$i] == '>' ) 
+                {
+                    $openPartName = false;
+                } 
+                else 
+                {
+                    $partName.= $url[$i];
+                }
+            }
+        }
+
+        return $url;
     }
 }
 ?>

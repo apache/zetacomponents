@@ -204,6 +204,53 @@ class ezcMvcToolsRegexpRouteTest extends ezcTestCase
         self::assertSame( array( 'site' => 'test', 'group' => 'people', 'name' => 'hawking' ), $request->variables );
     }
 
+    static public function generateUrlProvder() {
+        return array( 
+            array( // bare minimum
+                '@(?P<arg1>.*)@',
+                'val1'
+            ),
+            array( // with $ suffix
+                '@/bar/(?P<arg1>[^/]*)/test/$@',
+                '/bar/val1/test/'
+            ),
+            array( // with ^ prefix
+                '@^/bar/(?P<arg1>[^/]*)/test/@',
+                '/bar/val1/test/'
+            ),
+            array( // with ^ prefix and $ suffix
+                '@^/bar/(?P<arg1>[^/]*)/test/$@',
+                '/bar/val1/test/'
+            ),
+            array( // with prefix and suffix
+                '@/bar/(?P<arg1>[^/]*)/test/@',
+                '/bar/val1/test/'
+            ),
+            array( // with nested parentesis
+                '@/bar/(?P<arg1>(foo|bar)[^/]*)/test/@',
+                '/bar/val1/test/'
+            ),
+            array( // with 2 arguments
+                '@/bar/(?P<arg1>[^/]*)/(?P<arg2>[^/]*)/@',
+                '/bar/val1/val2/',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider generateUrlProvder
+     */
+    public function testGenerateUrl( $pattern, $expected ) {
+        $fixture = new ezcMvcRegexpRoute( $pattern, 'testController' );
+
+        $result = $fixture->generateUrl( array(
+            'arg1' => 'val1',
+            'arg2' => 'val2',
+        ) );
+        
+        $this->assertEquals( $expected, $result );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( "ezcMvcToolsRegexpRouteTest" );
