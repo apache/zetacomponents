@@ -204,7 +204,8 @@ class ezcMvcToolsRegexpRouteTest extends ezcTestCase
         self::assertSame( array( 'site' => 'test', 'group' => 'people', 'name' => 'hawking' ), $request->variables );
     }
 
-    static public function generateUrlProvder() {
+    static public function generateUrlProvder()
+    {
         return array( 
             array( // bare minimum
                 '@(?P<arg1>.*)@',
@@ -240,7 +241,8 @@ class ezcMvcToolsRegexpRouteTest extends ezcTestCase
     /**
      * @dataProvider generateUrlProvder
      */
-    public function testGenerateUrl( $pattern, $expected ) {
+    public function testGenerateUrl( $pattern, $expected )
+    {
         $fixture = new ezcMvcRegexpRoute( $pattern, 'testController' );
 
         $result = $fixture->generateUrl( array(
