@@ -2,6 +2,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Refactored HTTP request parsing for extensibility.
+- ezcMvcRegexpRoute implements ezcMvcReversibleRoute
 
 
 1.1.2 - Tuesday 01 September 2009
