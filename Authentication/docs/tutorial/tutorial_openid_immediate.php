@@ -72,6 +72,6 @@ else
     top.opener.window.document.getElementById( 'status' ).innerHTML = '<b style="color: #009900;">logged-in</b> | <a href="openid_ajax.php?action=logout">Logout</a>';
     window.close();
 </script>
-<?
+<?php
 }
 ?>
