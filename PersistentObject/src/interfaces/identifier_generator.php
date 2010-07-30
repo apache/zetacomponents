@@ -1,5 +1,4 @@
 <?php
-
 /**
  * File containing the ezcPersistentIdentifierGenerator class
  *
