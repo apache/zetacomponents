@@ -24,13 +24,10 @@
  * @copyright Copyright (C) 2005-2010 eZ Systems AS. All rights reserved.
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'PHPUnit/Util/Filter.php';
-
-PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
+PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
 
 /**
- * Abstract base class for all eZ Components test cases.
+ * Abstract base class for all Zeta Components test cases.
  *
  * @package UnitTest
  * @version //autogentag//

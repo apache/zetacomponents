@@ -24,10 +24,7 @@
  * @copyright Copyright (C) 2005-2010 eZ Systems AS. All rights reserved.
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
-
-require_once 'PHPUnit/Util/Filter.php';
-
-PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
+PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
 
 /**
  * This class represents the structure of all the database settings.
