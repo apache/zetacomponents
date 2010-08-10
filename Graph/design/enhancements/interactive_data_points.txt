@@ -1,9 +1,9 @@
 eZ component: Graph: Interactive data points, Design
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Author:   $Author:$
-:Revision: $Rev:$
-:Date:     $Date:$
+:Author:   $Author$
+:Revision: $Rev$
+:Date:     $Date$
 
 Introduction
 ============
