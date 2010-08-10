@@ -12,11 +12,11 @@ framework but merely provides the different parts that can be used. In this
 tutorial we'll use MvcTools to build **HelloMvc**, a classic application that
 greets the visitor in the choosen language. Its sources are available in the
 SVN at:
-http://svn.ez.no/svn/ezcomponents/docs/examples/applications/HelloMvc
+https://svn.apache.org/repos/asf/incubator/zetacomponents/docs/examples/applications/HelloMvc
 
 **TheWire** is a twitter__ like application to share information which is
 architectured with MvcTools and avalaible in SVN as well, at
-http://svn.ez.no/svn/ezcomponents/docs/examples/applications/TheWire/.
+https://svn.apache.org/repos/asf/incubator/zetacomponents/docs/examples/applications/TheWire/.
 
 __ http://twitter.com
 
@@ -332,7 +332,7 @@ don't want your users to see your error messages like this raw.
 We're cloning the original request here to keep all the original request
 parameters (user agent, request time, etc). With this last method, we conclude
 the helloMvcConfiguration class. You can find the whole fine in SVN at
-http://svn.ez.no/svn/ezcomponents/docs/examples/applications/HelloMvc/lib/config.php
+https://svn.apache.org/repos/asf/incubator/zetacomponents/docs/examples/applications/HelloMvc/lib/config.php
 
 There are four other methods defined in the interface. Those methods deal with
 running filters on request, result and response data. We will be using the
@@ -468,7 +468,7 @@ handlers that will render the results from this action method. ::
     }
 
 The whole controller file can be found in SVN as: 
-http://svn.ez.no/svn/ezcomponents/docs/examples/applications/HelloMvc/lib/controllers/hello.php
+https://svn.apache.org/repos/asf/incubator/zetacomponents/docs/examples/applications/HelloMvc/lib/controllers/hello.php
 
 It is also possible to return different results than the above normal type.
 You can do so by setting the $ret->status property to an instance of either

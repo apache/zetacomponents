@@ -657,7 +657,7 @@ The PDF output can be styled using a CSS like language, which assigns styles
 based on the Docbook XML structure. The default styling rules are defined in
 the `default.css`__.
 
-__ http://svn.ez.no/svn/ezcomponents/trunk/Document/src/document/pdf/style/default.css
+__ https://svn.apache.org/repos/asf/incubator/zetacomponents/trunk/Document/src/pcss/style/default.css
 
 The first most relevant part are the general layout options, which can be
 defined for the common article root node in the Docbook XML file. You can set
@@ -888,7 +888,7 @@ PDF`_. Using simplified CSS you assign style rules to Docbook XML elements,
 which are generated into automatic styles in the resulting Open Document. The
 default styling rules (`default.css`__) are the same as for PDF.
 
-__ http://svn.ez.no/svn/ezcomponents/trunk/Document/src/document/pdf/style/default.css
+__ https://svn.apache.org/repos/asf/incubator/zetacomponents/trunk/Document/src/pcss/style/default.css
 
 Applying custom styles can be done as follows:
 

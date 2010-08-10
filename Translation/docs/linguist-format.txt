@@ -128,7 +128,7 @@ Example
 
 A full example of an TS file can be found here__.
 
-__ http://svn.ez.no/svn/ezcomponents/trunk/Translation/tests/files/translations/nl-nl.xml
+__ https://svn.apache.org/repos/asf/incubator/zetacomponents/trunk/Translation/tests/files/translations/nl-nl.xml
 
 
 ..
