@@ -5,7 +5,6 @@
  * 
  * @package PersistentObject
  * @version //autogen//
- * @copyright Copyright (C) 2005-2010 eZ Systems AS. All rights reserved.
  * @author  
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */

@@ -21,7 +21,6 @@
  *
  * @package Graph
  * @version //autogentag//
- * @copyright Copyright (C) 2005-2010 eZ Systems AS. All rights reserved.
  * @author Freddie Witherden
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
