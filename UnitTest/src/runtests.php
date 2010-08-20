@@ -24,17 +24,18 @@
  * @version //autogentag//
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
-require_once 'PHPUnit/Autoload.php';
+
+require_once 'PHPUnit/Runner/Version.php';
+require_once 'PHPUnit/Util/Filter.php';
 
 $version = PHPUnit_Runner_Version::id();
 
-if ( version_compare( $version, '3.5.0' ) == -1 && $version !== '@package_version@' )
+if ( version_compare( $version, '3.4.0' ) == -1 && $version !== '@package_version@' )
 {
-    die( "PHPUnit 3.5.0 (or later) is required to run this test suite.\n" );
+    die( "PHPUnit 3.4.0 (or later) is required to run this test suite.\n" );
 }
 
-require_once 'PHP/CodeCoverage.php';
-PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
+PHPUnit_Util_Filter::addFileToFilter( __FILE__, 'PHPUNIT' );
 
 require_once 'bootstrap.php';
 

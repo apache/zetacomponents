@@ -23,11 +23,13 @@
  * @version //autogentag//
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
-PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
+require_once 'PHPUnit/Util/Filter.php';
+
+PHPUnit_Util_Filter::addFileToFilter( __FILE__, 'PHPUNIT' );
 
 // All errors must be reported
 $currentErrorLevel = error_reporting();
-if ( ! ( $currentErrorLevel == -1 || $currentErrorLevel == ( E_ALL | E_STRICT ) ) )
+if ( $currentErrorLevel != ( E_ALL | E_STRICT ) )
 {
     echo "Your error reporting setting is not E_ALL | E_STRICT, please change\nthis in your php.ini.\n";
     die();
@@ -37,7 +39,7 @@ ini_set( 'include_path', getcwd(). PATH_SEPARATOR . dirname( __FILE__ ) . '/../.
 
 require_once 'Base/src/base.php';
 
-function ezc_autoload( $className )
+function __autoload( $className )
 {
     if ( strpos( $className, '_' ) !== false )
     {
@@ -47,6 +49,4 @@ function ezc_autoload( $className )
     }
     ezcBase::autoload( $className );
 }
-
-spl_autoload_register( 'ezc_autoload' );
 ?>
