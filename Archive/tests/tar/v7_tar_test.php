@@ -1110,6 +1110,31 @@ class ezcArchiveV7TarTest extends ezcArchiveTestCase
         unset( $bf );
     }
 
+    /**
+     * Test for issue ZETACOMP-8: Double extraction causes empty file
+     *
+     * The failure happens only with some tarballs. The easiest way to create
+     * such failing one is to remove some of the nul characters which are
+     * appended to the file's content to continue the block.
+     */
+    public function testDoubleExtraction()
+    {
+        $archive = ezcArchive::open( dirname( dirname( __FILE__ ) ) . "/data/tar_v7_truncated_block.tar" );
+        $dir = $this->getTempDir();
+
+        foreach ( $archive as $entry )
+        {
+            if ( $entry->getPath() === "file1" )
+            {
+                $archive->extractCurrent( $dir );
+                // break intentionally omitted.
+            }
+        }
+
+        $archive->extract( $dir );
+        $this->assertEquals( 13, filesize( "$dir/file1" ) );
+    }
+
     public static function suite()
     {
         return new PHPUnit_Framework_TestSuite( __CLASS__ );

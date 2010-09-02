@@ -206,7 +206,7 @@ class ezcArchiveV7Tar extends ezcArchive
             $newBlock = $this->headerPositions[ $this->fileNumber - 1 ] +  $this->file->getBlocksFromBytes( $this->headers[ $this->fileNumber - 1 ]->fileSize );
 
             // Search for that block.
-            if ( $newBlock != $this->file->key() )
+            if ( $newBlock !== $this->file->key() )
             {
                 $this->file->seek( $newBlock );
             }
@@ -250,7 +250,7 @@ class ezcArchiveV7Tar extends ezcArchive
 
         $requestedBlock = $this->headerPositions[$this->fileNumber];
         $currentBlock = $this->file->key();
-        if ( $currentBlock != $requestedBlock )
+        if ( $currentBlock !== $requestedBlock )
         {
             $this->file->seek( $requestedBlock );
         }
