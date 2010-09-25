@@ -53,6 +53,8 @@
  *    {@link http://dublincore.org/documents/dces/ Specifications}
  *  - Geo ({@link ezcFeedGeoModule}) -
  *    {@link http://www.w3.org/2003/01/geo/ Specifications}
+ *  - GeoRss ({@link ezcFeedGeoRssModule}) -
+ *    {@link http://www.georss.org/georss/ Specifications}
  *  - iTunes ({@link ezcFeedITunesModule}) -
  *    {@link http://www.apple.com/itunes/store/podcaststechspecs.html Specifications}
  *
@@ -973,6 +975,7 @@ class ezcFeed
      *    'CreativeCommons' => 'ezcFeedCreativeCommonsModule',
      *    'DublinCore'      => 'ezcFeedDublinCoreModule',
      *    'Geo'             => 'ezcFeedGeoModule',
+     *    'GeoRss'          => 'ezcFeedGeoRssModule',
      *    'iTunes'          => 'ezcFeedITunesModule'
      * );
      * </code>
@@ -997,6 +1000,7 @@ class ezcFeed
      *    'creativeCommons' => 'CreativeCommons',
      *    'dc'              => 'DublinCore',
      *    'geo'             => 'Geo',
+     *    'georss'          => 'GeoRss',
      *    'itunes'          => 'iTunes'
      * );
      * </code>
@@ -1164,6 +1168,7 @@ class ezcFeed
         self::registerModule( 'CreativeCommons', 'ezcFeedCreativeCommonsModule', 'creativeCommons' );
         self::registerModule( 'DublinCore', 'ezcFeedDublinCoreModule', 'dc' );
         self::registerModule( 'Geo', 'ezcFeedGeoModule', 'geo' );
+        self::registerModule( 'GeoRss', 'ezcFeedGeoRssModule', 'georss' );
         self::registerModule( 'iTunes', 'ezcFeedITunesModule', 'itunes' );
     }
 }

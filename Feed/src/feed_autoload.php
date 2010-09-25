@@ -53,6 +53,7 @@ return array(
     'ezcFeedEntryElement'                        => 'Feed/structs/entry.php',
     'ezcFeedGeneratorElement'                    => 'Feed/structs/generator.php',
     'ezcFeedGeoModule'                           => 'Feed/modules/geo_module.php',
+    'ezcFeedGeoRssModule'                        => 'Feed/modules/georss_module.php',
     'ezcFeedITunesModule'                        => 'Feed/modules/itunes_module.php',
     'ezcFeedIdElement'                           => 'Feed/structs/id.php',
     'ezcFeedImageElement'                        => 'Feed/structs/image.php',

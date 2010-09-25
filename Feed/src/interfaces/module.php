@@ -37,6 +37,8 @@
  *    {@link http://www.apple.com/itunes/store/podcaststechspecs.html Specifications}
  *  - Geo ({@link ezcFeedGeoModule}) -
  *    {@link http://www.w3.org/2003/01/geo/ Specifications}
+ *  - GeoRss ({@link ezcFeedGeoModule}) -
+ *    {@link http://www.georss.org/georss/ Specifications}
  *  - CreativeCommons ({@link ezcFeedCreativeCommonsModule}) -
  *    {@link http://backend.userland.com/creativeCommonsRssModule Specifications}
  *
