@@ -136,14 +136,14 @@ class ezcFeedGeoRssModule extends ezcFeedModule
         switch ( $this->level )
         {
             case 'feed':
-                if ( in_array( $name, array( 'lat', 'long', 'point', 'where' ) ) )
+                if ( in_array( $name, array( 'lat', 'long', 'point', 'where', 'box' ) ) )
                 {
                     return true;
                 }
                 break;
 
             case 'item':
-                if ( in_array( $name, array( 'lat', 'long', 'point', 'where' ) ) )
+                if ( in_array( $name, array( 'lat', 'long', 'point', 'where', 'box' ) ) )
                 {
                     return true;
                 }
@@ -172,6 +172,7 @@ class ezcFeedGeoRssModule extends ezcFeedModule
                 case 'long':
                 case 'point':
                 case 'where':
+                case 'box':
                     $node = new ezcFeedTextElement();
                     break;
             }
@@ -232,6 +233,14 @@ class ezcFeedGeoRssModule extends ezcFeedModule
                     $element->text = $lat;
                     $element = $this->add( 'long' );
                     $element->text = $long;
+                    break;
+                case 'box':
+                    $value = $node->textContent;
+                    list( $lat1, $long1, $lat2, $long2 ) = explode( ' ', $value );
+                    $element = $this->add( 'lat' );
+                    $element->text = ( $lat1 + $lat2 ) / 2;
+                    $element = $this->add( 'long' );
+                    $element->text = ( $long1 + $long2 ) /2;
                     break;
             }
         }
