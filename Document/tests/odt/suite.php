@@ -45,7 +45,7 @@ require_once 'meta_generator_test.php';
 /**
  * This file is not in use, yet, therefore not tested.
  */
-PHPUnit_Util_Filter::addFileToFilter(
+PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist(
     dirname( __FILE__ ) . '/../../src/document/xml/odt/filter/element/html_table.php'
 );
 
