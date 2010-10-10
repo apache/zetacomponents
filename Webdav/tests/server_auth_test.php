@@ -94,20 +94,20 @@ class ezcWebdavServerAuthTest extends ezcTestCase
         static $num = 0;
         $num++;
 
-        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = $input['body'];
+        ezcWebdavTestTransportInjector::$requestBody = $input['body'];
         $_SERVER = array_merge( $this->serverBase, $input['server'] );
 
         $backend = $this->getBackend();
         
         ezcWebdavServer::getInstance()->handle( $backend );
 
-        if ( isset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['WWW-Authenticate'] ) )
+        if ( isset( ezcWebdavTestTransportInjector::$responseHeaders['WWW-Authenticate'] ) )
         {
             // Replace nounce value with standard one, since this should not be predictable
-            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['WWW-Authenticate']['digest'] = preg_replace(
+            ezcWebdavTestTransportInjector::$responseHeaders['WWW-Authenticate']['digest'] = preg_replace(
                 '(nonce="[^"]+")',
                 'nonce="testnonce"',
-                $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['WWW-Authenticate']['digest']
+                ezcWebdavTestTransportInjector::$responseHeaders['WWW-Authenticate']['digest']
             );
         }
         
@@ -123,22 +123,22 @@ class ezcWebdavServerAuthTest extends ezcTestCase
             if ( isset( $output['headers']['ETag'] ) )
             {
                 unset( $output['headers']['ETag'] );
-                unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']['ETag'] );
+                unset( ezcWebdavTestTransportInjector::$responseHeaders['ETag'] );
             }
         }
 
 
         $this->assertEquals(
             $output['status'],
-            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS']
+            ezcWebdavTestTransportInjector::$responseStatus
         );
         $this->assertEquals(
             $output['headers'],
-            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS']
+            ezcWebdavTestTransportInjector::$responseHeaders
         );
         $this->assertEquals(
             $output['body'],
-            $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY']
+            ezcWebdavTestTransportInjector::$responseBody
         );
     }
 

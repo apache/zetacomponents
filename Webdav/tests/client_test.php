@@ -1,6 +1,7 @@
 <?php
 
 require_once 'classes/test_sets.php';
+require_once 'classes/transport_injector.php';
 
 class ezcWebdavClientTest extends ezcTestCase
 {
@@ -159,7 +160,9 @@ class ezcWebdavClientTest extends ezcTestCase
 
     protected function performTestSetRun( array $request )
     {
-        $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] = $request['body'];
+        ezcWebdavTestTransportInjector::reset();
+
+        ezcWebdavTestTransportInjector::$requestBody = $request['body'];
         $_SERVER = $request['server'];
 
         // ini_set( 'xdebug.collect_return', 1 );
@@ -167,15 +170,9 @@ class ezcWebdavClientTest extends ezcTestCase
         $this->server->handle( $this->backend );
         // xdebug_stop_trace();
 
-        $response['body']    = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'];
-        $response['headers'] = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'];
-        $response['status']  = $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'];
-
-        // Reset globals
-        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_BODY'] );
-        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_BODY'] );
-        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_HEADERS'] );
-        unset( $GLOBALS['EZC_WEBDAV_TRANSPORT_TEST_RESPONSE_STATUS'] );
+        $response['status']  = ezcWebdavTestTransportInjector::$responseStatus;
+        $response['headers'] = ezcWebdavTestTransportInjector::$responseHeaders;
+        $response['body']    = ezcWebdavTestTransportInjector::$responseBody;
 
         return $response;
     }
