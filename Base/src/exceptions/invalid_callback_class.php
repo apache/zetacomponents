@@ -19,7 +19,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * @package Configuration
+ * @package Base
  * @version //autogen//
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
@@ -28,7 +28,7 @@
  * Exception that is thrown if an invalid class is passed as callback class for
  * delayed object configuration.
  *
- * @package Configuration
+ * @package Base
  * @version //autogen//
  */
 class ezcBaseInitInvalidCallbackClassException extends ezcBaseException
