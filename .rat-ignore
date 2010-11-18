@@ -3,3 +3,4 @@
 **/design/
 **/docs/
 **/review*
+DatabaseSchema/tests/testfiles/persistent/*
