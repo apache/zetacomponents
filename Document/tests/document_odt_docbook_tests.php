@@ -121,7 +121,7 @@ class ezcDocumentOdtDocbookTests extends ezcTestCase
             dirname( __FILE__ ) . '/files/odt/invalid/s_000_simple.fodt'
         );
 
-        $this->assertType(
+        $this->assertInternalType(
             'array',
             $actRes
         );
