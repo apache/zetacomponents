@@ -32,8 +32,8 @@ class ezcBaseMetaDataPearTest extends ezcTestCase
     public static function testConstruct()
     {
         $r = new ezcBaseMetaData( 'pear' );
-        self::assertType( 'ezcBaseMetaData', $r );
-        self::assertType( 'ezcBaseMetaDataPearReader', self::readAttribute( $r, 'reader' ) );
+        self::assertInstanceOf( 'ezcBaseMetaData', $r );
+        self::assertInstanceOf( 'ezcBaseMetaDataPearReader', self::readAttribute( $r, 'reader' ) );
     }
 
     public static function testGetBundleVersion()

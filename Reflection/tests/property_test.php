@@ -72,7 +72,7 @@ class ezcReflectionPropertyTest extends ezcTestCase
 
     public function testGetType() {
         $type = $this->refProp->getType();
-        self::assertType('ezcReflectionArrayType', $type);
+        self::assertInstanceOf('ezcReflectionArrayType', $type);
         self::assertEquals('integer[]', $type->getTypeName());
         
         self::assertNull( $this->actual['SomeClass']['undocumentedProperty']->getType() );
@@ -80,7 +80,7 @@ class ezcReflectionPropertyTest extends ezcTestCase
 
     public function testGetDeclaringClass() {
         $class = $this->refProp->getDeclaringClass();
-        self::assertType('ezcReflectionClass', $class);
+        self::assertInstanceOf('ezcReflectionClass', $class);
         self::assertEquals('SomeClass', $class->getName());
     }
 

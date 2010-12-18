@@ -6,7 +6,7 @@ class ezcWebdavLockPluginClientTestAssertions009
     {
         $prop = $backend->getProperty( '/collection', 'lockdiscovery' );
 
-        PHPUnit_Framework_Assert::assertType(
+        PHPUnit_Framework_Assert::assertInstanceOf(
             'ezcWebdavLockDiscoveryProperty',
             $prop,
             'Property has incorrect type.'

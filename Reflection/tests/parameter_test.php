@@ -132,25 +132,25 @@ class ezcReflectionParameterTest extends ezcTestCase
 
     public function testGetType() {
         $type = $this->actualParamsOfM1[0]->getType();
-        self::assertType('ezcReflectionType', $type);
+        self::assertInstanceOf('ezcReflectionType', $type);
         self::assertEquals('string', $type->getTypeName());
 
         $type = $this->actualParamsOfM1[1]->getType();
-        self::assertType('ezcReflectionType', $type);
+        self::assertInstanceOf('ezcReflectionType', $type);
         self::assertEquals('ezcReflection', $type->getTypeName());
 
         $type = $this->actualParamsOfM1[2]->getType();
-        self::assertType('ezcReflectionType', $type);
+        self::assertInstanceOf('ezcReflectionType', $type);
         self::assertEquals('ReflectionClass', $type->getTypeName());
 
         // this method has both a type hint and a type annotation
         $type = $this->actualParamsOf_ezcReflection_setReflectionTypeFactory[0]->getType();
-        self::assertType('ezcReflectionType', $type);
+        self::assertInstanceOf('ezcReflectionType', $type);
         self::assertEquals('ezcReflectionTypeFactory', $type->getTypeName());
 
         // testing a param that only has a type hint
         $type = $this->actualParamsOf_functionWithTypeHint[0]->getType();
-        self::assertType('ezcReflectionType', $type);
+        self::assertInstanceOf('ezcReflectionType', $type);
         self::assertEquals('ReflectionClass', $type->getTypeName());
 
         self::assertNull($this->actualParamsOf_TestMethods_m3[0]->getType());
@@ -173,17 +173,17 @@ class ezcReflectionParameterTest extends ezcTestCase
         self::assertEquals('m1', $decFunc->getName());
 
         $decFunc = $this->actual['TestMethods::m3'][0]->getDeclaringFunction();
-        self::assertType('ezcReflectionMethod', $decFunc);
+        self::assertInstanceOf('ezcReflectionMethod', $decFunc);
         self::assertEquals('TestMethods', $decFunc->getDeclaringClass()->getName());
         self::assertEquals('m3', $decFunc->getName());
         
         $decFunc = $this->actual['ezcReflection::setReflectionTypeFactory'][0]->getDeclaringFunction();
-        self::assertType('ezcReflectionMethod', $decFunc);
+        self::assertInstanceOf('ezcReflectionMethod', $decFunc);
         self::assertEquals('ezcReflection', $decFunc->getDeclaringClass()->getName());
         self::assertEquals('setReflectionTypeFactory', $decFunc->getName());
 
         $decFunc = $this->actual['functionWithTypeHint'][0]->getDeclaringFunction();
-        self::assertType('ezcReflectionFunction', $decFunc);
+        self::assertInstanceOf('ezcReflectionFunction', $decFunc);
         self::assertEquals('functionWithTypeHint', $decFunc->getName());
     }
 

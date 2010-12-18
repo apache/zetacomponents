@@ -71,7 +71,7 @@ class ezcReflectionMixedTypeTest extends ezcReflectionAbstractTypeTest
         $this->assertTrue( $types[0]->isScalarType() );
         $this->assertTrue( $types[1]->isArray() );
         $this->assertTrue( $types[1]->isList() );
-        $this->assertType( 'ezcReflectionMixedType', $types[1]->getValueType() );
+        $this->assertInstanceOf( 'ezcReflectionMixedType', $types[1]->getValueType() );
         $this->assertTrue( $types[2]->isObject() );
         $this->assertEquals( 'string',  $types[0]->getTypeName() );
         $this->assertEquals( 'mixed[]', $types[1]->getTypeName() );

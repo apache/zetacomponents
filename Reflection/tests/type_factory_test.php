@@ -48,8 +48,8 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
                                 'string', 'bool', 'boolean', 'void', 'object');
         foreach ($ezcReflectionPrimitiveTypes as $prim) {
         	$type = $this->factory->getType($prim);
-        	self::assertType('ezcReflectionType', $type);
-            self::assertType('ezcReflectionPrimitiveType', $type);
+        	self::assertInstanceOf('ezcReflectionType', $type);
+            self::assertInstanceOf('ezcReflectionPrimitiveType', $type);
         }
     }
 
@@ -61,13 +61,13 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
         $classes = array('ReflectionClass', 'ezcTestClass');
         foreach ($classes as $class) {
         	$type = $this->factory->getType($class);
-        	self::assertType('ezcReflectionType', $type);
-            self::assertType('ezcReflectionObjectType', $type);
-            self::assertType( 'ReflectionClass', $type->getClass() );
+        	self::assertInstanceOf('ezcReflectionType', $type);
+            self::assertInstanceOf('ezcReflectionObjectType', $type);
+            self::assertInstanceOf( 'ReflectionClass', $type->getClass() );
         }
 
 		$type = $this->factory->getType('NoneExistingClass');
-		self::assertType( 'ReflectionClass', $type->getClass() );
+		self::assertInstanceOf( 'ReflectionClass', $type->getClass() );
     }
     
     public function testGetTypeReturnsNullOnEmptyArgument()
@@ -79,10 +79,10 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
     {
         $class = new ReflectionClass( 'stdClass' );
     	$type = $this->factory->getType( $class );
-    	self::assertType('ezcReflectionType', $type);
-    	self::assertType('ezcReflectionObjectType', $type);
+    	self::assertInstanceOf('ezcReflectionType', $type);
+    	self::assertInstanceOf('ezcReflectionObjectType', $type);
     	$actualClass = $type->getClass();
-    	self::assertType( 'ReflectionClass', $actualClass );
+    	self::assertInstanceOf( 'ReflectionClass', $actualClass );
     	self::assertSame( $class, $actualClass );
     }
     
@@ -128,10 +128,10 @@ class ezcReflectionTypeFactoryTest extends ezcTestCase
             $canonicalName = $arrayTypeName;
         }
         $type = $this->factory->getType($arrayTypeName);
-        self::assertType('ezcReflectionType', $type);
-        self::assertType('ezcReflectionArrayType', $type);
-        self::assertType('ezcReflectionType', $type->getKeyType());
-        self::assertType('ezcReflectionType', $type->getValueType());
+        self::assertInstanceOf('ezcReflectionType', $type);
+        self::assertInstanceOf('ezcReflectionArrayType', $type);
+        self::assertInstanceOf('ezcReflectionType', $type->getKeyType());
+        self::assertInstanceOf('ezcReflectionType', $type->getValueType());
         self::assertEquals($canonicalName, $type->getTypeName());
         self::assertEquals($indexTypeName, $type->getKeyType()->getTypeName());
         self::assertEquals($valueTypeName, $type->getValueType()->getTypeName());

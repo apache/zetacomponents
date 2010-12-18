@@ -224,7 +224,7 @@ class ezcDebugTest extends ezcTestCase
 
         $struct = $dbg->generateOutput();
 
-        $this->assertType(
+        $this->assertInstanceOf(
             'ezcDebugStacktraceIterator',
             $struct[0][0]->stackTrace
         );

@@ -135,7 +135,7 @@ class ezcReflectionTest extends ezcTestCase
     }
 
     public function testGetDocCommentParser() {
-        self::assertType( 'ezcReflectionDocCommentParser', ezcReflection::getDocCommentParser() );
+        self::assertInstanceOf( 'ezcReflectionDocCommentParser', ezcReflection::getDocCommentParser() );
     }
 
     public function testSetDocCommentParser() {
@@ -145,7 +145,7 @@ class ezcReflectionTest extends ezcTestCase
     }
 
     public function testGetReflectionTypeFactory() {
-        self::assertType( 'ezcReflectionTypeFactory', ezcReflection::getReflectionTypeFactory() );
+        self::assertInstanceOf( 'ezcReflectionTypeFactory', ezcReflection::getReflectionTypeFactory() );
     }
 
     public function testSetReflectionTypeFactory() {

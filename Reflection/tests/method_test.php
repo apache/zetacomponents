@@ -112,7 +112,7 @@ class ezcReflectionMethodTest extends ezcReflectionFunctionTest
 
     public function testGetReturnType() {
         $type = $this->fctM4->getReturnType();
-        self::assertType('ezcReflectionType', $type);
+        self::assertInstanceOf('ezcReflectionType', $type);
         self::assertEquals('string', $type->getTypeName());
     }
 
@@ -121,7 +121,7 @@ class ezcReflectionMethodTest extends ezcReflectionFunctionTest
 
         $expectedParams = array('name');
         foreach ($params as $param) {
-            self::assertType('ezcReflectionParameter', $param);
+            self::assertInstanceOf('ezcReflectionParameter', $param);
             self::assertContains($param->getName(), $expectedParams);
 
             ReflectionTestHelper::deleteFromArray($param->getName(), $expectedParams);
@@ -341,7 +341,7 @@ class ezcReflectionMethodTest extends ezcReflectionFunctionTest
      */
     public function testGetDeclaringClass( $method, $expectedDeclaringClassName ) {
         $declaringClass = $this->$method->getDeclaringClass();
-        self::assertType( 'ezcReflectionClass', $declaringClass );
+        self::assertInstanceOf( 'ezcReflectionClass', $declaringClass );
         self::assertEquals( $expectedDeclaringClassName, $declaringClass->getName() );
     }
 

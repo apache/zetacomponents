@@ -102,7 +102,7 @@ class ezcSearchHandlerSolrTest extends ezcTestCase
     function testSearchEmptyResults()
     {
         $r = $this->solr->search( 'solr', 'name_s' );
-        self::assertType( 'stdClass', $r );
+        self::assertInstanceOf( 'stdClass', $r );
         self::assertEquals( 0, $r->response->numFound );
         self::assertEquals( 0, $r->response->start );
         self::assertEquals( 0, $r->responseHeader->status );

@@ -67,7 +67,7 @@ class ezcTreeMemoryTest extends ezcTreeTest
         self::assertSame( false, $tree->nodeExists( '3' ) );
 
         $node = $tree->createNode( 1, "Root Node" );
-        self::assertType( 'ezcTreeNode', $node );
+        self::assertInstanceOf( 'ezcTreeNode', $node );
         self::assertSame( '1', $node->id );
         $tree->setRootNode( $node );
         self::assertSame( true, $tree->nodeExists( '1' ) );

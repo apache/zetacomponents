@@ -56,7 +56,7 @@ class ezcDocumentOdtStyleExtractorTest extends ezcTestCase
             $extr
         );
 
-        $this->assertType(
+        $this->assertInstanceOf(
             'DOMXpath',
             $this->readAttribute( $extr, 'xpath' )
         );
@@ -68,7 +68,7 @@ class ezcDocumentOdtStyleExtractorTest extends ezcTestCase
 
         $style = $extr->extractStyle( 'paragraph', 'Text_20_body' );
 
-        $this->assertType(
+        $this->assertInstanceOf(
             'DOMElement',
             $style
         );
@@ -91,7 +91,7 @@ class ezcDocumentOdtStyleExtractorTest extends ezcTestCase
 
         $style = $extr->extractStyle( 'paragraph' );
 
-        $this->assertType(
+        $this->assertInstanceOf(
             'DOMElement',
             $style
         );

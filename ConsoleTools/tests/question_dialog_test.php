@@ -174,10 +174,10 @@ class ezcConsoleQuestionDialogTest extends ezcConsoleDialogTest
         $output = new ezcConsoleOutput();
         $dialog  = ezcConsoleQuestionDialog::YesNoQuestion( $output, "Is Jean-Luc a borg?", "y" );
 
-        $this->assertType( "ezcConsoleQuestionDialogOptions", $dialog->options );
+        $this->assertInstanceOf( "ezcConsoleQuestionDialogOptions", $dialog->options );
         $this->assertEquals( "Is Jean-Luc a borg?", $dialog->options->text );
         $this->assertTrue( $dialog->options->showResults );
-        $this->assertType( "ezcConsoleQuestionDialogCollectionValidator", $dialog->options->validator );
+        $this->assertInstanceOf( "ezcConsoleQuestionDialogCollectionValidator", $dialog->options->validator );
         $this->assertEquals( array( "y", "n" ), $dialog->options->validator->collection );
         $this->assertEquals( "y", $dialog->options->validator->default );
         $this->assertEquals( ezcConsoleQuestionDialogCollectionValidator::CONVERT_LOWER, $dialog->options->validator->conversion );

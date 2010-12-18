@@ -80,18 +80,18 @@ class ezcReflectionClassTest extends ezcTestCase
 
     public function testGetMethod() {
         $method = $this->class->getMethod('helloWorld');
-        self::assertType('ezcReflectionMethod', $method);
+        self::assertInstanceOf('ezcReflectionMethod', $method);
         self::assertEquals('helloWorld', $method->getName());
     }
 
     public function testGetConstructor() {
         $method = $this->class->getConstructor();
-        self::assertType('ezcReflectionMethod', $method);
+        self::assertInstanceOf('ezcReflectionMethod', $method);
         self::assertEquals('__construct', $method->getName());
         self::assertEquals('SomeClass', $method->getDeclaringClass()->getName());
         
         $method = $this->classReflectionFunction->getConstructor();
-        self::assertType('ezcReflectionMethod', $method);
+        self::assertInstanceOf('ezcReflectionMethod', $method);
         self::assertEquals('__construct', $method->getName());
         self::assertEquals('ReflectionFunction', $method->getDeclaringClass()->getName());
     }
@@ -103,7 +103,7 @@ class ezcReflectionClassTest extends ezcTestCase
 	public function testGetInterfaces() {
         $ifaces = $this->class->getInterfaces();
 
-        self::assertType('ezcReflectionClass', $ifaces[0]);
+        self::assertInstanceOf('ezcReflectionClass', $ifaces[0]);
         self::assertEquals('IInterface', $ifaces[0]->getName());
         self::assertEquals(1, count($ifaces));
     }
@@ -117,7 +117,7 @@ class ezcReflectionClassTest extends ezcTestCase
         $expectedMethods = array('__construct', 'helloWorld', 'doSomeMetaProgramming');
         self::assertEquals(count($expectedMethods), count($methods));
         foreach ($methods as $method) {
-            self::assertType('ezcReflectionMethod', $method);
+            self::assertInstanceOf('ezcReflectionMethod', $method);
             self::assertContains($method->getName(), $expectedMethods);
 
             ReflectionTestHelper::deleteFromArray($method->getName(), $expectedMethods);
@@ -128,7 +128,7 @@ class ezcReflectionClassTest extends ezcTestCase
     public function testGetParentClass() {
         $parent = $this->class->getParentClass();
 
-        self::assertType('ezcReflectionClass', $parent);
+        self::assertInstanceOf('ezcReflectionClass', $parent);
         self::assertEquals('BaseClass', $parent->getName());
     }
 
@@ -139,7 +139,7 @@ class ezcReflectionClassTest extends ezcTestCase
     public function testGetProperty() {
         $prop = $this->class->getProperty('fields');
 
-        self::assertType('ezcReflectionProperty', $prop);
+        self::assertInstanceOf('ezcReflectionProperty', $prop);
         self::assertEquals('fields', $prop->getName());
 
         try {
@@ -157,7 +157,7 @@ class ezcReflectionClassTest extends ezcTestCase
         $expected = array('prop1', 'prop2', 'prop3');
 
         foreach ($properties as $prop) {
-            self::assertType('ezcReflectionProperty', $prop);
+            self::assertInstanceOf('ezcReflectionProperty', $prop);
             self::assertContains($prop->getName(), $expected);
 
             ReflectionTestHelper::deleteFromArray($prop->getName(), $expected);
@@ -200,14 +200,14 @@ class ezcReflectionClassTest extends ezcTestCase
         self::assertTrue( is_array( $annotations ) );
         self::assertEquals( 1, count( $annotations ) );
         foreach ( $annotations as $annotation ) {
-            $this->assertType( 'ezcReflectionAnnotation', $annotation );
+            $this->assertInstanceOf( 'ezcReflectionAnnotation', $annotation );
             $this->assertContains( $annotation->getName(), 'licence' );
         }
     }
 
     public function testGetExtension() {
         $ext = $this->classReflectionFunction->getExtension();
-        self::assertType('ezcReflectionExtension', $ext);
+        self::assertInstanceOf('ezcReflectionExtension', $ext);
         self::assertEquals('Reflection', $ext->getName());
 
         $ext = $this->class->getExtension();

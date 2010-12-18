@@ -99,7 +99,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
         $handlers = $this->readAttribute( $converter, "handlers" );
         $settings = $this->readAttribute( $converter, "settings" );
 
-        $this->assertType(
+        $this->assertInstanceOf(
             "ezcImageGdHandler",
             $handlers["GD"],
             "Handler <GD> is not an instance of ezcImageGdHandler."
@@ -207,7 +207,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
     public function testCreateTransformation()
     {
         $transformation = $this->converter->createTransformation( "thumbnail", array(), array() );
-        $this->assertType(
+        $this->assertInstanceOf(
             "ezcImageTransformation",
             $transformation,
             "Converter does not return created transformation."
@@ -458,7 +458,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
 
     public function testGetHandlerSuccessNoFilterNoInNoOut()
     {
-        $this->assertType(
+        $this->assertInstanceOf(
             "ezcImageHandler",
             $this->converter->getHandler(),
             "Returned object is not an ezcImageHandler."
@@ -467,7 +467,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
 
     public function testGetHandlerSuccessFilterNoInNoOut()
     {
-        $this->assertType(
+        $this->assertInstanceOf(
             "ezcImageHandler",
             $this->converter->getHandler( "scale" ),
             "Returned object is not an ezcImageHandler."
@@ -476,7 +476,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
 
     public function testGetHandlerSuccessNoFilterInNoOut()
     {
-        $this->assertType(
+        $this->assertInstanceOf(
             "ezcImageHandler",
             $this->converter->getHandler( null, "image/jpeg" ),
             "Returned object is not an ezcImageHandler."
@@ -485,7 +485,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
 
     public function testGetHandlerSuccessNoFilterNoInOut()
     {
-        $this->assertType(
+        $this->assertInstanceOf(
             "ezcImageHandler",
             $this->converter->getHandler( null, null, "image/jpeg" ),
             "Returned object is not an ezcImageHandler."
@@ -494,7 +494,7 @@ class ezcImageConversionConverterTest extends ezcImageConversionTestCase
 
     public function testGetHandlerSuccessFilterInOut()
     {
-        $this->assertType(
+        $this->assertInstanceOf(
             "ezcImageHandler",
             $this->converter->getHandler( "scale", "image/jpeg", "image/jpeg" ),
             "Returned object is not an ezcImageHandler."

@@ -53,7 +53,7 @@ class ezcConsoleDialogOptionsTest extends ezcTestCase
                 "format"            => "test",
             )
         );
-        $this->assertType( "ezcConsoleQuestionDialogCollectionValidator", $opts->validator );
+        $this->assertInstanceOf( "ezcConsoleQuestionDialogCollectionValidator", $opts->validator );
         $this->assertEquals( "test", $opts->format );
     }
 
@@ -78,7 +78,7 @@ class ezcConsoleDialogOptionsTest extends ezcTestCase
         $opts->validator   = new ezcConsoleQuestionDialogCollectionValidator( array( "a", "b" ) );
         $opts->format      = "test";
         
-        $this->assertType( "ezcConsoleQuestionDialogCollectionValidator", $opts->validator );
+        $this->assertInstanceOf( "ezcConsoleQuestionDialogCollectionValidator", $opts->validator );
         $this->assertEquals( "test", $opts->format );
     }
 

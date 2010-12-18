@@ -396,7 +396,7 @@ class ezcCacheStorageMemcachePlainTest extends ezcCacheStorageTest
         $storage->reset();
 
         $this->assertTrue( isset( $storage->options ) );
-        $this->assertType(
+        $this->assertInstanceOf(
             'ezcCacheStorageMemcacheOptions',
             $storage->options
         );

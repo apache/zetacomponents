@@ -41,7 +41,7 @@ abstract class ezcTreeTest extends ezcTestCase
         $tree = $this->setUpTestTree();
 
         $node = $tree->getRootNode();
-        self::assertType( 'ezcTreeNode', $node );
+        self::assertInstanceOf( 'ezcTreeNode', $node );
         self::assertSame( '1', $node->id );
         self::assertSame( 'Node 1', $node->data );
     }
@@ -60,12 +60,12 @@ abstract class ezcTreeTest extends ezcTestCase
         self::assertSame( true, $tree->nodeExists( '1' ) );
 
         $node8 = $tree->fetchNodeById( 8 ); // returns 8
-        self::assertType( 'ezcTreeNode', $node8 );
+        self::assertInstanceOf( 'ezcTreeNode', $node8 );
         self::assertSame( '8', $node8->id );
         self::assertSame( 'Node 8', $node8->data );
 
         $node3 = $tree->fetchNodeById( '3' ); // returns 3
-        self::assertType( 'ezcTreeNode', $node3 );
+        self::assertInstanceOf( 'ezcTreeNode', $node3 );
         self::assertSame( '3', $node3->id );
         self::assertSame( 'Node 3', $node3->data );
     }
@@ -518,7 +518,7 @@ abstract class ezcTreeTest extends ezcTestCase
         $tree = $this->setUpTestTree();
 
         $node = $tree->fetchParent( '3' );
-        self::assertType( 'ezcTreeNode', $node );
+        self::assertInstanceOf( 'ezcTreeNode', $node );
         self::assertSame( '1', $node->id );
         self::assertSame( 'Node 1', $node->data );
 
@@ -533,7 +533,7 @@ abstract class ezcTreeTest extends ezcTestCase
     {
         $tree = $this->setUpTestTree();
         $node = $tree->fetchNodeById( '3' )->fetchParent();
-        self::assertType( 'ezcTreeNode', $node );
+        self::assertInstanceOf( 'ezcTreeNode', $node );
         self::assertSame( '1', $node->id );
         self::assertSame( 'Node 1', $node->data );
 
@@ -965,7 +965,7 @@ abstract class ezcTreeTest extends ezcTestCase
         reset( $nodes );
         foreach( $expected as $key )
         {
-            self::assertType( 'ezcTreeNode', current( $nodes ) );
+            self::assertInstanceOf( 'ezcTreeNode', current( $nodes ) );
             self::assertSame( current( $nodes )->id, $key );
             next( $nodes );
         }
@@ -998,7 +998,7 @@ abstract class ezcTreeTest extends ezcTestCase
         reset( $nodes );
         foreach( $expected as $key )
         {
-            self::assertType( 'ezcTreeNode', current( $nodes ) );
+            self::assertInstanceOf( 'ezcTreeNode', current( $nodes ) );
             self::assertSame( current( $nodes )->id, $key );
             next( $nodes );
         }

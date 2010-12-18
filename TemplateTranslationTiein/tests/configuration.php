@@ -103,7 +103,7 @@ class ezcTemplateTranslationConfigurationTest extends ezcTestCase
         $t = ezcTemplateTranslationConfiguration::getInstance();
         $t->manager = null;
         $t->manager = new ezcTranslationManager( new ezcTranslationTsBackend( '.' ) );
-        self::assertType( 'ezcTranslationManager', $t->manager );
+        self::assertInstanceOf( 'ezcTranslationManager', $t->manager );
     }
 
     public function testGetManagerException()
@@ -130,7 +130,7 @@ class ezcTemplateTranslationConfigurationTest extends ezcTestCase
         self::assertEquals( true, isset( $t->locale ) );
 
         $t->manager = new ezcTranslationManager( new ezcTranslationTsBackend( '.' ) );
-        self::assertType( 'ezcTranslationManager', $t->manager );
+        self::assertInstanceOf( 'ezcTranslationManager', $t->manager );
         self::assertEquals( true, isset( $t->manager ) );
     }
 

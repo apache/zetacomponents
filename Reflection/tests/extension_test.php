@@ -56,7 +56,7 @@ class ezcReflectionExtensionTest extends ezcTestCase
     public function testGetFunctions() {
         $functs = $this->extRef->getFunctions();
         foreach ($functs as $func) {
-            self::assertType('ezcReflectionFunction', $func);
+            self::assertInstanceOf('ezcReflectionFunction', $func);
         }
         self::assertEquals(0, count($functs));
     }
@@ -65,7 +65,7 @@ class ezcReflectionExtensionTest extends ezcTestCase
         $classes = $this->extRef->getClasses();
 
         foreach ($classes as $class) {
-            self::assertType('ezcReflectionClass', $class);
+            self::assertInstanceOf('ezcReflectionClass', $class);
         }
     }
 

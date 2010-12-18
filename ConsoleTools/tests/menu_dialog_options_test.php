@@ -44,7 +44,7 @@ class ezcConsoleMenuDialogOptionsTest extends ezcTestCase
         $this->assertEquals( "Please choose an item.", $opts->text );
         $this->assertEquals( "%3s) %s\n", $opts->formatString );
         $this->assertEquals( "Select: ", $opts->selectText );
-        $this->assertType( "ezcConsoleMenuDialogDefaultValidator", $opts->validator );
+        $this->assertInstanceOf( "ezcConsoleMenuDialogDefaultValidator", $opts->validator );
         $this->assertEquals( "default", $opts->format );
     }
 
@@ -67,7 +67,7 @@ class ezcConsoleMenuDialogOptionsTest extends ezcTestCase
         );
         $this->assertEquals( "Please select a fitting mode:\n", $opts->text );
         $this->assertEquals( "%10s] %s\n", $opts->formatString );
-        $this->assertType( "ezcConsoleMenuDialogDefaultValidator", $opts->validator );
+        $this->assertInstanceOf( "ezcConsoleMenuDialogDefaultValidator", $opts->validator );
         $this->assertEquals( $menuElements, $opts->validator->elements );
         $this->assertEquals( "Select a mode: ", $opts->selectText );
         $this->assertEquals( "test", $opts->format );
@@ -103,7 +103,7 @@ class ezcConsoleMenuDialogOptionsTest extends ezcTestCase
         
         $this->assertEquals( "Please select a fitting mode:\n", $opts->text );
         $this->assertEquals( "%10s] %s\n", $opts->formatString );
-        $this->assertType( "ezcConsoleMenuDialogDefaultValidator", $opts->validator );
+        $this->assertInstanceOf( "ezcConsoleMenuDialogDefaultValidator", $opts->validator );
         $this->assertEquals( $menuElements, $opts->validator->elements );
         $this->assertEquals( "Select a mode: ", $opts->selectText );
         $this->assertEquals( "test", $opts->format );

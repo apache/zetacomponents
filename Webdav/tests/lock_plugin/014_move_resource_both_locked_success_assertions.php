@@ -17,7 +17,7 @@ class ezcWebdavLockPluginClientTestAssertions014
             $prop,
             'Lock discovery property removed from destination parent.'
         );
-        PHPUnit_Framework_Assert::assertType(
+        PHPUnit_Framework_Assert::assertInstanceOf(
             'ezcWebdavLockDiscoveryProperty',
             $prop
         );
@@ -45,7 +45,7 @@ class ezcWebdavLockPluginClientTestAssertions014
             $prop,
             'Lock discovery property not available on destination.'
         );
-        PHPUnit_Framework_Assert::assertType(
+        PHPUnit_Framework_Assert::assertInstanceOf(
             'ezcWebdavLockDiscoveryProperty',
             $prop
         );

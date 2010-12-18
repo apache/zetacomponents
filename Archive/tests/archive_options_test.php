@@ -64,7 +64,7 @@ class ezcArchiveOptionsTest extends ezcTestCase
         self::assertNull( $options->extractCallback );
 
         $options->extractCallback = new testExtractCallback;
-        self::assertType( 'ezcArchiveCallback', $options->extractCallback );
+        self::assertInstanceOf( 'ezcArchiveCallback', $options->extractCallback );
     }
 
     public function testCallbackWrong()

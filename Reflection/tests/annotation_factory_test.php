@@ -30,13 +30,13 @@ class ezcReflectionAnnotationFactoryTest extends ezcTestCase
     public function testCreateAnnotation() {
         $param  = ezcReflectionAnnotationFactory::createAnnotation('param', array('param', 'string', 'param'));
 
-        self::assertType('ezcReflectionAnnotationParam', $param);
+        self::assertInstanceOf('ezcReflectionAnnotationParam', $param);
 
         $var    = ezcReflectionAnnotationFactory::createAnnotation('var', array('var', 'string'));
-        self::assertType('ezcReflectionAnnotationVar', $var);
+        self::assertInstanceOf('ezcReflectionAnnotationVar', $var);
 
         $return = ezcReflectionAnnotationFactory::createAnnotation('return', array('return', 'string', 'hello', 'world'));
-        self::assertType('ezcReflectionAnnotationReturn', $return);
+        self::assertInstanceOf('ezcReflectionAnnotationReturn', $return);
     }
 
     public static function suite()

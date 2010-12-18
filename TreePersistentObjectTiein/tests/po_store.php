@@ -165,7 +165,7 @@ class ezcTreePersistentObjectStore extends ezcTestCase
 
         $entry = new FileEntry( ':root:', FileEntry::ROOT, 60639255 );
         $node = $tree->createNode( 1, $entry );
-        self::assertType( 'ezcTreeNode', $node );
+        self::assertInstanceOf( 'ezcTreeNode', $node );
         self::assertSame( '1', $node->id );
         $tree->setRootNode( $node );
         self::assertSame( true, $tree->nodeExists( '1' ) );

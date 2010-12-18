@@ -90,7 +90,7 @@ class ezcReflectionFunctionTest extends ezcTestCase
         self::assertTrue( is_array( $annotations ) );
         self::assertEquals( 3, count( $annotations ) );
         foreach ( $annotations as $annotation ) {
-            $this->assertType( 'ezcReflectionAnnotation', $annotation );
+            $this->assertInstanceOf( 'ezcReflectionAnnotation', $annotation );
             $this->assertContains( $annotation->getName(), $annotationName );
         }
     }
@@ -167,7 +167,7 @@ class ezcReflectionFunctionTest extends ezcTestCase
     public function testGetReturnType() {
         $func = new ezcReflectionFunction('m1');
         $type = $func->getReturnType();
-        self::assertType('ezcReflectionType', $type);
+        self::assertInstanceOf('ezcReflectionType', $type);
         self::assertEquals('string', $type->getTypeName());
 
         $func = new ezcReflectionFunction('m4');

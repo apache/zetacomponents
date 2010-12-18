@@ -100,7 +100,7 @@ abstract class ezcDbTreeTest extends ezcTreeTest
         self::assertSame( false, $tree->nodeExists( '3' ) );
 
         $node = $tree->createNode( 1, "Root Node" );
-        self::assertType( 'ezcTreeNode', $node );
+        self::assertInstanceOf( 'ezcTreeNode', $node );
         self::assertSame( '1', $node->id );
         $tree->setRootNode( $node );
         self::assertSame( true, $tree->nodeExists( '1' ) );
@@ -241,7 +241,7 @@ abstract class ezcDbTreeTest extends ezcTreeTest
         $tree = $this->setUpTestTree( 'data', null );
 
         $node8 = $tree->fetchNodeById( 8 ); // returns 8
-        self::assertType( 'ezcTreeNode', $node8 );
+        self::assertInstanceOf( 'ezcTreeNode', $node8 );
         self::assertSame( '8', $node8->id );
         self::assertSame( array( 'data' => 'Node 8' ), $node8->data );
     }

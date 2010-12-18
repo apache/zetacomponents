@@ -114,7 +114,7 @@ class ezcPersistentSessionLoadTest extends ezcPersistentSessionTest
             $arr[4]
         );
 
-        $this->assertType(
+        $this->assertInstanceOf(
             'DateTime',
             $arr[4]->integer
         );

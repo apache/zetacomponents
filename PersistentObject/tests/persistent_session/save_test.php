@@ -132,7 +132,7 @@ class ezcPersistentSessionSaveTest extends ezcPersistentSessionTest
         );
         $this->assertTrue( isset( $arr[5] ) );
 
-        $this->assertType(
+        $this->assertInstanceOf(
             'DateTime',
             $arr[5]->integer
         );
@@ -203,7 +203,7 @@ class ezcPersistentSessionSaveTest extends ezcPersistentSessionTest
         );
         $this->assertTrue( isset( $arr[5] ) );
         
-        $this->assertType(
+        $this->assertInstanceOf(
             'DateTime',
             $arr[5]->integer
         );
@@ -327,7 +327,7 @@ class ezcPersistentSessionSaveTest extends ezcPersistentSessionTest
         );
         $this->assertTrue( isset( $arr[5] ) );
 
-        $this->assertType(
+        $this->assertInstanceOf(
             'DateTime',
             $arr[5]->integer
         );

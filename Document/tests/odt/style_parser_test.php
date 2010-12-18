@@ -65,7 +65,7 @@ class ezcDocumentOdtStyleParserTest extends ezcTestCase
 
         $style = $this->parser->parseStyle( $dom, $family, $name );
 
-        $this->assertType(
+        $this->assertInstanceOf(
             'ezcDocumentOdtStyle',
             $style
         );
@@ -112,7 +112,7 @@ class ezcDocumentOdtStyleParserTest extends ezcTestCase
             10,
             count( $style->listLevels )
         );
-        $this->assertType(
+        $this->assertInstanceOf(
             'ezcDocumentOdtListLevelStyleNumber',
             $style->listLevels[1]
         );
@@ -139,7 +139,7 @@ class ezcDocumentOdtStyleParserTest extends ezcTestCase
             10,
             count( $style->listLevels )
         );
-        $this->assertType(
+        $this->assertInstanceOf(
             'ezcDocumentOdtListLevelStyleBullet',
             $style->listLevels[1]
         );

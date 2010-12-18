@@ -51,7 +51,7 @@ class ReflectionTestHelper {
      */
     static public function expectedAnnotations($expectedAnnotations, $annotations, $test) {
         foreach ($annotations as $annotation) {
-            $test->assertType('ezcReflectionAnnotation', $annotation);
+            $test->assertInstanceOf('ezcReflectionAnnotation', $annotation);
             $test->assertContains($annotation->getName(), $expectedAnnotations);
 
             self::deleteFromArray($annotation->getName(), $expectedAnnotations);
@@ -69,7 +69,7 @@ class ReflectionTestHelper {
      */
     static public function expectedParams($expectedParams, $params, $test) {
         foreach ($params as $param) {
-            $test->assertType('ezcReflectionParameter', $param);
+            $test->assertInstanceOf('ezcReflectionParameter', $param);
             $test->assertContains($param->getName(), $expectedParams);
 
             self::deleteFromArray($param->getName(), $expectedParams);

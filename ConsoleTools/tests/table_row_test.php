@@ -375,9 +375,9 @@ class ezcConsoleTableRowTest extends ezcTestCase
     public function testOffsetGetSuccess()
     {
         $row = new ezcConsoleTableRow( new ezcConsoleTableCell(), new ezcConsoleTableCell(), new ezcConsoleTableCell() );
-        $this->assertType( "ezcConsoleTableCell", $row[0] );
-        $this->assertType( "ezcConsoleTableCell", $row[1] );
-        $this->assertType( "ezcConsoleTableCell", $row[2] );
+        $this->assertInstanceOf( "ezcConsoleTableCell", $row[0] );
+        $this->assertInstanceOf( "ezcConsoleTableCell", $row[1] );
+        $this->assertInstanceOf( "ezcConsoleTableCell", $row[2] );
     }
     
     public function testOffsetGetFailure()

@@ -14,7 +14,7 @@ class ezcWebdavLockPluginClientTestAssertions021
             $prop,
             'Lock discovery property removed from source.'
         );
-        PHPUnit_Framework_Assert::assertType(
+        PHPUnit_Framework_Assert::assertInstanceOf(
             'ezcWebdavLockDiscoveryProperty',
             $prop
         );

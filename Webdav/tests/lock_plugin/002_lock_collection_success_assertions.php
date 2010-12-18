@@ -9,7 +9,7 @@ class ezcWebdavLockPluginClientTestAssertions002
             $prop,
             'Lock discovery property not set.'
         );
-        PHPUnit_Framework_Assert::assertType(
+        PHPUnit_Framework_Assert::assertInstanceOf(
             'ezcWebdavLockDiscoveryProperty',
             $prop,
             'Lock discovery property has incorrect type.'
@@ -33,7 +33,7 @@ class ezcWebdavLockPluginClientTestAssertions002
             $prop,
             'Lock discovery property not set.'
         );
-        PHPUnit_Framework_Assert::assertType(
+        PHPUnit_Framework_Assert::assertInstanceOf(
             'ezcWebdavLockDiscoveryProperty',
             $prop,
             'Lock discovery property has incorrect type.'

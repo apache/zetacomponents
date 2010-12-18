@@ -694,7 +694,7 @@ class ezcWebdavSimpleBackendTest extends ezcTestCase
         $fakeRes = $backend->propFind( $req );
 
         // Ensure no error occurred
-        $this->assertType(
+        $this->assertInstanceOf(
             'ezcWebdavMultistatusResponse',
             $fakeRes,
             'Generation of expected response failed.'
