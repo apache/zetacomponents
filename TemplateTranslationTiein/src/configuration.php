@@ -147,8 +147,6 @@ class ezcTemplateTranslationConfiguration
             default:
                 return false;
         }
-        // if there is no default case before:
-        return parent::__isset( $name );
     }
 }
 ?>
