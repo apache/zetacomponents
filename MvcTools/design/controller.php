@@ -54,12 +54,12 @@ interface ezcMvcController
      * Should be called at the start of the createResult() method to run
      * the request filters.
      */
-    protected function runRequestFilters();
+    public function runRequestFilters();
 
     /**
      * Should be called at the end of the createResult() method to run
      * the result filters.
      */
-    protected function runResultFilters();
+    public function runResultFilters();
 }
 ?>

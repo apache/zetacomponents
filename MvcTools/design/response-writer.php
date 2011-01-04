@@ -19,6 +19,6 @@ interface ezcMvcResponseWriter
      * protocol-dependent headers from the raw headers in the response object,
      * but before it is rendered for final output.
      */
-    protected function runResponseFilters();
+    public function runResponseFilters();
 }
 ?>
