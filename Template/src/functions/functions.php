@@ -300,7 +300,7 @@ class ezcTemplateFunctions
         $i = 0;
         foreach ( $functionDefinition[ $index ] as $p )
         {
-            if ( self::isOptional( $p ) && $realParameters < $definedParameters)
+            if ( self::isOptional( $p ) && $realParameters < $i )
             {
                 // We should skip this parameter.
                 $parameterMap[$p] = null;

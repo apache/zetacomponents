@@ -189,7 +189,7 @@ class ezcTemplateArrayFunctions extends ezcTemplateFunctions
 
                if ( self::countParameters( $parameters ) == 2 )
                {
-                    return array( ezcTemplateAstNode::TYPE_ARRAY, array( "[%array]", "%length", "%pad" ), 
+                    return array( ezcTemplateAstNode::TYPE_ARRAY, array( "%length", "%pad" ), 
                         self::functionCall( "array_pad", array( self::functionCall( "array", array() ), "%length", "%pad" ) ) );
                }
                else
