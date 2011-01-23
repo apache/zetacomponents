@@ -38,6 +38,16 @@ class ezcTemplateLocaleTest extends ezcTestCase
 
     protected function setUp()
     {
+
+        try
+        {
+            $this->setLocale( LC_ALL, 'de_DE', 'de_DE.UTF-8', 'deu', 'german' );
+        }
+        catch ( PHPUnit_Framework_Exception $e )
+        {
+            $this->markTestSkipped( 'System does not support setting locale to de_DE.UTF-8.' );
+        }
+
         $this->basePath = $this->createTempDir( "ezcTemplate_" );
         $this->templatePath = $this->basePath . "/templates";
         $this->compilePath = $this->basePath . "/compiled";
