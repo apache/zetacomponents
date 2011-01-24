@@ -58,13 +58,15 @@ class ezcTemplateTest extends ezcTestCase
         mkdir ( $this->templatePath );
         mkdir ( $this->compilePath );
 
-        $config = ezcTemplateConfiguration::getInstance();
+        $config = new ezcTemplateConfiguration();
         $config->templatePath = $this->templatePath;
         $config->compilePath = $this->compilePath;
+        ezcTemplateConfiguration::setInstance( $config );
 
-        $config2 = ezcTemplateConfiguration::getInstance("templates");
+        $config2 = new ezcTemplateConfiguration();
         $config2->templatePath = realpath( dirname( __FILE__ ) ) . '/' . 'templates';
         $config2->compilePath = $this->compilePath;
+        ezcTemplateConfiguration::setInstance( $config2, 'templates' );
     }
 
     protected function tearDown()

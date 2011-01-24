@@ -311,6 +311,19 @@ class ezcTemplateConfiguration
     }
 
     /**
+     * Sets and replaces the unique configuration instance named $name.
+     * 
+     * @param ezcTemplateConfiguration $config 
+     * @param string $name 
+     * @return void
+     * @access private
+     */
+    public static function setInstance( ezcTemplateConfiguration $config, $name = "default" )
+    {
+        self::$instanceList[$name] = $config;
+    }
+
+    /**
      * Adds custom tags or functions to the customBlock or customFunction
      * property and indirectly adds the custom extension to the template
      * language. 
