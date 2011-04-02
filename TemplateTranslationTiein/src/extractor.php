@@ -189,6 +189,22 @@ class ezcTemplateTranslationExtractor
             )
         );
 
+        $this->input->registerOption(
+            new ezcConsoleOption(
+                "e",         // short
+                "extension", // long
+                ezcConsoleInput::TYPE_STRING,
+                'ezt',       // default
+                false,       // multiple
+                'Specifies the file extension for templates',
+                'Specifies the file extension to be used when searching for templates, default (ezt)',
+                array(),     // dependencies
+                array(),     // exclusions
+                true,        // arguments
+                false        // mandatory
+            )
+        );
+
         $this->input->argumentDefinition = new ezcConsoleArguments();
 
         $this->input->argumentDefinition[0] = new ezcConsoleArgument( "translation dir" );
@@ -254,7 +270,8 @@ class ezcTemplateTranslationExtractor
         $usedContexts = array();
 
         // find the .ezt files and loop over them.
-        $it = ezcBaseFile::findRecursive( $templatePath, array( '@\.ezt$@' ) );
+        $fileExtension = $this->input->getOption( "extension" )->value;
+        $it = ezcBaseFile::findRecursive( $templatePath, array( "@\.${fileExtension}$@" ) );
         foreach ( $it as $item )
         {
             $pathname = $this->unifyFilepath( realpath( $item ), $templatePath );

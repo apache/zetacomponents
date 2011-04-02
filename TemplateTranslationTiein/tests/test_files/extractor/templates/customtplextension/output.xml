@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TS>
+  <context>
+    <name>admin/forget_password</name>
+    <message>
+      <source>String to translate</source>
+      <translation type="unfinished">String to translate</translation>
+      <location filename="test.tpl" line="2"/>
+    </message>
+  </context>
+</TS>
