@@ -141,6 +141,22 @@ class ezcBaseOptionsTest extends ezcTestCase
             $this->assertEquals( "The value 'wrong value' that you were trying to assign to setting 'preload' is invalid. Allowed values are: bool.", $e->getMessage() );
         }
     }
+
+    public function testIterator()
+    {
+        $options = new ezcBaseTestOptions();
+
+        $expectedArray = array( "foo" => "bar", "baz" => "blah" );
+
+        $resultArray = array();
+
+        foreach( $options as $key => $option )
+        {
+            $resultArray[$key] = $option;
+        }
+
+        $this->assertEquals( $expectedArray, $resultArray );
+    }
 }
 
 ?>

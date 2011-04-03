@@ -1,7 +1,7 @@
 <?php
 class ezcBaseTestOptions extends ezcBaseOptions
 {
-    protected $properties = array( "foo" => "bar" );
+    protected $properties = array( "foo" => "bar", "baz" => "blah" );
 
     public function __set( $propertyName, $propertyValue )
     {
