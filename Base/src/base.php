@@ -243,10 +243,10 @@ class ezcBase
     }
 
     /**
-     * Figures out the base path of the eZ Components installation.
+     * Figures out the base path of the Zeta Components installation.
      *
      * It stores the path that it finds in a static member variable. The path
-     * depends on the installation method of the eZ Components. The SVN version
+     * depends on the installation method of the Zeta Components. The SVN version
      * has a different path than the PEAR installed version.
      */
     protected static function setPackageDir()
@@ -604,7 +604,7 @@ class ezcBase
     }
 
     /**
-     * Returns the base path of the eZ Components installation
+     * Returns the base path of the Zeta Components installation
      *
      * This method returns the base path, including a trailing directory
      * separator.
