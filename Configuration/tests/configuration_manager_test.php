@@ -423,6 +423,19 @@ class ezcConfigurationManagerTest extends ezcTestCase
         $this->assertEquals( "l'été", $setting );
     }
 
+    // test for bug #ZETACOMP-83
+    public function testGetGroupNames()
+    {
+        $config = ezcConfigurationManager::getInstance();
+        $config->init( 'ezcConfigurationIniReader', 'Configuration/tests/files' );
+
+        $expectedGroups = array( 'NotTheOnlyGroup', 'TheSecond' );
+
+        $this->assertEquals(
+            $expectedGroups, $config->getGroupNames( 'two-groups' )
+        );
+    }
+
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( 'ezcConfigurationManagerTest' );

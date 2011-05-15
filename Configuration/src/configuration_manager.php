@@ -557,5 +557,22 @@ class ezcConfigurationManager
         $reader = $this->fetchReader( $name );
         return $reader->configExists();
     }
+
+    /**
+     * Returns the names of all the groups as an array
+     *
+     * @throws ezcConfigurationUnknownConfigException if the configuration
+     *         $name does not exist.
+     * @throws ezcConfigurationManagerNotInitializedException
+     *         if the manager has not been initialized with the init() method.
+     *
+     * @param string $name
+     * @return array
+     */
+    public function getGroupNames( $name )
+    {
+        $config = $this->fetchConfig( $name );
+        return $config->getGroupNames();
+    }
 }
 ?>
