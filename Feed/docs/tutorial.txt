@@ -1482,7 +1482,7 @@ Specifications and RFCs
 For a list of supported RFCs and specifications of the feed types and modules,
 please see the `specifications`_ page.
 
-.. _specifications: Feed_specifications.html
+.. _specifications: ../Feed/specifications.html
 .. _feed validator: http://validator.w3.org/feed/
 
 .. _RSS1-specifications: http://web.resource.org/rss/1.0/spec

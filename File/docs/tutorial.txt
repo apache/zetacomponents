@@ -11,7 +11,7 @@ from the Base package. Please refer to the Base_ component introduction
 for the tutorial. The classes in this component still exist because
 of backwards compatibility reasons.
 
-.. _Base: introduction_Base.html
+.. _Base: ../Base/tutorial.html#introduction
 
 More information
 ================

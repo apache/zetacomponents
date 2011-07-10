@@ -38,7 +38,7 @@ usage idescription of PDO__ and the `database component`__ can be found at
 the dedicated documentation pages.
 
 __ http://php.net/PDO
-__ introduction_Database.html
+__ ../Database/tutorial.html#introduction
 
 Usage
 =====
@@ -59,7 +59,7 @@ table browser_hits. The result of the query is available in $statement after
 the query was executed. The $statement object is an instance of the
 PDOStatement class.
 
-__ introduction_Database.html
+__ ../Database/tutorial.html#introduction
 
 The creation of charts is described in detail in the `graph components
 documentation`__. In this example we create a simple pie chart, set a title 
@@ -69,7 +69,7 @@ as the first parameter. By default the first column is used as index and the
 second column as values for the indices. The result is the pie chart we 
 expected.
 
-__ introduction_Graph.html
+__ Graph/tutorial.html#introduction
 
 .. image:: img/tutorial_simple.svg.png
    :alt:   Simple pie chart example
@@ -89,7 +89,7 @@ which can be seen in line 20 in the example above, where a average polynomial
 data set is created from the database data set. More documentation on average
 datasets can be found in the `graph tutorial`__.
 
-__ introduction_Graph.html#average-polynomial-dataset
+__ ../Graph/tutorial.html#average-polynomial-dataset
 
 .. image:: img/tutorial_single.svg.png
    :alt:   Line chart example
@@ -120,7 +120,7 @@ is described in more detail in the `3D renderer section`__ in the graph
 tutorial.
 
 __ http://php.net/manual/en/pdo.setattribute.php
-__ introduction_Graph.html#id2
+__ ../Graph/tutorial.html#id2
 
 .. image:: img/tutorial_multiple.svg.png
    :alt:   Pie chart from multiple columns

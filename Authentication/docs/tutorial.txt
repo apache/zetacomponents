@@ -732,9 +732,9 @@ Securing applications
 applications. It is not exhaustive, but it provides solutions against common
 attacks.
 
-.. _Securing applications: Authentication_security.html
+.. _Securing applications: ../Authentication/security.html
 
-.. _AuthenticationDatabaseTiein: introduction_AuthenticationDatabaseTiein.html
+.. _AuthenticationDatabaseTiein: ../AuthenticationDatabaseTiein/tutorial.html#introduction
 
 
 

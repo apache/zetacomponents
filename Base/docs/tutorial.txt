@@ -23,7 +23,7 @@ described in a separate article. Please refer to the `Components Introduction`_
 for instructions on installation and configuration of the eZ Components library
 and the Base component.
 
-.. _Components Introduction: /docs/install
+.. _Components Introduction: ../../../../zetacomponents/documentation/install.html
 
 
 Usage

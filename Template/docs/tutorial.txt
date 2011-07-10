@@ -3089,9 +3089,9 @@ For more information, see the:
 *  `EBNF`_
 *  `API documentation`_
 
-.. _`Template functions`: Template_functions.html
-.. _`EBNF`: Template_EBNF.html
-.. _`API documentation`: classtrees_Template.html
+.. _`Template functions`: ../Template/functions.html
+.. _`EBNF`: ../Template/EBNF.html
+.. _`API documentation`: ../Template/phpdoc/classtrees.html
 
 
 

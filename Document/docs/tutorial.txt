@@ -41,7 +41,7 @@ __ http://docutils.sourceforge.net/rst.html
 __ http://www.w3.org/TR/xhtml1/
 __ http://www.docbook.org/
 __ Document_conversion.html
-__ http://ez.no/doc/ez_publish/technical_manual/4_0/reference/xml_tags
+__ http://doc.ez.no/eZ-Publish/Technical-manual/4.x/Reference/XML-tags
 __ http://www.wikicreole.org/
 __ http://www.dokuwiki.org/dokuwiki
 __ http://confluence.atlassian.com/renderer/notationhelp.action?section=all

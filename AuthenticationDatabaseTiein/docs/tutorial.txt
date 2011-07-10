@@ -149,11 +149,11 @@ Securing applications
 applications. It is not exhaustive, but it provides solutions against common
 attacks.
 
-.. _Securing applications: Authentication_security.html
+.. _Securing applications: ../Authentication/security.html
 
 
-.. _Authentication: introduction_Authentication.html
-.. _Database: introduction_Database.html
+.. _Authentication: ../Authentication/tutorial.html#introduction
+.. _Database: ../Database/tutorial.html#introduction
 
 
 ..

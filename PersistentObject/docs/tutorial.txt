@@ -222,7 +222,7 @@ during one request. You can find a description how you can use it for your
 own components and how it works in the `ezcBase tutorial`__. The keyword for
 the database component is ezcInitPersistentSessionInstance.
 
-__ introduction_Base.html#lazy-initialization
+__ ../Base/tutorial.html#lazy-initialization
 
 .. include:: tutorial_lazy_initialization.php
 	:literal:

@@ -56,7 +56,7 @@ ezcTranslationBorkFilter, ezcTranslationLeetFilter
   serving as examples, they have very little function.
 
 
-.. _Qt's Linguist files: http://www.trolltech.com/products/qt/features/internationalization
+.. _Qt's Linguist files: http://qt.nokia.com/products/qt/features/internationalization
 
 
 Basic usage

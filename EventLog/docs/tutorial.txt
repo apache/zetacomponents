@@ -106,9 +106,9 @@ ezcLogUnixFileWriter_ from this component. You can use both log writers
 at the same time. See the section `Assigning log messages to different files`_
 on how to use different writers simultaneously. 
 
-.. _EventLogDatabaseTiein: introduction_EventLogDatabaseTiein.html
-.. _ezcLogDatabaseWriter: EventLogDatabaseTiein/ezcLogDatabaseWriter.html
-.. _ezcLogUnixFileWriter: EventLog/ezcLogUnixFileWriter.html
+.. _EventLogDatabaseTiein: ../EventLogDatabaseTiein.html#introduction
+.. _ezcLogDatabaseWriter: ../EventLogDatabaseTiein/phpdoc/ezcLogDatabaseWriter.html
+.. _ezcLogUnixFileWriter: ../EventLog/phpdoc/ezcLogUnixFileWriter.html
 
 
 Assigning sources and categories

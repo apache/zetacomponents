@@ -517,11 +517,11 @@ constructor. The options are documented with the ezcTreeVisitorYUIOptions
 class.
 
 
-.. _DatabaseSchema: introduction_DatabaseSchema.html
-.. _PersistentObject: introduction_PersistentObject.html
-.. _Template: introduction_Template.html
-.. _TreeDatabaseTiein: introduction_TreeDatabaseTiein.html
-.. _TreePersistentObjectTiein: introduction_TreePersistentObjectTiein.html
+.. _DatabaseSchema: ../DatabaseSchema/tutorial.html#introduction
+.. _PersistentObject: ../PersistentObject/tutorial.html#introduction
+.. _Template: ../Template/tutorial.html#introduction
+.. _TreeDatabaseTiein: ../TreeDatabaseTiein/tutorial.html#introduction
+.. _TreePersistentObjectTiein: ../TreePersistentObjectTiein/tutorial.html#introduction
 .. _YUI: http://developer.yahoo.com/yui/menu/
 
 ..
