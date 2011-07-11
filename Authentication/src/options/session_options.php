@@ -32,9 +32,11 @@
  * <code>
  * // create an options object
  * $options = new ezcAuthenticationSessionOptions();
- * $options->validity = 60;
+ * $options->validity = 3600;
+ * $options->idleTimeout = 600;
  * $options->idKey = 'xxx';
  * $options->timestampKey = 'yyy';
+ * $options->lastActivityTimestampKey = 'zzz';
  *
  * // use the options object when creating a new Session object
  * $filter = new ezcAuthenticationSession( $options );
@@ -45,12 +47,16 @@
  * </code>
  *
  * @property int $validity
+ *           The maximal amount of seconds the session is valid.
+ * @property int $idleTimeout
  *           The amount of seconds the session can be idle.
  * @property string $idKey
  *           The key to use in $_SESSION to hold the user ID of the user who is
  *           logged in.
  * @property string $timestampKey
  *           The key to use in $_SESSION to hold the authentication timestamp.
+ * @property string $lastActivityTimestampKey
+ *           The key to use in $_SESSION to hold the last activity timestamp.
  *
  * @package Authentication
  * @version //autogen//
@@ -69,8 +75,10 @@ class ezcAuthenticationSessionOptions extends ezcBaseOptions
     public function __construct( array $options = array() )
     {
         $this->validity = 1200; // seconds
+        $this->idleTimeout = 600;
         $this->idKey = 'ezcAuth_id';
         $this->timestampKey = 'ezcAuth_timestamp';
+        $this->lastActivityTimestampKey = 'ezcAuth_lastActivityTimestamp';
 
         parent::__construct( $options );
     }
@@ -91,6 +99,7 @@ class ezcAuthenticationSessionOptions extends ezcBaseOptions
         switch ( $name )
         {
             case 'validity':
+            case 'idleTimeout':
                 if ( !is_numeric( $value ) || ( $value < 1 ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'int >= 1' );
@@ -100,6 +109,7 @@ class ezcAuthenticationSessionOptions extends ezcBaseOptions
 
             case 'idKey':
             case 'timestampKey':
+            case 'lastActivityTimestampKey':
                 if ( !is_string( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value, 'string' );

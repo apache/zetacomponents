@@ -37,6 +37,7 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
     public static $id = 'john.doe';
     public static $idKey = 'ezcAuth_id';
     public static $timestampKey = 'ezcAuth_timestamp';
+    public static $lastActivityTimestampKey = 'ezcAuth_lastActivityTimestamp';
 
     public static function suite()
     {
@@ -153,12 +154,40 @@ class ezcAuthenticationSessionTest extends ezcAuthenticationTest
         $this->assertEquals( false, isset( $_SESSION[self::$idKey] ) );
     }
 
+    public function testSessionIsValidIdleTimeout()
+    {
+        $_SESSION[self::$lastActivityTimestampKey] = time();
+        $_SESSION[self::$idKey] = self::$id;
+        $credentials = new ezcAuthenticationIdCredentials( self::$id );
+
+        $options = new ezcAuthenticationSessionOptions();
+        $options->validity = 3;
+        $options->idleTimeout = 1;
+        $session = new ezcAuthenticationSession( $options );
+        $this->assertEquals( true, $session->isValid( $credentials ) );
+    }
+
+    public function testSessionIsValidIdleTimeoutExpired()
+    {
+        $_SESSION[self::$lastActivityTimestampKey] = time() - 10;
+        $_SESSION[self::$idKey] = self::$id;
+        $credentials = new ezcAuthenticationIdCredentials( self::$id );
+
+        $options = new ezcAuthenticationSessionOptions();
+        $options->validity = 100;
+        $options->idleTimeout = 5;
+        $session = new ezcAuthenticationSession( $options );
+        $this->assertEquals( false, $session->isValid( $credentials ) );
+    }
+
     public function testSessionOptions()
     {
         $options = new ezcAuthenticationSessionOptions();
 
         $this->invalidPropertyTest( $options, 'validity', 'wrong value', 'int >= 1' );
         $this->invalidPropertyTest( $options, 'validity', 0, 'int >= 1' );
+        $this->invalidPropertyTest( $options, 'idleTimeout', 'wrong value', 'int >= 1'  );
+        $this->invalidPropertyTest( $options, 'idleTimeout', 0, 'int >= 1'  );
         $this->invalidPropertyTest( $options, 'idKey', array(), 'string' );
         $this->invalidPropertyTest( $options, 'timestampKey', array(), 'string' );
         $this->missingPropertyTest( $options, 'no_such_option' );

@@ -9,9 +9,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -106,7 +106,7 @@ class ezcAuthenticationSession
 
     /**
      * Options for authentication filters.
-     * 
+     *
      * @var ezcAuthenticationFilterOptions
      */
     protected $options;
@@ -130,18 +130,35 @@ class ezcAuthenticationSession
     public function run( $credentials )
     {
         $this->start();
-        if ( isset( $_SESSION[$this->options->timestampKey] ) && 
-             time() - $_SESSION[$this->options->timestampKey] >= $this->options->validity
+
+        $now = $_SERVER["REQUEST_TIME"];
+
+        // inactivity
+        if ( isset( $_SESSION[$this->options->lastActivityTimestampKey] ) &&
+             $now - $_SESSION[$this->options->lastActivityTimestampKey] >= $this->options->idleTimeout
            )
         {
             $this->destroy();
             $this->regenerateId();
             return self::STATUS_EXPIRED;
         }
+
+        // max session timeout
+        if ( isset( $_SESSION[$this->options->timestampKey] ) &&
+             $now - $_SESSION[$this->options->timestampKey] >= $this->options->validity
+           )
+        {
+            $this->destroy();
+            $this->regenerateId();
+            return self::STATUS_EXPIRED;
+        }
+
         if ( $this->load() !== null )
         {
+            $_SESSION[$this->options->lastActivityTimestampKey] = time();
             return self::STATUS_OK;
         }
+
         return self::STATUS_EMPTY;
     }
 
@@ -242,6 +259,7 @@ class ezcAuthenticationSession
     {
         $_SESSION[$this->options->idKey] = $data;
         $_SESSION[$this->options->timestampKey] = time();
+        $_SESSION[$this->options->lastActivityTimestampKey] = time();
     }
 
     /**
@@ -251,8 +269,9 @@ class ezcAuthenticationSession
     {
         unset( $_SESSION[$this->options->idKey] );
         unset( $_SESSION[$this->options->timestampKey] );
+        unset( $_SESSION[$this->options->lastActivityTimestampKey] );
     }
-    
+
     /**
      * Regenerates the session ID.
      */
