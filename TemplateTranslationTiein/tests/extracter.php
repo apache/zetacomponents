@@ -156,27 +156,11 @@ class ezcTemplateTranslationExtracterTest extends ezcTestCase
 
     public function testRunNonEztTemplateExtension()
     {
-        $origArgv = $_SERVER['argv'];
         $tmpDir = sys_get_temp_dir();
         $testFileDir = "TemplateTranslationTiein/tests/test_files/extractor/templates/customtplextension";
         $tmpFile = "${tmpDir}/en.xml";
 
-        ob_start();
-        $extractor = new ezcTemplateTranslationExtractor();
-
-        $_SERVER['argv'] = array (
-            0 => 'TemplateTranslationTiein/src/runextractor.php',
-            1 => '-t',
-            2 => $testFileDir,
-            3 => '-e',
-            4 => 'tpl',
-            5 => $tmpDir,
-        );
-
-        $extractor->run();
-        ob_end_clean();
-
-        $_SERVER['argv'] = $origArgv;
+        $this->runExtractorCommand( $testFileDir, 'tpl', $tmpDir );
 
         $this->assertEquals(
             file_get_contents( "${testFileDir}/output.xml" ),
@@ -189,6 +173,28 @@ class ezcTemplateTranslationExtracterTest extends ezcTestCase
     public static function suite()
     {
          return new PHPUnit_Framework_TestSuite( 'ezcTemplateTranslationExtracterTest' );
+    }
+
+    private function runExtractorCommand( $inputDir, $fileExt, $outputDir )
+    {
+        $origArgv = $_SERVER['argv'];
+
+        ob_start();
+        $extractor = new ezcTemplateTranslationExtractor();
+
+        $_SERVER['argv'] = array (
+            0 => 'TemplateTranslationTiein/src/runextractor.php',
+            1 => '-t',
+            2 => $inputDir,
+            3 => '-e',
+            4 => $fileExt,
+            5 => $outputDir,
+        );
+
+        $extractor->run();
+        ob_end_clean();
+
+        $_SERVER['argv'] = $origArgv;
     }
 }
 
