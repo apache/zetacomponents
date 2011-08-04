@@ -110,6 +110,29 @@ class ezcTemplateTranslationExtracterTest extends ezcTestCase
         );
     }
 
+    function testExtracterWithComments()
+    {
+        $file = dirname( __FILE__ ) . '/test_files/test_with_comments.ezt';
+        $source = new ezcTemplateSourceCode( $file, $file );
+        $source->load();
+
+        $parser = new ezcTemplateParser( $source, new ezcTemplate() );
+        $tst = $parser->parseIntoNodeTree();
+
+        $et = new ezcTemplateTranslationStringExtracter( $parser );
+        $eted = $tst->accept( $et );
+
+        $tr = $et->getTranslation();
+
+        self::assertEquals(
+            array( 'foo' ),
+            array_keys( $this->readAttribute( $tr['test'], 'translationMap' ) )
+        );
+
+        $translationMap = $this->readAttribute( $tr['test'], 'translationMap' );
+        self::assertEquals( "some comment", $translationMap['foo']->comment );
+    }
+
     function testUnifyFileName()
     {
         ob_start();

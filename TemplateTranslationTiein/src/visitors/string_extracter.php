@@ -117,7 +117,7 @@ class ezcTemplateTranslationStringExtracter extends ezcTemplateTstWalker
     public function visitTranslationTstNode( ezcTemplateTranslationTstNode $node )
     {
         $string = $node->string->accept( $this );
-        $comment = $node->comment ? $node->comment->accept( $this )->value : null;
+        $comment = $node->comment ? $node->comment->value : null;
         $file = realpath( $node->source->stream );
         $line = $node->string->startCursor->line;
         $column = $node->string->startCursor->column + 1;
