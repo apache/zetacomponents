@@ -159,7 +159,7 @@ class ezcMvcHttpResponseWriter extends ezcMvcResponseWriter
         // generator
         $this->headers['X-Powered-By'] = $res->generator !== ''
             ? $res->generator
-            : "eZ Components MvcTools";
+            : "Apache Zeta Components MvcTools";
 
         $this->doDate( $res, 'date', 'Date', true );
     }
