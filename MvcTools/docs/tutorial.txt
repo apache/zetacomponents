@@ -592,6 +592,18 @@ The full directory listing is now::
     │   └── index.php
     └── config.php
 
+Security
+========
+
+Overriding the X-Powered-By header
+----------------------------------
+
+By default, the MvcTools component will add an `X-Powered-By` HTTP header
+containing the string "Apache Zeta Components MvcTools" or "eZ Components
+MvcTools". This can be considered a security issue. If you want to modify
+this header you can add the following code in your response filter: ::
+
+    $response->generator = "Whatever you want here";
 
 
 ..
