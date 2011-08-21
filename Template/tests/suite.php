@@ -44,6 +44,7 @@ require_once 'regression_test.php';
 require_once 'cache_test.php';
 require_once 'cache_manager_test.php';
 require_once 'locale_test.php';
+require_once 'string_function_test.php';
 
 /**
  * @package Template
@@ -74,6 +75,7 @@ class ezcTemplateSuite extends PHPUnit_Framework_TestSuite
         $this->addTest( ezcTemplateCacheManagerTest::suite() );
         $this->addTest( ezcTemplateTest::suite() );
         $this->addTest( ezcTemplateLocaleTest::suite() );
+        $this->addTest( ezcStringFunctionTest::suite() );
     }
 
     public static function suite()
