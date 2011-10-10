@@ -131,7 +131,7 @@ class ezcInputFilterDefinitionTest extends ezcTestCase
     {
         // The filter should be an existing filter
         $def = array( 'test' => new ezcInputFormDefinitionElement( ezcInputFormDefinitionElement::REQUIRED, 'foobar' ) );
-        self::assertEquals( array( ezcInputForm::DEF_UNSUPPORTED_FILTER, "The filter 'foobar' for element 'test' does not exist. Pick one of: int, boolean, float, validate_regexp, validate_url, validate_email, validate_ip, string, stripped, encoded, special_chars, unsafe_raw, email, url, number_int, number_float, magic_quotes, callback" ), ezcInputForm::validateDefinition( $def ) );
+        self::assertEquals( array( ezcInputForm::DEF_UNSUPPORTED_FILTER, "The filter 'foobar' for element 'test' does not exist. Pick one of: int, boolean, float, validate_regexp, validate_url, validate_email, validate_ip, string, stripped, encoded, special_chars, full_special_chars, unsafe_raw, email, url, number_int, number_float, magic_quotes, callback" ), ezcInputForm::validateDefinition( $def ) );
     }
 
     public function testValidateDefinitionFieldName()
