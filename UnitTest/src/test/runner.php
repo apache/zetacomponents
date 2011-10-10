@@ -121,9 +121,9 @@ class ezcTestRunner extends PHPUnit_TextUI_Command
                     {
                         if ( strpos($fileName, 'xmlwritersubstitute.php') === false )
                         {
-                            PHPUnit_Util_Filter::addFileToWhitelist(
-                              $directory . '/' . str_replace( $package, $package . '/src', $fileName )
-                            );
+//                            PHPUnit_Util_Filter::addFileToWhitelist(
+//                              $directory . '/' . str_replace( $package, $package . '/src', $fileName )
+//                            );
                         }
                     }
                 }
