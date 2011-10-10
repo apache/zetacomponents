@@ -198,15 +198,6 @@ class ezcMvcToolsRouterTest extends ezcTestCase
         $router = new testNamedRouter( $request );
         try
         {
-            $foo = $router->generateUrl( 'no-reverse' );
-            self::fail( 'Expected exception not thrown.' );
-        }
-        catch ( ezcMvcNamedRouteNotReversableException $e )
-        {
-            self::assertEquals( "The route with name 'no-reverse' is of the 'testRegexpRoute' class, which does not support reversed route generation.", $e->getMessage() );
-        }
-        try
-        {
             $foo = $router->generateUrl( 'catchall' );
             self::fail( 'Expected exception not thrown.' );
         }
