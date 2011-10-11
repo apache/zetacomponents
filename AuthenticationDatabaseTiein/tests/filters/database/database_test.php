@@ -50,10 +50,10 @@ class ezcAuthenticationDatabaseTest extends ezcAuthenticationDatabaseTieinTest
     {
         try
         {
-            $this->db = ezcDbInstance::get();
+            $this->db = ezcDbFactory::create( ZETA_TESTSUITE_DSN );
             if ( $this->db === false )
             {
-                $this->markTestSkipped( "You must provide a database to runtests.php." );
+                $this->markTestSkipped( "You must set ZETA_TESTSUITE_DSN in phpunit.xml." );
             }
 
             $tables = array( self::$table => new ezcDbSchemaTable(

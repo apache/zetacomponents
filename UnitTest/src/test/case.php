@@ -23,7 +23,6 @@
  * @version //autogentag//
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
-PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
 
 /**
  * Abstract base class for all Zeta Components test cases.

@@ -1,6 +1,6 @@
 <?php
 /**
- * File contaning the bootstrap script for the Zeta Components test runner.
+ * File contaning the bootstrap script for the Zeta Components test suite.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,11 +19,9 @@
  * specific language governing permissions and limitations
  * under the License.
  *
- * @package UnitTest
  * @version //autogentag//
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
-PHP_CodeCoverage::getInstance()->filter()->addFileToBlacklist( __FILE__, 'PHPUNIT' );
 
 // All errors must be reported
 $currentErrorLevel = error_reporting();
@@ -33,7 +31,7 @@ if ( ! ( $currentErrorLevel == -1 || $currentErrorLevel == ( E_ALL | E_STRICT ) 
     die();
 }
 
-ini_set( 'include_path', getcwd(). PATH_SEPARATOR . dirname( __FILE__ ) . '/../..' . PATH_SEPARATOR . ini_get( 'include_path' ) );
+ini_set( 'include_path', getcwd() . PATH_SEPARATOR . ini_get( 'include_path' ) );
 
 require_once 'Base/src/base.php';
 

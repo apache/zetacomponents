@@ -41,7 +41,7 @@ abstract class ezcWorkflowDatabaseTieinTestCase extends ezcWorkflowTestCase
 
         try
         {
-            $this->db = ezcDbInstance::get();
+            $this->db = ezcDbFactory::create( ZETA_TESTSUITE_DSN );
 
             $this->cleanupTables( $this->db );
 

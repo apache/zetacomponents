@@ -104,7 +104,7 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
 
         try
         {
-            $this->db = ezcDbInstance::get();
+            $this->db = ezcDbFactory::create( ZETA_TESTSUITE_DSN );
 
             $schema = ezcDbSchema::createFromFile(
                                                    'array',
@@ -115,7 +115,7 @@ class ezcAuthenticationOpenidDbStoreTest extends ezcAuthenticationDatabaseTieinT
 
         catch ( Exception $e )
         {
-            $this->markTestSkipped( "You must provide a database to runtests.php: " . $e->getMessage() );
+            $this->markTestSkipped( "You must set ZETA_TESTSUITE_DSN in phpunit.xml." );
         }
 
     }

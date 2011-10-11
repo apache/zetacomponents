@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="bootstrap.php"
+         verbose="true"
+         backupGlobals="true"
+         backupStaticAttributes="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="false"
+         convertWarningsToExceptions="false">
+  <testsuites>
+    <testsuite name="Zeta Components">
+      <testsuite name="Archive">
+        <directory suffix="_test.php">Archive/tests</directory>
+      </testsuite>
+
+      <testsuite name="Authentication">
+        <directory suffix="_test.php">Authentication/tests</directory>
+      </testsuite>
+
+      <testsuite name="AuthenticationDatabaseTiein">
+        <directory suffix="_test.php">AuthenticationDatabaseTiein/tests</directory>
+      </testsuite>
+<!--
+      <testsuite name="Base">
+        <directory suffix="_test.php">Base/tests</directory>
+      </testsuite>
+-->
+      <testsuite name="Workflow">
+        <directory suffix="_test.php">Workflow/tests</directory>
+      </testsuite>
+
+      <testsuite name="WorkflowDatabaseTiein">
+        <directory suffix="_test.php">WorkflowDatabaseTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="WorkflowEventLogTiein">
+        <directory suffix="_test.php">WorkflowEventLogTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="WorkflowSignalSlotTiein">
+        <directory suffix="_test.php">WorkflowSignalSlotTiein/tests</directory>
+      </testsuite>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist addUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">Archive/src</directory>
+      <directory suffix=".php">Authentication/src</directory>
+      <directory suffix=".php">AuthenticationDatabaseTiein/src</directory>
+      <!--<directory suffix=".php">Base/src</directory>-->
+      <directory suffix=".php">Workflow/src</directory>
+      <directory suffix=".php">WorkflowDatabaseTiein/src</directory>
+      <directory suffix=".php">WorkflowEventLogTiein/src</directory>
+      <directory suffix=".php">WorkflowSignalSlotTiein/src</directory>
+
+      <exclude>
+       <file>Archive/src/archive_autoload.php</file>
+       <file>Authentication/src/authentication_autoload.php</file>
+       <file>AuthenticationDatabaseTiein/src/authentication_database_autoload.php</file>
+       <!--<file>Base/src/base_autoload.php</file>-->
+       <file>Workflow/src/workflow_autoload.php</file>
+       <file>WorkflowDatabaseTiein/src/workflow_database_autoload.php</file>
+       <file>WorkflowEventLogTiein/src/workflow_event_autoload.php</file>
+       <file>WorkflowSignalSlotTiein/src/workflow_signal_autoload.php</file>
+      </exclude>
+    </whitelist>
+  </filter>
+
+  <php>
+    <const name="ZETA_TESTSUITE_DSN" value="sqlite://:memory:"/>
+  </php>
+</phpunit>
