@@ -25,6 +25,10 @@
         <directory suffix="_test.php">Base/tests</directory>
       </testsuite>
 -->
+      <testsuite name="MvcTools">
+        <directory suffix="_test.php">MvcTools/tests</directory>
+      </testsuite>
+
       <testsuite name="Workflow">
         <directory suffix="_test.php">Workflow/tests</directory>
       </testsuite>
