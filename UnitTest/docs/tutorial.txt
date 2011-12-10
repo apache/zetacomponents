@@ -1,0 +1,12 @@
+eZ Components - UnitTest
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+No release
+==========
+
+UnitTest is an internal component which extends PhpUnit to facilitate test
+running and reports of the components themselves.
+
+For this reason, there is no tutorial for this component. If you really want
+to use it for some reason it's sane to expect some community support on IRC or
+the mailing list.
