@@ -62,7 +62,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             'Content-Length: 8',
         );
@@ -99,7 +99,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             'Content-Length: 8',
             "Set-Cookie: simple=one",
@@ -126,7 +126,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             'Content-Length: 8',
             "Set-Cookie: simple=one",
@@ -149,7 +149,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: Tue, 22 Jul 2008 13:03:00 GMT",
             'Content-Length: 8',
         );
@@ -172,7 +172,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             "Vary: *",
             "Expires: Mon, 22 Dec 2008 08:15:00 GMT",
@@ -196,7 +196,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             "Content-Language: en-GB",
             'Content-Length: 8',
@@ -216,7 +216,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             "Content-Language: en-US",
             'Content-Length: 8',
@@ -236,7 +236,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             "Content-type: text/html+test;charset=utf-8",
             'Content-Length: 8',
@@ -257,7 +257,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             "Content-Type: text/html+test; charset=latin1",
             'Content-Length: 8',
@@ -277,7 +277,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             "Content-Type: text/html; charset=utf-8",
             'Content-Length: 8',
@@ -296,7 +296,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             "Content-Disposition: inline",
             'Content-Length: 0',
@@ -316,7 +316,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             "Content-Disposition: attachment; size=42",
             'Content-Length: 0',
@@ -337,7 +337,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T'  ),
             'Content-Disposition: inline' . 
                 '; creation-date="' . date_create()->modify( '-1 day' )->format( DateTime::RFC2822 ) . '"' .
@@ -359,7 +359,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T' ),
             'Content-Disposition: inline; filename=kake.pdf', 
             'Content-Length: 0',
@@ -378,7 +378,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T' ),
             'Content-Disposition: inline; filename="banan kake er <godt>.pdf"',
             'Content-Length: 0',
@@ -397,7 +397,7 @@ class ezcMvcToolsHttpResponseWriterTest extends ezcTestCase
         list( $headers, $body ) = self::doTest( $response );
 
         $expectedHeaders = array(
-            "X-Powered-By: eZ Components MvcTools",
+            "X-Powered-By: Apache Zeta Components MvcTools",
             "Date: " . date_create("UTC")->format( 'D, d M Y H:i:s \G\M\T' ),
             "Content-Disposition: inline; filename*=utf-8''bl%C3%A5b%C3%A6r+kake+er+godt.pdf",
             'Content-Length: 0',
