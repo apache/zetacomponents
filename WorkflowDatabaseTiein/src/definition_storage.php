@@ -236,15 +236,15 @@ class ezcWorkflowDatabaseDefinitionStorage implements ezcWorkflowDefinitionStora
         // Connect node objects.
         $query = $this->db->createSelectQuery();
 
-        $query->select( $query->alias( 'node_connection.incoming_node_id',
+        $query->select( $query->alias( $this->options['prefix'] . 'node_connection.incoming_node_id',
                                        $this->db->quoteIdentifier( 'incoming_node_id' ) ) )
-              ->select( $query->alias( 'node_connection.outgoing_node_id',
+              ->select( $query->alias( $this->options['prefix'] . 'node_connection.outgoing_node_id',
                                        $this->db->quoteIdentifier( 'outgoing_node_id' ) ) )
               ->from( $query->innerJoin( $this->db->quoteIdentifier( $this->options['prefix'] . 'node_connection' ),
                                          $this->db->quoteIdentifier( $this->options['prefix'] . 'node' ),
-                                         'node_connection.incoming_node_id',
-                                         'node.node_id' ) )
-              ->where( $query->expr->eq( 'node.workflow_id',
+                                         $this->options['prefix'] . 'node_connection.incoming_node_id',
+                                         $this->options['prefix'] . 'node.node_id' ) )
+              ->where( $query->expr->eq( $this->options['prefix'] . 'node.workflow_id',
                                          $query->bindValue( (int)$workflowId ) ) )
               ->orderBy( $this->db->quoteIdentifier( 'node_connection_id' ) );
 
