@@ -67,7 +67,7 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
      * @param  int          $executionId
      * @throws ezcWorkflowExecutionException
      */
-    public function __construct ( ezcDbHandler $db, $executionId = null )
+    public function __construct ( ezcDbHandler $db, $executionId = null, ezcWorkflowDefinitionStorage $definitionStorage = null )
     {
         if ( $executionId !== null && !is_int( $executionId ) )
         {
@@ -75,7 +75,14 @@ class ezcWorkflowDatabaseExecution extends ezcWorkflowExecution
         }
 
         $this->db = $db;
-        $this->properties['definitionStorage'] = new ezcWorkflowDatabaseDefinitionStorage( $db );
+
+        $this->properties['definitionStorage'] = $definitionStorage;
+
+        if ( $this->properties['definitionStorage'] === null )
+        {
+            $this->properties['definitionStorage'] = new ezcWorkflowDatabaseDefinitionStorage( $db );
+        }
+
         $this->properties['options'] = new ezcWorkflowDatabaseOptions;
 
         if ( is_int( $executionId ) )
