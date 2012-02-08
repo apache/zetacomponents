@@ -33,18 +33,190 @@
         <directory suffix="_test.php">Configuration/tests</directory>
       </testsuite>
 
+      <testsuite name="ConsoleTools">
+        <directory suffix="_test.php">ConsoleTools/tests</directory>
+      </testsuite>
+
+<!--
+PHP Fatal error:  Class 'ezcTestSettings' not found in /home/jpic/zeta/trunk/Database/tests/transactions_test.php on line 73
+      <testsuite name="Database">
+        <directory suffix="_test.php">Database/tests</directory>
+      </testsuite>
+-->
+<!--
+Fatal error:  Call to a member function getName() on a non-object in /home/jpic/zeta/trunk/DatabaseSchema/tests/generic_diff_test.php on line 227
+      <testsuite name="DatabaseSchema">
+        <directory suffix="_test.php">DatabaseSchema/tests</directory>
+      </testsuite>
+-->
+
+      <testsuite name="Debug">
+        <directory suffix="_test.php">Debug/tests</directory>
+      </testsuite>
+
       <testsuite name="Document">
         <directory suffix="_test.php">Document/tests</directory>
+      </testsuite>
+
+      <testsuite name="EventLog">
+        <directory suffix="_test.php">EventLog/tests</directory>
+      </testsuite>
+
+<!--
+Fatal error:  Call to a member function exec() on a non-object in /home/jpic/zeta/trunk/EventLogDatabaseTiein/tests/writers/writer_database_test.php on line 75
+      <testsuite name="EventLogDatabaseTiein">
+        <directory suffix="_test.php">EventLogDatabaseTiein/tests</directory>
+      </testsuite>
+-->
+
+      <testsuite name="Execution">
+        <directory suffix="_test.php">Execution/tests</directory>
+      </testsuite>
+
+<!--
+string(71) "/home/jpic/zeta/trunk/Feed/tests/atom/atom_regression_generate_test.php"
+PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message 'Class does not extend PHPUnit_Framework_TestCase.' in /home/jpic/zeta/phpunit/phpunit/PHPUnit/Framework/TestSuite.php:184
+
+      <testsuite name="Feed">
+        <directory suffix="_test.php">Feed/tests</directory>
+      </testsuite>
+-->
+
+      <testsuite name="File">
+        <directory suffix="_test.php">File/tests</directory>
+      </testsuite>
+
+      <testsuite name="Framework">
+        <directory suffix="_test.php">Framework/tests</directory>
+      </testsuite>
+
+      <testsuite name="Graph">
+        <directory suffix="_test.php">Graph/tests</directory>
+      </testsuite>
+
+      <testsuite name="GraphDatabaseTiein">
+        <directory suffix="_test.php">GraphDatabaseTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="ImageAnalysis">
+        <directory suffix="_test.php">ImageAnalysis/tests</directory>
+      </testsuite>
+
+<!--
+PHP Fatal error:  Class name must be a valid object or a string in /home/jpic/zeta/trunk/ImageConversion/tests/handler_test.php on line 55
+      <testsuite name="ImageConversion">
+        <directory suffix="_test.php">ImageConversion/tests</directory>
+      </testsuite>
+-->
+      <testsuite name="Mail">
+        <directory suffix="_test.php">Mail/tests</directory>
+      </testsuite>
+
+      <testsuite name="MvcAuthenticationTiein">
+        <directory suffix="_test.php">MvcAuthenticationTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="MvcFeedTiein">
+        <directory suffix="_test.php">MvcFeedTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="MvcMailTiein">
+        <directory suffix="_test.php">MvcMailTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="MvcTemplateTiein">
+        <directory suffix="_test.php">MvcTemplateTiein/tests</directory>
       </testsuite>
 
       <testsuite name="MvcTools">
         <directory suffix="_test.php">MvcTools/tests</directory>
       </testsuite>
 
+      <testsuite name="PersistentObject">
+        <directory suffix="_test.php">PersistentObject/tests</directory>
+      </testsuite>
+
+<!-- 
+PHP Fatal error:  Class 'ezcTestSettings' not found in /home/jpic/zeta/trunk/PersistentObjectDatabaseSchemaTiein/tests/generator_test.php on line 286
+      <testsuite name="PersistentObjectDatabaseSchemaTiein">
+        <directory suffix="_test.php">PersistentObjectDatabaseSchemaTiein/tests</directory>
+      </testsuite>
+-->
+      <testsuite name="PhpGenerator">
+        <directory suffix="_test.php">PhpGenerator/tests</directory>
+      </testsuite>
+
+<!--
+string(58) "/home/jpic/zeta/trunk/Reflection/tests/array_type_test.php"
+PHP Fatal error:  Class 'ezcReflectionPrimitiveTypeTest' not found in /home/jpic/zeta/trunk/Reflection/tests/array_type_test.php on line 29
+      <testsuite name="Reflection">
+        <directory suffix="_test.php">Reflection/tests</directory>
+      </testsuite>
+-->
+
+<!-- Crashes silently
+      <testsuite name="Search">
+        <directory suffix="_test.php">Search/tests</directory>
+      </testsuite>
+-->
+
+      <testsuite name="SignalSlot">
+        <directory suffix="_test.php">SignalSlot/tests</directory>
+      </testsuite>
+
+      <testsuite name="SystemInformation">
+        <directory suffix="_test.php">SystemInformation/tests</directory>
+      </testsuite>
+
+<!--
+string(56) "/home/jpic/zeta/trunk/Template/tests/regression_test.php"
+PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message 'Class does not extend PHPUnit_Framework_TestCase.' in /home/jpic/zeta/phpunit/phpunit/PHPUnit/Framework/TestSuite.php:184
+
+      <testsuite name="Template">
+        <directory suffix="_test.php">Template/tests</directory>
+      </testsuite>
+-->
+
+      <testsuite name="TemplateTranslationTiein">
+        <directory suffix="_test.php">TemplateTranslationTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="Translation">
+        <directory suffix="_test.php">Translation/tests</directory>
+      </testsuite>
+
+      <testsuite name="TranslationCacheTiein">
+        <directory suffix="_test.php">TranslationCacheTiein/tests</directory>
+      </testsuite>
+
       <testsuite name="Tree">
         <directory suffix="_test.php">Tree/tests</directory>
       </testsuite>
 
+      <testsuite name="TreeDatabaseTiein">
+        <directory suffix="_test.php">TreeDatabaseTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="TreePersistentObjectTiein">
+        <directory suffix="_test.php">TreePersistentObjectTiein/tests</directory>
+      </testsuite>
+
+      <testsuite name="Url">
+        <directory suffix="_test.php">Url/tests</directory>
+      </testsuite>
+
+      <testsuite name="UserInput">
+        <directory suffix="_test.php">UserInput/tests</directory>
+      </testsuite>
+
+<!--
+string(59) "/home/jpic/zeta/trunk/Webdav/tests/client_bitkinex_test.php"
+PHP Fatal error:  Uncaught exception 'InvalidArgumentException' with message 'Class does not extend PHPUnit_Framework_TestCase.' in /home/jpic/zeta/phpunit/phpunit/PHPUnit/Framework/TestSuite.php:184
+
+      <testsuite name="Webdav">
+        <directory suffix="_test.php">Webdav/tests</directory>
+      </testsuite>
+-->
       <testsuite name="Workflow">
         <directory suffix="_test.php">Workflow/tests</directory>
       </testsuite>
@@ -60,6 +232,7 @@
       <testsuite name="WorkflowSignalSlotTiein">
         <directory suffix="_test.php">WorkflowSignalSlotTiein/tests</directory>
       </testsuite>
+
     </testsuite>
   </testsuites>
 
