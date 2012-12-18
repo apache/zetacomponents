@@ -236,7 +236,7 @@ class ezcSearchSolrHandler implements ezcSearchHandler, ezcSearchIndexHandler
                 $chunkLength = hexdec( $line );
 
                 $size = 1;
-                while ( $size < $chunkLength )
+                while ( $size <= $chunkLength )
                 {
                     $line = $this->getLine( $chunkLength );
                     $size += strlen( $line );
