@@ -212,11 +212,11 @@ class ezcArchiveEntry
     {
         if ( $withPrefix )
         {
-            return $this->fileStructure->path;
+            return trim($this->fileStructure->path);
         }
         else
         {
-            return $this->getPathWithoutPrefix( $this->fileStructure->path, $this->prefix );
+            return $this->getPathWithoutPrefix( trim($this->fileStructure->path), $this->prefix );
         }
     }
 
